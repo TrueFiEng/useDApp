@@ -1,7 +1,7 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react'
 import { Web3ReactProvider } from '@web3-react/core'
-import { Web3Provider } from "@ethersproject/providers"
-import { BlockNumberProvider } from "./blockNumber/provider"
+import { Web3Provider } from '@ethersproject/providers'
+import { BlockNumberProvider } from './blockNumber/provider'
 
 interface Props {
   children: ReactNode
@@ -9,9 +9,7 @@ interface Props {
 export function Providers(props: Props) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <BlockNumberProvider>
-        {props.children}
-      </BlockNumberProvider>
+      <BlockNumberProvider>{props.children}</BlockNumberProvider>
     </Web3ReactProvider>
   )
 }
