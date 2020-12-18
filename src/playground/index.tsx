@@ -4,7 +4,6 @@ import { App } from './App'
 import { GlobalStyles } from './GlobalStyles'
 import { Providers } from '../providers/Providers'
 
-
 ReactDOM.render(
   <>
     <Providers>
