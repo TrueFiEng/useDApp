@@ -3,4 +3,3 @@ export function App() {
      <div>Hello</div>
     )
   }
-  
