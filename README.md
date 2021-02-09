@@ -19,7 +19,7 @@ With all that in mind, we want our Dapps to be easy to test and extend, built wi
 **useDapp** utilises best **React**, **Ethereum** and **testing** practices:
 - use react hooks to communicate with the blockchain
 - components automatically refresh on a new block
-- multiple contract calls to are combined into a single multi-call
+- multiple contract calls are combined into a single multi-call
 - extend with custom hooks
 - write integration tests for components and blockchain with ease
 
