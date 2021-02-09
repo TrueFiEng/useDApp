@@ -1,5 +1,5 @@
 {
-  "name": "dapp-framework",
+  "name": "@usedapp/core",
   "version": "1.0.0",
   "main": "src/index.ts",
   "repository": "git@github.com:EthWorks/dapp-framework.git",
