@@ -26,12 +26,20 @@ With all that in mind, we want our Dapps to be easy to test and extend, build wi
 ## Example
 
 ```ts
-function showBalance() {
-  const {account} = useEthers();
-  const balance = useTokenBalance(account.address);
-  return (<EthersProvider>
-    Your balance is: `${balance.format()}`
-    <EthersProvider/>)
+ReactDOM.render(
+  <EthersProvider>
+    <App />
+  <EthersProvider/>
+  document.getElementById('app')
+)
+
+function App() {
+  const balance = useEtherBalance();
+  return (
+    <div>
+    Your balance is: <span> {balance} </span>
+    </div>
+    )
 }
 ```
 
