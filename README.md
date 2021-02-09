@@ -10,7 +10,7 @@ Writing Dapps comes with its own set of challenges and good practices:
 - refresh UI after each new block arrival
 - work in two modes: read-only (without wallet connected) and read/write (with wallet connected)
 - keep track of transactions status and inform a user when it is successfully mined or fails
-- work with different wallets (Metamask, Formatic, Authereum) and networks (mainnet and testnets) and handle change nicely
+- work with different wallets (Metamask, Formatic, Authereum) and networks (mainnet and testnets) and handle these changes nicely
 
 With all that in mind, we want our Dapps to be easy to test and extend, build with high-pace development and security in mind.
 
@@ -49,4 +49,3 @@ function App() {
 ### Using hooks
 ### Custom hooks
 ### Testing
-
