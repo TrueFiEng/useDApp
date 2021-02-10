@@ -30,7 +30,7 @@ With all that in mind, we want our Dapps to be easy to test and extend, built wi
 ReactDOM.render(
   <EthersProvider>
     <App />
-  <EthersProvider/>
+  <EthersProvider/>,
   document.getElementById('app')
 )
 
