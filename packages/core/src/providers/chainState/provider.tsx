@@ -15,7 +15,6 @@ interface Props {
 
 export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
-  console.log({chainId})
   const blockNumber = useBlockNumber()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})

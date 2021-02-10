@@ -9,7 +9,7 @@ const injected = new InjectedConnector({ supportedChainIds: SUPPORTED_CHAINS })
 export function App() {
   const { library, activate } = useEthers()
   const blockNumber = useBlockNumber()
-  const {timestamp, difficulty} = useBlockMeta()
+  const { timestamp, difficulty } = useBlockMeta()
 
   useEffect(() => {
     library && library.getBlockNumber().then(console.log)

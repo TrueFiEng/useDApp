@@ -6,10 +6,10 @@ import { ChainStateProvider } from './chainState'
 import { MULTICALL_ADDRESSES } from '../constants'
 
 interface Props {
-  children: ReactNode,
+  children: ReactNode
   multicallAddresses?: {
     [chainId: number]: string
-  },
+  }
 }
 
 export function Providers(props: Props) {
@@ -18,9 +18,7 @@ export function Providers(props: Props) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>
-          {props.children}
-        </ChainStateProvider>
+        <ChainStateProvider multicallAddresses={multicallAddresses}>{props.children}</ChainStateProvider>
       </BlockNumberProvider>
     </Web3ReactProvider>
   )
