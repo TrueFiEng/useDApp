@@ -1,6 +1,6 @@
 # useDapp
 
-Framework for creating Dapp on Ethereum with React. 
+Framework for creating Dapp on Ethereum with React.
 Easy. Secure. Testable. Extendable.
 
 ## Challange 
@@ -17,6 +17,7 @@ With all that in mind, we want our Dapps to be easy to test and extend, built wi
 ## Solution
 
 **useDapp** utilises best **React**, **Ethereum** and **testing** practices:
+
 - use react hooks to communicate with the blockchain
 - components automatically refresh on a new block
 - multiple contract calls are combined into a single multi-call
