@@ -1,5 +1,5 @@
 import React from 'react'
-import { useBlockNumber, useEthers} from '@usedapp/core'
+import { useBlockNumber, useEthers } from '@usedapp/core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 
 const injected = new InjectedConnector({ supportedChainIds: [1] })
