@@ -1,2 +1,6 @@
-export * from './useEthers'
+export * from './useBlockMeta'
+export * from './useChainCalls'
 export * from './useDebounce'
+export * from './useDebouncePair'
+export * from './useEthers'
+export * from './useMulticallAddress'
