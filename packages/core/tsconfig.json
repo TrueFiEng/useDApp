@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "commonjs",
     "composite": true,
     "declaration": true,
     "sourceMap": true,
