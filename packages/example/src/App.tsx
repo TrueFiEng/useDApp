@@ -2,7 +2,7 @@ import React from 'react'
 import { useBlockNumber, useBlockMeta, useEthers } from '@usedapp/core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 
-const injected = new InjectedConnector({ supportedChainIds: [1] })
+const injected = new InjectedConnector({ supportedChainIds: [1,3,4,42] })
 
 export function App() {
   const blockNumber = useBlockNumber()
