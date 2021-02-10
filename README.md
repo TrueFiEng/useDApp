@@ -3,7 +3,7 @@
 Framework for creating Dapp on Ethereum with React.
 Easy. Secure. Testable. Extendable.
 
-## Challange 
+## Challenge
 
 Writing Dapps comes with its own set of challenges and good practices:
 
