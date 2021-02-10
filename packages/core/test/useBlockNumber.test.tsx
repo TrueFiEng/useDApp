@@ -5,7 +5,7 @@ import { useBlockNumber, BlockNumberProvider } from '../src'
 import { TestConnector, Web3Wrapper, waitUntil } from './utils'
 import { MockProvider } from '@ethereum-waffle/provider'
 
-describe('useChainCalls', () => {
+describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
     const {result, waitForValueToChange} = renderHook(useBlockNumber, {
       wrapper: ({children}) => <Web3Wrapper><BlockNumberProvider>{children}</BlockNumberProvider></Web3Wrapper>
