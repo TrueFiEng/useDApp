@@ -1,22 +1,22 @@
 {
-    "name": "usedapp",
-    "private": true,
-    "engines": {
-      "node": ">=10",
-      "yarn": "^1.17.3"
-    },
-    "workspaces": {
-      "packages": [
-        "packages/*"
-      ]
-    },
-    "scripts": {
-      "lint": "wsrun -c -s lint",
-      "build": "wsrun -e -c -s build",
-      "test": "wsrun -e -c -s --exclude-missing test"
-    },
-    "dependencies": {
-      "wsrun": "^5.2.1",
-      "prettier": "2.1.2"
-    }
+  "name": "usedapp",
+  "private": true,
+  "engines": {
+    "node": ">=10",
+    "yarn": "^1.17.3"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "lint": "wsrun -c -s lint",
+    "build": "wsrun -e -c -s build",
+    "test": "wsrun -e -c -s --exclude-missing test"
+  },
+  "dependencies": {
+    "wsrun": "^5.2.1",
+    "prettier": "2.1.2"
+  }
 }

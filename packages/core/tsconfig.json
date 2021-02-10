@@ -1,7 +1,7 @@
 {
-    "compilerOptions": {
-      "strict": true,
-      "jsx": "react-jsx",
-      "esModuleInterop": true
-    }
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true
   }
+}
