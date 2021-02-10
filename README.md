@@ -40,7 +40,7 @@ function App() {
     <div>
     Your balance is: <span> {balance} </span>
     </div>
-    )
+  )
 }
 ```
 
