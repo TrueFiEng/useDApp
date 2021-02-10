@@ -5,7 +5,6 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
