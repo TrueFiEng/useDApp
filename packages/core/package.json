@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "repository": "git@github.com:EthWorks/dapp-framework.git",
-  "author": "Justyna <jusbroniszewska@gmail.com>",
+  "author": "Ethworks",
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.14",
