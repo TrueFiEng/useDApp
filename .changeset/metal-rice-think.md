@@ -1,5 +1,5 @@
 ---
-"@usedapp/core": major
+"@usedapp/core": patch
 ---
 
-Initial functionality
+Initial functionality - test changesets
