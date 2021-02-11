@@ -4,6 +4,7 @@ import { renderHook } from '@testing-library/react-hooks'
 import { useBlockNumber, BlockNumberProvider } from '../src'
 import { MockConnector, Web3Wrapper, waitUntil } from './utils'
 import { MockProvider } from '@ethereum-waffle/provider'
+import { AddressZero } from '@ethersproject/constants'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
@@ -28,7 +29,7 @@ describe('useBlockNumber', () => {
     
     // send a mock transaction
     const [acc] = await provider.getWallets()
-    const tx = await acc.sendTransaction({to: '0x0000000000000000000000000000000000000000', value: 1})
+    const tx = await acc.sendTransaction({to: AddressZero, value: 1})
     await tx.wait()
 
     await waitForValueToChange(() => result.current, {timeout: 4000})
