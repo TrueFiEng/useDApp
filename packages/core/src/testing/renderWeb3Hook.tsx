@@ -20,9 +20,11 @@ const mineBlock = async (provider: MockProvider) => {
 
 export const renderWeb3Hook = async (
   hook: (props: unknown) => unknown,
-  options?: RenderHookOptions<unknown> | undefined
+  options?: RenderHookOptions<unknown> | undefined,
+  pollingInterval = 200
 ) => {
   const provider = new MockProvider()
+  provider.pollingInterval = pollingInterval
   const connector = new MockConnector(provider)
   const UserWrapper = options?.wrapper ?? IdentityWrapper
 

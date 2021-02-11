@@ -20,5 +20,5 @@ describe('useBlockNumber', () => {
     await waitForCurrentEqual(2)
     expect(result.error).to.be.undefined
     expect(result.current).to.be.equal(2)
-  }).timeout(5000)
+  })
 })
