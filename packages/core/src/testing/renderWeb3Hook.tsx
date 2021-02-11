@@ -20,7 +20,7 @@ export const renderWeb3Hook = (hook: (props: unknown) => unknown, options?: Rend
   const connector = new MockConnector(provider)
   const UserWrapper = options?.wrapper ?? IdentityWrapper
 
-  const {result} = renderHook(hook, {
+  const {result, ...rest} = renderHook(hook, {
     ...options,
     wrapper: ({children}) => (
       <MockWeb3Wrapper connector={connector}>
@@ -41,6 +41,7 @@ export const renderWeb3Hook = (hook: (props: unknown) => unknown, options?: Rend
     result,
     provider,
     mineBlock: async () => mineBlock(provider),
-    waitForCurrentEqual
+    waitForCurrentEqual,
+    ...rest
   }
 }
