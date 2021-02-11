@@ -15,7 +15,7 @@ const mineBlock = async (provider: MockProvider) => {
   await tx.wait()
 }
 
-export const renderWeb3Hook = (hook: (props: unknown) => unknown, options?: RenderHookOptions<unknown> | undefined) => {
+export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?: RenderHookOptions<unknown> | undefined) => {
   const provider = new MockProvider()
   const connector = new MockConnector(provider)
   const UserWrapper = options?.wrapper ?? IdentityWrapper
