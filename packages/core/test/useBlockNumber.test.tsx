@@ -2,14 +2,14 @@ import React from 'react'
 import { expect } from 'chai'
 import { renderHook } from '@testing-library/react-hooks'
 import { useBlockNumber, BlockNumberProvider } from '../src'
-import { MockConnector, Web3Wrapper, waitUntil } from './utils'
+import { MockConnector, MockWeb3Wrapper, waitUntil } from './utils'
 import { MockProvider } from '@ethereum-waffle/provider'
 import { AddressZero } from '@ethersproject/constants'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
     const {result, waitForValueToChange} = renderHook(useBlockNumber, {
-      wrapper: ({children}) => <Web3Wrapper><BlockNumberProvider>{children}</BlockNumberProvider></Web3Wrapper>
+      wrapper: ({children}) => <MockWeb3Wrapper><BlockNumberProvider>{children}</BlockNumberProvider></MockWeb3Wrapper>
     })
 
     await waitForValueToChange(() => result.current)
@@ -22,7 +22,7 @@ describe('useBlockNumber', () => {
     const connector = new MockConnector(provider)
 
     const {result, waitForValueToChange} = renderHook(useBlockNumber, {
-      wrapper: ({children}) => <Web3Wrapper connector={connector}><BlockNumberProvider>{children}</BlockNumberProvider></Web3Wrapper>
+      wrapper: ({children}) => <MockWeb3Wrapper connector={connector}><BlockNumberProvider>{children}</BlockNumberProvider></MockWeb3Wrapper>
     })
 
     await waitUntil(() => result.current === 0)

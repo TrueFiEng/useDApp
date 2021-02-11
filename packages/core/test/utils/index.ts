@@ -1,3 +1,3 @@
 export * from './mockConnector'
 export * from './waitUntil'
-export * from './web3Wrapper'
+export * from './mockWeb3Wrapper'
