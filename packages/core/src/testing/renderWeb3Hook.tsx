@@ -29,7 +29,7 @@ export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?
   )
   const multicallAddresses = {[await connector.getChainId()]: multicall.address}
 
-  const {result, ...rest} = renderHook(hook, {
+  const {result, waitForNextUpdate, rerender, unmount} = renderHook(hook, {
     ...options,
     wrapper: ({children}) => (
       <MockWeb3Wrapper connector={connector}>
@@ -43,6 +43,10 @@ export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?
       </MockWeb3Wrapper>
     )
   })
+
+  // we wait for the first update, before that the current is always undefined.
+  // after this, we get the actual first return value of the hook (which might happen to be undefined anyway)
+  await waitForNextUpdate()
 
   const waitForCurrent = async (predicate: (value: any) => boolean, step?: number, timeout?: number) => {
     await waitUntil(() => predicate(result.current), step, timeout)
@@ -58,6 +62,8 @@ export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?
     mineBlock: async () => mineBlock(provider),
     waitForCurrent,
     waitForCurrentEqual,
-    ...rest
+    rerender,
+    unmount,
+    // do not return the waitFor* functions from `renderHook` - they are not usable after using waitForNextUpdate().
   }
 }
