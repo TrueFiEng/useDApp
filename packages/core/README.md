@@ -1,28 +1,34 @@
 # useDapp
 
-Framework for creating Dapp on Ethereum with React.
-Easy. Secure. Testable. Extendable.
+Framework for Ethereum Dapps on React.
+Easy to learn for developer. Robust experience for user. 
+Secure. Testable. Extendable.
 
-## Challenge
+## Problem
+A Dapp is a bit different animal than a typical web application.
 
-Writing Dapps comes with its own set of challenges and good practices:
+A Dapp designed with **user experience** in mind will:
+🔄 refresh after a new block arrives
+📺 work in view mode before connecting a wallet
+✅ show the status of the current transactions 
+🛅 and more :)
 
-- refresh UI after each new block arrival
-- work in two modes: read-only (without wallet connected) and read/write (with wallet connected)
-- keep track of transactions status and inform a user when it is successfully mined or fails
-- work with different wallets (Metamask, Formatic, Authereum) and networks (mainnet and testnets) and handle these changes nicely
+A Dapp designed with **developer experience** in mind will:
+🧪 work on both mainnet and testnets
+🛡️ be error proof and easy to test 
+🍼 be easy to develop and extend
+🧰 and much more...
 
-With all that in mind, we want our Dapps to be easy to test and extend, built with high-pace development and security in mind.
+These used to make writing quality DApps somewhat challenging, but no more with useDapp.
 
 ## Solution
 
-**useDapp** utilises best **React**, **Ethereum** and **testing** practices:
-
-- use react hooks to communicate with the blockchain
-- components automatically refresh on a new block
-- multiple contract calls are combined into a single multi-call
-- extend with custom hooks
-- write integration tests for components and blockchain with ease
+**useDapp** combines the best practices of **React**, **Ethereum** and programing in general:
+🧱 uses react hooks as your primary building ingredient
+🚅 refreshes components automatically on each block if needed
+🛒 combines multiple blockchain calls into a single multicall
+📚 extends easily with custom hooks
+🎚️ tests integration of UI and blockchain easily
 
 ## Example
 
