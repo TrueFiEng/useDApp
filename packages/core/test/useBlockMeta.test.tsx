@@ -23,7 +23,7 @@ describe('useBlockMeta', () => {
 
     await sleep(1000)
     await mineBlock()
-    await waitForCurrent(val => val?.timestamp !== firstTimestamp)
+    await waitForCurrent(val => val?.timestamp?.getTime() !== firstTimestamp?.getTime())
     expect((result.current as any).timestamp).to.be.greaterThan(firstTimestamp)
   }).timeout(5000)
 })
