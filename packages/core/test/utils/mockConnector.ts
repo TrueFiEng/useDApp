@@ -3,7 +3,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { MockProvider } from '@ethereum-waffle/provider'
 
 // Modified from https://github.com/NoahZinsmeister/web3-react/blob/v6/packages/network-connector/src/index.ts
-export class TestConnector extends AbstractConnector {
+export class MockConnector extends AbstractConnector {
   private provider: any
   private chainId = 469
 
