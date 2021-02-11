@@ -4,16 +4,9 @@ import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, ChainStateProvider } from '../providers'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
-import { AddressZero } from '@ethersproject/constants'
-import { waitUntil } from './utils'
+import { mineBlock, waitUntil } from './utils'
 import { MULTICALL_BYTECODE } from '../constants'
 import MultiCall from '../constants/MultiCall.json'
-
-const mineBlock = async (provider: MockProvider) => {
-  const [acc] = await provider.getWallets()
-  const tx = await acc.sendTransaction({ to: AddressZero, value: 0 })
-  await tx.wait()
-}
 
 export interface renderWeb3HookOptions {
   mockProvider?: {
