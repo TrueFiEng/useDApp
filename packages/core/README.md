@@ -8,27 +8,27 @@ Secure. Testable. Extendable.
 A Dapp is a bit different animal than a typical web application.
 
 A Dapp designed with **user experience** in mind will:
-🔄 refresh after a new block arrives
-📺 work in view mode before connecting a wallet
-✅ show the status of the current transactions 
-🛅 and more :)
+- 🔄 refresh after a new block arrives
+- 📺 work in view mode before connecting a wallet
+- ✅ show the status of the current transactions 
+- 🛅 and more :)
 
 A Dapp designed with **developer experience** in mind will:
-🧪 work on both mainnet and testnets
-🛡️ be error proof and easy to test 
-🍼 be easy to develop and extend
-🧰 and much more...
+- 🧪 work on both mainnet and testnets
+- 🛡️ be error proof and easy to test 
+- 🍼 be easy to develop and extend
+- 🧰 and much more...
 
 These used to make writing quality DApps somewhat challenging, but no more with useDapp.
 
 ## Solution
 
 **useDapp** combines the best practices of **React**, **Ethereum** and programing in general:
-🧱 uses react hooks as your primary building ingredient
-🚅 refreshes components automatically on each block if needed
-🛒 combines multiple blockchain calls into a single multicall
-📚 extends easily with custom hooks
-🎚️ tests integration of UI and blockchain easily
+- 🧱 uses react hooks as your primary building ingredient
+- 🚅 refreshes components automatically on each block if needed
+- 🛒 combines multiple blockchain calls into a single multicall
+- 📚 extends easily with custom hooks
+- 🎚️ tests integration of UI and blockchain easily
 
 ## Example
 
