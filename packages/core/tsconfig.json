@@ -6,10 +6,13 @@
     "composite": true,
     "declaration": true,
     "sourceMap": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
   "include": [
     "src",
+    "src/**/*.json",
     "test"
   ]
 }
