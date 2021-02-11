@@ -23,7 +23,7 @@ These requirements used to make writing quality DApps somewhat challenging, but 
 
 ## Solution
 
-**useDapp** combines the best practices of **React**, **Ethereum** and programing in general:
+**useDapp** combines the best practices of **React**, **Ethereum** and programming in general:
 - 🧱 uses react hooks as your primary building ingredient
 - 🚅 refreshes components automatically on each block if needed
 - 🛒 combines multiple blockchain calls into a single multicall
