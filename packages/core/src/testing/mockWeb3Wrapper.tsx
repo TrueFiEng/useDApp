@@ -1,7 +1,7 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactProvider } from '@web3-react/core'
 import React, { ReactNode, useEffect} from 'react'
-import { useEthers } from '../../src'
+import { useEthers } from '..'
 import { MockConnector } from './mockConnector'
 
 export interface MockWeb3WrapperProps {
