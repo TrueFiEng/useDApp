@@ -16,7 +16,8 @@
     "test": "wsrun -e -c -s --exclude-missing test"
   },
   "dependencies": {
-    "wsrun": "^5.2.1",
-    "prettier": "2.1.2"
+    "@changesets/cli": "^2.14.1",
+    "prettier": "2.1.2",
+    "wsrun": "^5.2.1"
   }
 }
