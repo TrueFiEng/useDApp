@@ -19,7 +19,7 @@ A Dapp designed with **developer experience** in mind will:
 - 🍼 be easy to develop and extend
 - 🧰 and much more...
 
-These used to make writing quality DApps somewhat challenging, but no more with useDapp.
+These requirements used to make writing quality DApps somewhat challenging, but no more with useDapp.
 
 ## Solution
 
