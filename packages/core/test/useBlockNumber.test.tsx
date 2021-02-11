@@ -6,19 +6,19 @@ describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
     const {result, waitForCurrentEqual} = await renderWeb3Hook(useBlockNumber)
 
-    await waitForCurrentEqual(0)
+    await waitForCurrentEqual(1)
     expect(result.error).to.be.undefined
-    expect(result.current).to.be.equal(0) // block number 0
+    expect(result.current).to.be.equal(1)
   })
 
   it('updates the block number when a transaction gets mined', async () => {
     const {result, waitForCurrentEqual, mineBlock} = await renderWeb3Hook(useBlockNumber)
-    await waitForCurrentEqual(0)
+    await waitForCurrentEqual(1)
     
     await mineBlock()
 
-    await waitForCurrentEqual(1)
+    await waitForCurrentEqual(2)
     expect(result.error).to.be.undefined
-    expect(result.current).to.be.equal(1)
+    expect(result.current).to.be.equal(2)
   }).timeout(5000)
 })
