@@ -13,7 +13,8 @@
   "scripts": {
     "lint": "wsrun -c -s lint",
     "build": "wsrun -e -c -s build",
-    "test": "wsrun -e -c -s --exclude-missing test"
+    "test": "wsrun -e -c -s --exclude-missing test",
+    "release": "yarn build && yarn changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
