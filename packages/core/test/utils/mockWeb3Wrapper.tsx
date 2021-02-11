@@ -2,18 +2,18 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactProvider } from '@web3-react/core'
 import React, { ReactNode, useEffect} from 'react'
 import { useEthers } from '../../src'
-import { TestConnector } from './testConnector'
+import { MockConnector } from './mockConnector'
 
-export interface Web3WrapperProps {
+export interface MockWeb3WrapperProps {
   connector?: AbstractConnector,
   children?: ReactNode;
 }
 
-const WrapperActivation = ({children, connector}: Web3WrapperProps) => {
+const WrapperActivation = ({children, connector}: MockWeb3WrapperProps) => {
   const {activate, active} = useEthers()
 
   useEffect(() => {
-    activate(connector ?? new TestConnector(), console.error)
+    activate(connector ?? new MockConnector(), console.error)
   }, [])
 
   if (!active) return null
@@ -22,7 +22,7 @@ const WrapperActivation = ({children, connector}: Web3WrapperProps) => {
 
 
 
-export const Web3Wrapper = ({children, connector}: Web3WrapperProps) => {
+export const MockWeb3Wrapper = ({children, connector}: MockWeb3WrapperProps) => {
   return (
     <Web3ReactProvider getLibrary={(provider) => provider}>
       <WrapperActivation connector={connector}>
