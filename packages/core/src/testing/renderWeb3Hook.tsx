@@ -33,13 +33,13 @@ export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?
     ...options,
     wrapper: ({children}) => (
       <MockWeb3Wrapper connector={connector}>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>
-          <BlockNumberProvider>
+        <BlockNumberProvider>
+          <ChainStateProvider multicallAddresses={multicallAddresses}>
             <UserWrapper>
               {children}
             </UserWrapper>
-          </BlockNumberProvider>
-        </ChainStateProvider>
+          </ChainStateProvider>
+        </BlockNumberProvider>
       </MockWeb3Wrapper>
     )
   })
