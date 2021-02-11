@@ -1,11 +1,14 @@
 import { MockProvider } from '@ethereum-waffle/provider'
+import {deployContract} from 'ethereum-waffle'
 import { renderHook, RenderHookOptions } from '@testing-library/react-hooks'
 import { ReactNode } from 'react'
-import { BlockNumberProvider } from '../providers'
+import { BlockNumberProvider, ChainStateProvider } from '../providers'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { AddressZero } from '@ethersproject/constants'
 import { waitUntil } from './utils'
+import { MULTICALL_BYTECODE } from '../constants'
+import MultiCall from '../constants/MultiCall.json'
 
 const IdentityWrapper = ({children}: {children: ReactNode}) => <>{children}</>
 
@@ -20,27 +23,40 @@ export const renderWeb3Hook = async (hook: (props: unknown) => unknown, options?
   const connector = new MockConnector(provider)
   const UserWrapper = options?.wrapper ?? IdentityWrapper
 
+  const multicall = await deployContract(
+    (await provider.getWallets())[0],
+    {bytecode: MULTICALL_BYTECODE, abi: MultiCall}
+  )
+  const multicallAddresses = {[await connector.getChainId()]: multicall.address}
+
   const {result, ...rest} = renderHook(hook, {
     ...options,
     wrapper: ({children}) => (
       <MockWeb3Wrapper connector={connector}>
-        <BlockNumberProvider>
-          <UserWrapper>
-            {children}
-          </UserWrapper>
-        </BlockNumberProvider>
+        <ChainStateProvider multicallAddresses={multicallAddresses}>
+          <BlockNumberProvider>
+            <UserWrapper>
+              {children}
+            </UserWrapper>
+          </BlockNumberProvider>
+        </ChainStateProvider>
       </MockWeb3Wrapper>
     )
   })
 
+  const waitForCurrent = async (predicate: (value: any) => boolean, step?: number, timeout?: number) => {
+    await waitUntil(() => predicate(result.current), step, timeout)
+  }
+
   const waitForCurrentEqual = async (value: any, step?: number, timeout?: number) => {
-    await waitUntil(() => result.current === value, step, timeout)
+    await waitForCurrent((val) => val === value, step, timeout)
   }
 
   return {
     result,
     provider,
     mineBlock: async () => mineBlock(provider),
+    waitForCurrent,
     waitForCurrentEqual,
     ...rest
   }
