@@ -51,7 +51,7 @@
     "test": "mocha -r jsdom-global/register",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
-    "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src, test}/**/*.{ts,tsx}'"
+    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
+    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
   }
 }

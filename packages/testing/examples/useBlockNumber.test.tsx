@@ -4,7 +4,7 @@ import { renderWeb3Hook } from '../src'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
-    const {result, waitForCurrentEqual} = await renderWeb3Hook(useBlockNumber)
+    const { result, waitForCurrentEqual } = await renderWeb3Hook(useBlockNumber)
 
     await waitForCurrentEqual(1)
     expect(result.error).to.be.undefined
@@ -12,9 +12,9 @@ describe('useBlockNumber', () => {
   })
 
   it('updates the block number when a transaction gets mined', async () => {
-    const {result, waitForCurrentEqual, mineBlock} = await renderWeb3Hook(useBlockNumber)
+    const { result, waitForCurrentEqual, mineBlock } = await renderWeb3Hook(useBlockNumber)
     await waitForCurrentEqual(1)
-    
+
     await mineBlock()
 
     await waitForCurrentEqual(2)

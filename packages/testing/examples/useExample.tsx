@@ -4,9 +4,9 @@ A hook than:
 - can use a context with a provider wrapper
 */
 
-import { createContext, ReactNode, useContext } from "react"
+import { createContext, useContext } from 'react'
 
-const ExampleContext = createContext<{prov1?: number, prov2?: number} | undefined>(undefined)
+const ExampleContext = createContext<{ prov1?: number; prov2?: number } | undefined>(undefined)
 
 export const ExampleProvider = ExampleContext.Provider
 
@@ -14,6 +14,6 @@ export const useExample = (arg1?: number, arg2?: number) => {
   const context = useContext(ExampleContext)
 
   return {
-    sum: (arg1 ?? 0) + (arg2 ?? 0) + (context?.prov1 ?? 0) + (context?.prov2 ?? 0)
+    sum: (arg1 ?? 0) + (arg2 ?? 0) + (context?.prov1 ?? 0) + (context?.prov2 ?? 0),
   }
 }
