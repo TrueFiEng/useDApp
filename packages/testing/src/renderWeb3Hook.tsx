@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
-import { deployMulticall, IdentityWrapper, mineBlock, waitUntil } from './utils'
+import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: {
@@ -16,19 +16,18 @@ export interface renderWeb3HookOptions<Tprops> {
   }
 }
 
-export const renderWeb3Hook = async <Tprops, HResult>(
-  hook: (props: Tprops) => HResult,
+export const renderWeb3Hook = async <Tprops, TResult>(
+  hook: (props: Tprops) => TResult,
   options?: renderWeb3HookOptions<Tprops>,
 ) => {
   const provider = new MockProvider()
   provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
   const connector = new MockConnector(provider)
-
   
   const multicallAddresses = await deployMulticall(provider, connector)
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
-  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, HResult>(hook, {
+  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
       <MockWeb3Wrapper connector={connector}>
         <BlockNumberProvider>
@@ -45,22 +44,13 @@ export const renderWeb3Hook = async <Tprops, HResult>(
   // after this, we get the actual first return value of the hook (which might happen to be undefined anyway)
   await waitForNextUpdate()
 
-  const waitForCurrent = async (predicate: (value: HResult) => boolean, step?: number, timeout?: number) => {
-    await waitUntil(() => predicate(result.current), step, timeout)
-  }
-
-  const waitForCurrentEqual = async (value: HResult, step?: number, timeout?: number) => {
-    await waitForCurrent((val) => val === value, step, timeout)
-  }
-
   return {
     result,
     provider,
     mineBlock: async () => mineBlock(provider),
-    waitForCurrent,
-    waitForCurrentEqual,
     rerender,
     unmount,
     // do not return the waitFor* functions from `renderHook` - they are not usable after using waitForNextUpdate().
+    ...getWaitUtils(result)
   }
 }
