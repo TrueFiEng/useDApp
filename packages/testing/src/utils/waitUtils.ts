@@ -1,5 +1,5 @@
-import { RenderResult } from "@testing-library/react-hooks"
-import { waitUntil } from "./waitUntil"
+import { RenderResult } from '@testing-library/react-hooks'
+import { waitUntil } from './waitUntil'
 
 export const getWaitUtils = <TResult>(hookResult: RenderResult<TResult>) => {
   const waitForCurrent = async (predicate: (value: TResult) => boolean, step?: number, timeout?: number) => {
@@ -12,6 +12,6 @@ export const getWaitUtils = <TResult>(hookResult: RenderResult<TResult>) => {
 
   return {
     waitForCurrent,
-    waitForCurrentEqual
+    waitForCurrentEqual,
   }
 }
