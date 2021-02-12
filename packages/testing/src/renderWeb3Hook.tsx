@@ -1,7 +1,7 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { deployContract } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider, MULTICALL_BYTECODE, MultiCall } from '@usedapp/core'
+import { BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { mineBlock, waitUntil } from './utils'
@@ -21,8 +21,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const connector = new MockConnector(provider)
 
   const multicall = await deployContract((await provider.getWallets())[0], {
-    bytecode: MULTICALL_BYTECODE,
-    abi: MultiCall,
+    bytecode: MultiCall.bytecode,
+    abi: MultiCall.abi,
   })
   const multicallAddresses = { [await connector.getChainId()]: multicall.address }
 
