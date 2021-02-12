@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { useBlockNumber } from '../src'
-import { renderWeb3Hook } from '../src/testing'
+import { useBlockNumber } from '@usedapp/core'
+import { renderWeb3Hook } from '../src'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
