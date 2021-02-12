@@ -6,15 +6,18 @@ import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { mineBlock, waitUntil } from './utils'
 
-export interface renderWeb3HookOptions {
+export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: {
     pollingInterval?: number
+  },
+  renderHook?: {
+    initialProps?: Tprops
   }
 }
 
 export const renderWeb3Hook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
-  options?: renderWeb3HookOptions
+  options?: renderWeb3HookOptions<Tprops>,
 ) => {
   const provider = new MockProvider()
   provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
@@ -34,6 +37,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
         </BlockNumberProvider>
       </MockWeb3Wrapper>
     ),
+    initialProps: options?.renderHook?.initialProps
   })
 
   // we wait for the first update, before that the current is always undefined.
