@@ -1,12 +1,10 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { deployContract } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider } from '../providers'
+import { BlockNumberProvider, ChainStateProvider, MULTICALL_BYTECODE, MultiCall } from '@usedapp/core'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { mineBlock, waitUntil } from './utils'
-import { MULTICALL_BYTECODE } from '../constants'
-import MultiCall from '../constants/MultiCall.json'
 
 export interface renderWeb3HookOptions {
   mockProvider?: {
