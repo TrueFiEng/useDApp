@@ -5,21 +5,21 @@ import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
-import { mineBlock, waitUntil } from './utils'
+import { IdentityWrapper, mineBlock, waitUntil } from './utils'
 
-export interface renderWeb3HookOptions<Hprops> {
+export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: {
     pollingInterval?: number
   },
   renderHook?: {
-    initialProps?: Hprops,
-    wrapper?: React.ComponentClass<Hprops, any> | React.FunctionComponent<Hprops>
+    initialProps?: Tprops,
+    wrapper?: React.ComponentClass<Tprops, any> | React.FunctionComponent<Tprops>
   }
 }
 
-export const renderWeb3Hook = async <Hprops, HResult>(
-  hook: (props: Hprops) => HResult,
-  options?: renderWeb3HookOptions<Hprops>,
+export const renderWeb3Hook = async <Tprops, HResult>(
+  hook: (props: Tprops) => HResult,
+  options?: renderWeb3HookOptions<Tprops>,
 ) => {
   const provider = new MockProvider()
   provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
@@ -31,10 +31,9 @@ export const renderWeb3Hook = async <Hprops, HResult>(
   })
   const multicallAddresses = { [await connector.getChainId()]: multicall.address }
 
-  const IdentityWrapper = ({ children }: {children?: ReactNode}) => <>{children}</>
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
-  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Hprops, HResult>(hook, {
+  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, HResult>(hook, {
     wrapper: (wrapperProps) => (
       <MockWeb3Wrapper connector={connector}>
         <BlockNumberProvider>
