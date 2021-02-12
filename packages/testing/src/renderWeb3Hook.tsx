@@ -1,11 +1,10 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { MockProvider } from '@ethereum-waffle/provider'
-import { deployContract } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
+import { BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
-import { IdentityWrapper, mineBlock, waitUntil } from './utils'
+import { deployMulticall, IdentityWrapper, mineBlock, waitUntil } from './utils'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: {
@@ -25,12 +24,8 @@ export const renderWeb3Hook = async <Tprops, HResult>(
   provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
   const connector = new MockConnector(provider)
 
-  const multicall = await deployContract((await provider.getWallets())[0], {
-    bytecode: MultiCall.bytecode,
-    abi: MultiCall.abi,
-  })
-  const multicallAddresses = { [await connector.getChainId()]: multicall.address }
-
+  
+  const multicallAddresses = await deployMulticall(provider, connector)
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, HResult>(hook, {
