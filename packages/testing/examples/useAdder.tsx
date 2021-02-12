@@ -6,12 +6,12 @@ A hook than:
 
 import { createContext, useContext } from 'react'
 
-const ExampleContext = createContext<{ prov1?: number; prov2?: number } | undefined>(undefined)
+const AdderContext = createContext<{ prov1?: number; prov2?: number } | undefined>(undefined)
 
-export const ExampleProvider = ExampleContext.Provider
+export const AdderProvider = AdderContext.Provider
 
-export const useExample = (arg1?: number, arg2?: number) => {
-  const context = useContext(ExampleContext)
+export const useAdder = (arg1?: number, arg2?: number) => {
+  const context = useContext(AdderContext)
 
   return {
     sum: (arg1 ?? 0) + (arg2 ?? 0) + (context?.prov1 ?? 0) + (context?.prov2 ?? 0),

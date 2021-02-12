@@ -13,8 +13,7 @@ export interface renderWeb3HookOptions<Hprops> {
   },
   renderHook?: {
     initialProps?: Hprops,
-    // wrapper?: React.ComponentClass<WProps, any> | React.FunctionComponent<WProps>
-    wrapper?: any
+    wrapper?: React.ComponentClass<Hprops, any> | React.FunctionComponent<Hprops>
   }
 }
 
@@ -32,15 +31,15 @@ export const renderWeb3Hook = async <Hprops, HResult>(
   })
   const multicallAddresses = { [await connector.getChainId()]: multicall.address }
 
-  const IdentityWrapper = ({ children }: {children: ReactNode}) => <>{children}</>
+  const IdentityWrapper = ({ children }: {children?: ReactNode}) => <>{children}</>
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Hprops, HResult>(hook, {
-    wrapper: ({ children }) => (
+    wrapper: (wrapperProps) => (
       <MockWeb3Wrapper connector={connector}>
         <BlockNumberProvider>
           <ChainStateProvider multicallAddresses={multicallAddresses}>
-            <UserWrapper>{children}</UserWrapper>
+            <UserWrapper {...wrapperProps}/>
           </ChainStateProvider>
         </BlockNumberProvider>
       </MockWeb3Wrapper>
