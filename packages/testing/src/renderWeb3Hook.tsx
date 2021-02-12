@@ -1,3 +1,4 @@
+import React, { ReactNode } from 'react'
 import { MockProvider } from '@ethereum-waffle/provider'
 import { deployContract } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
@@ -6,18 +7,20 @@ import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { mineBlock, waitUntil } from './utils'
 
-export interface renderWeb3HookOptions<Tprops> {
+export interface renderWeb3HookOptions<Hprops> {
   mockProvider?: {
     pollingInterval?: number
   },
   renderHook?: {
-    initialProps?: Tprops
+    initialProps?: Hprops,
+    // wrapper?: React.ComponentClass<WProps, any> | React.FunctionComponent<WProps>
+    wrapper?: any
   }
 }
 
-export const renderWeb3Hook = async <Tprops, TResult>(
-  hook: (props: Tprops) => TResult,
-  options?: renderWeb3HookOptions<Tprops>,
+export const renderWeb3Hook = async <Hprops, HResult>(
+  hook: (props: Hprops) => HResult,
+  options?: renderWeb3HookOptions<Hprops>,
 ) => {
   const provider = new MockProvider()
   provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
@@ -29,11 +32,16 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   })
   const multicallAddresses = { [await connector.getChainId()]: multicall.address }
 
-  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
+  const IdentityWrapper = ({ children }: {children: ReactNode}) => <>{children}</>
+  const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
+
+  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Hprops, HResult>(hook, {
     wrapper: ({ children }) => (
       <MockWeb3Wrapper connector={connector}>
         <BlockNumberProvider>
-          <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
+          <ChainStateProvider multicallAddresses={multicallAddresses}>
+            <UserWrapper>{children}</UserWrapper>
+          </ChainStateProvider>
         </BlockNumberProvider>
       </MockWeb3Wrapper>
     ),
@@ -44,11 +52,11 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   // after this, we get the actual first return value of the hook (which might happen to be undefined anyway)
   await waitForNextUpdate()
 
-  const waitForCurrent = async (predicate: (value: TResult) => boolean, step?: number, timeout?: number) => {
+  const waitForCurrent = async (predicate: (value: HResult) => boolean, step?: number, timeout?: number) => {
     await waitUntil(() => predicate(result.current), step, timeout)
   }
 
-  const waitForCurrentEqual = async (value: TResult, step?: number, timeout?: number) => {
+  const waitForCurrentEqual = async (value: HResult, step?: number, timeout?: number) => {
     await waitForCurrent((val) => val === value, step, timeout)
   }
 

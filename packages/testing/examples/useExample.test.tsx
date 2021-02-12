@@ -1,6 +1,7 @@
 import { expect } from 'chai'
-import { useExample } from './useExample'
+import { ExampleProvider, useExample } from './useExample'
 import { renderWeb3Hook } from '../src'
+import { ReactNode } from 'react'
 
 describe('useExample', () => {
   it('properly renders without arguments or context wrapper', async () => {
@@ -33,7 +34,14 @@ describe('useExample', () => {
   })
 
   it.skip('properly renders with context wrapper', async () => {
+    const wrapper = ({children}: {children: ReactNode}) => <ExampleProvider value={{prov1: 9, prov2: 1}}>{children}</ExampleProvider>
+    const { result, waitForCurrent, rerender } = await renderWeb3Hook(
+      useExample,
+      {renderHook: {wrapper}}
+    )
 
+    expect(result.error).to.be.undefined
+    expect(result.current.sum).to.be.equal(10)
   })
 
   it.skip('properly renders with context wrapper changing props', async () => {
