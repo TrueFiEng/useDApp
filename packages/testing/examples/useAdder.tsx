@@ -1,7 +1,7 @@
 /*
-A hook than:
-- can take no arguments, or a single argument, or a list of arguments
-- can use a context with a provider wrapper
+An example hook that:
+- can take optional arguments
+- Optionally uses a context with a provider wrapper
 */
 
 import { createContext, useContext } from 'react'
