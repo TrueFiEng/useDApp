@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.1.3
+
+### Patch Changes
+
+- 56c0156: 📢 Set publishing access to public
+
+  (Test of publishing)
+
 ## 0.1.2
 
 ### Patch Changes
