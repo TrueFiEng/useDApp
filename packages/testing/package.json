@@ -6,6 +6,7 @@
   "repository": "git@github.com:EthWorks/dapp-framework.git",
   "author": "Ethworks",
   "license": "MIT",
+  "publishConfig": {"access": "public"},  
   "devDependencies": {
     "@ethereum-waffle/provider": "^3.2.2",
     "@ethersproject/abi": "^5.0.12",
