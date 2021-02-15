@@ -12,7 +12,7 @@
 
 ### Patch Changes
 
-- 7405165: Add possibility to add user wrappers to renderWeb3Hook.
+- 7405165: Add possibility to add user wrappers to renderWeb3Hook. 
 
 ## 0.1.1
 
