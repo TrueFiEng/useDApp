@@ -1,16 +1,15 @@
 import { MultiCallABI } from '../constants'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainCall } from '../providers'
-import { useMulticallAddress, useChainCalls } from '.'
+import { useChainCall } from './useChainCalls'
+import { useMulticallAddress } from './useMulticallAddress'
+
+const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
+const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
 
 export function useBlockMeta() {
   const address = useMulticallAddress()
-
-  const calls: ChainCall[] = [
-    { address, data: MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', []) },
-    { address, data: MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', []) },
-  ]
-  const [timestamp, difficulty] = useChainCalls(address ? calls : [])
+  const timestamp = useChainCall({ address, data: GET_CURRENT_BLOCK_TIMESTAMP_CALL })
+  const difficulty = useChainCall({ address, data: GET_CURRENT_BLOCK_DIFFICULTY_CALL })
 
   return {
     timestamp: timestamp !== undefined ? new Date(BigNumber.from(timestamp).mul(1000).toNumber()) : undefined,
