@@ -1,8 +1,8 @@
 # useDapp
 
-Framework for Ethereum Dapps on React.
-Easy to learn for developer. Robust experience for user. 
-Secure. Testable. Extendable.
+### Ethereum 🤝 React 
+Framework for rapid Dapp development.  
+Simple. Robust. Extendable. Testable.
 
 ## Problem
 A Dapp is a bit different animal than a typical web application.
