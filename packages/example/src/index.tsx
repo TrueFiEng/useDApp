@@ -5,7 +5,7 @@ import { App } from './App'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Providers>
+    <Providers backgroundChain={1}>
       <App />
     </Providers>
   </React.StrictMode>,
