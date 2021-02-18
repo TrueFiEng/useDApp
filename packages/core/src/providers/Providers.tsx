@@ -21,7 +21,7 @@ export function Providers(props: Props) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <BlockNumberProvider>
-        {props.backgroundChain && <BackgroundChainActivator chainId={props.backgroundChain}/>}
+        {props.backgroundChain && <BackgroundChainActivator chainId={props.backgroundChain} />}
         <ChainStateProvider multicallAddresses={multicallAddresses}>{props.children}</ChainStateProvider>
       </BlockNumberProvider>
     </Web3ReactProvider>
@@ -35,18 +35,18 @@ function getLibrary(provider: any): Web3Provider {
 }
 
 const BACKGROUND_CHAIN_URLS = {
-  1: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
+  1: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
 }
 
 interface BackgroundChainActivatorProps {
   chainId: ChainId
 }
 
-function BackgroundChainActivator({chainId}: BackgroundChainActivatorProps) {
-  const {activate, account, chainId: connectedChainId, active, connector} = useEthers()
+function BackgroundChainActivator({ chainId }: BackgroundChainActivatorProps) {
+  const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
 
   useEffect(() => {
-    if(!active || (connector instanceof NetworkConnector && connectedChainId !== chainId)) {
+    if (!active || (connector instanceof NetworkConnector && connectedChainId !== chainId)) {
       activate(new NetworkConnector({ defaultChainId: chainId, urls: BACKGROUND_CHAIN_URLS }))
     }
   }, [chainId, active, account, connectedChainId, connector])
