@@ -15,7 +15,8 @@ export function useChainCalls(calls: ChainCall[]) {
   })
 }
 
-export function useChainCall(call: ChainCall | false | undefined | '') {
+type Falsy = false | 0 | "" | null | undefined 
+export function useChainCall(call: ChainCall | Falsy) {
   const [result] = useChainCalls(call ? [call] : [])
   return result
 }
