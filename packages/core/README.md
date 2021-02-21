@@ -50,9 +50,44 @@ function App() {
 }
 ```
 
+
 ## Documentation
-### Getting started
-### Configure application
-### Using hooks
-### Custom hooks
-### Testing
+For detailed feature walkthrough checkout [documentation](https://usedapp.readthedocs.io/en/latest/).
+
+## Contributing
+
+Contributions are always welcome, no matter how large or small. Before contributing, please read the [code of conduct](https://github.com/EthWorks/useDapp/blob/master/CODE_OF_CONDUCT.md) and [contribution policy](https://github.com/EthWorks/useDapp/blob/master/CONTRIBUTION.md).
+
+### Before you issue pull request:
+
+* Make sure all tests pass.
+* Make sure linter passes.
+* Make sure you have test coverage for any new features.
+
+To run tests type:
+```sh
+yarn test
+```
+
+To run linter type:
+```sh
+yarn lint
+```
+
+### Building documentation
+
+[Install Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html) to build documentation:
+
+```sh
+cd docs
+make html
+```
+
+Before building documentation for the first time you may have to install required python packages:
+```sh
+pip install -r docs/requirements.txt
+```
+
+## License
+
+useDapp is released under the [MIT License](https://opensource.org/licenses/MIT).
