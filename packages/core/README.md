@@ -33,18 +33,29 @@ These requirements used to make writing quality DApps somewhat challenging, but 
 ## Example
 
 ```tsx
+const config: Config = {
+  readOnlyChain: ChainId.Mainnet,
+  readOnlyUrls: {
+    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+  },
+}
+
 ReactDOM.render(
-  <EthersProvider>
-    <App />
-  <EthersProvider/>,
-  document.getElementById('app')
+  <React.StrictMode>
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 )
 
-function App() {
-  const balance = useEtherBalance();
+export function App() {
+  const { activate, account } = useEthers()
   return (
-    <div>
-    Your balance is: <span> {balance} </span>
+      <div>
+        <button onClick={() => activate(injected)}>Connect</button>
+      </div>
+      {account && <p>Account: {account}</p>}
     </div>
   )
 }
