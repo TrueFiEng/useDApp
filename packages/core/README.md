@@ -85,7 +85,7 @@ make html
 
 Before building documentation for the first time you may have to install required python packages:
 ```sh
-pip install -r docs/requirements.txt
+pip3 install -r docs/requirements.txt
 ```
 
 ## License
