@@ -24,15 +24,15 @@ html {
   }
   
   .wy-side-nav-search {
-    background-color: #fcc062;
+    background-color: white;
   }
   
   .wy-side-nav-search input[type=text] {
-    border-color: #f5af42;
+    border-color: white;
   }
   
   .wy-nav-top {
-    background: #fcc062;
+    background: white;
   }
   
   .wy-nav-content {
@@ -41,11 +41,11 @@ html {
   }
   
   .wy-menu-vertical header, .wy-menu-vertical p.caption {
-    color: #f5af42;
+    color: white;
   }
   
   .wy-menu-vertical a:active {
-    background-color: #f5af42;
+    background-color: white;
   }
   
   /* NO VERSION */

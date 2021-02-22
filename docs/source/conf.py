@@ -47,7 +47,7 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_css_files = ['custom.css']
 html_favicon = '_static/favicon.ico'
-html_logo = '_static/waffle-logo-square.svg'
+html_logo = '_static/logo-square.png'
 html_theme_options = {
   'logo_only': True,
 }
