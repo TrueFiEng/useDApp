@@ -12,4 +12,5 @@ export type Config = {
   readOnlyChain?: ChainId
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
+  pollingInterval?: number
 }
