@@ -8,7 +8,9 @@ Providers
 
 Provides basic DApp services for hooks ...
 
-Combines following components: ``<Web3ReactProvider>``, <BlockNumberProvider>``, ``<ChainStateProvider>``, ``<ReadOnlyProviderActivator>``
+It combines following components: ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>``, ``<ReadOnlyProviderActivator>``
+
+**<EthersProvider>**
 
 **<BlockNumberProvider>**
 
