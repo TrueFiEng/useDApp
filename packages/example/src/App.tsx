@@ -6,7 +6,7 @@ const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 42] })
 
 export function App() {
   const blockNumber = useBlockNumber()
-  const { chainId, activate } = useEthers()
+  const { chainId, activate, deactivate, account } = useEthers()
   const { timestamp, difficulty } = useBlockMeta()
 
   return (
@@ -17,7 +17,9 @@ export function App() {
       {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
       <div>
         <button onClick={() => activate(injected)}>Connect</button>
+        <button onClick={() => deactivate()}>Disconnect</button>
       </div>
+      {account && <p>Account: {account}</p>}
     </div>
   )
 }

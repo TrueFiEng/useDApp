@@ -1,0 +1,4 @@
+Sphinx==3.0.3
+pygments-lexer-solidity==0.5.1
+sphinx-rtd-theme==0.4.3
+sphinx-tabs==1.1.13
