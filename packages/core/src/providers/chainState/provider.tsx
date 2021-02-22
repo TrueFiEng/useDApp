@@ -36,7 +36,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
 
-  const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : ''
+  const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : undefined
 
   useEffect(() => {
     if (library && blockNumber !== undefined && chainId !== undefined) {

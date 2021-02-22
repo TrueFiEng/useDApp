@@ -8,7 +8,7 @@ export const ChainStateContext = createContext<{
     state?: ChainState
     error?: unknown
   }
-  multicallAddress: string
+  multicallAddress: string | undefined
   addCalls(calls: ChainCall[]): void
   removeCalls(calls: ChainCall[]): void
 }>({
