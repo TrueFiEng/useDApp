@@ -1,26 +1,44 @@
 Core
 ====
 
-
-
 Providers
 ---------
 
-#### **DAppProvider**
+**<DAppProvider config={...} >**
 
 Provides basic DApp services for hooks ...
 
-Combines following Providers components: ...
+Combines following components: ``<Web3ReactProvider>``, <BlockNumberProvider>``, ``<ChainStateProvider>``, ``<ReadOnlyProviderActivator>``
 
+**<BlockNumberProvider>**
 
+**<ChainStateProvider>**
+
+**<ReadOnlyProviderActivator>**
 
 Hooks
 -----
-#### **useEthers**
 
-#### **useBlock**
+**useBlock**
 
+**useBlockMeta ()**
 
-Helpers
--------
+**useChainCalls (calls: ChainCall[])**
 
+**useDebounce <T> (value: T, delay: number): T**
+
+**useDebouncePair <T, U> (first: T, second: U, delay: number): [T, U]**
+
+**useEthers ()**
+
+**useMulticallAddress ()**
+
+Model
+-----
+
+**Currency**
+
+Constants
+---------
+
+**ChainId**
