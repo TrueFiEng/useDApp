@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ChainId, DAppProvider } from '@usedapp/core'
+import { ChainId, DAppProvider, Config } from '@usedapp/core'
 import { App } from './App'
-import type { Config } from '@usedapp/core/dist/src/model/Config'
+
 
 const config: Partial<Config> = {
   readOnlyChain: ChainId.Mainnet,

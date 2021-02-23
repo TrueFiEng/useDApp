@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
-import { Config, DEFAULT_CONFIG } from '../../model/Config'
+import { Config } from '../../model/config/Config'
+import { DEFAULT_CONFIG } from '../../model/config/default'
 import { ConfigContext } from './context'
 
 interface ConfigProviderProps {

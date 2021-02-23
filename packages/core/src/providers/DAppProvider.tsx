@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { MULTICALL_ADDRESSES } from '../constants'
-import { Config } from '../model/Config'
+import { Config } from '../model/config/Config'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
 import { EthersProvider } from './EthersProvider'
