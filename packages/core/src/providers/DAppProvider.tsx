@@ -1,11 +1,12 @@
 import { ReactNode } from 'react'
 import { MULTICALL_ADDRESSES } from '../constants'
 import { Config } from '../model/config/Config'
+import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
+import { useConfig } from './config/context'
 import { EthersProvider } from './EthersProvider'
 import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
-import { ConfigProvider } from '../providers/config/provider'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -13,16 +14,28 @@ interface DAppProviderProps {
 }
 
 export function DAppProvider({ config, children }: DAppProviderProps) {
-  const multicallAddresses = { ...MULTICALL_ADDRESSES, ...config.multicallAddresses }
-
   return (
     <ConfigProvider config={config}>
-      <EthersProvider>
-        <BlockNumberProvider>
-          {config.readOnlyChain && config.readOnlyUrls && <ReadOnlyProviderActivator />}
-          <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-        </BlockNumberProvider>
-      </EthersProvider>
+      <DAppProviderWithConfig>{children}</DAppProviderWithConfig>
     </ConfigProvider>
+  )
+}
+
+interface WithConfigProps {
+  children: ReactNode
+}
+
+function DAppProviderWithConfig({ children }: WithConfigProps) {
+  const { multicallAddresses, readOnlyChainId, readOnlyUrls } = useConfig()
+  const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
+  return (
+    <EthersProvider>
+      <BlockNumberProvider>
+        {readOnlyChainId && readOnlyUrls && (
+          <ReadOnlyProviderActivator readOnlyChainId={readOnlyChainId} readOnlyUrls={readOnlyUrls} />
+        )}
+        <ChainStateProvider multicallAddresses={multicallAddressesMerged}>{children}</ChainStateProvider>
+      </BlockNumberProvider>
+    </EthersProvider>
   )
 }

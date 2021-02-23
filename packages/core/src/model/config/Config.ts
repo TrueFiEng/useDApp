@@ -9,7 +9,7 @@ export type MulticallAddresses = {
 }
 
 export type Config = {
-  readOnlyChain?: ChainId
+  readOnlyChainId?: ChainId
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
   supportedChains: number[]
