@@ -10,7 +10,7 @@ import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
 
 interface DAppProviderProps {
   children: ReactNode
-  config: Partial<Config>
+  config: Config
 }
 
 export function DAppProvider({ config, children }: DAppProviderProps) {

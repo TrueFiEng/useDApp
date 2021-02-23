@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ChainId, DAppProvider, Config } from '@usedapp/core'
+import { ChainId, DAppProvider } from '@usedapp/core'
 import { App } from './App'
 
-const config: Partial<Config> = {
+const config = {
   readOnlyChainId: ChainId.Mainnet,
   readOnlyUrls: {
     [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',

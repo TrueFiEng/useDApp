@@ -8,10 +8,12 @@ export type MulticallAddresses = {
   [chainId: number]: string
 }
 
-export type Config = {
+export type FullConfig = {
   readOnlyChainId?: ChainId
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
   supportedChains: number[]
   pollingInterval?: number
 }
+
+export type Config = Partial<FullConfig>

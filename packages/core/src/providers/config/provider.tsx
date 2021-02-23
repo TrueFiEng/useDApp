@@ -5,7 +5,7 @@ import { ConfigContext } from './context'
 
 interface ConfigProviderProps {
   children: ReactNode
-  config: Partial<Config>
+  config: Config
 }
 
 export function ConfigProvider({ config, children }: ConfigProviderProps) {
