@@ -15,7 +15,7 @@ export function ReadOnlyProviderActivator({ readOnlyChainId, readOnlyUrls }: Rea
     if (!active || (connector instanceof NetworkConnector && connectedChainId !== readOnlyChainId)) {
       activate(new NetworkConnector({ defaultChainId: readOnlyChainId, urls: readOnlyUrls || [] }))
     }
-  }, [active, account, connectedChainId, connector])
+  }, [readOnlyChainId, readOnlyUrls, active, account, connectedChainId, connector])
 
   return null
 }
