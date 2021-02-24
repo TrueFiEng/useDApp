@@ -178,3 +178,43 @@ Constants
 *********
 
 **ChainId**
+
+
+Providers
+*********
+
+getExplorerAddressLink
+======================
+
+Returns url pointing to blockchain exporer for given address on a given chain.
+
+**Example**
+.. code-block:: javascript
+
+  getExplorerAddressLink(address: string, chainId: ChainId)
+
+
+getExplorerTransactionLink
+==========================
+
+
+**Example**
+.. code-block:: javascript
+
+  getExplorerTransactionLink(transactionHash: string, chainId: ChainId)
+
+getChainName
+============
+
+**Example**
+.. code-block:: javascript
+
+  getChainName(chainId: ChainId)
+
+
+isTestChain
+===========
+
+**Example**
+.. code-block:: javascript
+  isTestChain(chainId: ChainId)
