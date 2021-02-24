@@ -1,12 +1,9 @@
+import { useBlockMeta, useBlockNumber, useEthers } from '@usedapp/core'
 import React from 'react'
-import { useBlockNumber, useBlockMeta, useEthers } from '@usedapp/core'
-import { InjectedConnector } from '@web3-react/injected-connector'
-
-const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 42] })
 
 export function App() {
   const blockNumber = useBlockNumber()
-  const { chainId, activate, deactivate, account } = useEthers()
+  const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
   const { timestamp, difficulty } = useBlockMeta()
 
   return (
@@ -16,7 +13,7 @@ export function App() {
       {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
       {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
       <div>
-        <button onClick={() => activate(injected)}>Connect</button>
+        <button onClick={() => activateBrowserWallet()}>Connect</button>
         <button onClick={() => deactivate()}>Disconnect</button>
       </div>
       {account && <p>Account: {account}</p>}

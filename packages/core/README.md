@@ -50,16 +50,18 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { activate, account } = useEthers()
+  const { activateBrowserWallet, account } = useEthers()
   return (
       <div>
-        <button onClick={() => activate(injected)}>Connect</button>
+        <button onClick={() => activateBrowserWallet()}>Connect</button>
       </div>
       {account && <p>Account: {account}</p>}
     </div>
   )
 }
 ```
+
+Example application is available [here](https://app.netlify.com/sites/usedapp-example/overview).
 
 
 ## Documentation

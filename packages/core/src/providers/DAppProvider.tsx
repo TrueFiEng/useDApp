@@ -1,10 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers'
-import { Web3ReactProvider } from '@web3-react/core'
 import { ReactNode } from 'react'
 import { MULTICALL_ADDRESSES } from '../constants'
-import { Config } from '../model/Config'
+import { Config } from '../model/config/Config'
+import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
+import { useConfig } from './config/context'
+import { EthersProvider } from './EthersProvider'
 import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
 
 interface DAppProviderProps {
@@ -13,22 +14,28 @@ interface DAppProviderProps {
 }
 
 export function DAppProvider({ config, children }: DAppProviderProps) {
-  const multicallAddresses = { ...MULTICALL_ADDRESSES, ...config.multicallAddresses }
-
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <BlockNumberProvider>
-        {config.readOnlyChain && config.readOnlyUrls && (
-          <ReadOnlyProviderActivator chainId={config.readOnlyChain} nodeUrls={config.readOnlyUrls} />
-        )}
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
-    </Web3ReactProvider>
+    <ConfigProvider config={config}>
+      <DAppProviderWithConfig>{children}</DAppProviderWithConfig>
+    </ConfigProvider>
   )
 }
 
-function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider, 'any')
-  library.pollingInterval = 15000
-  return library
+interface WithConfigProps {
+  children: ReactNode
+}
+
+function DAppProviderWithConfig({ children }: WithConfigProps) {
+  const { multicallAddresses, readOnlyChainId, readOnlyUrls } = useConfig()
+  const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
+  return (
+    <EthersProvider>
+      <BlockNumberProvider>
+        {readOnlyChainId && readOnlyUrls && (
+          <ReadOnlyProviderActivator readOnlyChainId={readOnlyChainId} readOnlyUrls={readOnlyUrls} />
+        )}
+        <ChainStateProvider multicallAddresses={multicallAddressesMerged}>{children}</ChainStateProvider>
+      </BlockNumberProvider>
+    </EthersProvider>
+  )
 }

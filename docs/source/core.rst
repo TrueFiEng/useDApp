@@ -8,13 +8,34 @@ Providers
 
 Provides basic DApp services for hooks ...
 
-Combines following components: ``<Web3ReactProvider>``, <BlockNumberProvider>``, ``<ChainStateProvider>``, ``<ReadOnlyProviderActivator>``
+It combines following components: ``<ConfigProvider>``, ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>`` and ``<ReadOnlyProviderActivator>``
+
+**<ConfigProvider>**
+
+**<EthersProvider>**
 
 **<BlockNumberProvider>**
 
 **<ChainStateProvider>**
 
 **<ReadOnlyProviderActivator>**
+
+
+Configuration
+-------------
+
+**readOnlyChain**
+
+chainId of a chain to connect in read-only mode
+
+**readOnlyUrls**
+
+**multicallAddresses**
+
+**supportedChains**
+
+**pollingInterval**
+New block checking polling interval 
 
 Hooks
 -----

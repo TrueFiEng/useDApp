@@ -1,22 +1,21 @@
-import { useEffect } from 'react'
 import { NetworkConnector } from '@web3-react/network-connector'
+import { useEffect } from 'react'
 import { ChainId } from '../constants'
 import { useEthers } from '../hooks'
-import { NodeUrls } from '../model/Config'
+import { NodeUrls } from '../model'
 
 interface ReadOnlyProviderActivatorProps {
-  chainId: ChainId
-  nodeUrls: NodeUrls
+  readOnlyChainId: ChainId
+  readOnlyUrls: NodeUrls
 }
 
-export function ReadOnlyProviderActivator({ chainId, nodeUrls }: ReadOnlyProviderActivatorProps) {
+export function ReadOnlyProviderActivator({ readOnlyChainId, readOnlyUrls }: ReadOnlyProviderActivatorProps) {
   const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
-
   useEffect(() => {
-    if (!active || (connector instanceof NetworkConnector && connectedChainId !== chainId)) {
-      activate(new NetworkConnector({ defaultChainId: chainId, urls: nodeUrls }))
+    if (!active || (connector instanceof NetworkConnector && connectedChainId !== readOnlyChainId)) {
+      activate(new NetworkConnector({ defaultChainId: readOnlyChainId, urls: readOnlyUrls || [] }))
     }
-  }, [chainId, active, account, connectedChainId, connector])
+  }, [readOnlyChainId, readOnlyUrls, active, account, connectedChainId, connector])
 
   return null
 }

@@ -1,6 +1,6 @@
 # New Project
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+> ✨ Example useDApp application.
 
 ## Available Scripts
 
