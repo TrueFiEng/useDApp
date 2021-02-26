@@ -38,14 +38,15 @@ export function App() {
     })()
   }, [])
 
-  const balances = useContractCalls(tokenList && account
-    ? tokenList.tokens.map((token: any) => ({
-        abi: ERC20Interface,
-        address: token.address,
-        method: 'balanceOf',
-        args: [account]
-      }))
-    : []
+  const balances = useContractCalls(
+    tokenList && account
+      ? tokenList.tokens.map((token: any) => ({
+          abi: ERC20Interface,
+          address: token.address,
+          method: 'balanceOf',
+          args: [account],
+        }))
+      : []
   )
 
   return (

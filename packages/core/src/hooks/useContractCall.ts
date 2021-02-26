@@ -30,7 +30,6 @@ export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
 }
 
 export function useContractCalls(calls: ContractCall[]): (any[] | undefined)[] {
-  console.log(calls)
   const results = useChainCalls(
     calls.map((call) => ({
       address: call.address,
