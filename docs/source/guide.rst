@@ -23,7 +23,7 @@ If that is too complex consider using a custom backend or The Graph.
 Custom hooks
 ************
 
-Creating a custom hook with the use of our core hooks is very easy, as an example let's write a *useTokenBalance* hook.
+Creating a custom hook with the use of our core hooks is straightforward, as an example let's write a *useTokenBalance* hook.
 
 The hook will retrieve a balance of an ERC20 token of the provided address.
 
@@ -39,7 +39,6 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     return tokenBalance
   }
 
-As you can see by using *useContractCall* getting a token balance is simple.
 The *useContractCall* hook will take care of updating the balance of new blocks.
 The results are deferred so that the hook does not update too frequently.
 
