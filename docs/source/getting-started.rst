@@ -60,7 +60,7 @@ Below is a simple example:
 Full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
 
-First thing you need to do is set up DAppPRovider with optional config and wrap your whole App in it. You can read about config here.
+First thing you need to do is set up DAppPRovider with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
 
 .. code-block:: jsx
 
