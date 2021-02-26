@@ -27,6 +27,7 @@
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "7.19.0",
+    "ethers": "^5.0.31",
     "html-webpack-plugin": "^4.5.0",
     "prettier": "^2.0.5",
     "ts-loader": "^8.0.7",
