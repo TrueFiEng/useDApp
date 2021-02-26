@@ -1,4 +1,3 @@
-import { Interface } from '@ethersproject/abi'
 import { formatUnits, formatEther } from '@ethersproject/units'
 import { getAddress } from '@ethersproject/address'
 import React, { useEffect, useState } from 'react'
@@ -11,6 +10,7 @@ import {
   useEtherBalance,
   ChainId,
   useTokenBalance,
+  ERC20Interface,
 } from '@usedapp/core'
 
 const DAI_ADDRESSES = {
@@ -21,8 +21,6 @@ const DAI_ADDRESSES = {
   [ChainId.Goerli]: '0x73967c6a0904aa032c103b4104747e88c566b1a2',
   [ChainId.xDai]: undefined,
 }
-
-const ERC20Interface = new Interface(['function balanceOf(address) view returns(uint256)'])
 
 export function App() {
   const blockNumber = useBlockNumber()
