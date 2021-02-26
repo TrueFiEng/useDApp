@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5dae580: Added missing dependency.
+- 5dae580: Added a missing dependency.
 
 ## 0.1.4
 
