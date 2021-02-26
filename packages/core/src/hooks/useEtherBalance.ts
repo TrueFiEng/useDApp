@@ -6,6 +6,11 @@ import { BigNumber } from '@ethersproject/bignumber'
 
 export function useEtherBalance(address: string | Falsy): BigNumber | undefined {
   const multicallAddress = useMulticallAddress()
-  const [etherBalance] = useContractCall(MultiCallABI, multicallAddress, 'getEthBalance', address && [address]) ?? []
+  const [etherBalance] = useContractCall(multicallAddress && {
+    abi: MultiCallABI,
+    address: multicallAddress, 
+    method: 'getEthBalance', 
+    args: [address]
+  }) ?? []
   return etherBalance
 }
