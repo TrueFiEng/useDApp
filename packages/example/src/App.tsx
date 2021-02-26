@@ -11,7 +11,7 @@ export function App() {
   const blockNumber = useBlockNumber()
   const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
   const { timestamp, difficulty } = useBlockMeta()
-  const { etherBalance } = useEtherBalance(account)
+  const etherBalance = useEtherBalance(account)
 
   const [tokenList, setTokenList] = useState<any>()
   useEffect(() => {
@@ -29,7 +29,9 @@ export function App() {
           data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
         }))
       : []
-  ).map((data) => data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0])
+  ).map((data) => {
+    return data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0]
+  })
 
   return (
     <Background>
