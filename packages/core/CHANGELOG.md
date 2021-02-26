@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.1.5
+
+### Patch Changes
+
+- 5dae580: Added a missing dependency.
+
 ## 0.1.4
 
 ### Patch Changes
