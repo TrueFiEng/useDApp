@@ -169,7 +169,7 @@ List of intended supported chains. If use tries to connect
   ``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
 
 **pollingInterval**
-Polling interval for new block.
+Polling interval for a new block.
 
 Currency
 ========
