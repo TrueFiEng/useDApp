@@ -18,6 +18,6 @@ Creating a custom hook with the use of our core hooks is very easy, as an exampl
     return etherBalance  // returns ether balance
   }
 
-As you can see by using *useMulticallAddress* and *useChainCall* getting an ether balance is simple.
+As you can see by using *useMulticallAddress* and *useContractCall* getting an ether balance is simple.
 
 All core hooks are available `here <https://github.com/EthWorks/useDapp/tree/master/packages/core/src/hooks>`_
