@@ -11,26 +11,6 @@ export const DEFAULT_OPTIONS = {
 
 export type CurrencyFormatOptions = typeof DEFAULT_OPTIONS
 
-export function cryptoFormatOptions(ticker: string, decimals = 18): CurrencyFormatOptions {
-  return {
-    ...DEFAULT_OPTIONS,
-    decimals,
-    suffix: ` ${ticker}`,
-    significantDigits: 6,
-  }
-}
-
-export function fiatFormatOptions(prefix: string, suffix: string, decimals = 2): CurrencyFormatOptions {
-  return {
-    ...DEFAULT_OPTIONS,
-    decimals,
-    useFixedPrecision: true,
-    fixedPrecisionDigits: decimals,
-    prefix,
-    suffix,
-  }
-}
-
 const INPUT_REGEX = /^\d*$/
 
 export function formatCurrency(options: CurrencyFormatOptions, value: string): string {
