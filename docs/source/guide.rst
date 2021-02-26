@@ -1,5 +1,5 @@
 Performant idiomatic React
-######
+##############################
 
 
 Guides
@@ -11,7 +11,7 @@ Reading from blockchain
 When using hooks based on useChainCall there are important considerations;
 
 Avoid using the result of one hook in another
-=========================================
+==================================================
 
 Avoid using the result of one hook in another.
 This will break single multicall into multiple multicalls. 
