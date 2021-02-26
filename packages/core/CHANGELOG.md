@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.1.6
+
+### Patch Changes
+
+- 09ee2b8: Added useEtherBalance hook
+
 ## 0.1.5
 
 ### Patch Changes
