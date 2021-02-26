@@ -32,13 +32,13 @@
   "dependencies": {
     "@ethersproject/providers": "^5.0.17",
     "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
     "@web3-react/core": "^6.1.1",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/network-connector": "^6.1.5",
-    "ethereum-waffle": "^3.2.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "ethereum-waffle": "^3.2.2"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "scripts": {
     "build": "tsc",
