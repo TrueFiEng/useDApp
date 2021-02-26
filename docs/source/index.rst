@@ -1,10 +1,10 @@
 .. image:: logo.png
 
-Ethereum 🤝 React 
+Ethereum 🤝 React
 
 useDapp Documentation
 =====================
-| Framework for rapid Dapp development.  
+| Framework for rapid Dapp development.
 | Simple. Robust. Extendable. Testable.
 
 .. toctree::
@@ -12,5 +12,5 @@ useDapp Documentation
    :caption: Contents:
 
    getting-started.rst
-   core.rst
    guide.rst
+   core.rst

@@ -4,7 +4,7 @@ Getting started
 Installation
 ------------
 
-To start working with useDapp you need to have working React environment. 
+To start working with useDapp you need to have working React environment.
 
 To get started, add following npm package :code:`@usedapp/core` to your project:
 
