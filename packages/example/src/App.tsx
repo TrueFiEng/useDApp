@@ -12,23 +12,27 @@ export function App() {
   const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
   const { timestamp, difficulty } = useBlockMeta()
 
-  const [tokenList, setTokenList] = useState<any>();
+  const [tokenList, setTokenList] = useState<any>()
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const res = await fetch('https://wispy-bird-88a7.uniswap.workers.dev/?url=http://erc20.cmc.eth.link')
       setTokenList(await res.json())
     })()
   })
 
   // TODO(marik-d): Fix this and use existing hook and currency value class.
-  const balances = useChainCalls(tokenList && account ? tokenList.tokens.map((token: any) => ({
-    address: token.address,
-    data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
-  })) : []).map(data => data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0])
+  const balances = useChainCalls(
+    tokenList && account
+      ? tokenList.tokens.map((token: any) => ({
+          address: token.address,
+          data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
+        }))
+      : []
+  ).map((data) => data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0])
 
   return (
     <Background className="App">
-      <Global/>
+      <Global />
       <p>Chain id: {chainId}</p>
       <p>Current block: {blockNumber}</p>
       {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
@@ -39,16 +43,21 @@ export function App() {
       </div>
       {account && <p>Account: {account}</p>}
       <TokenList>
-        {tokenList && tokenList.tokens.map((token: any, idx: number) => (
-          <TokenItem>
-            <TokenIconContainer>
-              <TokenIcon src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getAddress(token.address)}/logo.png`}/>
-            </TokenIconContainer>
-            <TokenName>{token.name}</TokenName>
-            <TokenTicker>{token.symbol}</TokenTicker>
-            <TokenBalance>{balances?.[idx] && formatUnits(balances[idx], token.decimals)}</TokenBalance>
-          </TokenItem>
-        ))}
+        {tokenList &&
+          tokenList.tokens.map((token: any, idx: number) => (
+            <TokenItem>
+              <TokenIconContainer>
+                <TokenIcon
+                  src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getAddress(
+                    token.address
+                  )}/logo.png`}
+                />
+              </TokenIconContainer>
+              <TokenName>{token.name}</TokenName>
+              <TokenTicker>{token.symbol}</TokenTicker>
+              <TokenBalance>{balances?.[idx] && formatUnits(balances[idx], token.decimals)}</TokenBalance>
+            </TokenItem>
+          ))}
       </TokenList>
     </Background>
   )
@@ -76,8 +85,8 @@ const TokenList = styled.ul`
 const TokenItem = styled.li`
   display: grid;
   grid-template-areas:
-    "icon name balance"
-    "icon ticker balance";
+    'icon name balance'
+    'icon ticker balance';
   grid-template-columns: auto 1fr auto;
   grid-column-gap: 16px;
   margin: 8px;
