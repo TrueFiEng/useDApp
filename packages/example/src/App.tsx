@@ -81,6 +81,7 @@ const Global = createGlobalStyle`
 const Background = styled.div`
   background-color: #f3f4f9;
   overflow: auto;
+  min-height: 100vh;
 `
 
 const TokenList = styled.ul`
