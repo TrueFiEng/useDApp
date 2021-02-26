@@ -50,7 +50,7 @@ Below is a simple example:
     const etherBalance = useEtherBalance(account)
     return (
         <div>
-          <button onClick={() => activateBrowserWallet(injected)}>Connect</button>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
         </div>
         {account && <p>Account: {account}</p>}
         {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
