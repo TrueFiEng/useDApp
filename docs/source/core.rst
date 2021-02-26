@@ -192,7 +192,7 @@ Helpers
 getExplorerAddressLink
 ======================
 
-Returns url to blockchain exporer for an address on a given chain.
+Returns URL to blockchain explorer for an address on a given chain.
 
 **Parameters**
 
