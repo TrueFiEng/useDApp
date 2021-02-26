@@ -1,14 +1,11 @@
 import { Interface } from '@ethersproject/abi'
-import { useChainCall } from './useChainCalls'
+import { BigNumber } from '@ethersproject/bignumber'
+import { Falsy } from '../model/types'
+import { useContractCall } from './useContractCall'
 
 const TokenABI = new Interface(['function balanceOf (address) view returns (uint256)'])
 
-type Address = string | undefined | null
-
-export function useTokenBalance(address: Address, tokenAddress: Address) {
-  const balanceOfCall = address && TokenABI.encodeFunctionData('balanceOf', [address])
-
-  const tokenBalance = useChainCall(balanceOfCall && tokenAddress && { address: tokenAddress, data: balanceOfCall })
-
-  return { tokenBalance }
+export function useTokenBalance(address: string | Falsy, tokenAddress: string | Falsy): BigNumber | undefined {
+  const [tokenBalance] = useContractCall(TokenABI, tokenAddress, 'balanceOf', address && [address]) ?? []
+  return tokenBalance
 }
