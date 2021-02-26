@@ -2,8 +2,9 @@ import { MultiCallABI } from '../constants'
 import { useChainCall } from './useChainCalls'
 import { useMulticallAddress } from './useMulticallAddress'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Falsy } from '../model/types'
 
-export function useEtherBalance(address: string | undefined | null) {
+export function useEtherBalance(address: string | Falsy) {
   const multicallAddress = useMulticallAddress()
   const getEthBalanceCall = address && MultiCallABI.encodeFunctionData('getEthBalance', [address])
 
