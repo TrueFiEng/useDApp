@@ -46,12 +46,14 @@ Below is a simple example:
   )
 
   export function App() {
-    const { activate, account } = useEthers()
+    const { activateBrowserWallet, account } = useEthers()
+    const etherBalance = useEtherBalance(account)
     return (
         <div>
-          <button onClick={() => activate(injected)}>Connect</button>
+          <button onClick={() => activateBrowserWallet(injected)}>Connect</button>
         </div>
         {account && <p>Account: {account}</p>}
+        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
       </div>
     )
   }
@@ -60,7 +62,7 @@ Below is a simple example:
 Full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
 
-First thing you need to do is set up DAppPRovider with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
+First thing you need to do is set up **DAppPRovider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
 
 .. code-block:: jsx
 
@@ -68,22 +70,22 @@ First thing you need to do is set up DAppPRovider with optional config and wrap 
     <App /> {/* Wrap your app with the Provider */}
   </DAppProvider>
 
-Second thing to do is to activate user account. It's better to do so after the user explicitly clicks a button.
+Second thing to do is to activate user account using **activateBrowserWallet**. It's better to do so after the user explicitly clicks a button.
 
 .. code-block:: jsx
 
   export function App() {
-    const { activate, account } = useEthers()
+    const { activateBrowserWallet, account } = useEthers()
     return (
         <div>
-          <button onClick={() => activate(injected)}>Connect</button>
+          <button onClick={() => activateBrowserWallet(injected)}>Connect</button>
         </div>
         {account && <p>Account: {account}</p>}
       </div>
     )
   }
 
-After the activation the account field will contain the user address.
+After the activation (i.e user connects to a wallet like MetaMask) the account field will contain the user address.
 
 
 Fetching balance
