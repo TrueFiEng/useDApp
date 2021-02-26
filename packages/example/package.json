@@ -11,9 +11,11 @@
     "lint:prettier": "yarn prettier './{src, test}/**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.7",
     "@usedapp/core": "*",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@testing-library/react": "^11.0.0",
