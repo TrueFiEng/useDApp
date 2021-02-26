@@ -5,7 +5,7 @@ const MultiCallABI = new Interface(MultiCall.abi)
 
 export { MultiCall, MultiCallABI }
 
-export const ERC20ABI = new Interface([
+const ERC20ABI = [
   'constructor(uint256 _totalSupply)',
   'event Approval(address indexed owner, address indexed spender, uint256 value)',
   'event Transfer(address indexed from, address indexed to, uint256 value)',
@@ -22,4 +22,5 @@ export const ERC20ABI = new Interface([
   'function totalSupply() view returns(uint256)',
   'function transfer(address to, uint256 value) returns(bool)',
   'function transferFrom(address from, address to, uint256 value) returns(bool)',
-])
+]
+export const ERC20Interface = new Interface(ERC20ABI)
