@@ -142,7 +142,7 @@ Config
 
 **readOnlyChainId**
 
-``ChainId`` of a chain to connect to by deafult in a read-only mode
+``ChainId`` of a chain you want to connect to by default in a read-only mode
 
 **readOnlyUrls**
 
