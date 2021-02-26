@@ -70,7 +70,7 @@ First thing you need to do is set up **DAppPRovider** with optional config and w
     <App /> {/* Wrap your app with the Provider */}
   </DAppProvider>
 
-Second thing to do is to activate user account using **activateBrowserWallet**. It's better to do so after the user explicitly clicks a button.
+Then you need to activate the provider using **activateBrowserWallet**. It's better to do so after the user explicitly clicks a button.
 
 .. code-block:: jsx
 
@@ -78,7 +78,7 @@ Second thing to do is to activate user account using **activateBrowserWallet**. 
     const { activateBrowserWallet, account } = useEthers()
     return (
         <div>
-          <button onClick={() => activateBrowserWallet(injected)}>Connect</button>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
         </div>
         {account && <p>Account: {account}</p>}
       </div>
