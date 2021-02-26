@@ -31,17 +31,19 @@ export function App() {
   ).map((data) => data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0])
 
   return (
-    <Background className="App">
+    <Background>
       <Global />
-      <p>Chain id: {chainId}</p>
-      <p>Current block: {blockNumber}</p>
-      {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
-      {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
       <div>
-        <button onClick={() => activateBrowserWallet()}>Connect</button>
-        <button onClick={() => deactivate()}>Disconnect</button>
+        <p>Chain id: {chainId}</p>
+        <p>Current block: {blockNumber}</p>
+        {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
+        {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
+        <div>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
+          <button onClick={() => deactivate()}>Disconnect</button>
+        </div>
+        {account && <p>Account: {account}</p>}
       </div>
-      {account && <p>Account: {account}</p>}
       <TokenList>
         {tokenList &&
           tokenList.tokens.map((token: any, idx: number) => (
@@ -65,12 +67,20 @@ export function App() {
 
 const Global = createGlobalStyle`
   * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
   }
 `
 
 const Background = styled.div`
   background-color: #f3f4f9;
+  overflow: auto;
 `
 
 const TokenList = styled.ul`
