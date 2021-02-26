@@ -8,12 +8,13 @@ export function useEtherBalance(address: string | Falsy): BigNumber | undefined 
   const multicallAddress = useMulticallAddress()
   const [etherBalance] =
     useContractCall(
-      multicallAddress && {
-        abi: MultiCallABI,
-        address: multicallAddress,
-        method: 'getEthBalance',
-        args: [address],
-      }
+      multicallAddress &&
+        address && {
+          abi: MultiCallABI,
+          address: multicallAddress,
+          method: 'getEthBalance',
+          args: [address],
+        }
     ) ?? []
   return etherBalance
 }

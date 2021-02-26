@@ -1,7 +1,7 @@
 import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
 import { Falsy } from '../model/types'
-import { useChainCall } from './useChainCalls'
+import { useChainCall, useChainCalls } from './useChainCalls'
 
 export interface ContractCall {
   abi: Interface
@@ -25,6 +25,24 @@ export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
 
   return useMemo(
     () => (call && result !== undefined ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined),
-    [call, result]
+    [result]
+  )
+}
+
+export function useContractCalls(calls: ContractCall[]): (any[] | undefined)[] {
+  console.log(calls)
+  const results = useChainCalls(
+    calls.map((call) => ({
+      address: call.address,
+      data: call.abi.encodeFunctionData(call.method, call.args),
+    }))
+  )
+
+  return useMemo(
+    () =>
+      results.map((result, idx) =>
+        result ? (calls[idx].abi.decodeFunctionResult(calls[idx].method, result) as any[]) : undefined
+      ),
+    [results]
   )
 }
