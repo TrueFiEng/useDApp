@@ -1,17 +1,33 @@
-import { Interface } from '@ethersproject/abi'
 import { formatUnits, formatEther } from '@ethersproject/units'
 import { getAddress } from '@ethersproject/address'
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import { useBlockMeta, useBlockNumber, useEthers, useChainCalls, useEtherBalance } from '@usedapp/core'
+import {
+  useBlockMeta,
+  useBlockNumber,
+  useEthers,
+  useChainCalls,
+  useEtherBalance,
+  ChainId,
+  useTokenBalance,
+  ERC20Interface,
+} from '@usedapp/core'
 
-const ERC20Interface = new Interface(['function balanceOf(address) view returns(uint256)'])
+const DAI_ADDRESSES = {
+  [ChainId.Mainnet]: '0x6b175474e89094c44da98b954eedeac495271d0f',
+  [ChainId.Ropsten]: '0xad6d458402f60fd3bd25163575031acdce07538d',
+  [ChainId.Kovan]: '0xc4375b7de8af5a38a93548eb8453a498222c4ff2',
+  [ChainId.Rinkeby]: '0x95b58a6bff3d14b7db2f5cb5f0ad413dc2940658',
+  [ChainId.Goerli]: '0x73967c6a0904aa032c103b4104747e88c566b1a2',
+  [ChainId.xDai]: undefined,
+}
 
 export function App() {
   const blockNumber = useBlockNumber()
   const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
   const { timestamp, difficulty } = useBlockMeta()
   const etherBalance = useEtherBalance(account)
+  const daiBalance = useTokenBalance(account, chainId && DAI_ADDRESSES[chainId])
 
   const [tokenList, setTokenList] = useState<any>()
   useEffect(() => {
@@ -19,7 +35,7 @@ export function App() {
       const res = await fetch('https://wispy-bird-88a7.uniswap.workers.dev/?url=http://erc20.cmc.eth.link')
       setTokenList(await res.json())
     })()
-  })
+  }, [])
 
   // TODO(marik-d): Fix this and use existing hook and currency value class.
   const balances = useChainCalls(
@@ -42,6 +58,7 @@ export function App() {
         {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
         {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
         {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
+        {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
         <div>
           <button onClick={() => activateBrowserWallet()}>Connect</button>
           <button onClick={() => deactivate()}>Disconnect</button>
