@@ -13,4 +13,4 @@ useDapp Documentation
 
    getting-started.rst
    core.rst
-   test.rst
+   guide.rst

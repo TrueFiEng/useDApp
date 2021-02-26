@@ -1,65 +1,180 @@
-Core
-====
+Core API
+########
 
 Providers
----------
+*********
 
-**<DAppProvider config={...} >**
+<DAppProvider>
+==============
 
-Provides basic DApp services for hooks ...
-
-It combines following components: ``<ConfigProvider>``, ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>`` and ``<ReadOnlyProviderActivator>``
-
-**<ConfigProvider>**
-
-**<EthersProvider>**
-
-**<BlockNumberProvider>**
-
-**<ChainStateProvider>**
-
-**<ReadOnlyProviderActivator>**
+Provides basic services for a DApp. It combines the following components: ``<ConfigProvider>``, ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>`` and ``<ReadOnlyProviderActivator>``
 
 
-Configuration
--------------
+*Properties:*
 
-**readOnlyChain**
+- ``config: Partial<Config>``: configuration of the Dapp, see `Config`_
 
-chainId of a chain to connect in read-only mode
+*Example:*
+
+.. code-block:: jsx
+
+  const config = {
+    readOnlyChainId: ChainId.Mainnet,
+    readOnlyUrls: {
+      [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+    },
+  }
+  
+  return (
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>
+  )
+
+
+
+<ConfigProvider>
+================
+
+Stores configurations and makes them available via `useConfig`_ hook.
+
+
+<EthersProvider>
+================
+
+*Requires:* ``ConfigProvider``
+
+
+<BlockNumberProvider>
+=====================
+
+
+<ChainStateProvider>
+====================
+
+
+<ReadOnlyProviderActivator>
+===========================
+
+
+Hooks
+*****
+
+useBlock
+========
+
+useBlockMeta
+============
+
+useChainCalls
+=============
+
+*Parameters*
+
+- ``calls: ChainCall[]``
+
+
+useConfig
+=========
+
+
+
+useDebounce
+===========
+
+**Generic parameters**
+
+- ``T`` 
+
+**Parameters**
+
+- delay: number
+
+**Returns**
+
+- ``T`` 
+
+useDebouncePair
+===============
+
+**Generic parameters**
+
+- ``T`` 
+- ``U`` 
+
+**Parameters**
+
+- ``first: T``
+- ``second: U``
+- ``delay: number``
+
+**Returns**
+
+- ``[T, U]`` 
+
+useEthers
+=========
+
+Returns connection state and functions that allow to manipulate the state.
+
+**Returns:**
+
+    - ``account: null | string`` - current user account (or *null* if not connected or connected in read-only mode)
+    - ``chainId: ChainId`` - current chainId (or *undefined* if not connected)
+    - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
+    - ``active: boolean`` - returns if provider is connected (read or write mode)
+    - ``activateBrowserWallet()`` - function that will inititate connection to browser web3 extension (e.g. Metamask)
+    - ``async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)`` - function that allows to connect to a wallet
+    - ``async deactivate()`` - function that disconnects wallet
+    - ``error?: Error`` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
+
+
+*Requires:* ``<ConfigProvider>``
+
+useMulticallAddress
+===================
+
+Models
+******
+
+Config
+======
+
+**readOnlyChainId**
+
+``ChainId`` of a chain you want to connect to by default in a read-only mode
 
 **readOnlyUrls**
+
+Mapping of ``ChainId``'s to node URLs to use in read-only mode.
+
+*Example*
+
+.. code-block:: javascript
+
+  {
+    ...
+    readOnlyUrls: {
+      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
+    }
+  }
+
 
 **multicallAddresses**
 
 **supportedChains**
+List of intended supported chains. If use tries to connect 
+
+*Default value:*
+  ``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
 
 **pollingInterval**
-New block checking polling interval 
+Polling interval for a new block.
 
-Hooks
------
-
-**useBlock**
-
-**useBlockMeta ()**
-
-**useChainCalls (calls: ChainCall[])**
-
-**useDebounce <T> (value: T, delay: number): T**
-
-**useDebouncePair <T, U> (first: T, second: U, delay: number): [T, U]**
-
-**useEthers ()**
-
-**useMulticallAddress ()**
-
-Model
------
-
-**Currency**
+Currency
+========
 
 Constants
----------
+*********
 
 **ChainId**
