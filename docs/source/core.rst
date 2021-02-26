@@ -217,11 +217,11 @@ Returns URL to blockchain explorer for an address on a given chain.
 getExplorerTransactionLink
 ==========================
 
-Returns url to blockchain exporer for a transaction hash on a given chain.
+Returns URL to blockchain explorer for a transaction hash on a given chain.
 
 **Parameters**
 
-- ``transactionHash: string`` - hash of transaction
+- ``transactionHash: string`` - hash of a transaction
 - ``chainId: ChainId`` - id of a chain
 
 **Example**
@@ -229,13 +229,13 @@ Returns url to blockchain exporer for a transaction hash on a given chain.
 .. code-block:: javascript
 
   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
-  //https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+  // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
-  //https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+  // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
-  //https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
+  // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
 getChainName
 ============
