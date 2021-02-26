@@ -21,7 +21,7 @@ export function App() {
 
   const balances = useChainCalls(tokenList && account ? tokenList.tokens.map((token: any) => ({
     address: token.address,
-    data: ERC20Interface.encodeFunctionData('balanceOf', ['0xa3b68EA817a1B9fe8365723cEFe23353BA5c47B1']),
+    data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
   })) : []).map(data => data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0])
 
   return (
