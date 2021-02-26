@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.1.7
+
+### Patch Changes
+
+- 88dfc4e: Added useContractCall.
+
 ## 0.1.6
 
 ### Patch Changes
