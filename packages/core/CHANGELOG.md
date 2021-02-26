@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.1.6
+
+### Patch Changes
+
+- c230724: Use React as a peer dependency.
+- 09ee2b8: Added useEtherBalance hook
+
 ## 0.1.5
 
 ### Patch Changes
