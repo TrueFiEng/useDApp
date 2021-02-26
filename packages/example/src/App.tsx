@@ -3,7 +3,15 @@ import { formatUnits, formatEther } from '@ethersproject/units'
 import { getAddress } from '@ethersproject/address'
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import { useBlockMeta, useBlockNumber, useEthers, useChainCalls, useEtherBalance, ChainId, useTokenBalance } from '@usedapp/core'
+import {
+  useBlockMeta,
+  useBlockNumber,
+  useEthers,
+  useChainCalls,
+  useEtherBalance,
+  ChainId,
+  useTokenBalance,
+} from '@usedapp/core'
 
 const DAI_ADDRESSES = {
   [ChainId.Mainnet]: '0x6b175474e89094c44da98b954eedeac495271d0f',
@@ -11,7 +19,7 @@ const DAI_ADDRESSES = {
   [ChainId.Kovan]: '0xc4375b7de8af5a38a93548eb8453a498222c4ff2',
   [ChainId.Rinkeby]: '0x95b58a6bff3d14b7db2f5cb5f0ad413dc2940658',
   [ChainId.Goerli]: '0x73967c6a0904aa032c103b4104747e88c566b1a2',
-  [ChainId.xDai]: undefined
+  [ChainId.xDai]: undefined,
 }
 
 const ERC20Interface = new Interface(['function balanceOf(address) view returns(uint256)'])
