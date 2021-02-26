@@ -1,5 +1,4 @@
 import { MultiCallABI } from '../constants'
-import { useChainCall } from './useChainCalls'
 import { useMulticallAddress } from './useMulticallAddress'
 import { Falsy } from '../model/types'
 import { useContractCall } from './useContractCall'
