@@ -77,7 +77,7 @@ const TokenItem = styled.li`
     "icon name balance"
     "icon ticker balance";
   grid-template-columns: auto 1fr auto;
-  grid-column-gap: 8px;
+  grid-column-gap: 16px;
   margin: 8px;
   margin-top: 16px;
   align-items: center;
