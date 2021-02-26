@@ -46,12 +46,14 @@ Below is a simple example:
   )
 
   export function App() {
-    const { activate, account } = useEthers()
+    const { activateBrowserWallet, account } = useEthers()
+    const etherBalance = useEtherBalance(account)
     return (
         <div>
-          <button onClick={() => activate(injected)}>Connect</button>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
         </div>
         {account && <p>Account: {account}</p>}
+        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
       </div>
     )
   }
@@ -59,3 +61,59 @@ Below is a simple example:
 
 Full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
+
+First thing you need to do is set up **DAppPRovider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
+
+.. code-block:: jsx
+
+  <DAppProvider>
+    <App /> {/* Wrap your app with the Provider */}
+  </DAppProvider>
+
+Then you need to activate the provider using **activateBrowserWallet**. It's better to do so after the user explicitly clicks a button.
+
+.. code-block:: jsx
+
+  export function App() {
+    const { activateBrowserWallet, account } = useEthers()
+    return (
+        <div>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
+        </div>
+        {account && <p>Account: {account}</p>}
+      </div>
+    )
+  }
+
+After the activation (i.e user connects to a wallet like MetaMask) the account field will contain the user address.
+
+
+Fetching balance
+----------------
+
+`useEtherBalance` hook provides a way to fetch account's balance. You have to provide the address yourself as an argument.
+
+.. code-block:: jsx
+
+  import { formatEther } from '@ethersproject/units'
+
+  export function EtherBalance() {
+    const { account } = useEthers()
+    const etherBalance = useEtherBalance(account)
+
+    return (
+      </div>
+        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
+      </div>
+    )
+  }
+
+Token balance
+-------------
+
+TODO
+
+Read-only provider
+------------------
+
+TODO
