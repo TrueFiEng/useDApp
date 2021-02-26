@@ -4,6 +4,15 @@ import { Falsy } from '../model/types'
 import { useContractCall } from './useContractCall'
 
 export function useTokenBalance(address: string | Falsy, tokenAddress: string | Falsy): BigNumber | undefined {
-  const [tokenBalance] = useContractCall(ERC20Interface, tokenAddress, 'balanceOf', address && [address]) ?? []
+  const [tokenBalance] =
+    useContractCall(
+      address &&
+        tokenAddress && {
+          abi: ERC20Interface,
+          address: tokenAddress,
+          method: 'balanceOf',
+          args: [address],
+        }
+    ) ?? []
   return tokenBalance
 }
