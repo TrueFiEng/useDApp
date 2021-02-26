@@ -1,9 +1,8 @@
 import { Interface } from '@ethersproject/abi'
-import { formatUnits } from '@ethersproject/units'
+import { formatUnits, formatEther } from '@ethersproject/units'
 import { getAddress } from '@ethersproject/address'
 import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import { utils } from 'ethers'
 import { useBlockMeta, useBlockNumber, useEthers, useChainCalls, useEtherBalance } from '@usedapp/core'
 
 const ERC20Interface = new Interface(['function balanceOf(address) view returns(uint256)'])
@@ -40,7 +39,7 @@ export function App() {
         <p>Current block: {blockNumber}</p>
         {difficulty && <p>Current difficulty: {difficulty.toString()}</p>}
         {timestamp && <p>Current block timestamp: {timestamp.toLocaleString()}</p>}
-        {etherBalance && <p>Ether balance: {utils.formatEther(etherBalance)} ETH </p>}
+        {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
         <div>
           <button onClick={() => activateBrowserWallet()}>Connect</button>
           <button onClick={() => deactivate()}>Disconnect</button>
