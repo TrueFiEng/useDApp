@@ -36,7 +36,7 @@ Provides basic services for a DApp. It combines the following components: ``<Con
 <ConfigProvider>
 ================
 
-Stores configurations and makes it available via `useConfig`_ hook.
+Stores configurations and makes them available via `useConfig`_ hook.
 
 
 <EthersProvider>
