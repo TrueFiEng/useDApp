@@ -73,10 +73,14 @@ function joinDecimals(integer: string, decimals: string, separator: string) {
 function toSignificant(decimal: string, integerLength: number, significantDigits: number) {
   const length = significantDigits - integerLength
   if (length > decimal.length) {
-    return decimal
+    return stripEndZeroes(decimal)
   } else {
-    return decimal.substring(0, length)
+    return stripEndZeroes(decimal.substring(0, length))
   }
+}
+
+function stripEndZeroes(value: string) {
+  return value.replace(/0+$/, '')
 }
 
 function toFixed(decimal: string, fixedPrecisionDigits: number) {
