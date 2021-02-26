@@ -163,10 +163,10 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 **multicallAddresses**
 
 **supportedChains**
-List of intended supported chains. If use tries to connect 
+List of intended supported chains. If user tries to connect to unsupported chain an error value will be returned by `useEthers`.
 
-*Default value:*
-  ``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
+**Default value:**
+``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
 
 **pollingInterval**
 Polling interval for a new block.
@@ -177,44 +177,97 @@ Currency
 Constants
 *********
 
-**ChainId**
+ChainId
+=======
+
+Enum that represents chain ids.
+
+**Values:**
+``Mainnet, Gorli, Kovan, Rinkeby, Ropsten, xDai``
 
 
-Providers
-*********
+Helpers
+*******
 
 getExplorerAddressLink
 ======================
 
-Returns url pointing to blockchain exporer for given address on a given chain.
+Returns url to blockchain exporer for an address on a given chain.
+
+**Parameters**
+
+- ``address: string`` - account address
+- ``chainId: ChainId`` - id of a chain
+
 
 **Example**
-.. code-block:: javascript
 
-  getExplorerAddressLink(address: string, chainId: ChainId)
+.. code-block:: javascript
+    
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
+  //https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
+  //https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
+  //https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
 
 getExplorerTransactionLink
 ==========================
 
+Returns url to blockchain exporer for a transaction hash on a given chain.
+
+**Parameters**
+
+- ``transactionHash: string`` - hash of transaction
+- ``chainId: ChainId`` - id of a chain
 
 **Example**
+
 .. code-block:: javascript
 
-  getExplorerTransactionLink(transactionHash: string, chainId: ChainId)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
+  //https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
+  //https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
+  //https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
 getChainName
 ============
 
+Returns name of a chain for a given `chainId`.
+
+
+**Parameters**
+
+- ``chainId: ChainId`` - id of a chain
+
 **Example**
+
 .. code-block:: javascript
 
-  getChainName(chainId: ChainId)
-
+  getChainName(ChainId.Mainnet) // Mainnet
+  getChainName(ChainId.Ropsten) // Ropsten
+  getChainName(ChainId.xDai)    // xDai
 
 isTestChain
 ===========
 
+Returns if a given chain is a testnet.
+
+**Parameters**
+
+- ``chainId: ChainId`` - id of a chain
+
 **Example**
+
 .. code-block:: javascript
-  isTestChain(chainId: ChainId)
+
+  isTestChain(ChainId.Mainnet) // true
+  isTestChain(ChainId.Ropsten) // false
+  isTestChain(ChainId.xDai)    // true
