@@ -8,7 +8,7 @@ export class Currency {
     readonly name: string,
     readonly ticker: string,
     readonly decimals: number,
-    formattingOptions: Partial<CurrencyFormatOptions>
+    formattingOptions: Partial<CurrencyFormatOptions> = {}
   ) {
     this.formattingOptions = { ...DEFAULT_OPTIONS, decimals, ...formattingOptions }
   }
@@ -19,19 +19,10 @@ export class Currency {
 }
 
 export class FiatCurrency extends Currency {
-  constructor(
-    name: string,
-    ticker: string,
-    decimals = 2,
-    prefix: string,
-    suffix: string,
-    formattingOptions: Partial<CurrencyFormatOptions> = {}
-  ) {
+  constructor(name: string, ticker: string, decimals = 2, formattingOptions: Partial<CurrencyFormatOptions> = {}) {
     super(name, ticker, decimals, {
       useFixedPrecision: true,
       fixedPrecisionDigits: decimals,
-      prefix,
-      suffix,
       ...formattingOptions,
     })
   }
