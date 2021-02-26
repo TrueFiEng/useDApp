@@ -163,7 +163,7 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 **multicallAddresses**
 
 **supportedChains**
-List of intended supported chains. If user tries to connect to unsupported chain an error value will be returned by `useEthers`.
+List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
 
 **Default value:**
 ``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
