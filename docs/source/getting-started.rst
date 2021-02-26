@@ -4,7 +4,7 @@ Getting started
 Installation
 ------------
 
-To start working with useDapp you need to have working React environment. 
+To start working with useDapp you need to have working React environment.
 
 To get started, add following npm package :code:`@usedapp/core` to your project:
 
@@ -117,3 +117,30 @@ Read-only provider
 ------------------
 
 TODO
+
+Creating new hook
+------------
+
+Creating a custom hook with use of our core hooks is very easy, as example let's write a *useEtherBalance* hook:
+
+.. code-block:: javascript
+
+  export function useEtherBalance(address: string | Falsy) {
+    const multicallAddress = useMulticallAddress() // gets address of multicall contract
+    const getEthBalanceCall = address &&
+      MultiCallABI.encodeFunctionData('getEthBalance', [address])
+    //encodes data for a function call
+
+    const etherBalance = useChainCall(
+      getEthBalanceCall && multicallAddress &&
+        { address: multicallAddress, data: getEthBalanceCall }
+    ) //makes a chain call
+
+    return { etherBalance: etherBalance !== undefined
+      ? BigNumber.from(etherBalance)
+      : undefined } //returns balance
+  }
+
+As you can see by using *useMulticallAddress* and *useChainCall* getting an ether balance is simple.
+
+All core hooks are available `here <https://github.com/EthWorks/useDapp/tree/master/packages/core/src/hooks>`_
