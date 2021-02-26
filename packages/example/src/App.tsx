@@ -108,4 +108,5 @@ const TokenTicker = styled.span`
 
 const TokenBalance = styled.span`
   grid-area: balance;
+  font-size: 1.5em;
 `
