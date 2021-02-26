@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 const ERC20Interface = new Interface(['function balanceOf(address) view returns(uint256)'])
+
 export function App() {
   const blockNumber = useBlockNumber()
   const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
@@ -19,6 +20,7 @@ export function App() {
     })()
   })
 
+  // TODO(marik-d): Fix this and use existing hook and currency value class.
   const balances = useChainCalls(tokenList && account ? tokenList.tokens.map((token: any) => ({
     address: token.address,
     data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
