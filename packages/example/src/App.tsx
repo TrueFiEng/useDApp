@@ -11,6 +11,7 @@ import {
   ChainId,
   useTokenBalance,
   ERC20Interface,
+  useContractCalls,
 } from '@usedapp/core'
 
 const DAI_ADDRESSES = {
@@ -37,17 +38,16 @@ export function App() {
     })()
   }, [])
 
-  // TODO(marik-d): Fix this and use existing hook and currency value class.
-  const balances = useChainCalls(
+  const balances = useContractCalls(
     tokenList && account
       ? tokenList.tokens.map((token: any) => ({
+          abi: ERC20Interface,
           address: token.address,
-          data: ERC20Interface.encodeFunctionData('balanceOf', [account]),
+          method: 'balanceOf',
+          args: [account],
         }))
       : []
-  ).map((data) => {
-    return data && ERC20Interface.decodeFunctionResult('balanceOf', data)[0]
-  })
+  )
 
   return (
     <Background>
@@ -78,7 +78,7 @@ export function App() {
               </TokenIconContainer>
               <TokenName>{token.name}</TokenName>
               <TokenTicker>{token.symbol}</TokenTicker>
-              <TokenBalance>{balances?.[idx] && formatUnits(balances[idx], token.decimals)}</TokenBalance>
+              <TokenBalance>{balances?.[idx] && formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>
             </TokenItem>
           ))}
       </TokenList>
