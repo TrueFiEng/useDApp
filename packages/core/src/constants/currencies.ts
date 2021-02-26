@@ -9,5 +9,5 @@ export const KovanDai = new Token(ChainId.Kovan, '0x4f96fe3b7a6cf9725f59d353f723
 
 export const NATIVE_CURRENCY = {
   [ChainId.Mainnet]: Ether,
-  [ChainId.Kovan]: KovanEther,
+  [ChainId.Kovan]: KovanEther
 }

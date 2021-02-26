@@ -12,7 +12,7 @@ export function blockNumberReducer(state: BlockNumberState = {}, action: BlockNu
   if (!current || action.blockNumber > current) {
     return {
       ...state,
-      [action.chainId]: action.blockNumber,
+      [action.chainId]: action.blockNumber
     }
   }
   return state

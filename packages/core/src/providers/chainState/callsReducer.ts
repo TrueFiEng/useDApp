@@ -21,7 +21,7 @@ export function callsReducer(state: ChainCall[] = [], action: Action) {
   } else {
     let finalState = state
     for (const call of action.calls) {
-      const index = state.findIndex((x) => x.address === call.address && x.data === call.data)
+      const index = state.findIndex(x => x.address === call.address && x.data === call.data)
       if (index !== -1) {
         finalState = finalState.filter((_, i) => i !== index)
       }
