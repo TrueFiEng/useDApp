@@ -12,6 +12,5 @@ useDapp Documentation
    :caption: Contents:
 
    getting-started.rst
-   core.rst
-   low-level-api.rst
    guide.rst
+   core.rst
