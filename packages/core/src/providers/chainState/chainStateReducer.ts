@@ -32,12 +32,12 @@ export function chainStateReducer(state: State = {}, action: Action) {
     if (action.type === 'FETCH_SUCCESS') {
       return {
         ...state,
-        [action.chainId]: { blockNumber: action.blockNumber, state: action.state }
+        [action.chainId]: { blockNumber: action.blockNumber, state: action.state },
       }
     } else if (action.type === 'FETCH_ERROR') {
       return {
         ...state,
-        [action.chainId]: { ...state[action.chainId], blockNumber: action.blockNumber, error: action.error }
+        [action.chainId]: { ...state[action.chainId], blockNumber: action.blockNumber, error: action.error },
       }
     }
   }

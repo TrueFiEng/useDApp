@@ -18,7 +18,7 @@ export const ChainStateContext = createContext<{
   },
   removeCalls: () => {
     // empty
-  }
+  },
 })
 
 export function useChainState() {

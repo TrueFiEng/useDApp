@@ -5,7 +5,7 @@ import { ChainCall } from './callsReducer'
 import { ChainState } from './model'
 
 const ABI = [
-  'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
+  'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
 ]
 
 export async function multicall(

@@ -12,14 +12,7 @@ export function useBlockMeta() {
   const difficulty = useChainCall(address && { address, data: GET_CURRENT_BLOCK_DIFFICULTY_CALL })
 
   return {
-    timestamp:
-      timestamp !== undefined
-        ? new Date(
-            BigNumber.from(timestamp)
-              .mul(1000)
-              .toNumber()
-          )
-        : undefined,
-    difficulty: difficulty !== undefined ? BigNumber.from(difficulty) : undefined
+    timestamp: timestamp !== undefined ? new Date(BigNumber.from(timestamp).mul(1000).toNumber()) : undefined,
+    difficulty: difficulty !== undefined ? BigNumber.from(difficulty) : undefined,
   }
 }
