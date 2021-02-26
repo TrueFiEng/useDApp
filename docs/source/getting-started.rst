@@ -59,3 +59,59 @@ Below is a simple example:
 
 Full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
+
+First thing you need to do is set up DAppPRovider with optional config and wrap your whole App in it. You can read about config here.
+
+.. code-block:: jsx
+
+  <DAppProvider>
+    <App /> {/* Wrap your app with the Provider */}
+  </DAppProvider>
+
+Second thing to do is to activate user account. It's better to do so after the user explicitly clicks a button.
+
+.. code-block:: jsx
+
+  export function App() {
+    const { activate, account } = useEthers()
+    return (
+        <div>
+          <button onClick={() => activate(injected)}>Connect</button>
+        </div>
+        {account && <p>Account: {account}</p>}
+      </div>
+    )
+  }
+
+After the activation the account field will contain the user address.
+
+
+Fetching balance
+----------------
+
+`useEtherBalance` hook provides a way to fetch account's balance. You have to provide the address yourself as an argument.
+
+.. code-block:: jsx
+
+  import { formatEther } from '@ethersproject/units'
+
+  export function EtherBalance() {
+    const { account } = useEthers()
+    const etherBalance = useEtherBalance(account)
+
+    return (
+      </div>
+        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
+      </div>
+    )
+  }
+
+Token balance
+-------------
+
+TODO
+
+Read-only provider
+------------------
+
+TODO
