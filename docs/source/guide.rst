@@ -1,4 +1,4 @@
-Performant idomatic React
+Performant idiomatic React
 ######
 
 
