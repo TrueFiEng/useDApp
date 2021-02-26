@@ -146,7 +146,7 @@ Config
 
 **readOnlyUrls**
 
-Mapping of ``ChainId``'s to node urls to use when in read-only mode.
+Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 
 *Example*
 
