@@ -205,13 +205,13 @@ Returns URL to blockchain explorer for an address on a given chain.
 .. code-block:: javascript
     
   getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
-  //https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+  // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
   getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
-  //https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+  // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
   getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
-  //https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
+  // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
 
 getExplorerTransactionLink
