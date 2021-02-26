@@ -4,7 +4,7 @@ Low level API
 Creating new hook
 *********
 
-Creating a custom hook with use of our core hooks is very easy, as example let's write a *useEtherBalance* hook:
+Creating a custom hook with the use of our core hooks is very easy, as an example let's write a *useEtherBalance* hook:
 
 .. code-block:: javascript
 
