@@ -91,7 +91,9 @@ After the activation (i.e user connects to a wallet like MetaMask) the account f
 Fetching balance
 ----------------
 
-`useEtherBalance` hook provides a way to fetch account's balance. You have to provide the address yourself as an argument.
+`useEtherBalance(address: string)`
+
+Provides a way to fetch account's balance. You have to provide the address yourself as an argument. Returns ``BigNumber`` or ``undefined`` when data is not available.
 
 .. code-block:: jsx
 
@@ -102,7 +104,7 @@ Fetching balance
     const etherBalance = useEtherBalance(account)
 
     return (
-      </div>
+      <div>
         {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
       </div>
     )
@@ -111,7 +113,26 @@ Fetching balance
 Token balance
 -------------
 
-TODO
+`useTokenBalance(address: string, tokenAddress: string)`
+
+Can be used to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
+
+.. code-block:: jsx
+
+  import { formatUnits } from '@ethersproject/units'
+
+  const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
+
+  export function TokenBalance() {
+    const { account } = useEthers()
+    const tokenBalance = useTokenBalance(account, DAI)
+
+    return (
+      <div>
+        {tokenBalance && <p>Balance: {formatUnits(tokenBalance, 18)}</p>}
+      </div>
+    )
+  }
 
 Read-only provider
 ------------------
