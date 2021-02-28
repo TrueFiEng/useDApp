@@ -97,10 +97,26 @@ useContractCall
 Makes a call to a specific contract and returns value. Hook will cause component to refesh when new block is mined and return value changes.
 A syntax sugar for `useChainCall`_ that uses ABI, function name and arguments instead of raw data.
 
-*Parameters*
+**Parameters**
 
-- ``calls: ContractCall`` - a single call to a contract , also see `ContractCall`_
+- ``calls: ContractCall | Falsy`` - a single call to a contract , also see `ContractCall`_
 
+**Returns**
+
+- ``any[] | undefined`` - result of a call or undefined if call didn't return yet
+
+useContractCalls
+===============
+Makes calls to specific contracts and returns values. Hook will cause component to refesh when new block is mined and any of return values changes.
+A syntax sugar for `useChainCalls`_ that uses ABI, function name and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: ContractCall[]`` - a single call to a contract , also see `ContractCall`_
+
+**Returns**
+
+- ``any[] | undefined`` - array of results of undefined if call didn't return yet
 
 useConfig
 =========
