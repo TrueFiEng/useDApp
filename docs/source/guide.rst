@@ -1,14 +1,14 @@
-Performant idiomatic React
-##############################
-
-
 Guides
 ######
+
+Connecting to network
+*********************
+
 
 Reading from blockchain
 ***********************
 
-When using hooks based on useChainCall there are important considerations;
+When using hooks based on `useChainCall`, `useChainCalls` and `useContractCalls` there are important considerations;
 
 Avoid using the result of one hook in another
 ==================================================

@@ -66,51 +66,125 @@ useBlock
 useBlockMeta
 ============
 
-useChainCalls
-=============
+useChainCall
+============
+
+Makes a call to a specific contract and returns value. Hook will cause component to refesh whenever new block is mined and value is changed.
+
+Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+
+It is recommended to use `useContractCall`_ where applicable instead of this method.
 
 *Parameters*
 
-- ``calls: ChainCall[]``
+- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in given render cycle there might be not enough information to perfom a call.
+
+
+useChainCalls
+=============
+
+Makes multiple call to a specific contracts and returns values. Hook will cause component to refesh when values change.
+
+Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+It is recommended to use `useContractCall`_ where applicable instead of this methods.
+
+*Parameters*
+
+- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order accros component renders.
+
+useContractCall
+===============
+Makes a call to a specific contract and returns value. Hook will cause component to refesh when new block is mined and return value changes.
+A syntax sugar for `useChainCall`_ that uses ABI, function name and arguments instead of raw data.
+
+*Parameters*
+
+- ``calls: ContractCall`` - a single call to a contract , also see `ContractCall`_
 
 
 useConfig
 =========
 
+Returns singleton instance of `Config`_.
+
+Function takes no parameters.
 
 
 useDebounce
 ===========
 
+Debounce a value of type T. 
+It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
+
 **Generic parameters**
 
-- ``T`` 
+- ``T`` - type of stored value 
 
 **Parameters**
 
-- delay: number
+- ``value: T`` - variable to be debounced
+- ``delay: number`` - debounce time - amount of time in ms 
 
 **Returns**
 
-- ``T`` 
+- ``T`` - debounced value
+
+**Example**
+
+.. code-block:: javascript
+
+  const [someValue, setValue] = useState(...) 
+  const debouncedValue = useDebounce(value, 1000)
+  
 
 useDebouncePair
 ===============
 
+Debounce a pair of values of types T and U. 
+It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
+
+This function is used for debouncing multicall until enough calls are aggregated.
+
+
 **Generic parameters**
 
-- ``T`` 
-- ``U`` 
+- ``T`` - type of first stored value 
+- ``U`` - type of second stored value  
 
 **Parameters**
 
-- ``first: T``
-- ``second: U``
-- ``delay: number``
+- ``first: T`` - first variable to be debounced
+- ``second: U`` - second variable to be debounced
+- ``delay: number`` - deboune time - amount of time in ms 
 
 **Returns**
 
-- ``[T, U]`` 
+- ``[T, U]`` - debounced values
+
+useEtherBalance
+===============
+
+Returns ether balance of a given account.
+
+**Parameters**
+
+- ``address: string | Falsy`` - address of an account
+
+**Returns**
+
+- ``BigNumber`` - balance of the account or *undefined* if not connected to network or address is falsy value
+
+**Example**
+
+.. code-block:: javascript
+
+  const { account } = useEthers()
+  const etherBalance = useEtherBalance(account)
+
+  return (
+    {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
+  )
+
 
 useEthers
 =========
@@ -133,6 +207,34 @@ Returns connection state and functions that allow to manipulate the state.
 
 useMulticallAddress
 ===================
+
+
+
+useTokenBalance
+===============
+
+Returns a balance of a given token for a given address.
+
+**Parameters**
+
+- ``address: string | Falsy`` - address of an account
+- ``tokenAddress: string | Falsy`` - address of a token contract
+
+**Returns**
+
+- ``BigNumber | undefined`` - balance or undefined if address or token is *Falsy* or not connected
+
+**Example**
+
+.. code-block:: javascript
+
+  const DAI_ADDRESSES = '0x6b175474e89094c44da98b954eedeac495271d0f'
+  const { account } = useEthers()
+  const daiBalance = useTokenBalance(account, chainId && DAI_ADDRESSES)
+
+  return (
+    {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
+  )
 
 Models
 ******
@@ -162,7 +264,6 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
     }
   }
 
-
 **multicallAddresses**
 
 **supportedChains**
@@ -173,6 +274,32 @@ List of intended supported chains. If a user tries to connect to an unsupported 
 
 **pollingInterval**
 Polling interval for a new block.
+
+ChainCall
+=========
+
+Represents a single call on the blokchain that can be included in multicall.
+
+Fields:
+
+- ``address: string`` - address of a contract to call
+
+- ``data: string`` - calldata of the call that encodes function call
+
+ContractCall
+============
+Represents a single call to a contract that can be included in multicall.
+
+Fields:
+
+- ``abi: Interface`` - ABI of a contract, see `Interface <https://docs.ethers.io/v5/api/utils/abi/interface/>`_
+
+- ``address: string`` - address of a contract to call
+
+- ``method: string`` - function name
+
+- ``args: any[]`` - arguments for the function
+  
 
 Currency
 ========
