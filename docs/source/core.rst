@@ -103,7 +103,7 @@ A syntax sugar for `useChainCall`_ that uses ABI, function name and arguments in
 
 **Returns**
 
-- ``any[] | undefined`` - result of a call or undefined if call didn't return yet
+- ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
 
 useContractCalls
 ===============
