@@ -294,7 +294,7 @@ Polling interval for a new block.
 ChainCall
 =========
 
-Represents a single call on the blokchain that can be included in multicall.
+Represents a single call on the blockchain that can be included in multicall.
 
 Fields:
 
