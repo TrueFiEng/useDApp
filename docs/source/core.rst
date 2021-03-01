@@ -90,7 +90,7 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 *Parameters*
 
-- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order accros component renders.
+- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
 useContractCall
 ===============
