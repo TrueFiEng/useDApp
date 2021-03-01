@@ -69,7 +69,7 @@ useBlockMeta
 useChainCall
 ============
 
-Makes a call to a specific contract and returns value. Hook will cause component to refesh whenever new block is mined and value is changed.
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
 Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
 
@@ -77,7 +77,7 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 *Parameters*
 
-- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in given render cycle there might be not enough information to perfom a call.
+- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
 
 
 useChainCalls
