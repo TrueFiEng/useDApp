@@ -107,8 +107,8 @@ A syntax sugar for `useChainCall`_ that uses ABI, function name and arguments in
 
 useContractCalls
 ===============
-Makes calls to specific contracts and returns values. Hook will cause component to refesh when new block is mined and any of return values changes.
-A syntax sugar for `useChainCalls`_ that uses ABI, function name and arguments instead of raw data.
+Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
+A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
