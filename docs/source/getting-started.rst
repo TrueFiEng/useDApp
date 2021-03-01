@@ -64,7 +64,7 @@ Example is available `here <https://usedapp-example.netlify.app/>`_ and full exa
 Connecting to a network
 -----------------------
 
-First thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
 
 .. code-block:: jsx
 
@@ -135,4 +135,3 @@ Can be used to fetch balance of ERC20 token specified by ``tokenAddress`` for pr
       </div>
     )
   }
-
