@@ -94,8 +94,8 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 useContractCall
 ===============
-Makes a call to a specific contract and returns value. Hook will cause component to refesh when new block is mined and return value changes.
-A syntax sugar for `useChainCall`_ that uses ABI, function name and arguments instead of raw data.
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
