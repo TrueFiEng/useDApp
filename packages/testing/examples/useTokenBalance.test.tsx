@@ -1,31 +1,28 @@
-import { getAdminWallet, renderWeb3Hook } from '../src'
-import { useTokenBalance } from '@usedapp/core'
-import { deployContract } from 'ethereum-waffle'
 import { MockProvider } from '@ethereum-waffle/provider'
-import { ERC20 } from '@usedapp/core'
-import { expect } from 'chai'
+import { Contract } from '@ethersproject/contracts'
+import { useTokenBalance } from '@usedapp/core'
+import chai, { expect } from 'chai'
+import { solidity } from 'ethereum-waffle'
+import { renderWeb3Hook } from '../src'
+import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
+
+chai.use(solidity)
 
 describe('useTokenBalance', () => {
-  it("return account's balance", async () => {
-    const provider = new MockProvider()
-    const myWallet = await getAdminWallet(provider)
-    const token = await deployContract(myWallet, {
-      bytecode: ERC20.bytecode,
-      abi: ERC20.abi,
-    })
-    const deployerBalance = await token.balanceOf(myWallet.address)
-    console.log(deployerBalance.toString())
-    return
+  const mockProvider = new MockProvider()
+  const [deployer] = mockProvider.getWallets()
+  let token: Contract
 
-    console.log(myWallet.address)
-    console.log(token.address)
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenBalance(myWallet.address, token.address))
-    console.log(result.error)
-    console.log(result.current)
-    await waitForCurrent(val => val !== undefined)
-
-    expect(result.error).to.be.undefined
-    expect(result.current).to.be.gt(0)
+  beforeEach('', async () => {
+    token = await deployMockToken(deployer)
   })
 
+  it('returns balance', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenBalance(deployer.address, token.address), {
+      mockProvider,
+    })
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+  })
 })
