@@ -26,7 +26,7 @@ describe('Multicall', () => {
       abi: MultiCall.abi,
     })
 
-    await deployer.sendTransaction({to: AddressZero})
+    await deployer.sendTransaction({ to: AddressZero })
   })
 
   it('Retrieves token balance using aggregate', async () => {
@@ -49,19 +49,18 @@ describe('Multicall', () => {
       data,
     }
 
-    const blockNumber = await mockProvider.getBlockNumber() + 1
-    await expect(multicall(mockProvider, multicallContract.address, blockNumber, [call]))
-      .to.be.eventually.rejected
+    const blockNumber = (await mockProvider.getBlockNumber()) + 1
+    await expect(multicall(mockProvider, multicallContract.address, blockNumber, [call])).to.be.eventually.rejected
   })
 
   it('Does not fail when retrieving data on block number from the past', async () => {
     const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
     const call: ChainCall = {
       address: tokenContract.address,
-      data
+      data,
     }
 
-    const blockNumber = await mockProvider.getBlockNumber() - 1
+    const blockNumber = (await mockProvider.getBlockNumber()) - 1
     const result = await multicall(mockProvider, multicallContract.address, blockNumber, [call])
     const unwrappedResult = result[tokenContract.address]![data]
     expect(BigNumber.from(unwrappedResult)).to.eq('10000')
@@ -73,7 +72,7 @@ describe('Multicall', () => {
       address: tokenContract.address,
       data,
     }
-    
+
     const blockNumber = await mockProvider.getBlockNumber()
     await Promise.all([
       multicall(mockProvider, multicallContract.address, blockNumber, [call]),
