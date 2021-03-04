@@ -13,7 +13,7 @@ describe('useTokenBalance', () => {
   const [deployer] = mockProvider.getWallets()
   let token: Contract
 
-  beforeEach('', async () => {
+  beforeEach(async () => {
     token = await deployMockToken(deployer)
   })
 

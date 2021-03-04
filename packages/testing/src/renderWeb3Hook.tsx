@@ -26,6 +26,11 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const connector = new MockConnector(provider)
 
   const multicallAddresses = await deployMulticall(provider, connector)
+  // In some occasions the block number lags behind.
+  // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
+  // and it results in a failed call. So we force the provider to catch up on the block number here.
+  await provider.getBlockNumber()
+
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
