@@ -1,13 +1,14 @@
-import React from 'react'
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
+import React from 'react'
 import { MockConnector } from './mockConnector'
 import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
 export interface renderWeb3HookOptions<Tprops> {
-  mockProvider?: {
+  mockProvider?: MockProvider
+  mockProviderOptions?: {
     pollingInterval?: number
   }
   renderHook?: {
@@ -20,11 +21,16 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
   options?: renderWeb3HookOptions<Tprops>
 ) => {
-  const provider = new MockProvider()
-  provider.pollingInterval = options?.mockProvider?.pollingInterval ?? 200
+  const provider = options?.mockProvider || new MockProvider()
+  provider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
   const connector = new MockConnector(provider)
 
   const multicallAddresses = await deployMulticall(provider, connector)
+  // In some occasions the block number lags behind.
+  // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
+  // and it results in a failed call. So we force the provider to catch up on the block number here.
+  await provider.getBlockNumber()
+
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
