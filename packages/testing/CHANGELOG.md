@@ -1,5 +1,19 @@
 # @usedapp/testing
 
+## 0.1.3
+
+### Patch Changes
+
+- a9768c8: \* Add tests for useTokenBalance
+
+  - Add tests for multicall
+
+  - Fix front running in renderWeb3Hook
+
+- Updated dependencies [4ba5235]
+- Updated dependencies [a9768c8]
+  - @usedapp/core@0.2.0
+
 ## 0.1.2
 
 ### Patch Changes
