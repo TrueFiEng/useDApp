@@ -188,7 +188,7 @@ Returns ether balance of a given account.
 
 **Returns**
 
-- ``BigNumber`` - balance of the account or *undefined* if not connected to network or address is falsy value
+- ``balance: BigNumber | undefined`` - a balance of the account which is BigNumber or *undefined* if not connected to network or address is a falsy value
 
 **Example**
 
