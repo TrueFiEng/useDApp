@@ -57,7 +57,9 @@
 
 ### Patch Changes
 
-- a9768c8: \* Add tests for useTokenBalance
+- a9768c8: Add more tests
+
+  - Add tests for useTokenBalance
 
   - Add tests for multicall
 
