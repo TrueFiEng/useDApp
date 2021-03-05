@@ -238,7 +238,7 @@ Returns a balance of a given token for a given address.
 
 **Returns**
 
-- ``BigNumber | undefined`` - balance or undefined if address or token is *Falsy* or not connected
+- ``balance: BigNumber | undefined`` - a balance which is BigNumber or undefined if address or token is *Falsy* or not connected
 
 **Example**
 
