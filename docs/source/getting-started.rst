@@ -23,7 +23,7 @@ To get started, add following npm package :code:`@usedapp/core` to your project:
       npm install @usedapp/core
 
 Example
------------------------
+-------
 
 Below is a simple example:
 
@@ -59,10 +59,12 @@ Below is a simple example:
   }
 
 
-Full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
+Example is available `here <https://usedapp-example.netlify.app/>`_ and full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
+Connecting to a network
+-----------------------
 
-First thing you need to do is set up **DAppPRovider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
 
 .. code-block:: jsx
 
@@ -133,8 +135,3 @@ Can be used to fetch balance of ERC20 token specified by ``tokenAddress`` for pr
       </div>
     )
   }
-
-Read-only provider
-------------------
-
-TODO

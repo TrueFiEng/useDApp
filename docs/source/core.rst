@@ -66,51 +66,141 @@ useBlock
 useBlockMeta
 ============
 
-useChainCalls
-=============
+useChainCall
+============
+
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+
+Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+
+It is recommended to use `useContractCall`_ where applicable instead of this method.
 
 *Parameters*
 
-- ``calls: ChainCall[]``
+- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
 
+
+useChainCalls
+=============
+
+Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
+
+Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+It is recommended to use `useContractCall`_ where applicable instead of this method.
+
+*Parameters*
+
+- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
+
+useContractCall
+===============
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: ContractCall | Falsy`` - a single call to a contract , also see `ContractCall`_
+
+**Returns**
+
+- ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
+
+useContractCalls
+===============
+Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
+A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: ContractCall[]`` - a single call to a contract , also see `ContractCall`_
+
+**Returns**
+
+- ``any[] | undefined`` - array of results of undefined if call didn't return yet
 
 useConfig
 =========
 
+Returns singleton instance of `Config`_.
+
+Function takes no parameters.
 
 
 useDebounce
 ===========
 
+Debounce a value of type T. 
+It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
+
 **Generic parameters**
 
-- ``T`` 
+- ``T`` - type of stored value 
 
 **Parameters**
 
-- delay: number
+- ``value: T`` - variable to be debounced
+- ``delay: number`` - debounce time - amount of time in ms 
 
 **Returns**
 
-- ``T`` 
+- ``T`` - debounced value
+
+**Example**
+
+.. code-block:: javascript
+
+  const [someValue, setValue] = useState(...) 
+  const debouncedValue = useDebounce(value, 1000)
+  
 
 useDebouncePair
 ===============
 
+Debounce a pair of values of types T and U. 
+It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
+
+This function is used for debouncing multicall until enough calls are aggregated.
+
+
 **Generic parameters**
 
-- ``T`` 
-- ``U`` 
+- ``T`` - type of first stored value 
+- ``U`` - type of second stored value  
 
 **Parameters**
 
-- ``first: T``
-- ``second: U``
-- ``delay: number``
+- ``first: T`` - first variable to be debounced
+- ``second: U`` - second variable to be debounced
+- ``delay: number`` - deboune time - amount of time in ms 
 
 **Returns**
 
-- ``[T, U]`` 
+- ``[T, U]`` - debounced values
+
+useEtherBalance
+===============
+
+Returns ether balance of a given account.
+
+**Parameters**
+
+- ``address: string | Falsy`` - address of an account
+
+**Returns**
+
+- ``balance: BigNumber | undefined`` - a balance of the account which is BigNumber or *undefined* if not connected to network or address is a falsy value
+
+**Example**
+
+.. code-block:: javascript
+
+  const { account } = useEthers()
+  const etherBalance = useEtherBalance(account)
+
+  return (
+    {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
+  )
+
 
 useEthers
 =========
@@ -133,6 +223,34 @@ Returns connection state and functions that allow to manipulate the state.
 
 useMulticallAddress
 ===================
+
+
+
+useTokenBalance
+===============
+
+Returns a balance of a given token for a given address.
+
+**Parameters**
+
+- ``address: string | Falsy`` - address of an account
+- ``tokenAddress: string | Falsy`` - address of a token contract
+
+**Returns**
+
+- ``balance: BigNumber | undefined`` - a balance which is BigNumber or undefined if address or token is *Falsy* or not connected
+
+**Example**
+
+.. code-block:: javascript
+
+  const DAI_ADDRESSES = '0x6b175474e89094c44da98b954eedeac495271d0f'
+  const { account } = useEthers()
+  const daiBalance = useTokenBalance(account, chainId && DAI_ADDRESSES)
+
+  return (
+    {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
+  )
 
 Models
 ******
@@ -162,7 +280,6 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
     }
   }
 
-
 **multicallAddresses**
 
 **supportedChains**
@@ -173,6 +290,32 @@ List of intended supported chains. If a user tries to connect to an unsupported 
 
 **pollingInterval**
 Polling interval for a new block.
+
+ChainCall
+=========
+
+Represents a single call on the blockchain that can be included in multicall.
+
+Fields:
+
+- ``address: string`` - address of a contract to call
+
+- ``data: string`` - calldata of the call that encodes function call
+
+ContractCall
+============
+Represents a single call to a contract that can be included in multicall.
+
+Fields:
+
+- ``abi: Interface`` - ABI of a contract, see `Interface <https://docs.ethers.io/v5/api/utils/abi/interface/>`_
+
+- ``address: string`` - address of a contract to call
+
+- ``method: string`` - function name
+
+- ``args: any[]`` - arguments for the function
+  
 
 Currency
 ========
