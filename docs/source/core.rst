@@ -83,7 +83,7 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 useChainCalls
 =============
 
-Makes multiple call to a specific contracts and returns values. Hook will cause component to refesh when values change.
+Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
 Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
 It is recommended to use `useContractCall`_ where applicable instead of this method.
