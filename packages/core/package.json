@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "git@github.com:EthWorks/dapp-framework.git",
@@ -48,7 +48,6 @@
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'",
-    "test": "mocha"
+    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
   }
 }
