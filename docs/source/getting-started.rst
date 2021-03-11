@@ -61,10 +61,12 @@ Below is a simple example:
 
 Example is available `here <https://usedapp-example.netlify.app/>`_ and full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
 
-Connecting to a network
------------------------
+Let's go over it step by step.
 
-The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`
+Setup
+-----
+
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`.
 
 .. code-block:: jsx
 
@@ -72,7 +74,11 @@ The first thing you need to do is set up **DAppProvider** with optional config a
     <App /> {/* Wrap your app with the Provider */}
   </DAppProvider>
 
-Then you need to activate the provider using **activateBrowserWallet**. It's better to do so after the user explicitly clicks a button.
+
+Connecting to a network
+-----------------------
+
+Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks "Connect" button.
 
 .. code-block:: jsx
 
@@ -87,15 +93,16 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bet
     )
   }
 
-After the activation (i.e user connects to a wallet like MetaMask) the account field will contain the user address.
+After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
 
 
-Fetching balance
-----------------
+Ether balance
+-------------
 
 `useEtherBalance(address: string)`
 
-Provides a way to fetch account's balance. You have to provide the address yourself as an argument. Returns ``BigNumber`` or ``undefined`` when data is not available.
+Provides a way to fetch the account balance. Takes the account address as an argument and returns ``BigNumber`` or ``undefined`` when data is not available (i.e. not connected). 
+To obtain currently connected ``account`` employ ``useEthers()``.
 
 .. code-block:: jsx
 
@@ -117,7 +124,7 @@ Token balance
 
 `useTokenBalance(address: string, tokenAddress: string)`
 
-Can be used to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
+Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
 
 .. code-block:: jsx
 
