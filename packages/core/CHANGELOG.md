@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.2.1
+
+### Patch Changes
+
+- 41988ec: 🥔 Fix call reducer
+
 ## 0.2.0
 
 ### Minor Changes
