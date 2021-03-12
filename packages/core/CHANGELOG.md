@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 41988ec: 🥔 Fix call reducer
+- 41988ec: 🥔 Fix call reducer 
 
 ## 0.2.0
 
