@@ -1,48 +1,49 @@
-import styled from 'styled-components'
-import React, { useEffect, useState } from 'react'
-import { getAddress } from '@ethersproject/address'
-import { ERC20Interface, useContractCalls, useEthers } from '@usedapp/core'
 import { formatUnits } from '@ethersproject/units'
+import uniswapToken from '@uniswap/default-token-list'
+import { ChainId, ERC20Interface, useContractCalls, useEthers } from '@usedapp/core'
+import React from 'react'
+import styled from 'styled-components'
 
-export function Tokens() {
-  const { account } = useEthers()
-  const [tokenList, setTokenList] = useState<any>()
-  useEffect(() => {
-    ;(async () => {
-      const res = await fetch('https://wispy-bird-88a7.uniswap.workers.dev/?url=http://erc20.cmc.eth.link')
-      setTokenList(await res.json())
-    })()
-  }, [])
+function getTokenList(chainId?: ChainId) {
+  return uniswapToken.tokens.filter(token => token.chainId == chainId)
+}
 
-  const balances = useContractCalls(
+function useTokensBalance(tokenList: any[], account?: string | null) {
+  return useContractCalls(
     tokenList && account
-      ? tokenList.tokens.map((token: any) => ({
+      ? tokenList.map((token: any) => ({
           abi: ERC20Interface,
           address: token.address,
           method: 'balanceOf',
-          args: [account],
+          args: [account]
         }))
       : []
   )
+}
+
+export function Tokens() {
+  const { chainId, activateBrowserWallet, deactivate, account } = useEthers()
+  const tokenList = getTokenList(chainId)
+  const balances = useTokensBalance(tokenList, account)
 
   return (
-    <TokenList>
-      {tokenList &&
-        tokenList.tokens.map((token: any, idx: number) => (
-          <TokenItem>
-            <TokenIconContainer>
-              <TokenIcon
-                src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${getAddress(
-                  token.address
-                )}/logo.png`}
-              />
-            </TokenIconContainer>
-            <TokenName>{token.name}</TokenName>
-            <TokenTicker>{token.symbol}</TokenTicker>
-            <TokenBalance>{balances?.[idx] && formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>
-          </TokenItem>
-        ))}
-    </TokenList>
+    <div>
+      {account && <button onClick={() => deactivate()}>Disconnect</button>}
+      {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
+      <TokenList>
+        {tokenList &&
+          tokenList.map((token, idx) => (
+            <TokenItem>
+              <TokenIconContainer>
+                <TokenIcon src={token.logoURI} />
+              </TokenIconContainer>
+              <TokenName>{token.name}</TokenName>
+              <TokenTicker>{token.symbol}</TokenTicker>
+              <TokenBalance>{balances?.[idx] && formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>
+            </TokenItem>
+          ))}
+      </TokenList>
+    </div>
   )
 }
 
