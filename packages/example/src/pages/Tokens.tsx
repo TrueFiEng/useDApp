@@ -20,7 +20,7 @@ export function Tokens() {
           abi: ERC20Interface,
           address: token.address,
           method: 'balanceOf',
-          args: [account]
+          args: [account],
         }))
       : []
   )
