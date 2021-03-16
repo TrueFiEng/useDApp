@@ -5,7 +5,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 function getTokenList(chainId?: ChainId) {
-  return uniswapToken.tokens.filter(token => token.chainId == chainId)
+  return uniswapToken.tokens.filter((token) => token.chainId == chainId)
 }
 
 function useTokensBalance(tokenList: any[], account?: string | null) {
@@ -15,7 +15,7 @@ function useTokensBalance(tokenList: any[], account?: string | null) {
           abi: ERC20Interface,
           address: token.address,
           method: 'balanceOf',
-          args: [account]
+          args: [account],
         }))
       : []
   )
