@@ -49,6 +49,7 @@ Below is a simple example:
     const { activateBrowserWallet, account } = useEthers()
     const etherBalance = useEtherBalance(account)
     return (
+      <div>
         <div>
           <button onClick={() => activateBrowserWallet()}>Connect</button>
         </div>
@@ -85,6 +86,7 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bes
   export function App() {
     const { activateBrowserWallet, account } = useEthers()
     return (
+      <div>
         <div>
           <button onClick={() => activateBrowserWallet()}>Connect</button>
         </div>
