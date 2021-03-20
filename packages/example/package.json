@@ -14,6 +14,7 @@
     "@types/styled-components": "^5.1.7",
     "@uniswap/default-token-list": "^2.0.0",
     "@usedapp/core": "*",
+    "file-loader": "^6.2.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5.2.0",
