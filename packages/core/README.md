@@ -61,7 +61,7 @@ export function App() {
 }
 ```
 
-Example application is available [here](https://app.netlify.com/sites/usedapp-example/overview).
+Example application is available [here](https://example.usedapp.io/balance).
 
 
 ## Documentation
