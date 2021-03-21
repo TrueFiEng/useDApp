@@ -63,10 +63,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   a {
+    color: ${Colors.Black[900]};
     text-decoration: none;
 
     &:visited {
-      color: inherit;
+      color: ${Colors.Black[900]};
     }
   }
 
