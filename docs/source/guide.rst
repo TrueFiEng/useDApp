@@ -3,7 +3,7 @@ Guides
 
 Connecting to network
 *********************
-
+Coming soon...
 
 Reading from blockchain
 ***********************
@@ -48,14 +48,5 @@ All core hooks are available `here <https://github.com/EthWorks/useDapp/tree/mas
 Testing hooks
 *************
 
+Coming soon...
 
-Web3Dialog
-**********
-
-
-Multiple chains
-***************
-
-
-Error handling
-**************
