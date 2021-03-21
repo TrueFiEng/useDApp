@@ -1,16 +1,17 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
-import styled, { createGlobalStyle } from 'styled-components'
+import { Page } from './components/base/base'
 import { TopBar } from './components/TopBar'
+import { GlobalStyle } from './global/GlobalStyle'
 import { Balance } from './pages/Balance'
 import { Block } from './pages/Block'
 import { Tokens } from './pages/Tokens'
 
 export function App() {
   return (
-    <Background>
-      <Global />
+    <Page>
+      <GlobalStyle />
       <BrowserRouter>
         <TopBar />
         <Switch>
@@ -20,25 +21,6 @@ export function App() {
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>
-    </Background>
+    </Page>
   )
 }
-
-const Global = createGlobalStyle`
-  * {
-    box-sizing: border-box;
-  }
-
-  html, body, #root {
-    font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-  }
-`
-
-const Background = styled.div`
-  background-color: #f3f4f9;
-  overflow: auto;
-  min-height: 100vh;
-`
