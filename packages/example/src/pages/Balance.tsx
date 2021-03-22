@@ -1,6 +1,5 @@
 import { formatEther } from '@ethersproject/units'
 import { useEtherBalance, useEthers } from '@usedapp/core'
-import React from 'react'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
 import { Label } from '../typography/Label'

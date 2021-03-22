@@ -1,5 +1,4 @@
 import { useBlockMeta, useBlockNumber, useEthers } from '@usedapp/core'
-import React from 'react'
 import { Container, ContentBlock, ContentRow, MainContent, Section } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
