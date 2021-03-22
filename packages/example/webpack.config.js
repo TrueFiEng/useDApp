@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const cp = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin");
 
 const version = cp.execSync('git rev-parse --short HEAD').toString().trim()
 
@@ -16,6 +17,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'GIT_VERSION': JSON.stringify(version),
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "src/_redirects", to: "" }
+      ],
     })
   ],
   module: {

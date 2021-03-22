@@ -15,8 +15,8 @@ export function Tokens() {
         <Section>
           <SectionRow>
             <Title>Tokens</Title>
-            {account && <Button onClick={() => deactivate()}>Disconnect</Button>}
-            {!account && <Button onClick={() => activateBrowserWallet()}>Connect</Button>}
+            {account && <Button onClick={deactivate}>Disconnect</Button>}
+            {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
           <TokensContentBlock>
             <TokensList />
