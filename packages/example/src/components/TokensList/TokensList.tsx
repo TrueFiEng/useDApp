@@ -1,7 +1,6 @@
 import { formatUnits } from '@ethersproject/units'
 import uniswapToken from '@uniswap/default-token-list'
 import { ChainId, ERC20Interface, useContractCalls, useEthers } from '@usedapp/core'
-import React from 'react'
 import styled from 'styled-components'
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
