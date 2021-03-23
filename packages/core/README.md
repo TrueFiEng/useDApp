@@ -4,16 +4,16 @@
 Framework for rapid Dapp development.  
 Simple. Robust. Extendable. Testable.
 
-## Features 
-Features
+## About
+Introduces great features:
 - 🏗️ **React hooks** - Uses React hooks as your primary building ingredient
-- 🚅 **Auto refresh** -  Refresh after a new block arrives, wallet or network changes
+- 🚅 **Auto refresh** - Refreshes on a new block, wallet change or network change
 - 🛒 **Multicall** - Combines multiple blockchain calls into a single multicall
 
-Best practices
-- 🔧 **Modern stack** - Employs ethers.js, web3-react, multicall & Waffle.
+Combines the best practices:
+- 🔧 **Modern stack** - Employs [ethers.js](https://github.com/ethers-io/), [web3-react](https://github.com/NoahZinsmeister/web3-react), [multicall](https://github.com/makerdao/multicall) & [waffle](https://getwaffle.io/)
 - 📚 **Extendability** - Extends easily with custom hooks
-- 💡 **Testability** - Write simple integration tests for UI and blockchain easily
+- 💡 **Testability** - Simple integration tests for UI and blockchain
 
 
 ## Example
