@@ -233,8 +233,8 @@ Returns a balance of a given token for a given address.
 
 **Parameters**
 
-- ``address: string | Falsy`` - address of an account
 - ``tokenAddress: string | Falsy`` - address of a token contract
+- ``address: string | Falsy`` - address of an account
 
 **Returns**
 
@@ -246,7 +246,7 @@ Returns a balance of a given token for a given address.
 
   const DAI_ADDRESSES = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const { account } = useEthers()
-  const daiBalance = useTokenBalance(account, chainId && DAI_ADDRESSES)
+  const daiBalance = useTokenBalance(chainId && DAI_ADDRESSES, account)
 
   return (
     {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
