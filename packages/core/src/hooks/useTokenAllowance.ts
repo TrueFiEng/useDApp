@@ -4,9 +4,9 @@ import { Falsy } from '../model/types'
 import { useContractCall } from './useContractCall'
 
 export function useTokenAllowance(
+  tokenAddress: string | Falsy,
   ownerAddress: string | Falsy,
-  spenderAddress: string | Falsy,
-  tokenAddress: string | Falsy
+  spenderAddress: string | Falsy
 ): BigNumber | undefined {
   const [allowance] =
     useContractCall(
