@@ -8,7 +8,7 @@ export function useTokenAllowance(
   spenderAddress: string | Falsy,
   tokenAddress: string | Falsy
 ): BigNumber | undefined {
-  const [tokenBalance] =
+  const [allowance] =
     useContractCall(
       ownerAddress &&
         spenderAddress &&
@@ -19,5 +19,5 @@ export function useTokenAllowance(
           args: [ownerAddress, spenderAddress],
         }
     ) ?? []
-  return tokenBalance
+  return allowance
 }
