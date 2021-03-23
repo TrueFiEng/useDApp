@@ -4,64 +4,56 @@
 Framework for rapid Dapp development.  
 Simple. Robust. Extendable. Testable.
 
-## Problem
-A Dapp is a bit different animal than a typical web application.
+## Features 
+Features
+- 🏗️ **React hooks** - Uses React hooks as your primary building ingredient
+- 🚅 **Auto refresh** -  Refresh after a new block arrives, wallet or network changes
+- 🛒 **Multicall** - Combines multiple blockchain calls into a single multicall
 
-A Dapp designed with **user experience** in mind will:
-- 🔄 refresh after a new block arrives
-- 📺 work in view mode before connecting a wallet
-- ✅ show the status of the current transactions 
-- 🛅 and more :)
+Best practices
+- 🔧 **Modern stack** - Employs ethers.js, web3-react, multicall & Waffle.
+- 📚 **Extendability** - Extends easily with custom hooks
+- 💡 **Testability** - Write simple integration tests for UI and blockchain easily
 
-A Dapp designed with **developer experience** in mind will:
-- 🧪 work on both mainnet and testnets
-- 🛡️ be error proof and easy to test 
-- 🍼 be easy to develop and extend
-- 🧰 and much more...
-
-These requirements used to make writing quality DApps somewhat challenging, but no more with useDapp.
-
-## Solution
-
-**useDapp** combines the best practices of **React**, **Ethereum** and programming in general:
-- 🧱 uses react hooks as your primary building ingredient
-- 🚅 refreshes components automatically on each block if needed
-- 🛒 combines multiple blockchain calls into a single multicall
-- 📚 extends easily with custom hooks
-- 🎚️ tests integration of UI and blockchain easily
 
 ## Example
 
 ```tsx
-const config: Config = {
-  readOnlyChain: ChainId.Mainnet,
+const config = {
+  readOnlyChainId: ChainId.Mainnet,
   readOnlyUrls: {
     [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
   },
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-  </React.StrictMode>,
+  <DAppProvider config={config}>
+    <App />
+  </DAppProvider>
   document.getElementById('root')
 )
 
+const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+
 export function App() {
-  const { activateBrowserWallet, account } = useEthers()
+  const { activateBrowserWallet, deactivate, account } = useEthers()
+  const userBalance = useEtherBalance(account)
+  const stakingBalance = useEtherBalance(STAKING_CONTRACT)
+
   return (
-      <div>
-        <button onClick={() => activateBrowserWallet()}>Connect</button>
-      </div>
+    <div>
+      {!account && <button onClick={activateBrowserWallet}> Connect </button>}
+      {account && <button onClick={deactivate}> Disconnect </button>}
+    
+      {stakingBalance && <p>ETH2 staking balance: {formatEther(stakingBalance)} ETH </p>}
       {account && <p>Account: {account}</p>}
+      {userBalance && <p>Ether balance: {formatEther(userBalance)} ETH </p>}
     </div>
   )
 }
 ```
 
-Example application is available [here](https://example.usedapp.io/balance).
+See application [here](https://example.usedapp.io/balance).
 
 
 ## Documentation
