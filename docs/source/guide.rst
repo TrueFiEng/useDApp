@@ -39,8 +39,35 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     return tokenBalance
   }
 
+Another example can be useTokenAllowance. Instead of balanceOf we use allowance on ERC20 interface.
+
+.. code-block:: javascript
+
+  function useTokenAllowance(
+    ownerAddress: string | Falsy,
+    spenderAddress: string | Falsy
+    tokenAddress: string | Falsy,
+  ) {
+    const [allowance] =
+      useContractCall(
+        ownerAddress &&
+          spenderAddress &&
+          tokenAddress && {
+            abi: ERC20Interface,
+            address: tokenAddress,
+            method: 'allowance',
+            args: [ownerAddress, spenderAddress],
+          }
+      ) ?? []
+    return allowance
+  }
+
+
 The *useContractCall* hook will take care of updating the balance of new blocks.
 The results are deferred so that the hook does not update too frequently.
+
+In our custom hooks we can use any standard react hooks, custom react hooks and useDApp hooks.
+Rules of hooks apply.
 
 All core hooks are available `here <https://github.com/EthWorks/useDapp/tree/master/packages/core/src/hooks>`_.
 
