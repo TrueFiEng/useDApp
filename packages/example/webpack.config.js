@@ -20,7 +20,11 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src/_redirects", to: "" }
+        { from: "src/_redirects", to: "" },
+        {
+          from: 'src/assets/images/favicon.ico',
+          to: 'favicon.ico'
+        }
       ],
     })
   ],
@@ -32,7 +36,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf)$/,
+        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf|ico)$/,
         use: ['file-loader'],
       },
     ],
