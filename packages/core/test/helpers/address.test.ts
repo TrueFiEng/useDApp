@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { shortenAddress, compareAddress } from '../../src/helpers/address'
+import { shortenAddress, compareAddress, addressEqual } from '../../src/helpers/address'
 
 describe('addressHelper', () => {
   describe('shortenAddress', () => {
@@ -55,6 +55,29 @@ describe('addressHelper', () => {
       const address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
 
       expect(() => compareAddress(address1, address2)).to.throw
+    })
+  })
+
+  describe('addressEqual', () => {
+    it('equal', () => {
+      const address1 = '0x263b2f09cc8754351b6ba9926a7e73ff2302d81f'
+      const address2 = '263b2f09cc8754351b6ba9926a7e73ff2302d81f'
+
+      expect(addressEqual(address1, address2)).to.eq(true)
+    })
+
+    it('not equal', () => {
+      const address1 = '0x3e9b6812364bab40745a7ddef6a1a7a103d81c74'
+      const address2 = '0xd1bbe67b8a28985f9a790bd2f13ebb42f0fc679c'
+
+      expect(addressEqual(address1, address2)).to.eq(false)
+    })
+
+    it('not an address', () => {
+      const address1 = 'im not an address'
+      const address2 = '0x2690a21899aaecea9fa832972677128ff8983dd8'
+
+      expect(() => addressEqual(address1, address2)).to.throw
     })
   })
 })
