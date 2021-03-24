@@ -39,7 +39,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     return tokenBalance
   }
 
-Another example can be useTokenAllowance. Instead of balanceOf we use allowance on ERC20 interface.
+Another example is useTokenAllowance hook. Instead of balanceOf we use allowance on ERC20 interface.
 
 .. code-block:: javascript
 
