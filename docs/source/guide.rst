@@ -79,44 +79,6 @@ Testing should be easy and straightforward. We just need a small setup and we ar
 
 Let's take useTokenAllowance as an example.
 
-.. code-block:: javascript
-
-  import { MockProvider } from '@ethereum-waffle/provider'
-  import { Contract } from '@ethersproject/contracts'
-  import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
-  import { renderWeb3Hook } from '@usedapp/testing'
-  import chai, { expect } from 'chai'
-  import { solidity, deployContract } from 'ethereum-waffle'
-  import { utils } from 'ethers'
-
-  chai.use(solidity)
-
-  describe('useTokenAllowance', () => {
-    const mockProvider = new MockProvider()
-    const [deployer, spender] = mockProvider.getWallets()
-    let token: Contract
-
-    beforeEach(async () => {
-      const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
-      token = await deployContract(deployer, ERC20Mock, args)
-    })
-
-    it('returns current allowance', async () => {
-      await token.approve(spender.address, utils.parseEther('1'))
-
-      const { result, waitForCurrent } = await renderWeb3Hook(
-        () => useTokenAllowance(token.address, deployer.address, spender.address),
-        {
-          mockProvider,
-        }
-      )
-      await waitForCurrent((val) => val !== undefined)
-
-      expect(result.error).to.be.undefined
-      expect(result.current).to.eq(utils.parseEther('1'))
-    })
-  })
-
 First, we create a mock provider for our token. We save it to the variable as we need it later.
 Then we get our wallets from the provider. We will need them to check if our hook is working correctly.
 
@@ -171,4 +133,45 @@ We expect that our hook should return an allowance of 1 Ether with no errors.
 
   expect(result.error).to.be.undefined
   expect(result.current).to.eq(utils.parseEther('1'))
+
+**Full example**
+
+.. code-block:: javascript
+
+  import { MockProvider } from '@ethereum-waffle/provider'
+  import { Contract } from '@ethersproject/contracts'
+  import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
+  import { renderWeb3Hook } from '@usedapp/testing'
+  import chai, { expect } from 'chai'
+  import { solidity, deployContract } from 'ethereum-waffle'
+  import { utils } from 'ethers'
+
+  chai.use(solidity)
+
+  describe('useTokenAllowance', () => {
+    const mockProvider = new MockProvider()
+    const [deployer, spender] = mockProvider.getWallets()
+    let token: Contract
+
+    beforeEach(async () => {
+      const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
+      token = await deployContract(deployer, ERC20Mock, args)
+    })
+
+    it('returns current allowance', async () => {
+      await token.approve(spender.address, utils.parseEther('1'))
+
+      const { result, waitForCurrent } = await renderWeb3Hook(
+        () => useTokenAllowance(token.address, deployer.address, spender.address),
+        {
+          mockProvider,
+        }
+      )
+      await waitForCurrent((val) => val !== undefined)
+
+      expect(result.error).to.be.undefined
+      expect(result.current).to.eq(utils.parseEther('1'))
+    })
+  })
+
 
