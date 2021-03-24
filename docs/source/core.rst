@@ -494,3 +494,27 @@ Returns if a given chain is a testnet.
   isTestChain(ChainId.Mainnet) // true
   isTestChain(ChainId.Ropsten) // false
   isTestChain(ChainId.xDai)    // true
+
+shortenAddress
+==============
+
+Returns short representation of address or throws an error if address is incorrent.
+
+**Parameters**
+
+- ``address: string`` - address to shorten
+
+**Example**
+
+.. code-block:: javascript
+
+  shortenAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress('6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress("i'm not an addres")
+  // TypeError("Invalid input, address can't be parsed")
+
+
