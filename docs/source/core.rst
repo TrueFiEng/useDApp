@@ -520,7 +520,9 @@ Returns short representation of address or throws an error if address is incorre
 compareAddress
 ==============
 
-Returns 1 if first address is bigger than or equal to second address. Otherwise return -1.
+Returns 1 if first address is bigger than second address. 
+Returns 0 if both addresses are equal.
+Returns -1 if first address is smaller than second address.
 If any address can't be parsed throws an error.
 
 **Parameters**

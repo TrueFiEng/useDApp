@@ -47,7 +47,7 @@ describe('addressHelper', () => {
       const address1 = '0x8ea9f79f41a20c6a7c724c1d808f9946b7ed620b'
       const address2 = '0x8ea9f79f41a20c6a7c724c1d808f9946b7ed620b'
 
-      expect(compareAddress(address1, address2)).to.eq(1)
+      expect(compareAddress(address1, address2)).to.eq(0)
     })
 
     it("can't parse address", () => {
