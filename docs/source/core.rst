@@ -517,4 +517,34 @@ Returns short representation of address or throws an error if address is incorre
   shortenAddress("i'm not an addres")
   // TypeError("Invalid input, address can't be parsed")
 
+compareAddress
+==============
+
+Returns 1 if first address is bigger than or equal to second address. Otherwise return -1.
+If any address can't be parsed throws an error.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+.. code-block:: javascript
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471000000'
+  compareAddress(address1, address2)
+  // 1
+
+  address1 = '0x000000440ad484f55997750cfae3e13ca1751283'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  compareAddress(address1, address2)
+  // -1
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+
 
