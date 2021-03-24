@@ -547,4 +547,35 @@ If any address can't be parsed throws an error.
   compareAddress(address1, address2)
   // TypeError("Invalid input, address can't be parsed")
 
+addressEqual
+==============
+
+Returns true if both addresses are them same.
+Returns false if addresses are different.
+Throws an error if address can't be parsed.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+.. code-block:: javascript
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  addressEqual(address1, address2)
+  // true
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  addressEqual(address1, address2)
+  // false
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+
 
