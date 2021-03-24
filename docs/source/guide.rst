@@ -103,7 +103,7 @@ After setup, we have to test the hook.
   await token.approve(spender.address, utils.parseEther('1'))
 
   const { result, waitForCurrent } = await renderWeb3Hook(
-    () => useTokenAllowance(token.address, deployer.address, spender.address),
+    () => useTokenAllowance(deployer.address, spender.address, token.address),
     {
       mockProvider,
     }
@@ -151,7 +151,7 @@ Then we can check if our result is correct. `result.current` is a value returned
       await token.approve(spender.address, utils.parseEther('1'))
 
       const { result, waitForCurrent } = await renderWeb3Hook(
-        () => useTokenAllowance(token.address, deployer.address, spender.address),
+        () => useTokenAllowance(deployer.address, spender.address, token.address),
         {
           mockProvider,
         }
