@@ -494,3 +494,90 @@ Returns if a given chain is a testnet.
   isTestChain(ChainId.Mainnet) // true
   isTestChain(ChainId.Ropsten) // false
   isTestChain(ChainId.xDai)    // true
+
+shortenAddress
+==============
+
+Returns short representation of address or throws an error if address is incorrent.
+
+**Parameters**
+
+- ``address: string`` - address to shorten
+
+**Example**
+
+.. code-block:: javascript
+
+  shortenAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress('6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress("i'm not an addres")
+  // TypeError("Invalid input, address can't be parsed")
+
+compareAddress
+==============
+
+Returns 1 if first address is bigger than second address. 
+Returns 0 if both addresses are equal.
+Returns -1 if first address is smaller than second address.
+If any address can't be parsed throws an error.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+.. code-block:: javascript
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471000000'
+  compareAddress(address1, address2)
+  // 1
+
+  address1 = '0x000000440ad484f55997750cfae3e13ca1751283'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  compareAddress(address1, address2)
+  // -1
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+
+addressEqual
+==============
+
+Returns true if both addresses are them same.
+Returns false if addresses are different.
+Throws an error if address can't be parsed.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+.. code-block:: javascript
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  addressEqual(address1, address2)
+  // true
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  addressEqual(address1, address2)
+  // false
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+
+
