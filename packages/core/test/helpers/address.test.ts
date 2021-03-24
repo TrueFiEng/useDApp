@@ -54,7 +54,7 @@ describe('addressHelper', () => {
       const address1 = 'im not an address'
       const address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
 
-      expect(() => compareAddress(address1, address2)).to.throw
+      expect(() => compareAddress(address1, address2)).to.throw("Invalid input, address can't be parsed")
     })
   })
 

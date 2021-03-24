@@ -10,9 +10,13 @@ export function shortenAddress(address: string): string {
   }
 }
 
-export function compareAddress(firstAddress: string, secondAddress: string) {
-  const isGreater = BigNumber.from(firstAddress).gte(BigNumber.from(secondAddress))
-  return isGreater ? 1 : -1
+export function compareAddress(firstAddress: string, secondAddress: string): number {
+  try {
+    const isGreater = BigNumber.from(firstAddress).gte(BigNumber.from(secondAddress))
+    return isGreater ? 1 : -1
+  } catch {
+    throw new TypeError("Invalid input, address can't be parsed")
+  }
 }
 
 export function addressEqual(firstAddress: string, secondAddress: string) {
