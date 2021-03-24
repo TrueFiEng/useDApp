@@ -118,7 +118,8 @@ To check if the hook reads data correctly we need to prepare it first. We approv
 To test the hook we need to render it using renderWeb3Hook. It works like `renderHook` from react-testing library,
 but it wraps the hook into additional providers.
 
-On blockchain everything is async. To make tests predictable we need to wait for the result. 
+React components updates asynchronically. Reading data from the blockchain is also an async operation.
+To get the return value from the hook, wait for the result to be set. 
 
 Then we can check if our result is correct. `result.current` is a value returned from our hook. It should be equal to 1 Ether.
 
