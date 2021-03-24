@@ -24,7 +24,7 @@ describe('addressHelper', () => {
     it('wrong address', () => {
       const address = "i'm not an address"
 
-      expect(() => shortenAddress(address)).to.throw
+      expect(() => shortenAddress(address)).to.throw("Invalid input, address can't be parsed")
     })
   })
 
