@@ -44,9 +44,9 @@ Another example is useTokenAllowance hook. Instead of balanceOf we use allowance
 .. code-block:: javascript
 
   function useTokenAllowance(
+    tokenAddress: string | Falsy,
     ownerAddress: string | Falsy,
     spenderAddress: string | Falsy
-    tokenAddress: string | Falsy,
   ) {
     const [allowance] =
       useContractCall(
@@ -103,7 +103,7 @@ After setup, we have to test the hook.
   await token.approve(spender.address, utils.parseEther('1'))
 
   const { result, waitForCurrent } = await renderWeb3Hook(
-    () => useTokenAllowance(deployer.address, spender.address, token.address),
+    () => useTokenAllowance(token.address, deployer.address, spender.address),
     {
       mockProvider,
     }
@@ -152,7 +152,7 @@ Then we can check if our result is correct. `result.current` is a value returned
       await token.approve(spender.address, utils.parseEther('1'))
 
       const { result, waitForCurrent } = await renderWeb3Hook(
-        () => useTokenAllowance(deployer.address, spender.address, token.address),
+        () => useTokenAllowance(token.address, deployer.address, spender.address),
         {
           mockProvider,
         }
