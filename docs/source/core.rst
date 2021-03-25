@@ -244,9 +244,9 @@ Returns a balance of a given token for a given address.
 
 .. code-block:: javascript
 
-  const DAI_ADDRESSES = '0x6b175474e89094c44da98b954eedeac495271d0f'
+  const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const { account } = useEthers()
-  const daiBalance = useTokenBalance(chainId && DAI_ADDRESSES, account)
+  const daiBalance = useTokenBalance(DAI_ADDRESS, account)
 
   return (
     {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
@@ -274,7 +274,7 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   const TOKEN_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const SPENDER_ADDRESS = '0xA193E42526F1FEA8C99AF609dcEabf30C1c29fAA'
   const { account, chainId } = useEthers()
-  const allowance = useTokenAllowance(chainId && TOKEN_ADDRESS, account, chainId && SPENDER_ADDRESS)
+  const allowance = useTokenAllowance(TOKEN_ADDRESS, account, SPENDER_ADDRESS)
 
   return (
     {allowance && <p>Remaining allowance: {formatUnits(allowance, 18)} tokens</p>}
