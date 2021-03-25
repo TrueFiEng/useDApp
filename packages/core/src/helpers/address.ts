@@ -1,5 +1,6 @@
 import { utils } from 'ethers'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Falsy } from '../model/types'
 
 export function shortenAddress(address: string): string {
   try {
@@ -8,6 +9,13 @@ export function shortenAddress(address: string): string {
   } catch {
     throw new TypeError("Invalid input, address can't be parsed")
   }
+}
+
+export function shortenIfAddress(address: string | Falsy): string {
+  if (typeof address === 'string' && address.length > 0) {
+    return shortenAddress(address)
+  }
+  return ''
 }
 
 export function compareAddress(firstAddress: string, secondAddress: string): number {

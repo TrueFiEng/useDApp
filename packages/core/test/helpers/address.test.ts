@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { shortenAddress, compareAddress, addressEqual } from '../../src/helpers/address'
+import { shortenAddress, compareAddress, addressEqual, shortenIfAddress } from '../../src/helpers/address'
 
 describe('addressHelper', () => {
   describe('shortenAddress', () => {
@@ -25,6 +25,33 @@ describe('addressHelper', () => {
       const address = "i'm not an address"
 
       expect(() => shortenAddress(address)).to.throw("Invalid input, address can't be parsed")
+    })
+  })
+
+  describe('shortenIfAddress', () => {
+    it('correct address', () => {
+      const address = '0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0'
+
+      expect(shortenIfAddress(address)).to.eq('0x6E9e...D3A0')
+    })
+
+    it('wrong address', () => {
+      const address = "i'm not an address"
+
+      expect(() => shortenAddress(address)).to.throw("Invalid input, address can't be parsed")
+    })
+
+    const testCases = [
+      { description: '0', value: 0 as const },
+      { description: 'null', value: null },
+      { description: 'undefined', value: undefined },
+      { description: 'empty string', value: '' as const },
+      { description: 'false', value: false as const },
+    ]
+    testCases.forEach(({ description, value }) => {
+      it(description, () => {
+        expect(shortenIfAddress(value)).to.eq('')
+      })
     })
   })
 
