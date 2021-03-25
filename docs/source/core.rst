@@ -517,6 +517,32 @@ Returns short representation of address or throws an error if address is incorre
   shortenAddress("i'm not an addres")
   // TypeError("Invalid input, address can't be parsed")
 
+shortenIfAddress
+==============
+
+Returns short representation of address or throws an error if address is incorrent.
+Returns empty string if no address is provided.
+
+**Parameters**
+
+- ``address: string | 0 | null | undefined | false`` - address to shorten
+
+**Example**
+
+.. code-block:: javascript
+
+  shortenIfAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenIfAddress('')
+  // ''
+
+  shortenIfAddress(undefined)
+  // ''
+
+  shortenIfAddress("i'm not an addres")
+  // TypeError("Invalid input, address can't be parsed")
+
 compareAddress
 ==============
 
