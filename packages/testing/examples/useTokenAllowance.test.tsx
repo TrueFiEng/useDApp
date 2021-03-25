@@ -12,15 +12,15 @@ chai.use(solidity)
 describe('useTokenAllowance', () => {
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
-  let deployerToken: Contract
+  let token: Contract
 
   beforeEach(async () => {
-    deployerToken = await deployMockToken(deployer)
+    token = await deployMockToken(deployer)
   })
 
   it('returns 0 when spender is not yet approved', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useTokenAllowance(deployer.address, spender.address, deployerToken.address),
+      () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
         mockProvider,
       }
@@ -33,10 +33,10 @@ describe('useTokenAllowance', () => {
   })
 
   it('returns current allowance', async () => {
-    await deployerToken.approve(spender.address, utils.parseEther('1'))
+    await token.approve(spender.address, utils.parseEther('1'))
 
     const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useTokenAllowance(deployer.address, spender.address, deployerToken.address),
+      () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
         mockProvider,
       }
