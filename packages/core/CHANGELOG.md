@@ -1,10 +1,17 @@
 # @usedapp/core
 
+## 0.2.2
+
+### Patch Changes
+
+- 21a6209: 🚁 Add address helpers: shortenAddress, shortenIfAddress, compareAddress and addressEqual
+- 8c06358: 💲 Create use token allowance hook
+
 ## 0.2.1
 
 ### Patch Changes
 
-- 41988ec: 🥔 Fix call reducer 
+- 41988ec: 🥔 Fix call reducer
 
 ## 0.2.0
 

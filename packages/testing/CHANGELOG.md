@@ -1,5 +1,14 @@
 # @usedapp/testing
 
+## 0.1.4
+
+### Patch Changes
+
+- 8c06358: 💲 Create use token allowance hook
+- Updated dependencies [21a6209]
+- Updated dependencies [8c06358]
+  - @usedapp/core@0.2.2
+
 ## 0.1.3
 
 ### Patch Changes
