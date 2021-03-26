@@ -37,9 +37,20 @@ interface Options {
   signer?: Signer
 }
 
-// TODO: Implement
-function connectContractToSigner(contract: Contract, options?: Options, library?: Web3Provider) {
-  return contract
+export function connectContractToSigner(contract: Contract, options?: Options, library?: Web3Provider) {
+  if (contract.signer) {
+    return contract
+  }
+
+  if (options?.signer) {
+    return contract.connect(options.signer)
+  }
+
+  if (library?.getSigner()) {
+    return contract.connect(library.getSigner())
+  }
+
+  throw new TypeError('No signer available in contract, options or library')
 }
 
 export function useContractFunction(contract: Contract, functionName: string, options?: Options) {
