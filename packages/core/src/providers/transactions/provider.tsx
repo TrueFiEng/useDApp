@@ -34,33 +34,38 @@ export function TransactionProvider({ children }: Props) {
   )
 
   useEffect(() => {
-    if (!chainId || !library || !blockNumber) return
-    ;(transactions[chainId] ?? [])
-      .filter((tx) => shouldCheck(blockNumber, tx))
-      .forEach((tx) => {
-        library
-          .getTransactionReceipt(tx.hash)
-          .then((receipt) => {
-            if (receipt) {
-              dispatch({
-                type: 'TRANSACTION_MINED',
-                chainId,
-                hash: tx.hash,
-                receipt,
-              })
-            } else {
-              dispatch({
-                type: 'TRANSACTION_CHECKED',
-                chainId,
-                hash: tx.hash,
-                blockNumber,
-              })
-            }
-          })
-          .catch((error) => {
-            console.error(`failed to check transaction hash: ${tx.hash}`, error)
-          })
-      })
+    const updateTransactions = async () => {
+      if (!chainId || !library || !blockNumber) {
+        return
+      }
+
+      const chainTransactions = transactions[chainId] ?? []
+      const filteredTransactions = chainTransactions.filter((tx) => shouldCheck(blockNumber, tx))
+      for (const tx of filteredTransactions) {
+        try {
+          const receipt = await library.getTransactionReceipt(tx.hash)
+          if (receipt) {
+            dispatch({
+              type: 'TRANSACTION_MINED',
+              chainId,
+              hash: tx.hash,
+              receipt,
+            })
+          } else {
+            dispatch({
+              type: 'TRANSACTION_CHECKED',
+              chainId,
+              hash: tx.hash,
+              blockNumber,
+            })
+          }
+        } catch (error) {
+          console.error(`failed to check transaction hash: ${tx.hash}`, error)
+        }
+      }
+    }
+
+    updateTransactions()
   }, [chainId, library, transactions, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />
