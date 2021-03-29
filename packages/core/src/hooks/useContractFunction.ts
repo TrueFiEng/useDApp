@@ -24,7 +24,7 @@ type TransactionStatus =
   | {
       status: 'Fail'
       transaction: TransactionResponse
-      receipt?: TransactionReceipt
+      receipt: TransactionReceipt
       chainId: ChainId
       errorMessage: string
     }
