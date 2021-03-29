@@ -24,6 +24,7 @@ type TransactionStatus =
   | {
       status: 'Fail'
       transaction: TransactionResponse
+      receipt?: TransactionReceipt
       chainId: ChainId
       errorMessage: string
     }
@@ -75,7 +76,7 @@ export function useContractFunction(contract: Contract, functionName: string, op
       setState({ receipt, transaction, status: 'Success', chainId })
     } catch (e) {
       if (transaction) {
-        setState({ status: 'Fail', transaction, errorMessage: e.reason, chainId })
+        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage: e.reason, chainId })
       } else {
         setState({ status: 'Exception', errorMessage: e.reason, chainId })
       }
