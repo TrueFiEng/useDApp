@@ -6,7 +6,7 @@ import { renderWeb3Hook } from '../src'
 
 chai.use(solidity)
 
-describe.only('useContractFunction', () => {
+describe('connectContractToSigner', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let token: Contract
@@ -40,6 +40,6 @@ describe.only('useContractFunction', () => {
 
     const connectedContract = connectContractToSigner(token, undefined, library)
 
-    expect(connectedContract.signer).to.be.not.null
+    expect(connectedContract.signer).to.be.deep.eq(library?.getSigner())
   })
 })
