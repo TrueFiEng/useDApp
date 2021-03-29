@@ -1,7 +1,7 @@
 Getting started
 ===============
 
-Installation
+Installation 
 ------------
 
 To start working with useDapp you need to have working React environment.
@@ -30,7 +30,7 @@ Below is a simple example:
 .. code-block:: javascript
 
   const config: Config = {
-    readOnlyChain: ChainId.Mainnet,
+    readOnlyChainId: ChainId.Mainnet,
     readOnlyUrls: {
       [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
