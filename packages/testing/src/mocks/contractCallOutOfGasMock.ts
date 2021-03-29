@@ -12,4 +12,5 @@ const transferOutOfGasMock = (address: string, value: BigNumber): TransactionRes
 
 export const contractCallOutOfGasMock = ({
   transfer: transferOutOfGasMock,
+  signer: true,
 } as unknown) as Contract

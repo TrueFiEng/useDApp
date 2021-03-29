@@ -17,7 +17,7 @@ describe('useContractFunction', () => {
     token = await deployMockToken(deployer)
   })
 
-  it('can approve erc20 token', async () => {
+  it('success', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
       mockProvider,
     })
@@ -29,7 +29,7 @@ describe('useContractFunction', () => {
     expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
   })
 
-  it('it reverts with bad arguments', async () => {
+  it('exception (bad arguments)', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
       mockProvider,
     })
@@ -43,7 +43,7 @@ describe('useContractFunction', () => {
     }
   })
 
-  it('fails (revert)', async () => {
+  it('fail (when transaction reverts)', async () => {
     const contractMock = contractCallOutOfGasMock
 
     const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(contractMock, 'transfer'), {
