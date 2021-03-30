@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
+import { useLocalStorage } from '../../hooks'
 import { NotificationsContext } from './context'
-import { DEFAULT_NOTIFICATIONS, Notification, NotificationToSave } from './model'
+import { DEFAULT_NOTIFICATIONS, NotificationWithChainId } from './model'
 import { notificationReducer } from './reducer'
 
 interface Props {
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export function NotificationsProvider({ children }: Props) {
-  const { chainId } = useEthers()
   const [storage, setStorage] = useLocalStorage('notifications')
   const [notifications, dispatch] = useReducer(notificationReducer, storage ?? DEFAULT_NOTIFICATIONS)
 
@@ -18,8 +17,8 @@ export function NotificationsProvider({ children }: Props) {
   }, [notifications])
 
   const addNotification = useCallback(
-    (newNotification: NotificationToSave) => {
-      const { chainId, ...notification } = newNotification
+    (notificationWithChainId: NotificationWithChainId) => {
+      const { chainId, ...notification } = notificationWithChainId
 
       dispatch({
         type: 'ADD_NOTIFICATION',

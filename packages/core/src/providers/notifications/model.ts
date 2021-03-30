@@ -1,19 +1,34 @@
+import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
 import { ChainId } from '../../constants'
 
-export interface NotificationToSave {
-  type: 'started' | 'failed' | 'confirmed'
-  name: string
-  hash: string
-  timestamp: number
-  chainId: ChainId
+interface TransactionStarted {
+  type: 'transactionStarted'
+  transaction: TransactionResponse
+  submittedAt: number
 }
 
-export interface Notification {
-  type: 'started' | 'failed' | 'confirmed'
-  name: string
-  hash: string
-  timestamp: number
+interface TransactionSuccedd {
+  type: 'transactionSuccedd'
+  transaction: TransactionResponse
+  receipt: TransactionReceipt
+  submittedAt: number
 }
+
+interface TransactionFailed {
+  type: 'transactionFailed'
+  transaction: TransactionResponse
+  receipt: TransactionReceipt
+  submittedAt: number
+}
+
+interface WalletConnected {
+  type: 'walletConnected'
+  address: string
+}
+
+export type Notification = TransactionStarted | TransactionSuccedd | TransactionFailed | WalletConnected
+
+export type NotificationWithChainId = Notification & { chainId: ChainId }
 
 export type Notifications = {
   [T in ChainId]?: Notification[]
