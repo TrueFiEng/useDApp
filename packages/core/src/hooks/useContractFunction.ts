@@ -2,8 +2,9 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { ChainId } from '../constants'
+import { TransactionsContext } from '../providers/transactions/context'
 import { useEthers } from './useEthers'
 
 type TransactionStatus =
@@ -56,7 +57,7 @@ export function connectContractToSigner(contract: Contract, options?: Options, l
 
 export function useContractFunction(contract: Contract, functionName: string, options?: Options) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
-
+  const { addTransaction } = useContext(TransactionsContext)
   const { library, chainId } = useEthers()
 
   const contractWithSigner = connectContractToSigner(contract, options, library)
@@ -71,6 +72,10 @@ export function useContractFunction(contract: Contract, functionName: string, op
     try {
       transaction = await contractWithSigner[functionName](...args)
       setState({ transaction, status: 'Mining', chainId })
+      addTransaction({
+        ...transaction,
+        chainId,
+      })
 
       const receipt = await transaction.wait()
       setState({ receipt, transaction, status: 'Success', chainId })
