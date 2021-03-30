@@ -1,19 +1,13 @@
-import { TransactionReceipt } from '@ethersproject/providers'
+import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { ChainId } from '../../constants'
 
-export interface TransactionToSave {
-  hash: string
-  from: string
-  description: string
+export type TransactionWithChainId = TransactionResponse & {
   chainId: ChainId
 }
 
 export interface StoredTransaction {
-  from: string
-  hash: string
-  description: string
+  transaction: TransactionResponse
   submittedAt: number
-  lastCheckedBlockNumber?: number
   receipt?: TransactionReceipt
 }
 

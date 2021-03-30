@@ -73,10 +73,8 @@ export function useContractFunction(contract: Contract, functionName: string, op
       transaction = await contractWithSigner[functionName](...args)
       setState({ transaction, status: 'Mining', chainId })
       addTransaction({
+        ...transaction,
         chainId,
-        from: transaction.from,
-        hash: transaction.hash,
-        description: `Transaction ${transaction.hash} started.`,
       })
 
       const receipt = await transaction.wait()

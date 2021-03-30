@@ -10,7 +10,7 @@ export function useTransactions() {
     if (chainId === undefined || !account) {
       return []
     }
-    return (transactions[chainId] ?? []).filter((x) => x.from === account)
+    return (transactions[chainId] ?? []).filter((x) => x.transaction.from === account)
   }, [transactions, chainId, account])
 
   return {

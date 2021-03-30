@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, TransactionToSave } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, TransactionWithChainId } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -20,13 +20,10 @@ export function TransactionProvider({ children }: Props) {
   }, [transactions])
 
   const addTransaction = useCallback(
-    (transaction: TransactionToSave) => {
+    (transaction: TransactionWithChainId) => {
       dispatch({
         type: 'ADD_TRANSACTION',
-        chainId: transaction.chainId,
-        description: transaction.description,
-        from: transaction.from,
-        hash: transaction.hash,
+        transaction,
         submittedAt: Date.now(),
       })
     },
@@ -47,12 +44,12 @@ export function TransactionProvider({ children }: Props) {
           }
 
           try {
-            const receipt = await library.getTransactionReceipt(tx.hash)
+            const receipt = await library.getTransactionReceipt(tx.transaction.hash)
             if (receipt) {
               return { ...tx, receipt }
             }
           } catch (error) {
-            console.error(`failed to check transaction hash: ${tx.hash}`, error)
+            console.error(`failed to check transaction hash: ${tx.transaction.hash}`, error)
           }
 
           return tx
