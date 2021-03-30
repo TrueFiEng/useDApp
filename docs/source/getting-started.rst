@@ -97,6 +97,7 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bes
 
 After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
 
+If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the `web3-react <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview>` doc for that one. 
 
 Ether balance
 -------------
