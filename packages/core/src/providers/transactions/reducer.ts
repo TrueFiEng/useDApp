@@ -4,7 +4,7 @@ import { StoredTransaction, StoredTransactions } from './model'
 type Action = TransactionAdded | UpdateTransactions
 
 interface TransactionAdded {
-  type: 'TRANSACTION_ADDED'
+  type: 'ADD_TRANSACTION'
   chainId: ChainId
   hash: string
   from: string
@@ -12,7 +12,7 @@ interface TransactionAdded {
   submittedAt: number
 }
 interface UpdateTransactions {
-  type: 'TRANSACTIONS_UPDATE'
+  type: 'UPDATE_TRANSACTIONS'
   chainId: ChainId
   transactions: StoredTransaction[]
 }
@@ -22,7 +22,7 @@ export function transactionReducer(state: StoredTransactions, action: Action): S
   const chainState = state[chainId] ?? []
 
   switch (action.type) {
-    case 'TRANSACTION_ADDED':
+    case 'ADD_TRANSACTION':
       return {
         ...state,
         [chainId]: chainState.concat({
@@ -32,7 +32,7 @@ export function transactionReducer(state: StoredTransactions, action: Action): S
           submittedAt: action.submittedAt,
         }),
       }
-    case 'TRANSACTIONS_UPDATE':
+    case 'UPDATE_TRANSACTIONS':
       return { ...state, [chainId]: [...action.transactions] }
   }
 }

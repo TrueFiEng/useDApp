@@ -22,7 +22,7 @@ export function TransactionProvider({ children }: Props) {
   const addTransaction = useCallback(
     (transaction: TransactionToSave) => {
       dispatch({
-        type: 'TRANSACTION_ADDED',
+        type: 'ADD_TRANSACTION',
         chainId: transaction.chainId,
         description: transaction.description,
         from: transaction.from,
@@ -59,7 +59,7 @@ export function TransactionProvider({ children }: Props) {
         })
       )
 
-      dispatch({ type: 'TRANSACTIONS_UPDATE', chainId, transactions: newTransactions })
+      dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
 
     updateTransactions()
