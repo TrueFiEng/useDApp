@@ -1,6 +1,7 @@
-import { ReactNode, useCallback, useEffect, useReducer } from 'react'
+import { ReactNode, useCallback, useContext, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
+import { NotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, TransactionWithChainId } from './model'
 import { transactionReducer } from './reducer'
@@ -14,6 +15,7 @@ export function TransactionProvider({ children }: Props) {
   const blockNumber = useBlockNumber()
   const [storage, setStorage] = useLocalStorage('transactions')
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
+  const { addNotification } = useContext(NotificationsContext)
 
   useEffect(() => {
     setStorage(transactions)
@@ -46,6 +48,23 @@ export function TransactionProvider({ children }: Props) {
           try {
             const receipt = await library.getTransactionReceipt(tx.transaction.hash)
             if (receipt) {
+              if (receipt.status === 0) {
+                addNotification({
+                  chainId,
+                  hash: tx.hash,
+                  name: `Transaction ${tx.hash} failed`,
+                  timestamp: Date.now(),
+                  type: 'failed',
+                })
+              } else {
+                addNotification({
+                  chainId,
+                  hash: tx.hash,
+                  name: `Transaction ${tx.hash} mined`,
+                  timestamp: Date.now(),
+                  type: 'confirmed',
+                })
+              }
               return { ...tx, receipt }
             }
           } catch (error) {

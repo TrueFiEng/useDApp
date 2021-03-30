@@ -4,7 +4,7 @@ export interface NotificationToSave {
   type: 'started' | 'failed' | 'confirmed'
   name: string
   hash: string
-  timestamp: Date
+  timestamp: number
   chainId: ChainId
 }
 
