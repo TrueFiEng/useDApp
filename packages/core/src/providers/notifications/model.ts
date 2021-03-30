@@ -12,7 +12,7 @@ export interface Notification {
   type: 'started' | 'failed' | 'confirmed'
   name: string
   hash: string
-  timestamp: Date
+  timestamp: number
 }
 
 export type Notifications = {
