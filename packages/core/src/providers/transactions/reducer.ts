@@ -1,8 +1,7 @@
-import { TransactionReceipt } from '@ethersproject/providers'
 import { ChainId } from '../../constants'
-import { StoredTransactions } from './model'
+import { StoredTransaction, StoredTransactions } from './model'
 
-type Action = TransactionAdded | TransactionChecked | TransactionMined
+type Action = TransactionAdded | UpdateTransactions
 
 interface TransactionAdded {
   type: 'TRANSACTION_ADDED'
@@ -12,24 +11,15 @@ interface TransactionAdded {
   description: string
   submittedAt: number
 }
-
-interface TransactionChecked {
-  type: 'TRANSACTION_CHECKED'
+interface UpdateTransactions {
+  type: 'TRANSACTIONS_UPDATE'
   chainId: ChainId
-  hash: string
-  blockNumber: number
-}
-
-interface TransactionMined {
-  type: 'TRANSACTION_MINED'
-  chainId: ChainId
-  hash: string
-  receipt: TransactionReceipt
+  transactions: StoredTransaction[]
 }
 
 export function transactionReducer(state: StoredTransactions, action: Action): StoredTransactions {
-  const chainState = state[action.chainId] ?? []
   const { chainId } = action
+  const chainState = state[chainId] ?? []
 
   switch (action.type) {
     case 'TRANSACTION_ADDED':
@@ -42,27 +32,7 @@ export function transactionReducer(state: StoredTransactions, action: Action): S
           submittedAt: action.submittedAt,
         }),
       }
-    case 'TRANSACTION_CHECKED':
-      return {
-        ...state,
-        [chainId]: chainState.map((tx) => {
-          if (tx.hash === action.hash) {
-            return { ...tx, lastCheckedBlockNumber: action.blockNumber }
-          } else {
-            return tx
-          }
-        }),
-      }
-    case 'TRANSACTION_MINED':
-      return {
-        ...state,
-        [chainId]: chainState.map((tx) => {
-          if (tx.hash === action.hash) {
-            return { ...tx, receipt: action.receipt }
-          } else {
-            return tx
-          }
-        }),
-      }
+    case 'TRANSACTIONS_UPDATE':
+      return { ...state, [chainId]: [...action.transactions] }
   }
 }

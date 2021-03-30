@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, TransactionToSave } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, TransactionToSave } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -40,51 +40,30 @@ export function TransactionProvider({ children }: Props) {
       }
 
       const chainTransactions = transactions[chainId] ?? []
-      const filteredTransactions = chainTransactions.filter((tx) => shouldCheck(blockNumber, tx))
-      for (const tx of filteredTransactions) {
-        try {
-          const receipt = await library.getTransactionReceipt(tx.hash)
-          if (receipt) {
-            dispatch({
-              type: 'TRANSACTION_MINED',
-              chainId,
-              hash: tx.hash,
-              receipt,
-            })
-          } else {
-            dispatch({
-              type: 'TRANSACTION_CHECKED',
-              chainId,
-              hash: tx.hash,
-              blockNumber,
-            })
+      const newTransactions = await Promise.all(
+        chainTransactions.map(async (tx) => {
+          if (tx.receipt) {
+            return tx
           }
-        } catch (error) {
-          console.error(`failed to check transaction hash: ${tx.hash}`, error)
-        }
-      }
+
+          try {
+            const receipt = await library.getTransactionReceipt(tx.hash)
+            if (receipt) {
+              return { ...tx, receipt }
+            }
+          } catch (error) {
+            console.error(`failed to check transaction hash: ${tx.hash}`, error)
+          }
+
+          return tx
+        })
+      )
+
+      dispatch({ type: 'TRANSACTIONS_UPDATE', chainId, transactions: newTransactions })
     }
 
     updateTransactions()
-  }, [chainId, library, transactions, blockNumber])
+  }, [chainId, library, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />
-}
-
-function shouldCheck(blockNumber: number, tx: StoredTransaction): boolean {
-  if (tx.receipt) return false
-  if (!tx.lastCheckedBlockNumber) return true
-  const blocksSinceCheck = blockNumber - tx.lastCheckedBlockNumber
-  if (blocksSinceCheck < 1) return false
-  const minutesPending = (Date.now() - tx.submittedAt) / 1000 / 60
-  if (minutesPending > 60) {
-    // every 10 blocks if pending for longer than an hour
-    return blocksSinceCheck > 9
-  } else if (minutesPending > 5) {
-    // every 3 blocks if pending more than 5 minutes
-    return blocksSinceCheck > 2
-  } else {
-    // otherwise every block
-    return true
-  }
 }
