@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useContext, useEffect, useReducer } from 'react'
+import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { useNotificationsContext } from '../notifications/context'
