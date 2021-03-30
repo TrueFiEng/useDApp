@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useContext, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
-import { NotificationsContext } from '../notifications/context'
+import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, TransactionWithChainId } from './model'
 import { transactionReducer } from './reducer'
@@ -15,7 +15,7 @@ export function TransactionProvider({ children }: Props) {
   const blockNumber = useBlockNumber()
   const [storage, setStorage] = useLocalStorage('transactions')
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
-  const { addNotification } = useContext(NotificationsContext)
+  const { addNotification } = useNotificationsContext()
 
   useEffect(() => {
     setStorage(transactions)
