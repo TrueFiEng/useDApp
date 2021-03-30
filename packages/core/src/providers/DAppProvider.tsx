@@ -6,6 +6,7 @@ import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
 import { EthersProvider } from './EthersProvider'
+import { NotificationsProvider } from './notifications/provider'
 import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
 import { TransactionProvider } from './transactions/provider'
 
@@ -36,7 +37,9 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
           <ReadOnlyProviderActivator readOnlyChainId={readOnlyChainId} readOnlyUrls={readOnlyUrls} />
         )}
         <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-          <TransactionProvider>{children}</TransactionProvider>
+          <NotificationsProvider>
+            <TransactionProvider>{children}</TransactionProvider>
+          </NotificationsProvider>
         </ChainStateProvider>
       </BlockNumberProvider>
     </EthersProvider>
