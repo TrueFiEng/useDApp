@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
+import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, TransactionWithChainId } from './model'
 import { transactionReducer } from './reducer'
@@ -14,6 +15,7 @@ export function TransactionProvider({ children }: Props) {
   const blockNumber = useBlockNumber()
   const [storage, setStorage] = useLocalStorage('transactions')
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
+  const { addNotification } = useNotificationsContext()
 
   useEffect(() => {
     setStorage(transactions)
@@ -24,6 +26,12 @@ export function TransactionProvider({ children }: Props) {
       dispatch({
         type: 'ADD_TRANSACTION',
         transaction,
+        submittedAt: Date.now(),
+      })
+      addNotification({
+        type: 'transactionStarted',
+        chainId: transaction.chainId,
+        transaction: transaction,
         submittedAt: Date.now(),
       })
     },
@@ -46,6 +54,23 @@ export function TransactionProvider({ children }: Props) {
           try {
             const receipt = await library.getTransactionReceipt(tx.transaction.hash)
             if (receipt) {
+              if (receipt.status === 0) {
+                addNotification({
+                  type: 'transactionFailed',
+                  submittedAt: Date.now(),
+                  transaction: tx.transaction,
+                  receipt,
+                  chainId,
+                })
+              } else {
+                addNotification({
+                  type: 'transactionSucceed',
+                  submittedAt: Date.now(),
+                  transaction: tx.transaction,
+                  receipt,
+                  chainId,
+                })
+              }
               return { ...tx, receipt }
             }
           } catch (error) {
