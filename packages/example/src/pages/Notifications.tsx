@@ -1,5 +1,6 @@
 import {
   ChainId,
+  useContractCall,
   useContractFunction,
   useEtherBalance,
   useEthers,
@@ -19,7 +20,11 @@ import { ReactNode, useEffect, useState } from 'react'
 import type { Notification } from '@usedapp/core/dist/src/providers/notifications/model'
 import { TextBold, Text } from '../typography/Text'
 
-const abi = ['function deposit() external payable']
+const abi = [
+  'function deposit() external payable',
+  'function balanceOf(address account) external view returns (uint256)',
+  'function withdraw(uint256 value) external',
+]
 const wethInterface = new utils.Interface(abi)
 
 interface DepositEthProps {
@@ -34,13 +39,13 @@ const DepositEth = ({ account, library }: DepositEthProps) => {
   const [etherValue, setEtherValue] = useState('0')
 
   useEffect(() => {
-    console.log(state)
+    console.log({ ethState: state })
   }, [state])
 
   return (
     <ContentBlock>
-      <ContentRow>Deposit ether:</ContentRow>
-      {etherBalance && <ContentRow>Your ether balance: {formatEther(etherBalance)}</ContentRow>}
+      <CellTitle>Deposit ether</CellTitle>
+      {etherBalance && <ContentRow>Your ETH balance: {formatEther(etherBalance)}</ContentRow>}
       <ContentRow>
         <label>How much?</label>
         <Input type="number" step="0.01" value={etherValue} onChange={(e) => setEtherValue(e.currentTarget.value)} />
@@ -59,6 +64,44 @@ const DepositEth = ({ account, library }: DepositEthProps) => {
   )
 }
 
+const WithdrawEth = ({ account, library }: DepositEthProps) => {
+  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
+  const wethBalance = useContractCall({
+    abi: wethInterface,
+    address: '0xA243FEB70BaCF6cD77431269e68135cf470051b4',
+    method: 'balanceOf',
+    args: [account],
+  })
+
+  const { send, state } = useContractFunction(contract, 'withdraw')
+  const [wethValue, setWethValue] = useState('0')
+
+  useEffect(() => {
+    console.log({ wethState: state })
+  }, [state])
+
+  return (
+    <ContentBlock>
+      <CellTitle>Withdraw ether</CellTitle>
+      {wethBalance && <ContentRow>Your WETH balance: {formatEther(wethBalance[0])}</ContentRow>}
+      <ContentRow>
+        <label>How much?</label>
+        <Input type="number" step="0.01" value={wethValue} onChange={(e) => setWethValue(e.currentTarget.value)} />
+      </ContentRow>
+      <ContentRow>
+        <SmallButton
+          onClick={() => {
+            send(utils.parseEther(wethValue))
+            setWethValue('0')
+          }}
+        >
+          Send
+        </SmallButton>
+      </ContentRow>
+    </ContentBlock>
+  )
+}
+
 interface TableWrapperProps {
   children: ReactNode
   title: string
@@ -66,7 +109,7 @@ interface TableWrapperProps {
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
   <ContentBlock>
-    <TableTitle>{title}</TableTitle>
+    <CellTitle>{title}</CellTitle>
     <Table>{children}</Table>
   </ContentBlock>
 )
@@ -155,8 +198,9 @@ export function Notifications() {
             {account && <Button onClick={deactivate}>Disconnect</Button>}
             {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
-          {account && library && <DepositEth account={account} library={library} />}
           <TableGrid>
+            {account && library && <DepositEth account={account} library={library} />}
+            {account && library && <WithdrawEth account={account} library={library} />}
             {account && chainId && <TransactionsList chainId={chainId} />}
             {account && chainId && <NotificationsList chainId={chainId} />}
           </TableGrid>
@@ -259,7 +303,7 @@ const Table = styled.div`
   }
 `
 
-const TableTitle = styled(TextBold)`
+const CellTitle = styled(TextBold)`
   font-size: 20px;
   margin-bottom: 10px;
 `
