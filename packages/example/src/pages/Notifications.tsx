@@ -18,7 +18,8 @@ import { utils } from 'ethers'
 import { Title } from '../typography/Title'
 import { ReactNode, useEffect, useState } from 'react'
 import type { Notification } from '@usedapp/core/dist/src/providers/notifications/model'
-import { TextBold, Text } from '../typography/Text'
+import { TextBold } from '../typography/Text'
+import type { BigNumber } from '@ethersproject/bignumber'
 
 const abi = [
   'function deposit() external payable',
@@ -26,6 +27,41 @@ const abi = [
   'function withdraw(uint256 value) external',
 ]
 const wethInterface = new utils.Interface(abi)
+
+interface TransferFormProps {
+  balance: BigNumber | undefined
+  send: (value: BigNumber) => void
+  title: string
+  ticker: string
+}
+
+const TransferForm = ({ balance, send, title, ticker }: TransferFormProps) => {
+  const [value, setValue] = useState('0')
+  return (
+    <ContentBlock>
+      <CellTitle>{title}</CellTitle>
+      {balance && (
+        <ContentRow>
+          Your {ticker} balance: {formatEther(balance)}
+        </ContentRow>
+      )}
+      <ContentRow>
+        <label>How much?</label>
+        <Input type="number" step="0.01" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      </ContentRow>
+      <ContentRow>
+        <SmallButton
+          onClick={() => {
+            send(utils.parseEther(value))
+            setValue('0')
+          }}
+        >
+          Send
+        </SmallButton>
+      </ContentRow>
+    </ContentBlock>
+  )
+}
 
 interface DepositEthProps {
   account: string
@@ -36,69 +72,42 @@ const DepositEth = ({ account, library }: DepositEthProps) => {
   const etherBalance = useEtherBalance(account)
   const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
   const { send, state } = useContractFunction(contract, 'deposit')
-  const [etherValue, setEtherValue] = useState('0')
 
   useEffect(() => {
     console.log({ ethState: state })
   }, [state])
 
   return (
-    <ContentBlock>
-      <CellTitle>Deposit ether</CellTitle>
-      {etherBalance && <ContentRow>Your ETH balance: {formatEther(etherBalance)}</ContentRow>}
-      <ContentRow>
-        <label>How much?</label>
-        <Input type="number" step="0.01" value={etherValue} onChange={(e) => setEtherValue(e.currentTarget.value)} />
-      </ContentRow>
-      <ContentRow>
-        <SmallButton
-          onClick={() => {
-            send({ value: utils.parseEther(etherValue) })
-            setEtherValue('0')
-          }}
-        >
-          Send
-        </SmallButton>
-      </ContentRow>
-    </ContentBlock>
+    <TransferForm
+      balance={etherBalance}
+      send={(value: BigNumber) => send({ value })}
+      title="Deposit ether"
+      ticker="ETH"
+    />
   )
 }
 
 const WithdrawEth = ({ account, library }: DepositEthProps) => {
-  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
   const wethBalance = useContractCall({
     abi: wethInterface,
     address: '0xA243FEB70BaCF6cD77431269e68135cf470051b4',
     method: 'balanceOf',
     args: [account],
   })
-
+  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
   const { send, state } = useContractFunction(contract, 'withdraw')
-  const [wethValue, setWethValue] = useState('0')
 
   useEffect(() => {
     console.log({ wethState: state })
   }, [state])
 
   return (
-    <ContentBlock>
-      <CellTitle>Withdraw ether</CellTitle>
-      {wethBalance && <ContentRow>Your WETH balance: {formatEther(wethBalance[0])}</ContentRow>}
-      <ContentRow>
-        <label>How much?</label>
-        <Input type="number" step="0.01" value={wethValue} onChange={(e) => setWethValue(e.currentTarget.value)} />
-      </ContentRow>
-      <ContentRow>
-        <SmallButton
-          onClick={() => {
-            send(utils.parseEther(wethValue))
-            setWethValue('0')
-          }}
-        >
-          Send
-        </SmallButton>
-      </ContentRow>
-    </ContentBlock>
+    <TransferForm
+      balance={wethBalance?.[0]}
+      send={(value: BigNumber) => send(value)}
+      title="Withdraw ether"
+      ticker="WETH"
+    />
   )
 }
 
