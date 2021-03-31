@@ -3,7 +3,7 @@ import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, TransactionWithChainId } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, TransactionWithChainId } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -44,34 +44,40 @@ export function TransactionProvider({ children }: Props) {
         return
       }
 
-      const chainTransactions = transactions[chainId] ?? []
-      const newTransactions = await Promise.all(
-        chainTransactions.map(async (tx) => {
-          if (tx.receipt) {
-            return tx
-          }
-
-          try {
-            const receipt = await library.getTransactionReceipt(tx.transaction.hash)
-            if (receipt) {
-              const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
-              addNotification({
-                type,
-                submittedAt: Date.now(),
-                transaction: tx.transaction,
-                receipt,
-                chainId,
-              })
-
-              return { ...tx, receipt }
-            }
-          } catch (error) {
-            console.error(`failed to check transaction hash: ${tx.transaction.hash}`, error)
-          }
-
+      const checkTransaction = async (tx: StoredTransaction) => {
+        if (tx.receipt || !shouldCheck(blockNumber, tx)) {
           return tx
-        })
-      )
+        }
+
+        try {
+          const receipt = await library.getTransactionReceipt(tx.transaction.hash)
+          if (receipt) {
+            const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
+            addNotification({
+              type,
+              submittedAt: Date.now(),
+              transaction: tx.transaction,
+              receipt,
+              chainId,
+            })
+
+            return { ...tx, receipt }
+          } else {
+            return { ...tx, lastCheckedBlockNumber: blockNumber }
+          }
+        } catch (error) {
+          console.error(`failed to check transaction hash: ${tx.transaction.hash}`, error)
+        }
+
+        return tx
+      }
+
+      const chainTransactions = transactions[chainId] ?? []
+      const newTransactions: StoredTransaction[] = []
+      for (const tx of chainTransactions) {
+        const newTransaction = await checkTransaction(tx)
+        newTransactions.push(newTransaction)
+      }
 
       dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
@@ -80,4 +86,33 @@ export function TransactionProvider({ children }: Props) {
   }, [chainId, library, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />
+}
+
+function shouldCheck(blockNumber: number, tx: StoredTransaction): boolean {
+  if (tx.receipt) {
+    return false
+  }
+
+  if (!tx.lastCheckedBlockNumber) {
+    return true
+  }
+
+  const blocksSinceCheck = blockNumber - tx.lastCheckedBlockNumber
+  if (blocksSinceCheck < 1) {
+    return false
+  }
+
+  const minutesPending = (Date.now() - tx.submittedAt) / 1000 / 60
+  if (minutesPending > 60) {
+    // every 10 blocks if pending for longer than an hour
+    return blocksSinceCheck > 9
+  }
+
+  if (minutesPending > 5) {
+    // every 3 blocks if pending more than 5 minutes
+    return blocksSinceCheck > 2
+  }
+
+  // otherwise every block
+  return true
 }
