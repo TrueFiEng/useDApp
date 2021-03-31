@@ -64,7 +64,7 @@ export function TransactionProvider({ children }: Props) {
                 })
               } else {
                 addNotification({
-                  type: 'transactionSuccedd',
+                  type: 'transactionSucceed',
                   submittedAt: Date.now(),
                   transaction: tx.transaction,
                   receipt,

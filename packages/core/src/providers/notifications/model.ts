@@ -7,8 +7,8 @@ interface TransactionStarted {
   submittedAt: number
 }
 
-interface TransactionSuccedd {
-  type: 'transactionSuccedd'
+interface TransactionSucceed {
+  type: 'transactionSucceed'
   transaction: TransactionResponse
   receipt: TransactionReceipt
   submittedAt: number
@@ -26,7 +26,7 @@ interface WalletConnected {
   address: string
 }
 
-export type Notification = TransactionStarted | TransactionSuccedd | TransactionFailed | WalletConnected
+export type Notification = TransactionStarted | TransactionSucceed | TransactionFailed | WalletConnected
 
 export type NotificationWithChainId = Notification & { chainId: ChainId }
 
