@@ -1,6 +1,5 @@
 import {
   ChainId,
-  shortenAddress,
   useContractFunction,
   useEtherBalance,
   useEthers,
@@ -16,7 +15,9 @@ import styled from 'styled-components'
 import { utils } from 'ethers'
 
 import { Title } from '../typography/Title'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import type { Notification } from '@usedapp/core/dist/src/providers/notifications/model'
+import { TextBold, Text } from '../typography/Text'
 
 const abi = ['function deposit() external payable']
 const wethInterface = new utils.Interface(abi)
@@ -78,6 +79,40 @@ const TransactionsList = ({ chainId }: TransactionListProps) => {
     </ContentBlock>
   )
 }
+
+interface NotificationPanelProps {
+  title: string
+  icon: ReactNode
+}
+
+const NotificationPanel = ({ title, icon }: NotificationPanelProps) => {
+  return (
+    <div style={{ display: 'flex', padding: '8px 0' }}>
+      <IconContainer>{icon}</IconContainer>
+      <NotificationDetailsWrapper>
+        <TextBold>{title}</TextBold>
+        <Text>View on Etherscan</Text>
+      </NotificationDetailsWrapper>
+    </div>
+  )
+}
+
+interface NotificationItemProps {
+  notification: Notification
+}
+
+const NotificationItem = ({ notification }: NotificationItemProps) => {
+  switch (notification.type) {
+    case 'transactionStarted':
+      return <NotificationPanel title="Transaction started" icon={<ClockIcon />} />
+    case 'transactionFailed':
+      return <NotificationPanel title="Transaction failed" icon={<ExclamationIcon />} />
+    case 'transactionSucceed':
+      return <NotificationPanel title="Transaction succeed" icon={<CheckIcon />} />
+    default:
+      return null
+  }
+}
 interface NotificationsListProps {
   chainId: ChainId
 }
@@ -90,7 +125,7 @@ const NotificationsList = ({ chainId }: NotificationsListProps) => {
     <ContentBlock>
       <ContentRow>Notifications history</ContentRow>
       {chainNotifications.map((nx) => (
-        <ContentRow key={JSON.stringify(nx)}>{nx.type}</ContentRow>
+        <NotificationItem key={JSON.stringify(nx)} notification={nx} />
       ))}
     </ContentBlock>
   )
@@ -148,4 +183,45 @@ const Spinner = styled.div`
       transform: rotate(360deg);
     }
   }
+`
+
+const CheckIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  </svg>
+)
+
+const ClockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+)
+
+const ExclamationIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+    />
+  </svg>
+)
+
+const IconContainer = styled.div`
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+  margin-right: 10px;
+`
+
+const NotificationDetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `
