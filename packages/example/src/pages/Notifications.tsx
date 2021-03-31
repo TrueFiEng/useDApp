@@ -59,6 +59,18 @@ const DepositEth = ({ account, library }: DepositEthProps) => {
   )
 }
 
+interface TableWrapperProps {
+  children: ReactNode
+  title: string
+}
+
+const TableWrapper = ({ children, title }: TableWrapperProps) => (
+  <ContentBlock>
+    <TableTitle>{title}</TableTitle>
+    <Table>{children}</Table>
+  </ContentBlock>
+)
+
 interface TransactionListProps {
   chainId: ChainId
 }
@@ -66,17 +78,17 @@ interface TransactionListProps {
 const TransactionsList = ({ chainId }: TransactionListProps) => {
   const { transactions } = useTransactionsContext()
   const chainTransactions = transactions[chainId] ?? []
+  const reversed = [...chainTransactions].reverse()
 
   return (
-    <ContentBlock>
-      <ContentRow>Transactions history</ContentRow>
-      {chainTransactions.map((tx) => (
-        <ContentRow key={tx.transaction.hash}>
+    <TableWrapper title="Transactions history">
+      {reversed.map((tx) => (
+        <div key={tx.transaction.hash}>
           {!tx.receipt && <Spinner />}
-          <span>{tx.transaction.hash}</span>
-        </ContentRow>
+          <span>{tx.transaction.hash.slice(0, 6) + '...' + tx.transaction.hash.slice(-4)}</span>
+        </div>
       ))}
-    </ContentBlock>
+    </TableWrapper>
   )
 }
 
@@ -87,13 +99,13 @@ interface NotificationPanelProps {
 
 const NotificationPanel = ({ title, icon }: NotificationPanelProps) => {
   return (
-    <div style={{ display: 'flex', padding: '8px 0' }}>
+    <NotificationWrapper>
       <IconContainer>{icon}</IconContainer>
       <NotificationDetailsWrapper>
         <TextBold>{title}</TextBold>
         <Text>View on Etherscan</Text>
       </NotificationDetailsWrapper>
-    </div>
+    </NotificationWrapper>
   )
 }
 
@@ -120,14 +132,14 @@ interface NotificationsListProps {
 const NotificationsList = ({ chainId }: NotificationsListProps) => {
   const { notifications } = useNotificationsContext()
   const chainNotifications = notifications[chainId] ?? []
+  const reversed = [...chainNotifications].reverse()
 
   return (
-    <ContentBlock>
-      <ContentRow>Notifications history</ContentRow>
-      {chainNotifications.map((nx) => (
+    <TableWrapper title="Notifications history">
+      {reversed.map((nx) => (
         <NotificationItem key={JSON.stringify(nx)} notification={nx} />
       ))}
-    </ContentBlock>
+    </TableWrapper>
   )
 }
 
@@ -144,8 +156,10 @@ export function Notifications() {
             {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
           {account && library && <DepositEth account={account} library={library} />}
-          {account && chainId && <TransactionsList chainId={chainId} />}
-          {account && chainId && <NotificationsList chainId={chainId} />}
+          <TableGrid>
+            {account && chainId && <TransactionsList chainId={chainId} />}
+            {account && chainId && <NotificationsList chainId={chainId} />}
+          </TableGrid>
         </Section>
       </Container>
     </MainContent>
@@ -220,8 +234,32 @@ const IconContainer = styled.div`
   margin-right: 10px;
 `
 
+const NotificationWrapper = styled.div`
+  display: flex;
+`
+
 const NotificationDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+`
+const TableGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+`
+
+const Table = styled.div`
+  height: 300px;
+  overflow: scroll;
+
+  & > * + * {
+    margin-top: 10px;
+  }
+`
+
+const TableTitle = styled(TextBold)`
+  font-size: 20px;
+  margin-bottom: 10px;
 `
