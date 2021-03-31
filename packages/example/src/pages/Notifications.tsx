@@ -138,15 +138,21 @@ const TransactionsList = ({ chainId }: TransactionListProps) => {
 interface NotificationPanelProps {
   title: string
   icon: ReactNode
+  transactionHash: string
 }
 
-const NotificationPanel = ({ title, icon }: NotificationPanelProps) => {
+const NotificationPanel = ({ title, icon, transactionHash }: NotificationPanelProps) => {
+  function getEtherscanLink(hash: string) {
+    return `https://kovan.etherscan.io/tx/${hash}`
+  }
   return (
     <NotificationWrapper>
       <IconContainer>{icon}</IconContainer>
       <NotificationDetailsWrapper>
         <TextBold>{title}</TextBold>
-        <Text>View on Etherscan</Text>
+        <Link href={getEtherscanLink(transactionHash)} target="_blank" rel="noopener noreferrer">
+          View on Etherscan
+        </Link>
       </NotificationDetailsWrapper>
     </NotificationWrapper>
   )
@@ -159,11 +165,29 @@ interface NotificationItemProps {
 const NotificationItem = ({ notification }: NotificationItemProps) => {
   switch (notification.type) {
     case 'transactionStarted':
-      return <NotificationPanel title="Transaction started" icon={<ClockIcon />} />
+      return (
+        <NotificationPanel
+          title="Transaction started"
+          icon={<ClockIcon />}
+          transactionHash={notification.transaction.hash}
+        />
+      )
     case 'transactionFailed':
-      return <NotificationPanel title="Transaction failed" icon={<ExclamationIcon />} />
+      return (
+        <NotificationPanel
+          title="Transaction failed"
+          icon={<ExclamationIcon />}
+          transactionHash={notification.transaction.hash}
+        />
+      )
     case 'transactionSucceed':
-      return <NotificationPanel title="Transaction succeed" icon={<CheckIcon />} />
+      return (
+        <NotificationPanel
+          title="Transaction succeed"
+          icon={<CheckIcon />}
+          transactionHash={notification.transaction.hash}
+        />
+      )
     default:
       return null
   }
@@ -306,4 +330,9 @@ const Table = styled.div`
 const CellTitle = styled(TextBold)`
   font-size: 20px;
   margin-bottom: 10px;
+`
+const Link = styled.a`
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
 `
