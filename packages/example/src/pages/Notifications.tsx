@@ -1,4 +1,11 @@
-import { useContractFunction, useEtherBalance, useEthers } from '@usedapp/core'
+import {
+  ChainId,
+  shortenAddress,
+  useContractFunction,
+  useEtherBalance,
+  useEthers,
+  useTransactionsContext,
+} from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
 import { formatEther } from '@ethersproject/units'
@@ -50,8 +57,29 @@ const DepositEth = ({ account, library }: DepositEthProps) => {
   )
 }
 
+interface TransactionListProps {
+  chainId: ChainId
+}
+
+const TransactionsList = ({ chainId }: TransactionListProps) => {
+  const { transactions } = useTransactionsContext()
+  const chainTransactions = transactions[chainId] ?? []
+
+  return (
+    <ContentBlock>
+      <ContentRow>Transactions history</ContentRow>
+      {chainTransactions.map((tx) => (
+        <ContentRow key={tx.transaction.hash}>
+          {!tx.receipt && <Spinner />}
+          <span>{tx.transaction.hash}</span>
+        </ContentRow>
+      ))}
+    </ContentBlock>
+  )
+}
+
 export function Notifications() {
-  const { activateBrowserWallet, deactivate, account, library } = useEthers()
+  const { activateBrowserWallet, deactivate, account, library, chainId } = useEthers()
 
   return (
     <MainContent>
@@ -63,6 +91,7 @@ export function Notifications() {
             {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
           {account && library && <DepositEth account={account} library={library} />}
+          {account && chainId && <TransactionsList chainId={chainId} />}
         </Section>
       </Container>
     </MainContent>
@@ -78,4 +107,26 @@ const SmallButton = styled(Button)`
 const Input = styled.input`
   margin-left: 10px;
   padding: 4px;
+`
+
+const Spinner = styled.div`
+  position: relative;
+  display: inline-block;
+  bottom: -0.1em;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  border: 0.15em solid;
+  margin-right: 10px;
+  border-color: currentColor currentColor currentColor transparent;
+  animation: spinner-spin 1s infinite linear;
+
+  @keyframes spinner-spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `
