@@ -4,7 +4,7 @@ import type { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
 import { useContractCall, useContractFunction, useEtherBalance } from '@usedapp/core'
 import { utils } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock, ContentRow } from '../base/base'
@@ -60,11 +60,7 @@ interface DepositEthProps {
 export const DepositEth = ({ account, library }: DepositEthProps) => {
   const etherBalance = useEtherBalance(account)
   const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send, state } = useContractFunction(contract, 'deposit')
-
-  useEffect(() => {
-    console.log({ ethState: state })
-  }, [state])
+  const { send } = useContractFunction(contract, 'deposit')
 
   return (
     <TransferForm
@@ -84,11 +80,7 @@ export const WithdrawEth = ({ account, library }: DepositEthProps) => {
     args: [account],
   })
   const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send, state } = useContractFunction(contract, 'withdraw')
-
-  useEffect(() => {
-    console.log({ wethState: state })
-  }, [state])
+  const { send } = useContractFunction(contract, 'withdraw')
 
   return (
     <TransferForm
