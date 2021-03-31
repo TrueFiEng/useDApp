@@ -1,115 +1,12 @@
-import {
-  ChainId,
-  useContractCall,
-  useContractFunction,
-  useEtherBalance,
-  useEthers,
-  useNotificationsContext,
-  useTransactionsContext,
-} from '@usedapp/core'
-import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
-import { Button } from '../components/base/Button'
-import { formatEther } from '@ethersproject/units'
-import { Contract } from '@ethersproject/contracts'
-import type { Web3Provider } from '@ethersproject/providers'
+import { ChainId, useEthers, useNotificationsContext, useTransactionsContext } from '@usedapp/core'
+import type { Notification } from '@usedapp/core'
+import type { ReactNode } from 'react'
+import { DepositEth, WithdrawEth } from '../components/Notifications/Forms'
 import styled from 'styled-components'
-import { utils } from 'ethers'
-
-import { Title } from '../typography/Title'
-import { ReactNode, useEffect, useState } from 'react'
-import type { Notification } from '@usedapp/core/dist/src/providers/notifications/model'
+import { Container, ContentBlock, MainContent, Section, SectionRow } from '../components/base/base'
+import { Button } from '../components/base/Button'
 import { TextBold } from '../typography/Text'
-import type { BigNumber } from '@ethersproject/bignumber'
-
-const abi = [
-  'function deposit() external payable',
-  'function balanceOf(address account) external view returns (uint256)',
-  'function withdraw(uint256 value) external',
-]
-const wethInterface = new utils.Interface(abi)
-
-interface TransferFormProps {
-  balance: BigNumber | undefined
-  send: (value: BigNumber) => void
-  title: string
-  ticker: string
-}
-
-const TransferForm = ({ balance, send, title, ticker }: TransferFormProps) => {
-  const [value, setValue] = useState('0')
-  return (
-    <ContentBlock>
-      <CellTitle>{title}</CellTitle>
-      {balance && (
-        <ContentRow>
-          Your {ticker} balance: {formatEther(balance)}
-        </ContentRow>
-      )}
-      <ContentRow>
-        <label>How much?</label>
-        <Input type="number" step="0.01" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
-      </ContentRow>
-      <ContentRow>
-        <SmallButton
-          onClick={() => {
-            send(utils.parseEther(value))
-            setValue('0')
-          }}
-        >
-          Send
-        </SmallButton>
-      </ContentRow>
-    </ContentBlock>
-  )
-}
-
-interface DepositEthProps {
-  account: string
-  library: Web3Provider
-}
-
-const DepositEth = ({ account, library }: DepositEthProps) => {
-  const etherBalance = useEtherBalance(account)
-  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send, state } = useContractFunction(contract, 'deposit')
-
-  useEffect(() => {
-    console.log({ ethState: state })
-  }, [state])
-
-  return (
-    <TransferForm
-      balance={etherBalance}
-      send={(value: BigNumber) => send({ value })}
-      title="Deposit ether"
-      ticker="ETH"
-    />
-  )
-}
-
-const WithdrawEth = ({ account, library }: DepositEthProps) => {
-  const wethBalance = useContractCall({
-    abi: wethInterface,
-    address: '0xA243FEB70BaCF6cD77431269e68135cf470051b4',
-    method: 'balanceOf',
-    args: [account],
-  })
-  const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library.getSigner())
-  const { send, state } = useContractFunction(contract, 'withdraw')
-
-  useEffect(() => {
-    console.log({ wethState: state })
-  }, [state])
-
-  return (
-    <TransferForm
-      balance={wethBalance?.[0]}
-      send={(value: BigNumber) => send(value)}
-      title="Withdraw ether"
-      ticker="WETH"
-    />
-  )
-}
+import { Title } from '../typography/Title'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -243,17 +140,6 @@ export function Notifications() {
   )
 }
 
-const SmallButton = styled(Button)`
-  min-width: unset;
-  height: unset;
-  padding: 5px 20px;
-`
-
-const Input = styled.input`
-  margin-left: 10px;
-  padding: 4px;
-`
-
 const Spinner = styled.div`
   position: relative;
   display: inline-block;
@@ -340,6 +226,7 @@ const CellTitle = styled(TextBold)`
   font-size: 20px;
   margin-bottom: 10px;
 `
+
 const Link = styled.a`
   font-size: 14px;
   line-height: 20px;
