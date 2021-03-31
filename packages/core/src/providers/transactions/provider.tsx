@@ -54,23 +54,15 @@ export function TransactionProvider({ children }: Props) {
           try {
             const receipt = await library.getTransactionReceipt(tx.transaction.hash)
             if (receipt) {
-              if (receipt.status === 0) {
-                addNotification({
-                  type: 'transactionFailed',
-                  submittedAt: Date.now(),
-                  transaction: tx.transaction,
-                  receipt,
-                  chainId,
-                })
-              } else {
-                addNotification({
-                  type: 'transactionSucceed',
-                  submittedAt: Date.now(),
-                  transaction: tx.transaction,
-                  receipt,
-                  chainId,
-                })
-              }
+              const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
+              addNotification({
+                type,
+                submittedAt: Date.now(),
+                transaction: tx.transaction,
+                receipt,
+                chainId,
+              })
+
               return { ...tx, receipt }
             }
           } catch (error) {
