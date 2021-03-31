@@ -27,6 +27,10 @@ export function TopBar() {
               {' '}
               Tokens{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/notifications">
+              {' '}
+              Notifications{' '}
+            </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
       </HeaderContainer>
