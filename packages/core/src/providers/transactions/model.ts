@@ -9,6 +9,7 @@ export interface StoredTransaction {
   transaction: TransactionResponse
   submittedAt: number
   receipt?: TransactionReceipt
+  lastCheckedBlockNumber?: number
 }
 
 export type StoredTransactions = {
