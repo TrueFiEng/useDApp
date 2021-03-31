@@ -44,36 +44,40 @@ export function TransactionProvider({ children }: Props) {
         return
       }
 
-      const chainTransactions = transactions[chainId] ?? []
-      const newTransactions = await Promise.all(
-        chainTransactions.map(async (tx) => {
-          if (tx.receipt || !shouldCheck(blockNumber, tx)) {
-            return tx
-          }
-
-          try {
-            const receipt = await library.getTransactionReceipt(tx.transaction.hash)
-            if (receipt) {
-              const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
-              addNotification({
-                type,
-                submittedAt: Date.now(),
-                transaction: tx.transaction,
-                receipt,
-                chainId,
-              })
-
-              return { ...tx, receipt }
-            } else {
-              return { ...tx, lastCheckedBlockNumber: blockNumber }
-            }
-          } catch (error) {
-            console.error(`failed to check transaction hash: ${tx.transaction.hash}`, error)
-          }
-
+      const checkTransaction = async (tx: StoredTransaction) => {
+        if (tx.receipt || !shouldCheck(blockNumber, tx)) {
           return tx
-        })
-      )
+        }
+
+        try {
+          const receipt = await library.getTransactionReceipt(tx.transaction.hash)
+          if (receipt) {
+            const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
+            addNotification({
+              type,
+              submittedAt: Date.now(),
+              transaction: tx.transaction,
+              receipt,
+              chainId,
+            })
+
+            return { ...tx, receipt }
+          } else {
+            return { ...tx, lastCheckedBlockNumber: blockNumber }
+          }
+        } catch (error) {
+          console.error(`failed to check transaction hash: ${tx.transaction.hash}`, error)
+        }
+
+        return tx
+      }
+
+      const chainTransactions = transactions[chainId] ?? []
+      const newTransactions: StoredTransaction[] = []
+      for (const tx of chainTransactions) {
+        const newTransaction = await checkTransaction(tx)
+        newTransactions.push(newTransaction)
+      }
 
       dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
