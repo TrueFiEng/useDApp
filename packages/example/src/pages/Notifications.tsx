@@ -4,6 +4,7 @@ import {
   useContractFunction,
   useEtherBalance,
   useEthers,
+  useNotificationsContext,
   useTransactionsContext,
 } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
@@ -77,6 +78,23 @@ const TransactionsList = ({ chainId }: TransactionListProps) => {
     </ContentBlock>
   )
 }
+interface NotificationsListProps {
+  chainId: ChainId
+}
+
+const NotificationsList = ({ chainId }: NotificationsListProps) => {
+  const { notifications } = useNotificationsContext()
+  const chainNotifications = notifications[chainId] ?? []
+
+  return (
+    <ContentBlock>
+      <ContentRow>Notifications history</ContentRow>
+      {chainNotifications.map((nx) => (
+        <ContentRow key={JSON.stringify(nx)}>{nx.type}</ContentRow>
+      ))}
+    </ContentBlock>
+  )
+}
 
 export function Notifications() {
   const { activateBrowserWallet, deactivate, account, library, chainId } = useEthers()
@@ -92,6 +110,7 @@ export function Notifications() {
           </SectionRow>
           {account && library && <DepositEth account={account} library={library} />}
           {account && chainId && <TransactionsList chainId={chainId} />}
+          {account && chainId && <NotificationsList chainId={chainId} />}
         </Section>
       </Container>
     </MainContent>
