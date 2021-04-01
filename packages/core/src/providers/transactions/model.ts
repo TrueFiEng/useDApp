@@ -1,15 +1,15 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { ChainId } from '../../constants'
 
-export type TransactionWithChainId = TransactionResponse & {
-  chainId: ChainId
-}
-
 export interface StoredTransaction {
   transaction: TransactionResponse
   submittedAt: number
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
+}
+export interface AddTransactionPayload {
+  transaction: StoredTransaction
+  chainId: ChainId
 }
 
 export type StoredTransactions = {
