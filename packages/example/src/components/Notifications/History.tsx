@@ -47,18 +47,37 @@ export const TransactionsList = () => {
   )
 }
 
+function notificationIcon(type: Notification['type']) {
+  switch (type) {
+    case 'transactionStarted':
+      return <ClockIcon />
+    case 'transactionFailed':
+      return <ExclamationIcon />
+    case 'transactionSucceed':
+      return <CheckIcon />
+    default:
+      return null
+  }
+}
+
+const notificationTitle: { [key in Notification['type']]: string } = {
+  transactionFailed: 'Transaction failed',
+  transactionStarted: 'Transaction started',
+  transactionSucceed: 'Transaction succeed',
+  walletConnected: 'Wallet connected',
+}
+
 interface NotificationPanelProps {
-  title: string
-  icon: ReactNode
+  type: Notification['type']
   transaction: TransactionResponse
 }
 
-const NotificationPanel = ({ title, icon, transaction }: NotificationPanelProps) => {
+const NotificationPanel = ({ transaction, type }: NotificationPanelProps) => {
   return (
     <NotificationWrapper>
-      <IconContainer>{icon}</IconContainer>
+      <IconContainer>{notificationIcon(type)}</IconContainer>
       <NotificationDetailsWrapper>
-        <TextBold>{title}</TextBold>
+        <TextBold>{notificationTitle[type]}</TextBold>
         <Link
           href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
           target="_blank"
@@ -76,25 +95,10 @@ interface NotificationItemProps {
 }
 
 const NotificationItem = ({ notification }: NotificationItemProps) => {
-  switch (notification.type) {
-    case 'transactionStarted':
-      return (
-        <NotificationPanel title="Transaction started" icon={<ClockIcon />} transaction={notification.transaction} />
-      )
-    case 'transactionFailed':
-      return (
-        <NotificationPanel
-          title="Transaction failed"
-          icon={<ExclamationIcon />}
-          transaction={notification.transaction}
-        />
-      )
-    case 'transactionSucceed':
-      return (
-        <NotificationPanel title="Transaction succeed" icon={<CheckIcon />} transaction={notification.transaction} />
-      )
-    default:
-      return null
+  if ('transaction' in notification) {
+    return <NotificationPanel type={notification.type} transaction={notification.transaction} />
+  } else {
+    return null
   }
 }
 
