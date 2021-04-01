@@ -28,7 +28,10 @@ interface WalletConnected {
 
 export type Notification = TransactionStarted | TransactionSucceed | TransactionFailed | WalletConnected
 
-export type NotificationWithChainId = Notification & { chainId: ChainId }
+export interface AddNotificationPayload {
+  notification: Notification
+  chainId: ChainId
+}
 
 export type Notifications = {
   [T in ChainId]?: Notification[]

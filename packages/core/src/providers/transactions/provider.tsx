@@ -29,10 +29,12 @@ export function TransactionProvider({ children }: Props) {
         submittedAt: Date.now(),
       })
       addNotification({
-        type: 'transactionStarted',
+        notification: {
+          type: 'transactionStarted',
+          transaction: transaction,
+          submittedAt: Date.now(),
+        },
         chainId: transaction.chainId,
-        transaction: transaction,
-        submittedAt: Date.now(),
       })
     },
     [dispatch]
@@ -54,10 +56,12 @@ export function TransactionProvider({ children }: Props) {
           if (receipt) {
             const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
             addNotification({
-              type,
-              submittedAt: Date.now(),
-              transaction: tx.transaction,
-              receipt,
+              notification: {
+                type,
+                submittedAt: Date.now(),
+                transaction: tx.transaction,
+                receipt,
+              },
               chainId,
             })
 

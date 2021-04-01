@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react'
-import { Notifications, DEFAULT_NOTIFICATIONS, NotificationWithChainId } from './model'
+import { Notifications, DEFAULT_NOTIFICATIONS, AddNotificationPayload } from './model'
 
 export const NotificationsContext = createContext<{
   notifications: Notifications
-  addNotification: (notication: NotificationWithChainId) => void
+  addNotification: (payload: AddNotificationPayload) => void
 }>({
   notifications: DEFAULT_NOTIFICATIONS,
   addNotification: () => undefined,
