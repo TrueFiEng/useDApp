@@ -6,7 +6,7 @@ import { GlobalStyle } from './global/GlobalStyle'
 import { Balance } from './pages/Balance'
 import { Block } from './pages/Block'
 import { Tokens } from './pages/Tokens'
-import { Notifications } from './pages/Notifications'
+import { Transactions } from './pages/Transactions'
 
 export function App() {
   return (
@@ -18,7 +18,7 @@ export function App() {
           <Route exact path="/balance" component={Balance} />
           <Route exact path="/block" component={Block} />
           <Route exact path="/tokens" component={Tokens} />
-          <Route exact path="/notifications" component={Notifications} />
+          <Route exact path="/transactions" component={Transactions} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>

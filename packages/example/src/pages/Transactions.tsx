@@ -6,7 +6,7 @@ import { DepositEth, WithdrawEth } from '../components/Notifications/Forms'
 import { NotificationsList, TransactionsList } from '../components/Notifications/History'
 import { Title } from '../typography/Title'
 
-export function Notifications() {
+export function Transactions() {
   const { activateBrowserWallet, deactivate, account, library, chainId } = useEthers()
 
   return (
@@ -14,7 +14,7 @@ export function Notifications() {
       <Container>
         <Section>
           <SectionRow>
-            <Title>Notifications</Title>
+            <Title>Transactions</Title>
             {account && <Button onClick={deactivate}>Disconnect</Button>}
             {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
