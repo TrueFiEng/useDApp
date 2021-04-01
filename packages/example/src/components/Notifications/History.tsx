@@ -1,11 +1,5 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import {
-  ChainId,
-  getExplorerTransactionLink,
-  Notification,
-  useNotificationsContext,
-  useTransactions,
-} from '@usedapp/core'
+import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
 import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -97,14 +91,10 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
       return null
   }
 }
-interface NotificationsListProps {
-  chainId: ChainId
-}
 
-export const NotificationsList = ({ chainId }: NotificationsListProps) => {
-  const { notifications } = useNotificationsContext()
-  const chainNotifications = notifications[chainId] ?? []
-  const reversed = [...chainNotifications].reverse()
+export const NotificationsList = () => {
+  const { notifications } = useNotifications()
+  const reversed = [...notifications].reverse()
 
   return (
     <TableWrapper title="Notifications history">

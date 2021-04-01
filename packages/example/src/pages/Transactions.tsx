@@ -22,7 +22,7 @@ export function Transactions() {
             {account && library && <DepositEth account={account} library={library} />}
             {account && library && <WithdrawEth account={account} library={library} />}
             {account && chainId && <TransactionsList />}
-            {account && chainId && <NotificationsList chainId={chainId} />}
+            {account && chainId && <NotificationsList />}
           </TableGrid>
         </Section>
       </Container>
