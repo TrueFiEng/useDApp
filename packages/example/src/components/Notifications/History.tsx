@@ -4,6 +4,10 @@ import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
+import { CheckIcon } from './Icons/CheckIcon'
+import { ClockIcon } from './Icons/ClockIcon'
+import { ExclamationIcon } from './Icons/ExclamationIcon'
+import { SpinnerIcon } from './Icons/SpinnerIcon'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -29,10 +33,14 @@ export const TransactionsList = ({ chainId }: TransactionListProps) => {
   return (
     <TableWrapper title="Transactions history">
       {reversed.map((tx) => (
-        <div key={tx.transaction.hash}>
-          {!tx.receipt && <Spinner />}
-          <span>{tx.transaction.hash.slice(0, 6) + '...' + tx.transaction.hash.slice(-4)}</span>
-        </div>
+        <TransactionDetailsWrapper key={tx.transaction.hash}>
+          {!tx.receipt && (
+            <IconContainer>
+              <SpinnerIcon />
+            </IconContainer>
+          )}
+          <div>{tx.transaction.hash.slice(0, 6) + '...' + tx.transaction.hash.slice(-4)}</div>
+        </TransactionDetailsWrapper>
       ))}
     </TableWrapper>
   )
@@ -120,6 +128,11 @@ const IconContainer = styled.div`
   height: 48px;
   padding: 8px;
   margin-right: 10px;
+`
+
+const TransactionDetailsWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const NotificationWrapper = styled.div`
