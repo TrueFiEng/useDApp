@@ -115,56 +115,6 @@ export const NotificationsList = ({ chainId }: NotificationsListProps) => {
   )
 }
 
-const Spinner = styled.div`
-  position: relative;
-  display: inline-block;
-  bottom: -0.1em;
-  height: 1em;
-  width: 1em;
-  border-radius: 50%;
-  border: 0.15em solid;
-  margin-right: 10px;
-  border-color: currentColor currentColor currentColor transparent;
-  animation: spinner-spin 1s infinite linear;
-
-  @keyframes spinner-spin {
-    0% {
-      transform: rotate(0);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`
-
-const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-  </svg>
-)
-
-const ClockIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-)
-
-const ExclamationIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-    />
-  </svg>
-)
-
 const IconContainer = styled.div`
   width: 48px;
   height: 48px;
