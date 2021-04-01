@@ -1,5 +1,11 @@
-import { getExplorerTransactionLink, Notification } from '@usedapp/core'
-import { ChainId, useNotificationsContext, useTransactionsContext } from '@usedapp/core'
+import type { TransactionResponse } from '@ethersproject/providers'
+import {
+  ChainId,
+  getExplorerTransactionLink,
+  Notification,
+  useNotificationsContext,
+  useTransactionsContext,
+} from '@usedapp/core'
 import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -49,17 +55,20 @@ export const TransactionsList = ({ chainId }: TransactionListProps) => {
 interface NotificationPanelProps {
   title: string
   icon: ReactNode
-  transactionHash: string
-  chainId: ChainId
+  transaction: TransactionResponse
 }
 
-const NotificationPanel = ({ title, icon, transactionHash, chainId }: NotificationPanelProps) => {
+const NotificationPanel = ({ title, icon, transaction }: NotificationPanelProps) => {
   return (
     <NotificationWrapper>
       <IconContainer>{icon}</IconContainer>
       <NotificationDetailsWrapper>
         <TextBold>{title}</TextBold>
-        <Link href={getExplorerTransactionLink(transactionHash, chainId)} target="_blank" rel="noopener noreferrer">
+        <Link
+          href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View on Etherscan
         </Link>
       </NotificationDetailsWrapper>
@@ -69,37 +78,25 @@ const NotificationPanel = ({ title, icon, transactionHash, chainId }: Notificati
 
 interface NotificationItemProps {
   notification: Notification
-  chainId: ChainId
 }
 
-const NotificationItem = ({ notification, chainId }: NotificationItemProps) => {
+const NotificationItem = ({ notification }: NotificationItemProps) => {
   switch (notification.type) {
     case 'transactionStarted':
       return (
-        <NotificationPanel
-          title="Transaction started"
-          icon={<ClockIcon />}
-          transactionHash={notification.transaction.hash}
-          chainId={chainId}
-        />
+        <NotificationPanel title="Transaction started" icon={<ClockIcon />} transaction={notification.transaction} />
       )
     case 'transactionFailed':
       return (
         <NotificationPanel
           title="Transaction failed"
           icon={<ExclamationIcon />}
-          transactionHash={notification.transaction.hash}
-          chainId={chainId}
+          transaction={notification.transaction}
         />
       )
     case 'transactionSucceed':
       return (
-        <NotificationPanel
-          title="Transaction succeed"
-          icon={<CheckIcon />}
-          transactionHash={notification.transaction.hash}
-          chainId={chainId}
-        />
+        <NotificationPanel title="Transaction succeed" icon={<CheckIcon />} transaction={notification.transaction} />
       )
     default:
       return null
@@ -117,7 +114,7 @@ export const NotificationsList = ({ chainId }: NotificationsListProps) => {
   return (
     <TableWrapper title="Notifications history">
       {reversed.map((nx) => (
-        <NotificationItem key={JSON.stringify(nx)} notification={nx} chainId={chainId} />
+        <NotificationItem key={JSON.stringify(nx)} notification={nx} />
       ))}
     </TableWrapper>
   )
