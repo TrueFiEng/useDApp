@@ -1,9 +1,9 @@
 import { ChainId } from '../../constants'
 import { StoredTransaction, StoredTransactions, TransactionWithChainId } from './model'
 
-type Action = TransactionAdded | UpdateTransactions
+type Action = AddTransaction | UpdateTransactions
 
-interface TransactionAdded {
+interface AddTransaction {
   type: 'ADD_TRANSACTION'
   transaction: TransactionWithChainId
   submittedAt: number
