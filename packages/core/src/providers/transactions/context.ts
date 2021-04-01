@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react'
-import { DEFAULT_STORED_TRANSACTIONS, StoredTransactions, AddTransactionPayload } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, StoredTransactions } from './model'
 
 export const TransactionsContext = createContext<{
   transactions: StoredTransactions
-  addTransaction: (payload: AddTransactionPayload) => void
+  addTransaction: (payload: StoredTransaction) => void
 }>({
   transactions: DEFAULT_STORED_TRANSACTIONS,
   addTransaction: () => undefined,

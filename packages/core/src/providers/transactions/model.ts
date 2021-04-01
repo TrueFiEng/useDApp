@@ -7,10 +7,6 @@ export interface StoredTransaction {
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
 }
-export interface AddTransactionPayload {
-  transaction: StoredTransaction
-  chainId: ChainId
-}
 
 export type StoredTransactions = {
   [T in ChainId]?: StoredTransaction[]
