@@ -17,14 +17,14 @@ const abi = [
 ]
 const wethInterface = new utils.Interface(abi)
 
-interface TransferFormProps {
+interface TransactionFormProps {
   balance: BigNumber | undefined
   send: (value: BigNumber) => void
   title: string
   ticker: string
 }
 
-const TransferForm = ({ balance, send, title, ticker }: TransferFormProps) => {
+const TransactionForm = ({ balance, send, title, ticker }: TransactionFormProps) => {
   const [value, setValue] = useState('0')
   return (
     <ContentBlock>
@@ -63,7 +63,7 @@ export const DepositEth = ({ account, library }: DepositEthProps) => {
   const { send } = useContractFunction(contract, 'deposit')
 
   return (
-    <TransferForm
+    <TransactionForm
       balance={etherBalance}
       send={(value: BigNumber) => send({ value })}
       title="Deposit ether"
@@ -83,7 +83,7 @@ export const WithdrawEth = ({ account, library }: DepositEthProps) => {
   const { send } = useContractFunction(contract, 'withdraw')
 
   return (
-    <TransferForm
+    <TransactionForm
       balance={wethBalance?.[0]}
       send={(value: BigNumber) => send(value)}
       title="Withdraw ether"
