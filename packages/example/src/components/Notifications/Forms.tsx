@@ -9,13 +9,9 @@ import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock, ContentRow } from '../base/base'
 import { Button } from '../base/Button'
+import WethAbi from '../../abi/Weth10.json'
 
-const abi = [
-  'function deposit() external payable',
-  'function balanceOf(address account) external view returns (uint256)',
-  'function withdraw(uint256 value) external',
-]
-const wethInterface = new utils.Interface(abi)
+const wethInterface = new utils.Interface(WethAbi)
 
 interface TransactionFormProps {
   balance: BigNumber | undefined
