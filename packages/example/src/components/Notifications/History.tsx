@@ -4,7 +4,7 @@ import {
   getExplorerTransactionLink,
   Notification,
   useNotificationsContext,
-  useTransactionsContext,
+  useTransactions,
 } from '@usedapp/core'
 import type { ReactNode } from 'react'
 import styled from 'styled-components'
@@ -27,14 +27,9 @@ const TableWrapper = ({ children, title }: TableWrapperProps) => (
   </ContentBlock>
 )
 
-interface TransactionListProps {
-  chainId: ChainId
-}
-
-export const TransactionsList = ({ chainId }: TransactionListProps) => {
-  const { transactions } = useTransactionsContext()
-  const chainTransactions = transactions[chainId] ?? []
-  const reversed = [...chainTransactions].reverse()
+export const TransactionsList = () => {
+  const { transactions } = useTransactions()
+  const reversed = [...transactions].reverse()
 
   return (
     <TableWrapper title="Transactions history">
