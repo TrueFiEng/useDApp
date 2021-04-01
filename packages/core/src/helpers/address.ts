@@ -1,11 +1,12 @@
 import { utils } from 'ethers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Falsy } from '../model/types'
+import { shortenString } from './common'
 
 export function shortenAddress(address: string): string {
   try {
     const formattedAddress = utils.getAddress(address)
-    return formattedAddress.substring(0, 6) + '...' + formattedAddress.substring(formattedAddress.length - 4)
+    return shortenString(formattedAddress)
   } catch {
     throw new TypeError("Invalid input, address can't be parsed")
   }

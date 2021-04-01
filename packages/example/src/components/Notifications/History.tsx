@@ -1,5 +1,11 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
+import {
+  getExplorerTransactionLink,
+  Notification,
+  shortenTransactionHash,
+  useNotifications,
+  useTransactions,
+} from '@usedapp/core'
 import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -34,7 +40,7 @@ export const TransactionsList = () => {
               <SpinnerIcon />
             </IconContainer>
           )}
-          <div>{tx.transaction.hash.slice(0, 6) + '...' + tx.transaction.hash.slice(-4)}</div>
+          <div>{shortenTransactionHash(tx.transaction.hash)}</div>
         </TransactionDetailsWrapper>
       ))}
     </TableWrapper>
