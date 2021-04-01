@@ -3,7 +3,7 @@ import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, TransactionWithChainId } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -22,17 +22,18 @@ export function TransactionProvider({ children }: Props) {
   }, [transactions])
 
   const addTransaction = useCallback(
-    (transaction: TransactionWithChainId) => {
+    (payload: StoredTransaction) => {
       dispatch({
         type: 'ADD_TRANSACTION',
-        transaction,
-        submittedAt: Date.now(),
+        payload,
       })
       addNotification({
-        type: 'transactionStarted',
-        chainId: transaction.chainId,
-        transaction: transaction,
-        submittedAt: Date.now(),
+        notification: {
+          type: 'transactionStarted',
+          transaction: payload.transaction,
+          submittedAt: payload.submittedAt,
+        },
+        chainId: payload.transaction.chainId,
       })
     },
     [dispatch]
@@ -54,10 +55,12 @@ export function TransactionProvider({ children }: Props) {
           if (receipt) {
             const type = receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
             addNotification({
-              type,
-              submittedAt: Date.now(),
-              transaction: tx.transaction,
-              receipt,
+              notification: {
+                type,
+                submittedAt: Date.now(),
+                transaction: tx.transaction,
+                receipt,
+              },
               chainId,
             })
 

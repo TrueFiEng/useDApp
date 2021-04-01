@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useLocalStorage } from '../../hooks'
 import { NotificationsContext } from './context'
-import { DEFAULT_NOTIFICATIONS, NotificationWithChainId } from './model'
+import { AddNotificationPayload, DEFAULT_NOTIFICATIONS } from './model'
 import { notificationReducer } from './reducer'
 
 interface Props {
@@ -17,9 +17,7 @@ export function NotificationsProvider({ children }: Props) {
   }, [notifications])
 
   const addNotification = useCallback(
-    (notificationWithChainId: NotificationWithChainId) => {
-      const { chainId, ...notification } = notificationWithChainId
-
+    ({ notification, chainId }: AddNotificationPayload) => {
       dispatch({
         type: 'ADD_NOTIFICATION',
         chainId,
