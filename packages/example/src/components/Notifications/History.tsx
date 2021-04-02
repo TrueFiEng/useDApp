@@ -29,11 +29,10 @@ const TableWrapper = ({ children, title }: TableWrapperProps) => (
 
 export const TransactionsList = () => {
   const { transactions } = useTransactions()
-  const reversed = [...transactions].reverse()
 
   return (
     <TableWrapper title="Transactions history">
-      {reversed.map((tx) => (
+      {transactions.map((tx) => (
         <TransactionDetailsWrapper key={tx.transaction.hash}>
           {!tx.receipt && (
             <IconContainer>
