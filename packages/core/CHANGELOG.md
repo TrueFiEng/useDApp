@@ -11,7 +11,7 @@
   🥧 Add shortenTransactionHash helper
 
   Docs:
-  🎤 Create transactions and notifications example
+  🎤 Create transactions & notifications example
   📄 Add activate method in getting-started guide
   🚤 Update config example
 
