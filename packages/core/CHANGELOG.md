@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.1
+
+### Patch Changes
+
+- feff916: Move ethers to dependencies
+
 ## 0.3.0
 
 ### Minor Changes
