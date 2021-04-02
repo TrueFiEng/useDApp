@@ -103,11 +103,10 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
 
 export const NotificationsList = () => {
   const { notifications } = useNotifications()
-  const reversed = [...notifications].reverse()
 
   return (
     <TableWrapper title="Notifications history">
-      {reversed.map((nx) => (
+      {notifications.map((nx) => (
         <NotificationItem key={JSON.stringify(nx)} notification={nx} />
       ))}
     </TableWrapper>

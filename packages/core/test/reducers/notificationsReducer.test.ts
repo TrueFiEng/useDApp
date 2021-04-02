@@ -15,4 +15,30 @@ describe('notificationReducer', () => {
       1: [notification],
     })
   })
+
+  it('notifications added in correct order', () => {
+    const initial: Notification = {
+      submittedAt: 12,
+      transaction: {} as TransactionResponse,
+      type: 'transactionStarted',
+    }
+    const added: Notification = {
+      submittedAt: 15,
+      transaction: {} as TransactionResponse,
+      type: 'transactionStarted',
+    }
+
+    const newState = notificationReducer(
+      {
+        1: [initial],
+      },
+      {
+        type: 'ADD_NOTIFICATION',
+        chainId: 1,
+        notification: added,
+      }
+    )
+
+    expect(newState).to.deep.eq({ 1: [added, initial] })
+  })
 })
