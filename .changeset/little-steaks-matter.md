@@ -10,7 +10,7 @@ New features:
 🥧 Add shortenTransactionHash helper
 
 Docs:
-🎤 Create transactions & notifications example
+🎤 Create transactions and notifications example
 📄 Add activate method in getting-started guide
 🚤 Update config example
 
