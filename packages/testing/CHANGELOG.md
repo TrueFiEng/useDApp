@@ -1,5 +1,32 @@
 # @usedapp/testing
 
+## 0.2.0
+
+### Minor Changes
+
+- 67b2dda: 🧷 Reorder token hooks arguments
+- 7a74be4: New features:
+  ✈️ Add hook for sending transactions to blockchain
+  📬 Add useNotifications and useTransactions hooks
+  🥧 Add shortenTransactionHash helper
+
+  Docs:
+  🎤 Create transactions and notifications example
+  📄 Add activate method in getting-started guide
+  🚤 Update config example
+
+  Breaking changes:
+  🧷 Reorder token hooks arguments
+
+  Fixes:
+  💪 Move ethereum-waffle to devDependencies
+
+### Patch Changes
+
+- Updated dependencies [67b2dda]
+- Updated dependencies [7a74be4]
+  - @usedapp/core@0.3.0
+
 ## 0.1.4
 
 ### Patch Changes
