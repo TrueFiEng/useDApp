@@ -11,9 +11,6 @@
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "^3.2.2",
-    "@ethersproject/abi": "^5.0.12",
-    "@ethersproject/bignumber": "^5.0.14",
-    "@ethersproject/contracts": "^5.0.10",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/mocha": "^8.2.0",
@@ -33,6 +30,9 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "@ethersproject/abi": "^5.0.12",
+    "@ethersproject/bignumber": "^5.0.14",
+    "@ethersproject/contracts": "^5.0.10",
     "@ethersproject/providers": "^5.0.17",
     "@types/react": "^17.0.0",
     "@web3-react/core": "^6.1.1",
