@@ -29,11 +29,10 @@ const TableWrapper = ({ children, title }: TableWrapperProps) => (
 
 export const TransactionsList = () => {
   const { transactions } = useTransactions()
-  const reversed = [...transactions].reverse()
 
   return (
     <TableWrapper title="Transactions history">
-      {reversed.map((tx) => (
+      {transactions.map((tx) => (
         <TransactionDetailsWrapper key={tx.transaction.hash}>
           {!tx.receipt && (
             <IconContainer>
@@ -104,11 +103,10 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
 
 export const NotificationsList = () => {
   const { notifications } = useNotifications()
-  const reversed = [...notifications].reverse()
 
   return (
     <TableWrapper title="Notifications history">
-      {reversed.map((nx) => (
+      {notifications.map((nx) => (
         <NotificationItem key={JSON.stringify(nx)} notification={nx} />
       ))}
     </TableWrapper>

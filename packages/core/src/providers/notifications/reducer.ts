@@ -17,7 +17,7 @@ export function notificationReducer(state: Notifications, action: Action): Notif
     case 'ADD_NOTIFICATION':
       return {
         ...state,
-        [chainId]: chainState.concat(action.notification),
+        [chainId]: [action.notification, ...chainState],
       }
   }
 }

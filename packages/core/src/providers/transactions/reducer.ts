@@ -25,7 +25,7 @@ export function transactionReducer(state: StoredTransactions, action: Action): S
       if (isChainId(chainId)) {
         return {
           ...state,
-          [chainId]: (state[chainId] ?? []).concat(action.payload),
+          [chainId]: [action.payload, ...(state[chainId] ?? [])],
         }
       } else {
         throw TypeError('Unsupported chain')
