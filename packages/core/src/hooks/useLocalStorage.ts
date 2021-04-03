@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 
 function getItem(key: string) {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
   const item = window.localStorage.getItem(key)
-  let result
   if (item !== null) {
     try {
-      result = JSON.parse(item)
+      return JSON.parse(item)
     } catch {
       // ignore error
     }
   }
-  return result
 }
 
 function setItem(key: string, value: any) {
