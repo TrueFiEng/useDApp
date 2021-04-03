@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.4
+
+### Patch Changes
+
+- 47652a3: 💥 Fix useLocalStorage for serverSide rendering
+
 ## 0.3.3
 
 ### Patch Changes
