@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.2.1
+
+### Patch Changes
+
+- 99ffafd: Update yarn.lock and add missing dependencies
+- Updated dependencies [99ffafd]
+  - @usedapp/core@0.3.2
+
 ## 0.2.0
 
 ### Minor Changes

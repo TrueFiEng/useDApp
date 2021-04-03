@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.2
+
+### Patch Changes
+
+- 99ffafd: Update yarn.lock and add missing dependencies
+
 ## 0.3.1
 
 ### Patch Changes
