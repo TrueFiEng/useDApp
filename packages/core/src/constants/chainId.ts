@@ -5,6 +5,7 @@ export enum ChainId {
   Goerli = 5,
   Kovan = 42,
   xDai = 100,
+  Localhost = 1337,
 }
 
 export const CHAIN_NAMES = {
@@ -14,6 +15,7 @@ export const CHAIN_NAMES = {
   [ChainId.Rinkeby]: 'Rinkeby',
   [ChainId.Goerli]: 'Goerli',
   [ChainId.xDai]: 'xDai',
+  [ChainId.Localhost]: 'Localhost',
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -25,4 +27,4 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
 }
 
-export const TEST_CHAINS = [ChainId.Ropsten, ChainId.Kovan, ChainId.Rinkeby, ChainId.Goerli]
+export const TEST_CHAINS = [ChainId.Ropsten, ChainId.Kovan, ChainId.Rinkeby, ChainId.Goerli, ChainId.Localhost]
