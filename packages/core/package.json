@@ -34,6 +34,7 @@
     "@ethersproject/bignumber": "^5.0.14",
     "@ethersproject/contracts": "^5.0.10",
     "@ethersproject/providers": "^5.0.17",
+    "@ethersproject/units": "^5.1.0",
     "@types/react": "^17.0.0",
     "@web3-react/core": "^6.1.1",
     "@web3-react/injected-connector": "^6.0.7",
