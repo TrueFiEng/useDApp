@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.3
+
+### Patch Changes
+
+- 3bd807f: add localhost to chainIds
+
 ## 0.3.2
 
 ### Patch Changes
