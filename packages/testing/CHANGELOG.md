@@ -1,5 +1,11 @@
 # @usedapp/testing
 
+## 0.2.1
+
+### Patch Changes
+
+- b54a568: Export mockWeb3Wrapper and mockConnector
+
 ## 0.2.0
 
 ### Minor Changes
