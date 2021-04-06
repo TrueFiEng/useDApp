@@ -2,4 +2,4 @@
 "@usedapp/testing": patch
 ---
 
-Export mockWeb3Wrapper
+Export mockWeb3Wrapper and mockConnector
