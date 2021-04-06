@@ -1,5 +1,11 @@
 # @usedapp/testing
 
+## 0.2.2
+
+### Patch Changes
+
+- 7d56483: Change chainId in mockConnector
+
 ## 0.2.1
 
 ### Patch Changes
