@@ -1,5 +1,11 @@
 # @usedapp/testing
 
+## 0.2.3
+
+### Patch Changes
+
+- 17122cc: Add chainId to constructor in mockConnector
+
 ## 0.2.2
 
 ### Patch Changes
