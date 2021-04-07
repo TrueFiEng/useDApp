@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.5
+
+### Patch Changes
+
+- e6f46aa: Connect contract to signer only in send
+
 ## 0.3.4
 
 ### Patch Changes
