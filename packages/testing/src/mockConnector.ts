@@ -4,12 +4,13 @@ import { MockProvider } from '@ethereum-waffle/provider'
 
 // Modified from https://github.com/NoahZinsmeister/web3-react/blob/v6/packages/network-connector/src/index.ts
 export class MockConnector extends AbstractConnector {
-  private provider: any
-  private chainId = 1337
+  private readonly provider: any
+  private readonly chainId: number
 
-  constructor(provider?: any) {
+  constructor(provider?: any, chainId?: number) {
     super()
     this.provider = provider ?? new MockProvider()
+    this.chainId = chainId ?? 1337
   }
 
   public async activate(): Promise<ConnectorUpdate> {
