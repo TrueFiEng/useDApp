@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
 import { useState } from 'react'
 import { ChainId } from '../constants'
-import { useTransactionsContext } from '../providers/transactions/context'
+import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
 
 type TransactionStatus =
@@ -60,14 +60,14 @@ export function useContractFunction(contract: Contract, functionName: string, op
   const { addTransaction } = useTransactionsContext()
   const { library, chainId } = useEthers()
 
-  const contractWithSigner = connectContractToSigner(contract, options, library)
-
   let transaction: TransactionResponse
 
   const send = async (...args: any[]) => {
     if (!chainId) {
       return
     }
+
+    const contractWithSigner = connectContractToSigner(contract, options, library)
 
     try {
       transaction = await contractWithSigner[functionName](...args)
