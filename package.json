@@ -21,5 +21,8 @@
     "@changesets/cli": "^2.14.1",
     "prettier": "2.1.2",
     "wsrun": "^5.2.1"
+  },
+  "resolutions": {
+    "ethers": "5.0.32"
   }
 }
