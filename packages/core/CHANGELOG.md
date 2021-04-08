@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.6
+
+### Patch Changes
+
+- 21a6dd4: Set ethers to version 5.0.32
+
 ## 0.3.5
 
 ### Patch Changes
