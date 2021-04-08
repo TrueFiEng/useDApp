@@ -1,3 +1,4 @@
+import React from 'react'
 import { useBlockMeta, useBlockNumber, useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section } from '../components/base/base'
 import { Label } from '../typography/Label'

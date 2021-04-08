@@ -6,7 +6,7 @@ import {
   useNotifications,
   useTransactions,
 } from '@usedapp/core'
-import type { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
