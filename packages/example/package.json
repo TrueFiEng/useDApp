@@ -5,11 +5,10 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "tsc --noEmit && rimraf build && webpack --mode production --progress",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint && yarn lint:tsc",
+    "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src, test}/**/*.{ts,tsx}'",
-    "lint:tsc": "tsc --noEmit"
+    "lint:prettier": "yarn prettier './{src, test}/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.7",
