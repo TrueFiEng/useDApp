@@ -3,6 +3,7 @@ import { useLocalStorage } from '../../hooks'
 import { NotificationsContext } from './context'
 import { AddNotificationPayload, DEFAULT_NOTIFICATIONS } from './model'
 import { notificationReducer } from './reducer'
+import { nanoid } from 'nanoid'
 
 interface Props {
   children: ReactNode
@@ -21,7 +22,7 @@ export function NotificationsProvider({ children }: Props) {
       dispatch({
         type: 'ADD_NOTIFICATION',
         chainId,
-        notification,
+        notification: { ...notification, id: nanoid() },
       })
     },
     [dispatch]

@@ -1,37 +1,18 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
 import { ChainId } from '../../constants'
 
-interface TransactionStarted {
-  type: 'transactionStarted'
-  transaction: TransactionResponse
-  submittedAt: number
-}
+type NotificationPayload = { submittedAt: number } & (
+  | { type: 'transactionStarted'; transaction: TransactionResponse }
+  | { type: 'transactionSucceed'; transaction: TransactionResponse; receipt: TransactionReceipt }
+  | { type: 'transactionFailed'; transaction: TransactionResponse; receipt: TransactionReceipt }
+  | { type: 'walletConnected'; address: string }
+)
 
-interface TransactionSucceed {
-  type: 'transactionSucceed'
-  transaction: TransactionResponse
-  receipt: TransactionReceipt
-  submittedAt: number
-}
+export type Notification = { id: string } & NotificationPayload
 
-interface TransactionFailed {
-  type: 'transactionFailed'
-  transaction: TransactionResponse
-  receipt: TransactionReceipt
-  submittedAt: number
-}
-
-interface WalletConnected {
-  type: 'walletConnected'
-  address: string
-  submittedAt: number
-}
-
-export type Notification = TransactionStarted | TransactionSucceed | TransactionFailed | WalletConnected
-
-export interface AddNotificationPayload {
-  notification: Notification
+export type AddNotificationPayload = {
   chainId: ChainId
+  notification: NotificationPayload
 }
 
 export type Notifications = {
