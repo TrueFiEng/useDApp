@@ -80,10 +80,11 @@ export function useContractFunction(contract: Contract, functionName: string, op
       const receipt = await transaction.wait()
       setState({ receipt, transaction, status: 'Success', chainId })
     } catch (e) {
+      const errorMessage = e.reason ?? e.message
       if (transaction) {
-        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage: e.reason, chainId })
+        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
       } else {
-        setState({ status: 'Exception', errorMessage: e.reason, chainId })
+        setState({ status: 'Exception', errorMessage, chainId })
       }
     }
   }
