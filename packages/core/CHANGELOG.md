@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.7
+
+### Patch Changes
+
+- 68ea649: Take errorMessage from message if transaction reverted
+
 ## 0.3.6
 
 ### Patch Changes
