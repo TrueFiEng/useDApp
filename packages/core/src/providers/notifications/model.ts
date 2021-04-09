@@ -24,6 +24,7 @@ interface TransactionFailed {
 interface WalletConnected {
   type: 'walletConnected'
   address: string
+  submittedAt: number
 }
 
 export type Notification = TransactionStarted | TransactionSucceed | TransactionFailed | WalletConnected
