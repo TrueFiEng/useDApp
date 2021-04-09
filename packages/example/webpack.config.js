@@ -2,16 +2,19 @@ const path = require('path')
 const webpack = require('webpack')
 const cp = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require("copy-webpack-plugin");
+const { ESBuildMinifyPlugin } = require('esbuild-loader')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const version = cp.execSync('git rev-parse --short HEAD').toString().trim()
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   entry: './src',
-  devtool: 'source-map',
+  devtool: isDevelopment ? 'eval': 'source-map',
   plugins: [
-    new CleanWebpackPlugin(),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
@@ -27,13 +30,17 @@ module.exports = {
         }
       ],
     })
-  ],
+  ].filter(Boolean),
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        loader: 'esbuild-loader',
         exclude: /node_modules/,
+        options: {
+          loader: 'tsx',
+          target: 'es2018'
+        }
       },
       {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf|ico)$/,
@@ -45,13 +52,21 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'build'),
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2018'
+      })
+    ],
   },
   devServer: {
     historyApiFallback: true,
     host: '0.0.0.0',
     stats: 'errors-only',
     overlay: true,
+    hot: true
   },
 }

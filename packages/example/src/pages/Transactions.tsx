@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEthers } from '@usedapp/core'
 import styled from 'styled-components'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
