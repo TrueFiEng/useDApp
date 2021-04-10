@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.9
+
+### Patch Changes
+
+- 98afe03: Add id to notifications
+
 ## 0.3.8
 
 ### Patch Changes
