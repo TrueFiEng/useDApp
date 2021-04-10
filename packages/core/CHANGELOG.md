@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.8
+
+### Patch Changes
+
+- b5c30bd: Add timestamp to walletConnected notification
+
 ## 0.3.7
 
 ### Patch Changes
