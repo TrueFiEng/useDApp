@@ -6,6 +6,7 @@ import { notificationReducer } from '../../src/providers/notifications/reducer'
 describe('notificationReducer', () => {
   it('addNotification', () => {
     const notification: Notification = {
+      id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
       type: 'transactionStarted',
@@ -18,11 +19,13 @@ describe('notificationReducer', () => {
 
   it('notifications added in correct order', () => {
     const initial: Notification = {
+      id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
       type: 'transactionStarted',
     }
     const added: Notification = {
+      id: '2',
       submittedAt: 15,
       transaction: {} as TransactionResponse,
       type: 'transactionStarted',

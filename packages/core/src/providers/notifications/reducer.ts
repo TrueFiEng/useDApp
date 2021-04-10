@@ -10,14 +10,14 @@ interface AddNotification {
 type Action = AddNotification
 
 export function notificationReducer(state: Notifications, action: Action): Notifications {
-  const { chainId } = action
+  const { chainId, notification, type } = action
   const chainState = state[chainId] ?? []
 
-  switch (action.type) {
+  switch (type) {
     case 'ADD_NOTIFICATION':
       return {
         ...state,
-        [chainId]: [action.notification, ...chainState],
+        [chainId]: [notification, ...chainState],
       }
   }
 }
