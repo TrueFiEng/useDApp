@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.10
+
+### Patch Changes
+
+- 43a7aaa: 👷 Add HardHat node to list of supported networks
+
 ## 0.3.9
 
 ### Patch Changes
