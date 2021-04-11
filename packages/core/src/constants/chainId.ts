@@ -29,4 +29,11 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
 }
 
-export const TEST_CHAINS = [ChainId.Ropsten, ChainId.Kovan, ChainId.Rinkeby, ChainId.Goerli, ChainId.Localhost, ChainId.Hardhat]
+export const TEST_CHAINS = [
+  ChainId.Ropsten,
+  ChainId.Kovan,
+  ChainId.Rinkeby,
+  ChainId.Goerli,
+  ChainId.Localhost,
+  ChainId.Hardhat,
+]
