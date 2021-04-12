@@ -1,5 +1,13 @@
 # @usedapp/testing
 
+## 0.2.5
+
+### Patch Changes
+
+- 47ff3de: Use exact versions of dependencies
+- Updated dependencies [47ff3de]
+  - @usedapp/core@0.3.11
+
 ## 0.2.4
 
 ### Patch Changes
