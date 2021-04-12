@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.11
+
+### Patch Changes
+
+- 47ff3de: Use exact versions of dependencies
+
 ## 0.3.10
 
 ### Patch Changes
