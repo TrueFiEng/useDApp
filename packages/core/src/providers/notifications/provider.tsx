@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
+import { useEthers } from '../../hooks'
 import { NotificationsContext } from './context'
 import { AddNotificationPayload, DEFAULT_NOTIFICATIONS } from './model'
 import { notificationReducer } from './reducer'
@@ -10,13 +10,8 @@ interface Props {
 }
 
 export function NotificationsProvider({ children }: Props) {
-  const [storage, setStorage] = useLocalStorage('notifications')
-  const [notifications, dispatch] = useReducer(notificationReducer, storage ?? DEFAULT_NOTIFICATIONS)
+  const [notifications, dispatch] = useReducer(notificationReducer, DEFAULT_NOTIFICATIONS)
   const { chainId, account } = useEthers()
-
-  useEffect(() => {
-    setStorage(notifications)
-  }, [notifications])
 
   useEffect(() => {
     if (account && chainId) {
