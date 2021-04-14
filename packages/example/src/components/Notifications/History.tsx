@@ -6,7 +6,7 @@ import {
   useNotifications,
   useTransactions,
 } from '@usedapp/core'
-import React, { ReactNode } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
@@ -14,6 +14,7 @@ import { CheckIcon } from './Icons/CheckIcon'
 import { ClockIcon } from './Icons/ClockIcon'
 import { ExclamationIcon } from './Icons/ExclamationIcon'
 import { SpinnerIcon } from './Icons/SpinnerIcon'
+import { WalletIcon } from './Icons/WalletIcon'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -46,44 +47,33 @@ export const TransactionsList = () => {
   )
 }
 
-function notificationIcon(type: Notification['type']) {
-  switch (type) {
-    case 'transactionStarted':
-      return <ClockIcon />
-    case 'transactionFailed':
-      return <ExclamationIcon />
-    case 'transactionSucceed':
-      return <CheckIcon />
-    default:
-      return null
-  }
-}
-
-const notificationTitle: { [key in Notification['type']]: string } = {
-  transactionFailed: 'Transaction failed',
-  transactionStarted: 'Transaction started',
-  transactionSucceed: 'Transaction succeed',
-  walletConnected: 'Wallet connected',
+const notificationContent: { [key in Notification['type']]: { title: string; icon: ReactElement } } = {
+  transactionFailed: { title: 'Transaction failed', icon: <ExclamationIcon /> },
+  transactionStarted: { title: 'Transaction started', icon: <ClockIcon /> },
+  transactionSucceed: { title: 'Transaction succeed', icon: <CheckIcon /> },
+  walletConnected: { title: 'Wallet connected', icon: <WalletIcon /> },
 }
 
 interface NotificationPanelProps {
   type: Notification['type']
-  transaction: TransactionResponse
+  transaction?: TransactionResponse
 }
 
 const NotificationPanel = ({ transaction, type }: NotificationPanelProps) => {
   return (
     <NotificationWrapper>
-      <IconContainer>{notificationIcon(type)}</IconContainer>
+      <IconContainer>{notificationContent[type].icon}</IconContainer>
       <NotificationDetailsWrapper>
-        <TextBold>{notificationTitle[type]}</TextBold>
-        <Link
-          href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View on Etherscan
-        </Link>
+        <TextBold>{notificationContent[type].title}</TextBold>
+        {transaction && (
+          <Link
+            href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Etherscan
+          </Link>
+        )}
       </NotificationDetailsWrapper>
     </NotificationWrapper>
   )
@@ -97,7 +87,7 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
   if ('transaction' in notification) {
     return <NotificationPanel type={notification.type} transaction={notification.transaction} />
   } else {
-    return null
+    return <NotificationPanel type={notification.type} />
   }
 }
 
