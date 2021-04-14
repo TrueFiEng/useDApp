@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.13
+
+### Patch Changes
+
+- 8842e2b: Add notifications filtering
+
 ## 0.3.12
 
 ### Patch Changes
