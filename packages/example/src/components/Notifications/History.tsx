@@ -97,7 +97,7 @@ export const NotificationsList = () => {
   return (
     <TableWrapper title="Notifications history">
       {notifications.map((nx) => (
-        <NotificationItem key={JSON.stringify(nx)} notification={nx} />
+        <NotificationItem key={nx.id} notification={nx} />
       ))}
     </TableWrapper>
   )
