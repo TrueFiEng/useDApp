@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.2.2
+
+### Patch Changes
+
+- 52bf73d: 💰 Add wallet connected notification
+- Updated dependencies [52bf73d]
+  - @usedapp/core@0.3.12
+
 ## 0.2.1
 
 ### Patch Changes
