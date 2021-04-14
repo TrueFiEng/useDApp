@@ -15,6 +15,11 @@ export type AddNotificationPayload = {
   notification: NotificationPayload
 }
 
+export type RemoveNotificationPayload = {
+  chainId: ChainId
+  notificationId: string
+}
+
 export type Notifications = {
   [T in ChainId]?: Notification[]
 }

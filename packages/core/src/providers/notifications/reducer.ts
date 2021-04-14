@@ -7,17 +7,29 @@ interface AddNotification {
   notification: Notification
 }
 
-type Action = AddNotification
+interface RemoveNotification {
+  type: 'REMOVE_NOTIFICATION'
+  chainId: ChainId
+  notificationId: string
+}
+
+type Action = AddNotification | RemoveNotification
 
 export function notificationReducer(state: Notifications, action: Action): Notifications {
-  const { chainId, notification, type } = action
+  const { chainId } = action
   const chainState = state[chainId] ?? []
 
-  switch (type) {
+  switch (action.type) {
     case 'ADD_NOTIFICATION':
       return {
         ...state,
-        [chainId]: [notification, ...chainState],
+        [chainId]: [action.notification, ...chainState],
       }
+    case 'REMOVE_NOTIFICATION': {
+      return {
+        ...state,
+        [chainId]: chainState.filter((notification) => notification.id !== action.notificationId),
+      }
+    }
   }
 }

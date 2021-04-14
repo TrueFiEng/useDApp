@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
+import { useEthers } from '../../hooks'
 import { NotificationsContext } from './context'
-import { AddNotificationPayload, DEFAULT_NOTIFICATIONS } from './model'
+import { AddNotificationPayload, DEFAULT_NOTIFICATIONS, RemoveNotificationPayload } from './model'
 import { notificationReducer } from './reducer'
 import { nanoid } from 'nanoid'
 
@@ -10,13 +10,8 @@ interface Props {
 }
 
 export function NotificationsProvider({ children }: Props) {
-  const [storage, setStorage] = useLocalStorage('notifications')
-  const [notifications, dispatch] = useReducer(notificationReducer, storage ?? DEFAULT_NOTIFICATIONS)
+  const [notifications, dispatch] = useReducer(notificationReducer, DEFAULT_NOTIFICATIONS)
   const { chainId, account } = useEthers()
-
-  useEffect(() => {
-    setStorage(notifications)
-  }, [notifications])
 
   useEffect(() => {
     if (account && chainId) {
@@ -44,5 +39,18 @@ export function NotificationsProvider({ children }: Props) {
     [dispatch]
   )
 
-  return <NotificationsContext.Provider value={{ addNotification, notifications }} children={children} />
+  const removeNotification = useCallback(
+    ({ notificationId, chainId }: RemoveNotificationPayload) => {
+      dispatch({
+        type: 'REMOVE_NOTIFICATION',
+        chainId,
+        notificationId,
+      })
+    },
+    [dispatch]
+  )
+
+  return (
+    <NotificationsContext.Provider value={{ addNotification, notifications, removeNotification }} children={children} />
+  )
 }
