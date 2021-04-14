@@ -14,6 +14,10 @@ export type FullConfig = {
   multicallAddresses?: MulticallAddresses
   supportedChains: number[]
   pollingInterval?: number
+  notifications: {
+    checkInterval: number
+    expirationPeriod: number
+  }
 }
 
 export type Config = Partial<FullConfig>

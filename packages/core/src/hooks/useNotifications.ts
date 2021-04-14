@@ -2,11 +2,7 @@ import { useMemo } from 'react'
 import { Notification, useNotificationsContext } from '../providers'
 import { useEthers } from './useEthers'
 import { useInterval } from './useInterval'
-
-interface NotificationsOptions {
-  checkInterval?: number
-  expirationPeriod?: number
-}
+import { useConfig } from '../providers/config/context'
 
 function getExpiredNotifications(notifications: Notification[], expirationPeriod: number) {
   const timeFromCreation = (creationTime: number) => Date.now() - creationTime
@@ -14,11 +10,12 @@ function getExpiredNotifications(notifications: Notification[], expirationPeriod
   return notifications.filter((notification) => timeFromCreation(notification.submittedAt) >= expirationPeriod)
 }
 
-export function useNotifications(options?: NotificationsOptions) {
+export function useNotifications() {
   const { chainId, account } = useEthers()
   const { addNotification, notifications, removeNotification } = useNotificationsContext()
-  const checkInterval = options?.checkInterval ?? 500
-  const expirationPeriod = options?.expirationPeriod ?? 5000
+  const {
+    notifications: { checkInterval, expirationPeriod },
+  } = useConfig()
 
   const chainNotifications = useMemo(() => {
     if (chainId === undefined || !account) {
