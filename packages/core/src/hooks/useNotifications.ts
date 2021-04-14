@@ -4,7 +4,7 @@ import { useEthers } from './useEthers'
 
 export function useNotifications() {
   const { chainId, account } = useEthers()
-  const { addNotification, notifications } = useNotificationsContext()
+  const { addNotification, notifications, removeNotification } = useNotificationsContext()
 
   const chainNotifications = useMemo(() => {
     if (chainId === undefined || !account) {
@@ -16,5 +16,6 @@ export function useNotifications() {
   return {
     notifications: chainNotifications,
     addNotification,
+    removeNotification,
   }
 }
