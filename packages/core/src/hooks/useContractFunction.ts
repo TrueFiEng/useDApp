@@ -7,7 +7,7 @@ import { ChainId } from '../constants'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
 
-type TransactionStatus =
+export type TransactionStatus =
   | {
       status: 'None'
     }
