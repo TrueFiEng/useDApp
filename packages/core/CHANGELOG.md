@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.14
+
+### Patch Changes
+
+- 1d02ac9: Export TransactionStatus type
+
 ## 0.3.13
 
 ### Patch Changes
