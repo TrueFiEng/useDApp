@@ -6,6 +6,7 @@ export interface StoredTransaction {
   submittedAt: number
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
+  transactionName?: string
 }
 
 export type StoredTransactions = {
