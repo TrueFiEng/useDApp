@@ -37,6 +37,7 @@ export type TransactionStatus =
 
 interface Options {
   signer?: Signer
+  transactionName?: string
 }
 
 export function connectContractToSigner(contract: Contract, options?: Options, library?: Web3Provider) {
@@ -75,6 +76,7 @@ export function useContractFunction(contract: Contract, functionName: string, op
       addTransaction({
         transaction,
         submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
 
       const receipt = await transaction.wait()

@@ -32,6 +32,7 @@ export function TransactionProvider({ children }: Props) {
           type: 'transactionStarted',
           transaction: payload.transaction,
           submittedAt: payload.submittedAt,
+          transactionName: payload.transactionName,
         },
         chainId: payload.transaction.chainId,
       })
@@ -60,6 +61,7 @@ export function TransactionProvider({ children }: Props) {
                 submittedAt: Date.now(),
                 transaction: tx.transaction,
                 receipt,
+                transactionName: tx.transactionName,
               },
               chainId,
             })
