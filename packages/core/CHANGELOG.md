@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.15
+
+### Patch Changes
+
+- 77e7d1e: Add transaction name to transactions and notifications
+
 ## 0.3.14
 
 ### Patch Changes
