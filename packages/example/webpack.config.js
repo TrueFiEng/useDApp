@@ -1,35 +1,28 @@
 const path = require('path')
-const webpack = require('webpack')
-const cp = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin')
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
-const version = cp.execSync('git rev-parse --short HEAD').toString().trim()
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: './src',
-  devtool: isDevelopment ? 'eval': 'source-map',
+  devtool: isDevelopment ? 'eval' : 'source-map',
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/index.html'
-    }),
-    new webpack.DefinePlugin({
-      'GIT_VERSION': JSON.stringify(version),
+      template: './src/index.html',
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src/_redirects", to: "" },
+        { from: 'src/_redirects', to: '' },
         {
           from: 'src/assets/images/favicon.ico',
-          to: 'favicon.ico'
-        }
+          to: 'favicon.ico',
+        },
       ],
-    })
+    }),
   ].filter(Boolean),
   module: {
     rules: [
@@ -39,8 +32,8 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           loader: 'tsx',
-          target: 'es2018'
-        }
+          target: 'es2018',
+        },
       },
       {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf|ico)$/,
@@ -58,8 +51,8 @@ module.exports = {
   optimization: {
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: 'es2018'
-      })
+        target: 'es2018',
+      }),
     ],
   },
   devServer: {
@@ -67,6 +60,6 @@ module.exports = {
     host: '0.0.0.0',
     stats: 'errors-only',
     overlay: true,
-    hot: true
+    hot: true,
   },
 }
