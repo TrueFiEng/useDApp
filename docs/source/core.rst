@@ -106,7 +106,7 @@ A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments i
 - ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
 
 useContractCalls
-===============
+================
 Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
 A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
 
@@ -253,7 +253,7 @@ Returns a balance of a given token for a given address.
   )
 
 useTokenAllowance
-===============
+=================
 
 Returns allowance (tokens left to use by spender) for given tokenOwner - spender relationship.
 
@@ -518,7 +518,7 @@ Returns short representation of address or throws an error if address is incorre
   // TypeError("Invalid input, address can't be parsed")
 
 shortenIfAddress
-==============
+================
 
 Returns short representation of address or throws an error if address is incorrent.
 Returns empty string if no address is provided.
