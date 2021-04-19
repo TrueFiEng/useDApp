@@ -8,7 +8,7 @@ import { NotificationsList, TransactionsList } from '../components/Notifications
 import { Title } from '../typography/Title'
 
 export function Transactions() {
-  const { activateBrowserWallet, deactivate, account, library, chainId } = useEthers()
+  const { activateBrowserWallet, deactivate, account } = useEthers()
 
   return (
     <MainContent>
@@ -20,10 +20,10 @@ export function Transactions() {
             {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
           </SectionRow>
           <TableGrid>
-            {account && library && <DepositEth account={account} library={library} />}
-            {account && library && <WithdrawEth account={account} library={library} />}
-            {account && chainId && <TransactionsList />}
-            {account && chainId && <NotificationsList />}
+            <DepositEth />
+            <WithdrawEth />
+            <TransactionsList />
+            <NotificationsList />
           </TableGrid>
         </Section>
       </Container>
