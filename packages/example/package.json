@@ -15,6 +15,7 @@
     "@uniswap/default-token-list": "^2.0.0",
     "@usedapp/core": "*",
     "file-loader": "^6.2.0",
+    "framer-motion": "^4.1.5",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5.2.0",

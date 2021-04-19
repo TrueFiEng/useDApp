@@ -10,14 +10,9 @@ import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
-import { CheckIcon } from './Icons/CheckIcon'
-import { ClockIcon } from './Icons/ClockIcon'
-import { ExclamationIcon } from './Icons/ExclamationIcon'
-import { SpinnerIcon } from './Icons/SpinnerIcon'
-import { WalletIcon } from './Icons/WalletIcon'
+import { CheckIcon, ClockIcon, ExclamationIcon, ShareIcon, UnwrapIcon, WalletIcon, WrapIcon } from './Icons'
 import { Colors } from '../../global/styles'
-import { UnwrapIcon } from './Icons/UnwrapIcon'
-import { WrapIcon } from './Icons/WrapIcon'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -31,31 +26,54 @@ const TableWrapper = ({ children, title }: TableWrapperProps) => (
   </SmallContentBlock>
 )
 
-interface TransactionProps {
-  transaction: StoredTransaction
+interface DateProps {
+  date: number
+  className?: string
 }
 
-const Transaction = ({ transaction }: TransactionProps) => {
-  const date = new Date(transaction.submittedAt)
-  const formattedDate = date.toLocaleDateString()
-  const formattedTime = date.toLocaleTimeString('en-US', {
+const DateCell = ({ date, className }: DateProps) => {
+  const dateObject = new Date(date)
+  const formattedDate = dateObject.toLocaleDateString()
+  const formattedTime = dateObject.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true,
   })
 
   return (
-    <TransactionDetailsWrapper>
-      <IconRow>
-        <IconContainer>
-          <UnwrapIcon />
-        </IconContainer>
-        {transaction.transactionName}
-      </IconRow>
-      <DateRow>
-        <DateDisplay>{formattedDate}</DateDisplay>
-        <HourDisplay>{formattedTime}</HourDisplay>
-      </DateRow>
+    <DateRow className={className}>
+      <DateDisplay>{formattedDate}</DateDisplay>
+      <HourDisplay>{formattedTime}</HourDisplay>
+    </DateRow>
+  )
+}
+
+interface TransactionNameProps {
+  transactionName: string | undefined
+}
+
+const TransactionName = ({ transactionName }: TransactionNameProps) => {
+  const Icon = transactionName === 'Unwrap' ? UnwrapIcon : WrapIcon
+
+  return (
+    <IconRow>
+      <IconContainer>
+        <Icon />
+      </IconContainer>
+      <TextBold>{transactionName}</TextBold>
+    </IconRow>
+  )
+}
+
+interface TransactionProps {
+  transaction: StoredTransaction
+}
+
+const Transaction = ({ transaction }: TransactionProps) => {
+  return (
+    <TransactionDetailsWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }}>
+      <TransactionName transactionName={transaction.transactionName} />
+      <DateCell date={transaction.submittedAt} />
     </TransactionDetailsWrapper>
   )
 }
@@ -65,9 +83,11 @@ export const TransactionsList = () => {
 
   return (
     <TableWrapper title="Transactions history">
-      {transactions.map((transaction) => (
-        <Transaction transaction={transaction} key={transaction.transaction.hash} />
-      ))}
+      <AnimatePresence initial={false}>
+        {transactions.map((transaction) => (
+          <Transaction transaction={transaction} key={transaction.transaction.hash} />
+        ))}
+      </AnimatePresence>
     </TableWrapper>
   )
 }
@@ -85,24 +105,40 @@ interface NotificationPanelProps {
 }
 
 const NotificationPanel = ({ transaction, type }: NotificationPanelProps) => {
+  const notificationDate = Date.now()
+
   return (
-    <NotificationWrapper>
-      <IconContainer>{notificationContent[type].icon}</IconContainer>
+    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <NotificationIconContainer>{notificationContent[type].icon}</NotificationIconContainer>
       <NotificationDetailsWrapper>
         <TextBold>{notificationContent[type].title}</TextBold>
-        {transaction && (
-          <Link
-            href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View on Etherscan
-          </Link>
-        )}
+        <NotificationLink transaction={transaction} />
       </NotificationDetailsWrapper>
+      <NotificationDate date={notificationDate} />
     </NotificationWrapper>
   )
 }
+
+interface NotificationLinkProps {
+  transaction: TransactionResponse | undefined
+}
+
+const NotificationLink = ({ transaction }: NotificationLinkProps) => (
+  <>
+    {transaction && (
+      <Link
+        href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View on Etherscan
+        <LinkIconWrapper>
+          <ShareIcon />
+        </LinkIconWrapper>
+      </Link>
+    )}
+  </>
+)
 
 interface NotificationItemProps {
   notification: Notification
@@ -121,9 +157,11 @@ export const NotificationsList = () => {
 
   return (
     <TableWrapper title="Notifications history">
-      {notifications.map((nx) => (
-        <NotificationItem key={nx.id} notification={nx} />
-      ))}
+      <AnimatePresence initial={false}>
+        {notifications.map((notification) => (
+          <NotificationItem key={notification.id} notification={notification} />
+        ))}
+      </AnimatePresence>
     </TableWrapper>
   )
 }
@@ -134,20 +172,26 @@ const IconContainer = styled.div`
   padding: 12px;
 `
 
-const TransactionDetailsWrapper = styled.div`
+const NotificationIconContainer = styled(IconContainer)`
+  padding: 14px 16px 14px 12px;
+`
+
+const TransactionDetailsWrapper = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: stretch;
 `
 
-const NotificationWrapper = styled.div`
+const NotificationWrapper = styled(motion.div)`
   display: flex;
+  justify-content: space-between;
 `
 
 const NotificationDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  padding: 4px 0;
 `
 
 const Table = styled.div`
@@ -160,10 +204,17 @@ const Table = styled.div`
   }
 `
 
+const LinkIconWrapper = styled.div`
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+`
+
 const Link = styled.a`
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
+  display: flex;
+  font-size: 12px;
+  text-decoration: underline;
+  color: ${Colors.Gray['600']};
 `
 
 const SmallContentBlock = styled(ContentBlock)`
@@ -190,6 +241,10 @@ const DateRow = styled.div`
   justify-content: space-between;
   text-align: end;
   padding: 8px;
+`
+
+const NotificationDate = styled(DateCell)`
+  margin-left: auto;
 `
 
 const DateDisplay = styled.div`
