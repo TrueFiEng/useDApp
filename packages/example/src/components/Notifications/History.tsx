@@ -2,7 +2,7 @@ import type { TransactionResponse } from '@ethersproject/providers'
 import {
   getExplorerTransactionLink,
   Notification,
-  shortenTransactionHash,
+  StoredTransaction,
   useNotifications,
   useTransactions,
 } from '@usedapp/core'
@@ -15,6 +15,9 @@ import { ClockIcon } from './Icons/ClockIcon'
 import { ExclamationIcon } from './Icons/ExclamationIcon'
 import { SpinnerIcon } from './Icons/SpinnerIcon'
 import { WalletIcon } from './Icons/WalletIcon'
+import { Colors } from '../../global/styles'
+import { UnwrapIcon } from './Icons/UnwrapIcon'
+import { WrapIcon } from './Icons/WrapIcon'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -22,26 +25,48 @@ interface TableWrapperProps {
 }
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
-  <ContentBlock>
-    <CellTitle>{title}</CellTitle>
+  <SmallContentBlock>
+    <TitleRow>{title}</TitleRow>
     <Table>{children}</Table>
-  </ContentBlock>
+  </SmallContentBlock>
 )
+
+interface TransactionProps {
+  transaction: StoredTransaction
+}
+
+const Transaction = ({ transaction }: TransactionProps) => {
+  const date = new Date(transaction.submittedAt)
+  const formattedDate = date.toLocaleDateString()
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  })
+
+  return (
+    <TransactionDetailsWrapper>
+      <IconRow>
+        <IconContainer>
+          <UnwrapIcon />
+        </IconContainer>
+        {transaction.transactionName}
+      </IconRow>
+      <DateRow>
+        <DateDisplay>{formattedDate}</DateDisplay>
+        <HourDisplay>{formattedTime}</HourDisplay>
+      </DateRow>
+    </TransactionDetailsWrapper>
+  )
+}
 
 export const TransactionsList = () => {
   const { transactions } = useTransactions()
 
   return (
     <TableWrapper title="Transactions history">
-      {transactions.map((tx) => (
-        <TransactionDetailsWrapper key={tx.transaction.hash}>
-          {!tx.receipt && (
-            <IconContainer>
-              <SpinnerIcon />
-            </IconContainer>
-          )}
-          <div>{shortenTransactionHash(tx.transaction.hash)}</div>
-        </TransactionDetailsWrapper>
+      {transactions.map((transaction) => (
+        <Transaction transaction={transaction} key={transaction.transaction.hash} />
       ))}
     </TableWrapper>
   )
@@ -106,13 +131,13 @@ export const NotificationsList = () => {
 const IconContainer = styled.div`
   width: 48px;
   height: 48px;
-  padding: 8px;
-  margin-right: 10px;
+  padding: 12px;
 `
 
 const TransactionDetailsWrapper = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
 `
 
 const NotificationWrapper = styled.div`
@@ -128,19 +153,49 @@ const NotificationDetailsWrapper = styled.div`
 const Table = styled.div`
   height: 300px;
   overflow: scroll;
+  padding: 12px;
 
   & > * + * {
-    margin-top: 10px;
+    margin-top: 12px;
   }
-`
-
-const CellTitle = styled(TextBold)`
-  font-size: 20px;
-  margin-bottom: 10px;
 `
 
 const Link = styled.a`
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
+`
+
+const SmallContentBlock = styled(ContentBlock)`
+  padding: 0;
+`
+
+const TitleRow = styled(TextBold)`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: ${Colors.Gray['300']} 1px solid;
+  padding: 16px;
+  font-size: 18px;
+`
+
+const IconRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const DateRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: end;
+  padding: 8px;
+`
+
+const DateDisplay = styled.div`
+  font-size: 14px;
+`
+const HourDisplay = styled.div`
+  font-size: 12px;
+  color: ${Colors.Gray['600']};
 `

@@ -76,7 +76,7 @@ export const DepositEth = () => {
   const { account, library } = useEthers()
   const etherBalance = useEtherBalance(account)
   const contract = new Contract('0xA243FEB70BaCF6cD77431269e68135cf470051b4', wethInterface, library?.getSigner())
-  const { state, send } = useContractFunction(contract, 'deposit')
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
   return (
     <TransactionForm
@@ -101,7 +101,7 @@ export const WithdrawEth = () => {
     }
   )
   const contract = new Contract(wethContractAddress, wethInterface, library?.getSigner())
-  const { state, send } = useContractFunction(contract, 'withdraw')
+  const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   return (
     <TransactionForm
