@@ -77,22 +77,31 @@ const InputComponent = ({ ticker, transactionStatus, send }: InputComponentProps
   )
 }
 
+interface ErrorRowProps {
+  transaction: TransactionStatus
+}
+
+const ErrorMessage = ({ transaction }: ErrorRowProps) => {
+  return <ErrorRow>{'errorMessage' in transaction && transaction.errorMessage}</ErrorRow>
+}
+
 interface TransactionFormProps {
   balance: BigNumber | undefined
   send: (value: BigNumber) => void
   title: string
   ticker: string
-  transactionStatus: TransactionStatus['status']
+  transaction: TransactionStatus
 }
 
-const TransactionForm = ({ balance, send, title, ticker, transactionStatus }: TransactionFormProps) => {
+const TransactionForm = ({ balance, send, title, ticker, transaction }: TransactionFormProps) => {
   return (
     <SmallContentBlock>
       <Title title={title} balance={balance} ticker={ticker} />
       <LabelRow>
         <Label htmlFor={`${ticker}Input`}>How much?</Label>
       </LabelRow>
-      <InputComponent ticker={ticker} transactionStatus={transactionStatus} send={send} />
+      <InputComponent ticker={ticker} transactionStatus={transaction.status} send={send} />
+      <ErrorMessage transaction={transaction} />
     </SmallContentBlock>
   )
 }
@@ -109,7 +118,7 @@ export const DepositEth = () => {
       send={(value: BigNumber) => send({ value })}
       title="Wrap Ether"
       ticker="ETH"
-      transactionStatus={state.status}
+      transaction={state}
     />
   )
 }
@@ -134,7 +143,7 @@ export const WithdrawEth = () => {
       send={(value: BigNumber) => send(value)}
       title="Unwrap Ether"
       ticker="WETH"
-      transactionStatus={state.status}
+      transaction={state}
     />
   )
 }
@@ -187,7 +196,7 @@ const CellTitle = styled(TextBold)`
 
 const InputRow = styled.div`
   display: flex;
-  margin: 0 auto 32px auto;
+  margin: 0 auto;
   color: ${Colors.Gray['600']};
   align-items: center;
   border: ${Colors.Gray['300']} 1px solid;
@@ -229,4 +238,11 @@ const SmallContentBlock = styled(ContentBlock)`
 const IconContainer = styled.div`
   height: 24px;
   width: 24px;
+`
+
+const ErrorRow = styled.div`
+  height: 16px;
+  font-size: 14px;
+  margin: 8px auto 32px auto;
+  color: ${Colors.Red['400']};
 `
