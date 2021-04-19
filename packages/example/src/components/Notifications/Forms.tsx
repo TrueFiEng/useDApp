@@ -10,9 +10,72 @@ import { Button } from '../base/Button'
 import WethAbi from '../../abi/Weth10.json'
 import { BorderRad, Colors } from '../../global/styles'
 import { BigNumber } from 'ethers'
-import { SpinnerIcon } from './Icons/SpinnerIcon'
+import { SpinnerIcon } from './Icons'
 
 const wethInterface = new utils.Interface(WethAbi)
+
+interface TitleProps {
+  balance: BigNumber | undefined
+  title: string
+  ticker: string
+}
+
+const Title = ({ balance, title, ticker }: TitleProps) => {
+  const formatter = new Intl.NumberFormat('en-us', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4,
+  })
+  const formattedBalance = formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
+
+  return (
+    <TitleRow>
+      <CellTitle>{title}</CellTitle>
+      <BalanceWrapper>
+        Your {ticker} balance: {formattedBalance}
+      </BalanceWrapper>
+    </TitleRow>
+  )
+}
+
+interface InputComponentProps {
+  send: (value: BigNumber) => void
+  ticker: string
+  transactionStatus: TransactionStatus['status']
+}
+
+const InputComponent = ({ ticker, transactionStatus, send }: InputComponentProps) => {
+  const { account } = useEthers()
+  const [value, setValue] = useState('0')
+  const isMining = transactionStatus === 'Mining'
+  const buttonContent = isMining ? (
+    <IconContainer>
+      <SpinnerIcon />
+    </IconContainer>
+  ) : (
+    'Send'
+  )
+  const onClick = () => {
+    send(utils.parseEther(value))
+    setValue('0')
+  }
+
+  return (
+    <InputRow>
+      <Input
+        id={`${ticker}Input`}
+        type="number"
+        step="0.01"
+        min="0"
+        value={value}
+        onChange={(e) => setValue(e.currentTarget.value)}
+      />
+      <FormTicker>{ticker}</FormTicker>
+      <SmallButton disabled={!account || isMining} onClick={onClick}>
+        {buttonContent}
+      </SmallButton>
+    </InputRow>
+  )
+}
 
 interface TransactionFormProps {
   balance: BigNumber | undefined
@@ -23,51 +86,13 @@ interface TransactionFormProps {
 }
 
 const TransactionForm = ({ balance, send, title, ticker, transactionStatus }: TransactionFormProps) => {
-  const { account } = useEthers()
-  const [value, setValue] = useState('0')
-  const formatter = new Intl.NumberFormat('en-us', {
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  })
-
   return (
     <SmallContentBlock>
-      <TitleRow>
-        <CellTitle>{title}</CellTitle>
-        <BalanceWrapper>
-          Your {ticker} balance: {formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))}
-        </BalanceWrapper>
-      </TitleRow>
+      <Title title={title} balance={balance} ticker={ticker} />
       <LabelRow>
         <Label htmlFor={`${ticker}Input`}>How much?</Label>
       </LabelRow>
-      <InputRow>
-        <Input
-          id={`${ticker}Input`}
-          type="number"
-          step="0.01"
-          min="0"
-          value={value}
-          onChange={(e) => setValue(e.currentTarget.value)}
-        />
-        <FormTicker>{ticker}</FormTicker>
-        <SmallButton
-          disabled={!account || transactionStatus === 'Mining'}
-          onClick={() => {
-            console.log(value)
-            send(utils.parseEther(value))
-            setValue('0')
-          }}
-        >
-          {transactionStatus === 'Mining' ? (
-            <IconContainer>
-              <SpinnerIcon />
-            </IconContainer>
-          ) : (
-            'Send'
-          )}
-        </SmallButton>
-      </InputRow>
+      <InputComponent ticker={ticker} transactionStatus={transactionStatus} send={send} />
     </SmallContentBlock>
   )
 }
