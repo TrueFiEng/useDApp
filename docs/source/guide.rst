@@ -6,7 +6,7 @@ Connecting to network
 
 Read-only
 =========
-To connect to the network in read-only mode provide ``readOnlyChainId`` and ``readOnlyUrls`` fileds in application configuration.
+To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``readOnlyUrls`` fileds in application configuration.
 
 See example configuration below:
 
@@ -54,7 +54,7 @@ useEthers
 
 - ``active`` - boolean that indicates if provider is connected (read or write mode)
 
-- ``activate`` - function that allows to connect to a wallet. This is `web3-react <https://github.com/NoahZinsmeister/web3-react>`_ function that can take various connectors.
+- ``activate`` - function that allows to connect to a wallet. This is a `web3-react <https://github.com/NoahZinsmeister/web3-react>`_ function that can take various connectors.
 
 - ``deactivate`` - function that disconnects wallet
 
@@ -119,14 +119,14 @@ There is a number of useful hooks that you can use to read blockchain state:
 - ``useTokenBalance(tokenAddress, address)``- returns balance of a given token as BigNumber for given address (or undefined)
 - ``useTokenAllowance(tokenAddress, ownerAddress, spenderAddress)`` - returns allowance of a given token as BigNumber for given owner and spender address pair (or undefined)
 
-Sooner or late you will want to make custom call to a smart contract. Use ``useContractCall`` and ``useContractCalls`` for that purpose.
+Sooner or later you will want to make a custom call to a smart contract. Use ``useContractCall`` and ``useContractCalls`` for that purpose.
 See section below on creating custom hooks.
 
 
 Custom hooks
 ************
 
-Creating a custom hook with the use of our core hooks is straightforward, as an example let's examine a *useTokenBalance* hook.
+Creating a custom hook with the use of our core hooks is straightforward, for example let’s examine the *useTokenBalance* hook.
 
 The hook will retrieve a balance of an ERC20 token of the provided address.
 
@@ -142,7 +142,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     return tokenBalance
   }
 
-Another example is useTokenAllowance hook. Instead of balanceOf we use allowance on ERC20 interface.
+Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
 
 .. code-block:: javascript
 
@@ -172,13 +172,13 @@ The results are deferred so that the hook does not update too frequently.
 In our custom hooks we can use any standard react hooks, custom react hooks and useDApp hooks.
 Rules of hooks apply.
 
-Documentation for hooks are available `here <file:///Users/marek/Projects/useDapp/docs/dist/html/core.html#hooks>`_.
+Documentation for hooks is available `here <file:///Users/marek/Projects/useDapp/docs/dist/html/core.html#hooks>`_.
 
 
 Using hooks considerations
 ==========================
 
-When using hooks based on `useChainCall`, `useChainCalls` and `useContractCalls` there are important considerations;
+There are some important considerations when using hooks based on `useChainCall`, `useChainCalls` and `useContractCalls`.
 
 Avoid using the result of one hook in another.
 This will break single multicall into multiple multicalls.
@@ -200,7 +200,7 @@ To write a test, start with a setup code that will create a mock provider and te
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
 
-Before each test deploy an ERC20 contract. It's important as otherwise the result of one 
+Before each test, deploy an ERC20 contract. It's important as otherwise the result of one 
 test could break the other one.
 
 .. code-block:: javascript
@@ -229,7 +229,7 @@ After setup, we have to test the hook.
   expect(result.error).to.be.undefined
   expect(result.current).to.eq(utils.parseEther('1'))
 
-To check if the hook reads data correctly we need to prepare it first. We approve the spender so that we can check that our hook returns the correct value.
+To check if the hook reads data correctly, we need to prepare it first. We approve the spender so that we can check if our hook returns the correct value.
 
 To test the hook we need to render it using ``renderWeb3Hook``. It works like ``renderHook`` from the `react-testing-library <https://testing-library.com/docs/react-testing-library/intro/>`_,
 but it wraps the hook into additional providers.
