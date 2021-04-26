@@ -69,6 +69,16 @@ Contributions are always welcome, no matter how large or small. Before contribut
 * Make sure linter passes.
 * Make sure you have test coverage for any new features.
 
+To install dependencies type:
+```sh
+yarn
+```
+
+To build project:
+```sh
+yarn build
+```
+
 To run tests type:
 ```sh
 yarn test
