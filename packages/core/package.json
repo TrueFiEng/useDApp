@@ -1,11 +1,13 @@
 {
   "name": "@usedapp/core",
   "version": "0.3.15",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
   "repository": "git@github.com:EthWorks/dapp-framework.git",
   "author": "Ethworks",
   "license": "MIT",
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
@@ -42,7 +44,9 @@
     "react": "*"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
     "test": "mocha",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
