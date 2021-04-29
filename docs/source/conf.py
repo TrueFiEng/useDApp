@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'usedapp'
-copyright = '2020 Ethworks sp z o.o.'
+copyright = '2021 Ethworks sp z o.o.'
 author = 'Ethworks team'
 
 
@@ -27,7 +27,10 @@ author = 'Ethworks team'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_tabs.tabs']
+extensions = [
+    'sphinx_tabs.tabs',
+    'sphinx.ext.autosectionlabel'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -51,3 +54,7 @@ html_logo = '_static/logo-square.png'
 html_theme_options = {
   'logo_only': True,
 }
+
+# Allows for cross-refs without refs ambiguity, e.g. :ref:`core/hooks`
+# https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html#configuration
+autosectionlabel_prefix_document = True

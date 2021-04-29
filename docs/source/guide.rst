@@ -6,7 +6,7 @@ Connecting to network
 
 Read-only
 =========
-To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``readOnlyUrls`` fileds in application configuration.
+To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``readOnlyUrls`` fields in application configuration.
 
 See example configuration below:
 
@@ -24,7 +24,7 @@ Browser wallet
 ==============
 
 To connect to a wallet in a web3-enabled browser, use ``activateBrowserWallet`` returned by ``useEthers()``. 
-Once connected ``account`` variable will be availabe.
+Once connected ``account`` variable will be available.
 
 See example below:
 
@@ -68,7 +68,7 @@ Example
 Example below demonstrates how to manage and use connection.
 
 Application allow to see the balance of Ethereum 2.0 staking contracts in read-only mode.
-When wallet is connected additionaly it shows user's account along with it's balance.
+When wallet is connected additionally it shows user's account along with it's balance.
 
 Example is available `here <https://example.usedapp.io/balance>`_.
 
@@ -169,10 +169,10 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
 The *useContractCall* hook will take care of updating the balance of new blocks.
 The results are deferred so that the hook does not update too frequently.
 
-In our custom hooks we can use any standard react hooks, custom react hooks and useDApp hooks.
+In our custom hooks we can use any standard react hooks, custom react hooks and useDapp hooks.
 Rules of hooks apply.
 
-Documentation for hooks is available `here <file:///Users/marek/Projects/useDapp/docs/dist/html/core.html#hooks>`_.
+Documentation for hooks is available :ref:`here <core:Hooks>`.
 
 
 Using hooks considerations
