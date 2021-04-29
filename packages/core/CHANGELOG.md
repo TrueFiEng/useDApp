@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.16
+
+### Patch Changes
+
+- f8fe874: Emit esm package
+
 ## 0.3.15
 
 ### Patch Changes
