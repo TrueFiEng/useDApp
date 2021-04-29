@@ -12,7 +12,7 @@ Provides basic services for a DApp. It combines the following components: ``<Con
 
 *Properties:*
 
-- ``config: Partial<Config>``: configuration of the Dapp, see `Config`_
+- ``config: Partial<Config>``: configuration of the DApp, see `Config`_
 
 *Example:*
 
@@ -171,7 +171,7 @@ This function is used for debouncing multicall until enough calls are aggregated
 
 - ``first: T`` - first variable to be debounced
 - ``second: U`` - second variable to be debounced
-- ``delay: number`` - deboune time - amount of time in ms 
+- ``delay: number`` - debounce time - amount of time in ms
 
 **Returns**
 
@@ -213,7 +213,7 @@ Returns connection state and functions that allow to manipulate the state.
     - ``chainId: ChainId`` - current chainId (or *undefined* if not connected)
     - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
     - ``active: boolean`` - returns if provider is connected (read or write mode)
-    - ``activateBrowserWallet()`` - function that will inititate connection to browser web3 extension (e.g. Metamask)
+    - ``activateBrowserWallet()`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - ``async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)`` - function that allows to connect to a wallet
     - ``async deactivate()`` - function that disconnects wallet
     - ``error?: Error`` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
@@ -314,7 +314,7 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
 
 **Default value:**
-``[ChainId.Mainnet, ChainId.Gorli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
+``[ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
 
 **pollingInterval**
 Polling interval for a new block.
@@ -406,7 +406,7 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Gorli, Kovan, Rinkeby, Ropsten, xDai``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, xDai``
 
 
 Helpers
@@ -498,7 +498,7 @@ Returns if a given chain is a testnet.
 shortenAddress
 ==============
 
-Returns short representation of address or throws an error if address is incorrent.
+Returns short representation of address or throws an error if address is incorrect.
 
 **Parameters**
 
@@ -514,13 +514,13 @@ Returns short representation of address or throws an error if address is incorre
   shortenAddress('6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
   // 0x6E9e...D3A0
 
-  shortenAddress("i'm not an addres")
+  shortenAddress("i'm not an address")
   // TypeError("Invalid input, address can't be parsed")
 
 shortenIfAddress
 ================
 
-Returns short representation of address or throws an error if address is incorrent.
+Returns short representation of address or throws an error if address is incorrect.
 Returns empty string if no address is provided.
 
 **Parameters**
@@ -540,7 +540,7 @@ Returns empty string if no address is provided.
   shortenIfAddress(undefined)
   // ''
 
-  shortenIfAddress("i'm not an addres")
+  shortenIfAddress("i'm not an address")
   // TypeError("Invalid input, address can't be parsed")
 
 compareAddress
