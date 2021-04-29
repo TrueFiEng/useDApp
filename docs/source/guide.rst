@@ -116,7 +116,7 @@ There is a number of useful hooks that you can use to read blockchain state:
 
 - ``useBlockMeta()`` - return meta information (``timestamp`` and ``difficulty``) about most recent block mined
 - ``useEtherBalance(address)`` - returns ether balance as BigNumber for given address (or ``undefined``)
-- ``useTokenBalance(tokenAddress, address)``- returns balance of a given token as BigNumber for given address (or undefined)
+- ``useTokenBalance(tokenAddress, address)`` - returns balance of a given token as BigNumber for given address (or undefined)
 - ``useTokenAllowance(tokenAddress, ownerAddress, spenderAddress)`` - returns allowance of a given token as BigNumber for given owner and spender address pair (or undefined)
 
 Sooner or later you will want to make a custom call to a smart contract. Use ``useContractCall`` and ``useContractCalls`` for that purpose.
@@ -124,7 +124,7 @@ See section below on creating custom hooks.
 
 
 Custom hooks
-************
+============
 
 Creating a custom hook with the use of our core hooks is straightforward, for example let’s examine the *useTokenBalance* hook.
 
@@ -189,7 +189,7 @@ If that is too complex consider using a custom backend or `The Graph <https://th
 
 
 Testing hooks
-*************
+=============
 
 Let's take ``useTokenAllowance`` as an example.
 
@@ -279,5 +279,124 @@ Then we can check if our result is correct. ``result.current`` is a value return
       expect(result.current).to.eq(utils.parseEther('1'))
     })
   })
+
+
+Transactions
+************
+
+Sending
+=======
+
+To send transations use ``useContractFunction`` hook. Hook returns an object with two variables: ``state`` and ``send``.
+
+The former represents the state of transaction. Transaction state always contains ``status``, which can be one of the following:
+
+- **None** - before a transaction is created.
+- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
+- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+
+Additionally all states except ``None``, contain ``chainId: ChainId``.
+
+To send a transaction use ``send`` function returned by ``useContractFunction``.
+The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
+Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#Contract-functionsCall>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+
+Take a look at examples below:
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+  ... 
+  send({ value })
+
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+
+  ... 
+  send(utils.parseEther(value))
+
+
+The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether `contract <https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code>`_ respectively.
+
+
+History
+=======
+
+To access list of user's transactions (with all statuses) use ``useTransactions`` hook.
+Transactions are stored in local storage and the status is rechecked on every new block. 
+
+Take a look at example usage below:
+
+.. code-block:: javascript
+
+  const { transactions } = useTransactions()
+
+
+Transaction has following type:
+
+.. code-block:: javascript
+
+  export interface StoredTransaction {
+    transaction: TransactionResponse
+    submittedAt: number
+    receipt?: TransactionReceipt
+    lastCheckedBlockNumber?: number
+    transactionName?: string
+  }
+
+
+
+Notifications
+=============
+
+Additonally, you can access notifications via ``useNotifications`` hook. 
+Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+
+Take a look at example usage below:
+
+.. code-block:: javascript
+
+  const { notifications } = useNotifications()
+
+
+``notifications`` are arrays of ``NotificationPayload``. Each can be one of the following:
+
+.. code-block:: javascript
+
+  { 
+    type: 'walletConnected'; 
+    address: string 
+  }
+
+.. code-block:: javascript
+
+  { 
+    type: 'transactionStarted'; 
+    submittedAt: number
+    transaction: TransactionResponse; 
+    transactionName?: string 
+  }
+
+.. code-block:: javascript
+
+  {
+    type: 'transactionSucceed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+.. code-block:: javascript
+  
+  {
+    type: 'transactionFailed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
 
 
