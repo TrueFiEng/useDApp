@@ -19,6 +19,9 @@ export function init() {
         updateView()
       }
     } else if (message.source === 'usedapp-hook') {
+      if (message.payload.type === 'INIT') {
+        messages = []
+      }
       messages.push(message)
       updateView()
     }

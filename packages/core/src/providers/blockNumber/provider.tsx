@@ -2,6 +2,7 @@ import { useEffect, useReducer, ReactNode } from 'react'
 import { BlockNumberContext } from './context'
 import { blockNumberReducer } from './reducer'
 import { useEthers, useDebounce } from '../../hooks'
+import { notifyDevtools } from '../devtools'
 
 interface Props {
   children: ReactNode
@@ -23,6 +24,16 @@ export function BlockNumberProvider({ children }: Props) {
 
   const debouncedState = useDebounce(state, 100)
   const blockNumber = chainId !== undefined ? debouncedState[chainId] : undefined
+
+  useEffect(() => {
+    notifyDevtools({ type: 'NETWORK_CHANGED', chainId })
+  }, [chainId])
+
+  useEffect(() => {
+    if (chainId !== undefined && blockNumber !== undefined) {
+      notifyDevtools({ type: 'BLOCK_NUMBER_CHANGED', chainId, blockNumber })
+    }
+  }, [blockNumber, chainId])
 
   return <BlockNumberContext.Provider value={blockNumber} children={children} />
 }

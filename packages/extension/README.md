@@ -7,7 +7,7 @@ The extension is a regular React application that can communicate with the useDA
 Below is an overview of the scripts involved in communication:
 
 ```
-Inspected Page
+@usedapp/core (via src/providers/devtools.ts)
     ⇅
 __USEDAPP_DEVTOOLS_HOOK__ ← static/scripts/devtools.js
     ⇅
@@ -28,7 +28,7 @@ Moving on to the `__USEDAPP_DEVTOOLS_HOOK__`. It is an object with four properti
 
 - `useDApp` - boolean value indicating whether useDApp is used on the page
 - `init()` - function that is called by the useDApp framework. It sets the `useDApp` property to `true` as well as sends a special message to `background.js` (through `content.js`) that changes the extension icon to a colorful one and updates the popup to say that useDApp was detected
-- `send(message)` - sends a message to devtools through `content.js` and `background.js`
+- `send(message)` - sends a message to devtools through `content.js` and `background.js`. Every message is timestamped.
 - `listen(cb)` - adds a listener to messages coming from devtools. Returns an unsubscribe callback
 
 At this point we can take a look at `devtools.js`. This script is run every time the devtools window is opened. The purpose of this script is to create the devtools panel if useDApp is present on the page. In order to detect useDApp it polls the `__USEDAPP_DEVTOOLS_HOOK__.useDApp` property. When the value becomes `true` the panel is created. This script does not communicate with any other part of the extension in any way.

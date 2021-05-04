@@ -5,6 +5,7 @@ import { ChainStateContext } from './context'
 import { chainStateReducer } from './chainStateReducer'
 import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
+import { notifyDevtools } from '../devtools'
 
 interface Props {
   children: ReactNode
@@ -35,8 +36,16 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
+  // used for deep equality in hook dependencies
+  const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 
   const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : undefined
+
+  useEffect(() => {
+    if (chainId !== undefined) {
+      notifyDevtools({ type: 'CALLS_CHANGED', chainId, calls: uniqueCalls })
+    }
+  }, [uniqueCallsJSON])
 
   useEffect(() => {
     if (library && blockNumber !== undefined && chainId !== undefined) {
@@ -45,13 +54,17 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
         return
       }
       multicall(library, multicallAddress, blockNumber, uniqueCalls)
-        .then((state) => dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state }))
+        .then((state) => {
+          dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state })
+          notifyDevtools({ type: 'MULTICALL_SUCCESS', chainId, blockNumber, multicallAddress, state })
+        })
         .catch((error) => {
           console.error(error)
           dispatchState({ type: 'FETCH_ERROR', blockNumber, chainId, error })
+          notifyDevtools({ type: 'MULTICALL_ERROR', chainId, blockNumber, multicallAddress, error })
         })
     }
-  }, [library, blockNumber, chainId, multicallAddress, JSON.stringify(uniqueCalls)])
+  }, [library, blockNumber, chainId, multicallAddress, uniqueCallsJSON])
 
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, addCalls, removeCalls }

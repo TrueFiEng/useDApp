@@ -22,8 +22,6 @@ function sendMessage(e) {
 }
 
 function receiveMessage(message) {
-  console.log('message received', message)
-
   if (message.source === 'usedapp-panel') {
     if (message.payload === 'replay') {
       port.postMessage({
@@ -68,10 +66,12 @@ function installHook() {
         source: 'usedapp-hook-init',
         useDAppDetected: true,
       })
+      this.send({ type: 'INIT' })
     },
     send(message) {
       window.postMessage({
         source: 'usedapp-hook',
+        timestamp: Date.now(),
         payload: message,
       })
     },
