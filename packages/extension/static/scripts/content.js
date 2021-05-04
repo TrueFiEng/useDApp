@@ -27,7 +27,7 @@ function receiveMessage(message) {
       port.postMessage({
         source: 'usedapp-content',
         payload: {
-          type: 'replay',
+          type: 'REPLAY',
           messages,
         },
       })

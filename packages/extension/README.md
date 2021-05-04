@@ -15,7 +15,7 @@ static/scripts/content.js
     ⇅
 static/scripts/background.js
     ⇅
-src/panel.ts
+src/connect.ts
 ```
 
 Let's start by exploring `content.js`. This is a content script, which means it runs for every tab in the browser. This script has three responsibilities.
@@ -33,7 +33,7 @@ Moving on to the `__USEDAPP_DEVTOOLS_HOOK__`. It is an object with four properti
 
 At this point we can take a look at `devtools.js`. This script is run every time the devtools window is opened. The purpose of this script is to create the devtools panel if useDApp is present on the page. In order to detect useDApp it polls the `__USEDAPP_DEVTOOLS_HOOK__.useDApp` property. When the value becomes `true` the panel is created. This script does not communicate with any other part of the extension in any way.
 
-The panel is created with the `static/index.html` document. This document requires the `scripts/panel.bundle.js` script which is bundled using webpack. Source of this script lives in the `src` directory. The panel establishes communication with the page by opening a port (connection) to the runtime (`background.js`), similarly to the content script.
+The panel is created with the `static/index.html` document. This document requires the `scripts/panel.bundle.js` script which is bundled using webpack. Source of this script lives in the `src` directory. In `src/connect.ts` the panel establishes communication with the page by opening a port (connection) to the runtime (`background.js`), similarly to the content script.
 
 With this we can finally take a look at `background.js`. A single instance of this script runs constantly in the browser's background. It has two tasks:
 
