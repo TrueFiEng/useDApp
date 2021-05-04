@@ -1,0 +1,17 @@
+{
+  "include": ["src", "types"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2018",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "importsNotUsedAsValues": "error"
+  }
+}
