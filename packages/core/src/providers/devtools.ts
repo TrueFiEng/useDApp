@@ -25,6 +25,7 @@ interface CallsChanged {
 interface MulticallSuccess {
   type: 'MULTICALL_SUCCESS'
   multicallAddress: string
+  duration: number
   chainId: ChainId
   blockNumber: number
   state: ChainState
@@ -33,6 +34,8 @@ interface MulticallSuccess {
 interface MulticallError {
   type: 'MULTICALL_ERROR'
   multicallAddress: string
+  duration: number
+  calls: ChainCall[]
   chainId: ChainId
   blockNumber: number
   error: any
