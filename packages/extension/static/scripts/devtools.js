@@ -10,23 +10,13 @@ function detectAndCreate() {
     clearInterval(checkInterval)
     return
   }
-  chrome.devtools.inspectedWindow.eval('!!(window.__USEDAPP_DEVTOOLS_HOOK__.useDApp)', function (detected) {
+  const code = '!!(window.__USEDAPP_DEVTOOLS_HOOK__.useDApp)'
+  chrome.devtools.inspectedWindow.eval(code, function (detected) {
     if (!detected || created) {
       return
     }
     clearInterval(checkInterval)
     created = true
-    createPanel()
+    chrome.devtools.panels.create('useDApp', 'icons/icon.svg', 'index.html')
   })
 }
-
-function createPanel() {
-  chrome.devtools.panels.create('useDApp', 'icons/icon.svg', 'index.html', (extensionPanel) => {
-    extensionPanel.onShown.addListener(onPanelShown)
-    extensionPanel.onHidden.addListener(onPanelHidden)
-  })
-}
-
-function onPanelShown(panel) {}
-
-function onPanelHidden(panel) {}
