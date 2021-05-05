@@ -26,6 +26,7 @@ export interface BlockFoundEvent {
 export interface CallsUpdatedEvent {
   type: 'CALLS_UPDATED'
   time: string
+  network?: string
   addedCalls: {
     address: string
     data: string

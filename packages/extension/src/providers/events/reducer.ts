@@ -83,7 +83,7 @@ function networkChanged(state: State, message: NetworkChangedMessage): State {
 
   return {
     ...state,
-    currentNetwork: undefined,
+    currentNetwork: network,
     events: [
       ...state.events,
       {
@@ -138,6 +138,7 @@ function callsChanged(state: State, message: CallsChangedMessage): State {
       {
         type: 'CALLS_UPDATED',
         time: timestampToTime(message.timestamp),
+        network: state.currentNetwork,
         addedCalls: [...addedCalls],
         removedCalls: [...removedCalls],
         persistedCalls: [...persistedCalls],

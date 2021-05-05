@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useReducer } from 'react'
-import { connect } from '../connect'
+import { connect } from '../../connect'
 import { INITIAL_STATE, reducer } from './reducer'
 import type { Event } from './State'
 

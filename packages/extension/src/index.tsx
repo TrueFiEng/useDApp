@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './App'
-import { EventProvider } from './providers/EventProvider'
+import { Providers } from './providers/Providers'
+import { App } from './views/App'
 
 ReactDOM.render(
   <React.StrictMode>
-    <EventProvider>
+    <Providers>
       <App />
-    </EventProvider>
+    </Providers>
   </React.StrictMode>,
   document.getElementById('root')
 )
