@@ -29,7 +29,7 @@ const config = {
 ReactDOM.render(
   <DAppProvider config={config}>
     <App />
-  </DAppProvider>
+  </DAppProvider>,
   document.getElementById('root')
 )
 
