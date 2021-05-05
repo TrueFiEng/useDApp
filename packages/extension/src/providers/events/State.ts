@@ -80,6 +80,13 @@ export type Event =
 
 export interface State {
   currentNetwork: string | undefined
+  state: {
+    [network: string]: {
+      [address: string]: {
+        [data: string]: string
+      }
+    }
+  }
   calls: ChainCall[]
   events: Event[]
 }
