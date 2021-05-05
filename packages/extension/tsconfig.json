@@ -6,7 +6,6 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "react",
-    "baseUrl": "./",
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
