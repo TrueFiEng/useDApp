@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.2.3
+
+### Patch Changes
+
+- 8018cd5: Remove git version from webpack config
+- Updated dependencies [f8fe874]
+  - @usedapp/core@0.3.16
+
 ## 0.2.2
 
 ### Patch Changes
