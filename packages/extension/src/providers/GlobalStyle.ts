@@ -17,5 +17,6 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${Colors.Background};
     color: ${Colors.Text};
     font-size: 16px;
+    line-height: 1;
   }
 `

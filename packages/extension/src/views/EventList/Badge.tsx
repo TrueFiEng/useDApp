@@ -36,7 +36,7 @@ const BlockNumber = styled.div`
 const NetworkBadge = styled.div`
   font-size: 14px;
   font-weight: bold;
-  padding: 2px 6px;
+  padding: 4px 6px;
   margin-right: 8px;
   color: ${Colors.TextInverted};
   text-shadow: 0px 1px 2px black;

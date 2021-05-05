@@ -8,7 +8,8 @@ export function fakeEvents(dispatch: (event: any) => void) {
     now = FAKE_EVENTS[index].timestamp
     index += 1
     if (index === FAKE_EVENTS.length) {
-      return
+      index = 1
+      now = FAKE_EVENTS[0].timestamp
     }
     timeout = setTimeout(onEvent, (FAKE_EVENTS[index].timestamp - now) / speed)
   }
