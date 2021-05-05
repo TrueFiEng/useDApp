@@ -12,6 +12,7 @@ export const Colors = {
   Hover: '#f7f7f7',
   Added: '#12c112',
   Removed: '#d72626',
+  Updated: '#2b2b8e',
   Text: 'black',
   TextInverted: 'white',
   Text2: '#555',

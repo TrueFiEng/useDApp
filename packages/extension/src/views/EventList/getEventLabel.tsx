@@ -13,7 +13,7 @@ export function getEventLabel(event: Event) {
     case 'CALLS_UPDATED':
       return 'Calls updated'
     case 'STATE_UPDATED':
-      return 'State updated'
+      return event.updated.length === 1 ? 'State update' : 'State updates'
     case 'FETCH_ERROR':
       return 'Fetch error'
   }

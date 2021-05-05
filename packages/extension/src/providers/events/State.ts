@@ -1,5 +1,18 @@
 import type { ChainCall } from './Message'
 
+export interface StateEntry {
+  address: string
+  data: string
+  value: string
+}
+
+export interface StateUpdate {
+  address: string
+  data: string
+  previous: string | undefined
+  current: string | undefined
+}
+
 export interface InitEvent {
   type: 'INIT'
   time: string
@@ -48,11 +61,8 @@ export interface StateUpdatedEvent {
   blockNumber: number
   multicallAddress: string
   duration: number
-  state: {
-    [address: string]: {
-      [data: string]: string
-    }
-  }
+  updated: StateUpdate[]
+  persisted: StateEntry[]
 }
 
 export interface FetchErrorEvent {
@@ -81,11 +91,7 @@ export type Event =
 export interface State {
   currentNetwork: string | undefined
   state: {
-    [network: string]: {
-      [address: string]: {
-        [data: string]: string
-      }
-    }
+    [network: string]: StateEntry[] | undefined
   }
   calls: ChainCall[]
   events: Event[]

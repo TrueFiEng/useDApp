@@ -22,9 +22,12 @@ export function Badge({ event }: Props) {
         {event.removedCalls.length > 0 && <Removed>-{event.removedCalls.length}</Removed>}
       </>
     )
+  } else if (event.type === 'STATE_UPDATED') {
+    return <Updated>{event.updated.length}</Updated>
   }
   return null
 }
+
 const BlockNumber = styled.div`
   font-weight: bold;
   margin-right: 8px;
@@ -53,4 +56,10 @@ const Removed = styled.div`
   ${Added} + & {
     margin-left: -4px;
   }
+`
+
+const Updated = styled.div`
+  font-weight: bold;
+  margin-right: 8px;
+  color: ${Colors.Updated};
 `
