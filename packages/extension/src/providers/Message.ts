@@ -1,3 +1,8 @@
+export interface ChainCall {
+  address: string
+  data: string
+}
+
 export interface InitMessage {
   source: 'usedapp-hook'
   timestamp: number
@@ -31,10 +36,7 @@ export interface CallsChangedMessage {
   payload: {
     type: 'CALLS_CHANGED'
     chainId: number
-    calls: {
-      address: string
-      data: string
-    }[]
+    calls: ChainCall[]
   }
 }
 
@@ -62,10 +64,7 @@ export interface MulticallErrorMessage {
     type: 'MULTICALL_ERROR'
     multicallAddress: string
     duration: number
-    calls: {
-      address: string
-      data: string
-    }[]
+    calls: ChainCall[]
     chainId: number
     blockNumber: number
     error: any

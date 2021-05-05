@@ -1,3 +1,5 @@
+import type { ChainCall } from './Message'
+
 export interface InitEvent {
   type: 'INIT'
   time: string
@@ -76,9 +78,6 @@ export type Event =
 
 export interface State {
   currentNetwork: string | undefined
-  calls: {
-    address: string
-    data: string
-  }[]
+  calls: ChainCall[]
   events: Event[]
 }
