@@ -96,14 +96,13 @@ function networkChanged(state: State, message: NetworkChangedMessage): State {
 }
 
 function blockNumberChanged(state: State, message: BlockNumberChangedMessage): State {
-  const network = chainIdToNetwork(message.payload.chainId)
   return {
     ...state,
     events: [
       ...state.events,
       {
         type: 'BLOCK_FOUND',
-        network,
+        network: chainIdToNetwork(message.payload.chainId),
         time: timestampToTime(message.timestamp),
         blockNumber: message.payload.blockNumber,
       },
@@ -148,13 +147,40 @@ function callsChanged(state: State, message: CallsChangedMessage): State {
 }
 
 function multicallSuccess(state: State, message: MulticallSuccessMessage): State {
-  // TODO: this
-  return state
+  return {
+    ...state,
+    events: [
+      ...state.events,
+      {
+        type: 'STATE_UPDATED',
+        time: timestampToTime(message.timestamp),
+        blockNumber: message.payload.blockNumber,
+        duration: message.payload.duration,
+        multicallAddress: message.payload.multicallAddress,
+        network: chainIdToNetwork(message.payload.chainId),
+        state: message.payload.state,
+      },
+    ],
+  }
 }
 
 function multicallError(state: State, message: MulticallErrorMessage): State {
-  // TODO: this
-  return state
+  return {
+    ...state,
+    events: [
+      ...state.events,
+      {
+        type: 'FETCH_ERROR',
+        time: timestampToTime(message.timestamp),
+        blockNumber: message.payload.blockNumber,
+        duration: message.payload.duration,
+        multicallAddress: message.payload.multicallAddress,
+        network: chainIdToNetwork(message.payload.chainId),
+        calls: message.payload.calls,
+        error: message.payload.error,
+      },
+    ],
+  }
 }
 
 function timestampToTime(timestamp: number) {

@@ -62,6 +62,7 @@ export interface FetchErrorEvent {
   blockNumber: number
   multicallAddress: string
   duration: number
+  error: string
   calls: {
     address: string
     data: string

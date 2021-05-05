@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { EventContext } from '../providers/events/EventProvider'
-import { EventList } from './EventList'
+import { EventList } from './EventList/EventList'
 
 export function App() {
   const events = useContext(EventContext)
