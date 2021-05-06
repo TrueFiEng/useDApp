@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { EventProvider } from './events/EventProvider'
+import { AbiProvider } from './abi/AbiProvider'
 import { GlobalStyle } from './GlobalStyle'
 
 interface Props {
@@ -9,8 +10,10 @@ interface Props {
 export function Providers({ children }: Props) {
   return (
     <EventProvider>
-      <GlobalStyle />
-      {children}
+      <AbiProvider>
+        <GlobalStyle />
+        {children}
+      </AbiProvider>
     </EventProvider>
   )
 }

@@ -9,6 +9,8 @@ export const Property = styled.td`
   text-align: right;
   font-size: 14px;
   padding-right: 8px;
+  padding-top: 2px;
+  vertical-align: baseline;
   color: ${Colors.Text2};
 `
 

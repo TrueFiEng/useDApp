@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Colors } from '../../design'
-import { EventContext } from '../../providers/events/EventProvider'
+import { useEvents } from '../../hooks'
 import type { Event } from '../../providers/events/State'
 import { EventList } from './EventList/EventList'
 import { EventPreview } from './EventPreview/EventPreview'
 
 export function Events() {
   const [event, setEvent] = useState<Event | undefined>(undefined)
-  const events = useContext(EventContext)
+  const events = useEvents()
 
   return (
     <Wrapper>
