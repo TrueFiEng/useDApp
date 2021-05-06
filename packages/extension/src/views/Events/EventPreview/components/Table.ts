@@ -12,4 +12,6 @@ export const Property = styled.td`
   color: ${Colors.Text2};
 `
 
-export const Value = styled.td``
+export const Value = styled.td`
+  user-select: text;
+`

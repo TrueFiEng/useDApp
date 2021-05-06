@@ -4,7 +4,6 @@ import { Colors, Font } from '../design'
 export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
-    user-select: none;
   }
 
   html,
@@ -18,5 +17,6 @@ export const GlobalStyle = createGlobalStyle`
     color: ${Colors.Text};
     font-size: 16px;
     line-height: 1;
+    user-select: none;
   }
 `

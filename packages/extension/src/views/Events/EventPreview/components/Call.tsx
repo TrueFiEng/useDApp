@@ -13,6 +13,7 @@ interface Props {
 }
 
 export function Call({ call }: Props) {
+  const showDiff = !!call.previous || !!call.current
   return (
     <SmallTable>
       <Row>
@@ -29,16 +30,16 @@ export function Call({ call }: Props) {
           <Value>{call.value}</Value>
         </Row>
       )}
-      {call.previous && (
+      {showDiff && (
         <Row>
           <Property>Previous</Property>
-          <Value>{call.previous}</Value>
+          <Value>{call.previous ?? 'No value'}</Value>
         </Row>
       )}
-      {call.current && (
+      {showDiff && (
         <Row>
           <Property>Current</Property>
-          <Value>{call.current}</Value>
+          <Value>{call.current ?? 'No value'}</Value>
         </Row>
       )}
     </SmallTable>
