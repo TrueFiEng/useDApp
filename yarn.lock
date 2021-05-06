@@ -4944,7 +4944,7 @@ ethereumjs-wallet@0.6.5:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
-ethers@5.1.4, ethers@^5.0.0, ethers@^5.0.1:
+ethers@5.1.4, ethers@^5.0.0, ethers@^5.0.1, ethers@^5.1.4:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.1.4.tgz#8ae973705ed962f8f41dc59693704002a38dd18b"
   integrity sha512-EAPQ/fgGRu0PoR/VNFnHTMOtG/IZ0AItdW55C9T8ffmVu0rnyllZL404eBF66elJehOLz2kxnUrhXpE7TCpW7g==

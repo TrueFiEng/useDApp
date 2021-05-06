@@ -1,5 +1,5 @@
 export type ParsedValue =
-  | ParsedObject
+  | ParsedTuple
   | ParsedAddress
   | ParsedNumber
   | ParsedBoolean
@@ -7,8 +7,8 @@ export type ParsedValue =
   | ParsedArray
   | ParsedBytes
 
-export interface ParsedObject {
-  type: 'object'
+export interface ParsedTuple {
+  type: 'tuple'
   name: string
   properties: ParsedValue[]
 }

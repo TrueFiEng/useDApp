@@ -1,7 +1,20 @@
+import React from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Colors } from '../../../../design'
 
-export const Table = styled.table``
+interface TableProps {
+  className?: string
+  children: ReactNode
+}
+
+export function Table({ className, children }: TableProps) {
+  return (
+    <table className={className}>
+      <tbody>{children}</tbody>
+    </table>
+  )
+}
 
 export const Row = styled.tr``
 
