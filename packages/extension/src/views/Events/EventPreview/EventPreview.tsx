@@ -6,6 +6,7 @@ import { EventItem } from '../EventItem/EventItem'
 import { InitializedPreview } from './InitializedPreview'
 import { NetworkConnectedPreview } from './NetworkConnectedPreview'
 import { NetworkDisconnectedPreview } from './NetworkDisconnectedPreview'
+import { BlockFoundPreview } from './BlockFoundPreview'
 
 interface Props {
   event?: Event
@@ -23,6 +24,7 @@ export function EventPreview({ event }: Props) {
         {event.type === 'INIT' && <InitializedPreview />}
         {event.type === 'NETWORK_CONNECTED' && <NetworkConnectedPreview event={event} />}
         {event.type === 'NETWORK_DISCONNECTED' && <NetworkDisconnectedPreview />}
+        {event.type === 'BLOCK_FOUND' && <BlockFoundPreview event={event} />}
       </Preview>
     </Wrapper>
   )
