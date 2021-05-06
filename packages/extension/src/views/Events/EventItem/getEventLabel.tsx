@@ -1,4 +1,4 @@
-import type { Event } from '../../providers/events/State'
+import type { Event } from '../../../providers/events/State'
 
 export function getEventLabel(event: Event) {
   switch (event.type) {

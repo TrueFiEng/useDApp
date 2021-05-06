@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Colors } from '../../design'
-import type { Event } from '../../providers/events/State'
+import { Colors } from '../../../design'
+import type { Event } from '../../../providers/events/State'
+import { EventItem } from '../EventItem/EventItem'
 
 interface Props {
   event?: Event
@@ -14,6 +15,7 @@ export function EventPreview({ event }: Props) {
 
   return (
     <Wrapper>
+      <EventItem event={event} />
       <pre>
         <code>{JSON.stringify(event, null, 2)}</code>
       </pre>

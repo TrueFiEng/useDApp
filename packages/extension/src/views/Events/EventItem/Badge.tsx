@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Colors } from '../../design'
-import type { Event } from '../../providers/events/State'
+import { Colors } from '../../../design'
+import type { Event } from '../../../providers/events/State'
 import { formatInteger } from './formatInteger'
 import { getNetworkColor } from './getNetworkColor'
 

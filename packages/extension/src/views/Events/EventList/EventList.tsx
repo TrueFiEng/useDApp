@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import type { Event } from '../../providers/events/State'
+import type { Event } from '../../../providers/events/State'
 import { EventListItem } from './EventListItem'
 
 interface Props {
