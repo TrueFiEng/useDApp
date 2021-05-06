@@ -10,6 +10,8 @@ export const Colors = {
   Border: '#efefef',
   Border2: '#d9d9d9',
   Hover: '#f7f7f7',
+  Selected: '#eaf3ff',
+  SelectedBorder: '#1d16ff',
   Added: '#12c112',
   Removed: '#d72626',
   Updated: '#2b2b8e',

@@ -1,17 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Colors } from '../../design'
 import type { Event } from '../../providers/events/State'
 import { EventListItem } from './EventListItem'
 
 interface Props {
   events: Event[]
+  selected: Event | undefined
+  onSelect: (event: Event) => void
 }
 
-export function EventList({ events }: Props) {
+export function EventList({ events, selected, onSelect }: Props) {
   const state = useRef({
     atBottom: true,
-    justScrolled: false
+    justScrolled: false,
   })
   const wrapper = useRef<HTMLDivElement>(null)
 
@@ -40,30 +41,15 @@ export function EventList({ events }: Props) {
   }, [events])
 
   return (
-    <Wrapper>
-      <Header>Events</Header>
-      <ListWrapper ref={wrapper}>
-        <List>
-          {events.map((e, i) => (
-            <EventListItem key={i} event={e} />
-          ))}
-        </List>
-      </ListWrapper>
-    </Wrapper>
+    <ListWrapper ref={wrapper} className={selected ? 'narrow' : ''}>
+      <List>
+        {events.map((e, i) => (
+          <EventListItem key={i} event={e} selected={e === selected} onSelect={onSelect} />
+        ))}
+      </List>
+    </ListWrapper>
   )
 }
-
-const Wrapper = styled.div`
-  position: relative;
-  height: 100%;
-`
-
-const Header = styled.header`
-  font-size: 18px;
-  padding: 12px 0 12px 99px;
-  background-color: ${Colors.Background2};
-  border-bottom: 1px solid ${Colors.Border2};
-`
 
 const ListWrapper = styled.div`
   overflow: auto;
@@ -72,10 +58,15 @@ const ListWrapper = styled.div`
   left: 0;
   width: 100%;
   height: calc(100% - 43px);
+
+  &.narrow {
+    width: 450px;
+  }
 `
 
 const List = styled.ol`
   margin: 0;
   padding: 0;
   list-style-type: none;
+  overflow-x: hidden;
 `
