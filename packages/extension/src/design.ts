@@ -12,6 +12,7 @@ export const Colors = {
   Hover: '#f7f7f7',
   Selected: '#eaf3ff',
   SelectedBorder: '#1d16ff',
+  Link: '#1d16ff',
   Added: '#12c112',
   Removed: '#d72626',
   Updated: '#2b2b8e',

@@ -24,6 +24,7 @@ const ListItem = styled.li`
   border: 1px solid ${Colors.Background};
   border-bottom-color: ${Colors.Border};
   cursor: pointer;
+  padding-left: 8px;
 
   &:hover {
     background-color: ${Colors.Hover};

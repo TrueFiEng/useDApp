@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
 import { EventItem } from '../EventItem/EventItem'
+import { InitializedPreview } from './InitializedPreview'
 
 interface Props {
   event?: Event
@@ -16,9 +17,7 @@ export function EventPreview({ event }: Props) {
   return (
     <Wrapper>
       <EventItem event={event} />
-      <pre>
-        <code>{JSON.stringify(event, null, 2)}</code>
-      </pre>
+      <Preview>{event.type === 'INIT' && <InitializedPreview />}</Preview>
     </Wrapper>
   )
 }
@@ -32,4 +31,9 @@ const Wrapper = styled.div`
   height: calc(100% - 43px);
   padding: 10px;
   border-left: 1px solid ${Colors.Border2};
+`
+
+const Preview = styled.div`
+  margin-top: 16px;
+  line-height: 1.5;
 `

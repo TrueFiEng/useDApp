@@ -32,7 +32,6 @@ const Wrapper = styled.div`
 const Time = styled.div`
   color: ${Colors.Text2};
   font-size: 14px;
-  margin-left: 8px;
 `
 
 const NetworkIndicator = styled.div`
