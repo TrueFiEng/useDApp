@@ -5,6 +5,7 @@ import type { Event } from '../../../providers/events/State'
 import { EventItem } from '../EventItem/EventItem'
 import { InitializedPreview } from './InitializedPreview'
 import { NetworkConnectedPreview } from './NetworkConnectedPreview'
+import { NetworkDisconnectedPreview } from './NetworkDisconnectedPreview'
 
 interface Props {
   event?: Event
@@ -21,6 +22,7 @@ export function EventPreview({ event }: Props) {
       <Preview>
         {event.type === 'INIT' && <InitializedPreview />}
         {event.type === 'NETWORK_CONNECTED' && <NetworkConnectedPreview event={event} />}
+        {event.type === 'NETWORK_DISCONNECTED' && <NetworkDisconnectedPreview />}
       </Preview>
     </Wrapper>
   )
