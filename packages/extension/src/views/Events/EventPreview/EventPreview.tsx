@@ -7,6 +7,9 @@ import { InitializedPreview } from './InitializedPreview'
 import { NetworkConnectedPreview } from './NetworkConnectedPreview'
 import { NetworkDisconnectedPreview } from './NetworkDisconnectedPreview'
 import { BlockFoundPreview } from './BlockFoundPreview'
+import { CallsUpdatedPreview } from './CallsUpdatedPreview'
+import { StateUpdatedPreview } from './StateUpdatedPreview'
+import { FetchErrorPreview } from './FetchErrorPreview'
 
 interface Props {
   event?: Event
@@ -25,6 +28,9 @@ export function EventPreview({ event }: Props) {
         {event.type === 'NETWORK_CONNECTED' && <NetworkConnectedPreview event={event} />}
         {event.type === 'NETWORK_DISCONNECTED' && <NetworkDisconnectedPreview />}
         {event.type === 'BLOCK_FOUND' && <BlockFoundPreview event={event} />}
+        {event.type === 'CALLS_UPDATED' && <CallsUpdatedPreview event={event} />}
+        {event.type === 'STATE_UPDATED' && <StateUpdatedPreview event={event} />}
+        {event.type === 'FETCH_ERROR' && <FetchErrorPreview event={event} />}
       </Preview>
     </Wrapper>
   )
