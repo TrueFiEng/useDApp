@@ -35,6 +35,7 @@ export function networkChanged(state: State, message: NetworkChangedMessage): St
         type: 'NETWORK_CONNECTED',
         network,
         time: timestampToTime(message.timestamp),
+        chainId: message.payload.chainId,
       },
     ],
   }

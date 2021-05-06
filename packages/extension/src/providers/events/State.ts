@@ -22,6 +22,7 @@ export interface NetworkConnectedEvent {
   type: 'NETWORK_CONNECTED'
   time: string
   network: string
+  chainId: number
 }
 
 export interface NetworkDisconnectedEvent {

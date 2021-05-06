@@ -4,6 +4,7 @@ import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
 import { EventItem } from '../EventItem/EventItem'
 import { InitializedPreview } from './InitializedPreview'
+import { NetworkConnectedPreview } from './NetworkConnectedPreview'
 
 interface Props {
   event?: Event
@@ -17,7 +18,10 @@ export function EventPreview({ event }: Props) {
   return (
     <Wrapper>
       <EventItem event={event} />
-      <Preview>{event.type === 'INIT' && <InitializedPreview />}</Preview>
+      <Preview>
+        {event.type === 'INIT' && <InitializedPreview />}
+        {event.type === 'NETWORK_CONNECTED' && <NetworkConnectedPreview event={event} />}
+      </Preview>
     </Wrapper>
   )
 }
