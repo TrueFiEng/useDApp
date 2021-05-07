@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import type { ChainCall, Message, MulticallErrorMessage } from '../../../src/providers/events/Message'
+import type { ChainCall, Message, MulticallErrorPayload } from '../../../src/providers/events/Message'
 import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
 import type { Event, FetchErrorEvent, State } from '../../../src/providers/events/State'
 
@@ -307,7 +307,7 @@ function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall
   }
 }
 
-function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorMessage['payload'], 'type'>): Message {
+function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorPayload, 'type'>): Message {
   return {
     source: 'usedapp-hook',
     timestamp: toTimestamp(time),

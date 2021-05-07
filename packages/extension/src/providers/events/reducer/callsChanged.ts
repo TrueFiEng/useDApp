@@ -1,9 +1,9 @@
-import type { CallsChangedMessage, ChainCall } from '../Message'
+import type { CallsChangedPayload, ChainCall, HookMessage } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
-export function callsChanged(state: State, message: CallsChangedMessage): State {
+export function callsChanged(state: State, message: HookMessage<CallsChangedPayload>): State {
   const addedCalls = new Set<ChainCall>()
   const removedCalls = new Set<ChainCall>()
   const persistedCalls = new Set<ChainCall>()

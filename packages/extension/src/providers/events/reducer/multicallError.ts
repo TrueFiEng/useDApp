@@ -1,9 +1,9 @@
-import type { MulticallErrorMessage } from '../Message'
+import type { HookMessage, MulticallErrorPayload } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
-export function multicallError(state: State, message: MulticallErrorMessage): State {
+export function multicallError(state: State, message: HookMessage<MulticallErrorPayload>): State {
   return {
     ...state,
     events: [

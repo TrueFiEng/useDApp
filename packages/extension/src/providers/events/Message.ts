@@ -6,88 +6,83 @@ export interface ChainCall {
   data: string
 }
 
-export interface InitMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'INIT'
-  }
+export interface InitPayload {
+  type: 'INIT'
 }
 
-export interface NetworkChangedMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'NETWORK_CHANGED'
-    chainId?: number
-  }
+export interface NetworkChangedPayload {
+  type: 'NETWORK_CHANGED'
+  chainId?: number
+  multicallAddress?: string
 }
 
-export interface BlockNumberChangedMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'BLOCK_NUMBER_CHANGED'
-    chainId: number
-    blockNumber: number
-  }
+export interface BlockNumberChangedPayload {
+  type: 'BLOCK_NUMBER_CHANGED'
+  chainId: number
+  blockNumber: number
 }
 
-export interface CallsChangedMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'CALLS_CHANGED'
-    chainId?: number
-    calls: ChainCall[]
-  }
+export interface AccountChangedPayload {
+  type: 'ACCOUNT_CHANGED'
+  address?: string
 }
 
-export interface MulticallSuccessMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'MULTICALL_SUCCESS'
-    multicallAddress: string
-    duration: number
-    chainId: number
-    blockNumber: number
-    state: {
-      [address: string]: {
-        [data: string]: string
-      }
+export interface CallsChangedPayload {
+  type: 'CALLS_CHANGED'
+  chainId?: number
+  calls: ChainCall[]
+}
+
+export interface MulticallSuccessPayload {
+  type: 'MULTICALL_SUCCESS'
+  multicallAddress: string
+  duration: number
+  chainId: number
+  blockNumber: number
+  state: {
+    [address: string]: {
+      [data: string]: string
     }
   }
 }
 
-export interface MulticallErrorMessage {
-  source: 'usedapp-hook'
-  timestamp: number
-  payload: {
-    type: 'MULTICALL_ERROR'
-    multicallAddress: string
-    duration: number
-    calls: ChainCall[]
-    chainId: number
-    blockNumber: number
-    error: string
-  }
+export interface MulticallErrorPayload {
+  type: 'MULTICALL_ERROR'
+  multicallAddress: string
+  duration: number
+  calls: ChainCall[]
+  chainId: number
+  blockNumber: number
+  error: string
 }
 
-export type HookMessage =
-  | InitMessage
-  | NetworkChangedMessage
-  | BlockNumberChangedMessage
-  | CallsChangedMessage
-  | MulticallSuccessMessage
-  | MulticallErrorMessage
+export interface GenericErrorPayload {
+  type: 'GENERIC_ERROR'
+  error: string
+}
+
+type Payload =
+  | InitPayload
+  | NetworkChangedPayload
+  | BlockNumberChangedPayload
+  | AccountChangedPayload
+  | CallsChangedPayload
+  | MulticallSuccessPayload
+  | MulticallErrorPayload
+  | GenericErrorPayload
+
+export interface HookMessage<T> {
+  source: 'usedapp-hook'
+  timestamp: number
+  payload: T
+}
 
 export interface ReplayMessage {
   source: 'usedapp-content'
   payload: {
     type: 'REPLAY'
-    messages: HookMessage[]
+    messages: HookMessage<Payload>[]
   }
 }
 
-export type Message = HookMessage | ReplayMessage
+export type Message = HookMessage<Payload> | ReplayMessage

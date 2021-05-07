@@ -1,12 +1,13 @@
 import type {
-  InitMessage,
   Message,
   ReplayMessage,
-  NetworkChangedMessage,
-  BlockNumberChangedMessage,
-  CallsChangedMessage,
-  MulticallSuccessMessage,
-  MulticallErrorMessage,
+  HookMessage,
+  InitPayload,
+  NetworkChangedPayload,
+  BlockNumberChangedPayload,
+  CallsChangedPayload,
+  MulticallSuccessPayload,
+  MulticallErrorPayload,
 } from '../Message'
 import type { State } from '../State'
 import { blockNumberChanged } from './blockNumberChanged'
@@ -25,21 +26,26 @@ export const INITIAL_STATE: State = {
 }
 
 export function reducer(state: State, message: Message) {
+  if (message.source === 'usedapp-content') {
+    if (message.payload.type === 'REPLAY') {
+      return replay(state, message)
+    } else {
+      return state
+    }
+  }
   switch (message.payload.type) {
-    case 'REPLAY':
-      return replay(state, message as ReplayMessage)
     case 'INIT':
-      return init(state, message as InitMessage)
+      return init(state, message as HookMessage<InitPayload>)
     case 'NETWORK_CHANGED':
-      return networkChanged(state, message as NetworkChangedMessage)
+      return networkChanged(state, message as HookMessage<NetworkChangedPayload>)
     case 'BLOCK_NUMBER_CHANGED':
-      return blockNumberChanged(state, message as BlockNumberChangedMessage)
+      return blockNumberChanged(state, message as HookMessage<BlockNumberChangedPayload>)
     case 'CALLS_CHANGED':
-      return callsChanged(state, message as CallsChangedMessage)
+      return callsChanged(state, message as HookMessage<CallsChangedPayload>)
     case 'MULTICALL_SUCCESS':
-      return multicallSuccess(state, message as MulticallSuccessMessage)
+      return multicallSuccess(state, message as HookMessage<MulticallSuccessPayload>)
     case 'MULTICALL_ERROR':
-      return multicallError(state, message as MulticallErrorMessage)
+      return multicallError(state, message as HookMessage<MulticallErrorPayload>)
     default:
       return state
   }

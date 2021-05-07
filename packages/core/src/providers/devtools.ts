@@ -11,12 +11,18 @@ interface Init {
 interface NetworkChanged {
   type: 'NETWORK_CHANGED'
   chainId?: ChainId
+  multicallAddress?: string
 }
 
 interface BlockNumberChanged {
   type: 'BLOCK_NUMBER_CHANGED'
   chainId: ChainId
   blockNumber: number
+}
+
+interface AccountChanged {
+  type: 'ACCOUNT_CHANGED'
+  address?: string
 }
 
 interface CallsChanged {
@@ -44,7 +50,20 @@ interface MulticallError {
   error: any
 }
 
-type Notification = Init | NetworkChanged | BlockNumberChanged | CallsChanged | MulticallSuccess | MulticallError
+interface GenericError {
+  type: 'GENERIC_ERROR'
+  error: Error
+}
+
+type Notification =
+  | Init
+  | NetworkChanged
+  | BlockNumberChanged
+  | AccountChanged
+  | CallsChanged
+  | MulticallSuccess
+  | MulticallError
+  | GenericError
 
 const hook: any = (window as any).__USEDAPP_DEVTOOLS_HOOK__
 
@@ -58,7 +77,7 @@ export function notifyDevtools(notification: Notification) {
   if (notification.type === 'INIT') {
     hook.init()
   } else {
-    if (notification.type === 'MULTICALL_ERROR') {
+    if (notification.type === 'MULTICALL_ERROR' || notification.type === 'GENERIC_ERROR') {
       notification.error = getErrorMessage(notification.error)
     }
     hook.send(notification)

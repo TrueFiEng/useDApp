@@ -1,9 +1,9 @@
-import type { MulticallSuccessMessage } from '../Message'
+import type { HookMessage, MulticallSuccessPayload } from '../Message'
 import type { State, StateEntry, StateUpdate } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
-export function multicallSuccess(state: State, message: MulticallSuccessMessage): State {
+export function multicallSuccess(state: State, message: HookMessage<MulticallSuccessPayload>): State {
   const network = chainIdToNetwork(message.payload.chainId)
 
   const previousEntries = state.state[network] ?? []

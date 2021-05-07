@@ -1,9 +1,9 @@
-import type { BlockNumberChangedMessage } from '../Message'
+import type { BlockNumberChangedPayload, HookMessage } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
-export function blockNumberChanged(state: State, message: BlockNumberChangedMessage): State {
+export function blockNumberChanged(state: State, message: HookMessage<BlockNumberChangedPayload>): State {
   const network = chainIdToNetwork(message.payload.chainId)
   return {
     ...state,

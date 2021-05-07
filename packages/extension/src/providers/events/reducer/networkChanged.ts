@@ -1,9 +1,9 @@
-import type { NetworkChangedMessage } from '../Message'
+import type { HookMessage, NetworkChangedPayload } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
-export function networkChanged(state: State, message: NetworkChangedMessage): State {
+export function networkChanged(state: State, message: HookMessage<NetworkChangedPayload>): State {
   if (message.payload.chainId === undefined) {
     if (state.currentNetwork === undefined) {
       return state

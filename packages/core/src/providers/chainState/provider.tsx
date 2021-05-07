@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useReducer } from 'react'
+import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { ChainStateContext } from './context'
@@ -6,6 +6,7 @@ import { chainStateReducer } from './chainStateReducer'
 import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
+import { useDevtoolsReporting } from './useDevtoolsReporting'
 
 interface Props {
   children: ReactNode
@@ -41,9 +42,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
 
   const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : undefined
 
-  useEffect(() => {
-    notifyDevtools({ type: 'CALLS_CHANGED', chainId, calls: uniqueCalls })
-  }, [uniqueCallsJSON])
+  useDevtoolsReporting(uniqueCallsJSON, uniqueCalls, blockNumber, multicallAddresses)
 
   useEffect(() => {
     if (library && blockNumber !== undefined && chainId !== undefined) {
