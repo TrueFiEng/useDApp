@@ -22,6 +22,7 @@ export function callsChanged(state: State, message: CallsChangedMessage): State 
     }
   }
 
+  const network = message.payload.chainId !== undefined ? chainIdToNetwork(message.payload.chainId) : undefined
   return {
     ...state,
     calls: message.payload.calls,
@@ -30,7 +31,7 @@ export function callsChanged(state: State, message: CallsChangedMessage): State 
       {
         type: 'CALLS_UPDATED',
         time: timestampToTime(message.timestamp),
-        network: chainIdToNetwork(message.payload.chainId),
+        network,
         added: [...addedCalls],
         removed: [...removedCalls],
         persisted: [...persistedCalls],

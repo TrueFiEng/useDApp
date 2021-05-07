@@ -42,9 +42,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : undefined
 
   useEffect(() => {
-    if (chainId !== undefined) {
-      notifyDevtools({ type: 'CALLS_CHANGED', chainId, calls: uniqueCalls })
-    }
+    notifyDevtools({ type: 'CALLS_CHANGED', chainId, calls: uniqueCalls })
   }, [uniqueCallsJSON])
 
   useEffect(() => {

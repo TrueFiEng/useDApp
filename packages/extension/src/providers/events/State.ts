@@ -40,7 +40,7 @@ export interface BlockFoundEvent {
 export interface CallsUpdatedEvent {
   type: 'CALLS_UPDATED'
   time: string
-  network: string
+  network?: string
   added: {
     address: string
     data: string

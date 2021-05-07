@@ -1,3 +1,6 @@
+// NOTE: If you modify this file please ensure consistency with
+// packages/core/src/providers/devtools.ts
+
 export interface ChainCall {
   address: string
   data: string
@@ -35,7 +38,7 @@ export interface CallsChangedMessage {
   timestamp: number
   payload: {
     type: 'CALLS_CHANGED'
-    chainId: number
+    chainId?: number
     calls: ChainCall[]
   }
 }
