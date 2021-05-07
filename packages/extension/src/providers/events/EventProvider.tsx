@@ -13,7 +13,6 @@ export function EventProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
 
   useEffect(() => {
-    // return require('./fake').fakeEvents(dispatch)
     const connection = connect()
     const stopListening = connection.listen(dispatch)
     connection.init()

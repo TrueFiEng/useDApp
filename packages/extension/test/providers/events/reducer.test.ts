@@ -115,6 +115,75 @@ describe('reducer', () => {
     })
   })
 
+  describe('account changed', () => {
+    const ACCOUNT = '0x' + 'a'.repeat(40)
+    const OTHER_ACCOUNT = '0x' + 'b'.repeat(40)
+    it('adds a network connected event', () => {
+      const result = stateAfter(makeAccountChangedMessage('13:14:15', ACCOUNT))
+      const expected: State = {
+        ...INITIAL_STATE,
+        account: ACCOUNT,
+        events: [makeAccountConnectedEvent('13:14:15', ACCOUNT)],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('adds a network disconnected event', () => {
+      const result = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', undefined)
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        events: [makeAccountConnectedEvent('13:14:15', ACCOUNT), makeAccountDisconnectedEvent('13:14:16')],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('does nothing if connected to the same network', () => {
+      const result = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', ACCOUNT)
+      )
+      const expected = stateAfter(makeAccountChangedMessage('13:14:15', ACCOUNT))
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('is disconnected by default', () => {
+      const result = stateAfter(makeAccountChangedMessage('13:14:15', undefined))
+      expect(result).to.deep.equal(INITIAL_STATE)
+    })
+
+    it('does nothing if disconnected again', () => {
+      const result = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', undefined),
+        makeAccountChangedMessage('13:14:17', undefined)
+      )
+      const expected = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', undefined)
+      )
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('preserves past events when connected', () => {
+      const result = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', OTHER_ACCOUNT)
+      )
+      expect(result.events.length).to.equal(2)
+    })
+
+    it('preserves past events when disconnected', () => {
+      const result = stateAfter(
+        makeAccountChangedMessage('13:14:15', ACCOUNT),
+        makeAccountChangedMessage('13:14:16', undefined)
+      )
+      expect(result.events.length).to.equal(2)
+    })
+  })
+
   describe('calls changed', () => {
     const CALL_A = {
       address: `0x` + 'a'.repeat(40),
@@ -542,6 +611,17 @@ describe('reducer', () => {
       expect(result.events[1]).to.deep.equal(expected)
     })
   })
+
+  describe('generic error', () => {
+    it('adds the event to the list of messages', () => {
+      const result = stateAfter(makeGenericErrorMessage('13:14:15', 'Foo'), makeGenericErrorMessage('13:14:16', 'Bar'))
+      const expected: State = {
+        ...INITIAL_STATE,
+        events: [makeErrorEvent('13:14:15', 'Foo'), makeErrorEvent('13:14:16', 'Bar')],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+  })
 })
 
 function stateAfter(...messages: Message[]) {
@@ -579,6 +659,14 @@ function makeBlockNumberChangedMessage(time: string, chainId: number, blockNumbe
   }
 }
 
+function makeAccountChangedMessage(time: string, address: string | undefined): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: { type: 'ACCOUNT_CHANGED', address },
+  }
+}
+
 function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall[]): Message {
   return {
     source: 'usedapp-hook',
@@ -609,6 +697,17 @@ function makeMulticallSuccessMessage(time: string, options: Omit<MulticallSucces
   }
 }
 
+function makeGenericErrorMessage(time: string, error: string): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: {
+      type: 'GENERIC_ERROR',
+      error,
+    },
+  }
+}
+
 // events
 
 function makeInitEvent(time: string): Event {
@@ -625,6 +724,14 @@ function makeNetworkDisconnectedEvent(time: string): Event {
 
 function makeBlockFoundEvent(time: string, network: string, blockNumber: number): Event {
   return { type: 'BLOCK_FOUND', time, network, blockNumber }
+}
+
+function makeAccountConnectedEvent(time: string, address: string): Event {
+  return { type: 'ACCOUNT_CONNECTED', time, address }
+}
+
+function makeAccountDisconnectedEvent(time: string): Event {
+  return { type: 'ACCOUNT_DISCONNECTED', time }
 }
 
 function makeCallsUpdatedEvent(
@@ -649,4 +756,8 @@ function makeStateUpdatedEvent(time: string, options: Omit<StateUpdatedEvent, 't
     time,
     ...options,
   }
+}
+
+function makeErrorEvent(time: string, error: string): Event {
+  return { type: 'ERROR', time, error }
 }

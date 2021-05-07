@@ -30,6 +30,17 @@ export interface NetworkDisconnectedEvent {
   time: string
 }
 
+export interface AccountConnectedEvent {
+  type: 'ACCOUNT_CONNECTED'
+  time: string
+  address: string
+}
+
+export interface AccountDisconnectedEvent {
+  type: 'ACCOUNT_DISCONNECTED'
+  time: string
+}
+
 export interface BlockFoundEvent {
   type: 'BLOCK_FOUND'
   time: string
@@ -80,17 +91,27 @@ export interface FetchErrorEvent {
   }[]
 }
 
+export interface ErrorEvent {
+  type: 'ERROR'
+  time: string
+  error: string
+}
+
 export type Event =
   | InitEvent
   | NetworkConnectedEvent
   | NetworkDisconnectedEvent
+  | AccountConnectedEvent
+  | AccountDisconnectedEvent
   | BlockFoundEvent
   | CallsUpdatedEvent
   | StateUpdatedEvent
   | FetchErrorEvent
+  | ErrorEvent
 
 export interface State {
   currentNetwork: string | undefined
+  account: string | undefined
   blockNumbers: {
     [network: string]: number
   }
