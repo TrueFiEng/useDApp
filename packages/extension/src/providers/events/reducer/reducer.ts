@@ -18,6 +18,7 @@ import { networkChanged } from './networkChanged'
 
 export const INITIAL_STATE: State = {
   currentNetwork: undefined,
+  blockNumbers: {},
   state: {},
   calls: [],
   events: [],

@@ -91,6 +91,9 @@ export type Event =
 
 export interface State {
   currentNetwork: string | undefined
+  blockNumbers: {
+    [network: string]: number
+  }
   state: {
     [network: string]: StateEntry[] | undefined
   }

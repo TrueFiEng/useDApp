@@ -4,13 +4,18 @@ import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
 export function blockNumberChanged(state: State, message: BlockNumberChangedMessage): State {
+  const network = chainIdToNetwork(message.payload.chainId)
   return {
     ...state,
+    blockNumbers: {
+      ...state.blockNumbers,
+      [network]: message.payload.blockNumber,
+    },
     events: [
       ...state.events,
       {
         type: 'BLOCK_FOUND',
-        network: chainIdToNetwork(message.payload.chainId),
+        network,
         time: timestampToTime(message.timestamp),
         blockNumber: message.payload.blockNumber,
       },

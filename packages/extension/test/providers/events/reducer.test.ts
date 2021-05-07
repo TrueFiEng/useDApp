@@ -91,6 +91,54 @@ describe('reducer', () => {
       expect(result.events.length).to.equal(2)
     })
   })
+
+  describe('block number changed', () => {
+    it('adds a block found event', () => {
+      const result = stateAfter(makeBlockNumberChangedMessage('13:14:15', 1, 123456))
+      const expected: State = {
+        ...INITIAL_STATE,
+        blockNumbers: {
+          Mainnet: 123456,
+        },
+        events: [makeBlockFoundEvent('13:14:15', 'Mainnet', 123456)],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('overwrites the block number', () => {
+      const result = stateAfter(
+        makeBlockNumberChangedMessage('13:14:15', 1, 123456),
+        makeBlockNumberChangedMessage('13:14:16', 1, 123458)
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        blockNumbers: {
+          Mainnet: 123458,
+        },
+        events: [
+          makeBlockFoundEvent('13:14:15', 'Mainnet', 123456),
+          makeBlockFoundEvent('13:14:16', 'Mainnet', 123458),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('tracks block numbers for many chains', () => {
+      const result = stateAfter(
+        makeBlockNumberChangedMessage('13:14:15', 1, 123456),
+        makeBlockNumberChangedMessage('13:14:16', 42, 4567)
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        blockNumbers: {
+          Mainnet: 123456,
+          Kovan: 4567,
+        },
+        events: [makeBlockFoundEvent('13:14:15', 'Mainnet', 123456), makeBlockFoundEvent('13:14:16', 'Kovan', 4567)],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+  })
 })
 
 function stateAfter(...messages: Message[]) {
@@ -119,6 +167,14 @@ function makeNetworkChangedMessage(time: string, chainId: number | undefined): M
   }
 }
 
+function makeBlockNumberChangedMessage(time: string, chainId: number, blockNumber: number): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: { type: 'BLOCK_NUMBER_CHANGED', chainId, blockNumber },
+  }
+}
+
 // events
 
 function makeInitEvent(time: string): Event {
@@ -131,4 +187,8 @@ function makeNetworkConnectedEvent(time: string, chainId: number, network: strin
 
 function makeNetworkDisconnectedEvent(time: string): Event {
   return { type: 'NETWORK_DISCONNECTED', time }
+}
+
+function makeBlockFoundEvent(time: string, network: string, blockNumber: number): Event {
+  return { type: 'BLOCK_FOUND', time, network, blockNumber }
 }
