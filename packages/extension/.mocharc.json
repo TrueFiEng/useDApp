@@ -1,0 +1,7 @@
+{
+  "spec": "test/**/*.test.{ts,tsx}",
+  "require": "ts-node/register",
+  "watchExtensions": "ts",
+  "extension": "ts",
+  "timeout": 3000
+}
