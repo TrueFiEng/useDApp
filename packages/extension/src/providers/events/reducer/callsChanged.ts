@@ -1,5 +1,6 @@
 import type { CallsChangedMessage, ChainCall } from '../Message'
 import type { State } from '../State'
+import { chainIdToNetwork } from './chainIdToNetwork'
 import { timestampToTime } from './timestampToTime'
 
 export function callsChanged(state: State, message: CallsChangedMessage): State {
@@ -29,10 +30,10 @@ export function callsChanged(state: State, message: CallsChangedMessage): State 
       {
         type: 'CALLS_UPDATED',
         time: timestampToTime(message.timestamp),
-        network: state.currentNetwork,
-        addedCalls: [...addedCalls],
-        removedCalls: [...removedCalls],
-        persistedCalls: [...persistedCalls],
+        network: chainIdToNetwork(message.payload.chainId),
+        added: [...addedCalls],
+        removed: [...removedCalls],
+        persisted: [...persistedCalls],
       },
     ],
   }

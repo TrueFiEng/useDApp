@@ -40,16 +40,16 @@ export interface BlockFoundEvent {
 export interface CallsUpdatedEvent {
   type: 'CALLS_UPDATED'
   time: string
-  network?: string
-  addedCalls: {
+  network: string
+  added: {
     address: string
     data: string
   }[]
-  removedCalls: {
+  removed: {
     address: string
     data: string
   }[]
-  persistedCalls: {
+  persisted: {
     address: string
     data: string
   }[]

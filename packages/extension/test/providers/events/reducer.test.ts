@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import type { Message } from '../../../src/providers/events/Message'
+import type { ChainCall, Message } from '../../../src/providers/events/Message'
 import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
 import type { Event, State } from '../../../src/providers/events/State'
 
@@ -15,8 +15,7 @@ describe('reducer', () => {
     })
 
     it('correctly formats single digit time', () => {
-      const message = makeInitMessage('03:04:05')
-      const result = reducer(INITIAL_STATE, message)
+      const result = stateAfter(makeInitMessage('03:04:05'))
       expect(result.events[0].time).to.equal('03:04:05')
     })
 
@@ -139,10 +138,81 @@ describe('reducer', () => {
       expect(result).to.deep.equal(expected)
     })
   })
+
+  describe('calls changed', () => {
+    const CALL_A = {
+      address: `0x` + 'a'.repeat(40),
+      data: '0xdeadbeef',
+    }
+    const CALL_B = {
+      address: `0x` + 'b'.repeat(40),
+      data: '0xdeadbeef',
+    }
+    const CALL_C = {
+      address: `0x` + 'a'.repeat(40),
+      data: '0x1337b00b1e569420',
+    }
+
+    it('can track calls added', () => {
+      const result = stateAfter(makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]))
+      const expected: State = {
+        ...INITIAL_STATE,
+        calls: [CALL_A, CALL_B],
+        events: [
+          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+            added: [CALL_A, CALL_B],
+          }),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('can track calls removed', () => {
+      const result = stateAfter(
+        makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]),
+        makeCallsChangedMessage('13:14:16', 1, [])
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        events: [
+          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+            added: [CALL_A, CALL_B],
+          }),
+          makeCallsUpdatedEvent('13:14:16', 'Mainnet', {
+            removed: [CALL_A, CALL_B],
+          }),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('can track added, removed and persisted', () => {
+      const result = stateAfter(
+        makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]),
+        makeCallsChangedMessage('13:14:16', 1, [CALL_A, CALL_C])
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        calls: [CALL_A, CALL_C],
+        events: [
+          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+            added: [CALL_A, CALL_B],
+          }),
+          makeCallsUpdatedEvent('13:14:16', 'Mainnet', {
+            added: [CALL_C],
+            removed: [CALL_B],
+            persisted: [CALL_A],
+          }),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+  })
 })
 
 function stateAfter(...messages: Message[]) {
-  return messages.reduce(reducer, INITIAL_STATE)
+  // we clone messages to ensure referential equality cannot be used on objects
+  return messages.map((x) => JSON.parse(JSON.stringify(x))).reduce(reducer, INITIAL_STATE)
 }
 
 function toTimestamp(time: string) {
@@ -175,6 +245,14 @@ function makeBlockNumberChangedMessage(time: string, chainId: number, blockNumbe
   }
 }
 
+function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall[]): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: { type: 'CALLS_CHANGED', chainId, calls },
+  }
+}
+
 // events
 
 function makeInitEvent(time: string): Event {
@@ -191,4 +269,12 @@ function makeNetworkDisconnectedEvent(time: string): Event {
 
 function makeBlockFoundEvent(time: string, network: string, blockNumber: number): Event {
   return { type: 'BLOCK_FOUND', time, network, blockNumber }
+}
+
+function makeCallsUpdatedEvent(
+  time: string,
+  network: string,
+  calls: { added?: ChainCall[]; removed?: ChainCall[]; persisted?: ChainCall[] }
+): Event {
+  return { type: 'CALLS_UPDATED', time, network, added: [], removed: [], persisted: [], ...calls }
 }

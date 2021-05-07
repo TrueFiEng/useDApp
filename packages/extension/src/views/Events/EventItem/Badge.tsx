@@ -18,8 +18,8 @@ export function Badge({ event }: Props) {
   } else if (event.type === 'CALLS_UPDATED') {
     return (
       <>
-        {event.addedCalls.length > 0 && <Added>+{event.addedCalls.length}</Added>}
-        {event.removedCalls.length > 0 && <Removed>-{event.removedCalls.length}</Removed>}
+        {event.added.length > 0 && <Added>+{event.added.length}</Added>}
+        {event.removed.length > 0 && <Removed>-{event.removed.length}</Removed>}
       </>
     )
   } else if (event.type === 'STATE_UPDATED') {

@@ -12,29 +12,29 @@ interface Props {
 export function CallsUpdatedPreview({ event }: Props) {
   return (
     <>
-      {event.addedCalls.length > 0 && (
+      {event.added.length > 0 && (
         <>
           <Label>
-            Added calls <Added>+{event.addedCalls.length}</Added>
+            Added calls <Added>+{event.added.length}</Added>
           </Label>
-          <CallList calls={event.addedCalls} />
+          <CallList calls={event.added} />
         </>
       )}
-      {event.removedCalls.length > 0 && (
+      {event.removed.length > 0 && (
         <>
           <Label>
-            Removed calls <Removed>-{event.removedCalls.length}</Removed>
+            Removed calls <Removed>-{event.removed.length}</Removed>
           </Label>
-          <CallList calls={event.removedCalls} />
+          <CallList calls={event.removed} />
         </>
       )}
-      {event.persistedCalls.length > 0 && (
+      {event.persisted.length > 0 && (
         <>
           <Label>Persisted calls</Label>
-          <CallList calls={event.persistedCalls} />
+          <CallList calls={event.persisted} />
         </>
       )}
-      {event.persistedCalls.length === 0 && <Text>No other calls</Text>}
+      {event.persisted.length === 0 && <Text>No other calls</Text>}
     </>
   )
 }
