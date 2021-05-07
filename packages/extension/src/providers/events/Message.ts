@@ -70,7 +70,7 @@ export interface MulticallErrorMessage {
     calls: ChainCall[]
     chainId: number
     blockNumber: number
-    error: any
+    error: string
   }
 }
 

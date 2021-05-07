@@ -1,7 +1,7 @@
 import { expect } from 'chai'
-import type { ChainCall, Message } from '../../../src/providers/events/Message'
+import type { ChainCall, Message, MulticallErrorMessage } from '../../../src/providers/events/Message'
 import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
-import type { Event, State } from '../../../src/providers/events/State'
+import type { Event, FetchErrorEvent, State } from '../../../src/providers/events/State'
 
 describe('reducer', () => {
   describe('init', () => {
@@ -208,11 +208,65 @@ describe('reducer', () => {
       expect(result).to.deep.equal(expected)
     })
   })
+
+  describe('multicall error', () => {
+    const CALL_A = {
+      address: `0x` + 'a'.repeat(40),
+      data: '0xdeadbeef',
+    }
+    const CALL_B = {
+      address: `0x` + 'b'.repeat(40),
+      data: '0xdeadbeef',
+    }
+    const MULTICALL = '0x' + 'c'.repeat(40)
+
+    it('is simply added to the event list', () => {
+      const result = stateAfter(
+        makeMulticallErrorMessage('13:14:15', {
+          blockNumber: 1234,
+          calls: [CALL_A, CALL_B],
+          chainId: 1,
+          duration: 400,
+          error: 'Something went wrong',
+          multicallAddress: MULTICALL,
+        })
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        events: [
+          makeFetchErrorEvent('13:14:15', {
+            blockNumber: 1234,
+            calls: [CALL_A, CALL_B],
+            network: 'Mainnet',
+            duration: 400,
+            error: 'Something went wrong',
+            multicallAddress: MULTICALL,
+          }),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('preserves existing events', () => {
+      const result = stateAfter(
+        makeBlockNumberChangedMessage('13:14:00', 1, 1234),
+        makeMulticallErrorMessage('13:14:15', {
+          blockNumber: 1234,
+          calls: [CALL_A, CALL_B],
+          chainId: 1,
+          duration: 400,
+          error: 'Something went wrong',
+          multicallAddress: MULTICALL,
+        })
+      )
+      expect(result.events.length).to.equal(2)
+    })
+  })
 })
 
 function stateAfter(...messages: Message[]) {
   // we clone messages to ensure referential equality cannot be used on objects
-  return messages.map((x) => JSON.parse(JSON.stringify(x))).reduce(reducer, INITIAL_STATE)
+  return messages.map((x) => JSON.parse(JSON.stringify(x)) as Message).reduce(reducer, INITIAL_STATE)
 }
 
 function toTimestamp(time: string) {
@@ -253,6 +307,17 @@ function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall
   }
 }
 
+function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorMessage['payload'], 'type'>): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: {
+      type: 'MULTICALL_ERROR',
+      ...options,
+    },
+  }
+}
+
 // events
 
 function makeInitEvent(time: string): Event {
@@ -277,4 +342,12 @@ function makeCallsUpdatedEvent(
   calls: { added?: ChainCall[]; removed?: ChainCall[]; persisted?: ChainCall[] }
 ): Event {
   return { type: 'CALLS_UPDATED', time, network, added: [], removed: [], persisted: [], ...calls }
+}
+
+function makeFetchErrorEvent(time: string, options: Omit<FetchErrorEvent, 'type' | 'time'>): Event {
+  return {
+    type: 'FETCH_ERROR',
+    time,
+    ...options,
+  }
 }
