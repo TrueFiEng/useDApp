@@ -5,27 +5,39 @@ import { timestampToTime } from './timestampToTime'
 
 export function multicallSuccess(state: State, message: HookMessage<MulticallSuccessPayload>): State {
   const network = chainIdToNetwork(message.payload.chainId)
+  if (state.blockNumbers[network] > message.payload.blockNumber) {
+    return state
+  }
 
   const previousEntries = state.state[network] ?? []
   const currentEntries = getStateEntries(message.payload.state)
 
   const updated: StateUpdate[] = []
-  const persisted = new Set<StateEntry>()
+  const persisted: StateEntry[] = []
+  const known = new Set<StateEntry>()
   for (const entry of previousEntries) {
     const corresponding = currentEntries.find((x) => x.address === entry.address && x.data === entry.data)
     if (corresponding?.value !== entry.value) {
-      updated.push({
-        address: entry.address,
-        data: entry.data,
-        previous: entry.value,
-        current: corresponding?.value,
-      })
+      if (state.blockNumbers[network] === message.payload.blockNumber && corresponding?.value === undefined) {
+        persisted.push(entry)
+      } else {
+        updated.push({
+          address: entry.address,
+          data: entry.data,
+          previous: entry.value,
+          current: corresponding?.value,
+        })
+        if (corresponding) {
+          known.add(corresponding)
+        }
+      }
     } else {
-      persisted.add(corresponding)
+      persisted.push(corresponding)
+      known.add(corresponding)
     }
   }
   for (const entry of currentEntries) {
-    if (!persisted.has(entry)) {
+    if (!known.has(entry)) {
       updated.push({
         address: entry.address,
         data: entry.data,
@@ -35,11 +47,25 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
     }
   }
 
+  const entries = updated
+    .filter((x) => x.current !== undefined)
+    .map((x) => ({
+      address: x.address,
+      data: x.data,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      value: x.current!,
+    }))
+    .concat(persisted)
+
   return {
     ...state,
+    blockNumbers: {
+      ...state.blockNumbers,
+      [network]: message.payload.blockNumber,
+    },
     state: {
       ...state.state,
-      [network]: currentEntries,
+      [network]: entries,
     },
     events: [
       ...state.events,
@@ -51,7 +77,7 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
         multicallAddress: message.payload.multicallAddress,
         network: network,
         updated,
-        persisted: [...persisted],
+        persisted,
       },
     ],
   }

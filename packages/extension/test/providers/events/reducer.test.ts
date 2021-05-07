@@ -1,7 +1,12 @@
 import { expect } from 'chai'
-import type { ChainCall, Message, MulticallErrorPayload } from '../../../src/providers/events/Message'
+import type {
+  ChainCall,
+  Message,
+  MulticallErrorPayload,
+  MulticallSuccessPayload,
+} from '../../../src/providers/events/Message'
 import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
-import type { Event, FetchErrorEvent, State } from '../../../src/providers/events/State'
+import type { Event, FetchErrorEvent, State, StateUpdatedEvent } from '../../../src/providers/events/State'
 
 describe('reducer', () => {
   describe('init', () => {
@@ -96,46 +101,17 @@ describe('reducer', () => {
       const result = stateAfter(makeBlockNumberChangedMessage('13:14:15', 1, 123456))
       const expected: State = {
         ...INITIAL_STATE,
-        blockNumbers: {
-          Mainnet: 123456,
-        },
         events: [makeBlockFoundEvent('13:14:15', 'Mainnet', 123456)],
       }
       expect(result).to.deep.equal(expected)
     })
 
-    it('overwrites the block number', () => {
+    it('preserves past events', () => {
       const result = stateAfter(
         makeBlockNumberChangedMessage('13:14:15', 1, 123456),
         makeBlockNumberChangedMessage('13:14:16', 1, 123458)
       )
-      const expected: State = {
-        ...INITIAL_STATE,
-        blockNumbers: {
-          Mainnet: 123458,
-        },
-        events: [
-          makeBlockFoundEvent('13:14:15', 'Mainnet', 123456),
-          makeBlockFoundEvent('13:14:16', 'Mainnet', 123458),
-        ],
-      }
-      expect(result).to.deep.equal(expected)
-    })
-
-    it('tracks block numbers for many chains', () => {
-      const result = stateAfter(
-        makeBlockNumberChangedMessage('13:14:15', 1, 123456),
-        makeBlockNumberChangedMessage('13:14:16', 42, 4567)
-      )
-      const expected: State = {
-        ...INITIAL_STATE,
-        blockNumbers: {
-          Mainnet: 123456,
-          Kovan: 4567,
-        },
-        events: [makeBlockFoundEvent('13:14:15', 'Mainnet', 123456), makeBlockFoundEvent('13:14:16', 'Kovan', 4567)],
-      }
-      expect(result).to.deep.equal(expected)
+      expect(result.events.length).to.equal(2)
     })
   })
 
@@ -262,6 +238,310 @@ describe('reducer', () => {
       expect(result.events.length).to.equal(2)
     })
   })
+
+  describe('multicall success', () => {
+    const ADDRESS_A = '0x' + 'a'.repeat(40)
+    const ADDRESS_B = '0x' + 'b'.repeat(40)
+    const ADDRESS_C = '0x' + 'c'.repeat(40)
+    const MULTICALL = '0x' + '1'.repeat(40)
+
+    const entry = (address: string, data: string, value: string) => ({ address, data, value })
+    const diff = (address: string, data: string, previous?: string, current?: string) => ({
+      address,
+      data,
+      previous,
+      current,
+    })
+
+    it('sets the state and block number', () => {
+      const result = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {
+            [ADDRESS_A]: {
+              '0xdead': '0xbeef',
+            },
+          },
+        })
+      )
+      const expected: State = {
+        ...INITIAL_STATE,
+        blockNumbers: {
+          Mainnet: 1234,
+        },
+        state: {
+          Mainnet: [entry(ADDRESS_A, '0xdead', '0xbeef')],
+        },
+        events: [
+          makeStateUpdatedEvent('13:14:15', {
+            blockNumber: 1234,
+            duration: 400,
+            multicallAddress: MULTICALL,
+            network: 'Mainnet',
+            persisted: [],
+            updated: [diff(ADDRESS_A, '0xdead', undefined, '0xbeef')],
+          }),
+        ],
+      }
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('can track block numbers for different chains', () => {
+      const result = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {},
+        }),
+        makeMulticallSuccessMessage('13:14:16', {
+          blockNumber: 567,
+          chainId: 42,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {},
+        })
+      )
+      const blockNumbers = {
+        Mainnet: 1234,
+        Kovan: 567,
+      }
+      expect(result.blockNumbers).to.deep.equal(blockNumbers)
+    })
+
+    it('ignores stale updates', () => {
+      const result = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {},
+        }),
+        makeMulticallSuccessMessage('13:14:16', {
+          blockNumber: 1233,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {},
+        })
+      )
+      const expected = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {},
+        })
+      )
+      expect(result).to.deep.equal(expected)
+    })
+
+    it('figures out the state difference', () => {
+      const result = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {
+            [ADDRESS_A]: {
+              '0xdead': '0xbeef',
+              '0x1f00': '0x2b00',
+            },
+            [ADDRESS_B]: {
+              '0xcc': '0xdd',
+            },
+            [ADDRESS_C]: {
+              '0x1234': '0x5678',
+            },
+          },
+        }),
+        makeMulticallSuccessMessage('13:14:16', {
+          blockNumber: 1235,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {
+            [ADDRESS_A]: {
+              '0xdead': '0xf00d',
+              '0x12aa': '0x34bb',
+            },
+            [ADDRESS_B]: {
+              '0xcc': '0xdd',
+            },
+          },
+        })
+      )
+      const expectedEntries = [
+        {
+          address: ADDRESS_A,
+          data: '0xdead',
+          value: '0xf00d',
+        },
+        {
+          address: ADDRESS_A,
+          data: '0x12aa',
+          value: '0x34bb',
+        },
+        {
+          address: ADDRESS_B,
+          data: '0xcc',
+          value: '0xdd',
+        },
+      ]
+      const expected = makeStateUpdatedEvent('13:14:16', {
+        blockNumber: 1235,
+        network: 'Mainnet',
+        duration: 400,
+        multicallAddress: MULTICALL,
+        updated: [
+          {
+            address: ADDRESS_A,
+            data: '0xdead',
+            previous: '0xbeef',
+            current: '0xf00d',
+          },
+          {
+            address: ADDRESS_A,
+            data: '0x1f00',
+            previous: '0x2b00',
+            current: undefined,
+          },
+          {
+            address: ADDRESS_C,
+            data: '0x1234',
+            previous: '0x5678',
+            current: undefined,
+          },
+          {
+            address: ADDRESS_A,
+            data: '0x12aa',
+            previous: undefined,
+            current: '0x34bb',
+          },
+        ],
+        persisted: [
+          {
+            address: ADDRESS_B,
+            data: '0xcc',
+            value: '0xdd',
+          },
+        ],
+      })
+      expect(result.state.Mainnet).to.deep.equal(expectedEntries)
+      expect(result.events[1]).to.deep.equal(expected)
+    })
+
+    it('merges state for same block', () => {
+      const result = stateAfter(
+        makeMulticallSuccessMessage('13:14:15', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {
+            [ADDRESS_A]: {
+              '0xdead': '0xbeef',
+              '0x1f00': '0x2b00',
+            },
+            [ADDRESS_B]: {
+              '0xcc': '0xdd',
+            },
+            [ADDRESS_C]: {
+              '0x1234': '0x5678',
+            },
+          },
+        }),
+        makeMulticallSuccessMessage('13:14:16', {
+          blockNumber: 1234,
+          chainId: 1,
+          duration: 400,
+          multicallAddress: MULTICALL,
+          state: {
+            [ADDRESS_A]: {
+              '0xdead': '0xf00d',
+              '0x12aa': '0x34bb',
+            },
+            [ADDRESS_B]: {
+              '0xcc': '0xdd',
+            },
+          },
+        })
+      )
+      const expectedEntries = [
+        {
+          address: ADDRESS_A,
+          data: '0xdead',
+          value: '0xf00d',
+        },
+        {
+          address: ADDRESS_A,
+          data: '0x12aa',
+          value: '0x34bb',
+        },
+        {
+          address: ADDRESS_A,
+          data: '0x1f00',
+          value: '0x2b00',
+        },
+        {
+          address: ADDRESS_B,
+          data: '0xcc',
+          value: '0xdd',
+        },
+        {
+          address: ADDRESS_C,
+          data: '0x1234',
+          value: '0x5678',
+        },
+      ]
+      const expected = makeStateUpdatedEvent('13:14:16', {
+        blockNumber: 1234,
+        network: 'Mainnet',
+        duration: 400,
+        multicallAddress: MULTICALL,
+        updated: [
+          {
+            address: ADDRESS_A,
+            data: '0xdead',
+            previous: '0xbeef',
+            current: '0xf00d',
+          },
+          {
+            address: ADDRESS_A,
+            data: '0x12aa',
+            previous: undefined,
+            current: '0x34bb',
+          },
+        ],
+        persisted: [
+          {
+            address: ADDRESS_A,
+            data: '0x1f00',
+            value: '0x2b00',
+          },
+          {
+            address: ADDRESS_B,
+            data: '0xcc',
+            value: '0xdd',
+          },
+          {
+            address: ADDRESS_C,
+            data: '0x1234',
+            value: '0x5678',
+          },
+        ],
+      })
+      expect(result.state.Mainnet).to.deep.equal(expectedEntries)
+      expect(result.events[1]).to.deep.equal(expected)
+    })
+  })
 })
 
 function stateAfter(...messages: Message[]) {
@@ -318,6 +598,17 @@ function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorPay
   }
 }
 
+function makeMulticallSuccessMessage(time: string, options: Omit<MulticallSuccessPayload, 'type'>): Message {
+  return {
+    source: 'usedapp-hook',
+    timestamp: toTimestamp(time),
+    payload: {
+      type: 'MULTICALL_SUCCESS',
+      ...options,
+    },
+  }
+}
+
 // events
 
 function makeInitEvent(time: string): Event {
@@ -347,6 +638,14 @@ function makeCallsUpdatedEvent(
 function makeFetchErrorEvent(time: string, options: Omit<FetchErrorEvent, 'type' | 'time'>): Event {
   return {
     type: 'FETCH_ERROR',
+    time,
+    ...options,
+  }
+}
+
+function makeStateUpdatedEvent(time: string, options: Omit<StateUpdatedEvent, 'type' | 'time'>): Event {
+  return {
+    type: 'STATE_UPDATED',
     time,
     ...options,
   }
