@@ -11,8 +11,12 @@ function makeCallParser(coder: Interface, fragment: FunctionFragment): CallParse
   return {
     name: fragment.name,
     parseCallData(data: string) {
-      const decoded = coder.decodeFunctionData(fragment, data)
-      return fragment.inputs.map((input, i) => parseDecoded(input, decoded[i], i))
+      try {
+        const decoded = coder.decodeFunctionData(fragment, data)
+        return fragment.inputs.map((input, i) => parseDecoded(input, decoded[i], i))
+      } catch {
+        return parseUnknownCallData(data)
+      }
     },
     parseCallResult(data: string) {
       return undefined
@@ -64,7 +68,7 @@ function parseUnknownCallData(data: string): ParsedValue[] {
 function parseUnknownCallResult(data: string): ParsedValue {
   return {
     type: 'bytes',
-    name: '',
+    name: 'data',
     value: normalizeHex(data),
   }
 }

@@ -79,6 +79,24 @@ describe('AbiParser', () => {
       ])
     })
 
+    it('treats input as unknown if it does not parse', () => {
+      const abi = ['function foo(uint)']
+      const coder = new Interface(abi)
+      const parser = new AbiParser()
+      parser.add(abi)
+      const fragment = coder.functions[Object.keys(coder.functions)[0]]
+      const selector = coder.getSighash(fragment)
+      const data = selector + 'aabbcc'
+      const result = parser.get(selector).parseCallData(data)
+      expect(result).to.deep.equal([
+        {
+          type: 'bytes',
+          name: 'data',
+          value: 'aabbcc',
+        },
+      ])
+    })
+
     describe('types', () => {
       const testCases = [
         {
