@@ -5,6 +5,7 @@ import { Interface } from '@ethersproject/abi'
 import { GlobalStyle } from '../../../../providers/GlobalStyle'
 import { CallsUpdatedPreview } from '../CallsUpdatedPreview'
 import { AbiProvider } from '../../../../providers/abi/AbiProvider'
+import type { ChainCall } from '../../../../providers/events/Message'
 
 export default {
   title: 'Components/EventPreview/Calls Updated',
@@ -35,9 +36,9 @@ export const CallsUpdated: Story<Args> = (args) => (
         type: 'CALLS_UPDATED',
         time: '01:23:45',
         network: 'Mainnet',
-        added: new Array(args.added).fill(EXAMPLE_CALL),
-        removed: new Array(args.removed).fill(EXAMPLE_CALL),
-        persisted: new Array(args.persisted).fill(EXAMPLE_CALL),
+        added: new Array<ChainCall>(args.added).fill(EXAMPLE_CALL),
+        removed: new Array<ChainCall>(args.removed).fill(EXAMPLE_CALL),
+        persisted: new Array<ChainCall>(args.persisted).fill(EXAMPLE_CALL),
       }}
     />
   </AbiProvider>

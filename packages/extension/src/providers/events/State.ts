@@ -52,18 +52,9 @@ export interface CallsUpdatedEvent {
   type: 'CALLS_UPDATED'
   time: string
   network?: string
-  added: {
-    address: string
-    data: string
-  }[]
-  removed: {
-    address: string
-    data: string
-  }[]
-  persisted: {
-    address: string
-    data: string
-  }[]
+  added: ChainCall[]
+  removed: ChainCall[]
+  persisted: ChainCall[]
 }
 
 export interface StateUpdatedEvent {
