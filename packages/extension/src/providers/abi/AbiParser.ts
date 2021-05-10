@@ -1,5 +1,5 @@
 import type { ParsedValue } from './ParsedValue'
-import { Interface, FunctionFragment } from '@ethersproject/abi'
+import { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
 
 interface CallParser {
   name: string
@@ -8,39 +8,55 @@ interface CallParser {
 }
 
 function makeCallParser(coder: Interface, fragment: FunctionFragment): CallParser {
-  // TODO: continue work here
   return {
     name: fragment.name,
     parseCallData(data: string) {
       const decoded = coder.decodeFunctionData(fragment, data)
-      return fragment.inputs.map((input, i) => {
-        let type: any = input.baseType
-        if (type.startsWith('uint') || type.startsWith('int')) {
-          type = 'number'
-        } else if (type.startsWith('bytes')) {
-          type = 'bytes'
-        }
-
-        return {
-          type,
-          name: input.name,
-          value: decoded[i],
-        }
-      })
+      return fragment.inputs.map((input, i) => parseDecoded(input, decoded[i], i))
     },
     parseCallResult(data: string) {
-      console.log(coder.decodeFunctionResult(fragment, data))
       return undefined
     },
   }
 }
 
+function parseDecoded(t: ParamType, value: any, index: number) {
+  let type: any = t.baseType
+  if (type.startsWith('uint') || type.startsWith('int')) {
+    type = 'number'
+    value = value.toString()
+  } else if (type.startsWith('bytes')) {
+    type = 'bytes'
+    value = normalizeHex(value)
+  } else if (type === 'bool') {
+    type = 'boolean'
+  } else if (type === 'array') {
+    const array = []
+    for (let i = 0; i < value.length; i++) {
+      array.push(parseDecoded(t.arrayChildren, value[i], i))
+    }
+    value = array
+  } else if (type === 'tuple') {
+    const array = []
+    for (let i = 0; i < value.length; i++) {
+      array.push(parseDecoded(t.components[i], value[i], i))
+    }
+    value = array
+  }
+
+  return { type, name: t.name ?? `#${index}`, value }
+}
+
 function parseUnknownCallData(data: string): ParsedValue[] {
+  const value = normalizeHex(data).substring(8)
+  if (value === '') {
+    return []
+  }
   return [
     {
       type: 'bytes',
       name: 'data',
-      value: normalizeHex(data).substring(8),
+      value: value,
     },
   ]
 }
@@ -82,7 +98,6 @@ export class AbiParser {
       if (fragment) {
         const selector = normalizeHex(coder.getSighash(fragment))
         this.cache[selector] = makeCallParser(coder, fragment)
-        console.log(this.cache)
       }
     }
   }
