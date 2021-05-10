@@ -11,7 +11,7 @@ interface Props {
 
 export function Badge({ event }: Props) {
   if (event.type === 'BLOCK_FOUND') {
-    return <BlockNumber>{formatInteger(event.blockNumber)}</BlockNumber>
+    return <Bold>{formatInteger(event.blockNumber)}</Bold>
   } else if (event.type === 'NETWORK_CONNECTED') {
     const networkColor = getNetworkColor(event)
     return <NetworkBadge style={{ backgroundColor: networkColor }}>{event.network}</NetworkBadge>
@@ -24,13 +24,23 @@ export function Badge({ event }: Props) {
     )
   } else if (event.type === 'STATE_UPDATED') {
     return <Updated>{event.updated.length}</Updated>
+  } else if (event.type === 'ACCOUNT_CONNECTED') {
+    return <Bold>{event.address.substring(0, 6).toLowerCase()}&hellip;</Bold>
+  } else if (event.type === 'ERROR' || event.type === 'FETCH_ERROR') {
+    return <Error>Error:</Error>
   }
   return null
 }
 
-const BlockNumber = styled.div`
+const Bold = styled.div`
   font-weight: bold;
   margin-right: 8px;
+`
+
+const Error = styled.div`
+  font-weight: bold;
+  margin-right: 8px;
+  color: ${Colors.Error};
 `
 
 const NetworkBadge = styled.div`

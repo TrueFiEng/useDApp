@@ -10,7 +10,9 @@
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
-    "test": "mocha"
+    "test": "mocha",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "ethers": "^5.1.4",
@@ -20,6 +22,11 @@
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
     "@types/chai": "^4.2.14",
     "@types/chrome": "^0.0.136",
     "@types/mocha": "^8.2.0",
@@ -27,6 +34,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
+    "babel-loader": "^8.2.2",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^6.2.1",
     "esbuild-loader": "^2.11.0",

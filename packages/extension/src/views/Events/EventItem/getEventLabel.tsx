@@ -14,6 +14,12 @@ export function getEventLabel(event: Event) {
       return 'Calls updated'
     case 'STATE_UPDATED':
       return event.updated.length === 1 ? 'State update' : 'State updates'
+    case 'ACCOUNT_CONNECTED':
+      return 'Account connected'
+    case 'ACCOUNT_DISCONNECTED':
+      return 'Account disconnected'
+    case 'ERROR':
+      return event.error
     case 'FETCH_ERROR':
       return 'Fetch error'
   }

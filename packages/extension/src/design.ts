@@ -15,6 +15,7 @@ export const Colors = {
   Link: '#1d16ff',
   Added: '#12c112',
   Removed: '#d72626',
+  Error: '#d72626',
   Updated: '#2b2b8e',
   Text: 'black',
   TextInverted: 'white',
