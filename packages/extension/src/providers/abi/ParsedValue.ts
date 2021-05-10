@@ -10,13 +10,13 @@ export type ParsedValue =
 export interface ParsedTuple {
   type: 'tuple'
   name: string
-  properties: ParsedValue[]
+  value: ParsedValue[]
 }
 
 export interface ParsedArray {
   type: 'array'
   name: string
-  values: ParsedValue[]
+  value: ParsedValue[]
 }
 
 export interface ParsedAddress {

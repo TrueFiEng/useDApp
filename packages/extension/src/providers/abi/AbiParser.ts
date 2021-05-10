@@ -4,7 +4,7 @@ import { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
 interface CallParser {
   name: string
   parseCallData(data: string): ParsedValue[]
-  parseCallResult(data: string): ParsedValue | undefined
+  parseCallResult(data: string): ParsedValue
 }
 
 function makeCallParser(coder: Interface, fragment: FunctionFragment): CallParser {
@@ -19,12 +19,26 @@ function makeCallParser(coder: Interface, fragment: FunctionFragment): CallParse
       }
     },
     parseCallResult(data: string) {
-      return undefined
+      try {
+        if (fragment.outputs) {
+          const decoded = coder.decodeFunctionResult(fragment, data)
+          const items = fragment.outputs.map((input, i) => parseDecoded(input, decoded[i], i))
+          if (items.length === 1) {
+            return items[0]
+          } else {
+            return { type: 'tuple', name: '#0', value: items }
+          }
+        } else {
+          return parseUnknownCallResult(data)
+        }
+      } catch {
+        return parseUnknownCallResult(data)
+      }
     },
   }
 }
 
-function parseDecoded(t: ParamType, value: any, index: number) {
+function parseDecoded(t: ParamType, value: any, index: number): ParsedValue {
   let type: any = t.baseType
   if (type.startsWith('uint') || type.startsWith('int')) {
     type = 'number'
@@ -68,7 +82,7 @@ function parseUnknownCallData(data: string): ParsedValue[] {
 function parseUnknownCallResult(data: string): ParsedValue {
   return {
     type: 'bytes',
-    name: 'data',
+    name: '#0',
     value: normalizeHex(data),
   }
 }
