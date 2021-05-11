@@ -23,6 +23,6 @@
     "wsrun": "^5.2.1"
   },
   "resolutions": {
-    "ethers": "5.0.32"
+    "ethers": "5.1.4"
   }
 }
