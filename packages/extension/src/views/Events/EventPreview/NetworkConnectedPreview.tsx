@@ -1,6 +1,6 @@
 import React from 'react'
 import type { NetworkConnectedEvent } from '../../../providers/events/State'
-import { Link, Property, Row, Table, Value } from './components'
+import { Link, Property, Table } from './components'
 
 interface Props {
   event: NetworkConnectedEvent
@@ -11,25 +11,13 @@ export function NetworkConnectedPreview({ event }: Props) {
 
   return (
     <Table>
-      <Row>
-        <Property>Name</Property>
-        <Value>{event.network}</Value>
-      </Row>
-      <Row>
-        <Property>Type</Property>
-        <Value>{getNetworkType(event.network)}</Value>
-      </Row>
-      <Row>
-        <Property>Chain id</Property>
-        <Value>{event.chainId}</Value>
-      </Row>
+      <Property name="Name">{event.network}</Property>
+      <Property name="Type">{getNetworkType(event.network)}</Property>
+      <Property name="Chain id">{event.chainId}</Property>
       {explorer && (
-        <Row>
-          <Property>Explorer</Property>
-          <Value>
-            <Link href={explorer} />
-          </Value>
-        </Row>
+        <Property name="Explorer">
+          <Link href={explorer} />
+        </Property>
       )}
     </Table>
   )

@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import { Colors } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
 import { Address } from './Address'
-import { Property, Row, Table, Value } from './Table'
-import { ValueList } from './ValueList'
+import { Table } from './Table'
+import { Property } from './Property'
 import { ValueItem } from './ValueItem'
+import { Method } from './Method'
 
 interface Props {
   type?: 'added' | 'removed' | 'updated' | 'persisted'
@@ -22,55 +23,34 @@ export function CallDisplay(props: Props) {
   const showDiff = !!props.previous || !!props.current
   return (
     <SmallTable className={props.type}>
-      <Row>
-        <Property>Contract</Property>
-        <Value>
-          <Address address={props.address} network={props.network} />
-        </Value>
-      </Row>
-      <Row>
-        <Property>Method</Property>
-        <Value>
-          <FunctionName>{props.name}</FunctionName> (
-          <ValueList values={props.data} network={props.network} />)
-        </Value>
-      </Row>
+      <Property name="Contract">
+        <Address address={props.address} network={props.network} />
+      </Property>
+      <Property name="Method">
+        <Method name={props.name} args={props.data} network={props.network} />
+      </Property>
       {props.value && (
-        <Row>
-          <Property>Result</Property>
-          <Value>
-            <ValueItem value={props.value} network={props.network} />
-          </Value>
-        </Row>
+        <Property name="Result">
+          <ValueItem value={props.value} network={props.network} />
+        </Property>
       )}
       {showDiff && (
-        <Row>
-          <Property>Previous</Property>
-          <Value>
-            {!props.previous && 'No value'}
-            {props.previous && <ValueItem value={props.previous} network={props.network} />}
-          </Value>
-        </Row>
+        <Property name="Previous">
+          <ValueItem value={props.previous} network={props.network} />
+        </Property>
       )}
       {showDiff && (
-        <Row>
-          <Property>Current</Property>
-          <Value>
-            {!props.current && 'No value'}
-            {props.current && <ValueItem value={props.current} network={props.network} />}
-          </Value>
-        </Row>
+        <Property name="Current">
+          <ValueItem value={props.current} network={props.network} />
+        </Property>
       )}
     </SmallTable>
   )
 }
 
-const FunctionName = styled.span``
-
 const SmallTable = styled(Table)`
   position: relative;
   line-height: 1.25;
-  user-select: text;
 
   &::before {
     content: '';

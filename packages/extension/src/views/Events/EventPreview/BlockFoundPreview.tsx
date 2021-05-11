@@ -1,7 +1,7 @@
 import React from 'react'
 import type { BlockFoundEvent } from '../../../providers/events/State'
 import { formatInteger } from '../EventItem/formatInteger'
-import { Link, Property, Row, Table, Value } from './components'
+import { Link, Property, Table } from './components'
 
 interface Props {
   event: BlockFoundEvent
@@ -12,21 +12,12 @@ export function BlockFoundPreview({ event }: Props) {
 
   return (
     <Table>
-      <Row>
-        <Property>Height</Property>
-        <Value>{formatInteger(event.blockNumber)}</Value>
-      </Row>
-      <Row>
-        <Property>Network</Property>
-        <Value>{event.network}</Value>
-      </Row>
+      <Property name="Height">{formatInteger(event.blockNumber)}</Property>
+      <Property name="Network">{event.network}</Property>
       {link && (
-        <Row>
-          <Property>Explore</Property>
-          <Value>
-            <Link href={link} />
-          </Value>
-        </Row>
+        <Property name="Explore">
+          <Link href={link} />
+        </Property>
       )}
     </Table>
   )

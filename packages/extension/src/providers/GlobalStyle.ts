@@ -17,6 +17,5 @@ export const GlobalStyle = createGlobalStyle`
     color: ${Colors.Text};
     font-size: 16px;
     line-height: 1;
-    user-select: none;
   }
 `

@@ -23,6 +23,7 @@ export function ValueItem({ value, network }: Props) {
   }
   return null
 }
+
 function Bytes({ value }: { value: string }) {
   const split = value.match(/.{1,32}/g) ?? []
   return (
