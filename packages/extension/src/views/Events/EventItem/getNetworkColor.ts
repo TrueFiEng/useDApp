@@ -1,7 +1,7 @@
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
 
-export function getNetworkColor(event: Event) {
+export function getNetworkColor(event: Event): string | undefined {
   if (
     event.type === 'INIT' ||
     event.type === 'NETWORK_DISCONNECTED' ||
@@ -10,7 +10,7 @@ export function getNetworkColor(event: Event) {
     event.type === 'ERROR' ||
     !event.network
   ) {
-    return 'transparent'
+    return undefined
   }
   return (Colors.Network as any)[event.network] ?? Colors.Network.Other
 }

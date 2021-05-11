@@ -17,7 +17,7 @@ interface Props {
 
 export function EventPreview({ event }: Props) {
   if (!event) {
-    return null
+    return <Center>Select an event from the list to get started.</Center>
   }
 
   return (
@@ -39,12 +39,16 @@ export function EventPreview({ event }: Props) {
 const Wrapper = styled.div`
   overflow: auto;
   position: absolute;
-  top: 43px;
-  left: 450px;
-  width: calc(100% - 450px);
-  height: calc(100% - 43px);
+  top: 35px;
+  left: 320px;
+  width: calc(100% - 320px);
+  height: calc(100% - 35px);
   padding: 10px;
   border-left: 1px solid ${Colors.Border2};
+`
+
+const Center = styled(Wrapper)`
+  text-align: center;
 `
 
 const Preview = styled.div`

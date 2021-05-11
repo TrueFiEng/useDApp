@@ -32,6 +32,11 @@ const events: Event[] = [
     network: 'Kovan',
   },
   {
+    type: 'ACCOUNT_CONNECTED',
+    time: '12:01:15',
+    address: HOLDER_ADDRESS,
+  },
+  {
     type: 'CALLS_UPDATED',
     time: '12:01:15',
     network: 'Kovan',

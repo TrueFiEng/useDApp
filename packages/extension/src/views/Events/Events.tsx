@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 
 const Header = styled.header`
   font-size: 18px;
-  padding: 12px 0 12px 100px;
+  padding: 8px;
   background-color: ${Colors.Background2};
   border-bottom: 1px solid ${Colors.Border2};
 `

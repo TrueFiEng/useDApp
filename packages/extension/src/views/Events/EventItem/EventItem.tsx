@@ -13,31 +13,39 @@ interface Props {
 
 export function EventItem({ event }: Props) {
   const networkColor = getNetworkColor(event)
+  const showIndicator = networkColor && event.type !== 'NETWORK_CONNECTED' && event.type !== 'CALLS_UPDATED'
   return (
     <Wrapper>
-      <Time>{event.time}</Time>
-      <NetworkIndicator style={{ backgroundColor: networkColor }} />
+      {showIndicator && <NetworkIndicator style={{ backgroundColor: networkColor }} />}
       <Badge event={event} />
       <Label>{getEventLabel(event)}</Label>
       <Latency event={event} />
+      <Time>{event.time}</Time>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
+  height: 32px;
+  width: 100%;
 `
 
 const Time = styled.div`
+  flex: 1;
+  text-align: right;
   color: ${Colors.Text2};
   font-size: 14px;
+  margin-left: 8px;
 `
 
 const NetworkIndicator = styled.div`
-  height: 32px;
-  width: 6px;
-  margin: 1px 8px 1px 8px;
+  height: 20px;
+  width: 8px;
+  border-radius: 2px;
+  margin-right: 8px;
 `
 
 const Label = styled.div``

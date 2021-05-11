@@ -41,7 +41,7 @@ export function EventList({ events, selected, onSelect }: Props) {
   }, [events])
 
   return (
-    <ListWrapper ref={wrapper} className={selected ? 'narrow' : ''}>
+    <ListWrapper ref={wrapper}>
       <List>
         {events.map((e, i) => (
           <EventListItem key={i} event={e} selected={e === selected} onSelect={onSelect} />
@@ -54,14 +54,10 @@ export function EventList({ events, selected, onSelect }: Props) {
 const ListWrapper = styled.div`
   overflow: auto;
   position: absolute;
-  top: 43px;
+  top: 35px;
   left: 0;
-  width: 100%;
-  height: calc(100% - 43px);
-
-  &.narrow {
-    width: 450px;
-  }
+  width: 320px;
+  height: calc(100% - 35px);
 `
 
 const List = styled.ol`
