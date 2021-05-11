@@ -12,8 +12,8 @@ import { AbiProvider } from '../../providers/abi/AbiProvider'
 export default {
   title: 'Pages/Events',
   parameters: {
-    layout: 'fullscreen'
-  }
+    layout: 'fullscreen',
+  },
 } as Meta
 
 const coder = new Interface(DEFAULT_ABIS)

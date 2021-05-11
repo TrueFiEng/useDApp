@@ -17,7 +17,7 @@ export function CallsUpdatedPreview({ event }: Props) {
           <Label>
             Added calls <Added>+{event.added.length}</Added>
           </Label>
-          <CallList calls={event.added} />
+          <CallList calls={event.added.map((x) => ({ ...x, type: 'added' }))} />
         </>
       )}
       {event.removed.length > 0 && (
@@ -25,13 +25,13 @@ export function CallsUpdatedPreview({ event }: Props) {
           <Label>
             Removed calls <Removed>-{event.removed.length}</Removed>
           </Label>
-          <CallList calls={event.removed} />
+          <CallList calls={event.removed.map((x) => ({ ...x, type: 'removed' }))} />
         </>
       )}
       {event.persisted.length > 0 && (
         <>
           <Label>Persisted calls</Label>
-          <CallList calls={event.persisted} />
+          <CallList calls={event.persisted.map((x) => ({ ...x, type: 'persisted' }))} />
         </>
       )}
       {event.persisted.length === 0 && <Text>No other calls</Text>}
