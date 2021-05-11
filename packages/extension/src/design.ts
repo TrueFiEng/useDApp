@@ -17,7 +17,7 @@ export const Colors = {
   Removed: '#d72626',
   RemovedHighlight: '#ffabab',
   Updated: '#2b2b8e',
-  UpdatedHighlight: '#2b2b8e',
+  UpdatedHighlight: '#ababff',
   PersistedHighlight: '#eaeaea',
   Error: '#d72626',
   Text: 'black',

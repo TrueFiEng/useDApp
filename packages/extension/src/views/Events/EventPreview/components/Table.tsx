@@ -10,11 +10,15 @@ interface TableProps {
 
 export function Table({ className, children }: TableProps) {
   return (
-    <table className={className}>
+    <TableComponent className={className}>
       <tbody>{children}</tbody>
-    </table>
+    </TableComponent>
   )
 }
+
+const TableComponent = styled.table`
+  border-collapse: collapse;
+`
 
 export const Row = styled.tr``
 

@@ -79,7 +79,6 @@ function getEvent(network: string, type: Event['type']): Event {
       return {
         type: 'CALLS_UPDATED',
         time: '01:23:45',
-        network,
         added: [
           { address: '', data: '' },
           { address: '', data: '' },

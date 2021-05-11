@@ -14,7 +14,7 @@ export function FetchErrorPreview({ event }: Props) {
       <Label>Error</Label>
       <Text>{event.error}</Text>
       <Label>Calls</Label>
-      <CallList calls={event.calls} />
+      <CallList calls={event.calls} network={event.network} />
     </>
   )
 }

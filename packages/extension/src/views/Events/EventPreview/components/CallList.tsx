@@ -4,14 +4,15 @@ import { Call, GeneralizedCall } from './Call'
 
 interface Props {
   calls: GeneralizedCall[]
+  network: string | undefined
 }
 
-export function CallList({ calls }: Props) {
+export function CallList({ calls, network }: Props) {
   return (
     <List>
       {calls.map((call, i) => (
         <Item key={i}>
-          <Call call={call} />
+          <Call call={call} network={network} />
         </Item>
       ))}
     </List>

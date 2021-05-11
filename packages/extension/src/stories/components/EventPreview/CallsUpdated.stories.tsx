@@ -35,7 +35,6 @@ export const CallsUpdated: Story<Args> = (args) => (
       event={{
         type: 'CALLS_UPDATED',
         time: '01:23:45',
-        network: 'Mainnet',
         added: new Array<ChainCall>(args.added).fill(EXAMPLE_CALL),
         removed: new Array<ChainCall>(args.removed).fill(EXAMPLE_CALL),
         persisted: new Array<ChainCall>(args.persisted).fill(EXAMPLE_CALL),

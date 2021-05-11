@@ -10,31 +10,34 @@ interface Props {
 }
 
 export function CallsUpdatedPreview({ event }: Props) {
+  const added = event.added.map((x) => ({ ...x, type: 'added' as const }))
+  const removed = event.removed.map((x) => ({ ...x, type: 'removed' as const }))
+  const persisted = event.persisted.map((x) => ({ ...x, type: 'persisted' as const }))
   return (
     <>
-      {event.added.length > 0 && (
+      {added.length > 0 && (
         <>
           <Label>
-            Added calls <Added>+{event.added.length}</Added>
+            Added calls <Added>+{added.length}</Added>
           </Label>
-          <CallList calls={event.added.map((x) => ({ ...x, type: 'added' }))} />
+          <CallList calls={added} network={event.network} />
         </>
       )}
-      {event.removed.length > 0 && (
+      {removed.length > 0 && (
         <>
           <Label>
-            Removed calls <Removed>-{event.removed.length}</Removed>
+            Removed calls <Removed>-{removed.length}</Removed>
           </Label>
-          <CallList calls={event.removed.map((x) => ({ ...x, type: 'removed' }))} />
+          <CallList calls={removed} network={event.network} />
         </>
       )}
-      {event.persisted.length > 0 && (
+      {persisted.length > 0 && (
         <>
           <Label>Persisted calls</Label>
-          <CallList calls={event.persisted.map((x) => ({ ...x, type: 'persisted' }))} />
+          <CallList calls={persisted} network={event.network} />
         </>
       )}
-      {event.persisted.length === 0 && <Text>No other calls</Text>}
+      {persisted.length === 0 && <Text>No other calls</Text>}
     </>
   )
 }

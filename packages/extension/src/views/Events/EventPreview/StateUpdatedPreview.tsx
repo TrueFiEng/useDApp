@@ -14,13 +14,13 @@ export function StateUpdatedPreview({ event }: Props) {
       {event.updated.length > 0 && (
         <>
           <Label>Modified state entries</Label>
-          <CallList calls={event.updated} />
+          <CallList calls={event.updated} network={event.network} />
         </>
       )}
       {event.persisted.length > 0 && (
         <>
           <Label>Persisted state entries</Label>
-          <CallList calls={event.persisted} />
+          <CallList calls={event.persisted} network={event.network} />
         </>
       )}
       {event.persisted.length === 0 && <Text>No other state</Text>}
