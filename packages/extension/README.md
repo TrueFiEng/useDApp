@@ -1,6 +1,12 @@
 # useDApp DevTools
 
-## Technical overview
+## Developing the extension
+
+Because getting the extension in the correct state for development can be hard the recommended way to develop the UI is through Storybook. To open the app in storybook run `yarn storybook`. You will be presented with a view of stories. Each story presents a component in a unique and interactive way. This means that you can create a story that represents a traditionally hard to reach UI state and develop that state easily.
+
+To create new stories create a `ComponentName.stories.tsx` file in the source code. This file is development only and won't be included in the production bundle. To learn more about how to write stories read the Storybook documentation.
+
+## Extension technical details
 
 The extension is a regular React application that can communicate with the useDApp framework. Because of how browser extensions work this communication is not exactly straightforward.
 
