@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.3.17
+
+### Patch Changes
+
+- 50633d0: Bump ethers to version 5.1.4
+- 660d2eb: Fix out of order requests
+
 ## 0.3.16
 
 ### Patch Changes
