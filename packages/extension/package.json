@@ -11,8 +11,8 @@
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
     "test": "mocha",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -s ./static -p 6006",
+    "build-storybook": "build-storybook -s ./static"
   },
   "dependencies": {
     "ethers": "^5.1.4",

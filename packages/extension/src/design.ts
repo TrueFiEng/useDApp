@@ -1,7 +1,6 @@
 export const Font = {
-  Body:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, 'DejaVu Sans', Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
-  Code: "'Fira Code', 'JetBrains Mono', Consolas, Menlo, Monaco, 'Courier New', Courier, monospace",
+  Body: "'Source Sans Pro', sans-serif",
+  Code: "'Source Code Pro', monospace",
 }
 
 export const Colors = {

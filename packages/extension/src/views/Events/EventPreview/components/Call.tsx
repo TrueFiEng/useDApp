@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Colors, Font } from '../../../../design'
+import { Colors } from '../../../../design'
 import { useAbi } from '../../../../hooks'
 import { Property, Row, Table, Value } from './Table'
 import { ValueItem, ValueList } from './ValueList'
