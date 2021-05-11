@@ -77,13 +77,6 @@ const InputComponent = ({ ticker, transactionStatus, send }: InputComponentProps
   )
 }
 
-interface ErrorRowProps {
-  transaction: TransactionStatus
-}
-
-const ErrorMessage = ({ transaction }: ErrorRowProps) => {
-  return <ErrorRow>{'errorMessage' in transaction && transaction.errorMessage}</ErrorRow>
-}
 
 interface TransactionFormProps {
   balance: BigNumber | undefined
@@ -101,7 +94,7 @@ const TransactionForm = ({ balance, send, title, ticker, transaction }: Transact
         <Label htmlFor={`${ticker}Input`}>How much?</Label>
       </LabelRow>
       <InputComponent ticker={ticker} transactionStatus={transaction.status} send={send} />
-      <ErrorMessage transaction={transaction} />
+      <ErrorRow>{'errorMessage' in transaction && transaction.errorMessage}</ErrorRow>
     </SmallContentBlock>
   )
 }
