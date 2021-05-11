@@ -2,10 +2,10 @@ import React from 'react'
 import type { Meta, Story } from '@storybook/react'
 import { Interface } from '@ethersproject/abi'
 
-import { GlobalStyle } from '../../../../providers/GlobalStyle'
-import { CallsUpdatedPreview } from '../CallsUpdatedPreview'
-import { AbiProvider } from '../../../../providers/abi/AbiProvider'
-import type { ChainCall } from '../../../../providers/events/Message'
+import { GlobalStyle } from '../../../providers/GlobalStyle'
+import { CallsUpdatedPreview } from '../../../views/Events/EventPreview/CallsUpdatedPreview'
+import { AbiProvider } from '../../../providers/abi/AbiProvider'
+import type { ChainCall } from '../../../providers/events/Message'
 
 export default {
   title: 'Components/EventPreview/Calls Updated',

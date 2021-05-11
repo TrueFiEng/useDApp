@@ -1,19 +1,15 @@
 import React from 'react'
 import type { Story, Meta } from '@storybook/react'
 
-import { EventItem } from './EventItem'
-import type { Event } from '../../../providers/events/State'
-import { GlobalStyle } from '../../../providers/GlobalStyle'
+import { EventItem } from '../../views/Events/EventItem/EventItem'
+import type { Event } from '../../providers/events/State'
+import { GlobalStyle } from '../../providers/GlobalStyle'
+import { NETWORK_ARGTYPE } from '../args'
 
 export default {
   title: 'Components/EventItem',
   argTypes: {
-    network: {
-      options: ['Mainnet', 'Ropsten', 'Rinkeby', 'Goerli', 'Kovan', 'xDai', 'Localhost', 'Hardhat', 'Other'],
-      control: {
-        type: 'select',
-      },
-    },
+    network: NETWORK_ARGTYPE,
     type: {
       options: [
         'INIT',

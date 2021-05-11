@@ -1,18 +1,14 @@
 import React from 'react'
 import type { Story, Meta } from '@storybook/react'
 
-import { GlobalStyle } from '../../../../providers/GlobalStyle'
-import { NetworkConnectedPreview } from '../NetworkConnectedPreview'
+import { GlobalStyle } from '../../../providers/GlobalStyle'
+import { NetworkConnectedPreview } from '../../../views/Events/EventPreview/NetworkConnectedPreview'
+import { NETWORK_ARGTYPE } from '../../args'
 
 export default {
   title: 'Components/EventPreview/Network Connected',
   argTypes: {
-    network: {
-      options: ['Mainnet', 'Ropsten', 'Rinkeby', 'Goerli', 'Kovan', 'xDai', 'Localhost', 'Hardhat', 'Other'],
-      control: {
-        type: 'select',
-      },
-    },
+    network: NETWORK_ARGTYPE,
   },
   args: {
     network: 'Mainnet',

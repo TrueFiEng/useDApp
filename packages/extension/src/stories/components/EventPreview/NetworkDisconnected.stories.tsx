@@ -1,8 +1,8 @@
 import React from 'react'
 import type { Story, Meta } from '@storybook/react'
 
-import { GlobalStyle } from '../../../../providers/GlobalStyle'
-import { NetworkDisconnectedPreview } from '../NetworkDisconnectedPreview'
+import { GlobalStyle } from '../../../providers/GlobalStyle'
+import { NetworkDisconnectedPreview } from '../../../views/Events/EventPreview/NetworkDisconnectedPreview'
 
 export default {
   title: 'Components/EventPreview/Network Disconnected',

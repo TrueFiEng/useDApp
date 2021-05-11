@@ -1,18 +1,14 @@
 import React from 'react'
 import type { Story, Meta } from '@storybook/react'
 
-import { GlobalStyle } from '../../../../providers/GlobalStyle'
-import { BlockFoundPreview } from '../BlockFoundPreview'
+import { GlobalStyle } from '../../../providers/GlobalStyle'
+import { BlockFoundPreview } from '../../../views/Events/EventPreview/BlockFoundPreview'
+import { NETWORK_ARGTYPE } from '../../args'
 
 export default {
   title: 'Components/EventPreview/Block Found',
   argTypes: {
-    network: {
-      options: ['Mainnet', 'Ropsten', 'Rinkeby', 'Goerli', 'Kovan', 'xDai', 'Localhost', 'Hardhat', 'Other'],
-      control: {
-        type: 'select',
-      },
-    },
+    network: NETWORK_ARGTYPE,
   },
   args: {
     network: 'Mainnet',
