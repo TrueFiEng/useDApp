@@ -6,22 +6,17 @@ import { ValueList } from './ValueList'
 
 interface Props {
   network: string | undefined
+  isArray?: boolean
   items: ParsedValue[]
 }
 
-export function Tuple({ items, network }: Props) {
-  if (items.length === 0) {
-    return (
-      <Code>
-        (<Comment>&lt;empty tuple&gt;</Comment>)
-      </Code>
-    )
-  }
+export function Tuple({ items, isArray, network }: Props) {
   return (
     <>
-      <Code>(</Code>
-      <ValueList values={items} network={network} />
-      <Code>)</Code>
+      <Code>{isArray ? '[' : '{'}</Code>
+      {items.length === 0 && <Comment>&lt;empty {isArray ? 'array' : 'tuple'}&gt;</Comment>}
+      {items.length > 0 && <ValueList values={items} network={network} />}
+      <Code>{isArray ? ']' : '}'}</Code>
     </>
   )
 }
@@ -31,5 +26,6 @@ const Code = styled.span`
 `
 
 const Comment = styled.span`
+  font-family: ${Font.Code};
   color: ${Colors.Text2};
 `

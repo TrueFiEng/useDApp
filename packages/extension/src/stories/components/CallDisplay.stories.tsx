@@ -141,3 +141,48 @@ Tuples.args = {
     },
   ],
 }
+
+export const Arrays = Template.bind({})
+Arrays.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [
+    { type: 'array', name: 'zero', value: [] },
+    {
+      type: 'array',
+      name: 'one',
+      value: [{ type: 'number', name: '#0', value: '123' }],
+    },
+    {
+      type: 'array',
+      name: 'two',
+      value: [
+        { type: 'number', name: 'mickey', value: '123' },
+        { type: 'number', name: 'mouse', value: '45' },
+      ],
+    },
+    {
+      type: 'array',
+      name: 'nested',
+      value: [
+        {
+          type: 'array',
+          name: '#0',
+          value: [
+            { type: 'boolean', name: '#0', value: true },
+            { type: 'boolean', name: '#1', value: true },
+          ],
+        },
+        {
+          type: 'array',
+          name: '#1',
+          value: [
+            { type: 'boolean', name: '#0', value: false },
+            { type: 'boolean', name: '#1', value: false },
+          ],
+        },
+        { type: 'number', name: 'answer', value: '42' },
+      ],
+    },
+  ],
+}

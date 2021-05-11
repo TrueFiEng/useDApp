@@ -27,8 +27,9 @@ export function ValueItem({ value, network }: Props) {
     return <Bytes value={value.value} />
   } else if (value.type === 'tuple') {
     return <Tuple items={value.value} network={network} />
+  } else {
+    return <Tuple isArray items={value.value} network={network} />
   }
-  return null
 }
 
 const NoValue = styled.span`
