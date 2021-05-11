@@ -25,7 +25,6 @@ const Link = styled.a`
   text-decoration: none;
   display: inline-flex;
   align-items: baseline;
-  width: 42ch;
 `
 
 const Shorten = styled.span`

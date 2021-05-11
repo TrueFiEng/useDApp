@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Colors, Font } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
-import { Table } from './Table'
-import { Property } from './Property'
 import { ValueItem } from './ValueItem'
 
 interface Props {
@@ -12,16 +11,32 @@ interface Props {
 
 export function ValueList({ values, network }: Props) {
   return (
-    <PaddedTable>
+    <List>
       {values.map((v, i) => (
-        <Property key={i} name={v.name}>
+        <Item data-type={v.type} key={i}>
+          <Key>{v.name}:&nbsp;</Key>
           <ValueItem value={v} network={network} />
-        </Property>
+        </Item>
       ))}
-    </PaddedTable>
+    </List>
   )
 }
 
-const PaddedTable = styled(Table)`
-  padding-left: 4px;
+const List = styled.ol`
+  padding-left: 2ch;
+  margin: 0;
+  list-style-type: none;
+`
+
+const Item = styled.li`
+  &[data-type='bytes'] {
+    display: flex;
+    align-items: baseline;
+  }
+`
+
+const Key = styled.span`
+  font-family: ${Font.Code};
+  color: ${Colors.Text2};
+  font-size: 14px;
 `

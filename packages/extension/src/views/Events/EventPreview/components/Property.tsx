@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { Colors } from '../../../../design'
 
 interface PropertyProps {
   name: string
@@ -22,5 +21,5 @@ const PropertyComponent = styled.td`
   padding-right: 8px;
   padding-top: 2px;
   vertical-align: baseline;
-  color: ${Colors.Text2};
+  font-style: italic;
 `
