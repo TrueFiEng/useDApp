@@ -1,5 +1,14 @@
 # @usedapp/testing
 
+## 0.2.6
+
+### Patch Changes
+
+- 50633d0: Bump ethers to version 5.1.4
+- Updated dependencies [50633d0]
+- Updated dependencies [660d2eb]
+  - @usedapp/core@0.3.17
+
 ## 0.2.5
 
 ### Patch Changes
