@@ -2,7 +2,7 @@ import { Contract } from '@ethersproject/contracts'
 import { formatEther } from '@ethersproject/units'
 import { TransactionStatus, useContractCall, useContractFunction, useEtherBalance, useEthers } from '@usedapp/core'
 import { utils } from 'ethers'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
@@ -10,54 +10,41 @@ import { Button } from '../base/Button'
 import WethAbi from '../../abi/Weth10.json'
 import { BorderRad, Colors } from '../../global/styles'
 import { BigNumber } from 'ethers'
-import { SpinnerIcon } from './Icons'
+import { SpinnerIcon, CheckIcon } from './Icons'
+
+import { AnimatePresence, motion } from 'framer-motion'
 
 const wethInterface = new utils.Interface(WethAbi)
 
-interface TitleProps {
-  balance: BigNumber | undefined
-  title: string
-  ticker: string
-}
-
-const Title = ({ balance, title, ticker }: TitleProps) => {
-  const formatter = new Intl.NumberFormat('en-us', {
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
-  })
-  const formattedBalance = formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
-
-  return (
-    <TitleRow>
-      <CellTitle>{title}</CellTitle>
-      <BalanceWrapper>
-        Your {ticker} balance: {formattedBalance}
-      </BalanceWrapper>
-    </TitleRow>
-  )
-}
+const formatter = new Intl.NumberFormat('en-us', {
+  minimumFractionDigits: 4,
+  maximumFractionDigits: 4,
+})
 
 interface InputComponentProps {
   send: (value: BigNumber) => void
   ticker: string
-  transactionStatus: TransactionStatus['status']
+  transaction: TransactionStatus
 }
 
-const InputComponent = ({ ticker, transactionStatus, send }: InputComponentProps) => {
+const InputComponent = ({ ticker, transaction, send }: InputComponentProps) => {
   const { account } = useEthers()
   const [value, setValue] = useState('0')
-  const isMining = transactionStatus === 'Mining'
-  const buttonContent = isMining ? (
-    <IconContainer>
-      <SpinnerIcon />
-    </IconContainer>
-  ) : (
-    'Send'
-  )
+  const [disabled, setDisabled] = useState(false)
+
   const onClick = () => {
-    send(utils.parseEther(value))
-    setValue('0')
+    if (Number(value) > 0) {
+      setDisabled(true)
+      send(utils.parseEther(value))
+    }
   }
+
+  useEffect(() => {
+    if (transaction.status != "Mining") {
+      setDisabled(false)
+      setValue(0)
+    }
+  }, [transaction])
 
   return (
     <InputRow>
@@ -68,10 +55,11 @@ const InputComponent = ({ ticker, transactionStatus, send }: InputComponentProps
         min="0"
         value={value}
         onChange={(e) => setValue(e.currentTarget.value)}
+        disabled={disabled}
       />
       <FormTicker>{ticker}</FormTicker>
-      <SmallButton disabled={!account || isMining} onClick={onClick}>
-        {buttonContent}
+      <SmallButton disabled={!account || disabled} onClick={onClick}>
+        Send
       </SmallButton>
     </InputRow>
   )
@@ -87,14 +75,70 @@ interface TransactionFormProps {
 }
 
 const TransactionForm = ({ balance, send, title, ticker, transaction }: TransactionFormProps) => {
+  const formattedBalance = formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
+  const [information, setInformation] = useState(<InformationRow key="None" />)
+
+  const [empty, setEmpty] = useState(false)
+
+  const errorBlock = (transaction: TransactionStatus) => {
+    return (
+      <InformationRow layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}>
+        <ErrorRow>
+          {transaction.errorMessage}
+        </ErrorRow>
+      </InformationRow>
+    )
+  }
+
+  const successBlock = (
+    <InformationRow layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}>
+      <SuccessRow>
+        <IconContainer>
+          <CheckIcon />
+        </IconContainer>
+        Transaction successful
+      </SuccessRow>
+    </InformationRow>
+  )
+
+  const miningBlock = (
+    <InformationRow layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}>
+      <IconContainer>
+        <SpinnerIcon />
+      </IconContainer>
+      Block is being mined
+    </InformationRow>
+  )
+
+  useEffect(() => {
+    setEmpty(true)
+    if (transaction.status != "Mining")
+      setTimeout(() => setEmpty(false), 5000)
+  }, [transaction])
+
   return (
     <SmallContentBlock>
-      <Title title={title} balance={balance} ticker={ticker} />
+      <TitleRow>
+        <CellTitle>{title}</CellTitle>
+        <BalanceWrapper>
+          Your {ticker} balance: {formattedBalance}
+        </BalanceWrapper>
+      </TitleRow>
       <LabelRow>
         <Label htmlFor={`${ticker}Input`}>How much?</Label>
       </LabelRow>
-      <InputComponent ticker={ticker} transactionStatus={transaction.status} send={send} />
-      <ErrorRow>{'errorMessage' in transaction && transaction.errorMessage}</ErrorRow>
+      <InputComponent ticker={ticker} transaction={transaction} send={send} />
+      <AnimationWrapper>
+        <AnimatePresence initial={false} exitBeforeEnter>
+          <InformationWrapper key={empty + transaction.status}>
+            {empty && 'errorMessage' in transaction && errorBlock(transaction)}
+            {empty && transaction.status === "Mining" && miningBlock}
+            {empty && transaction.status === "Success" && successBlock}
+          </InformationWrapper>
+
+        </AnimatePresence>
+
+      </AnimationWrapper>
     </SmallContentBlock>
   )
 }
@@ -229,13 +273,35 @@ const SmallContentBlock = styled(ContentBlock)`
 `
 
 const IconContainer = styled.div`
+  margin-top: -4px;
+  margin-right: 15px;
   height: 24px;
   width: 24px;
+  float: left;
+`
+
+const InformationRow = styled(motion.div)`
+  height: 16px;
+  font-size: 14px;
+  margin: 20px auto 20px auto;
+  display: flex;
 `
 
 const ErrorRow = styled.div`
-  height: 16px;
-  font-size: 14px;
-  margin: 8px auto 32px auto;
   color: ${Colors.Red['400']};
+`
+
+const SuccessRow = styled.div`
+  color: green;
+  fill: green;
+`
+
+const InformationWrapper = styled.div`
+  display: flexbox;
+  overflow: auto;
+`
+
+const AnimationWrapper = styled.div`
+  height: 66px;
+  margin: 10px;
 `

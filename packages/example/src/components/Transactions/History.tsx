@@ -49,18 +49,21 @@ const DateCell = ({ date, className }: DateProps) => {
 }
 
 interface TransactionNameProps {
-  transactionName: string | undefined
+  transaction: StoredTransaction
 }
 
-const TransactionName = ({ transactionName }: TransactionNameProps) => {
-  const Icon = transactionName === 'Unwrap' ? UnwrapIcon : WrapIcon
+const TransactionName = ({ transaction }: TransactionNameProps) => {
+  const Icon = transaction.transactionName === 'Unwrap' ? UnwrapIcon : WrapIcon
 
   return (
     <IconRow>
       <IconContainer>
         <Icon />
       </IconContainer>
-      <TextBold>{transactionName}</TextBold>
+      <NotificationDetailsWrapper>
+        <TextBold>{transaction.transactionName}</TextBold>
+        <NotificationLink transaction={transaction.transaction} />
+      </NotificationDetailsWrapper>
     </IconRow>
   )
 }
@@ -72,7 +75,7 @@ interface TransactionProps {
 const Transaction = ({ transaction }: TransactionProps) => {
   return (
     <TransactionDetailsWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }}>
-      <TransactionName transactionName={transaction.transactionName} />
+      <TransactionName transaction={transaction} />
       <DateCell date={transaction.submittedAt} />
     </TransactionDetailsWrapper>
   )
