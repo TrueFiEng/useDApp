@@ -1,7 +1,7 @@
 import type { BlockNumberChangedPayload, HookMessage } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function blockNumberChanged(state: State, message: HookMessage<BlockNumberChangedPayload>): State {
   return {
@@ -11,7 +11,7 @@ export function blockNumberChanged(state: State, message: HookMessage<BlockNumbe
       {
         type: 'BLOCK_FOUND',
         network: chainIdToNetwork(message.payload.chainId),
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         blockNumber: message.payload.blockNumber,
       },
     ],

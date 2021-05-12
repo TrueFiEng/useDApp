@@ -1,7 +1,7 @@
 import type { CallsChangedPayload, ChainCall, HookMessage } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function callsChanged(state: State, message: HookMessage<CallsChangedPayload>): State {
   const addedCalls = new Set<ChainCall>()
@@ -30,7 +30,7 @@ export function callsChanged(state: State, message: HookMessage<CallsChangedPayl
       ...state.events,
       {
         type: 'CALLS_UPDATED',
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         network,
         added: [...addedCalls],
         removed: [...removedCalls],

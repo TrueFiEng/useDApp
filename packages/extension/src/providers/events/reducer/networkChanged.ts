@@ -1,7 +1,7 @@
 import type { HookMessage, NetworkChangedPayload } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function networkChanged(state: State, message: HookMessage<NetworkChangedPayload>): State {
   if (message.payload.chainId === undefined) {
@@ -15,7 +15,7 @@ export function networkChanged(state: State, message: HookMessage<NetworkChanged
         ...state.events,
         {
           type: 'NETWORK_DISCONNECTED',
-          time: timestampToTime(message.timestamp),
+          time: offsetToTime(state.initTimestamp, message.timestamp),
         },
       ],
     }
@@ -34,7 +34,7 @@ export function networkChanged(state: State, message: HookMessage<NetworkChanged
       {
         type: 'NETWORK_CONNECTED',
         network,
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         chainId: message.payload.chainId,
       },
     ],

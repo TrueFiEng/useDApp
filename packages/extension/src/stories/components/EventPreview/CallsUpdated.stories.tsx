@@ -34,7 +34,7 @@ export const CallsUpdated: Story<Args> = (args) => (
     <CallsUpdatedPreview
       event={{
         type: 'CALLS_UPDATED',
-        time: '01:23:45',
+        time: '+03:10.497',
         added: new Array<ChainCall>(args.added).fill(EXAMPLE_CALL),
         removed: new Array<ChainCall>(args.removed).fill(EXAMPLE_CALL),
         persisted: new Array<ChainCall>(args.persisted).fill(EXAMPLE_CALL),

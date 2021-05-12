@@ -27,7 +27,7 @@ export const BlockFound: Story<Args> = (args) => (
     <BlockFoundPreview
       event={{
         type: 'BLOCK_FOUND',
-        time: '01:23:45',
+        time: '+03:10.497',
         blockNumber: args.blockNumber,
         network: args.network,
       }}

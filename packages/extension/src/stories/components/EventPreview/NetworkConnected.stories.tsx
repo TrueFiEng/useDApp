@@ -28,7 +28,7 @@ export const NetworkConnected: Story<Args> = (args) => (
     <NetworkConnectedPreview
       event={{
         type: 'NETWORK_CONNECTED',
-        time: '01:23:45',
+        time: '+03:10.497',
         chainId: args.chainId,
         network: args.network,
       }}

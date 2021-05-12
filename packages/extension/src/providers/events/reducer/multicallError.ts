@@ -1,7 +1,7 @@
 import type { HookMessage, MulticallErrorPayload } from '../Message'
 import type { State } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function multicallError(state: State, message: HookMessage<MulticallErrorPayload>): State {
   return {
@@ -10,7 +10,7 @@ export function multicallError(state: State, message: HookMessage<MulticallError
       ...state.events,
       {
         type: 'FETCH_ERROR',
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         blockNumber: message.payload.blockNumber,
         duration: message.payload.duration,
         multicallAddress: message.payload.multicallAddress,

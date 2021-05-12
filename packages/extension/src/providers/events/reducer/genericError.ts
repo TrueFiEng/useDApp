@@ -1,6 +1,6 @@
 import type { GenericErrorPayload, HookMessage } from '../Message'
 import type { State } from '../State'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function genericError(state: State, message: HookMessage<GenericErrorPayload>): State {
   return {
@@ -9,7 +9,7 @@ export function genericError(state: State, message: HookMessage<GenericErrorPayl
       ...state.events,
       {
         type: 'ERROR',
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         error: message.payload.error,
       },
     ],

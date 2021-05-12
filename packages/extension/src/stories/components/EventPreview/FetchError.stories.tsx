@@ -22,7 +22,7 @@ export const FetchError: Story = () => (
     <FetchErrorPreview
       event={{
         type: 'FETCH_ERROR',
-        time: '01:23:45',
+        time: '+03:10.497',
         network: 'Mainnet',
         blockNumber: 12_345_678,
         duration: 300,

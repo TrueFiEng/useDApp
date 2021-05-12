@@ -1,6 +1,8 @@
 import { expect } from 'chai'
 import type {
   ChainCall,
+  HookMessage,
+  InitPayload,
   Message,
   MulticallErrorPayload,
   MulticallSuccessPayload,
@@ -8,20 +10,25 @@ import type {
 import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
 import type { Event, FetchErrorEvent, State, StateUpdatedEvent } from '../../../src/providers/events/State'
 
+const STATE_WITH_INIT = reducer(INITIAL_STATE, makeInitMessage('12:00:00.000'))
+const INIT_EVENT = STATE_WITH_INIT.events[0]
+
 describe('reducer', () => {
   describe('init', () => {
     it('adds the init event', () => {
-      const result = stateAfter(makeInitMessage('13:14:15'))
+      const message = makeInitMessage('13:14:15.167')
+      const result = reducer(INITIAL_STATE, message)
       const expected: State = {
         ...INITIAL_STATE,
-        events: [makeInitEvent('13:14:15')],
+        initTimestamp: message.timestamp,
+        events: [makeInitEvent('13:14:15.16')],
       }
       expect(result).to.deep.equal(expected)
     })
 
     it('correctly formats single digit time', () => {
-      const result = stateAfter(makeInitMessage('03:04:05'))
-      expect(result.events[0].time).to.equal('03:04:05')
+      const result = stateAfter(makeInitMessage('03:04:05.067'))
+      expect(result.events[0].time).to.equal('03:04:05.06')
     })
 
     it('resets the state', () => {
@@ -37,23 +44,27 @@ describe('reducer', () => {
 
   describe('network changed', () => {
     it('adds a network connected event', () => {
-      const result = stateAfter(makeNetworkChangedMessage('13:14:15', 1))
+      const result = stateAfter(makeNetworkChangedMessage('12:00:00.123', 1))
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         currentNetwork: 'Mainnet',
-        events: [makeNetworkConnectedEvent('13:14:15', 1, 'Mainnet')],
+        events: [INIT_EVENT, makeNetworkConnectedEvent('+00:00.123', 1, 'Mainnet')],
       }
       expect(result).to.deep.equal(expected)
     })
 
     it('adds a network disconnected event', () => {
       const result = stateAfter(
-        makeNetworkChangedMessage('13:14:15', 1),
-        makeNetworkChangedMessage('13:14:16', undefined)
+        makeNetworkChangedMessage('12:00:00.123', 1),
+        makeNetworkChangedMessage('12:14:15.456', undefined)
       )
       const expected: State = {
-        ...INITIAL_STATE,
-        events: [makeNetworkConnectedEvent('13:14:15', 1, 'Mainnet'), makeNetworkDisconnectedEvent('13:14:16')],
+        ...STATE_WITH_INIT,
+        events: [
+          INIT_EVENT,
+          makeNetworkConnectedEvent('+00:00.123', 1, 'Mainnet'),
+          makeNetworkDisconnectedEvent('+14:15.456'),
+        ],
       }
       expect(result).to.deep.equal(expected)
     })
@@ -66,7 +77,7 @@ describe('reducer', () => {
 
     it('is disconnected by default', () => {
       const result = stateAfter(makeNetworkChangedMessage('13:14:15', undefined))
-      expect(result).to.deep.equal(INITIAL_STATE)
+      expect(result).to.deep.equal(STATE_WITH_INIT)
     })
 
     it('does nothing if disconnected again', () => {
@@ -84,7 +95,7 @@ describe('reducer', () => {
 
     it('preserves past events when connected', () => {
       const result = stateAfter(makeNetworkChangedMessage('13:14:15', 1), makeNetworkChangedMessage('13:14:16', 2))
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
 
     it('preserves past events when disconnected', () => {
@@ -92,16 +103,16 @@ describe('reducer', () => {
         makeNetworkChangedMessage('13:14:15', 1),
         makeNetworkChangedMessage('13:14:16', undefined)
       )
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
   })
 
   describe('block number changed', () => {
     it('adds a block found event', () => {
-      const result = stateAfter(makeBlockNumberChangedMessage('13:14:15', 1, 123456))
+      const result = stateAfter(makeBlockNumberChangedMessage('12:00:00.123', 1, 123456))
       const expected: State = {
-        ...INITIAL_STATE,
-        events: [makeBlockFoundEvent('13:14:15', 'Mainnet', 123456)],
+        ...STATE_WITH_INIT,
+        events: [INIT_EVENT, makeBlockFoundEvent('+00:00.123', 'Mainnet', 123456)],
       }
       expect(result).to.deep.equal(expected)
     })
@@ -111,31 +122,36 @@ describe('reducer', () => {
         makeBlockNumberChangedMessage('13:14:15', 1, 123456),
         makeBlockNumberChangedMessage('13:14:16', 1, 123458)
       )
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
   })
 
   describe('account changed', () => {
     const ACCOUNT = '0x' + 'a'.repeat(40)
     const OTHER_ACCOUNT = '0x' + 'b'.repeat(40)
+
     it('adds a network connected event', () => {
-      const result = stateAfter(makeAccountChangedMessage('13:14:15', ACCOUNT))
+      const result = stateAfter(makeAccountChangedMessage('12:00:00.123', ACCOUNT))
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         account: ACCOUNT,
-        events: [makeAccountConnectedEvent('13:14:15', ACCOUNT)],
+        events: [INIT_EVENT, makeAccountConnectedEvent('+00:00.123', ACCOUNT)],
       }
       expect(result).to.deep.equal(expected)
     })
 
     it('adds a network disconnected event', () => {
       const result = stateAfter(
-        makeAccountChangedMessage('13:14:15', ACCOUNT),
-        makeAccountChangedMessage('13:14:16', undefined)
+        makeAccountChangedMessage('12:00:00.123', ACCOUNT),
+        makeAccountChangedMessage('12:14:15.456', undefined)
       )
       const expected: State = {
-        ...INITIAL_STATE,
-        events: [makeAccountConnectedEvent('13:14:15', ACCOUNT), makeAccountDisconnectedEvent('13:14:16')],
+        ...STATE_WITH_INIT,
+        events: [
+          INIT_EVENT,
+          makeAccountConnectedEvent('+00:00.123', ACCOUNT),
+          makeAccountDisconnectedEvent('+14:15.456'),
+        ],
       }
       expect(result).to.deep.equal(expected)
     })
@@ -151,7 +167,7 @@ describe('reducer', () => {
 
     it('is disconnected by default', () => {
       const result = stateAfter(makeAccountChangedMessage('13:14:15', undefined))
-      expect(result).to.deep.equal(INITIAL_STATE)
+      expect(result).to.deep.equal(STATE_WITH_INIT)
     })
 
     it('does nothing if disconnected again', () => {
@@ -172,7 +188,7 @@ describe('reducer', () => {
         makeAccountChangedMessage('13:14:15', ACCOUNT),
         makeAccountChangedMessage('13:14:16', OTHER_ACCOUNT)
       )
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
 
     it('preserves past events when disconnected', () => {
@@ -180,7 +196,7 @@ describe('reducer', () => {
         makeAccountChangedMessage('13:14:15', ACCOUNT),
         makeAccountChangedMessage('13:14:16', undefined)
       )
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
   })
 
@@ -199,12 +215,13 @@ describe('reducer', () => {
     }
 
     it('can track calls added', () => {
-      const result = stateAfter(makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]))
+      const result = stateAfter(makeCallsChangedMessage('12:00:00.123', 1, [CALL_A, CALL_B]))
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         calls: [CALL_A, CALL_B],
         events: [
-          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+          INIT_EVENT,
+          makeCallsUpdatedEvent('+00:00.123', 'Mainnet', {
             added: [CALL_A, CALL_B],
           }),
         ],
@@ -214,16 +231,17 @@ describe('reducer', () => {
 
     it('can track calls removed', () => {
       const result = stateAfter(
-        makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]),
-        makeCallsChangedMessage('13:14:16', 1, [])
+        makeCallsChangedMessage('12:00:00.123', 1, [CALL_A, CALL_B]),
+        makeCallsChangedMessage('12:14:15.456', 1, [])
       )
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         events: [
-          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+          INIT_EVENT,
+          makeCallsUpdatedEvent('+00:00.123', 'Mainnet', {
             added: [CALL_A, CALL_B],
           }),
-          makeCallsUpdatedEvent('13:14:16', 'Mainnet', {
+          makeCallsUpdatedEvent('+14:15.456', 'Mainnet', {
             removed: [CALL_A, CALL_B],
           }),
         ],
@@ -233,17 +251,18 @@ describe('reducer', () => {
 
     it('can track added, removed and persisted', () => {
       const result = stateAfter(
-        makeCallsChangedMessage('13:14:15', 1, [CALL_A, CALL_B]),
-        makeCallsChangedMessage('13:14:16', 1, [CALL_A, CALL_C])
+        makeCallsChangedMessage('12:00:00.123', 1, [CALL_A, CALL_B]),
+        makeCallsChangedMessage('12:14:15.456', 1, [CALL_A, CALL_C])
       )
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         calls: [CALL_A, CALL_C],
         events: [
-          makeCallsUpdatedEvent('13:14:15', 'Mainnet', {
+          INIT_EVENT,
+          makeCallsUpdatedEvent('+00:00.123', 'Mainnet', {
             added: [CALL_A, CALL_B],
           }),
-          makeCallsUpdatedEvent('13:14:16', 'Mainnet', {
+          makeCallsUpdatedEvent('+14:15.456', 'Mainnet', {
             added: [CALL_C],
             removed: [CALL_B],
             persisted: [CALL_A],
@@ -267,7 +286,7 @@ describe('reducer', () => {
 
     it('is simply added to the event list', () => {
       const result = stateAfter(
-        makeMulticallErrorMessage('13:14:15', {
+        makeMulticallErrorMessage('12:00:00.123', {
           blockNumber: 1234,
           calls: [CALL_A, CALL_B],
           chainId: 1,
@@ -277,9 +296,10 @@ describe('reducer', () => {
         })
       )
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         events: [
-          makeFetchErrorEvent('13:14:15', {
+          INIT_EVENT,
+          makeFetchErrorEvent('+00:00.123', {
             blockNumber: 1234,
             calls: [CALL_A, CALL_B],
             network: 'Mainnet',
@@ -304,7 +324,7 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
         })
       )
-      expect(result.events.length).to.equal(2)
+      expect(result.events.length).to.equal(3)
     })
   })
 
@@ -324,7 +344,7 @@ describe('reducer', () => {
 
     it('sets the state and block number', () => {
       const result = stateAfter(
-        makeMulticallSuccessMessage('13:14:15', {
+        makeMulticallSuccessMessage('12:00:00.123', {
           blockNumber: 1234,
           chainId: 1,
           duration: 400,
@@ -337,7 +357,7 @@ describe('reducer', () => {
         })
       )
       const expected: State = {
-        ...INITIAL_STATE,
+        ...STATE_WITH_INIT,
         blockNumbers: {
           Mainnet: 1234,
         },
@@ -345,7 +365,8 @@ describe('reducer', () => {
           Mainnet: [entry(ADDRESS_A, '0xdead', '0xbeef')],
         },
         events: [
-          makeStateUpdatedEvent('13:14:15', {
+          INIT_EVENT,
+          makeStateUpdatedEvent('+00:00.123', {
             blockNumber: 1234,
             duration: 400,
             multicallAddress: MULTICALL,
@@ -413,7 +434,7 @@ describe('reducer', () => {
 
     it('figures out the state difference', () => {
       const result = stateAfter(
-        makeMulticallSuccessMessage('13:14:15', {
+        makeMulticallSuccessMessage('12:00:00.123', {
           blockNumber: 1234,
           chainId: 1,
           duration: 400,
@@ -431,7 +452,7 @@ describe('reducer', () => {
             },
           },
         }),
-        makeMulticallSuccessMessage('13:14:16', {
+        makeMulticallSuccessMessage('12:14:15.456', {
           blockNumber: 1235,
           chainId: 1,
           duration: 400,
@@ -464,7 +485,7 @@ describe('reducer', () => {
           value: '0xdd',
         },
       ]
-      const expected = makeStateUpdatedEvent('13:14:16', {
+      const expected = makeStateUpdatedEvent('+14:15.456', {
         blockNumber: 1235,
         network: 'Mainnet',
         duration: 400,
@@ -504,12 +525,12 @@ describe('reducer', () => {
         ],
       })
       expect(result.state.Mainnet).to.deep.equal(expectedEntries)
-      expect(result.events[1]).to.deep.equal(expected)
+      expect(result.events[2]).to.deep.equal(expected)
     })
 
     it('merges state for same block', () => {
       const result = stateAfter(
-        makeMulticallSuccessMessage('13:14:15', {
+        makeMulticallSuccessMessage('12:00:00.123', {
           blockNumber: 1234,
           chainId: 1,
           duration: 400,
@@ -527,7 +548,7 @@ describe('reducer', () => {
             },
           },
         }),
-        makeMulticallSuccessMessage('13:14:16', {
+        makeMulticallSuccessMessage('12:14:15.456', {
           blockNumber: 1234,
           chainId: 1,
           duration: 400,
@@ -570,7 +591,7 @@ describe('reducer', () => {
           value: '0x5678',
         },
       ]
-      const expected = makeStateUpdatedEvent('13:14:16', {
+      const expected = makeStateUpdatedEvent('+14:15.456', {
         blockNumber: 1234,
         network: 'Mainnet',
         duration: 400,
@@ -608,16 +629,19 @@ describe('reducer', () => {
         ],
       })
       expect(result.state.Mainnet).to.deep.equal(expectedEntries)
-      expect(result.events[1]).to.deep.equal(expected)
+      expect(result.events[2]).to.deep.equal(expected)
     })
   })
 
   describe('generic error', () => {
     it('adds the event to the list of messages', () => {
-      const result = stateAfter(makeGenericErrorMessage('13:14:15', 'Foo'), makeGenericErrorMessage('13:14:16', 'Bar'))
+      const result = stateAfter(
+        makeGenericErrorMessage('12:00:00.123', 'Foo'),
+        makeGenericErrorMessage('12:14:15.456', 'Bar')
+      )
       const expected: State = {
-        ...INITIAL_STATE,
-        events: [makeErrorEvent('13:14:15', 'Foo'), makeErrorEvent('13:14:16', 'Bar')],
+        ...STATE_WITH_INIT,
+        events: [INIT_EVENT, makeErrorEvent('+00:00.123', 'Foo'), makeErrorEvent('+14:15.456', 'Bar')],
       }
       expect(result).to.deep.equal(expected)
     })
@@ -626,7 +650,7 @@ describe('reducer', () => {
 
 function stateAfter(...messages: Message[]) {
   // we clone messages to ensure referential equality cannot be used on objects
-  return messages.map((x) => JSON.parse(JSON.stringify(x)) as Message).reduce(reducer, INITIAL_STATE)
+  return messages.map((x) => JSON.parse(JSON.stringify(x)) as Message).reduce(reducer, STATE_WITH_INIT)
 }
 
 function toTimestamp(time: string) {
@@ -635,7 +659,7 @@ function toTimestamp(time: string) {
 
 // messages
 
-function makeInitMessage(time: string): Message {
+function makeInitMessage(time: string): HookMessage<InitPayload> {
   return {
     source: 'usedapp-hook',
     timestamp: toTimestamp(time),

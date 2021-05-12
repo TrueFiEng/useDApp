@@ -103,6 +103,7 @@ export type Event =
 export interface State {
   currentNetwork: string | undefined
   account: string | undefined
+  initTimestamp: number
   blockNumbers: {
     [network: string]: number
   }

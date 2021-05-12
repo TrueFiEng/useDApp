@@ -1,7 +1,7 @@
 import type { HookMessage, MulticallSuccessPayload } from '../Message'
 import type { State, StateEntry, StateUpdate } from '../State'
 import { chainIdToNetwork } from './chainIdToNetwork'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function multicallSuccess(state: State, message: HookMessage<MulticallSuccessPayload>): State {
   const network = chainIdToNetwork(message.payload.chainId)
@@ -71,7 +71,7 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
       ...state.events,
       {
         type: 'STATE_UPDATED',
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         blockNumber: message.payload.blockNumber,
         duration: message.payload.duration,
         multicallAddress: message.payload.multicallAddress,

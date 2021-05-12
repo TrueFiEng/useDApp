@@ -23,22 +23,22 @@ const HOLDER_ADDRESS = '0xab5801a7d398351b8be11c439e05c5b3259aec9b'
 const events: Event[] = [
   {
     type: 'INIT',
-    time: '12:01:13',
+    time: '12:01:13.78',
   },
   {
     type: 'NETWORK_CONNECTED',
-    time: '12:01:15',
+    time: '+00:01.125',
     chainId: 42,
     network: 'Kovan',
   },
   {
     type: 'ACCOUNT_CONNECTED',
-    time: '12:01:15',
+    time: '+00:05.827',
     address: HOLDER_ADDRESS,
   },
   {
     type: 'CALLS_UPDATED',
-    time: '12:01:15',
+    time: '+00:06.014',
     network: 'Kovan',
     added: [
       {
@@ -55,13 +55,13 @@ const events: Event[] = [
   },
   {
     type: 'BLOCK_FOUND',
-    time: '12:01:16',
+    time: '+00:15.981',
     network: 'Kovan',
     blockNumber: 20_123_123,
   },
   {
     type: 'STATE_UPDATED',
-    time: '12:01:18',
+    time: '+00:19.105',
     network: 'Kovan',
     duration: 3124,
     blockNumber: 20_123_123,

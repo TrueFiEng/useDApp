@@ -48,37 +48,37 @@ function getEvent(network: string, type: Event['type']): Event {
     case 'NETWORK_CONNECTED':
       return {
         type: 'NETWORK_CONNECTED',
-        time: '01:23:45',
+        time: '+03:10.497',
         chainId: 1,
         network,
       }
     case 'NETWORK_DISCONNECTED':
       return {
         type: 'NETWORK_DISCONNECTED',
-        time: '01:23:45',
+        time: '+03:10.497',
       }
     case 'ACCOUNT_CONNECTED':
       return {
         type: 'ACCOUNT_CONNECTED',
-        time: '01:23:45',
+        time: '+03:10.497',
         address: '0x12ab12ab12ab12ab12ab12ab12ab12ab12ab12ab',
       }
     case 'ACCOUNT_DISCONNECTED':
       return {
         type: 'ACCOUNT_DISCONNECTED',
-        time: '01:23:45',
+        time: '+03:10.497',
       }
     case 'BLOCK_FOUND':
       return {
         type: 'BLOCK_FOUND',
-        time: '01:23:45',
+        time: '+03:10.497',
         network,
         blockNumber: 12_345_678,
       }
     case 'CALLS_UPDATED':
       return {
         type: 'CALLS_UPDATED',
-        time: '01:23:45',
+        time: '+03:10.497',
         added: [
           { address: '', data: '' },
           { address: '', data: '' },
@@ -89,7 +89,7 @@ function getEvent(network: string, type: Event['type']): Event {
     case 'STATE_UPDATED':
       return {
         type: 'STATE_UPDATED',
-        time: '01:23:45',
+        time: '+03:10.497',
         blockNumber: 12_345_678,
         duration: 321,
         multicallAddress: '0xdeadBeef123456789012345678901234567890AB',
@@ -103,7 +103,7 @@ function getEvent(network: string, type: Event['type']): Event {
     case 'FETCH_ERROR':
       return {
         type: 'FETCH_ERROR',
-        time: '01:23:45',
+        time: '+03:10.497',
         blockNumber: 12_345_678,
         duration: 321,
         multicallAddress: '0xdeadBeef123456789012345678901234567890AB',
@@ -114,7 +114,7 @@ function getEvent(network: string, type: Event['type']): Event {
     case 'ERROR':
       return {
         type: 'ERROR',
-        time: '01:23:45',
+        time: '+03:10.497',
         error: 'Something went wrong',
       }
   }

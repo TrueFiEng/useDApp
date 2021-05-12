@@ -1,6 +1,6 @@
 import type { AccountChangedPayload, HookMessage } from '../Message'
 import type { State } from '../State'
-import { timestampToTime } from './timestampToTime'
+import { offsetToTime } from './time'
 
 export function accountChanged(state: State, message: HookMessage<AccountChangedPayload>): State {
   if (message.payload.address === state.account) {
@@ -15,7 +15,7 @@ export function accountChanged(state: State, message: HookMessage<AccountChanged
         ...state.events,
         {
           type: 'ACCOUNT_DISCONNECTED',
-          time: timestampToTime(message.timestamp),
+          time: offsetToTime(state.initTimestamp, message.timestamp),
         },
       ],
     }
@@ -28,7 +28,7 @@ export function accountChanged(state: State, message: HookMessage<AccountChanged
       ...state.events,
       {
         type: 'ACCOUNT_CONNECTED',
-        time: timestampToTime(message.timestamp),
+        time: offsetToTime(state.initTimestamp, message.timestamp),
         address: message.payload.address,
       },
     ],
