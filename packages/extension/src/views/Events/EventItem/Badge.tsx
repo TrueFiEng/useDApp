@@ -25,7 +25,7 @@ export function Badge({ event }: Props) {
   } else if (event.type === 'STATE_UPDATED') {
     return <Bold>{event.updated.length}</Bold>
   } else if (event.type === 'ACCOUNT_CONNECTED') {
-    return <Bold>{event.address.substring(0, 6).toLowerCase()}&hellip;</Bold>
+    return <Bold>{event.address.substring(0, 6)}&hellip;</Bold>
   } else if (event.type === 'ERROR' || event.type === 'FETCH_ERROR') {
     return <Error>Error:</Error>
   }

@@ -48,4 +48,9 @@ const NetworkIndicator = styled.div`
   margin-right: 8px;
 `
 
-const Label = styled.div``
+const Label = styled.div`
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+`

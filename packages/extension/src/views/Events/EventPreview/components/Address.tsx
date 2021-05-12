@@ -9,14 +9,23 @@ interface Props {
 }
 
 export function Address({ address, network }: Props) {
-  const url = getExplorerUrl(address, network)
-  const formatted = getAddress(address)
+  const formatted = formatAddress(address)
+  const url = getExplorerUrl(formatted, network)
   return (
     <Link href={url} target="_blank" rel="noopener noreferrer">
       <Shorten>{formatted.substring(0, 38)}</Shorten>
       <End>{formatted.substring(38)}</End>
     </Link>
   )
+}
+
+function formatAddress(address: string) {
+  const lower = address.toLowerCase()
+  try {
+    return getAddress(lower)
+  } catch {
+    return lower
+  }
 }
 
 const Link = styled.a`

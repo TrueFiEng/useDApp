@@ -17,8 +17,8 @@ export default {
 } as Meta
 
 const coder = new Interface(DEFAULT_ABIS)
-const TOKEN_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
-const HOLDER_ADDRESS = '0xab5801a7d398351b8be11c439e05c5b3259aec9b'
+const TOKEN_ADDRESS = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+const HOLDER_ADDRESS = '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B'
 
 const events: Event[] = [
   {
@@ -81,6 +81,11 @@ const events: Event[] = [
       },
     ],
     persisted: [],
+  },
+  {
+    type: 'ERROR',
+    time: '+00:23.323',
+    error: 'An extra long error message for your pleasure.',
   },
 ]
 
