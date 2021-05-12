@@ -12,7 +12,7 @@ export function NetworkConnectedPreview({ event }: Props) {
   return (
     <>
       <Text>
-        useDapp has connected to a network. It will poll the network for new blocks, query the contract state and check
+        useDApp has connected to a network. It will poll the network for new blocks, query the contract state and check
         transaction status.
       </Text>
       <Table>
