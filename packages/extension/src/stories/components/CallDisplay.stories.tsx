@@ -149,3 +149,53 @@ Arrays.args = {
     },
   ],
 }
+
+export const SimpleResult = Template.bind({})
+SimpleResult.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [],
+  value: { type: 'number', name: '#0', value: '3' },
+}
+
+export const TupleResult = Template.bind({})
+TupleResult.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [],
+  value: {
+    type: 'tuple',
+    name: '#0',
+    value: [
+      { type: 'number', name: '#0', value: '3' },
+      { type: 'number', name: '#1', value: '42' },
+    ],
+  },
+}
+
+export const ResultAdded = Template.bind({})
+ResultAdded.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [],
+  previous: undefined,
+  current: { type: 'number', name: '#0', value: '3' },
+}
+
+export const ResultRemoved = Template.bind({})
+ResultRemoved.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [],
+  previous: { type: 'number', name: '#0', value: '3' },
+  current: undefined,
+}
+
+export const ResultModified = Template.bind({})
+ResultModified.args = {
+  address: ADDRESS_1,
+  name: 'example',
+  data: [],
+  previous: { type: 'number', name: '#0', value: '3' },
+  current: { type: 'number', name: '#0', value: '42' },
+}
