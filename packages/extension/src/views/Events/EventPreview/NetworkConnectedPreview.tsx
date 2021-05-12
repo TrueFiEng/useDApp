@@ -1,6 +1,6 @@
 import React from 'react'
 import type { NetworkConnectedEvent } from '../../../providers/events/State'
-import { Link, Property, Table } from './components'
+import { Link, Property, Table, Text } from './components'
 
 interface Props {
   event: NetworkConnectedEvent
@@ -10,16 +10,22 @@ export function NetworkConnectedPreview({ event }: Props) {
   const explorer = getExplorer(event.network)
 
   return (
-    <Table>
-      <Property name="Name">{event.network}</Property>
-      <Property name="Type">{getNetworkType(event.network)}</Property>
-      <Property name="Chain id">{event.chainId}</Property>
-      {explorer && (
-        <Property name="Explorer">
-          <Link href={explorer} />
-        </Property>
-      )}
-    </Table>
+    <>
+      <Text>
+        useDapp has connected to a network. It will poll the network for new blocks, query the contract state and check
+        transaction status.
+      </Text>
+      <Table>
+        <Property name="Name">{event.network}</Property>
+        <Property name="Type">{getNetworkType(event.network)}</Property>
+        <Property name="Chain id">{event.chainId}</Property>
+        {explorer && (
+          <Property name="Explorer">
+            <Link href={explorer} />
+          </Property>
+        )}
+      </Table>
+    </>
   )
 }
 

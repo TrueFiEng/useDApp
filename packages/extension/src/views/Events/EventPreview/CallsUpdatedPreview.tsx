@@ -10,6 +10,7 @@ interface Props {
 export function CallsUpdatedPreview({ event }: Props) {
   return (
     <>
+      <Text>The application has requested different state to be fetched.</Text>
       {event.added.length > 0 && (
         <>
           <Title>Added calls:</Title>

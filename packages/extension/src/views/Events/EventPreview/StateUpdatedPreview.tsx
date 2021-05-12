@@ -10,6 +10,7 @@ interface Props {
 export function StateUpdatedPreview({ event }: Props) {
   return (
     <>
+      <Text>New contract state was fetched from the network and the values have been updated.</Text>
       {event.updated.length > 0 && (
         <>
           <Title>Modified state entries</Title>

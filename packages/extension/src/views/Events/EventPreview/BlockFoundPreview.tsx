@@ -1,7 +1,7 @@
 import React from 'react'
 import type { BlockFoundEvent } from '../../../providers/events/State'
 import { formatInteger } from '../EventItem/formatInteger'
-import { Link, Property, Table } from './components'
+import { Link, Property, Table, Text } from './components'
 
 interface Props {
   event: BlockFoundEvent
@@ -11,15 +11,20 @@ export function BlockFoundPreview({ event }: Props) {
   const link = getExplorerLink(event.network, event.blockNumber)
 
   return (
-    <Table>
-      <Property name="Height">{formatInteger(event.blockNumber)}</Property>
-      <Property name="Network">{event.network}</Property>
-      {link && (
-        <Property name="Explore">
-          <Link href={link} />
-        </Property>
-      )}
-    </Table>
+    <>
+      <Text>
+        A new block has been found. Each new block will trigger a call to the blockchain that will refresh the state.
+      </Text>
+      <Table>
+        <Property name="Height">{formatInteger(event.blockNumber)}</Property>
+        <Property name="Network">{event.network}</Property>
+        {link && (
+          <Property name="Explore">
+            <Link href={link} />
+          </Property>
+        )}
+      </Table>
+    </>
   )
 }
 

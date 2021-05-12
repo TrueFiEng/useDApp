@@ -10,6 +10,10 @@ interface Props {
 export function FetchErrorPreview({ event }: Props) {
   return (
     <>
+      <Text>
+        An error happened when trying to update the state. This might happen because one of the requested calls
+        reverted.
+      </Text>
       <Title>Error message:</Title>
       <Text>{event.error}</Text>
       <Title>Calls:</Title>
