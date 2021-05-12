@@ -40,6 +40,20 @@ NoArguments.args = {
   data: [],
 }
 
+export const UnknownCall = Template.bind({})
+UnknownCall.args = {
+  address: ADDRESS_1,
+  name: '4a25d94a',
+  data: [
+    {
+      type: 'bytes',
+      name: 'data',
+      value:
+        '00000000000000000000000095ad61b0a150d79219dcf64e1e6cc01f0b64c4ce000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+    },
+  ],
+}
+
 export const BasicTypes = Template.bind({})
 BasicTypes.args = {
   address: ADDRESS_1,
