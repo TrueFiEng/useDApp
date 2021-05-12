@@ -112,11 +112,61 @@ A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments 
 
 **Parameters**
 
-- ``calls: ContractCall[]`` - a single call to a contract , also see `ContractCall`_
+- ``calls: ContractCall[]`` - a list of contract calls , also see `ContractCall`_
 
 **Returns**
 
-- ``any[] | undefined`` - array of results of undefined if call didn't return yet
+- ``any[] | undefined`` - array of results. Undefined if call didn't return yet
+
+.. _useContractFunction-label:
+
+useContractFunction
+===================
+Hook returns an object with two variables: ``state`` and ``send``.
+
+The former represents the state of transaction. Transaction state always contains ``status``, which can be one of the following:
+
+- **None** - before a transaction is created.
+- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
+- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+
+Additionally all states except ``None``, contain ``chainId: ChainId``.
+
+Change in ``state`` will update the component so you can use it in useEffect.
+
+To send a transaction use ``send`` function returned by ``useContractFunction``.
+The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
+Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#Contract-functionsCall>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+
+**Parameters**
+
+- ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
+- ``functionName: string`` - name of function to call
+- ``options?: Options`` - additional options of type ``Options`` possible options are ``signer?: Signer`` and ``transactionName?: string``
+
+**Returns**
+
+- ``{ send: (...args: any[]) => void, state: TransactionStatus }`` - object with two variables: ``send`` and ``state``
+
+**Example**
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+  
+  const depositEther = (etherAmount: string) => {
+    send({ value: utils.parseEther(etherAmount) })
+  }
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+
+  const withdrawEther = (wethAmount: string) => {
+    send(utils.parseEther(wethAmount))
+  }
 
 useConfig
 =========

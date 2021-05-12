@@ -287,40 +287,47 @@ Transactions
 Sending
 =======
 
-To send transations use ``useContractFunction`` hook. Hook returns an object with two variables: ``state`` and ``send``.
+Example is available `here <https://example.usedapp.io/transactions>`_.
 
-The former represents the state of transaction. Transaction state always contains ``status``, which can be one of the following:
+To send transaction use :ref:`useContractFunction-label` hook.
 
-- **None** - before a transaction is created.
-- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
-- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+Start by declaring variables.
 
-Additionally all states except ``None``, contain ``chainId: ChainId``.
+.. code-block:: javascript  
 
-To send a transaction use ``send`` function returned by ``useContractFunction``.
-The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
-Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#Contract-functionsCall>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+  import { utils } from 'ethers'
+  import { Contract } from '@ethersproject/contracts'
 
-Take a look at examples below:
+  ...
+
+  const wethInterface = new utils.Interface(WethAbi)
+  const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
+  const contract = new Contract(wethContractAddress, wethInterface)
+
+
+``WethAbi`` is a ABI interface of called object.
+
+After that you can use the hook to create ``send`` function and ``state`` object.
 
 .. code-block:: javascript  
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-  ... 
-  send({ value })
-
+  
+  const depositEther = (etherAmount: string) => {
+    send({ value: utils.parseEther(etherAmount) })
+  }
 
 .. code-block:: javascript  
 
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
-  ... 
-  send(utils.parseEther(value))
+  const withdrawEther = (wethAmount: string) => {
+    send(utils.parseEther(wethAmount))
+  }
 
 
 The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether `contract <https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code>`_ respectively.
+Sending Ether uses a extra argument to send given amount of ether while withdrawing passes amount to withdraw as an argument.
 
 
 History
