@@ -3,7 +3,6 @@ import { useAbi } from '../../../../hooks'
 import { CallDisplay } from './CallDisplay'
 
 export interface GeneralizedCall {
-  type?: 'added' | 'removed' | 'updated' | 'persisted'
   address: string
   data: string
   value?: string
@@ -22,7 +21,6 @@ export function Call({ call, network }: Props) {
 
   return (
     <CallDisplay
-      type={call.type}
       name={name}
       address={call.address}
       network={network}

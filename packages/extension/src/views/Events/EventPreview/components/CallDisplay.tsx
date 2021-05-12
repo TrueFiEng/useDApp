@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Colors } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
 import { Address } from './Address'
 import { Table } from './Table'
@@ -9,7 +8,6 @@ import { ValueItem } from './ValueItem'
 import { Method } from './Method'
 
 interface Props {
-  type?: 'added' | 'removed' | 'updated' | 'persisted'
   name: string
   address: string
   network: string | undefined
@@ -22,7 +20,7 @@ interface Props {
 export function CallDisplay(props: Props) {
   const showDiff = !!props.previous || !!props.current
   return (
-    <SmallTable className={props.type}>
+    <SmallTable>
       <Property name="Contract">
         <Address address={props.address} network={props.network} />
       </Property>
@@ -51,41 +49,4 @@ export function CallDisplay(props: Props) {
 const SmallTable = styled(Table)`
   position: relative;
   line-height: 1.25;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2ch;
-    height: 100%;
-  }
-
-  &.added {
-    padding-left: 1ch;
-    &::before {
-      background: linear-gradient(90deg, ${Colors.AddedHighlight} 20%, transparent 100%);
-    }
-  }
-
-  &.removed {
-    padding-left: 1ch;
-    &::before {
-      background: linear-gradient(90deg, ${Colors.RemovedHighlight} 20%, transparent 100%);
-    }
-  }
-
-  &.updated {
-    padding-left: 1ch;
-    &::before {
-      background: linear-gradient(90deg, ${Colors.UpdatedHighlight} 20%, transparent 100%);
-    }
-  }
-
-  &.persisted {
-    padding-left: 1ch;
-    &::before {
-      background: linear-gradient(90deg, ${Colors.PersistedHighlight} 20%, transparent 100%);
-    }
-  }
 `

@@ -23,7 +23,7 @@ export function Badge({ event }: Props) {
       </>
     )
   } else if (event.type === 'STATE_UPDATED') {
-    return <Updated>{event.updated.length}</Updated>
+    return <Bold>{event.updated.length}</Bold>
   } else if (event.type === 'ACCOUNT_CONNECTED') {
     return <Bold>{event.address.substring(0, 6).toLowerCase()}&hellip;</Bold>
   } else if (event.type === 'ERROR' || event.type === 'FETCH_ERROR') {
@@ -66,10 +66,4 @@ const Removed = styled.div`
   ${Added} + & {
     margin-left: -4px;
   }
-`
-
-const Updated = styled.div`
-  font-weight: bold;
-  margin-right: 8px;
-  color: ${Colors.Updated};
 `

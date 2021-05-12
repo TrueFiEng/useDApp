@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import type { StateUpdatedEvent } from '../../../providers/events/State'
-import { Text } from './components'
+import { Text, Title } from './components'
 import { CallList } from './components/CallList'
 
 interface Props {
@@ -13,13 +12,13 @@ export function StateUpdatedPreview({ event }: Props) {
     <>
       {event.updated.length > 0 && (
         <>
-          <Label>Modified state entries</Label>
+          <Title>Modified state entries</Title>
           <CallList calls={event.updated} network={event.network} />
         </>
       )}
       {event.persisted.length > 0 && (
         <>
-          <Label>Persisted state entries</Label>
+          <Title>Persisted state entries</Title>
           <CallList calls={event.persisted} network={event.network} />
         </>
       )}
@@ -27,8 +26,3 @@ export function StateUpdatedPreview({ event }: Props) {
     </>
   )
 }
-
-const Label = styled.p`
-  font-weight: bold;
-  margin: 0 0 15px 0;
-`

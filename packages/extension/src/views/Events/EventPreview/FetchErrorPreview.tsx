@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import type { FetchErrorEvent } from '../../../providers/events/State'
-import { Text } from './components'
+import { Text, Title } from './components'
 import { CallList } from './components/CallList'
 
 interface Props {
@@ -11,15 +10,10 @@ interface Props {
 export function FetchErrorPreview({ event }: Props) {
   return (
     <>
-      <Label>Error</Label>
+      <Title>Error message:</Title>
       <Text>{event.error}</Text>
-      <Label>Calls</Label>
+      <Title>Calls:</Title>
       <CallList calls={event.calls} network={event.network} />
     </>
   )
 }
-
-const Label = styled.p`
-  font-weight: bold;
-  margin: 0 0 15px 0;
-`

@@ -10,11 +10,6 @@ export default {
   component: CallDisplay,
   argTypes: {
     network: NETWORK_ARGTYPE,
-    type: {
-      control: {
-        type: 'select',
-      },
-    },
   },
   args: {
     network: 'Mainnet',
@@ -36,38 +31,6 @@ SimpleCall.args = {
   address: ADDRESS_1,
   name: 'balanceOf',
   data: [{ name: 'owner', type: 'address', value: ADDRESS_2 }],
-}
-
-export const Added = Template.bind({})
-Added.args = {
-  address: ADDRESS_1,
-  name: 'balanceOf',
-  data: [{ name: 'owner', type: 'address', value: ADDRESS_2 }],
-  type: 'added',
-}
-
-export const Removed = Template.bind({})
-Removed.args = {
-  address: ADDRESS_1,
-  name: 'balanceOf',
-  data: [{ name: 'owner', type: 'address', value: ADDRESS_2 }],
-  type: 'removed',
-}
-
-export const Updated = Template.bind({})
-Updated.args = {
-  address: ADDRESS_1,
-  name: 'balanceOf',
-  data: [{ name: 'owner', type: 'address', value: ADDRESS_2 }],
-  type: 'updated',
-}
-
-export const Persisted = Template.bind({})
-Persisted.args = {
-  address: ADDRESS_1,
-  name: 'balanceOf',
-  data: [{ name: 'owner', type: 'address', value: ADDRESS_2 }],
-  type: 'persisted',
 }
 
 export const NoArguments = Template.bind({})
