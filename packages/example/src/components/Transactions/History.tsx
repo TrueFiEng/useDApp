@@ -1,11 +1,5 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import {
-  getExplorerTransactionLink,
-  Notification,
-  StoredTransaction,
-  useNotifications,
-  useTransactions,
-} from '@usedapp/core'
+import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -48,82 +42,11 @@ const DateCell = ({ date, className }: DateProps) => {
   )
 }
 
-interface TransactionNameProps {
-  transactionName: string | undefined
-}
-
-const TransactionName = ({ transactionName }: TransactionNameProps) => {
-  const Icon = transactionName === 'Unwrap' ? UnwrapIcon : WrapIcon
-
-  return (
-    <IconRow>
-      <IconContainer>
-        <Icon />
-      </IconContainer>
-      <TextBold>{transactionName}</TextBold>
-    </IconRow>
-  )
-}
-
-interface TransactionProps {
-  transaction: StoredTransaction
-}
-
-const Transaction = ({ transaction }: TransactionProps) => {
-  return (
-    <TransactionDetailsWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }}>
-      <TransactionName transactionName={transaction.transactionName} />
-      <DateCell date={transaction.submittedAt} />
-    </TransactionDetailsWrapper>
-  )
-}
-
-export const TransactionsList = () => {
-  const { transactions } = useTransactions()
-
-  return (
-    <TableWrapper title="Transactions history">
-      <AnimatePresence initial={false}>
-        {transactions.map((transaction) => (
-          <Transaction transaction={transaction} key={transaction.transaction.hash} />
-        ))}
-      </AnimatePresence>
-    </TableWrapper>
-  )
-}
-
-const notificationContent: { [key in Notification['type']]: { title: string; icon: ReactElement } } = {
-  transactionFailed: { title: 'Transaction failed', icon: <ExclamationIcon /> },
-  transactionStarted: { title: 'Transaction started', icon: <ClockIcon /> },
-  transactionSucceed: { title: 'Transaction succeed', icon: <CheckIcon /> },
-  walletConnected: { title: 'Wallet connected', icon: <WalletIcon /> },
-}
-
-interface NotificationPanelProps {
-  type: Notification['type']
-  transaction?: TransactionResponse
-}
-
-const NotificationPanel = ({ transaction, type }: NotificationPanelProps) => {
-  const notificationDate = Date.now()
-
-  return (
-    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      <NotificationIconContainer>{notificationContent[type].icon}</NotificationIconContainer>
-      <NotificationDetailsWrapper>
-        <TextBold>{notificationContent[type].title}</TextBold>
-        <NotificationLink transaction={transaction} />
-      </NotificationDetailsWrapper>
-      <NotificationDate date={notificationDate} />
-    </NotificationWrapper>
-  )
-}
-
-interface NotificationLinkProps {
+interface TransactionLinkProps {
   transaction: TransactionResponse | undefined
 }
 
-const NotificationLink = ({ transaction }: NotificationLinkProps) => (
+const TransactionLink = ({ transaction }: TransactionLinkProps) => (
   <>
     {transaction && (
       <Link
@@ -140,46 +63,86 @@ const NotificationLink = ({ transaction }: NotificationLinkProps) => (
   </>
 )
 
-interface NotificationItemProps {
-  notification: Notification
+const notificationContent: { [key in Notification['type']]: { title: string; icon: ReactElement } } = {
+  transactionFailed: { title: 'Transaction failed', icon: <ExclamationIcon /> },
+  transactionStarted: { title: 'Transaction started', icon: <ClockIcon /> },
+  transactionSucceed: { title: 'Transaction succeed', icon: <CheckIcon /> },
+  walletConnected: { title: 'Wallet connected', icon: <WalletIcon /> },
 }
 
-const NotificationItem = ({ notification }: NotificationItemProps) => {
-  if ('transaction' in notification) {
-    return <NotificationPanel type={notification.type} transaction={notification.transaction} />
-  } else {
-    return <NotificationPanel type={notification.type} />
-  }
+interface ListElementProps {
+  icon: ReactElement
+  title: string | undefined
+  transaction?: TransactionResponse
 }
 
-export const NotificationsList = () => {
-  const { notifications } = useNotifications()
+const ListElement = ({ transaction, icon, title }: ListElementProps) => {
+  const notificationDate = Date.now()
 
   return (
-    <TableWrapper title="Notifications history">
+    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <NotificationIconContainer>{icon}</NotificationIconContainer>
+      <NotificationDetailsWrapper>
+        <TextBold>{title}</TextBold>
+        <TransactionLink transaction={transaction} />
+      </NotificationDetailsWrapper>
+      <NotificationDate date={notificationDate} />
+    </NotificationWrapper>
+  )
+}
+
+export const TransactionsList = () => {
+  const { transactions } = useTransactions()
+  return (
+    <TableWrapper title="Transactions history">
       <AnimatePresence initial={false}>
-        {notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification} />
+        {transactions.map((transaction) => (
+          <ListElement
+            transaction={transaction.transaction}
+            title={transaction.transactionName}
+            icon={transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />}
+            key={transaction.transaction.hash}
+          />
         ))}
       </AnimatePresence>
     </TableWrapper>
   )
 }
 
-const IconContainer = styled.div`
+export const NotificationsList = () => {
+  const { notifications } = useNotifications()
+  return (
+    <TableWrapper title="Notifications history">
+      <AnimatePresence initial={false}>
+        {notifications.map((notification) => {
+          if ('transaction' in notification)
+            return (
+              <ListElement
+                key={notification.id}
+                icon={notificationContent[notification.type].icon}
+                title={notificationContent[notification.type].title}
+                transaction={notification.transaction}
+              />
+            )
+          else
+            return (
+              <ListElement
+                key={notification.id}
+                icon={notificationContent[notification.type].icon}
+                title={notificationContent[notification.type].title}
+              />
+            )
+        })}
+      </AnimatePresence>
+    </TableWrapper>
+  )
+}
+
+const NotificationIconContainer = styled.div`
   width: 48px;
   height: 48px;
   padding: 12px;
-`
-
-const NotificationIconContainer = styled(IconContainer)`
   padding: 14px 16px 14px 12px;
-`
-
-const TransactionDetailsWrapper = styled(motion.div)`
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
 `
 
 const NotificationWrapper = styled(motion.div)`
@@ -228,11 +191,6 @@ const TitleRow = styled(TextBold)`
   border-bottom: ${Colors.Gray['300']} 1px solid;
   padding: 16px;
   font-size: 18px;
-`
-
-const IconRow = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const DateRow = styled.div`

@@ -3,8 +3,8 @@ import { useEthers } from '@usedapp/core'
 import styled from 'styled-components'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
-import { DepositEth, WithdrawEth } from '../components/Notifications/Forms'
-import { NotificationsList, TransactionsList } from '../components/Notifications/History'
+import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'
+import { NotificationsList, TransactionsList } from '../components/Transactions/History'
 import { Title } from '../typography/Title'
 
 export function Transactions() {
