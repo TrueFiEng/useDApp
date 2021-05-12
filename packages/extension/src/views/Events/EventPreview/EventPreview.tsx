@@ -41,10 +41,10 @@ export function EventPreview({ event }: Props) {
 const Wrapper = styled.div`
   overflow: auto;
   position: absolute;
-  top: 28px;
+  top: 0;
   left: 320px;
   width: calc(100% - 320px);
-  height: calc(100% - 28px);
+  height: 100%;
   padding: 10px;
   border-left: 1px solid ${Colors.Border2};
   line-height: 1.5;

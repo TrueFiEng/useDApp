@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useEvents } from '../../hooks'
 import type { Event } from '../../providers/events/State'
-import { Header } from '../Header'
+import { Page } from '../Page'
 import { EventList } from './EventList/EventList'
 import { EventPreview } from './EventPreview/EventPreview'
 
@@ -15,16 +14,9 @@ export function Events({ onNavigate }: Props) {
   const events = useEvents()
 
   return (
-    <Wrapper>
-      <Header page="events" onChange={onNavigate} />
+    <Page name="events" onNavigate={onNavigate}>
       <EventList events={events} selected={event} onSelect={setEvent} />
       <EventPreview event={event} />
-    </Wrapper>
+    </Page>
   )
 }
-
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`
