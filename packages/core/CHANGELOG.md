@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.18
+
+### Patch Changes
+
+- 42efd99: Expose useConfig as public API
+
 ## 0.3.17
 
 ### Patch Changes

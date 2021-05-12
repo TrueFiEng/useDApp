@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.2.4
+
+### Patch Changes
+
+- 8b28eae: Refactor send transaction example
+- Updated dependencies [42efd99]
+  - @usedapp/core@0.3.18
+
 ## 0.2.3
 
 ### Patch Changes
