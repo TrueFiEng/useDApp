@@ -23,7 +23,7 @@ const HOLDER_ADDRESS = '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B'
 const events: Event[] = [
   {
     type: 'INIT',
-    time: '12:01:13.78',
+    time: '12:01:13.782',
   },
   {
     type: 'NETWORK_CONNECTED',

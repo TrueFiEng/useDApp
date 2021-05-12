@@ -21,14 +21,14 @@ describe('reducer', () => {
       const expected: State = {
         ...INITIAL_STATE,
         initTimestamp: message.timestamp,
-        events: [makeInitEvent('13:14:15.16')],
+        events: [makeInitEvent('13:14:15.167')],
       }
       expect(result).to.deep.equal(expected)
     })
 
     it('correctly formats single digit time', () => {
       const result = stateAfter(makeInitMessage('03:04:05.067'))
-      expect(result.events[0].time).to.equal('03:04:05.06')
+      expect(result.events[0].time).to.equal('03:04:05.067')
     })
 
     it('resets the state', () => {
