@@ -54,10 +54,10 @@ export function EventList({ events, selected, onSelect }: Props) {
 const ListWrapper = styled.div`
   overflow: auto;
   position: absolute;
-  top: 35px;
+  top: 28px;
   left: 0;
   width: 320px;
-  height: calc(100% - 35px);
+  height: calc(100% - 28px);
 `
 
 const List = styled.ol`

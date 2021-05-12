@@ -88,7 +88,7 @@ export const Events: Story = () => (
   <AbiProvider>
     <EventContext.Provider value={events}>
       <GlobalStyle />
-      <EventsComponent />
+      <EventsComponent onNavigate={() => undefined} />
     </EventContext.Provider>
   </AbiProvider>
 )
