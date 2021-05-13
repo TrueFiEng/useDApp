@@ -8,6 +8,7 @@ describe('transactionsReducer', () => {
     const transaction: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
       submittedAt: 10,
+      status: 'transactionMining',
     }
 
     expect(transactionReducer({}, { type: 'ADD_TRANSACTION', payload: transaction })).to.deep.eq({
@@ -19,10 +20,12 @@ describe('transactionsReducer', () => {
     const initial: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
       submittedAt: 10,
+      status: 'transactionMining',
     }
     const added: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
       submittedAt: 30,
+      status: 'transactionMining',
     }
 
     const newState = transactionReducer({ 1: [initial] }, { type: 'ADD_TRANSACTION', payload: added })
@@ -32,9 +35,9 @@ describe('transactionsReducer', () => {
 
   it('update transactions', () => {
     const initialTransactions: StoredTransaction[] = [
-      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 10 },
-      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 15 },
-      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 20 },
+      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 10, status: 'transactionMining' },
+      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 15, status: 'transactionMining' },
+      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 20, status: 'transactionMining' },
     ]
 
     const newTransactions = initialTransactions.map((tx) => ({ ...tx, lastCheckedBlockNumber: 12 }))
