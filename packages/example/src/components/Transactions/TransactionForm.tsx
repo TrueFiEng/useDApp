@@ -43,7 +43,7 @@ const transactionErrored = (transaction: TransactionStatus) => {
 }
 
 const getTransactionErrorMessage = (transaction: TransactionStatus) => {
-  if ('errorMessage' in transaction) return transaction.errorMessage
+  if ('errorMessage' in transaction) return (transaction.errorMessage || '')
   else return ''
 }
 
