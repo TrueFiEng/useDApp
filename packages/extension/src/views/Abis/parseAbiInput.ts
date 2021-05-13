@@ -1,4 +1,4 @@
-import { toAbiEntry } from '../../providers/abi/AbiEntry'
+import { toAbiEntries } from '../../providers/abi/AbiEntry'
 
 export function parseAbiInput(input: string) {
   let parsed
@@ -10,10 +10,5 @@ export function parseAbiInput(input: string) {
       .map((x) => x.trim())
       .filter((x) => x !== '')
   }
-
-  if (Array.isArray(parsed)) {
-    return parsed.map(toAbiEntry)
-  } else {
-    return [toAbiEntry(parsed)]
-  }
+  return toAbiEntries(parsed)
 }

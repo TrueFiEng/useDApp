@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { AbiContext } from '../providers/abi/AbiProvider'
 
-export function useAbiEntries() {
-  const { abiEntries, setAbiEntries } = useContext(AbiContext)
-  return [abiEntries, setAbiEntries] as const
+export function useUserAbis() {
+  const { userAbis, setUserAbis } = useContext(AbiContext)
+  return [userAbis, setUserAbis] as const
 }
 
 export function useAbiParser(selector: string) {
