@@ -1,7 +1,8 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactProvider } from '@web3-react/core'
 import React, { ReactNode, useEffect } from 'react'
-import { useEthers } from '@usedapp/core'
+import { useWeb3React } from '@web3-react/core'
+import { Web3Provider } from '@ethersproject/providers'
 import { MockConnector } from './mockConnector'
 
 export interface MockWeb3WrapperProps {
@@ -10,7 +11,7 @@ export interface MockWeb3WrapperProps {
 }
 
 const WrapperActivation = ({ children, connector }: MockWeb3WrapperProps) => {
-  const { activate, active } = useEthers()
+  const { activate, active } = useWeb3React<Web3Provider>()
 
   useEffect(() => {
     activate(connector ?? new MockConnector(), console.error)

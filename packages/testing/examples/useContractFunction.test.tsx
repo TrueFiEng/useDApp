@@ -1,4 +1,4 @@
-import { useContractFunction } from '@usedapp/core'
+import { ERC20Mock, useContractFunction } from '@usedapp/core'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
@@ -14,7 +14,7 @@ describe('useContractFunction', () => {
   let token: Contract
 
   beforeEach(async () => {
-    token = await deployMockToken(deployer)
+    token = await deployMockToken(deployer, ERC20Mock)
   })
 
   it('success', async () => {
