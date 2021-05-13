@@ -1,6 +1,7 @@
 import React from 'react'
 import type { AccountConnectedEvent } from '../../../providers/events/State'
-import { Property, Table, Text } from './components'
+import { Text } from '../../shared'
+import { Property, Table } from './components'
 import { Address } from './components/Address'
 
 interface Props {

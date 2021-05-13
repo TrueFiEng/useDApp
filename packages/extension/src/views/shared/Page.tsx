@@ -29,4 +29,5 @@ const Container = styled.div`
   left: 0;
   top: 28px;
   height: calc(100% - 28px);
+  overflow: auto;
 `

@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   left: 320px;
   width: calc(100% - 320px);
   height: 100%;
-  padding: 10px;
+  padding: 8px;
   border-left: 1px solid ${Colors.Border2};
   line-height: 1.5;
 `

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEvents } from '../../hooks'
 import type { Event } from '../../providers/events/State'
-import { Page } from '../Page'
+import { Page } from '../shared'
 import { EventList } from './EventList/EventList'
 import { EventPreview } from './EventPreview/EventPreview'
 

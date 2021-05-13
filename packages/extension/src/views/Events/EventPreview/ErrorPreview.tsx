@@ -1,6 +1,7 @@
 import React from 'react'
 import type { ErrorEvent } from '../../../providers/events/State'
-import { Link, Text, Title } from './components'
+import { Link } from './components'
+import { Text, Title } from '../../shared'
 
 interface Props {
   event: ErrorEvent

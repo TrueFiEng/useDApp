@@ -1,6 +1,6 @@
 import React from 'react'
 import type { CallsUpdatedEvent } from '../../../providers/events/State'
-import { Text, Title } from './components'
+import { Text, Title } from '../../shared'
 import { CallList } from './components/CallList'
 
 interface Props {

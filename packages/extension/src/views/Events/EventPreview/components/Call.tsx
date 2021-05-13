@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAbi } from '../../../../hooks'
+import { useAbiParser } from '../../../../hooks'
 import { CallDisplay } from './CallDisplay'
 
 export interface GeneralizedCall {
@@ -17,7 +17,7 @@ interface Props {
 
 export function Call({ call, network }: Props) {
   const selector = getSelector(call.data)
-  const { name, parseCallData, parseCallResult } = useAbi(selector)
+  const { name, parseCallData, parseCallResult } = useAbiParser(selector)
 
   return (
     <CallDisplay

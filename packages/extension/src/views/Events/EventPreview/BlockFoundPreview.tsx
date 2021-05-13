@@ -1,7 +1,8 @@
 import React from 'react'
 import type { BlockFoundEvent } from '../../../providers/events/State'
+import { Text } from '../../shared'
 import { formatInteger } from '../EventItem/formatInteger'
-import { Link, Property, Table, Text } from './components'
+import { Link, Property, Table } from './components'
 
 interface Props {
   event: BlockFoundEvent

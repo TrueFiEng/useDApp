@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link, Text } from './components'
+import { Text } from '../../shared'
+import { Link } from './components'
 
 export function InitializedPreview() {
   return (

@@ -1,6 +1,7 @@
 import React from 'react'
 import type { NetworkConnectedEvent } from '../../../providers/events/State'
-import { Link, Property, Table, Text } from './components'
+import { Text } from '../../shared'
+import { Link, Property, Table } from './components'
 
 interface Props {
   event: NetworkConnectedEvent

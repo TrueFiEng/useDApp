@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react'
-import { Page } from '../Page'
+import { Page } from '../shared'
 
 interface Props {
   onNavigate: (page: string) => void
