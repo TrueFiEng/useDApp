@@ -38,20 +38,6 @@ const StatusBlock = ({ color, text, icon }: StatusBlockProps) => (
   </InformationRow>
 )
 
-const transactionErrored = (transaction: TransactionStatus) => {
-  return 'errorMessage' in transaction
-}
-
-const getTransactionErrorMessage = (transaction: TransactionStatus) => {
-  if ('errorMessage' in transaction) return (transaction.errorMessage || '')
-  else return ''
-}
-
-const getTransactionChainId = (transaction: TransactionStatus) => {
-  if ('chainId' in transaction) return transaction.chainId
-  else return undefined
-}
-
 interface StatusAnimationProps {
   transaction: TransactionStatus
 }
@@ -74,12 +60,12 @@ const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
   return (
     <AnimationWrapper>
       <AnimatePresence initial={false} exitBeforeEnter>
-        {showTransactionStatus && transactionErrored(transaction) && (
+        {showTransactionStatus && transaction.errored && (
           <StatusBlock
             color={Colors.Red['400']}
-            text={getTransactionErrorMessage(transaction)}
+            text={transaction?.errorMessage || ''}
             icon={<ExclamationIcon />}
-            key={getTransactionChainId(transaction) + transaction.status}
+            key={transaction?.chainId + transaction.status}
           />
         )}
         {showTransactionStatus && transaction.status === 'Mining' && (
@@ -87,7 +73,7 @@ const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
             color="black"
             text="Transaction is being mined"
             icon={<SpinnerIcon />}
-            key={getTransactionChainId(transaction) + transaction.status}
+            key={transaction?.chainId + transaction.status}
           />
         )}
         {showTransactionStatus && transaction.status === 'Success' && (
@@ -95,7 +81,7 @@ const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
             color="green"
             text="Transaction successful"
             icon={<CheckIcon />}
-            key={getTransactionChainId(transaction) + transaction.status}
+            key={transaction?.chainId + transaction.status}
           />
         )}
       </AnimatePresence>
