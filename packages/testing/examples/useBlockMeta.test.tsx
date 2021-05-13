@@ -1,10 +1,25 @@
 import { expect } from 'chai'
-import { useBlockMeta } from '@usedapp/core'
-import { renderWeb3Hook, sleep } from '../src'
-
+import { useBlockMeta, BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
+import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions, sleep } from '../src'
+import { MockProvider } from 'ethereum-waffle'
+import React from 'react'
 describe('useBlockMeta', () => {
+  let webHookOptions: renderWeb3HookOptions<{ children: React.ReactNode }>
+
+  beforeEach(async () => {
+    const mockProvider = new MockProvider()
+    const mockConnector = new MockConnector(mockProvider)
+    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
+    const wrapper: React.FC = ({ children }) => (
+      <BlockNumberProvider>
+        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
+      </BlockNumberProvider>
+    )
+    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
+  })
+
   it('retrieves block timestamp and difficulty', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useBlockMeta)
+    const { result, waitForCurrent } = await renderWeb3Hook(useBlockMeta, webHookOptions)
     await waitForCurrent((val) => val?.timestamp !== undefined && val?.difficulty !== undefined)
 
     expect(result.error).to.be.undefined
@@ -13,7 +28,7 @@ describe('useBlockMeta', () => {
   })
 
   it('updates the block timestamp when a transaction gets mined', async () => {
-    const { result, mineBlock, waitForCurrent } = await renderWeb3Hook(useBlockMeta)
+    const { result, mineBlock, waitForCurrent } = await renderWeb3Hook(useBlockMeta, webHookOptions)
     await waitForCurrent((val) => val.timestamp !== undefined && val.difficulty !== undefined)
 
     expect(result.error).to.be.undefined

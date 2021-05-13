@@ -1,8 +1,9 @@
-import { ERC20Mock, useContractFunction } from '@usedapp/core'
+import { ERC20Mock, MultiCall, useContractFunction, BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
-import { renderWeb3Hook } from '../src'
+import React from 'react'
+import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions } from '../src'
 import { contractCallOutOfGasMock } from '../src/mocks'
 import { deployMockToken } from '../src/utils/deployMockToken'
 
@@ -12,15 +13,22 @@ describe('useContractFunction', () => {
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
   let token: Contract
+  let webHookOptions: renderWeb3HookOptions<{ children: React.ReactNode }>
 
   beforeEach(async () => {
     token = await deployMockToken(deployer, ERC20Mock)
+    const mockConnector = new MockConnector(mockProvider)
+    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
+    const wrapper: React.FC = ({ children }) => (
+      <BlockNumberProvider>
+        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
+      </BlockNumberProvider>
+    )
+    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
   })
 
   it('success', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
-      mockProvider,
-    })
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), webHookOptions)
 
     await result.current.send(spender.address, 200)
     await waitForCurrent((val) => val.state !== undefined)
@@ -30,9 +38,7 @@ describe('useContractFunction', () => {
   })
 
   it('exception (bad arguments)', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
-      mockProvider,
-    })
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), webHookOptions)
 
     await result.current.send()
     await waitForCurrent((val) => val.state !== undefined)
@@ -46,9 +52,10 @@ describe('useContractFunction', () => {
   it('fail (when transaction reverts)', async () => {
     const contractMock = contractCallOutOfGasMock
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(contractMock, 'transfer'), {
-      mockProvider,
-    })
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useContractFunction(contractMock, 'transfer'),
+      webHookOptions
+    )
 
     await result.current.send(spender.address, 10)
     await waitForCurrent((val) => val.state !== undefined)

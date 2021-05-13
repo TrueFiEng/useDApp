@@ -1,10 +1,26 @@
 import { expect } from 'chai'
-import { useBlockNumber } from '@usedapp/core'
-import { renderWeb3Hook } from '../src'
+import { useBlockNumber, BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
+import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '../src'
+import React from 'react'
+import { MockProvider } from 'ethereum-waffle'
 
 describe('useBlockNumber', () => {
+  let webHookOptions: renderWeb3HookOptions<{ children: React.ReactNode }>
+
+  beforeEach(async () => {
+    const mockProvider = new MockProvider()
+    const mockConnector = new MockConnector(mockProvider)
+    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
+    const wrapper: React.FC = ({ children }) => (
+      <BlockNumberProvider>
+        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
+      </BlockNumberProvider>
+    )
+    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
+  })
+
   it('retrieves block number', async () => {
-    const { result, waitForCurrentEqual } = await renderWeb3Hook(useBlockNumber)
+    const { result, waitForCurrentEqual } = await renderWeb3Hook(useBlockNumber, webHookOptions)
 
     await waitForCurrentEqual(1)
     expect(result.error).to.be.undefined
@@ -12,7 +28,7 @@ describe('useBlockNumber', () => {
   })
 
   it('updates the block number when a transaction gets mined', async () => {
-    const { result, waitForCurrentEqual, mineBlock } = await renderWeb3Hook(useBlockNumber)
+    const { result, waitForCurrentEqual, mineBlock } = await renderWeb3Hook(useBlockNumber, webHookOptions)
     await waitForCurrentEqual(1)
 
     await mineBlock()
