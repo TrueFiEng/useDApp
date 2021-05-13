@@ -4,7 +4,16 @@ import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
-import { CheckIcon, ClockIcon, ExclamationIcon, ShareIcon, UnwrapIcon, WalletIcon, WrapIcon } from './Icons'
+import {
+  CheckIcon,
+  ClockIcon,
+  ExclamationIcon,
+  ShareIcon,
+  UnwrapIcon,
+  WalletIcon,
+  WrapIcon,
+  SpinnerIcon,
+} from './Icons'
 import { Colors } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -96,14 +105,19 @@ export const TransactionsList = () => {
   return (
     <TableWrapper title="Transactions history">
       <AnimatePresence initial={false}>
-        {transactions.map((transaction) => (
-          <ListElement
-            transaction={transaction.transaction}
-            title={transaction.transactionName}
-            icon={transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />}
-            key={transaction.transaction.hash}
-          />
-        ))}
+        {transactions.map((transaction) => {
+          let icon = transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />
+          if (transaction?.status === 'transactionMining') icon = <SpinnerIcon />
+          if (transaction?.status === 'transactionFailed') icon = <ExclamationIcon />
+          return (
+            <ListElement
+              transaction={transaction.transaction}
+              title={transaction.transactionName}
+              icon={icon}
+              key={transaction.transaction.hash}
+            />
+          )
+        })}
       </AnimatePresence>
     </TableWrapper>
   )
