@@ -6,8 +6,7 @@ describe('AbiParser', () => {
   describe('name', () => {
     const abis = ['function foo(uint) view returns (bool)', 'function bar()']
     const coder = new Interface(abis)
-    const parser = new AbiParser()
-    parser.add(abis)
+    const parser = AbiParser.fromAbis(abis)
 
     it('unknown name', () => {
       const { name } = parser.get('0xAABBCCDD')
@@ -23,21 +22,20 @@ describe('AbiParser', () => {
   describe('call data', () => {
     function encodeAndDecode(abi: string, args: any[]) {
       const coder = new Interface([abi])
-      const parser = new AbiParser()
-      parser.add([abi])
+      const parser = AbiParser.fromAbis([abi])
       const fragment = coder.functions[Object.keys(coder.functions)[0]]
       const data = coder.encodeFunctionData(fragment, args)
       return parser.get(coder.getSighash(fragment)).parseCallData(data)
     }
 
     it('unknown call with no arguments', () => {
-      const { parseCallData } = new AbiParser().get('0x12345678')
+      const { parseCallData } = new AbiParser([]).get('0x12345678')
       const result = parseCallData('0x12345678')
       expect(result).to.deep.equal([])
     })
 
     it('unknown call', () => {
-      const { parseCallData } = new AbiParser().get('0x12345678')
+      const { parseCallData } = new AbiParser([]).get('0x12345678')
       const result = parseCallData('0x12345678aabbcc')
       expect(result).to.deep.equal([
         {
@@ -82,8 +80,7 @@ describe('AbiParser', () => {
     it('treats input as unknown if it does not parse', () => {
       const abi = ['function foo(uint)']
       const coder = new Interface(abi)
-      const parser = new AbiParser()
-      parser.add(abi)
+      const parser = AbiParser.fromAbis(abi)
       const fragment = coder.functions[Object.keys(coder.functions)[0]]
       const selector = coder.getSighash(fragment)
       const data = selector + 'aabbcc'
@@ -318,16 +315,14 @@ describe('AbiParser', () => {
   describe('call result', () => {
     function encodeAndDecode(abi: string, args: any[]) {
       const coder = new Interface([abi])
-      const parser = new AbiParser()
-      parser.add([abi])
+      const parser = AbiParser.fromAbis([abi])
       const fragment = coder.functions[Object.keys(coder.functions)[0]]
       const data = coder.encodeFunctionResult(fragment, args)
       return parser.get(coder.getSighash(fragment)).parseCallResult(data)
     }
 
     it('unknown call result', () => {
-      const parser = new AbiParser()
-      const { parseCallResult } = parser.get('0xAABBCCDD')
+      const { parseCallResult } = new AbiParser([]).get('0xAABBCCDD')
       const result = parseCallResult('0x1A2B3C')
       expect(result).to.deep.equal({
         type: 'bytes',
@@ -337,8 +332,7 @@ describe('AbiParser', () => {
     })
 
     it('unknown empty result', () => {
-      const parser = new AbiParser()
-      const { parseCallResult } = parser.get('0xAABBCCDD')
+      const { parseCallResult } = new AbiParser([]).get('0xAABBCCDD')
       const result = parseCallResult('')
       expect(result).to.deep.equal({
         type: 'bytes',
@@ -398,8 +392,7 @@ describe('AbiParser', () => {
       it('no return value', () => {
         const abi = ['function foo()']
         const coder = new Interface(abi)
-        const parser = new AbiParser()
-        parser.add(abi)
+        const parser = AbiParser.fromAbis(abi)
         const fragment = coder.functions[Object.keys(coder.functions)[0]]
         const data = 'aabbcc'
         const result = parser.get(coder.getSighash(fragment)).parseCallResult(data)
@@ -413,8 +406,7 @@ describe('AbiParser', () => {
       it('invalid return value', () => {
         const abi = ['function foo() returns (bool)']
         const coder = new Interface(abi)
-        const parser = new AbiParser()
-        parser.add(abi)
+        const parser = AbiParser.fromAbis(abi)
         const fragment = coder.functions[Object.keys(coder.functions)[0]]
         const data = 'aabbcc'
         const result = parser.get(coder.getSighash(fragment)).parseCallResult(data)

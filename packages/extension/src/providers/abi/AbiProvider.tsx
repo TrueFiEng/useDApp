@@ -1,16 +1,32 @@
-import React, { createContext, ReactNode, useState } from 'react'
+import React, { createContext, ReactNode, useMemo, useState } from 'react'
+import { AbiEntry, toAbiEntry } from './AbiEntry'
 import { AbiParser } from './AbiParser'
 import { DEFAULT_ABIS } from './defaultAbis'
 
-export const AbiContext = createContext<AbiParser>(new AbiParser())
-const DEFAULT_PARSER = new AbiParser()
-DEFAULT_PARSER.add(DEFAULT_ABIS)
+export interface AbiContextValue {
+  abiEntries: AbiEntry[]
+  setAbiEntries: (entries: AbiEntry[]) => void
+  parser: AbiParser
+}
+export const AbiContext = createContext<AbiContextValue>({
+  abiEntries: [],
+  setAbiEntries: () => undefined,
+  parser: new AbiParser([]),
+})
+const DEFAULT_ENTRIES = DEFAULT_ABIS.map(toAbiEntry)
 
 interface Props {
   children: ReactNode
 }
 
 export function AbiProvider({ children }: Props) {
-  const [parser] = useState(DEFAULT_PARSER)
-  return <AbiContext.Provider value={parser} children={children} />
+  const [abiEntries, setAbiEntries] = useState(DEFAULT_ENTRIES)
+  const value = useMemo(() => {
+    return {
+      abiEntries,
+      setAbiEntries,
+      parser: new AbiParser(abiEntries),
+    }
+  }, [abiEntries, setAbiEntries])
+  return <AbiContext.Provider value={value} children={children} />
 }

@@ -1,5 +1,32 @@
 import type { ParsedValue } from './ParsedValue'
-import { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
+import type { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
+import { AbiEntry, toAbiEntry } from './AbiEntry'
+
+export class AbiParser {
+  private cache: Record<string, CallParser> = {}
+
+  static fromAbis(abis: any[]) {
+    return new AbiParser(abis.map(toAbiEntry))
+  }
+
+  constructor(abis: AbiEntry[]) {
+    for (const abi of abis) {
+      this.cache[normalizeHex(abi.selector)] = makeCallParser(abi.coder, abi.fragment)
+    }
+  }
+
+  get(selector: string): CallParser {
+    const key = normalizeHex(selector)
+    if (this.cache[key]) {
+      return this.cache[key]
+    }
+    return {
+      name: key,
+      parseCallData: parseUnknownCallData,
+      parseCallResult: parseUnknownCallResult,
+    }
+  }
+}
 
 interface CallParser {
   name: string
@@ -92,37 +119,4 @@ function normalizeHex(value: string) {
     return value.substring(2).toLowerCase()
   }
   return value.toLowerCase()
-}
-
-export class AbiParser {
-  private cache: Record<string, CallParser> = {}
-
-  get(selector: string): CallParser {
-    const key = normalizeHex(selector)
-    if (this.cache[key]) {
-      return this.cache[key]
-    }
-    return {
-      name: key,
-      parseCallData: parseUnknownCallData,
-      parseCallResult: parseUnknownCallResult,
-    }
-  }
-
-  add(abis: any[]) {
-    for (const abi of abis) {
-      const coder = new Interface([abi])
-      const fragment = coder.functions[Object.keys(coder.functions)[0]]
-      if (fragment) {
-        const selector = normalizeHex(coder.getSighash(fragment))
-        this.cache[selector] = makeCallParser(coder, fragment)
-      }
-    }
-  }
-
-  clone() {
-    const clone = new AbiParser()
-    clone.cache = this.cache
-    return clone
-  }
 }
