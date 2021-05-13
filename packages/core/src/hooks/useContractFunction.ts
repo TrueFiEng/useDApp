@@ -1,39 +1,11 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
 import { useState } from 'react'
-import { ChainId } from '../constants'
+import { TransactionStatus } from '../model/TransactionStatus'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
-
-export type TransactionStatus =
-  | {
-      status: 'None'
-    }
-  | {
-      status: 'Mining'
-      chainId: ChainId
-      transaction: TransactionResponse
-    }
-  | {
-      status: 'Success'
-      chainId: ChainId
-      transaction: TransactionResponse
-      receipt: TransactionReceipt
-    }
-  | {
-      status: 'Fail'
-      transaction: TransactionResponse
-      receipt: TransactionReceipt
-      chainId: ChainId
-      errorMessage: string
-    }
-  | {
-      status: 'Exception'
-      chainId: ChainId
-      errorMessage: string
-    }
 
 interface Options {
   signer?: Signer
