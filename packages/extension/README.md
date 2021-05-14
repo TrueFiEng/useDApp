@@ -1,10 +1,43 @@
 # useDApp DevTools
 
+![Events screen](./screenshots/events.png)
+![ABIs screen](./screenshots/abis.png)
+![NameTags screen](./screenshots/nameTags.png)
+
+## Features
+
+1. Look at what is happening in useDapp under the hood
+2. Explore calls that are parsed into human readable form
+3. Add custom ABIs
+4. Add custom address name tags
+
+## Installing the extension (before it is released through stores)
+
+First build the source code:
+
+1. Clone the repository
+2. `yarn` - install dependencies
+3. `cd packages/extension` - navigate to the extension folder
+4. `yarn build` - build the source
+
+Firefox:
+
+1. Go to `about:debugging#/runtime/this-firefox`
+2. Click `Temporary Extensions` > `Load Temporary Add-on`
+3. Open `packages/extension/build/manifest.json`
+
+Chrome:
+
+1. Go to `chrome://extensions/`
+2. Toggle `Developer mode`
+3. Click `Load unpacked`
+4. Open `packages/extension/build`
+
 ## Developing the extension
 
 Because getting the extension in the correct state for development can be hard the recommended way to develop the UI is through Storybook. To open the app in storybook run `yarn storybook`. You will be presented with a view of stories. Each story presents a component in a unique and interactive way. This means that you can create a story that represents a traditionally hard to reach UI state and develop that state easily.
 
-To create new stories create a `ComponentName.stories.tsx` file in the source code. This file is development only and won't be included in the production bundle. To learn more about how to write stories read the Storybook documentation.
+To create new stories create a `.stories.tsx` file in the source code. This file is development only and won't be included in the production bundle. To learn more about how to write stories read the Storybook documentation.
 
 ## Extension technical details
 
