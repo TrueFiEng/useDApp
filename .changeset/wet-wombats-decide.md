@@ -3,4 +3,4 @@
 "@usedapp/example": patch
 ---
 
-Move TransactionStatus to model
+Set TransactionStatus as interface and move it to model

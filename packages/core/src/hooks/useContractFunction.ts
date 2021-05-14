@@ -29,7 +29,7 @@ export function connectContractToSigner(contract: Contract, options?: Options, l
 }
 
 export function useContractFunction(contract: Contract, functionName: string, options?: Options) {
-  const [state, setState] = useState<TransactionStatus>({ status: 'None', errored: false })
+  const [state, setState] = useState<TransactionStatus>({ status: 'None' })
   const { addTransaction } = useTransactionsContext()
   const { library, chainId } = useEthers()
 
@@ -44,7 +44,7 @@ export function useContractFunction(contract: Contract, functionName: string, op
 
     try {
       transaction = await contractWithSigner[functionName](...args)
-      setState({ transaction, status: 'Mining', errored: false, chainId })
+      setState({ transaction, status: 'Mining', chainId })
       addTransaction({
         transaction,
         submittedAt: Date.now(),
@@ -52,13 +52,13 @@ export function useContractFunction(contract: Contract, functionName: string, op
       })
 
       const receipt = await transaction.wait()
-      setState({ receipt, transaction, status: 'Success', chainId, errored: false })
+      setState({ receipt, transaction, status: 'Success', chainId })
     } catch (e) {
       const errorMessage = e.reason ?? e.message
       if (transaction) {
-        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId, errored: true })
+        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
       } else {
-        setState({ status: 'Exception', errorMessage, chainId, errored: true })
+        setState({ status: 'Exception', errorMessage, chainId })
       }
     }
   }

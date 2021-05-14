@@ -1,5 +1,5 @@
 import { formatEther } from '@ethersproject/units'
-import { TransactionStatus, useEthers } from '@usedapp/core'
+import { TransactionStatus, useEthers, transactionErrored } from '@usedapp/core'
 import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -60,7 +60,7 @@ const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
   return (
     <AnimationWrapper>
       <AnimatePresence initial={false} exitBeforeEnter>
-        {showTransactionStatus && transaction.errored && (
+        {showTransactionStatus && transactionErrored(transaction) && (
           <StatusBlock
             color={Colors.Red['400']}
             text={transaction?.errorMessage || ''}
