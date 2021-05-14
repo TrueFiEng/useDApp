@@ -2,21 +2,21 @@ import React from 'react'
 import type { Story, Meta } from '@storybook/react'
 
 import { GlobalStyle } from '../../providers/GlobalStyle'
-import { Labels as LabelsComponent } from '../../views/Labels/Labels'
+import { NameTags as NameTagsComponent } from '../../views/NameTags/NameTags'
 
 export default {
-  title: 'Pages/Labels',
+  title: 'Pages/Name Tags',
   parameters: {
     layout: 'fullscreen',
   },
 } as Meta
 
-export const Labels: Story = () => (
+export const NameTags: Story = () => (
   <>
     <GlobalStyle />
-    <LabelsComponent onNavigate={() => undefined} />
+    <NameTagsComponent onNavigate={() => undefined} />
   </>
 )
-Labels.parameters = {
+NameTags.parameters = {
   controls: { hideNoControlsWarning: true },
 }

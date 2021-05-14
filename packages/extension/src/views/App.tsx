@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Abis } from './Abis/Abis'
 import { Events } from './Events/Events'
-import { Labels } from './Labels/Labels'
+import { NameTags } from './NameTags/NameTags'
 
 export function App() {
   const [page, setPage] = useState('events')
@@ -9,8 +9,8 @@ export function App() {
     return <Events onNavigate={setPage} />
   } else if (page === 'abis') {
     return <Abis onNavigate={setPage} />
-  } else if (page === 'labels') {
-    return <Labels onNavigate={setPage} />
+  } else if (page === 'nameTags') {
+    return <NameTags onNavigate={setPage} />
   }
   return null
 }

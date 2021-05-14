@@ -16,8 +16,8 @@ export function Header({ page, onChange }: Props) {
       <Button onClick={() => onChange('abis')} className={page === 'abis' ? 'active' : ''}>
         ABIs
       </Button>
-      <Button onClick={() => onChange('labels')} className={page === 'labels' ? 'active' : ''}>
-        Labels
+      <Button onClick={() => onChange('nameTags')} className={page === 'nameTags' ? 'active' : ''}>
+        Name Tags
       </Button>
     </Wrapper>
   )

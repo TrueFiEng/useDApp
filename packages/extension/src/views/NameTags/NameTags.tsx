@@ -5,10 +5,10 @@ interface Props {
   onNavigate: (page: string) => void
 }
 
-export function Labels({ onNavigate }: Props) {
+export function NameTags({ onNavigate }: Props) {
   return (
-    <Page name="labels" onNavigate={onNavigate}>
-      Labels
+    <Page name="nameTags" onNavigate={onNavigate}>
+      Name Tags
     </Page>
   )
 }
