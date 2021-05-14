@@ -1,7 +1,7 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useState, useMemo } from 'react'
 import { useNameTags } from '../../hooks'
 import { Page, Text, Title } from '../shared'
-import { isAddress } from '@ethersproject/address'
+import { isAddress, getAddress } from '@ethersproject/address'
 import { SubmitButton } from '../shared/SubmitButton'
 import styled from 'styled-components'
 import { Colors, Font } from '../../design'
@@ -37,10 +37,16 @@ export function NameTags({ onNavigate }: Props) {
     setNameTags(nameTags.filter((x, index) => index !== i))
   }
 
-  const displayed = nameTags.map((tag, i) => ({
-    ...tag,
-    shadowed: nameTags.some((x, j) => j > i && x.address === tag.address),
-  }))
+  const displayed = useMemo(
+    () =>
+      nameTags
+        .map((tag) => ({ ...tag, address: getAddress(tag.address) }))
+        .map((tag, i, array) => ({
+          ...tag,
+          shadowed: array.some((x, j) => j > i && x.address === tag.address),
+        })),
+    [nameTags]
+  )
 
   return (
     <Page name="nameTags" onNavigate={onNavigate}>

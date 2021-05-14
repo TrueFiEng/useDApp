@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Colors, Font } from '../../../../design'
 import { getAddress } from '@ethersproject/address'
+import { useNameTag } from '../../../../hooks'
 
 interface Props {
   address: string
@@ -9,12 +10,17 @@ interface Props {
 }
 
 export function Address({ address, network }: Props) {
+  const nameTag = useNameTag(address)
   const formatted = formatAddress(address)
   const url = getExplorerUrl(formatted, network)
+
   return (
     <Link href={url} target="_blank" rel="noopener noreferrer">
+      {nameTag && <Name>{nameTag}</Name>}
+      {nameTag && <Paren> (</Paren>}
       <Shorten>{formatted.substring(0, 38)}</Shorten>
       <End>{formatted.substring(38)}</End>
+      {nameTag && <Paren>)</Paren>}
     </Link>
   )
 }
@@ -27,6 +33,16 @@ function formatAddress(address: string) {
     return lower
   }
 }
+
+const Name = styled.span`
+  color: ${Colors.Text};
+  font-style: italic;
+  margin-right: 1ch;
+`
+
+const Paren = styled.span`
+  color: ${Colors.Text};
+`
 
 const Link = styled.a`
   color: ${Colors.Link};

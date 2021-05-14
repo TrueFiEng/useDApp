@@ -23,11 +23,11 @@ interface Props {
 export function NameTagsProvider({ children }: Props) {
   const [nameTags, setNameTags] = useState<NameTag[]>([])
   const value = useMemo(() => {
-    const map = new Map(nameTags.map((tag) => [tag.address, tag.name]))
+    const map = new Map(nameTags.map((tag) => [tag.address.toLowerCase(), tag.name]))
     return {
       nameTags,
       setNameTags,
-      getNameTag: (address: string) => map.get(address),
+      getNameTag: (address: string) => map.get(address.toLowerCase()),
     }
   }, [nameTags, setNameTags])
   return <NameTagsContext.Provider value={value} children={children} />

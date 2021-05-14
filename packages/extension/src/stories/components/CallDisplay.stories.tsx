@@ -4,6 +4,7 @@ import type { Story, Meta } from '@storybook/react'
 import { CallDisplay } from '../../views/Events/EventPreview/components/CallDisplay'
 import { GlobalStyle } from '../../providers/GlobalStyle'
 import { NETWORK_ARGTYPE } from '../args'
+import { NameTagsContext } from '../../providers/nameTags/NameTagsProvider'
 
 export default {
   title: 'Components/CallDisplay',
@@ -18,12 +19,19 @@ export default {
 
 const ADDRESS_1 = '0x1a2b000000000000000000000000000000003c4d'
 const ADDRESS_2 = '0xf420000000000000000000000000000000002137'
+const ADDRESS_3 = '0x5678000000000000000000000000000000009abc'
 
 const Template: Story<ComponentProps<typeof CallDisplay>> = (args) => (
-  <>
+  <NameTagsContext.Provider
+    value={{
+      nameTags: [],
+      setNameTags: () => undefined,
+      getNameTag: (a) => (a === ADDRESS_3 ? 'Uncle Joe' : undefined),
+    }}
+  >
     <GlobalStyle />
     <CallDisplay {...args} />
-  </>
+  </NameTagsContext.Provider>
 )
 
 export const SimpleCall = Template.bind({})
@@ -60,6 +68,7 @@ BasicTypes.args = {
   name: 'example',
   data: [
     { type: 'address', name: 'address', value: ADDRESS_2 },
+    { type: 'address', name: 'known address', value: ADDRESS_3 },
     { type: 'number', name: 'number', value: '13370000000000069420' },
     { type: 'number', name: 'negative', value: '-500100900' },
     { type: 'boolean', name: 'boolean', value: true },
