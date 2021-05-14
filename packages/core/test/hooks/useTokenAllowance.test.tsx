@@ -3,7 +3,7 @@ import { Contract } from '@ethersproject/contracts'
 import { useTokenAllowance, ERC20Mock, BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
-import { renderWeb3Hook, MockConnector, deployMulticall, renderWeb3HookOptions } from '@usedapp/testing'
+import { renderWeb3Hook, createChainStateProviderHookOptions, renderWeb3HookOptions } from '@usedapp/testing'
 import { deployMockToken } from '@usedapp/testing'
 import { utils } from 'ethers'
 import React from 'react'
@@ -18,14 +18,12 @@ describe('useTokenAllowance', () => {
 
   beforeEach(async () => {
     token = await deployMockToken(deployer, ERC20Mock)
-    const mockConnector = new MockConnector(mockProvider)
-    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
-    const wrapper: React.FC = ({ children }) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
+    webHookOptions = await createChainStateProviderHookOptions(
+      BlockNumberProvider,
+      ChainStateProvider,
+      MultiCall,
+      mockProvider
     )
-    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
   })
 
   it('returns 0 when spender is not yet approved', async () => {

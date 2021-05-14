@@ -2,9 +2,8 @@ import { ERC20Interface, connectContractToSigner, useEthers } from '../../src'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
-import { renderWeb3Hook, MockConnector, deployMulticall } from '@usedapp/testing'
+import { renderWeb3Hook, createChainStateProviderHookOptions } from '@usedapp/testing'
 import { BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
-import React from 'react'
 chai.use(solidity)
 
 describe('connectContractToSigner', () => {
@@ -35,18 +34,13 @@ describe('connectContractToSigner', () => {
   })
 
   it('takes signer from library', async () => {
-    const mockConnector = new MockConnector(mockProvider)
-    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
-    const wrapper: React.FC = ({ children }) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
+    const webHookOptions = await createChainStateProviderHookOptions(
+      BlockNumberProvider,
+      ChainStateProvider,
+      MultiCall,
+      mockProvider
     )
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useEthers(), {
-      mockProvider,
-      mockConnector,
-      renderHook: { wrapper },
-    })
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useEthers(), webHookOptions)
     await waitForCurrent((val) => val !== undefined)
     const { library } = result.current
 

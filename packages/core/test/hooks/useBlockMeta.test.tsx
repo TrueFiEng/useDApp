@@ -1,22 +1,13 @@
 import { expect } from 'chai'
 import { useBlockMeta, BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
-import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions, sleep } from '@usedapp/testing'
-import { MockProvider } from 'ethereum-waffle'
+import { renderWeb3Hook, renderWeb3HookOptions, sleep, createChainStateProviderHookOptions } from '@usedapp/testing'
 import React from 'react'
 
 describe('useBlockMeta', () => {
   let webHookOptions: renderWeb3HookOptions<{ children: React.ReactNode }>
 
   beforeEach(async () => {
-    const mockProvider = new MockProvider()
-    const mockConnector = new MockConnector(mockProvider)
-    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
-    const wrapper: React.FC = ({ children }) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
-    )
-    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
+    webHookOptions = await createChainStateProviderHookOptions(BlockNumberProvider, ChainStateProvider, MultiCall)
   })
 
   it('retrieves block timestamp and difficulty', async () => {

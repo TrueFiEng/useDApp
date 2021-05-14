@@ -3,7 +3,7 @@ import { Contract } from '@ethersproject/contracts'
 import { useTokenBalance, ERC20Mock, MultiCall, BlockNumberProvider, ChainStateProvider } from '../../src'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
-import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '@usedapp/testing'
+import { renderWeb3Hook, renderWeb3HookOptions, createChainStateProviderHookOptions } from '@usedapp/testing'
 import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '@usedapp/testing'
 import React from 'react'
 
@@ -17,14 +17,12 @@ describe('useTokenBalance', () => {
 
   beforeEach(async () => {
     token = await deployMockToken(deployer, ERC20Mock)
-    const mockConnector = new MockConnector(mockProvider)
-    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
-    const wrapper: React.FC = ({ children }) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
+    webHookOptions = await createChainStateProviderHookOptions(
+      BlockNumberProvider,
+      ChainStateProvider,
+      MultiCall,
+      mockProvider
     )
-    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
   })
 
   it('returns balance', async () => {

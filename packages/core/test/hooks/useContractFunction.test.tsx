@@ -3,7 +3,7 @@ import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import React from 'react'
-import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions } from '@usedapp/testing'
+import { createChainStateProviderHookOptions, renderWeb3Hook, renderWeb3HookOptions } from '@usedapp/testing'
 import { contractCallOutOfGasMock } from '@usedapp/testing'
 import { deployMockToken } from '@usedapp/testing'
 
@@ -17,14 +17,12 @@ describe('useContractFunction', () => {
 
   beforeEach(async () => {
     token = await deployMockToken(deployer, ERC20Mock)
-    const mockConnector = new MockConnector(mockProvider)
-    const multicallAddresses = await deployMulticall(mockProvider, mockConnector, MultiCall)
-    const wrapper: React.FC = ({ children }) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>{children}</ChainStateProvider>
-      </BlockNumberProvider>
+    webHookOptions = await createChainStateProviderHookOptions(
+      BlockNumberProvider,
+      ChainStateProvider,
+      MultiCall,
+      mockProvider
     )
-    webHookOptions = { mockProvider, mockConnector, renderHook: { wrapper } }
   })
 
   it('success', async () => {
