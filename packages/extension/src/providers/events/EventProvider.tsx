@@ -33,7 +33,7 @@ export function EventProvider({ children }: Props) {
   }
 
   function tag(address: string, name: string) {
-    setNameTags((tags) => {
+    setNameTags((tags = []) => {
       if (!tags.some((tag) => tag.address.toLowerCase() === address)) {
         return [...tags, { address, name }]
       } else {

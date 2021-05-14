@@ -1,4 +1,5 @@
-import React, { createContext, ReactNode, useMemo, useState } from 'react'
+import React, { createContext, ReactNode, useMemo } from 'react'
+import { useStorage } from '../../hooks'
 import { AbiEntry, toAbiEntries } from './AbiEntry'
 import { AbiParser } from './AbiParser'
 import { DEFAULT_ABIS } from './defaultAbis'
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export function AbiProvider({ children }: Props) {
-  const [userAbis, setUserAbis] = useState<AbiEntry[]>([])
+  const [userAbis = [], setUserAbis] = useStorage<AbiEntry[]>('userAbis')
   const value = useMemo(() => {
     return {
       userAbis,

@@ -1,4 +1,5 @@
-import React, { createContext, ReactNode, useMemo, useState } from 'react'
+import React, { createContext, ReactNode, useMemo } from 'react'
+import { useStorage } from '../../hooks'
 
 export interface NameTag {
   address: string
@@ -7,7 +8,7 @@ export interface NameTag {
 
 export interface NameTagsContextValue {
   nameTags: NameTag[]
-  setNameTags: React.Dispatch<React.SetStateAction<NameTag[]>>
+  setNameTags: React.Dispatch<React.SetStateAction<NameTag[] | undefined>>
   getNameTag: (address: string) => string | undefined
 }
 export const NameTagsContext = createContext<NameTagsContextValue>({
@@ -21,7 +22,7 @@ interface Props {
 }
 
 export function NameTagsProvider({ children }: Props) {
-  const [nameTags, setNameTags] = useState<NameTag[]>([])
+  const [nameTags = [], setNameTags] = useStorage<NameTag[]>('nameTags')
   const value = useMemo(() => {
     const map = new Map(nameTags.map((tag) => [tag.address.toLowerCase(), tag.name]))
     return {
