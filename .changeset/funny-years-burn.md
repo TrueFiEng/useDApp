@@ -3,4 +3,4 @@
 "@usedapp/example": patch
 ---
 
-Add status to stored transaction
+Add getStoredTransactionState and update example

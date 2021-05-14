@@ -1,5 +1,11 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
+import {
+  getExplorerTransactionLink,
+  Notification,
+  useNotifications,
+  useTransactions,
+  getStoredTransactionState,
+} from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
@@ -107,8 +113,8 @@ export const TransactionsList = () => {
       <AnimatePresence initial={false}>
         {transactions.map((transaction) => {
           let icon = transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />
-          if (transaction?.status === 'transactionMining') icon = <SpinnerIcon />
-          if (transaction?.status === 'transactionFailed') icon = <ExclamationIcon />
+          if (getStoredTransactionState(transaction) === 'Mining') icon = <SpinnerIcon />
+          if (getStoredTransactionState(transaction) === 'Fail') icon = <ExclamationIcon />
           return (
             <ListElement
               transaction={transaction.transaction}

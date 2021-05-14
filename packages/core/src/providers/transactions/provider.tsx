@@ -3,7 +3,7 @@ import { useEthers, useLocalStorage } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, StoredTransactionStatus } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -66,7 +66,7 @@ export function TransactionProvider({ children }: Props) {
               chainId,
             })
 
-            return { ...tx, receipt, status: type as StoredTransactionStatus }
+            return { ...tx, receipt }
           } else {
             return { ...tx, lastCheckedBlockNumber: blockNumber }
           }

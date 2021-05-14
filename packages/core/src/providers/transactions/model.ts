@@ -1,15 +1,17 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { ChainId } from '../../constants'
 
-export type StoredTransactionStatus = 'transactionMining' | 'transactionFailed' | 'transactionSucceed'
-
 export interface StoredTransaction {
   transaction: TransactionResponse
   submittedAt: number
-  status: StoredTransactionStatus
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
   transactionName?: string
+}
+
+export function getStoredTransactionState(transaction: StoredTransaction) {
+  if (transaction.receipt) return transaction?.receipt.status === 0 ? 'Fail' : 'Success'
+  return 'Mining'
 }
 
 export type StoredTransactions = {

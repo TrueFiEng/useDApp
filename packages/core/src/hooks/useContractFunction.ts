@@ -47,7 +47,6 @@ export function useContractFunction(contract: Contract, functionName: string, op
       setState({ transaction, status: 'Mining', chainId })
       addTransaction({
         transaction,
-        status: 'transactionMining',
         submittedAt: Date.now(),
         transactionName: options?.transactionName,
       })
