@@ -7,7 +7,7 @@ export interface NameTag {
 
 export interface NameTagsContextValue {
   nameTags: NameTag[]
-  setNameTags: (nameTags: NameTag[]) => void
+  setNameTags: React.Dispatch<React.SetStateAction<NameTag[]>>
   getNameTag: (address: string) => string | undefined
 }
 export const NameTagsContext = createContext<NameTagsContextValue>({
