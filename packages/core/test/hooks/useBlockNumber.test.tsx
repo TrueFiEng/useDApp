@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { useBlockNumber, BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
-import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '../src'
+import { useBlockNumber, BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
+import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '@usedapp/testing'
 import React from 'react'
 import { MockProvider } from 'ethereum-waffle'
 

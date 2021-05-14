@@ -1,10 +1,9 @@
-import { ERC20Interface, connectContractToSigner, useEthers } from '@usedapp/core'
+import { ERC20Interface, connectContractToSigner, useEthers } from '../../src'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
-import { renderWeb3Hook } from '../src'
-import { BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
-import { MockConnector, deployMulticall } from '../src'
+import { renderWeb3Hook, MockConnector, deployMulticall } from '@usedapp/testing'
+import { BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
 import React from 'react'
 chai.use(solidity)
 

@@ -1,11 +1,11 @@
-import { ERC20Mock, MultiCall, useContractFunction, BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
+import { ERC20Mock, MultiCall, useContractFunction, BlockNumberProvider, ChainStateProvider } from '../../src'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import React from 'react'
-import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions } from '../src'
-import { contractCallOutOfGasMock } from '../src/mocks'
-import { deployMockToken } from '../src/utils/deployMockToken'
+import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions } from '@usedapp/testing'
+import { contractCallOutOfGasMock } from '@usedapp/testing'
+import { deployMockToken } from '@usedapp/testing'
 
 chai.use(solidity)
 

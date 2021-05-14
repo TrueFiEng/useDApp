@@ -1,10 +1,10 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useTokenBalance, ERC20Mock, MultiCall, BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
+import { useTokenBalance, ERC20Mock, MultiCall, BlockNumberProvider, ChainStateProvider } from '../../src'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
-import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '../src'
-import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
+import { renderWeb3Hook, renderWeb3HookOptions, MockConnector, deployMulticall } from '@usedapp/testing'
+import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '@usedapp/testing'
 import React from 'react'
 
 chai.use(solidity)

@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { useBlockMeta, BlockNumberProvider, ChainStateProvider, MultiCall } from '@usedapp/core'
-import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions, sleep } from '../src'
+import { useBlockMeta, BlockNumberProvider, ChainStateProvider, MultiCall } from '../../src'
+import { deployMulticall, MockConnector, renderWeb3Hook, renderWeb3HookOptions, sleep } from '@usedapp/testing'
 import { MockProvider } from 'ethereum-waffle'
 import React from 'react'
+
 describe('useBlockMeta', () => {
   let webHookOptions: renderWeb3HookOptions<{ children: React.ReactNode }>
 
