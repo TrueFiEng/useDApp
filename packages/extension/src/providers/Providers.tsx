@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { EventProvider } from './events/EventProvider'
 import { AbiProvider } from './abi/AbiProvider'
 import { GlobalStyle } from './GlobalStyle'
+import { NameTagsProvider } from './nameTags/NameTagsProvider'
 
 interface Props {
   children: ReactNode
@@ -9,11 +10,13 @@ interface Props {
 
 export function Providers({ children }: Props) {
   return (
-    <EventProvider>
-      <AbiProvider>
-        <GlobalStyle />
-        {children}
-      </AbiProvider>
-    </EventProvider>
+    <NameTagsProvider>
+      <EventProvider>
+        <AbiProvider>
+          <GlobalStyle />
+          {children}
+        </AbiProvider>
+      </EventProvider>
+    </NameTagsProvider>
   )
 }

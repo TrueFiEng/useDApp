@@ -5,6 +5,7 @@ import { useUserAbis } from '../../hooks'
 import type { AbiEntry } from '../../providers/abi/AbiEntry'
 import { DEFAULT_ENTRIES } from '../../providers/abi/AbiProvider'
 import { Page, Text } from '../shared'
+import { SubmitButton } from '../shared/SubmitButton'
 import { parseAbiInput } from './parseAbiInput'
 
 interface Props {
@@ -112,30 +113,6 @@ const Controls = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-`
-
-const SubmitButton = styled.input`
-  position: relative;
-  top: 0;
-  border: 1px solid ${Colors.Border2};
-  border-radius: 4px;
-  box-shadow: 0 4px 0 0 ${Colors.Border2};
-  margin-bottom: 4px;
-  background-color: ${Colors.Background2};
-  cursor: pointer;
-  padding: 4px 8px;
-  font-family: inherit;
-  font-size: inherit;
-  transition: box-shadow 0.1s ease-out, top 0.1s ease-out;
-
-  &:hover {
-    background-color: ${Colors.Background};
-  }
-
-  &:active {
-    top: 3px;
-    box-shadow: 0 1px 0 0 ${Colors.Border2};
-  }
 `
 
 const ErrorMessage = styled.div`
