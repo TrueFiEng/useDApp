@@ -137,7 +137,7 @@ Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for
 
   export function TokenBalance() {
     const { account } = useEthers()
-    const tokenBalance = useTokenBalance(account, DAI)
+    const tokenBalance = useTokenBalance(DAI, account)
 
     return (
       <div>
