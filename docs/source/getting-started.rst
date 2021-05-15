@@ -141,7 +141,7 @@ Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for
 
     return (
       <div>
-        {tokenBalance && <p>Balance: {formatUnits(tokenBalance as any, 18)}</p>}
+        {tokenBalance && <p>Balance: {formatUnits(tokenBalance, 18)}</p>}
       </div>
     )
   }
