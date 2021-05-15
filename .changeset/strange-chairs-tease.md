@@ -3,4 +3,4 @@
 "@usedapp/testing": patch
 ---
 
-Add useSendTransaction tests and hook
+Add useSendTransaction, refactor useContractFunction
