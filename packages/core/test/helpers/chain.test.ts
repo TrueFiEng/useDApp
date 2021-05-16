@@ -66,7 +66,7 @@ describe('Chain helpers', () => {
       'https://goerli.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.BSC)).to.eq(
-      'https://bscscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
+      'https://bscscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.xDai)).to.eq(
       'https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
