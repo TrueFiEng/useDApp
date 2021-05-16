@@ -10,7 +10,7 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Rinkeby,
     ChainId.Ropsten,
     ChainId.BSC,
-    ChainId.xDai
+    ChainId.xDai,
   ],
   notifications: {
     checkInterval: 500,
