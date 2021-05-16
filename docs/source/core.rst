@@ -456,7 +456,7 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, xDai``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai``
 
 
 Helpers
@@ -655,5 +655,3 @@ Throws an error if address can't be parsed.
   address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
   compareAddress(address1, address2)
   // TypeError("Invalid input, address can't be parsed")
-
-
