@@ -1,5 +1,16 @@
 # @usedapp/example
 
+## 0.2.4
+
+### Patch Changes
+
+- 8b28eae: Refactor send transaction example
+- 111acee: Set TransactionStatus as interface and move it to model
+- Updated dependencies [42efd99]
+- Updated dependencies [21f59f6]
+- Updated dependencies [111acee]
+  - @usedapp/core@0.3.18
+
 ## 0.2.3
 
 ### Patch Changes
