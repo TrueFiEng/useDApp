@@ -114,7 +114,11 @@ function TransactionIcon(transaction: StoredTransaction) {
     return <ExclamationIcon />
   } else if (transaction.transactionName === 'Unwrap') {
     return <UnwrapIcon />
-  } else return <WrapIcon />
+  } else if (transaction.transactionName === 'Wrap') {
+    return <WrapIcon />
+  } else {
+    return <CheckIcon />
+  }
 }
 
 export const TransactionsList = () => {
