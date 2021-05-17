@@ -2,4 +2,4 @@
 "@usedapp/example": patch
 ---
 
-Add example
+Add useSendTransaction to example
