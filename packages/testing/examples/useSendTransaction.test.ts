@@ -14,7 +14,7 @@ describe('useSendTransaction', () => {
     const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
-    await result.current.sendTransaction({ to: await receiver.getAddress(), value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -31,7 +31,7 @@ describe('useSendTransaction', () => {
       mockProvider,
     })
 
-    await result.current.sendTransaction({ to: await secondReceiver.getAddress(), value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: secondReceiver.address, value: BigNumber.from(10) })
     await waitForCurrent((val) => val.state != undefined)
     expect(result.current.state.status).to.eq('Success')
     expect(await secondReceiver.getBalance()).to.eq(secondReceiverBalance.add(10))
