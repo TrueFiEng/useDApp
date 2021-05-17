@@ -108,10 +108,13 @@ const ListElement = ({ transaction, icon, title }: ListElementProps) => {
 }
 
 function TransactionIcon(transaction: StoredTransaction) {
-  if (getStoredTransactionState(transaction) === 'Mining') return <SpinnerIcon />
-  else if (getStoredTransactionState(transaction) === 'Fail') return <ExclamationIcon />
-  else if (transaction.transactionName === 'Unwrap') return <UnwrapIcon />
-  else return <WrapIcon />
+  if (getStoredTransactionState(transaction) === 'Mining') {
+    return <SpinnerIcon />
+  } else if (getStoredTransactionState(transaction) === 'Fail') {
+    return <ExclamationIcon />
+  } else if (transaction.transactionName === 'Unwrap') {
+    return <UnwrapIcon />
+  } else return <WrapIcon />
 }
 
 export const TransactionsList = () => {
