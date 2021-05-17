@@ -124,17 +124,7 @@ useContractFunction
 ===================
 Hook returns an object with two variables: ``state`` and ``send``.
 
-The former represents the state of transaction. Transaction state always contains ``status``, which can be one of the following:
-
-- **None** - before a transaction is created.
-- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
-- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
-
-Additionally all states except ``None``, contain ``chainId: ChainId``.
-
-Change in ``state`` will update the component so you can use it in useEffect.
+The former represents the state of transaction. See `TransactionStatus`_.
 
 To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
@@ -447,8 +437,41 @@ The ``CurrencyValue`` class represents a value tied to a currency. The methods i
 - ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
 - ``isZero()`` - returns true if the value is zero.
 
+.. _TransactionStatus:
+
+TransactionStatus
+=================
+
+Represents a state of a single transaction.
+
+Fields: 
+
+- ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
+
+- ``transaction?: TransactionResponse`` - optional field. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+- ``receipt?: TransactionReceipt`` - optional field. See `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
+
+- ``chainId?: ChainId`` - optional field. See `chainId`_.
+
+- ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
+
+Transaction state can be one of the following:
+
+- **None** - before a transaction is created.
+- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
+- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+
+Additionally all states except ``None``, contain ``chainId: ChainId``.
+
+Change in ``state`` will update the component so you can use it in useEffect.
+
 Constants
 *********
+
+.. _chainId:
 
 ChainId
 =======
@@ -592,6 +615,15 @@ Returns empty string if no address is provided.
 
   shortenIfAddress("i'm not an address")
   // TypeError("Invalid input, address can't be parsed")
+
+transactionErrored
+==================
+
+Returns true if transaction has error or was thrown
+
+**Parameters**
+
+- ``transaction: TransactionStatus`` - transaction to check.
 
 compareAddress
 ==============
