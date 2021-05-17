@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/example",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",

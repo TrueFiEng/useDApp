@@ -1,5 +1,14 @@
 # @usedapp/example
 
+## 0.2.5
+
+### Patch Changes
+
+- 9d4fcca: Add getStoredTransactionState and update example
+- Updated dependencies [9d4fcca]
+- Updated dependencies [75b6ea8]
+  - @usedapp/core@0.3.19
+
 ## 0.2.4
 
 ### Patch Changes

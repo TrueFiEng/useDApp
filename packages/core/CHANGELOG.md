@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.3.19
+
+### Patch Changes
+
+- 9d4fcca: Add getStoredTransactionState and update example
+- 75b6ea8: Add useSendTransaction, refactor useContractFunction
+
 ## 0.3.18
 
 ### Patch Changes
