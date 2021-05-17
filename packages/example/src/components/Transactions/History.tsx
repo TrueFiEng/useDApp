@@ -1,10 +1,26 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
+import {
+  getExplorerTransactionLink,
+  Notification,
+  useNotifications,
+  useTransactions,
+  getStoredTransactionState,
+  StoredTransaction,
+} from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
-import { CheckIcon, ClockIcon, ExclamationIcon, ShareIcon, UnwrapIcon, WalletIcon, WrapIcon } from './Icons'
+import {
+  CheckIcon,
+  ClockIcon,
+  ExclamationIcon,
+  ShareIcon,
+  UnwrapIcon,
+  WalletIcon,
+  WrapIcon,
+  SpinnerIcon,
+} from './Icons'
 import { Colors } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -91,6 +107,16 @@ const ListElement = ({ transaction, icon, title }: ListElementProps) => {
   )
 }
 
+function TransactionIcon(transaction: StoredTransaction) {
+  if (getStoredTransactionState(transaction) === 'Mining') {
+    return <SpinnerIcon />
+  } else if (getStoredTransactionState(transaction) === 'Fail') {
+    return <ExclamationIcon />
+  } else if (transaction.transactionName === 'Unwrap') {
+    return <UnwrapIcon />
+  } else return <WrapIcon />
+}
+
 export const TransactionsList = () => {
   const { transactions } = useTransactions()
   return (
@@ -100,7 +126,7 @@ export const TransactionsList = () => {
           <ListElement
             transaction={transaction.transaction}
             title={transaction.transactionName}
-            icon={transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />}
+            icon={TransactionIcon(transaction)}
             key={transaction.transaction.hash}
           />
         ))}
