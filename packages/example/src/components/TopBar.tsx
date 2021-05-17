@@ -28,13 +28,13 @@ export function TopBar() {
               {' '}
               Tokens{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/transactions">
-              {' '}
-              Transactions{' '}
-            </HeaderLink>
             <HeaderLink activeClassName="active-page" to="/send">
               {' '}
               Send Ether{' '}
+            </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/transactions">
+              {' '}
+              Transactions{' '}
             </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
