@@ -9,7 +9,7 @@ describe('useSendTransaction', () => {
   const [spender, receiver, secondReceiver] = mockProvider.getWallets()
 
   it('success', async () => {
-    const spenderBalance = await receiver.getBalance()
+    const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
     const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
