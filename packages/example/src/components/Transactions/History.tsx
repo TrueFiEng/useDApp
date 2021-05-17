@@ -5,6 +5,7 @@ import {
   useNotifications,
   useTransactions,
   getStoredTransactionState,
+  StoredTransaction,
 } from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
@@ -106,24 +107,26 @@ const ListElement = ({ transaction, icon, title }: ListElementProps) => {
   )
 }
 
+function TransactionIcon(transaction: StoredTransaction) {
+  if (getStoredTransactionState(transaction) === 'Mining') return <SpinnerIcon />
+  else if (getStoredTransactionState(transaction) === 'Fail') return <ExclamationIcon />
+  else if (transaction.transactionName === 'Unwrap') return <UnwrapIcon />
+  else return <WrapIcon />
+}
+
 export const TransactionsList = () => {
   const { transactions } = useTransactions()
   return (
     <TableWrapper title="Transactions history">
       <AnimatePresence initial={false}>
-        {transactions.map((transaction) => {
-          let icon = transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />
-          if (getStoredTransactionState(transaction) === 'Mining') icon = <SpinnerIcon />
-          if (getStoredTransactionState(transaction) === 'Fail') icon = <ExclamationIcon />
-          return (
-            <ListElement
-              transaction={transaction.transaction}
-              title={transaction.transactionName}
-              icon={icon}
-              key={transaction.transaction.hash}
-            />
-          )
-        })}
+        {transactions.map((transaction) => (
+          <ListElement
+            transaction={transaction.transaction}
+            title={transaction.transactionName}
+            icon={TransactionIcon(transaction)}
+            key={transaction.transaction.hash}
+          />
+        ))}
       </AnimatePresence>
     </TableWrapper>
   )
