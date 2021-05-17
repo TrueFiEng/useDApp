@@ -32,6 +32,10 @@ export function TopBar() {
               {' '}
               Transactions{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/send">
+              {' '}
+              Send Ether{' '}
+            </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
       </HeaderContainer>
