@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/styled-components": "^5.1.7",
     "@uniswap/default-token-list": "^2.0.0",
-    "@usedapp/core": "*",
+    "@usedapp/core": "^0.3.19",
     "file-loader": "^6.2.0",
     "framer-motion": "^4.1.5",
     "react": "^17.0.0",
