@@ -128,7 +128,7 @@ The former represents the status of transaction. See `TransactionStatus`_.
 
 To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
-Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#Contract-functionsCall>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
 
 **Parameters**
 

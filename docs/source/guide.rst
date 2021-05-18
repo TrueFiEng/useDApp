@@ -284,14 +284,60 @@ Then we can check if our result is correct. ``result.current`` is a value return
 Transactions
 ************
 
-Sending
-=======
+Sending transaction
+===================
 
-Example is available `here <https://example.usedapp.io/transactions>`_.
+Example is available `here <https://example.usedapp.io/send>`_.
 
-To send transaction use :ref:`useContractFunction-label` hook.
+Sending transactions is really simple with useDApp. All we need to send a simple transaction,
+is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` function and ``state`` object.
 
-Start by declaring variables.
+**Example**
+
+Simply call a hook in a component. Like this:
+
+.. code-block:: javascript  
+
+  const { sendTransaction, state } = useSendTransaction()
+
+Then when you want to send a transaction, call sendTransaction for example in a button callback.
+Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
+
+.. code-block:: javascript  
+
+  const handleClick = () => {
+    setDisabled(true)
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
+
+
+After that you can use state to check the state of your transtaction. State is of type :ref:`TransactionStatus`.
+And you can use it to for example enable and clear components when transaction is done mining:
+
+.. code-block:: javascript
+
+    useEffect(() => {
+      if (state.status != 'Mining') {
+        setDisabled(false)
+        setAmount('0')
+        setAddress('')
+      }
+    }, [state])
+
+Executing contract function
+===========================
+
+When you want to execute a writable function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook.
+It works similarly to useSendTransaction, it returns a ``send`` function that we can use to call a contract function and ``state`` object.
+
+To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_. 
+And string ``functionName``.
+
+``send`` function maps 1 to 1 with functions of a contract and also accepts one additional argument of type `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_
+
+**Example**
+
+Start by declaring a contract variable with address of contract you want to call and Abi interface of a contract.
 
 .. code-block:: javascript  
 
@@ -304,8 +350,6 @@ Start by declaring variables.
   const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
   const contract = new Contract(wethContractAddress, wethInterface)
 
-
-``WethAbi`` is a ABI interface of called object.
 
 After that you can use the hook to create ``send`` function and ``state`` object.
 
@@ -327,7 +371,8 @@ After that you can use the hook to create ``send`` function and ``state`` object
 
 
 The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether `contract <https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code>`_ respectively.
-Sending Ether uses a extra argument to send given amount of ether while withdrawing passes amount to withdraw as an argument.
+Deposit function of a contract has no input arguments and instead wraps amount of ether sent to it. To send given amount of ether simply use a ``TransactionOverrides`` object.
+Withdraw function needs amount of ether to withdraw as a input argument.
 
 
 History
