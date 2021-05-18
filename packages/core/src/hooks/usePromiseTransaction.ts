@@ -2,12 +2,14 @@ import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useState } from 'react'
 import { useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
+import { Signer } from 'ethers'
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
   const { addTransaction } = useTransactionsContext()
 
-  const promiseTransaction = async (transactionPromise: Promise<TransactionResponse>) => {
+  const promiseTransaction = async (transactionPromise: Promise<TransactionResponse>,signer:Signer, transactionName?:string) => {
+    const txName = transactionName || options?.transactionName
     if (!chainId) return
     let transaction: TransactionResponse | undefined = undefined
     try {
@@ -17,7 +19,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       addTransaction({
         transaction,
         submittedAt: Date.now(),
-        transactionName: options?.transactionName,
+        transactionName: txName,
+        signer
       })
       const receipt = await transaction.wait()
 
