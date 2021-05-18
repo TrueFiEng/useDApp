@@ -294,13 +294,13 @@ is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` fu
 
 **Example**
 
-Simply call a hook in a component. Like this:
+Simply call a hook in a component.
 
 .. code-block:: javascript  
 
   const { sendTransaction, state } = useSendTransaction()
 
-Then when you want to send a transaction, call sendTransaction for example in a button callback.
+Then when you want to send a transaction, call ``sendTransaction`` for example in a button callback.
 Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
 
 .. code-block:: javascript  
@@ -312,7 +312,7 @@ Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers
 
 
 After that you can use state to check the state of your transtaction. State is of type :ref:`TransactionStatus`.
-And you can use it to for example enable and clear components when transaction is done mining:
+And you can use it to, for example enable and clear components when transaction is done mining:
 
 .. code-block:: javascript
 
@@ -327,8 +327,8 @@ And you can use it to for example enable and clear components when transaction i
 Executing contract function
 ===========================
 
-When you want to execute a writable function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook.
-It works similarly to useSendTransaction, it returns a ``send`` function that we can use to call a contract function and ``state`` object.
+When you want to execute a writable function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook, 
+it works similarly to :ref:`useSendTransaction`. It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
 To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_. 
 And string ``functionName``.
