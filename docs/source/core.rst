@@ -124,7 +124,7 @@ useContractFunction
 ===================
 Hook returns an object with two variables: ``state`` and ``send``.
 
-The former represents the state of transaction. See `TransactionStatus`_.
+The former represents the status of transaction. See `TransactionStatus`_.
 
 To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
@@ -134,7 +134,7 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
 - ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
 - ``functionName: string`` - name of function to call
-- ``options?: Options`` - additional options of type ``Options`` possible options are ``signer?: Signer`` and ``transactionName?: string``
+- ``options?: Options`` - additional options of type `TransactionOptions`_.
 
 **Returns**
 
@@ -156,6 +156,38 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
   const withdrawEther = (wethAmount: string) => {
     send(utils.parseEther(wethAmount))
+  }
+
+.. _useSendTransaction:
+
+useSendTransaction
+==================
+Hook returns an object with two variables: ``state`` and ``sendTransaction``.
+
+The former represents the status of transaction. See `TransactionStatus`_.
+
+To send a transaction use ``sendTransaction`` function returned by ``useSendTransaction``.
+
+Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
+
+**Parameters**
+
+- ``options?: Options`` - additional options of type `TransactionOptions`_.
+
+**Returns**
+
+- ``{ sendTransaction: (...args: any[]) => void, state: TransactionStatus }`` - object with two variables: ``sendTransaction`` and ``state``
+
+**Example**
+
+.. code-block: javascript
+  const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
+
+  const handleClick = () => {
+
+    ...
+
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
   }
 
 useConfig
@@ -436,6 +468,20 @@ The ``CurrencyValue`` class represents a value tied to a currency. The methods i
 - ``gt(other)`` - checks if this value is greater than the other value. The argument must be a CurrencyValue with the same Currency.
 - ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
 - ``isZero()`` - returns true if the value is zero.
+
+.. _TransactionOptions:
+
+TransactionOptions
+==================
+
+Represents a options for sending transactions.
+All fields are optional.
+
+Fields:
+
+- ``signer?: Signer`` - specifies `signer <https://docs.ethers.io/v5/api/signer/#Signer>`_ for a transaction.
+
+- ``transactionName?: string`` - specifies a transaction name.
 
 .. _TransactionStatus:
 
