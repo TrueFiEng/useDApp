@@ -1,6 +1,12 @@
 import { expect } from 'chai'
-import { shortenIfTransactionHash, shortenTransactionHash } from '../../src'
-
+import {
+  shortenIfTransactionHash,
+  shortenTransactionHash,
+  isTransactionSlow,
+  StoredTransaction,
+  TransactionStatus,
+} from '../../src'
+import { TransactionReceipt } from '@ethersproject/providers'
 describe('transactionHelpers', () => {
   describe('shortenTransactionHash', () => {
     it('correct hash', () => {
@@ -42,6 +48,23 @@ describe('transactionHelpers', () => {
       it(description, () => {
         expect(shortenIfTransactionHash(value)).to.eq('')
       })
+    })
+  })
+  describe('isTransactionSlow', () => {
+    it('is slow', () => {
+      const transaction = ({ submittedAt: Date.now() - 17000 } as unknown) as StoredTransaction
+      expect(isTransactionSlow(transaction, 15000)).to.be.eq(true)
+    })
+
+    it('not slow', () => {
+      const transaction = ({ submittedAt: Date.now() - 1000 } as unknown) as StoredTransaction
+      expect(isTransactionSlow(transaction, 15000)).to.be.eq(false)
+    })
+
+    it('already mined', () => {
+      const receipt = ({ status: 1 } as unknown) as TransactionReceipt
+      const transaction = ({ submittedAt: Date.now() - 17000, receipt } as unknown) as StoredTransaction
+      expect(isTransactionSlow(transaction, 15000)).to.be.eq(false)
     })
   })
 })

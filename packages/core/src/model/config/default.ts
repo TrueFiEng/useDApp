@@ -16,4 +16,5 @@ export const DEFAULT_CONFIG: FullConfig = {
     checkInterval: 500,
     expirationPeriod: 5000,
   },
+  slowTransactionThreshold: 15000,
 }

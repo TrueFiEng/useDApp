@@ -9,6 +9,7 @@ export type MulticallAddresses = {
 }
 
 export type FullConfig = {
+  slowTransactionThreshold?: number
   readOnlyChainId?: ChainId
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
