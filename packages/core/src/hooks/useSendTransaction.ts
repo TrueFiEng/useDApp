@@ -10,7 +10,7 @@ export function useSendTransaction(options?: TransactionOptions) {
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      await promiseTransaction(signer.sendTransaction(transactionRequest),signer)
+      await promiseTransaction(signer.sendTransaction(transactionRequest), signer)
     }
   }
 

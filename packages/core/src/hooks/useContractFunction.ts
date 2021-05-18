@@ -26,7 +26,7 @@ export function useContractFunction(contract: Contract, functionName: string, op
 
   const send = async (...args: any[]) => {
     const contractWithSigner = connectContractToSigner(contract, options, library)
-    await promiseTransaction(contractWithSigner[functionName](...args),contractWithSigner.signer)
+    await promiseTransaction(contractWithSigner[functionName](...args), contractWithSigner.signer)
   }
 
   return { send, state }
