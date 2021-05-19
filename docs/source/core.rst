@@ -481,7 +481,7 @@ Fields:
 
 - ``signer?: Signer`` - specifies `signer <https://docs.ethers.io/v5/api/signer/#Signer>`_ for a transaction.
 
-- ``transactionName?: string`` - specifies a transaction name.
+- ``transactionName?: string`` - specifies a transaction name. Used by notifications and history hooks.
 
 .. _TransactionStatus:
 
@@ -502,7 +502,7 @@ Fields:
 
 - ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
 
-Transaction state can be one of the following:
+``status`` can be one of the following:
 
 - **None** - before a transaction is created.
 - **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
@@ -665,7 +665,7 @@ Returns empty string if no address is provided.
 transactionErrored
 ==================
 
-Returns true if transaction has error or was thrown
+Returns true if transaction failed or had an exception
 
 **Parameters**
 

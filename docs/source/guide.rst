@@ -302,6 +302,7 @@ Simply call a hook in a component.
 
 Then when you want to send a transaction, call ``sendTransaction`` for example in a button callback.
 Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
+In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining). 
 
 .. code-block:: javascript  
 
@@ -312,7 +313,7 @@ Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers
 
 
 After that you can use state to check the state of your transtaction. State is of type :ref:`TransactionStatus`.
-And you can use it to, for example enable and clear components when transaction is done mining:
+Example below clears inputs and enables all disabled components back:
 
 .. code-block:: javascript
 
@@ -327,17 +328,17 @@ And you can use it to, for example enable and clear components when transaction 
 Executing contract function
 ===========================
 
-When you want to execute a writable function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook, 
+To send a transaction that executes a function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook, 
 it works similarly to :ref:`useSendTransaction`. It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
 To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_. 
-And string ``functionName``.
+And a string ``functionName``.
 
-``send`` function maps 1 to 1 with functions of a contract and also accepts one additional argument of type `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_
+``send`` function maps arguments 1 to 1 with functions of a contract and also accepts one additional argument of type `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_
 
 **Example**
 
-Start by declaring a contract variable with address of contract you want to call and Abi interface of a contract.
+Start by declaring a contract variable with address of contract you want to call and ABI interface of a contract.
 
 .. code-block:: javascript  
 
