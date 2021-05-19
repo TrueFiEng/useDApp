@@ -47,6 +47,7 @@ describe('useSlowTransaction', () => {
 
     await sleep(300)
     await result.current.sendTransaction({})
+    await sleep(500)
 
     expect(result.current.slowTransactions.length).to.eq(3)
     expect(result.current.slowTransactions[0].hash).to.eq(hashes[0])
@@ -58,6 +59,7 @@ describe('useSlowTransaction', () => {
     result.current.removeTransaction(hashes[1])
     await sleep(300)
     await result.current.sendTransaction({})
+    await sleep(500)
 
     waitForCurrent((val) => val.watchedTransactions.length == 2)
 
