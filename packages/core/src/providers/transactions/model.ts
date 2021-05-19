@@ -1,5 +1,4 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
-import { Signer } from 'ethers'
 import { ChainId } from '../../constants'
 
 export interface StoredTransaction {
@@ -8,7 +7,6 @@ export interface StoredTransaction {
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
   transactionName?: string
-  signer?: Signer
 }
 
 export function getStoredTransactionState(transaction: StoredTransaction) {
