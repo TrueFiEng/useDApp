@@ -21,7 +21,7 @@ export function Transactions() {
             <DepositEth />
             <WithdrawEth />
           </TableGrid>
-            <NotificationsList />
+          <NotificationsList />
         </Section>
       </Container>
     </MainContent>

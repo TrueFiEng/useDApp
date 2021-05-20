@@ -183,26 +183,26 @@ export const NotificationsList = () => {
 }
 
 const NotificationText = styled(TextBold)`
-font-size: 20px;
+  font-size: 20px;
 `
 
 const NotificationWrapper = styled(motion.div)`
-display: flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
 
   box-shadow: 0px 4px 14px rgba(136, 169, 200, 0.3);
   width: 350px;
-  border-radius:10px;
+  border-radius: 10px;
   margin: 15px;
   padding: 10px 20px 10px 20px;
 `
 
 const NotificationsWrapper = styled.div`
-  position:fixed;
+  position: fixed;
   right: 300px;
   right: 50px;
-  top:80px;
-  `
+  top: 80px;
+`
 
 const NotificationIconContainer = styled.div`
   width: 60px;
