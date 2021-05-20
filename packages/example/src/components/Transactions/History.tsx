@@ -21,7 +21,7 @@ import {
   WrapIcon,
   SpinnerIcon,
 } from './Icons'
-import { Colors } from '../../global/styles'
+import { Colors, Shadows } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface TableWrapperProps {
@@ -95,14 +95,14 @@ interface ListElementProps {
 
 const ListElement = ({ transaction, icon, title, date }: ListElementProps) => {
   return (
-    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      <NotificationIconContainer>{icon}</NotificationIconContainer>
-      <NotificationDetailsWrapper>
+    <ListElementWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <ListIconContainer>{icon}</ListIconContainer>
+      <ListDetailsWrapper>
         <TextBold>{title}</TextBold>
         <TransactionLink transaction={transaction} />
-      </NotificationDetailsWrapper>
+      </ListDetailsWrapper>
       <NotificationDate date={date} />
-    </NotificationWrapper>
+    </ListElementWrapper>
   )
 }
 
@@ -139,15 +139,27 @@ export const TransactionsList = () => {
   )
 }
 
+const NotificationElement = ({ transaction, icon, title }: ListElementProps) => {
+  return (
+    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <NotificationIconContainer>{icon}</NotificationIconContainer>
+      <NotificationDetailsWrapper>
+        <NotificationText>{title}</NotificationText>
+        <TransactionLink transaction={transaction} />
+      </NotificationDetailsWrapper>
+    </NotificationWrapper>
+  )
+}
+
 export const NotificationsList = () => {
   const { notifications } = useNotifications()
   return (
-    <TableWrapper title="Notifications history">
+    <NotificationsWrapper>
       <AnimatePresence initial={false}>
         {notifications.map((notification) => {
           if ('transaction' in notification)
             return (
-              <ListElement
+              <NotificationElement
                 key={notification.id}
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
@@ -157,7 +169,7 @@ export const NotificationsList = () => {
             )
           else
             return (
-              <ListElement
+              <NotificationElement
                 key={notification.id}
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
@@ -166,23 +178,58 @@ export const NotificationsList = () => {
             )
         })}
       </AnimatePresence>
-    </TableWrapper>
+    </NotificationsWrapper>
   )
 }
 
+const NotificationText = styled(TextBold)`
+font-size: 20px;
+`
+
+const NotificationWrapper = styled(motion.div)`
+display: flex;
+  align-items:center;
+
+  box-shadow: 0px 4px 14px rgba(136, 169, 200, 0.3);
+  width: 350px;
+  border-radius:10px;
+  margin: 15px;
+  padding: 10px 20px 10px 20px;
+`
+
+const NotificationsWrapper = styled.div`
+  position:fixed;
+  right: 300px;
+  right: 50px;
+  top:80px;
+  `
+
 const NotificationIconContainer = styled.div`
+  width: 60px;
+  height: 60px;
+  padding: 0px;
+  margin-right: 20px;
+`
+
+const ListIconContainer = styled.div`
   width: 48px;
   height: 48px;
   padding: 12px;
   padding: 14px 16px 14px 12px;
 `
 
-const NotificationWrapper = styled(motion.div)`
+const ListElementWrapper = styled(motion.div)`
   display: flex;
   justify-content: space-between;
 `
 
 const NotificationDetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+`
+
+const ListDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;

@@ -18,9 +18,7 @@ export const SendEtherPage = () => {
             <AccountButton />
           </SectionRow>
           <SendEthForm />
-          <TableGrid>
-            <NotificationsList />
-          </TableGrid>
+          <NotificationsList />
         </Section>
       </Container>
     </MainContent>
