@@ -1,28 +1,24 @@
 import React from 'react'
 import { MainContent, Container, Section, SectionRow } from '../components/base/base'
-import { Button } from '../components/base/Button'
-import { useEthers } from '@usedapp/core'
 import { Title } from '../typography/Title'
 import { TransactionsList, NotificationsList } from '../components/Transactions/History'
 import styled from 'styled-components'
 
+import { AccountButton } from '../components/account/AccountButton'
+
 import { SendEthForm } from '../components/SendEthForm/SendEthForm'
 
 export const SendEtherPage = () => {
-  const { account, deactivate, activateBrowserWallet } = useEthers()
-
   return (
     <MainContent>
       <Container>
         <Section>
           <SectionRow>
             <Title>Send Ether</Title>
-            {account && <Button onClick={deactivate}>Disconnect</Button>}
-            {!account && <Button onClick={activateBrowserWallet}>Connect</Button>}
+            <AccountButton />
           </SectionRow>
           <SendEthForm />
           <TableGrid>
-            <TransactionsList />
             <NotificationsList />
           </TableGrid>
         </Section>
