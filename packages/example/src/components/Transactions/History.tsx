@@ -90,11 +90,10 @@ interface ListElementProps {
   icon: ReactElement
   title: string | undefined
   transaction?: TransactionResponse
+  date: number
 }
 
-const ListElement = ({ transaction, icon, title }: ListElementProps) => {
-  const notificationDate = Date.now()
-
+const ListElement = ({ transaction, icon, title, date }: ListElementProps) => {
   return (
     <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
       <NotificationIconContainer>{icon}</NotificationIconContainer>
@@ -102,7 +101,7 @@ const ListElement = ({ transaction, icon, title }: ListElementProps) => {
         <TextBold>{title}</TextBold>
         <TransactionLink transaction={transaction} />
       </NotificationDetailsWrapper>
-      <NotificationDate date={notificationDate} />
+      <NotificationDate date={date} />
     </NotificationWrapper>
   )
 }
@@ -132,6 +131,7 @@ export const TransactionsList = () => {
             title={transaction.transactionName}
             icon={TransactionIcon(transaction)}
             key={transaction.transaction.hash}
+            date={transaction.submittedAt}
           />
         ))}
       </AnimatePresence>
@@ -152,6 +152,7 @@ export const NotificationsList = () => {
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
                 transaction={notification.transaction}
+                date={Date.now()}
               />
             )
           else
@@ -160,6 +161,7 @@ export const NotificationsList = () => {
                 key={notification.id}
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
+                date={Date.now()}
               />
             )
         })}

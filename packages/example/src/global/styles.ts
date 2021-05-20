@@ -10,6 +10,7 @@ export const Colors = {
   White: '#ffffff',
   Yellow: {
     500: '#F2C94C',
+    200: '#fff9e6',
     100: '#FFF4D4',
   },
   Red: { 400: '#F87171' },
