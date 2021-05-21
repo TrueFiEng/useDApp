@@ -6,6 +6,7 @@ import {
   useTransactions,
   getStoredTransactionState,
   StoredTransaction,
+  shortenTransactionHash,
 } from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
@@ -23,11 +24,21 @@ import {
 } from './Icons'
 import { Colors, Shadows } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
+import { formatEther } from '@ethersproject/units'
+import { BigNumber } from 'ethers'
 
 interface TableWrapperProps {
   children: ReactNode
   title: string
 }
+
+const formatter = new Intl.NumberFormat('en-us', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 3,
+})
+
+const formatBalance = (balance: BigNumber | undefined) =>
+  formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
   <SmallContentBlock>
@@ -146,7 +157,11 @@ const NotificationElement = ({ transaction, icon, title }: ListElementProps) => 
       <NotificationDetailsWrapper>
         <NotificationText>{title}</NotificationText>
         <TransactionLink transaction={transaction} />
+        <TransactionDetails>
+          {transaction && `${shortenTransactionHash(transaction?.hash)} #${transaction.nonce}`}
+        </TransactionDetails>
       </NotificationDetailsWrapper>
+      {transaction && <div style={{ marginLeft: 'auto' }}>- {formatBalance(transaction.value)} ETH</div>}
     </NotificationWrapper>
   )
 }
@@ -184,14 +199,19 @@ export const NotificationsList = () => {
 
 const NotificationText = styled(TextBold)`
   font-size: 20px;
+  margin-bottom: 5px;
+`
+
+const TransactionDetails = styled.div`
+  font-size: 14px;
 `
 
 const NotificationWrapper = styled(motion.div)`
   display: flex;
   align-items: center;
-
-  box-shadow: 0px 4px 14px rgba(136, 169, 200, 0.3);
-  width: 350px;
+  background-color: ${Colors.White};
+  box-shadow: ${Shadows.notification};
+  width: 395px;
   border-radius: 10px;
   margin: 15px;
   padding: 10px 20px 10px 20px;
@@ -200,7 +220,7 @@ const NotificationWrapper = styled(motion.div)`
 const NotificationsWrapper = styled.div`
   position: fixed;
   right: 300px;
-  right: 50px;
+  right: 5px;
   top: 80px;
 `
 
@@ -253,6 +273,7 @@ const LinkIconWrapper = styled.div`
 `
 
 const Link = styled.a`
+  margin-bottom: 5px;
   display: flex;
   font-size: 12px;
   text-decoration: underline;
