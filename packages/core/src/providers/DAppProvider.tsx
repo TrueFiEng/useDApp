@@ -9,26 +9,6 @@ import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
-import { InjectedConnector } from '@web3-react/injected-connector'
-import { useEthers } from '..'
-
-function LoginProvider() {
-  const { activate } = useEthers()
-  const { supportedChains } = useConfig()
-
-  const eagerConnect = async () => {
-    const injected = new InjectedConnector({ supportedChainIds: supportedChains })
-    if (await injected.isAuthorized()) {
-      activate(injected)
-    }
-  }
-
-  useEffect(() => {
-    eagerConnect()
-  }, [])
-
-  return null
-}
 
 interface DAppProviderProps {
   children: ReactNode
@@ -57,7 +37,6 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
           <NotificationsProvider>
             <TransactionProvider>
-              <LoginProvider />
               {children}
             </TransactionProvider>
           </NotificationsProvider>
