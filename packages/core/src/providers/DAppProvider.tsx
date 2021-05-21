@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { MULTICALL_ADDRESSES } from '../constants'
 import { Config } from '../model/config/Config'
 import { ConfigProvider } from '../providers/config/provider'
@@ -9,6 +9,26 @@ import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
 import { TransactionProvider } from './transactions/provider'
+import { InjectedConnector } from '@web3-react/injected-connector'
+import { useEthers } from '..'
+
+function LoginProvider() {
+  const { activate } = useEthers()
+  const { supportedChains } = useConfig()
+
+  const eagerConnect = async () => {
+    const injected = new InjectedConnector({ supportedChainIds: supportedChains })
+    if (await injected.isAuthorized()) {
+      activate(injected)
+    }
+  }
+
+  useEffect(() => {
+    eagerConnect()
+  }, [])
+
+  return null
+}
 
 interface DAppProviderProps {
   children: ReactNode
@@ -38,7 +58,10 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         )}
         <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
           <NotificationsProvider>
-            <TransactionProvider>{children}</TransactionProvider>
+            <TransactionProvider>
+              <LoginProvider />
+              {children}
+            </TransactionProvider>
           </NotificationsProvider>
         </ChainStateProvider>
       </BlockNumberProvider>
