@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { MULTICALL_ADDRESSES } from '../constants'
 import { Config } from '../model/config/Config'
 import { ConfigProvider } from '../providers/config/provider'
@@ -36,9 +36,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         <NetworkActivator />
         <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
           <NotificationsProvider>
-            <TransactionProvider>
-              {children}
-            </TransactionProvider>
+            <TransactionProvider>{children}</TransactionProvider>
           </NotificationsProvider>
         </ChainStateProvider>
       </BlockNumberProvider>
