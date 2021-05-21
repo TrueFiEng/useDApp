@@ -33,9 +33,7 @@ export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
 
   const memoReturn = useMemo(
     () =>
-      call && result != '0x' && result !== undefined
-        ? (call.abi.decodeFunctionResult(call.method, result) as any[])
-        : undefined,
+      call && result != '0x' && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined,
     [result]
   )
 
@@ -49,8 +47,7 @@ export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
 }
 
 export function useContractCalls(calls: ContractCall[]): (any[] | undefined)[] {
-  const filteredCalls = calls.map((call) => resolveCallData(call)).filter((call) => call) as ChainCall[]
-  const results = useChainCalls(filteredCalls)
+  const results = useChainCalls(calls.map((call) => resolveCallData(call)))
 
   return useMemo(
     () =>
