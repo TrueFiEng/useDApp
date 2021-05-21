@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useEthers } from '@usedapp/core'
+import { useEthers, shortenAddress } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
 import styled from 'styled-components'
@@ -15,9 +15,7 @@ export const AccountButton = () => {
       {showModal && <AccountModal setShowModal={setShowModal} />}
       {account ? (
         <Account>
-          <AccountLabel onClick={() => setShowModal(!showModal)}>
-            {account.slice(0, 6)}...{account.slice(-4)}
-          </AccountLabel>
+          <AccountLabel onClick={() => setShowModal(!showModal)}>{shortenAddress(account)}</AccountLabel>
           <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
         </Account>
       ) : (
