@@ -7,7 +7,7 @@ import { ChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
 import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
-import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
+import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 
 interface DAppProviderProps {
@@ -28,14 +28,12 @@ interface WithConfigProps {
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses, readOnlyChainId, readOnlyUrls } = useConfig()
+  const { multicallAddresses } = useConfig()
   const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
   return (
     <EthersProvider>
       <BlockNumberProvider>
-        {readOnlyChainId && readOnlyUrls && (
-          <ReadOnlyProviderActivator readOnlyChainId={readOnlyChainId} readOnlyUrls={readOnlyUrls} />
-        )}
+        <NetworkActivator />
         <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
           <NotificationsProvider>
             <TransactionProvider>{children}</TransactionProvider>
