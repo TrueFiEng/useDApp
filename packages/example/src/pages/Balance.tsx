@@ -1,6 +1,6 @@
 import React from 'react'
 import { formatEther } from '@ethersproject/units'
-import { useEtherBalance, useEthers } from '@usedapp/core'
+import { useEtherBalance, useEthers, useTokenPrice } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
@@ -14,6 +14,7 @@ export function Balance() {
   const { account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
+  const etherePrice = useTokenPrice('ethereum', 'usd')
 
   return (
     <MainContent>
@@ -38,6 +39,11 @@ export function Balance() {
             {userBalance && (
               <ContentRow>
                 <Label>Ether balance:</Label> <TextInline>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
+              </ContentRow>
+            )}
+            {etherePrice && (
+              <ContentRow>
+                <Label>Ether price:</Label> <Label>$</Label><TextInline>{etherePrice}</TextInline>
               </ContentRow>
             )}
           </ContentBlock>
