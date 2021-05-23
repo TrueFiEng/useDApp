@@ -5,15 +5,17 @@ import { ChainStateContext } from './context'
 import { chainStateReducer } from './chainStateReducer'
 import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
+import { ChainId } from '../../constants'
 
 interface Props {
+  setupMulticall?: (chainId: ChainId) => void
   children: ReactNode
   multicallAddresses: {
     [chainId: number]: string
   }
 }
 
-export function ChainStateProvider({ children, multicallAddresses }: Props) {
+export function ChainStateProvider({ children, multicallAddresses, setupMulticall }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
@@ -41,6 +43,9 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   useEffect(() => {
     if (library && blockNumber !== undefined && chainId !== undefined) {
       if (!multicallAddress) {
+        if (setupMulticall !== undefined && [ChainId.Localhost, ChainId.Hardhat].indexOf(chainId) >= 0) {
+          setupMulticall(chainId)
+        }
         console.error(`Missing multicall address for chain id ${chainId}`)
         return
       }
