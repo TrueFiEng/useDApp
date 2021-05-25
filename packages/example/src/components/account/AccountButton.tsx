@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEthers, shortenAddress } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
@@ -7,11 +7,24 @@ import styled from 'styled-components'
 import { AccountModal } from './AccountModal'
 
 export const AccountButton = () => {
-  const { account, deactivate, activateBrowserWallet } = useEthers()
+  const { account, deactivate, activateBrowserWallet, error } = useEthers()
   const [showModal, setShowModal] = useState(false)
+  const [activateError, setActivateError] = useState('')
+
+  useEffect(() => {
+    if (error) {
+      setActivateError(error.message)
+    }
+  }, [error])
+
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
 
   return (
     <Account>
+      <ErrorWrapper>{activateError}</ErrorWrapper>
       {showModal && <AccountModal setShowModal={setShowModal} />}
       {account ? (
         <Account>
@@ -19,11 +32,18 @@ export const AccountButton = () => {
           <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
         </Account>
       ) : (
-        <LoginButton onClick={() => activateBrowserWallet()}>Connect</LoginButton>
+        <LoginButton onClick={activate}>Connect</LoginButton>
       )}
     </Account>
   )
 }
+
+const ErrorWrapper = styled.div`
+  color: red;
+  margin-right: 40px;
+  margin-left: 40px;
+  overflow: auto;
+`
 
 const Account = styled.div`
   display: flex;
