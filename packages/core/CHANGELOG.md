@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.21
+
+### Patch Changes
+
+- 0ae62a3: Bump ethers to version 5.2.0
+
 ## 0.3.20
 
 ### Patch Changes
