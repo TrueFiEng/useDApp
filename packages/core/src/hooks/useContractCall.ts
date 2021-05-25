@@ -19,6 +19,14 @@ function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
   }
 }
 
+function decodeCallData(result: string | Falsy, call: ContractCall | Falsy) {
+  if (result === '0x') {
+    warnOnInvalidContractCall(call)
+    return undefined
+  }
+  return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
+}
+
 export interface ContractCall {
   abi: Interface
   address: string
@@ -33,16 +41,5 @@ export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
 export function useContractCalls(calls: (ContractCall | Falsy)[]): (any[] | undefined)[] {
   const results = useChainCalls(calls.map(encodeCallData))
 
-  return useMemo(
-    () =>
-      results.map((result, idx) => {
-        const call = calls[idx]
-        if (result === '0x') {
-          warnOnInvalidContractCall(call)
-          return undefined
-        }
-        return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
-      }),
-    [results]
-  )
+  return useMemo(() => results.map((result, idx) => decodeCallData(result, calls[idx])), [results])
 }
