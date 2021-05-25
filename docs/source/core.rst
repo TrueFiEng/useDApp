@@ -610,9 +610,9 @@ Returns if a given chain is a testnet.
 
 .. code-block:: javascript
 
-  isTestChain(ChainId.Mainnet) // true
-  isTestChain(ChainId.Ropsten) // false
-  isTestChain(ChainId.xDai)    // true
+  isTestChain(ChainId.Mainnet) // false
+  isTestChain(ChainId.Ropsten) // true
+  isTestChain(ChainId.xDai)    // false
 
 shortenAddress
 ==============
