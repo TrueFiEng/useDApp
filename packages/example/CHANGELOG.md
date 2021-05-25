@@ -1,5 +1,18 @@
 # @usedapp/example
 
+## 0.2.6
+
+### Patch Changes
+
+- a98363d: Change transaction history to modal
+- a087bdf: Add wallet activation error handling
+- d01e07f: Change notifications to popups
+- 3536be0: Add useSendTransaction to example
+- Updated dependencies [b369774]
+- Updated dependencies [a087bdf]
+- Updated dependencies [2757d13]
+  - @usedapp/core@0.3.20
+
 ## 0.2.5
 
 ### Patch Changes

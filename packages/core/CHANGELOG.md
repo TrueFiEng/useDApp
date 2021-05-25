@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.3.20
+
+### Patch Changes
+
+- b369774: Add persisting connection, rename ReadOnlyProviderActivator
+- a087bdf: Add wallet activation error handling
+- 2757d13: Fix useContractCall hook order
+
 ## 0.3.19
 
 ### Patch Changes
