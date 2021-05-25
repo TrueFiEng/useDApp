@@ -379,7 +379,9 @@ Withdraw function needs amount of ether to withdraw as a input argument.
 History
 =======
 
-To access history of transaction sent by useDApp, use :ref:`useTransactions` hook.
+See :ref:`useTransactions`
+
+To access history of transactions, use ``useTransactions`` hook.
 
 .. code-block:: javascript
 

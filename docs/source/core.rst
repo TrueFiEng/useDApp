@@ -416,7 +416,8 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
 useTransactions
 ===============
 
-``useTransactions`` hook returns a list ``transactions`` of transactions sent from useDApp.
+``useTransactions`` hook returns a list ``transactions``. This list contains 
+all transactions that were sent using ``useContractFunction`` and ``useSendTransaction``.
 Transactions are stored in local storage and the status is rechecked on every new block. 
 
 Each transaction has following type:
