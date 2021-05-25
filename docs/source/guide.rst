@@ -379,78 +379,81 @@ Withdraw function needs amount of ether to withdraw as a input argument.
 History
 =======
 
-To access list of user's transactions (with all statuses) use ``useTransactions`` hook.
-Transactions are stored in local storage and the status is rechecked on every new block. 
+See :ref:`useTransactions`
 
-Take a look at example usage below:
+To access history of transactions, use ``useTransactions`` hook.
 
 .. code-block:: javascript
 
   const { transactions } = useTransactions()
 
+``transactions`` is an array so you can use ``transactions.map(...)`` to display all of 
+transactions.
 
-Transaction has following type:
+For example:
 
 .. code-block:: javascript
 
-  export interface StoredTransaction {
-    transaction: TransactionResponse
-    submittedAt: number
-    receipt?: TransactionReceipt
-    lastCheckedBlockNumber?: number
-    transactionName?: string
-  }
+  {transactions.map((transaction) => (
+          <ListElement
+            transaction={transaction.transaction}
+            title={transaction.transactionName}
+            icon={TransactionIcon(transaction)}
+            key={transaction.transaction.hash}
+            date={transaction.submittedAt}
+          />
+        ))}
 
+``ListElement`` is a react function that displays information about single transaction.
 
 
 Notifications
 =============
 
-Additonally, you can access notifications via ``useNotifications`` hook. 
-Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+See :ref:`useNotifications`.
 
-Take a look at example usage below:
+To use notifications in your app simply call:
 
 .. code-block:: javascript
 
   const { notifications } = useNotifications()
 
+After that you can use ``notifications`` as an array.
+Notifications are automatically removed from array after time 
+declared in config.notifications.expirationPeriod.
 
-``notifications`` are arrays of ``NotificationPayload``. Each can be one of the following:
+In react you can simply use ``notifications.map(...)`` to display them.
 
-.. code-block:: javascript
-
-  { 
-    type: 'walletConnected'; 
-    address: string 
-  }
+For example : 
 
 .. code-block:: javascript
 
-  { 
-    type: 'transactionStarted'; 
-    submittedAt: number
-    transaction: TransactionResponse; 
-    transactionName?: string 
-  }
+  {notifications.map((notification) => {
+    if ('transaction' in notification)
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          transaction={notification.transaction}
+          date={Date.now()}
+        />
+      )
+    else
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          date={Date.now()}
+        />
+      )
+  })}
 
-.. code-block:: javascript
-
-  {
-    type: 'transactionSucceed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
-  }
-
-.. code-block:: javascript
-  
-  {
-    type: 'transactionFailed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
-  }
+``NotificationElement`` is a react function that renders a single notification.
+``notificationContent`` is an object that holds information about what title and icon to show.
+You have to remember that object in ``notifications`` array may not contain transaction field
+ (that's why there is if statement).
 
 
 Handling wallet activation errrors

@@ -297,7 +297,65 @@ Returns connection state and functions that allow to manipulate the state.
 useMulticallAddress
 ===================
 
+.. _useNotifications:
 
+useNotifications
+================
+
+``useNotifications`` is a hook that is used to access notifications.
+Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+
+To use this hook call:
+
+.. code-block:: javascript
+
+  const { notifications } = useNotifications()
+
+
+``notifications`` is an array of ``NotificationPayload``.
+
+Each notification is removed from ``notifications`` after time declared in 
+config.notifications.expirationPeriod
+
+Each can be one of the following:
+
+.. code-block:: javascript
+
+  { 
+    type: 'walletConnected'; 
+    address: string 
+  }
+
+.. code-block:: javascript
+
+  { 
+    type: 'transactionStarted'; 
+    submittedAt: number
+    transaction: TransactionResponse; 
+    transactionName?: string 
+  }
+
+.. code-block:: javascript
+
+  {
+    type: 'transactionSucceed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+.. code-block:: javascript
+  
+  {
+    type: 'transactionFailed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
 useTokenBalance
 ===============
@@ -352,6 +410,31 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   return (
     {allowance && <p>Remaining allowance: {formatUnits(allowance, 18)} tokens</p>}
   )
+
+.. _useTransactions:
+
+useTransactions
+===============
+
+``useTransactions`` hook returns a list ``transactions``. This list contains 
+all transactions that were sent using ``useContractFunction`` and ``useSendTransaction``.
+Transactions are stored in local storage and the status is rechecked on every new block. 
+
+Each transaction has following type:
+
+.. code-block:: javascript
+
+  export interface StoredTransaction {
+    transaction: TransactionResponse
+    submittedAt: number
+    receipt?: TransactionReceipt
+    lastCheckedBlockNumber?: number
+    transactionName?: string
+  }
+
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
 Models
 ******
