@@ -297,7 +297,61 @@ Returns connection state and functions that allow to manipulate the state.
 useMulticallAddress
 ===================
 
+.. _useNotifications:
 
+useNotifications
+================
+
+``useNotifications`` is a hook that is used to access notifications.
+Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+
+To use this hook call:
+
+.. code-block:: javascript
+
+  const { notifications } = useNotifications()
+
+
+``notifications`` is an array of ``NotificationPayload``.
+
+Each notification is removed from ``notifications`` after time declared in 
+config.notifications.expirationPeriod
+
+Each can be one of the following:
+
+.. code-block:: javascript
+
+  { 
+    type: 'walletConnected'; 
+    address: string 
+  }
+
+.. code-block:: javascript
+
+  { 
+    type: 'transactionStarted'; 
+    submittedAt: number
+    transaction: TransactionResponse; 
+    transactionName?: string 
+  }
+
+.. code-block:: javascript
+
+  {
+    type: 'transactionSucceed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+.. code-block:: javascript
+  
+  {
+    type: 'transactionFailed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
 
 useTokenBalance
 ===============

@@ -406,52 +406,48 @@ Transaction has following type:
 Notifications
 =============
 
-Additonally, you can access notifications via ``useNotifications`` hook. 
-Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+See :ref:`useNotifications`.
 
-Take a look at example usage below:
+To use notifications in your app simply call:
 
 .. code-block:: javascript
 
   const { notifications } = useNotifications()
 
+After that you can use ``notifications`` as an array.
+Notifications are automatically removed from array after time 
+declared in config.notifications.expirationPeriod.
 
-``notifications`` are arrays of ``NotificationPayload``. Each can be one of the following:
+In react you can simply use ``notifications.map(...)`` to display them.
 
-.. code-block:: javascript
-
-  { 
-    type: 'walletConnected'; 
-    address: string 
-  }
+For example : 
 
 .. code-block:: javascript
 
-  { 
-    type: 'transactionStarted'; 
-    submittedAt: number
-    transaction: TransactionResponse; 
-    transactionName?: string 
-  }
+  {notifications.map((notification) => {
+    if ('transaction' in notification)
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          transaction={notification.transaction}
+          date={Date.now()}
+        />
+      )
+    else
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          date={Date.now()}
+        />
+      )
+  })}
 
-.. code-block:: javascript
-
-  {
-    type: 'transactionSucceed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
-  }
-
-.. code-block:: javascript
-  
-  {
-    type: 'transactionFailed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
-  }
-
+``NotificationElement`` is a react function that renders a single notification.
+``notificationContent`` is an object that holds information about what title and icon to show.
 
 Handling wallet activation errrors
 **********************************
