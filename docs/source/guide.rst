@@ -453,3 +453,52 @@ Take a look at example usage below:
   }
 
 
+Handling wallet activation errrors
+**********************************
+
+Because ``activateBrowserWallet()`` from :ref:`useEthers` is using activate from web3-react. It is made so that it can handle 
+errors the same way that ``activate()`` handles them, for more info see `here <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#understanding-error-bubbling>`_.
+
+As such the error can be handled in 3 ways:
+
+- By passing a callback as first parameter of :
+
+.. code-block:: javascript
+
+  const onError = (error: Error) => {
+    console.log(error.message)
+  }
+  activateBrowserWallet(onError)
+
+
+- By passing a true as second argument will make activateBrowserWallet throw on errors :
+
+.. code-block:: javascript
+
+  try{
+    await activateBrowserWallet(undefined,true)
+  } catch(error) {
+    console.log(error)
+  }
+
+
+- By checking if `const {error} = useEthers()` changes :
+
+.. code-block:: javascript
+
+  const [activateError, setActivateError] = useState('')
+  const { error } = useEthers()
+  useEffect(() => {
+    if (error) {
+      setActivateError(error.message)
+    }
+  }, [error])
+
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
+
+
+Becouse useDApp defaults to read only connector ``error`` from ``useEthers()`` is only shown for few frames as such if you want to 
+handle it you need to store error in a state

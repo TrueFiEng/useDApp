@@ -273,6 +273,7 @@ Returns ether balance of a given account.
     {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
   )
 
+.. _useEthers:
 
 useEthers
 =========

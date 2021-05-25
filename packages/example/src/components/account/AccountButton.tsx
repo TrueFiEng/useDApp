@@ -7,10 +7,11 @@ import styled from 'styled-components'
 import { AccountModal } from './AccountModal'
 
 export const AccountButton = () => {
-  const { account, deactivate, activateBrowserWallet, error } = useEthers()
+  const { account, deactivate, activateBrowserWallet } = useEthers()
   const [showModal, setShowModal] = useState(false)
-  const [activateError, setActivateError] = useState('')
 
+  const [activateError, setActivateError] = useState('')
+  const { error } = useEthers()
   useEffect(() => {
     if (error) {
       setActivateError(error.message)
