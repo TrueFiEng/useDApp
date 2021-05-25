@@ -379,28 +379,30 @@ Withdraw function needs amount of ether to withdraw as a input argument.
 History
 =======
 
-To access list of user's transactions (with all statuses) use ``useTransactions`` hook.
-Transactions are stored in local storage and the status is rechecked on every new block. 
-
-Take a look at example usage below:
+To access history of transaction sent by useDApp, use :ref:`useTransactions` hook.
 
 .. code-block:: javascript
 
   const { transactions } = useTransactions()
 
+``transactions`` is an array so you can use ``transactions.map(...)`` to display all of 
+transactions.
 
-Transaction has following type:
+For example:
 
 .. code-block:: javascript
 
-  export interface StoredTransaction {
-    transaction: TransactionResponse
-    submittedAt: number
-    receipt?: TransactionReceipt
-    lastCheckedBlockNumber?: number
-    transactionName?: string
-  }
+  {transactions.map((transaction) => (
+          <ListElement
+            transaction={transaction.transaction}
+            title={transaction.transactionName}
+            icon={TransactionIcon(transaction)}
+            key={transaction.transaction.hash}
+            date={transaction.submittedAt}
+          />
+        ))}
 
+``ListElement`` is a react function that displays information about single transaction.
 
 
 Notifications
@@ -448,6 +450,9 @@ For example :
 
 ``NotificationElement`` is a react function that renders a single notification.
 ``notificationContent`` is an object that holds information about what title and icon to show.
+You have to remember that object in ``notifications`` array may not contain transaction field
+ (that's why there is if statement).
+
 
 Handling wallet activation errrors
 **********************************

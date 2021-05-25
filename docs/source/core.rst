@@ -353,6 +353,10 @@ Each can be one of the following:
     transactionName?: string
   }
 
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
+
 useTokenBalance
 ===============
 
@@ -406,6 +410,30 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   return (
     {allowance && <p>Remaining allowance: {formatUnits(allowance, 18)} tokens</p>}
   )
+
+.. _useTransactions:
+
+useTransactions
+===============
+
+``useTransactions`` hook returns a list ``transactions`` of transactions sent from useDApp.
+Transactions are stored in local storage and the status is rechecked on every new block. 
+
+Each transaction has following type:
+
+.. code-block:: javascript
+
+  export interface StoredTransaction {
+    transaction: TransactionResponse
+    submittedAt: number
+    receipt?: TransactionReceipt
+    lastCheckedBlockNumber?: number
+    transactionName?: string
+  }
+
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
 Models
 ******
