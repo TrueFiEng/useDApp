@@ -17,3 +17,13 @@ Given base token name and the support currencies to get token price from CoinGec
 **Returns**
 
 - ``number`` - token price
+
+**Example**
+
+.. code-block:: javascript
+
+  import { useCoingeckoPrice } from '@usedapp/coingecko'
+
+  const etherPrice = useCoingeckoPrice('ethereum', 'usd')
+
+  return etherPrice && (<p>$ {etherePrice}</p>)
