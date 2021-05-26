@@ -295,6 +295,15 @@ Returns connection state and functions that allow to manipulate the state.
 
 *Requires:* ``<ConfigProvider>``
 
+useGasPrice
+=========
+
+Returns gas price of current network.
+
+**Returns**
+
+- ``gasPrice: BigNumber | undefined`` - gas price of current network. Undefined if not initialised
+
 useMulticallAddress
 ===================
 
