@@ -180,7 +180,8 @@ Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers
 
 **Example**
 
-.. code-block: javascript
+.. code-block:: javascript
+
   const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
 
   const handleClick = () => {
