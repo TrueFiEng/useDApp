@@ -6,8 +6,8 @@ export async function getCoingeckoPrice(token: string, quote: string) {
     const data = await fetch(url, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
     // return format {"ethereum":{"usd":2234.6}}
     const result = await data.json()
