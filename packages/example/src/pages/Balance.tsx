@@ -44,7 +44,7 @@ export function Balance() {
             )}
             {etherePrice && (
               <ContentRow>
-                <Label>Ether price:</Label> <Label>$</Label>
+                <Label>Ether price:</Label> <Label>$ </Label>
                 <TextInline>{etherePrice}</TextInline>
               </ContentRow>
             )}
