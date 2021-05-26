@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@types/react": "17.0.1",
-    "@web3-react/core": "6.1.1"
+    "@usedapp/core": "^0.3.21"
   },
   "peerDependencies": {
     "react": "*"
