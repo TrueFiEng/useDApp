@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { useConfig, ConfigProvider, useSetConfig } from '@usedapp/core'
+import { useConfig, ConfigProvider, useUpdateConfig } from '@usedapp/core'
 import { renderWeb3Hook } from '../src'
 
 describe('useConfig', () => {
@@ -27,8 +27,8 @@ describe('useConfig', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => {
         const config = useConfig()
-        const setConfig = useSetConfig()
-        return { config, setConfig }
+        const updateConfig = useUpdateConfig()
+        return { config, updateConfig }
       },
       {
         renderHook: {
@@ -38,7 +38,7 @@ describe('useConfig', () => {
     )
     await waitForCurrent((val) => val != undefined)
     expect(result.current.config['pollingInterval']).to.eq(15000)
-    result.current.setConfig({ pollingInterval: 10 })
+    result.current.updateConfig({ pollingInterval: 10 })
     await waitForCurrent((val) => val.config.pollingInterval != 15000)
     expect(result.current.config['pollingInterval']).to.eq(10)
   })
