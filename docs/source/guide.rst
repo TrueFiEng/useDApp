@@ -284,14 +284,61 @@ Then we can check if our result is correct. ``result.current`` is a value return
 Transactions
 ************
 
-Sending
-=======
+Sending transaction
+===================
 
-Example is available `here <https://example.usedapp.io/transactions>`_.
+Example is available `here <https://example.usedapp.io/send>`_.
 
-To send transaction use :ref:`useContractFunction-label` hook.
+Sending transactions is really simple with useDApp. All we need to send a simple transaction,
+is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` function and ``state`` object.
 
-Start by declaring variables.
+**Example**
+
+Simply call a hook in a component.
+
+.. code-block:: javascript  
+
+  const { sendTransaction, state } = useSendTransaction()
+
+Then when you want to send a transaction, call ``sendTransaction`` for example in a button callback.
+Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
+In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining). 
+
+.. code-block:: javascript  
+
+  const handleClick = () => {
+    setDisabled(true)
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
+
+
+After that you can use state to check the state of your transtaction. State is of type :ref:`TransactionStatus`.
+Example below clears inputs and enables all disabled components back:
+
+.. code-block:: javascript
+
+    useEffect(() => {
+      if (state.status != 'Mining') {
+        setDisabled(false)
+        setAmount('0')
+        setAddress('')
+      }
+    }, [state])
+
+Executing contract function
+===========================
+
+To send a transaction that executes a function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook, 
+it works similarly to :ref:`useSendTransaction`. It returns a ``send`` function that we can use to call a contract function and ``state`` object.
+
+To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_. 
+And a string ``functionName``.
+
+``send`` function maps arguments 1 to 1 with functions of a contract and also accepts one additional argument of type `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_
+
+**Example**
+
+Start by declaring a contract variable with address of contract you want to call and ABI interface of a contract.
 
 .. code-block:: javascript  
 
@@ -304,8 +351,6 @@ Start by declaring variables.
   const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
   const contract = new Contract(wethContractAddress, wethInterface)
 
-
-``WethAbi`` is a ABI interface of called object.
 
 After that you can use the hook to create ``send`` function and ``state`` object.
 
@@ -327,83 +372,136 @@ After that you can use the hook to create ``send`` function and ``state`` object
 
 
 The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether `contract <https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code>`_ respectively.
-Sending Ether uses a extra argument to send given amount of ether while withdrawing passes amount to withdraw as an argument.
+Deposit function of a contract has no input arguments and instead wraps amount of ether sent to it. To send given amount of ether simply use a ``TransactionOverrides`` object.
+Withdraw function needs amount of ether to withdraw as a input argument.
 
 
 History
 =======
 
-To access list of user's transactions (with all statuses) use ``useTransactions`` hook.
-Transactions are stored in local storage and the status is rechecked on every new block. 
+See :ref:`useTransactions`
 
-Take a look at example usage below:
+To access history of transactions, use ``useTransactions`` hook.
 
 .. code-block:: javascript
 
   const { transactions } = useTransactions()
 
+``transactions`` is an array so you can use ``transactions.map(...)`` to display all of 
+transactions.
 
-Transaction has following type:
+For example:
 
 .. code-block:: javascript
 
-  export interface StoredTransaction {
-    transaction: TransactionResponse
-    submittedAt: number
-    receipt?: TransactionReceipt
-    lastCheckedBlockNumber?: number
-    transactionName?: string
-  }
+  {transactions.map((transaction) => (
+          <ListElement
+            transaction={transaction.transaction}
+            title={transaction.transactionName}
+            icon={TransactionIcon(transaction)}
+            key={transaction.transaction.hash}
+            date={transaction.submittedAt}
+          />
+        ))}
 
+``ListElement`` is a react function that displays information about single transaction.
 
 
 Notifications
 =============
 
-Additonally, you can access notifications via ``useNotifications`` hook. 
-Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+See :ref:`useNotifications`.
 
-Take a look at example usage below:
+To use notifications in your app simply call:
 
 .. code-block:: javascript
 
   const { notifications } = useNotifications()
 
+After that you can use ``notifications`` as an array.
+Notifications are automatically removed from array after time 
+declared in config.notifications.expirationPeriod.
 
-``notifications`` are arrays of ``NotificationPayload``. Each can be one of the following:
+In react you can simply use ``notifications.map(...)`` to display them.
 
-.. code-block:: javascript
-
-  { 
-    type: 'walletConnected'; 
-    address: string 
-  }
+For example : 
 
 .. code-block:: javascript
 
-  { 
-    type: 'transactionStarted'; 
-    submittedAt: number
-    transaction: TransactionResponse; 
-    transactionName?: string 
-  }
+  {notifications.map((notification) => {
+    if ('transaction' in notification)
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          transaction={notification.transaction}
+          date={Date.now()}
+        />
+      )
+    else
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          date={Date.now()}
+        />
+      )
+  })}
+
+``NotificationElement`` is a react function that renders a single notification.
+``notificationContent`` is an object that holds information about what title and icon to show.
+You have to remember that object in ``notifications`` array may not contain transaction field
+ (that's why there is if statement).
+
+
+Handling wallet activation errrors
+**********************************
+
+Because ``activateBrowserWallet()`` from :ref:`useEthers` is using activate from web3-react. It is made so that it can handle 
+errors the same way that ``activate()`` handles them, for more info see `here <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#understanding-error-bubbling>`_.
+
+As such the error can be handled in 3 ways:
+
+- By passing a callback as first parameter of :
 
 .. code-block:: javascript
 
-  {
-    type: 'transactionSucceed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
+  const onError = (error: Error) => {
+    console.log(error.message)
   }
+  activateBrowserWallet(onError)
+
+
+- By passing a true as second argument will make activateBrowserWallet throw on errors :
 
 .. code-block:: javascript
-  
-  {
-    type: 'transactionFailed'
-    transaction: TransactionResponse
-    receipt: TransactionReceipt
-    transactionName?: string
+
+  try{
+    await activateBrowserWallet(undefined,true)
+  } catch(error) {
+    console.log(error)
   }
 
 
+- By checking if `const {error} = useEthers()` changes :
+
+.. code-block:: javascript
+
+  const [activateError, setActivateError] = useState('')
+  const { error } = useEthers()
+  useEffect(() => {
+    if (error) {
+      setActivateError(error.message)
+    }
+  }, [error])
+
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
+
+
+Becouse useDApp defaults to read only connector ``error`` from ``useEthers()`` is only shown for few frames as such if you want to 
+handle it you need to store error in a state

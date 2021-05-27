@@ -1,5 +1,34 @@
 # @usedapp/core
 
+## 0.3.21
+
+### Patch Changes
+
+- 0ae62a3: Bump ethers to version 5.2.0
+
+## 0.3.20
+
+### Patch Changes
+
+- b369774: Add persisting connection, rename ReadOnlyProviderActivator
+- a087bdf: Add wallet activation error handling
+- 2757d13: Fix useContractCall hook order
+
+## 0.3.19
+
+### Patch Changes
+
+- 9d4fcca: Add getStoredTransactionState and update example
+- 75b6ea8: Add useSendTransaction, refactor useContractFunction
+
+## 0.3.18
+
+### Patch Changes
+
+- 42efd99: Expose useConfig as public API
+- 21f59f6: Add BSC support
+- 111acee: Set TransactionStatus as interface and move it to model
+
 ## 0.3.17
 
 ### Patch Changes

@@ -1,10 +1,10 @@
 {
   "name": "@usedapp/core",
-  "version": "0.3.17",
+  "version": "0.3.21",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
-  "repository": "git@github.com:EthWorks/dapp-framework.git",
+  "repository": "git@github.com:EthWorks/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
   "sideEffects": false,
@@ -37,7 +37,7 @@
     "@web3-react/core": "6.1.1",
     "@web3-react/injected-connector": "6.0.7",
     "@web3-react/network-connector": "6.1.5",
-    "ethers": "5.1.4",
+    "ethers": "5.2.0",
     "nanoid": "3.1.22"
   },
   "peerDependencies": {

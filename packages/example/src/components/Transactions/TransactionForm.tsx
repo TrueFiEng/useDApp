@@ -42,7 +42,7 @@ interface StatusAnimationProps {
   transaction: TransactionStatus
 }
 
-const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
+export const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
   const [showTransactionStatus, setShowTransactionStatus] = useState(false)
   const [timer, setTimer] = useState(
     setTimeout(() => {

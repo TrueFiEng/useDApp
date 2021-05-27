@@ -1,17 +1,44 @@
 import type { TransactionResponse } from '@ethersproject/providers'
-import { getExplorerTransactionLink, Notification, useNotifications, useTransactions } from '@usedapp/core'
+import {
+  getExplorerTransactionLink,
+  Notification,
+  useNotifications,
+  useTransactions,
+  getStoredTransactionState,
+  StoredTransaction,
+  shortenTransactionHash,
+} from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
-import { CheckIcon, ClockIcon, ExclamationIcon, ShareIcon, UnwrapIcon, WalletIcon, WrapIcon } from './Icons'
-import { Colors } from '../../global/styles'
+import {
+  CheckIcon,
+  ClockIcon,
+  ExclamationIcon,
+  ShareIcon,
+  UnwrapIcon,
+  WalletIcon,
+  WrapIcon,
+  SpinnerIcon,
+} from './Icons'
+import { Colors, Shadows } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
+import { formatEther } from '@ethersproject/units'
+import { BigNumber } from 'ethers'
 
 interface TableWrapperProps {
   children: ReactNode
   title: string
 }
+
+const formatter = new Intl.NumberFormat('en-us', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 3,
+})
+
+const formatBalance = (balance: BigNumber | undefined) =>
+  formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
   <SmallContentBlock>
@@ -74,21 +101,34 @@ interface ListElementProps {
   icon: ReactElement
   title: string | undefined
   transaction?: TransactionResponse
+  date: number
 }
 
-const ListElement = ({ transaction, icon, title }: ListElementProps) => {
-  const notificationDate = Date.now()
-
+const ListElement = ({ transaction, icon, title, date }: ListElementProps) => {
   return (
-    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      <NotificationIconContainer>{icon}</NotificationIconContainer>
-      <NotificationDetailsWrapper>
+    <ListElementWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <ListIconContainer>{icon}</ListIconContainer>
+      <ListDetailsWrapper>
         <TextBold>{title}</TextBold>
         <TransactionLink transaction={transaction} />
-      </NotificationDetailsWrapper>
-      <NotificationDate date={notificationDate} />
-    </NotificationWrapper>
+      </ListDetailsWrapper>
+      <NotificationDate date={date} />
+    </ListElementWrapper>
   )
+}
+
+function TransactionIcon(transaction: StoredTransaction) {
+  if (getStoredTransactionState(transaction) === 'Mining') {
+    return <SpinnerIcon />
+  } else if (getStoredTransactionState(transaction) === 'Fail') {
+    return <ExclamationIcon />
+  } else if (transaction.transactionName === 'Unwrap') {
+    return <UnwrapIcon />
+  } else if (transaction.transactionName === 'Wrap') {
+    return <WrapIcon />
+  } else {
+    return <CheckIcon />
+  }
 }
 
 export const TransactionsList = () => {
@@ -100,8 +140,9 @@ export const TransactionsList = () => {
           <ListElement
             transaction={transaction.transaction}
             title={transaction.transactionName}
-            icon={transaction.transactionName === 'Unwrap' ? <UnwrapIcon /> : <WrapIcon />}
+            icon={TransactionIcon(transaction)}
             key={transaction.transaction.hash}
+            date={transaction.submittedAt}
           />
         ))}
       </AnimatePresence>
@@ -109,48 +150,106 @@ export const TransactionsList = () => {
   )
 }
 
+const NotificationElement = ({ transaction, icon, title }: ListElementProps) => {
+  return (
+    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <NotificationIconContainer>{icon}</NotificationIconContainer>
+      <NotificationDetailsWrapper>
+        <NotificationText>{title}</NotificationText>
+        <TransactionLink transaction={transaction} />
+        <TransactionDetails>
+          {transaction && `${shortenTransactionHash(transaction?.hash)} #${transaction.nonce}`}
+        </TransactionDetails>
+      </NotificationDetailsWrapper>
+      {transaction && <div style={{ marginLeft: 'auto' }}>- {formatBalance(transaction.value)} ETH</div>}
+    </NotificationWrapper>
+  )
+}
+
 export const NotificationsList = () => {
   const { notifications } = useNotifications()
   return (
-    <TableWrapper title="Notifications history">
+    <NotificationsWrapper>
       <AnimatePresence initial={false}>
         {notifications.map((notification) => {
           if ('transaction' in notification)
             return (
-              <ListElement
+              <NotificationElement
                 key={notification.id}
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
                 transaction={notification.transaction}
+                date={Date.now()}
               />
             )
           else
             return (
-              <ListElement
+              <NotificationElement
                 key={notification.id}
                 icon={notificationContent[notification.type].icon}
                 title={notificationContent[notification.type].title}
+                date={Date.now()}
               />
             )
         })}
       </AnimatePresence>
-    </TableWrapper>
+    </NotificationsWrapper>
   )
 }
 
+const NotificationText = styled(TextBold)`
+  font-size: 20px;
+  margin-bottom: 5px;
+`
+
+const TransactionDetails = styled.div`
+  font-size: 14px;
+`
+
+const NotificationWrapper = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  background-color: ${Colors.White};
+  box-shadow: ${Shadows.notification};
+  width: 395px;
+  border-radius: 10px;
+  margin: 15px;
+  padding: 10px 20px 10px 20px;
+`
+
+const NotificationsWrapper = styled.div`
+  position: fixed;
+  right: 300px;
+  right: 5px;
+  top: 80px;
+`
+
 const NotificationIconContainer = styled.div`
+  width: 60px;
+  height: 60px;
+  padding: 0px;
+  margin-right: 20px;
+`
+
+const ListIconContainer = styled.div`
   width: 48px;
   height: 48px;
   padding: 12px;
   padding: 14px 16px 14px 12px;
 `
 
-const NotificationWrapper = styled(motion.div)`
+const ListElementWrapper = styled(motion.div)`
   display: flex;
   justify-content: space-between;
 `
 
 const NotificationDetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+`
+
+const ListDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -174,6 +273,7 @@ const LinkIconWrapper = styled.div`
 `
 
 const Link = styled.a`
+  margin-bottom: 5px;
   display: flex;
   font-size: 12px;
   text-decoration: underline;

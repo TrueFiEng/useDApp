@@ -1,26 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Container, MainContent, Section, SectionRow } from '../components/base/base'
-
-import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'
-import { NotificationsList, TransactionsList } from '../components/Transactions/History'
+import { MainContent, Container, Section, SectionRow } from '../components/base/base'
 import { Title } from '../typography/Title'
+import { TransactionsList, NotificationsList } from '../components/Transactions/History'
+import styled from 'styled-components'
 
 import { AccountButton } from '../components/account/AccountButton'
 
-export function Transactions() {
+import { SendEthForm } from '../components/SendEthForm/SendEthForm'
+
+export const SendEtherPage = () => {
   return (
     <MainContent>
       <Container>
         <Section>
           <SectionRow>
-            <Title>Transactions</Title>
+            <Title>Send Ether</Title>
             <AccountButton />
           </SectionRow>
-          <TableGrid>
-            <DepositEth />
-            <WithdrawEth />
-          </TableGrid>
+          <SendEthForm />
           <NotificationsList />
         </Section>
       </Container>
@@ -29,6 +26,7 @@ export function Transactions() {
 }
 
 const TableGrid = styled.div`
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;

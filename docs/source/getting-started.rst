@@ -145,3 +145,49 @@ Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for
       </div>
     )
   }
+
+
+Troubleshooting
+---------------
+
+Type mismatch when building
+***************************
+
+If when building an app you see errors about type mismatch in ``@ethersproject``. 
+
+For example:
+
+.. code-block::
+
+  $ yarn build
+  yarn run v1.22.10
+  $ tsc --noEmit && rimraf build && webpack --mode production --progress
+  src/components/Transactions/Forms.tsx:12:52 - error TS2345: Argument of type 'Interface' is not assignable to parameter of type 'ContractInterface'.
+    Property 'getError' is missing in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/abi/lib/interface").Interface' but required in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface").Interface'.
+
+  12 const contract = new Contract(wethContractAddress, wethInterface)
+                                                        ~~~~~~~~~~~~~
+
+    node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface.d.ts:53:5
+      53     getError(nameOrSignatureOrSighash: string): ErrorFragment;
+            ~~~~~~~~
+      'getError' is declared here.
+
+
+  Found 1 error.
+
+  error Command failed with exit code 2.
+  info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+
+It may be an error of yarn getting internal versions of ``@ethersproject`` that are higher then specified in useDApp.
+To fix this you need to add resolutions to your ``package.json`` with etherspoject packages that cause an error, with correct version.
+Resolutions force yarn to install specified versions of packages.
+
+For example:
+
+.. code-block::
+
+  "resolutions": {
+    "@ethersproject/abi": "5.2.0",
+    "@ethersproject/contracts": "5.2.0"
+  }

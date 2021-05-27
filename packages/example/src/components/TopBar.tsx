@@ -28,6 +28,10 @@ export function TopBar() {
               {' '}
               Tokens{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/send">
+              {' '}
+              Send Ether{' '}
+            </HeaderLink>
             <HeaderLink activeClassName="active-page" to="/transactions">
               {' '}
               Transactions{' '}

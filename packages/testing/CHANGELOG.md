@@ -1,5 +1,22 @@
 # @usedapp/testing
 
+## 0.2.8
+
+### Patch Changes
+
+- 0ae62a3: Bump ethers to version 5.2.0
+- Updated dependencies [0ae62a3]
+  - @usedapp/core@0.3.21
+
+## 0.2.7
+
+### Patch Changes
+
+- 75b6ea8: Add useSendTransaction, refactor useContractFunction
+- Updated dependencies [9d4fcca]
+- Updated dependencies [75b6ea8]
+  - @usedapp/core@0.3.19
+
 ## 0.2.6
 
 ### Patch Changes

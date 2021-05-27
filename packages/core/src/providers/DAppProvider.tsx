@@ -7,7 +7,7 @@ import { ChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
 import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
-import { ReadOnlyProviderActivator } from './ReadOnlyProviderActivator'
+import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { deployLocalMulticall } from '../helpers/contract'
 
@@ -30,7 +30,7 @@ interface WithConfigProps {
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
   const [localMulticallAddresses, setLocalMulticallAddresses] = useState({})
-  const { multicallAddresses, readOnlyChainId, readOnlyUrls } = useConfig()
+  const { multicallAddresses, readOnlyUrls } = useConfig()
   const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses, ...localMulticallAddresses }
 
   const setupMulticall = (chainId: ChainId) => {
@@ -57,9 +57,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   return (
     <EthersProvider>
       <BlockNumberProvider>
-        {readOnlyChainId && readOnlyUrls && (
-          <ReadOnlyProviderActivator readOnlyChainId={readOnlyChainId} readOnlyUrls={readOnlyUrls} />
-        )}
+        <NetworkActivator />
         <ChainStateProvider multicallAddresses={multicallAddressesMerged} onMulticallNotFound={setupMulticall}>
           <NotificationsProvider>
             <TransactionProvider>{children}</TransactionProvider>
