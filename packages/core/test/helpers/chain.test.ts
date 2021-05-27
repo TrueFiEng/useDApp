@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { ChainId } from '../../src'
-import { getChainName, getExplorerAddressLink, isTestChain, getExplorerTransactionLink } from '../../src/helpers/chain'
+import { getChainName, getExplorerAddressLink, isTestChain, getExplorerTransactionLink, isLocalChain } from '../../src/helpers/chain'
 
 describe('Chain helpers', () => {
   it('getChainName', () => {
@@ -19,6 +19,17 @@ describe('Chain helpers', () => {
     expect(isTestChain(ChainId.Rinkeby)).to.be.true
     expect(isTestChain(ChainId.Goerli)).to.be.true
     expect(isTestChain(ChainId.xDai)).to.be.false
+  })
+
+  it('isLocalChain', () => {
+    expect(isLocalChain(ChainId.Mainnet)).to.be.false
+    expect(isLocalChain(ChainId.Ropsten)).to.be.false
+    expect(isLocalChain(ChainId.Kovan)).to.be.false
+    expect(isLocalChain(ChainId.Rinkeby)).to.be.false
+    expect(isLocalChain(ChainId.Goerli)).to.be.false
+    expect(isLocalChain(ChainId.xDai)).to.be.false
+    expect(isLocalChain(ChainId.Localhost)).to.be.true
+    expect(isLocalChain(ChainId.Hardhat)).to.be.true
   })
 
   it('getExplorerAddressLink', () => {
