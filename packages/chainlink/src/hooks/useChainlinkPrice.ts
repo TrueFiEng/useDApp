@@ -1,9 +1,9 @@
 import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
 import { ChainlinkPriceFeedInterface } from '../constants'
 import { Falsy } from '../model/types'
-import { useContractCalls } from './useContractCall'
+import { useContractCalls } from '@usedapp/core'
 
-export function useChainlinkPriceFeed(address: string | Falsy): FixedNumber | undefined {
+export function useChainlinkPrice(address: string | Falsy): FixedNumber | undefined {
   const [rawDecimals, rawAnswer] = useContractCalls(
     address
       ? [

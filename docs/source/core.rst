@@ -97,29 +97,6 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 - ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
-useChainlinkPriceFeed
-=============
-Returns price from a given Chainlink oracle.
-
-**Parameters**
-
-- ``oracleAddress: string | Falsy`` - address of an oracle contract
-
-**Returns**
-
-- ``price: number | undefined`` - price from oracle which is float or undefined if address is *Falsy* or not connected
-
-**Example**
-
-.. code-block:: javascript
-
-  const ETH_USD_FEED = 'eth-usd.data.eth'
-  const ethPrice = useChainlinkPriceFeed(ETH_USD_FEED)
-
-  return (
-    ethPrice ? <p>ETH Price: {ethPrice} USD</p> : <></>
-  )
-
 useContractCall
 ===============
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.

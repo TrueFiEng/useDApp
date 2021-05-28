@@ -1,7 +1,7 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { FixedNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { useChainlinkPriceFeed } from '@usedapp/core'
+import { useChainlinkPrice } from '@usedapp/chainlink'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
 import { renderWeb3Hook } from '../src'
@@ -9,7 +9,7 @@ import { deployMockChainlinkPriceFeed } from '../src/utils/deployMockChainlinkPr
 
 chai.use(solidity)
 
-describe('useChainlinkPriceFeed', () => {
+describe('useChainlinkPrice', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let feed: Contract
@@ -19,7 +19,7 @@ describe('useChainlinkPriceFeed', () => {
   })
 
   it('returns price', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useChainlinkPriceFeed(feed.address), {
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useChainlinkPrice(feed.address), {
       mockProvider,
     })
     await waitForCurrent((val) => val !== undefined)
