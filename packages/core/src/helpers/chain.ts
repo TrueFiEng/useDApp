@@ -27,7 +27,7 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
     case ChainId.Polygon:
       return `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`
     case ChainId.Mumbai:
-       return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
+      return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
   }
 }
 
@@ -46,7 +46,7 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
     case ChainId.Polygon:
       return `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`
     case ChainId.Mumbai:
-      return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`  
+      return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`
   }
 }
 
