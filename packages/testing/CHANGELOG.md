@@ -1,5 +1,16 @@
 # @usedapp/testing
 
+## 0.2.9
+
+### Patch Changes
+
+- cdb02b9: Introduce useUpdateConfig
+- 940d064: Introduce deep config update
+- Updated dependencies [cdb02b9]
+- Updated dependencies [940d064]
+- Updated dependencies [c180ac8]
+  - @usedapp/core@0.3.22
+
 ## 0.2.8
 
 ### Patch Changes
