@@ -4,13 +4,13 @@ import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
 
 export function useChainCalls(calls: (ChainCall | Falsy)[]) {
-  const { addCalls, removeCalls, value } = useContext(ChainStateContext)
+  const { dispatchCalls, value } = useContext(ChainStateContext)
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as ChainCall[]
-    addCalls(filteredCalls)
-    return () => removeCalls(filteredCalls)
-  }, [JSON.stringify(calls), addCalls, removeCalls])
+    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
+    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
+  }, [JSON.stringify(calls), dispatchCalls])
 
   return calls.map((call) => call && value?.state?.[call.address]?.[call.data])
 }
