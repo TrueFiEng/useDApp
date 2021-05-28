@@ -1,9 +1,18 @@
 import { createContext, useContext } from 'react'
-import { FullConfig } from '../../model/config/Config'
+import { FullConfig, Config } from '../../model/config/Config'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 
-export const ConfigContext = createContext<FullConfig>(DEFAULT_CONFIG)
+export const ConfigContext = createContext<{ config: FullConfig; updateConfig: (config: Config) => void }>({
+  config: DEFAULT_CONFIG,
+  updateConfig: () => undefined,
+})
 
 export function useConfig() {
-  return useContext(ConfigContext)
+  const { config } = useContext(ConfigContext)
+  return config
+}
+
+export function useUpdateConfig() {
+  const { updateConfig } = useContext(ConfigContext)
+  return updateConfig
 }
