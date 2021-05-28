@@ -6,6 +6,8 @@ export enum ChainId {
   Kovan = 42,
   BSC = 56,
   xDai = 100,
+  Polygon = 137, 
+  Mumbai = 80001,
   Localhost = 1337,
   Hardhat = 31337,
 }
@@ -18,6 +20,8 @@ export const CHAIN_NAMES = {
   [ChainId.Goerli]: 'Goerli',
   [ChainId.BSC]: 'BSC',
   [ChainId.xDai]: 'xDai',
+  [ChainId.Polygon]: 'Polygon',
+  [ChainId.Mumbai]: 'Mumbai',
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
 }
@@ -30,6 +34,8 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Kovan]: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
+  [ChainId.Polygon]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
+  [ChainId.Mumbai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
 }
 
 export const TEST_CHAINS = [
@@ -37,6 +43,7 @@ export const TEST_CHAINS = [
   ChainId.Kovan,
   ChainId.Rinkeby,
   ChainId.Goerli,
+  ChainId.Mumbai,
   ChainId.Localhost,
   ChainId.Hardhat,
 ]
