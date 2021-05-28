@@ -12,29 +12,23 @@
     "access": "public"
   },
   "devDependencies": {
-    "@ethereum-waffle/provider": "^3.2.2",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/mocha": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
-    "@web3-react/abstract-connector": "^6.0.7",
-    "@web3-react/types": "^6.0.7",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",
-    "ethereum-waffle": "^3.2.2",
-    "jsdom": "^16.4.0",
-    "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
-    "mock-local-storage": "^1.1.17",
     "prettier": "^2.1.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
   "dependencies": {
     "@types/react": "17.0.1",
-    "@usedapp/core": "^0.3.21"
+    "@usedapp/core": "^0.3.21",
+    "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {
     "react": "*"

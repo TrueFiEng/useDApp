@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/example",
-  "version": "0.3.21",
+  "version": "0.2.6",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/styled-components": "^5.1.7",
     "@uniswap/default-token-list": "^2.0.0",
-    "@usedapp/core": "^0.3.21",
+    "@usedapp/core": "^0.3.20",
     "@usedapp/coingecko": "^0.3.21",
     "file-loader": "^6.2.0",
     "framer-motion": "^4.1.5",

@@ -1,15 +1,31 @@
 import { expect } from 'chai'
 
-import { getCoinGeckoSimplePriceUri } from '../src/helpers'
+import { getCoingeckoSimplePriceUri, getCoingeckoPriceFetch } from '../src/helpers'
 
-const testData = [
-  ['ethereum', 'usd', 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'],
-  ['bitcoin', 'usd', 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'],
-  ['dai', 'usd', 'https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=usd'],
-]
+describe('getCoingeckoSimplePrice', () => {
+  it('ethereum in usd price', () => {
+    const url = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+    expect(getCoingeckoSimplePriceUri('ethereum', 'usd')).to.eq(url)
+  })
 
-describe('Coingecko helper', () => {
-  it('correct simple price URI', () => {
-    testData.forEach((data) => expect(getCoinGeckoSimplePriceUri(data[0], data[1])).to.eq(data[2]))
+  it('bitcoin in usd price', () => {
+    const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+    expect(getCoingeckoSimplePriceUri('bitcoin', 'usd')).to.eq(url)
+  })
+
+  it('dai in usd price', () => {
+    const url = 'https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=usd'
+    expect(getCoingeckoSimplePriceUri('dai', 'usd')).to.eq(url)
+  })
+})
+
+describe('getCoingeckoPriceFetch', () => {
+  it('Success', async () => {
+    const mockFetch = () =>
+      Promise.resolve({
+        json: () => ({ ethereum: { usd: 2234.6 } })
+      })
+    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(2234.6)
   })
 })
