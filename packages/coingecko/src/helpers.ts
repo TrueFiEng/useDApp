@@ -10,8 +10,8 @@ export const getCoingeckoPriceFetch = (fetchFunction: any) => async (base: strin
   const data = await fetchFunction(url, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
   // return format {"ethereum":{"usd":2234.6}}
   const result = await data.json()

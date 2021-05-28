@@ -23,7 +23,7 @@ describe('getCoingeckoPriceFetch', () => {
   it('Success', async () => {
     const mockFetch = () =>
       Promise.resolve({
-        json: () => ({ ethereum: { usd: 2234.6 } })
+        json: () => ({ ethereum: { usd: 2234.6 } }),
       })
     const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
     expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(2234.6)
