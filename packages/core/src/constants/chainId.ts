@@ -6,7 +6,7 @@ export enum ChainId {
   Kovan = 42,
   BSC = 56,
   xDai = 100,
-  Polygon = 137, 
+  Polygon = 137,
   Mumbai = 80001,
   Localhost = 1337,
   Hardhat = 31337,
