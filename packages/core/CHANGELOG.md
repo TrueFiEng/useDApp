@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.23
+
+### Patch Changes
+
+- ef90adb: Add Polygon and Mumbai support
+
 ## 0.3.22
 
 ### Patch Changes
