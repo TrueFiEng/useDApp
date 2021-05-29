@@ -8,9 +8,9 @@ interface ContractDeployment {
     contractAddress: string
 }
 
-export async function deployLocalMulticall(chainId: ChainId, readOnlyUrls: NodeUrls | undefined): Promise<ContractDeployment | undefined> {
+export async function deployLocalMulticall(chainId: ChainId, readOnlyUrls: NodeUrls | undefined): Promise<string | undefined> {
     if (isLocalChain(chainId) && readOnlyUrls !== undefined && readOnlyUrls[chainId]) {
-        return deployMulticall(readOnlyUrls[chainId])
+        return (await deployMulticall(readOnlyUrls[chainId])).contractAddress
     } else {
         return
     }
@@ -23,7 +23,7 @@ export async function deployMulticall(url: string): Promise<ContractDeployment> 
 
     const txData = [{
         "from": account,
-        "gas": "0x64b94",
+        "gas": "0x84b94",
         "data": `0x${multicallABI.bytecode}`
     }]
 
