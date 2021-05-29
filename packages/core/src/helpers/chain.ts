@@ -24,6 +24,10 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://bscscan.com/address/${address}`
     case ChainId.xDai:
       return `https://blockscout.com/poa/xdai/address/${address}/transactions`
+    case ChainId.Polygon:
+      return `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`
+    case ChainId.Mumbai:
+      return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
   }
 }
 
@@ -39,6 +43,10 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://bscscan.com/tx/${transactionHash}`
     case ChainId.xDai:
       return `https://blockscout.com/poa/xdai/tx/${transactionHash}/internal-transactions`
+    case ChainId.Polygon:
+      return `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`
+    case ChainId.Mumbai:
+      return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`
   }
 }
 

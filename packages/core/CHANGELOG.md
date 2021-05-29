@@ -1,5 +1,27 @@
 # @usedapp/core
 
+## 0.3.23
+
+### Patch Changes
+
+- ef90adb: Add Polygon and Mumbai support
+
+## 0.3.22
+
+### Patch Changes
+
+- cdb02b9: Introduce useUpdateConfig
+- 940d064: Introduce deep config update
+- c180ac8: Add troubleshooting ethers type mismatch to docs
+
+  Type mismatch when building might be an error in ethersproject version providing becouse of this
+  ading resolutions to package.json should fix problem
+
+  "resolutions": {
+  "@ethersproject/abi": "5.2.0",
+  "@ethersproject/contracts": "5.2.0"
+  }
+
 ## 0.3.21
 
 ### Patch Changes

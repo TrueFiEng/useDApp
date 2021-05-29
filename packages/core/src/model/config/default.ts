@@ -12,7 +12,9 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.BSC,
     ChainId.xDai,
     ChainId.Localhost,
-    ChainId.Hardhat
+    ChainId.Hardhat,
+    ChainId.Polygon,
+    ChainId.Mumbai,
   ],
   notifications: {
     checkInterval: 500,
