@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react'
 import { isLocalChain } from '../helpers'
-import { deployLocalMulticall } from '../helpers/contract'
+import { deployMulticallIfLocal } from '../helpers/contract'
 import { useConfig, useUpdateConfig } from './config'
 
 interface LocalMulticallProps {
@@ -17,7 +17,7 @@ export function LocalMulticall({ children }: LocalMulticallProps) {
     useEffect(() => {
         (async () => {
             if (chainId !== undefined && isLocalChain(chainId) && multicallAddress === undefined) {
-                const address = await deployLocalMulticall(chainId, readOnlyUrls)
+                const address = await deployMulticallIfLocal(chainId, readOnlyUrls)
 
                 if (address !== undefined) {
                     updateConfig({

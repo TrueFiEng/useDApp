@@ -1,33 +1,25 @@
-import { ethers } from 'ethers'
+import { ContractFactory, ethers } from 'ethers'
 import { ChainId } from '../constants'
 import { NodeUrls } from '../model/config/Config'
 import multicallABI from '../constants/abi/MultiCall.json'
 import { isLocalChain } from '../helpers'
 
-interface ContractDeployment {
-    contractAddress: string
-}
-
-export async function deployLocalMulticall(chainId: ChainId, readOnlyUrls: NodeUrls | undefined): Promise<string | undefined> {
+export async function deployMulticallIfLocal(chainId: ChainId, readOnlyUrls: NodeUrls | undefined): Promise<string | undefined> {
     if (isLocalChain(chainId) && readOnlyUrls !== undefined && readOnlyUrls[chainId]) {
-        return (await deployMulticall(readOnlyUrls[chainId])).contractAddress
+        return await deployContract(readOnlyUrls[chainId])
     } else {
         return
     }
 }
 
-export async function deployMulticall(url: string): Promise<ContractDeployment> {
+async function deployContract(url: string) {
     const provider = new ethers.providers.JsonRpcProvider(url)
-    const accounts = await provider.listAccounts()
-    const account = accounts[0]
+    const factory = new ContractFactory(multicallABI.abi, multicallABI.bytecode, provider.getSigner())
+    const contract = await factory.deploy()
 
-    const txData = [{
-        "from": account,
-        "gas": "0x84b94",
-        "data": `0x${multicallABI.bytecode}`
-    }]
-
-    const transactionHash = await provider.send('eth_sendTransaction', txData)
-    const txResult = await provider.send('eth_getTransactionReceipt', [transactionHash])
-    return txResult
+    /// TODO: Ganache and Hardhat seem to be returning
+    /// a success status before the contract is actually deployed
+    const deployedContract = await contract.deployTransaction.wait()
+    return deployedContract.contractAddress
 }
+
