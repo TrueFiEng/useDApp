@@ -15,7 +15,7 @@ export function Balance() {
   const { account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
-  const etherePrice = useCoingeckoPrice('ethereum', 'usd')
+  const etherPrice = useCoingeckoPrice('ethereum', 'usd')
 
   return (
     <MainContent>
@@ -42,10 +42,10 @@ export function Balance() {
                 <Label>Ether balance:</Label> <TextInline>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
               </ContentRow>
             )}
-            {etherePrice && (
+            {etherPrice && (
               <ContentRow>
                 <Label>Ether price:</Label> <Label>$ </Label>
-                <TextInline>{etherePrice}</TextInline>
+                <TextInline>{etherPrice}</TextInline>
               </ContentRow>
             )}
           </ContentBlock>

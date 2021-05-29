@@ -1,5 +1,3 @@
-import 'whatwg-fetch'
-
 export const getCoingeckoSimplePriceUri = (baseId: string, quoteId: string) =>
   `https://api.coingecko.com/api/v3/simple/price?ids=${baseId}&vs_currencies=${quoteId}`
 
@@ -18,4 +16,4 @@ export const getCoingeckoPriceFetch = (fetchFunction: any) => async (base: strin
   return result[baseId][quoteId]
 }
 
-export const getCoingeckoPrice = getCoingeckoPriceFetch(fetch)
+export const getCoingeckoPrice = getCoingeckoPriceFetch(window && window.fetch)

@@ -27,11 +27,7 @@
   },
   "dependencies": {
     "@types/react": "17.0.1",
-    "@usedapp/core": "^0.3.21",
-    "whatwg-fetch": "^3.6.2"
-  },
-  "peerDependencies": {
-    "react": "*"
+    "@usedapp/core": "^0.3.21"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs",
