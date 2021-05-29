@@ -26,4 +26,4 @@ Given base token name and the support currencies to get token price from CoinGec
 
   const etherPrice = useCoingeckoPrice('ethereum', 'usd')
 
-  return etherPrice && (<p>$ {etherePrice}</p>)
+  return etherPrice && (<p>$ {etherPrice}</p>)
