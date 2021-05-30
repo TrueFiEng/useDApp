@@ -1,10 +1,8 @@
-import { utils, Wallet } from 'ethers'
+import { Wallet } from 'ethers'
 import { deployContract, MockProvider } from 'ethereum-waffle'
 import { Contract } from '@ethersproject/contracts'
 import { UniswapV2Pair, UniswapV2Factory } from '@usedapp/core'
 import { mineBlock } from './mineBlock'
-
-export const MOCK_TOKEN_INITIAL_BALANCE = utils.parseEther('10')
 
 export async function deployUniswapV2Pair(
   deployer: Wallet,

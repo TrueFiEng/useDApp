@@ -8,7 +8,7 @@ export const sortAddress = (tokenA: string, tokenB: string) => {
   return parseInt(tokenA, 16) < parseInt(tokenB, 16) ? [tokenA, tokenB] : [tokenB, tokenA]
 }
 
-export function useTokenPrice(
+export function useUniswapPrice(
   baseCurrency: string,
   quateCurrency: string,
   overrides?: { factory: string }

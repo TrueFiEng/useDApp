@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
 import chai, { expect } from 'chai'
-import { useTokenPrice, INIT_CODE_HASH, sortAddress, UniswapV2Pair } from '@usedapp/core'
+import { useUniswapPrice, INIT_CODE_HASH, sortAddress, UniswapV2Pair } from '@usedapp/core'
 import { mineBlock, renderWeb3Hook } from '../src'
 import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
 import { deployUniswapV2Pair } from '../src/utils/deployMockUniswapV2Pair'
@@ -12,7 +12,7 @@ import { BigNumber } from 'ethers'
 
 chai.use(solidity)
 
-describe('useTokenUniswapPrice', () => {
+describe('useUniswapPrice', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let tokenA: Contract
@@ -54,7 +54,7 @@ describe('useTokenUniswapPrice', () => {
     const price =
       tokenA.address === token0Addr ? reserve1.mul(EXP_SCALE).div(reserve0) : reserve0.mul(EXP_SCALE).div(reserve1)
     const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useTokenPrice(tokenA.address, tokenB.address, { factory: factory.address }),
+      () => useUniswapPrice(tokenA.address, tokenB.address, { factory: factory.address }),
       {
         mockProvider,
       }
