@@ -5,7 +5,7 @@ import { ChainId, Currency, FiatCurrency, NativeCurrency, Token } from '../../sr
 describe('Currency', () => {
   it('can be constructed', () => {
     const zuckBucks = new Currency('Zuck Bucks', 'ZB', 2, {
-      suffix: 'ZB',
+      suffix: 'ZB'
     })
     const formatted = zuckBucks.format('1234')
     expect(formatted).to.equal('12.34ZB')
@@ -14,7 +14,7 @@ describe('Currency', () => {
   it('FiatCurrency', () => {
     const dollar = new FiatCurrency('United States Dollar', 'USD', 2, {
       prefix: '$',
-      suffix: ' USD',
+      suffix: ' USD'
     })
     const formatted = dollar.format('1234')
     expect(formatted).to.equal('$12.34 USD')

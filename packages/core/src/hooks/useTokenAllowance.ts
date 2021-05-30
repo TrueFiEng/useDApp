@@ -16,7 +16,7 @@ export function useTokenAllowance(
           abi: ERC20Interface,
           address: tokenAddress,
           method: 'allowance',
-          args: [ownerAddress, spenderAddress],
+          args: [ownerAddress, spenderAddress]
         }
     ) ?? []
   return allowance

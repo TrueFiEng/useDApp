@@ -16,7 +16,7 @@ describe('useLocalStorage', () => {
       setKey: (value: string) => {
         key = value
         result.rerender()
-      },
+      }
     }
   }
 

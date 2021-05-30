@@ -6,7 +6,7 @@ export const TransactionsContext = createContext<{
   addTransaction: (payload: StoredTransaction) => void
 }>({
   transactions: DEFAULT_STORED_TRANSACTIONS,
-  addTransaction: () => undefined,
+  addTransaction: () => undefined
 })
 
 export function useTransactionsContext() {

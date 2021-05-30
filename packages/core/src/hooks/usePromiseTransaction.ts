@@ -17,7 +17,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       addTransaction({
         transaction,
         submittedAt: Date.now(),
-        transactionName: options?.transactionName,
+        transactionName: options?.transactionName
       })
       const receipt = await transaction.wait()
 

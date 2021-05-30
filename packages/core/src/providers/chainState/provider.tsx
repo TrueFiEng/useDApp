@@ -45,8 +45,8 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
         return
       }
       multicall(library, multicallAddress, blockNumber, uniqueCalls)
-        .then((state) => dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state }))
-        .catch((error) => {
+        .then(state => dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state }))
+        .catch(error => {
           console.error(error)
           dispatchState({ type: 'FETCH_ERROR', blockNumber, chainId, error })
         })
@@ -62,7 +62,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
 function getUnique(requests: ChainCall[]) {
   const unique: ChainCall[] = []
   for (const request of requests) {
-    if (!unique.find((x) => x.address === request.address && x.data === request.data)) {
+    if (!unique.find(x => x.address === request.address && x.data === request.data)) {
       unique.push(request)
     }
   }

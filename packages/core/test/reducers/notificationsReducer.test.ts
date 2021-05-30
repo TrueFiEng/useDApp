@@ -9,11 +9,11 @@ describe('notificationReducer', () => {
       id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
 
     expect(notificationReducer({}, { chainId: 1, type: 'ADD_NOTIFICATION', notification })).to.deep.equal({
-      1: [notification],
+      1: [notification]
     })
   })
 
@@ -22,23 +22,23 @@ describe('notificationReducer', () => {
       id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
     const added: Notification = {
       id: '2',
       submittedAt: 15,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
 
     const newState = notificationReducer(
       {
-        1: [initial],
+        1: [initial]
       },
       {
         type: 'ADD_NOTIFICATION',
         chainId: 1,
-        notification: added,
+        notification: added
       }
     )
 
@@ -50,17 +50,17 @@ describe('notificationReducer', () => {
       id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
 
     const newState = notificationReducer(
       {
-        1: [initial],
+        1: [initial]
       },
       {
         type: 'REMOVE_NOTIFICATION',
         chainId: 1,
-        notificationId: '1',
+        notificationId: '1'
       }
     )
 
@@ -72,29 +72,29 @@ describe('notificationReducer', () => {
       id: '1',
       submittedAt: 12,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
     const second: Notification = {
       id: '2',
       submittedAt: 13,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
     const third: Notification = {
       id: '3',
       submittedAt: 14,
       transaction: {} as TransactionResponse,
-      type: 'transactionStarted',
+      type: 'transactionStarted'
     }
 
     const newState = notificationReducer(
       {
-        1: [first, second, third],
+        1: [first, second, third]
       },
       {
         type: 'REMOVE_NOTIFICATION',
         chainId: 1,
-        notificationId: '2',
+        notificationId: '2'
       }
     )
 

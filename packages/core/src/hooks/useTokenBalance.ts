@@ -11,7 +11,7 @@ export function useTokenBalance(tokenAddress: string | Falsy, address: string | 
           abi: ERC20Interface,
           address: tokenAddress,
           method: 'balanceOf',
-          args: [address],
+          args: [address]
         }
     ) ?? []
   return tokenBalance

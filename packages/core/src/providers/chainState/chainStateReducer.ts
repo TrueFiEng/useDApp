@@ -40,19 +40,19 @@ export function chainStateReducer(state: State = {}, action: Action) {
             ...newState,
             [address]: {
               ...entries,
-              ...newState[address],
-            },
+              ...newState[address]
+            }
           }
         }
       }
       return {
         ...state,
-        [action.chainId]: { blockNumber: action.blockNumber, state: newState },
+        [action.chainId]: { blockNumber: action.blockNumber, state: newState }
       }
     } else if (action.type === 'FETCH_ERROR') {
       return {
         ...state,
-        [action.chainId]: { ...state[action.chainId], blockNumber: action.blockNumber, error: action.error },
+        [action.chainId]: { ...state[action.chainId], blockNumber: action.blockNumber, error: action.error }
       }
     }
   }

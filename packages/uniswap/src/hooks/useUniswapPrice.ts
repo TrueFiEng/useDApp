@@ -1,5 +1,5 @@
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
-import { useContractCall } from '../hooks'
+import { useContractCall } from '@usedapp/core'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
 import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
@@ -39,7 +39,7 @@ export function useUniswapPrice(
           abi: UniswapPairInterface,
           address: computedAddress,
           method: 'getReserves',
-          args: [],
+          args: []
         }
     ) ?? []
 

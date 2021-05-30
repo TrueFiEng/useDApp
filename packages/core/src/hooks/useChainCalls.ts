@@ -12,7 +12,7 @@ export function useChainCalls(calls: (ChainCall | Falsy)[]) {
     return () => removeCalls(filteredCalls)
   }, [JSON.stringify(calls), addCalls, removeCalls])
 
-  return calls.map((call) => call && value?.state?.[call.address]?.[call.data])
+  return calls.map(call => call && value?.state?.[call.address]?.[call.data])
 }
 
 export function useChainCall(call: ChainCall | Falsy) {

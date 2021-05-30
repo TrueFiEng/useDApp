@@ -13,10 +13,10 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
-          },
-        },
-      },
+            '0xdead': '0xbeef'
+          }
+        }
+      }
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
@@ -24,9 +24,9 @@ describe('chainStateReducer', () => {
       blockNumber: 1233,
       state: {
         [ADDRESS_A]: {
-          '0xdead': '0x0001',
-        },
-      },
+          '0xdead': '0x0001'
+        }
+      }
     })
     expect(result).to.deep.equal(state)
   })
@@ -37,10 +37,10 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
-          },
-        },
-      },
+            '0xdead': '0xbeef'
+          }
+        }
+      }
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
@@ -48,19 +48,19 @@ describe('chainStateReducer', () => {
       blockNumber: 1235,
       state: {
         [ADDRESS_B]: {
-          '0xabcd': '0x5678',
-        },
-      },
+          '0xabcd': '0x5678'
+        }
+      }
     })
     const expected: State = {
       [ChainId.Mainnet]: {
         blockNumber: 1235,
         state: {
           [ADDRESS_B]: {
-            '0xabcd': '0x5678',
-          },
-        },
-      },
+            '0xabcd': '0x5678'
+          }
+        }
+      }
     }
     expect(result).to.deep.equal(expected)
   })
@@ -81,13 +81,13 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
+            '0xdead': '0xbeef'
           },
           [ADDRESS_C]: {
-            '0xcc': '0xdd',
-          },
-        },
-      },
+            '0xcc': '0xdd'
+          }
+        }
+      }
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
@@ -95,12 +95,12 @@ describe('chainStateReducer', () => {
       blockNumber: 1234,
       state: {
         [ADDRESS_A]: {
-          '0xabcd': '0x30',
+          '0xabcd': '0x30'
         },
         [ADDRESS_B]: {
-          '0xabcd': '0x5678',
-        },
-      },
+          '0xabcd': '0x5678'
+        }
+      }
     })
     const expected: State = {
       [ChainId.Mainnet]: {
@@ -108,16 +108,16 @@ describe('chainStateReducer', () => {
         state: {
           [ADDRESS_A]: {
             '0xdead': '0xbeef',
-            '0xabcd': '0x30',
+            '0xabcd': '0x30'
           },
           [ADDRESS_B]: {
-            '0xabcd': '0x5678',
+            '0xabcd': '0x5678'
           },
           [ADDRESS_C]: {
-            '0xcc': '0xdd',
-          },
-        },
-      },
+            '0xcc': '0xdd'
+          }
+        }
+      }
     }
     expect(result).to.deep.equal(expected)
   })

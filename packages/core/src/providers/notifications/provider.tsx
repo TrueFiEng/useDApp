@@ -22,8 +22,8 @@ export function NotificationsProvider({ children }: Props) {
           type: 'walletConnected',
           id: nanoid(),
           submittedAt: Date.now(),
-          address: account,
-        },
+          address: account
+        }
       })
     }
   }, [account, chainId])
@@ -33,7 +33,7 @@ export function NotificationsProvider({ children }: Props) {
       dispatch({
         type: 'ADD_NOTIFICATION',
         chainId,
-        notification: { ...notification, id: nanoid() },
+        notification: { ...notification, id: nanoid() }
       })
     },
     [dispatch]
@@ -44,7 +44,7 @@ export function NotificationsProvider({ children }: Props) {
       dispatch({
         type: 'REMOVE_NOTIFICATION',
         chainId,
-        notificationId,
+        notificationId
       })
     },
     [dispatch]

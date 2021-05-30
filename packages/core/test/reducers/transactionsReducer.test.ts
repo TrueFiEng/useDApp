@@ -7,22 +7,22 @@ describe('transactionsReducer', () => {
   it('addTransaction', () => {
     const transaction: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
-      submittedAt: 10,
+      submittedAt: 10
     }
 
     expect(transactionReducer({}, { type: 'ADD_TRANSACTION', payload: transaction })).to.deep.eq({
-      1: [transaction],
+      1: [transaction]
     })
   })
 
   it('correct order', () => {
     const initial: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
-      submittedAt: 10,
+      submittedAt: 10
     }
     const added: StoredTransaction = {
       transaction: { chainId: 1 } as TransactionResponse,
-      submittedAt: 30,
+      submittedAt: 30
     }
 
     const newState = transactionReducer({ 1: [initial] }, { type: 'ADD_TRANSACTION', payload: added })
@@ -34,10 +34,10 @@ describe('transactionsReducer', () => {
     const initialTransactions: StoredTransaction[] = [
       { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 10 },
       { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 15 },
-      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 20 },
+      { transaction: { chainId: 1 } as TransactionResponse, submittedAt: 20 }
     ]
 
-    const newTransactions = initialTransactions.map((tx) => ({ ...tx, lastCheckedBlockNumber: 12 }))
+    const newTransactions = initialTransactions.map(tx => ({ ...tx, lastCheckedBlockNumber: 12 }))
 
     const newState = transactionReducer(
       { 1: initialTransactions },

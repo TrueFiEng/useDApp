@@ -33,24 +33,24 @@ export class CurrencyValue {
 
   add(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.map((x) => x.add(other.value))
+    return this.map(x => x.add(other.value))
   }
 
   sub(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.map((x) => x.sub(other.value))
+    return this.map(x => x.sub(other.value))
   }
 
   mul(value: BigNumberish) {
-    return this.map((x) => x.mul(value))
+    return this.map(x => x.mul(value))
   }
 
   div(value: BigNumberish) {
-    return this.map((x) => x.div(value))
+    return this.map(x => x.div(value))
   }
 
   mod(value: BigNumberish) {
-    return this.map((x) => x.mod(value))
+    return this.map(x => x.mod(value))
   }
 
   equals(other: CurrencyValue) {

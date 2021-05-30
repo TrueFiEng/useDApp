@@ -23,7 +23,7 @@ describe('CurrencyValue', () => {
 
   it('map', () => {
     const value = CurrencyValue.fromString(dollar, '123')
-    const mapped = value.map((x) => x.add(1))
+    const mapped = value.map(x => x.add(1))
     expect(mapped.toString()).to.equal('124')
   })
 

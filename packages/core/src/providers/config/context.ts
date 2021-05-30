@@ -4,7 +4,7 @@ import { DEFAULT_CONFIG } from '../../model/config/default'
 
 export const ConfigContext = createContext<{ config: FullConfig; updateConfig: (config: Config) => void }>({
   config: DEFAULT_CONFIG,
-  updateConfig: () => undefined,
+  updateConfig: () => undefined
 })
 
 export function useConfig() {

@@ -6,7 +6,7 @@ export const DEFAULT_OPTIONS = {
   useFixedPrecision: false,
   fixedPrecisionDigits: 0,
   prefix: '',
-  suffix: '',
+  suffix: ''
 }
 
 export type CurrencyFormatOptions = typeof DEFAULT_OPTIONS

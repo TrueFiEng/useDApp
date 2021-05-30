@@ -9,7 +9,7 @@ export enum ChainId {
   Polygon = 137,
   Mumbai = 80001,
   Localhost = 1337,
-  Hardhat = 31337,
+  Hardhat = 31337
 }
 
 export const CHAIN_NAMES = {
@@ -23,7 +23,7 @@ export const CHAIN_NAMES = {
   [ChainId.Polygon]: 'Polygon',
   [ChainId.Mumbai]: 'Mumbai',
   [ChainId.Localhost]: 'Localhost',
-  [ChainId.Hardhat]: 'Hardhat',
+  [ChainId.Hardhat]: 'Hardhat'
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -35,7 +35,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   [ChainId.Polygon]: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
-  [ChainId.Mumbai]: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
+  [ChainId.Mumbai]: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc'
 }
 
 export const TEST_CHAINS = [
@@ -45,5 +45,5 @@ export const TEST_CHAINS = [
   ChainId.Goerli,
   ChainId.Mumbai,
   ChainId.Localhost,
-  ChainId.Hardhat,
+  ChainId.Hardhat
 ]

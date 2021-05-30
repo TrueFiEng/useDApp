@@ -25,7 +25,7 @@ describe('formatCurrency', () => {
       [3, '100001', '100.001'],
       [8, '1098765432101234', '10,987,654.32101234'],
       [0, '', '0'],
-      [4, '', '0'],
+      [4, '', '0']
     ]
 
     for (const [decimals, input, expected] of cases) {
@@ -42,7 +42,7 @@ describe('formatCurrency', () => {
           ...DEFAULT_OPTIONS,
           decimals: 5,
           thousandSeparator: ' ',
-          decimalSeparator: ',',
+          decimalSeparator: ','
         },
         '1234567890987654321'
       )
@@ -60,7 +60,7 @@ describe('formatCurrency', () => {
       [6, 2, '123400', '1,234'],
       [6, 2, '1234567', '12,345.6'],
       [6, 2, '12345678', '123,456'],
-      [6, 2, '123456789', '1,234,567'],
+      [6, 2, '123456789', '1,234,567']
     ]
 
     for (const [significant, decimals, input, expected] of cases) {
@@ -84,7 +84,7 @@ describe('formatCurrency', () => {
       [3, 4, '123456', '12.345'],
       [3, 5, '123456', '1.234'],
       [3, 6, '123456', '0.123'],
-      [3, 7, '123456', '0.012'],
+      [3, 7, '123456', '0.012']
     ]
 
     for (const [fixed, decimals, input, expected] of cases) {

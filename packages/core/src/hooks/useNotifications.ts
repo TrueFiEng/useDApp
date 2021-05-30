@@ -7,14 +7,14 @@ import { useConfig } from '../providers/config/context'
 function getExpiredNotifications(notifications: Notification[], expirationPeriod: number) {
   const timeFromCreation = (creationTime: number) => Date.now() - creationTime
 
-  return notifications.filter((notification) => timeFromCreation(notification.submittedAt) >= expirationPeriod)
+  return notifications.filter(notification => timeFromCreation(notification.submittedAt) >= expirationPeriod)
 }
 
 export function useNotifications() {
   const { chainId, account } = useEthers()
   const { addNotification, notifications, removeNotification } = useNotificationsContext()
   const {
-    notifications: { checkInterval, expirationPeriod },
+    notifications: { checkInterval, expirationPeriod }
   } = useConfig()
 
   const chainNotifications = useMemo(() => {
@@ -38,6 +38,6 @@ export function useNotifications() {
   return {
     notifications: chainNotifications,
     addNotification,
-    removeNotification,
+    removeNotification
   }
 }

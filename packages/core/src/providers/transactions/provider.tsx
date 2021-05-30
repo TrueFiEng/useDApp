@@ -25,16 +25,16 @@ export function TransactionProvider({ children }: Props) {
     (payload: StoredTransaction) => {
       dispatch({
         type: 'ADD_TRANSACTION',
-        payload,
+        payload
       })
       addNotification({
         notification: {
           type: 'transactionStarted',
           transaction: payload.transaction,
           submittedAt: payload.submittedAt,
-          transactionName: payload.transactionName,
+          transactionName: payload.transactionName
         },
-        chainId: payload.transaction.chainId,
+        chainId: payload.transaction.chainId
       })
     },
     [dispatch]
@@ -61,9 +61,9 @@ export function TransactionProvider({ children }: Props) {
                 submittedAt: Date.now(),
                 transaction: tx.transaction,
                 receipt,
-                transactionName: tx.transactionName,
+                transactionName: tx.transactionName
               },
-              chainId,
+              chainId
             })
 
             return { ...tx, receipt }

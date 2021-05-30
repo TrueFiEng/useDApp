@@ -23,7 +23,7 @@ export class FiatCurrency extends Currency {
     super(name, ticker, decimals, {
       useFixedPrecision: true,
       fixedPrecisionDigits: decimals,
-      ...formattingOptions,
+      ...formattingOptions
     })
   }
 }
@@ -39,7 +39,7 @@ export class NativeCurrency extends Currency {
     super(name, ticker, decimals, {
       suffix: ` ${ticker}`,
       significantDigits: 6,
-      ...formattingOptions,
+      ...formattingOptions
     })
   }
 }
@@ -56,7 +56,7 @@ export class Token extends Currency {
     super(name, ticker, decimals, {
       suffix: ` ${ticker}`,
       significantDigits: 6,
-      ...formattingOptions,
+      ...formattingOptions
     })
   }
 }

@@ -13,7 +13,7 @@ export function useEtherBalance(address: string | Falsy): BigNumber | undefined 
           abi: MultiCallABI,
           address: multicallAddress,
           method: 'getEthBalance',
-          args: [address],
+          args: [address]
         }
     ) ?? []
   return etherBalance

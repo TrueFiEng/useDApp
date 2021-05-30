@@ -23,12 +23,12 @@ export function notificationReducer(state: Notifications, action: Action): Notif
     case 'ADD_NOTIFICATION':
       return {
         ...state,
-        [chainId]: [action.notification, ...chainState],
+        [chainId]: [action.notification, ...chainState]
       }
     case 'REMOVE_NOTIFICATION': {
       return {
         ...state,
-        [chainId]: chainState.filter((notification) => notification.id !== action.notificationId),
+        [chainId]: chainState.filter(notification => notification.id !== action.notificationId)
       }
     }
   }

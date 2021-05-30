@@ -36,7 +36,7 @@ describe('transactionHelpers', () => {
       { description: 'null', value: null },
       { description: 'undefined', value: undefined },
       { description: 'empty string', value: '' as const },
-      { description: 'false', value: false as const },
+      { description: 'false', value: false as const }
     ]
     testCases.forEach(({ description, value }) => {
       it(description, () => {

@@ -8,7 +8,7 @@ export const NotificationsContext = createContext<{
 }>({
   notifications: DEFAULT_NOTIFICATIONS,
   addNotification: () => undefined,
-  removeNotification: () => undefined,
+  removeNotification: () => undefined
 })
 
 export function useNotificationsContext() {
