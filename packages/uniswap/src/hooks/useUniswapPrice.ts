@@ -1,5 +1,5 @@
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
-import { useContractCall } from '@usedapp/core'
+import { compareAddress, useContractCall } from '@usedapp/core'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
 import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
@@ -21,31 +21,39 @@ export function useUniswapPrice(
   quateCurrency: string,
   overrides?: { factory?: string; digits?: number }
 ): FixedNumber | undefined {
+  // token0 is smaller than tokenB
+  let token0: string
+  let token1: string
   const digits = overrides?.digits || 8
 
-  const [token0, token1] =
-    parseInt(baseCurrency, 16) < parseInt(quateCurrency, 16)
+  try {
+    [token0, token1] = compareAddress(baseCurrency, quateCurrency) === -1
       ? [baseCurrency, quateCurrency]
       : [quateCurrency, baseCurrency]
+  } catch (error) {
+    console.log(error)
+    return
+  }
+
   const computedAddress = getCreate2Address(
     overrides?.factory || UNISWAP_V2_FACTORY_ADDRESS[1], // Mainnet
     keccak256(['bytes'], [pack(['address', 'address'], [token0, token1])]),
     INIT_CODE_HASH
   )
-  const [reserve0, reserve1] =
+  const reserves =
     useContractCall(
-      baseCurrency &&
-        quateCurrency && {
-          abi: UniswapPairInterface,
-          address: computedAddress,
-          method: 'getReserves',
-          args: []
-        }
+      token0 && token1 && {
+        abi: UniswapPairInterface,
+        address: computedAddress,
+        method: 'getReserves',
+        args: []
+      }
     ) ?? []
 
-  if (!reserve0 || !reserve1) return
+  if (!reserves) return
 
+  const [numerator, denominator] = token0 === baseCurrency ? [reserves[1], reserves[0]] : [reserves[0], reserves[1]]
   const EXP_SCALE = BigNumber.from(10).pow(digits)
-  const price = token0 === baseCurrency ? reserve1.mul(EXP_SCALE).div(reserve0) : reserve0.mul(EXP_SCALE).div(reserve1)
+  const price = numerator.mul(EXP_SCALE).div(denominator)
   return FixedNumber.fromValue(price, digits)
 }

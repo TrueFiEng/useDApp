@@ -17,14 +17,18 @@ chai.use(solidity)
 describe('useUniswapPrice', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
+  const DIGITS = 8
+  const ONE = BigNumber.from(1)
+  const RATIO = BigNumber.from(5)
+  const EXP_SCALE = BigNumber.from(10).pow(DIGITS)
   let tokenA: Contract
   let tokenB: Contract
   let factory: Contract
   let pair: Contract
 
-  async function addLiquidity(token0Amount: BigNumber, token1Amount: BigNumber) {
-    await tokenA.transfer(pair.address, token0Amount)
-    await tokenB.transfer(pair.address, token1Amount)
+  async function addLiquidity(tokenAAmount: BigNumber, tokenBAmount: BigNumber) {
+    await tokenA.transfer(pair.address, tokenAAmount)
+    await tokenB.transfer(pair.address, tokenBAmount)
     await pair.mint(deployer.address)
   }
 
@@ -37,8 +41,8 @@ describe('useUniswapPrice', () => {
     tokenB = await deployMockToken(deployer)
     await mineBlock(mockProvider)
     ;({ factory, pair } = await deployUniswapV2Pair(deployer, tokenA, tokenB, mockProvider))
-
-    await addLiquidity(MOCK_TOKEN_INITIAL_BALANCE, MOCK_TOKEN_INITIAL_BALANCE.div(2))
+    // RATIO = tokenAReserve / tokenBReserve = 5
+    await addLiquidity(MOCK_TOKEN_INITIAL_BALANCE, MOCK_TOKEN_INITIAL_BALANCE.div(RATIO))
   })
 
   it('get init code hash', async () => {
@@ -54,14 +58,11 @@ describe('useUniswapPrice', () => {
   })
 
   it('get price', async () => {
-    const EXP_SCALE = BigNumber.from(10).pow(8)
-    const [token0Addr] = sortAddress(tokenA.address, tokenB.address)
-    const reserves: [BigNumber, BigNumber] = await pair.getReserves()
+    const [token0Addr, token1Addr] = sortAddress(tokenA.address, tokenB.address)
 
-    const price =
-      tokenA.address === token0Addr
-        ? reserves[1].mul(EXP_SCALE).div(reserves[0])
-        : reserves[0].mul(EXP_SCALE).div(reserves[1])
+    // base/quate (e.g. ETH/DAI): price of baseToken in quateToken = quateTokenReserve / baseTokenReserve
+    const [numerator, denominator] = tokenA.address === token0Addr ? [ONE, RATIO] : [RATIO, ONE]
+    const price = numerator.mul(EXP_SCALE).div(denominator)
 
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useUniswapPrice(tokenA.address, tokenB.address, { factory: factory.address }),
@@ -71,6 +72,6 @@ describe('useUniswapPrice', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current?.toString()).to.eq(FixedNumber.fromValue(price, 8).toString())
+    expect(result.current?.toString()).to.eq(FixedNumber.fromValue(price, DIGITS).toString())
   })
 })
