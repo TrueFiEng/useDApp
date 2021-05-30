@@ -1,7 +1,7 @@
 import { Wallet } from 'ethers'
 import { deployContract, MockProvider } from 'ethereum-waffle'
 import { Contract } from '@ethersproject/contracts'
-import { UniswapV2Pair, UniswapV2Factory } from '@usedapp/core'
+import { UniswapV2Pair, UniswapV2Factory } from '@usedapp/uniswap'
 import { mineBlock } from './mineBlock'
 
 export async function deployUniswapV2Pair(
