@@ -9,7 +9,7 @@ import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
-import { LocalMulticall } from './LocalMulticall'
+import { LocalMulticallProvider } from './LocalMulticallProvider'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -36,13 +36,13 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
     <EthersProvider>
       <BlockNumberProvider>
         <NetworkActivator />
-        <LocalMulticall>
+        <LocalMulticallProvider>
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>
               <TransactionProvider>{children}</TransactionProvider>
             </NotificationsProvider>
           </ChainStateProvider>
-        </LocalMulticall>
+        </LocalMulticallProvider>
       </BlockNumberProvider>
     </EthersProvider>
   )

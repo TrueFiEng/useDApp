@@ -49,6 +49,16 @@ Stores configurations and makes them available via `useConfig`_ hook.
 =====================
 
 
+<LocalMulticallProvider>
+=====================
+
+Ensures that a Multicall contract address is available when developing on a local chain. 
+A Multicall contract will be deployed when an address is not defined in the `Config`_.
+
+While the contract is being deployed, a temporary "Deploying multicall..." message will be rendered instead
+of the user's child components.
+
+
 <ChainStateProvider>
 ====================
 

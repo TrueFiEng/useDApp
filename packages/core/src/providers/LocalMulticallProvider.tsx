@@ -10,7 +10,7 @@ interface LocalMulticallProps {
   children: ReactNode
 }
 
-export function LocalMulticall({ children }: LocalMulticallProps) {
+export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
   const { multicallAddresses } = useConfig()
   const { library, chainId } = useEthers()
