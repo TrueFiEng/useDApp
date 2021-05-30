@@ -1,6 +1,12 @@
 import { expect } from 'chai'
 import { ChainId } from '../../src'
-import { getChainName, getExplorerAddressLink, isTestChain, getExplorerTransactionLink, isLocalChain } from '../../src/helpers/chain'
+import {
+  getChainName,
+  getExplorerAddressLink,
+  isTestChain,
+  getExplorerTransactionLink,
+  isLocalChain,
+} from '../../src/helpers/chain'
 
 describe('Chain helpers', () => {
   it('getChainName', () => {

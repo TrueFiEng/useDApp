@@ -48,7 +48,4 @@ export const TEST_CHAINS = [
   ChainId.Hardhat,
 ]
 
-export const LOCAL_CHAINS = [
-  ChainId.Localhost,
-  ChainId.Hardhat,
-]
+export const LOCAL_CHAINS = [ChainId.Localhost, ChainId.Hardhat]

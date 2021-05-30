@@ -1,40 +1,54 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { isLocalChain } from '../helpers'
-import { deployMulticallIfLocal } from '../helpers/contract'
+import { useEthers } from '../hooks'
+import { useBlockNumber } from './blockNumber'
 import { useConfig, useUpdateConfig } from './config'
+import multicallABI from '../constants/abi/MultiCall.json'
+import { deployContract } from '../helpers/contract'
 
 interface LocalMulticallProps {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function LocalMulticall({ children }: LocalMulticallProps) {
-    const updateConfig = useUpdateConfig()
-    const { multicallAddresses, readOnlyUrls, readOnlyChainId } = useConfig()
+  const updateConfig = useUpdateConfig()
+  const { multicallAddresses } = useConfig()
+  const { library, chainId } = useEthers()
+  const [isDeployingMulticall, setIsDeployingMulticall] = useState(false)
+  const [multicallBlockNumber, setMulticallBlockNumber] = useState<number>()
+  const blockNumber = useBlockNumber()
 
-    const chainId = readOnlyChainId
-    const multicallAddress = chainId !== undefined && multicallAddresses !== undefined ? multicallAddresses[chainId] : undefined
+  const multicallAddress =
+    chainId !== undefined && multicallAddresses !== undefined ? multicallAddresses[chainId] : undefined
 
-    useEffect(() => {
-        (async () => {
-            if (chainId !== undefined && isLocalChain(chainId) && multicallAddress === undefined) {
-                const address = await deployMulticallIfLocal(chainId, readOnlyUrls)
-
-                if (address !== undefined) {
-                    updateConfig({
-                        multicallAddresses: {
-                            [chainId]: address
-                        },
-                    })
-                }
-            }
-        })()
-    }, [])
-
-    if (chainId !== undefined && isLocalChain(chainId) && !multicallAddress) {
-        return <div>Deploying multicall...</div>
+  useEffect(() => {
+    if (isDeployingMulticall || multicallAddress !== undefined || library === undefined || chainId === undefined) {
+      return
     }
+    setIsDeployingMulticall(true)
 
-    return <>
-        {children}
-    </>
+    const deployContractIfLocal = async () => {
+      if (isLocalChain(chainId) && multicallAddress === undefined) {
+        const { contractAddress, receipt } = await deployContract(multicallABI, library.getSigner())
+        console.log(`Deploying Multicall with contract address "${contractAddress}"`)
+
+        updateConfig({
+          multicallAddresses: {
+            [chainId]: contractAddress,
+          },
+        })
+        setMulticallBlockNumber(receipt.blockNumber)
+      }
+    }
+    deployContractIfLocal()
+  }, [library, chainId])
+
+  const awaitingMulticallBlock =
+    multicallBlockNumber !== undefined && blockNumber !== undefined && blockNumber < multicallBlockNumber
+
+  if (chainId !== undefined && isLocalChain(chainId) && (!multicallAddress || awaitingMulticallBlock)) {
+    return <div>Deploying multicall...</div>
+  }
+
+  return <>{children}</>
 }
