@@ -1,3 +1,3 @@
 export * from './useTokenList'
-export * from './useTokenPrice'
+export * from './useTokenUniswapPrice'
 export * from './useTokenMethod'
