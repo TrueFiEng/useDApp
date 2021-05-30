@@ -53,17 +53,15 @@ describe('useUniswapPrice', () => {
   })
 
   it('get price', async () => {
-    let ratio: BigNumber
     const EXP_SCALE = BigNumber.from(10).pow(8)
     const [token0Addr] = sortAddress(tokenA.address, tokenB.address)
     const reserves: [BigNumber, BigNumber] = await pair.getReserves()
 
-    if (tokenA.address === token0Addr) {
-      ratio = reserves[1].mul(EXP_SCALE).div(reserves[0])
-    } else {
-      ratio = reserves[0].mul(EXP_SCALE).div(reserves[1])
-    }
-    const price = FixedNumber.fromValue(ratio, 8)
+    const price =
+      tokenA.address === token0Addr
+        ? reserves[1].mul(EXP_SCALE).div(reserves[0])
+        : reserves[0].mul(EXP_SCALE).div(reserves[1])
+
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useUniswapPrice(tokenA.address, tokenB.address, { factory: factory.address }),
       {
@@ -72,6 +70,6 @@ describe('useUniswapPrice', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current?.toString()).to.eq(price.toString())
+    expect(result.current?.toString()).to.eq(FixedNumber.fromValue(price, 8).toString())
   })
 })

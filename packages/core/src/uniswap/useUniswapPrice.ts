@@ -11,9 +11,9 @@ import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
  * e.g ETH/DAI reserve of Dai / the reserve of WETH
  * If there is no direct path or unconnected, the call returns `undefined`
  *
- * @param baseCurrency address of base token (e.g ETH)
- * @param quateCurrency address of quate token (e.g DAI)
- * @param overrides optional factory address (For Sushiswap, default Uniswap V2 Factory)
+ * @param {string} baseCurrency address of base token (e.g ETH address)
+ * @param {string} quateCurrency address of quate token (e.g DAI address)
+ * @param {Object} overrides optional factory address (For Sushiswap, default Uniswap V2 Factory)
  * @returns {FixedNumber | undefined} peek price
  */
 export function useUniswapPrice(
