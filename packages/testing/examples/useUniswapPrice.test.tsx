@@ -3,8 +3,9 @@ import { solidity } from 'ethereum-waffle'
 import { Contract } from '@ethersproject/contracts'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
+import { FixedNumber } from '@ethersproject/bignumber'
 import chai, { expect } from 'chai'
-import { useUniswapPrice, INIT_CODE_HASH, sortAddress, UniswapV2Pair } from '@usedapp/core'
+import { useUniswapPrice, INIT_CODE_HASH, UniswapV2Pair, compareAddress } from '@usedapp/core'
 import { mineBlock, renderWeb3Hook } from '../src'
 import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
 import { deployUniswapV2Pair } from '../src/utils/deployMockUniswapV2Pair'
@@ -24,6 +25,10 @@ describe('useUniswapPrice', () => {
     await tokenA.transfer(pair.address, token0Amount)
     await tokenB.transfer(pair.address, token1Amount)
     await pair.mint(deployer.address)
+  }
+
+  function sortAddress(tokenA: string, tokenB: string) {
+    return compareAddress(tokenA, tokenB) === -1 ? [tokenA, tokenB] : [tokenB, tokenA]
   }
 
   beforeEach(async () => {
@@ -48,11 +53,17 @@ describe('useUniswapPrice', () => {
   })
 
   it('get price', async () => {
-    const EXP_SCALE = BigNumber.from('10').pow('18')
+    let ratio: BigNumber
+    const EXP_SCALE = BigNumber.from(10).pow(8)
     const [token0Addr] = sortAddress(tokenA.address, tokenB.address)
-    const [reserve0, reserve1]: [BigNumber, BigNumber] = await pair.getReserves()
-    const price =
-      tokenA.address === token0Addr ? reserve1.mul(EXP_SCALE).div(reserve0) : reserve0.mul(EXP_SCALE).div(reserve1)
+    const reserves: [BigNumber, BigNumber] = await pair.getReserves()
+
+    if (tokenA.address === token0Addr) {
+      ratio = reserves[1].mul(EXP_SCALE).div(reserves[0])
+    } else {
+      ratio = reserves[0].mul(EXP_SCALE).div(reserves[1])
+    }
+    const price = FixedNumber.fromValue(ratio, 8)
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useUniswapPrice(tokenA.address, tokenB.address, { factory: factory.address }),
       {
@@ -61,6 +72,6 @@ describe('useUniswapPrice', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(price)
+    expect(result.current?.toString()).to.eq(price.toString())
   })
 })
