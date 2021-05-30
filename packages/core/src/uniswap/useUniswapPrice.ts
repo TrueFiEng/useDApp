@@ -8,6 +8,11 @@ export const sortAddress = (tokenA: string, tokenB: string) => {
   return parseInt(tokenA, 16) < parseInt(tokenB, 16) ? [tokenA, tokenB] : [tokenB, tokenA]
 }
 
+/** 
+ * @param baseCurrency address of base token (e.g ETH)
+ * @param quateCurrency address of quate token (e.g DAI)
+ * @param overrides optional factory address (For Sushiswap)
+*/
 export function useUniswapPrice(
   baseCurrency: string,
   quateCurrency: string,
