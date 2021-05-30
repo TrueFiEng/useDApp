@@ -1,4 +1,4 @@
-import { useBlockNumber } from '@usedapp/core/src/providers'
+import { useBlockNumber } from '../providers/blockNumber/context'
 import { BigNumber } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
