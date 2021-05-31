@@ -18,35 +18,41 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   const [multicallBlockNumber, setMulticallBlockNumber] = useState<number>()
   const blockNumber = useBlockNumber()
 
-  const multicallAddress =
-    chainId !== undefined && multicallAddresses !== undefined ? multicallAddresses[chainId] : undefined
+  const multicallAddress = chainId && multicallAddresses && multicallAddresses[chainId]
 
   useEffect(() => {
-    if (isDeployingMulticall || multicallAddress !== undefined || library === undefined || chainId === undefined) {
+    if (isDeployingMulticall || multicallAddress || !library || !chainId) {
       return
     }
-    setIsDeployingMulticall(true)
 
-    const deployContractIfLocal = async () => {
-      if (isLocalChain(chainId) && multicallAddress === undefined) {
-        const { contractAddress, receipt } = await deployContract(multicallABI, library.getSigner())
-        console.log(`Deploying Multicall with contract address "${contractAddress}"`)
-
-        updateConfig({
-          multicallAddresses: {
-            [chainId]: contractAddress,
-          },
-        })
-        setMulticallBlockNumber(receipt.blockNumber)
+    const deployMulticall = async () => {
+      const signer = library?.getSigner()
+      if (!signer) {
+        setIsDeployingMulticall(false)
+        return
       }
+
+      const { contractAddress, receipt } = await deployContract(multicallABI, signer)
+      console.log(`Deploying Multicall with contract address "${contractAddress}"`)
+
+      updateConfig({
+        multicallAddresses: {
+          [chainId]: contractAddress,
+        },
+      })
+      setMulticallBlockNumber(receipt.blockNumber)
+      setIsDeployingMulticall(false)
     }
-    deployContractIfLocal()
+
+    if (isLocalChain(chainId) && !multicallAddress) {
+      setIsDeployingMulticall(true)
+      deployMulticall()
+    }
   }, [library, chainId])
 
-  const awaitingMulticallBlock =
-    multicallBlockNumber !== undefined && blockNumber !== undefined && blockNumber < multicallBlockNumber
+  const awaitingMulticallBlock = multicallBlockNumber && blockNumber && blockNumber < multicallBlockNumber
 
-  if (chainId !== undefined && isLocalChain(chainId) && (!multicallAddress || awaitingMulticallBlock)) {
+  if (chainId && isLocalChain(chainId) && (!multicallAddress || awaitingMulticallBlock)) {
     return <div>Deploying multicall...</div>
   }
 
