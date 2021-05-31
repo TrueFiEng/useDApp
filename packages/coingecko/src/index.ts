@@ -8,12 +8,8 @@ export const useCoingeckoPrice = (base: string, quote = 'usd'): number | undefin
 
   useEffect(() => {
     async function getPrice() {
-      try {
-        const tokenPrice = await getCoingeckoPrice(base, quote)
-        setPrice(tokenPrice)
-      } catch (_) {
-        setPrice(undefined)
-      }
+      const tokenPrice = await getCoingeckoPrice(base, quote)
+      setPrice(tokenPrice)
     }
 
     getPrice()

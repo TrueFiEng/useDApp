@@ -28,4 +28,21 @@ describe('getCoingeckoPriceFetch', () => {
     const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
     expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(2234.6)
   })
+
+  it('No Answer', async () => {
+    const mockFetch = () => {
+      throw new Error()
+    }
+    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(undefined)
+  })
+
+  it('Wrong Answer', async () => {
+    const mockFetch = () =>
+      Promise.resolve({
+        json: () => ({ eth: { usd: 2234.6 } }),
+      })
+    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(undefined)
+  })
 })
