@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.3.24
+
+### Patch Changes
+
+- 0f0ebfe: Fixed dependency issue when installing applications dependencies
+
 ## 0.3.23
 
 ### Patch Changes
