@@ -51,8 +51,9 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   }, [library, chainId])
 
   const awaitingMulticallBlock = multicallBlockNumber && blockNumber && blockNumber < multicallBlockNumber
+  const awaitingMulticall = awaitingMulticallBlock || isDeployingMulticall
 
-  if (chainId && isLocalChain(chainId) && (!multicallAddress || awaitingMulticallBlock)) {
+  if (chainId && isLocalChain(chainId) && (!multicallAddress || awaitingMulticall)) {
     return <div>Deploying multicall...</div>
   }
 
