@@ -16,9 +16,7 @@ export const useCoingeckoPrice = (base: string, quote = 'usd'): number | undefin
       }
     }
 
-    if (base && quote && blockNo) {
-      getPrice()
-    }
+    getPrice()
   }, [base, quote, blockNo])
 
   return price
