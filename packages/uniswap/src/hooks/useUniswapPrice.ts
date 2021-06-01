@@ -6,7 +6,7 @@ import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
 
 /**
  * @dev
- * `pair.getReserves` returns uint112 type,
+ * function`getReserves` of UniswapV2Pair returns uint112 type,
  * so we simply divide the reserve of quate token into the reserve of base token
  * e.g ETH/DAI reserve of Dai / the reserve of WETH
  * If there is no direct path or unconnected, the call returns `undefined`
@@ -39,7 +39,7 @@ export function useUniswapPrice(
     keccak256(['bytes'], [pack(['address', 'address'], [token0, token1])]),
     INIT_CODE_HASH
   )
-  const reserves =
+  const [reserve0, reserve1] =
     useContractCall(
       token0 &&
         token1 && {
@@ -50,9 +50,9 @@ export function useUniswapPrice(
         }
     ) ?? []
 
-  if (!reserves) return
+  if (!reserve0 || !reserve1) return
 
-  const [numerator, denominator] = token0 === baseCurrency ? [reserves[1], reserves[0]] : [reserves[0], reserves[1]]
+  const [numerator, denominator] = token0 === baseCurrency ? [reserve1, reserve0] : [reserve0, reserve1]
   const EXP_SCALE = BigNumber.from(10).pow(digits)
   const price = numerator.mul(EXP_SCALE).div(denominator)
   return FixedNumber.fromValue(price, digits)
