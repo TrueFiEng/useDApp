@@ -2,7 +2,7 @@ import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from
 import { compareAddress, useContractCall } from '@usedapp/core'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
-import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
+import { BigNumber, parseFixed, formatFixed } from '@ethersproject/bignumber'
 
 /**
  * @dev
@@ -20,11 +20,11 @@ export function useUniswapPrice(
   baseCurrency: string,
   quateCurrency: string,
   overrides?: { factory?: string; digits?: number }
-): FixedNumber | undefined {
+): BigNumber | undefined {
   // token0 is smaller than token1
   let token0: string
   let token1: string
-  const digits = overrides?.digits || 8
+  const digits = overrides?.digits || 18
 
   try {
     ;[token0, token1] =
@@ -54,6 +54,7 @@ export function useUniswapPrice(
 
   const [numerator, denominator] = token0 === baseCurrency ? [reserve1, reserve0] : [reserve0, reserve1]
   const EXP_SCALE = BigNumber.from(10).pow(digits)
-  const price = numerator.mul(EXP_SCALE).div(denominator)
-  return FixedNumber.fromValue(price, digits)
+  const price: BigNumber = numerator.mul(EXP_SCALE).div(denominator)
+
+  return parseFixed(formatFixed(price, digits), digits)
 }

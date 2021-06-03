@@ -3,21 +3,20 @@ import { solidity } from 'ethereum-waffle'
 import { Contract } from '@ethersproject/contracts'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
-import { FixedNumber } from '@ethersproject/bignumber'
+import { parseFixed, formatFixed, BigNumber } from '@ethersproject/bignumber'
 import chai, { expect } from 'chai'
 import { useUniswapPrice, INIT_CODE_HASH, UniswapV2Pair } from '@usedapp/uniswap'
 import { compareAddress } from '@usedapp/core'
 import { renderWeb3Hook } from '../src'
 import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
 import { deployUniswapV2Pair } from '../src/utils/deployMockUniswapV2Pair'
-import { BigNumber } from 'ethers'
 
 chai.use(solidity)
 
 describe('useUniswapPrice', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
-  const DIGITS = 8
+  const DIGITS = 18
   const ONE = BigNumber.from(1)
   const RATIO = BigNumber.from(5)
   const EXP_SCALE = BigNumber.from(10).pow(DIGITS)
@@ -71,6 +70,6 @@ describe('useUniswapPrice', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current?.toString()).to.eq(FixedNumber.fromValue(price, DIGITS).toString())
+    expect(result.current).to.eq(parseFixed(formatFixed(price, DIGITS), DIGITS))
   })
 })
