@@ -7,12 +7,12 @@ Hooks
 useCoingeckoPrice
 ====================
 
-Given base token name and the support currencies to get token price from CoinGecko.
+Given base token name and the supported currencies to get token price from CoinGecko.
 
 **Parameters**
 
 - ``base: string`` - the token name that you can get at URL while search in CoinGecko. Or find the token from https://api.coingecko.com/api/v3/coins/list
-- ``quote: string`` - (optional) the support currencies in CoinGecko. Default quote is `usd`. See https://api.coingecko.com/api/v3/simple/supported_vs_currencies
+- ``quote: string`` - (optional) the supported currencies in CoinGecko. Default quote is `usd`. See https://api.coingecko.com/api/v3/simple/supported_vs_currencies
 
 **Returns**
 
@@ -33,12 +33,12 @@ Given base token name and the support currencies to get token price from CoinGec
 useCoingeckoTokenPrice
 ===============================
 
-Given token contract and the support currencies to get token price from CoinGecko.
+Given token contract and the supported currencies to get token price from CoinGecko.
 
 **Parameters**
 
 - ``contract: string`` - the token contract
-- ``quote: string`` - (optional) the support currencies in CoinGecko. Default quote is `usd`. See https://api.coingecko.com/api/v3/simple/supported_vs_currencies
+- ``quote: string`` - (optional) the supported currencies in CoinGecko. Default quote is `usd`. See https://api.coingecko.com/api/v3/simple/supported_vs_currencies
 - ``platform: string`` - (optional) the platform issuing tokens. Default platform id is `ethereum`. See https://api.coingecko.com/api/v3/asset_platforms
 
 **Returns**
