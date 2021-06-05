@@ -2,9 +2,9 @@ export const getCoingeckoSimplePriceUri = (baseId: string, quoteId: string) =>
   `https://api.coingecko.com/api/v3/simple/price?ids=${baseId}&vs_currencies=${quoteId}`
 
 export const getCoingeckoPriceFetch = (fetchFunction: any) => async (base: string, quote: string) => {
-  const baseId = base.toLowerCase()
-  const quoteId = quote.toLowerCase()
   try {
+    const baseId = base.toLowerCase()
+    const quoteId = quote.toLowerCase()
     const url = getCoingeckoSimplePriceUri(baseId, quoteId)
     const data = await fetchFunction(url, {
       method: 'GET',
