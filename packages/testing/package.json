@@ -30,10 +30,11 @@
     "@types/react": "17.0.1",
     "@types/react-dom": "17.0.1",
     "@usedapp/core": "*",
+    "@usedapp/uniswap": "*",
     "@web3-react/core": "6.1.1",
     "@web3-react/injected-connector": "6.0.7",
-    "ethers": "5.2.0",
     "ethereum-waffle": "3.2.2",
+    "ethers": "5.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
