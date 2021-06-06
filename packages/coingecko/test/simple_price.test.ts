@@ -26,7 +26,7 @@ describe('getCoingeckoPriceFetch', () => {
         json: () => ({ ethereum: { usd: 2234.6 } }),
       })
     const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
-    expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(2234.6)
+    expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq('2234.6')
   })
 
   it('No Answer', async () => {

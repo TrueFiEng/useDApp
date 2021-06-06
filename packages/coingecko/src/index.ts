@@ -4,8 +4,8 @@ import { useBlockNumber } from '@usedapp/core'
 import { getCoingeckoPrice } from './simple_price'
 import { getCoingeckoTokenPrice } from './simple_token_price'
 
-export const useCoingeckoPrice = (base: string, quote = 'usd'): number | undefined => {
-  const [price, setPrice] = useState(undefined)
+export const useCoingeckoPrice = (base: string, quote = 'usd'): string | undefined => {
+  const [price, setPrice] = useState<string | undefined>(undefined)
   const blockNo = useBlockNumber()
 
   useEffect(() => {
@@ -20,8 +20,8 @@ export const useCoingeckoPrice = (base: string, quote = 'usd'): number | undefin
   return price
 }
 
-export const useCoingeckoTokenPrice = (contract: string, quote = 'usd', platform = 'ethereum'): number | undefined => {
-  const [price, setPrice] = useState(undefined)
+export const useCoingeckoTokenPrice = (contract: string, quote = 'usd', platform = 'ethereum'): string | undefined => {
+  const [price, setPrice] = useState<string | undefined>(undefined)
   const blockNo = useBlockNumber()
 
   useEffect(() => {

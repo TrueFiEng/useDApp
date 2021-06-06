@@ -14,7 +14,8 @@ export const getCoingeckoPriceFetch = (fetchFunction: any) => async (base: strin
     })
     // return format {"ethereum":{"usd":2234.6}}
     const result = await data.json()
-    return result[baseId][quoteId] || undefined
+    const price = result[baseId][quoteId]
+    return price ? price + '' : undefined
   } catch (_) {
     return undefined
   }

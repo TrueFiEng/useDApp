@@ -16,7 +16,7 @@ Given base token name and the supported currencies to get token price from CoinG
 
 **Returns**
 
-- ``number | undefined`` - token price
+- ``string | undefined`` - token price
 
 **Example**
 
@@ -43,7 +43,7 @@ Given token contract and the supported currencies to get token price from CoinGe
 
 **Returns**
 
-- ``number | undefined`` - token price
+- ``string | undefined`` - token price
 
 **Example**
 

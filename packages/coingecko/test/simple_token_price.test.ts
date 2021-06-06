@@ -25,7 +25,7 @@ describe('getCoingeckoTokenPriceFetch', () => {
         json: () => ({ [WETH_CONTRACT]: { usd: 2747.45 } }),
       })
     const getCoingeckoTokenPrice = getCoingeckoTokenPriceFetch(mockFetch)
-    expect(await getCoingeckoTokenPrice(WETH_CONTRACT, 'usd', PLATFORM)).to.eq(2747.45)
+    expect(await getCoingeckoTokenPrice(WETH_CONTRACT, 'usd', PLATFORM)).to.eq('2747.45')
   })
 
   it('No Answer', async () => {
