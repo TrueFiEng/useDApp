@@ -66,6 +66,11 @@ useBlock
 useBlockMeta
 ============
 
+useBlockNumber
+===============
+
+Get the current block number. Will update automatically when the new block is mined.
+
 useChainCall
 ============
 

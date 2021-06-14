@@ -14,3 +14,4 @@ useDapp Documentation
    getting-started.rst
    guide.rst
    core.rst
+   coingecko.rst
