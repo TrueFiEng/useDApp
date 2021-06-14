@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { getCoingeckoSimplePriceUri, getCoingeckoPriceFetch } from '../src/simple_price'
+import { getCoingeckoSimplePriceUri, fetchCoingeckoPrice } from '../src/simple_price'
 
 describe('getCoingeckoSimplePrice', () => {
   it('ethereum in usd price', () => {
@@ -25,7 +25,7 @@ describe('getCoingeckoPriceFetch', () => {
       Promise.resolve({
         json: () => ({ ethereum: { usd: 2234.6 } }),
       })
-    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    const getCoingeckoPrice = fetchCoingeckoPrice(mockFetch)
     expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq('2234.6')
   })
 
@@ -33,7 +33,7 @@ describe('getCoingeckoPriceFetch', () => {
     const mockFetch = () => {
       throw new Error()
     }
-    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    const getCoingeckoPrice = fetchCoingeckoPrice(mockFetch)
     expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(undefined)
   })
 
@@ -42,7 +42,7 @@ describe('getCoingeckoPriceFetch', () => {
       Promise.resolve({
         json: () => ({ eth: { usd: 2234.6 } }),
       })
-    const getCoingeckoPrice = getCoingeckoPriceFetch(mockFetch)
+    const getCoingeckoPrice = fetchCoingeckoPrice(mockFetch)
     expect(await getCoingeckoPrice('ethereum', 'usd')).to.eq(undefined)
   })
 })

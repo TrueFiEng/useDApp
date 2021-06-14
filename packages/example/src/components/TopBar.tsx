@@ -20,6 +20,10 @@ export function TopBar() {
               {' '}
               Balance{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/prices">
+              {' '}
+              Prices{' '}
+            </HeaderLink>
             <HeaderLink activeClassName="active-page" to="/block">
               {' '}
               Block{' '}
@@ -116,6 +120,7 @@ const HeaderLink = styled(NavLink)`
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: ${Transitions.all};
+  white-space: nowrap;
 
   &:after {
     content: '';

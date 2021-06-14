@@ -2,7 +2,7 @@
 export const getCoingeckoSimpleTokenPriceUri = (contract: string, quoteId: string, platformId: string) =>
   `https://api.coingecko.com/api/v3/simple/token_price/${platformId}?contract_addresses=${contract}&vs_currencies=${quoteId}`
 
-export const getCoingeckoTokenPriceFetch = (fetchFunction: any) => async (
+export const fetchCoingeckoTokenPrice = (fetchFunction: any) => async (
   contract: string,
   quote: string,
   platform: string
@@ -18,7 +18,6 @@ export const getCoingeckoTokenPriceFetch = (fetchFunction: any) => async (
         'Content-Type': 'application/json',
       },
     })
-    // return format {"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2":{"usd":2747.45}}
     const result = await data.json()
     const price = result[addr][quoteId]
     return price ? price + '' : undefined
@@ -27,4 +26,4 @@ export const getCoingeckoTokenPriceFetch = (fetchFunction: any) => async (
   }
 }
 
-export const getCoingeckoTokenPrice = getCoingeckoTokenPriceFetch(window && window.fetch)
+export const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(window && window.fetch)

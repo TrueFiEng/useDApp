@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { getCoingeckoSimpleTokenPriceUri, getCoingeckoTokenPriceFetch } from '../src/simple_token_price'
+import { getCoingeckoSimpleTokenPriceUri, fetchCoingeckoTokenPrice } from '../src/simple_token_price'
 
 const WETH_CONTRACT = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WBTC_CONTRACT = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'
@@ -24,7 +24,7 @@ describe('getCoingeckoTokenPriceFetch', () => {
       Promise.resolve({
         json: () => ({ [WETH_CONTRACT]: { usd: 2747.45 } }),
       })
-    const getCoingeckoTokenPrice = getCoingeckoTokenPriceFetch(mockFetch)
+    const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(mockFetch)
     expect(await getCoingeckoTokenPrice(WETH_CONTRACT, 'usd', PLATFORM)).to.eq('2747.45')
   })
 
@@ -32,7 +32,7 @@ describe('getCoingeckoTokenPriceFetch', () => {
     const mockFetch = () => {
       throw new Error()
     }
-    const getCoingeckoTokenPrice = getCoingeckoTokenPriceFetch(mockFetch)
+    const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(mockFetch)
     expect(await getCoingeckoTokenPrice(WETH_CONTRACT, 'usd', PLATFORM)).to.eq(undefined)
   })
 
@@ -41,7 +41,7 @@ describe('getCoingeckoTokenPriceFetch', () => {
       Promise.resolve({
         json: () => ({ eth: { usd: 2234.6 } }),
       })
-    const getCoingeckoTokenPrice = getCoingeckoTokenPriceFetch(mockFetch)
+    const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(mockFetch)
     expect(await getCoingeckoTokenPrice(WETH_CONTRACT, 'usd', PLATFORM)).to.eq(undefined)
   })
 })
