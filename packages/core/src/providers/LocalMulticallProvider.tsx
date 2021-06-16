@@ -32,7 +32,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
         return
       }
 
-      const { contractAddress, receipt } = await deployContract(multicallABI, signer)
+      const { contractAddress, blockNumber } = await deployContract(multicallABI, signer)
       console.log(`Deploying Multicall with contract address "${contractAddress}"`)
 
       updateConfig({
@@ -40,7 +40,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           [chainId]: contractAddress,
         },
       })
-      setMulticallBlockNumber(receipt.blockNumber)
+      setMulticallBlockNumber(blockNumber)
       setIsDeployingMulticall(false)
     }
 
