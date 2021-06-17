@@ -29,44 +29,31 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   useEffect(() => {
     if (!library || !chainId) {
       setLocalMulticallState(LocalMulticallState.Unknown)
-      return
-    }
-
-    if (!isLocalChain(chainId)) {
+    } else if (!isLocalChain(chainId)) {
       setLocalMulticallState(LocalMulticallState.NonLocal)
-      return
-    }
-
-    if (multicallAddresses && multicallAddresses[chainId]) {
+    } else if (multicallAddresses && multicallAddresses[chainId]) {
       setLocalMulticallState(LocalMulticallState.Deployed)
-      return
-    }
-
-    if (localMulticallState === LocalMulticallState.Deploying) {
-      return
-    }
-
-    const signer = library.getSigner()
-    if (!signer) {
-      setLocalMulticallState(LocalMulticallState.Error)
-      return
-    }
-
-    setLocalMulticallState(LocalMulticallState.Deploying)
-
-    const deployMulticall = async () => {
-      try {
-        const { contractAddress, blockNumber } = await deployContract(multicallABI, signer)
-        console.log(`Deploying Multicall with contract address "${contractAddress}"`)
-
-        updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
-        setMulticallBlockNumber(blockNumber)
-        setLocalMulticallState(LocalMulticallState.Deployed)
-      } catch {
+    } else if (localMulticallState !== LocalMulticallState.Deploying) {
+      const signer = library.getSigner()
+      if (!signer) {
         setLocalMulticallState(LocalMulticallState.Error)
+        return
       }
+
+      setLocalMulticallState(LocalMulticallState.Deploying)
+
+      const deployMulticall = async () => {
+        try {
+          const { contractAddress, blockNumber } = await deployContract(multicallABI, signer)
+          updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
+          setMulticallBlockNumber(blockNumber)
+          setLocalMulticallState(LocalMulticallState.Deployed)
+        } catch {
+          setLocalMulticallState(LocalMulticallState.Error)
+        }
+      }
+      deployMulticall()
     }
-    deployMulticall()
   }, [library, chainId])
 
   const awaitingMulticallBlock = multicallBlockNumber && blockNumber && blockNumber < multicallBlockNumber
@@ -76,6 +63,8 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
     (localMulticallState === LocalMulticallState.Deployed && awaitingMulticallBlock)
   ) {
     return <div>Deploying multicall...</div>
+  } else if (localMulticallState === LocalMulticallState.Error) {
+    return <div>Error deploying multicall contract</div>
   } else {
     return <>{children}</>
   }
