@@ -19,20 +19,6 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
-  const addCalls = useCallback(
-    (calls: ChainCall[]) => {
-      dispatchCalls({ type: 'ADD_CALLS', calls })
-    },
-    [dispatchCalls]
-  )
-
-  const removeCalls = useCallback(
-    (calls: ChainCall[]) => {
-      dispatchCalls({ type: 'REMOVE_CALLS', calls })
-    },
-    [dispatchCalls]
-  )
-
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
 
@@ -54,7 +40,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   }, [library, blockNumber, chainId, multicallAddress, JSON.stringify(uniqueCalls)])
 
   const value = chainId !== undefined ? state[chainId] : undefined
-  const provided = { value, multicallAddress, addCalls, removeCalls }
+  const provided = { value, multicallAddress, dispatchCalls }
 
   return <ChainStateContext.Provider value={provided} children={children} />
 }
