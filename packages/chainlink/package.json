@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/chainlink",
-  "version": "0.3.21",
+  "version": "1.0.0",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
