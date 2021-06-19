@@ -29,6 +29,8 @@ Below is a simple example:
 
 .. code-block:: javascript
 
+import { ChainId, DAppProvider } from '@usedapp/core'
+
   const config: Config = {
     readOnlyChainId: ChainId.Mainnet,
     readOnlyUrls: {
