@@ -26,6 +26,7 @@ import { Colors, Shadows } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatEther } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
+import { Link } from '../base/Link'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -270,14 +271,6 @@ const LinkIconWrapper = styled.div`
   width: 12px;
   height: 12px;
   margin-left: 8px;
-`
-
-const Link = styled.a`
-  margin-bottom: 5px;
-  display: flex;
-  font-size: 12px;
-  text-decoration: underline;
-  color: ${Colors.Gray['600']};
 `
 
 const SmallContentBlock = styled(ContentBlock)`
