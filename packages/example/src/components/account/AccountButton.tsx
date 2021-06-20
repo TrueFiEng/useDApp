@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useEthers, shortenAddress } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
+// @TODO replace once merged and published into @usedapp/core
+import { useLookupAddress } from '../../../../core/dist/esm/src/hooks/useLookupAddress'
 import styled from 'styled-components'
 
 import { AccountModal } from './AccountModal'
 
 export const AccountButton = () => {
   const { account, deactivate, activateBrowserWallet } = useEthers()
+  const ens = useLookupAddress()
   const [showModal, setShowModal] = useState(false)
 
   const [activateError, setActivateError] = useState('')
@@ -29,7 +32,7 @@ export const AccountButton = () => {
       {showModal && <AccountModal setShowModal={setShowModal} />}
       {account ? (
         <Account>
-          <AccountLabel onClick={() => setShowModal(!showModal)}>{shortenAddress(account)}</AccountLabel>
+          <AccountLabel onClick={() => setShowModal(!showModal)}>{ens ?? shortenAddress(account)}</AccountLabel>
           <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
         </Account>
       ) : (

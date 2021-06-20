@@ -301,7 +301,7 @@ Returns connection state and functions that allow to manipulate the state.
 *Requires:* ``<ConfigProvider>``
 
 useGasPrice
-=========
+===========
 
 Returns gas price of current network.
 
@@ -450,6 +450,28 @@ Each transaction has following type:
 Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
 
 Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
+
+
+useLookupAddress
+=================
+
+``useLookupAddress`` is a hook that is used to retrieve the ENS (e.g. `name.eth`) for the connected wallet.
+
+**Returns**
+
+- ``address: String | undefined`` - a string if the connected account has an ENS attached.
+
+**Example**
+
+.. code-block:: javascript
+
+  const { account } = useEthers()
+  const ens = useDisplayName()
+
+  return (
+    <p>Account: {ens ?? account}</p>
+  )
+
 
 Models
 ******
