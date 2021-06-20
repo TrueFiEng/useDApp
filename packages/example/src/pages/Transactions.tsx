@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { AccountButton } from '../components/account/AccountButton'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
 import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'
-import { NotificationsList } from '../components/Transactions/History'
 import { Title } from '../typography/Title'
 
 export function Transactions() {
@@ -19,7 +18,6 @@ export function Transactions() {
             <DepositEth />
             <WithdrawEth />
           </TableGrid>
-          <NotificationsList />
         </Section>
       </Container>
     </MainContent>

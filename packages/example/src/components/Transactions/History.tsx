@@ -220,9 +220,8 @@ const NotificationWrapper = styled(motion.div)`
 
 const NotificationsWrapper = styled.div`
   position: fixed;
-  right: 300px;
-  right: 5px;
-  top: 80px;
+  right: 24px;
+  bottom: 24px;
 `
 
 const NotificationIconContainer = styled.div`
