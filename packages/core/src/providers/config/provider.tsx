@@ -1,7 +1,8 @@
-import { ReactNode } from 'react'
+import { ReactNode, useReducer } from 'react'
 import { Config } from '../../model/config/Config'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 import { ConfigContext } from './context'
+import { configReducer } from './reducer'
 
 interface ConfigProviderProps {
   children: ReactNode
@@ -9,5 +10,6 @@ interface ConfigProviderProps {
 }
 
 export function ConfigProvider({ config, children }: ConfigProviderProps) {
-  return <ConfigContext.Provider value={{ ...DEFAULT_CONFIG, ...config }} children={children} />
+  const [reducedConfig, dispatch] = useReducer(configReducer, { ...DEFAULT_CONFIG, ...config })
+  return <ConfigContext.Provider value={{ config: reducedConfig, updateConfig: dispatch }} children={children} />
 }

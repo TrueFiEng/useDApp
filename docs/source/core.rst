@@ -66,6 +66,11 @@ useBlock
 useBlockMeta
 ============
 
+useBlockNumber
+===============
+
+Get the current block number. Will update automatically when the new block is mined.
+
 useChainCall
 ============
 
@@ -112,11 +117,84 @@ A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments 
 
 **Parameters**
 
-- ``calls: ContractCall[]`` - a single call to a contract , also see `ContractCall`_
+- ``calls: ContractCall[]`` - a list of contract calls , also see `ContractCall`_
 
 **Returns**
 
-- ``any[] | undefined`` - array of results of undefined if call didn't return yet
+- ``any[] | undefined`` - array of results. Undefined if call didn't return yet
+
+.. _useContractFunction-label:
+
+useContractFunction
+===================
+Hook returns an object with two variables: ``state`` and ``send``.
+
+The former represents the status of transaction. See `TransactionStatus`_.
+
+To send a transaction use ``send`` function returned by ``useContractFunction``.
+The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
+Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+
+**Parameters**
+
+- ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
+- ``functionName: string`` - name of function to call
+- ``options?: Options`` - additional options of type `TransactionOptions`_.
+
+**Returns**
+
+- ``{ send: (...args: any[]) => void, state: TransactionStatus }`` - object with two variables: ``send`` and ``state``
+
+**Example**
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+  
+  const depositEther = (etherAmount: string) => {
+    send({ value: utils.parseEther(etherAmount) })
+  }
+
+.. code-block:: javascript  
+
+  const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+
+  const withdrawEther = (wethAmount: string) => {
+    send(utils.parseEther(wethAmount))
+  }
+
+.. _useSendTransaction:
+
+useSendTransaction
+==================
+Hook returns an object with two variables: ``state`` and ``sendTransaction``.
+
+The former represents the status of transaction. See `TransactionStatus`_.
+
+To send a transaction use ``sendTransaction`` function returned by ``useSendTransaction``.
+
+Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
+
+**Parameters**
+
+- ``options?: Options`` - additional options of type `TransactionOptions`_.
+
+**Returns**
+
+- ``{ sendTransaction: (...args: any[]) => void, state: TransactionStatus }`` - object with two variables: ``sendTransaction`` and ``state``
+
+**Example**
+
+.. code-block:: javascript
+
+  const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
+
+  const handleClick = () => {
+
+    ...
+
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
 
 useConfig
 =========
@@ -201,6 +279,7 @@ Returns ether balance of a given account.
     {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
   )
 
+.. _useEthers:
 
 useEthers
 =========
@@ -213,7 +292,7 @@ Returns connection state and functions that allow to manipulate the state.
     - ``chainId: ChainId`` - current chainId (or *undefined* if not connected)
     - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
     - ``active: boolean`` - returns if provider is connected (read or write mode)
-    - ``activateBrowserWallet()`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
+    - ``activateBrowserWallet(onError?: (error: Error) => void, throwErrors?: boolean)`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - ``async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)`` - function that allows to connect to a wallet
     - ``async deactivate()`` - function that disconnects wallet
     - ``error?: Error`` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
@@ -221,10 +300,77 @@ Returns connection state and functions that allow to manipulate the state.
 
 *Requires:* ``<ConfigProvider>``
 
+useGasPrice
+=========
+
+Returns gas price of current network.
+
+**Returns**
+
+- ``gasPrice: BigNumber | undefined`` - gas price of current network. Undefined if not initialised
+
 useMulticallAddress
 ===================
 
+.. _useNotifications:
 
+useNotifications
+================
+
+``useNotifications`` is a hook that is used to access notifications.
+Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
+
+To use this hook call:
+
+.. code-block:: javascript
+
+  const { notifications } = useNotifications()
+
+
+``notifications`` is an array of ``NotificationPayload``.
+
+Each notification is removed from ``notifications`` after time declared in 
+config.notifications.expirationPeriod
+
+Each can be one of the following:
+
+.. code-block:: javascript
+
+  { 
+    type: 'walletConnected'; 
+    address: string 
+  }
+
+.. code-block:: javascript
+
+  { 
+    type: 'transactionStarted'; 
+    submittedAt: number
+    transaction: TransactionResponse; 
+    transactionName?: string 
+  }
+
+.. code-block:: javascript
+
+  {
+    type: 'transactionSucceed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+.. code-block:: javascript
+  
+  {
+    type: 'transactionFailed'
+    transaction: TransactionResponse
+    receipt: TransactionReceipt
+    transactionName?: string
+  }
+
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
 useTokenBalance
 ===============
@@ -279,6 +425,31 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   return (
     {allowance && <p>Remaining allowance: {formatUnits(allowance, 18)} tokens</p>}
   )
+
+.. _useTransactions:
+
+useTransactions
+===============
+
+``useTransactions`` hook returns a list ``transactions``. This list contains 
+all transactions that were sent using ``useContractFunction`` and ``useSendTransaction``.
+Transactions are stored in local storage and the status is rechecked on every new block. 
+
+Each transaction has following type:
+
+.. code-block:: javascript
+
+  export interface StoredTransaction {
+    transaction: TransactionResponse
+    submittedAt: number
+    receipt?: TransactionReceipt
+    lastCheckedBlockNumber?: number
+    transactionName?: string
+  }
+
+Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
 Models
 ******
@@ -397,8 +568,55 @@ The ``CurrencyValue`` class represents a value tied to a currency. The methods i
 - ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
 - ``isZero()`` - returns true if the value is zero.
 
+.. _TransactionOptions:
+
+TransactionOptions
+==================
+
+Represents a options for sending transactions.
+All fields are optional.
+
+Fields:
+
+- ``signer?: Signer`` - specifies `signer <https://docs.ethers.io/v5/api/signer/#Signer>`_ for a transaction.
+
+- ``transactionName?: string`` - specifies a transaction name. Used by notifications and history hooks.
+
+.. _TransactionStatus:
+
+TransactionStatus
+=================
+
+Represents a state of a single transaction.
+
+Fields: 
+
+- ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
+
+- ``transaction?: TransactionResponse`` - optional field. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+- ``receipt?: TransactionReceipt`` - optional field. See `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
+
+- ``chainId?: ChainId`` - optional field. See `chainId`_.
+
+- ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
+
+``status`` can be one of the following:
+
+- **None** - before a transaction is created.
+- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
+- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+
+Additionally all states except ``None``, contain ``chainId: ChainId``.
+
+Change in ``state`` will update the component so you can use it in useEffect.
+
 Constants
 *********
+
+.. _chainId:
 
 ChainId
 =======
@@ -406,7 +624,7 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, xDai``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Mumbai``
 
 
 Helpers
@@ -491,9 +709,9 @@ Returns if a given chain is a testnet.
 
 .. code-block:: javascript
 
-  isTestChain(ChainId.Mainnet) // true
-  isTestChain(ChainId.Ropsten) // false
-  isTestChain(ChainId.xDai)    // true
+  isTestChain(ChainId.Mainnet) // false
+  isTestChain(ChainId.Ropsten) // true
+  isTestChain(ChainId.xDai)    // false
 
 shortenAddress
 ==============
@@ -542,6 +760,15 @@ Returns empty string if no address is provided.
 
   shortenIfAddress("i'm not an address")
   // TypeError("Invalid input, address can't be parsed")
+
+transactionErrored
+==================
+
+Returns true if transaction failed or had an exception
+
+**Parameters**
+
+- ``transaction: TransactionStatus`` - transaction to check.
 
 compareAddress
 ==============
@@ -605,5 +832,3 @@ Throws an error if address can't be parsed.
   address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
   compareAddress(address1, address2)
   // TypeError("Invalid input, address can't be parsed")
-
-

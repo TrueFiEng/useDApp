@@ -9,6 +9,13 @@ export interface StoredTransaction {
   transactionName?: string
 }
 
+export function getStoredTransactionState(transaction: StoredTransaction) {
+  if (transaction.receipt) {
+    return transaction?.receipt.status === 0 ? 'Fail' : 'Success'
+  }
+  return 'Mining'
+}
+
 export type StoredTransactions = {
   [T in ChainId]?: StoredTransaction[]
 }

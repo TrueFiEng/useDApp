@@ -10,6 +10,7 @@ export const Colors = {
   White: '#ffffff',
   Yellow: {
     500: '#F2C94C',
+    200: '#fff9e6',
     100: '#FFF4D4',
   },
   Red: { 400: '#F87171' },
@@ -21,6 +22,7 @@ export const Fonts = {
 
 export const Shadows = {
   main: '0px 4px 28px rgba(136, 169, 200, 0.15)',
+  notification: '0px 4px 14px rgba(136, 169, 200, 0.3)',
 }
 
 export const Sizes = {

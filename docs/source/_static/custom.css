@@ -13,7 +13,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 36px;
+  padding-left: -10px;
+}
+
+h2 {
+  font-size: 30px;
+  padding-top: 30px;
+  padding-left: -10px;
+}
+
+h3 {
+  font-size: 20px;
+  padding-top: 5px;
+  margin-left: -10px;
+  margin-top: 40px;
+  border-top: 2px solid rgba(181,181,181,0.43);
+}
+
+section {
+  padding-left: 10px;
 }
 
 .caption-text {

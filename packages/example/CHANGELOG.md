@@ -1,5 +1,38 @@
 # @usedapp/example
 
+## 0.2.6
+
+### Patch Changes
+
+- a98363d: Change transaction history to modal
+- a087bdf: Add wallet activation error handling
+- d01e07f: Change notifications to popups
+- 3536be0: Add useSendTransaction to example
+- Updated dependencies [b369774]
+- Updated dependencies [a087bdf]
+- Updated dependencies [2757d13]
+  - @usedapp/core@0.3.20
+
+## 0.2.5
+
+### Patch Changes
+
+- 9d4fcca: Add getStoredTransactionState and update example
+- Updated dependencies [9d4fcca]
+- Updated dependencies [75b6ea8]
+  - @usedapp/core@0.3.19
+
+## 0.2.4
+
+### Patch Changes
+
+- 8b28eae: Refactor send transaction example
+- 111acee: Set TransactionStatus as interface and move it to model
+- Updated dependencies [42efd99]
+- Updated dependencies [21f59f6]
+- Updated dependencies [111acee]
+  - @usedapp/core@0.3.18
+
 ## 0.2.3
 
 ### Patch Changes

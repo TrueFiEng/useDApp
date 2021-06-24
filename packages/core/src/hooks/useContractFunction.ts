@@ -1,46 +1,10 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
-import { Signer } from '@ethersproject/abstract-signer'
+import { TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
-import { useState } from 'react'
-import { ChainId } from '../constants'
-import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
+import { usePromiseTransaction } from './usePromiseTransaction'
 
-export type TransactionStatus =
-  | {
-      status: 'None'
-    }
-  | {
-      status: 'Mining'
-      chainId: ChainId
-      transaction: TransactionResponse
-    }
-  | {
-      status: 'Success'
-      chainId: ChainId
-      transaction: TransactionResponse
-      receipt: TransactionReceipt
-    }
-  | {
-      status: 'Fail'
-      transaction: TransactionResponse
-      receipt: TransactionReceipt
-      chainId: ChainId
-      errorMessage: string
-    }
-  | {
-      status: 'Exception'
-      chainId: ChainId
-      errorMessage: string
-    }
-
-interface Options {
-  signer?: Signer
-  transactionName?: string
-}
-
-export function connectContractToSigner(contract: Contract, options?: Options, library?: Web3Provider) {
+export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: Web3Provider) {
   if (contract.signer) {
     return contract
   }
@@ -56,39 +20,13 @@ export function connectContractToSigner(contract: Contract, options?: Options, l
   throw new TypeError('No signer available in contract, options or library')
 }
 
-export function useContractFunction(contract: Contract, functionName: string, options?: Options) {
-  const [state, setState] = useState<TransactionStatus>({ status: 'None' })
-  const { addTransaction } = useTransactionsContext()
+export function useContractFunction(contract: Contract, functionName: string, options?: TransactionOptions) {
   const { library, chainId } = useEthers()
-
-  let transaction: TransactionResponse
+  const { promiseTransaction, state } = usePromiseTransaction(chainId, options)
 
   const send = async (...args: any[]) => {
-    if (!chainId) {
-      return
-    }
-
     const contractWithSigner = connectContractToSigner(contract, options, library)
-
-    try {
-      transaction = await contractWithSigner[functionName](...args)
-      setState({ transaction, status: 'Mining', chainId })
-      addTransaction({
-        transaction,
-        submittedAt: Date.now(),
-        transactionName: options?.transactionName,
-      })
-
-      const receipt = await transaction.wait()
-      setState({ receipt, transaction, status: 'Success', chainId })
-    } catch (e) {
-      const errorMessage = e.reason ?? e.message
-      if (transaction) {
-        setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
-      } else {
-        setState({ status: 'Exception', errorMessage, chainId })
-      }
-    }
+    await promiseTransaction(contractWithSigner[functionName](...args))
   }
 
   return { send, state }

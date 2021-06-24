@@ -1,5 +1,62 @@
 # @usedapp/core
 
+## 0.3.24
+
+### Patch Changes
+
+- 0f0ebfe: Fixed dependency issue when installing applications dependencies
+
+## 0.3.23
+
+### Patch Changes
+
+- ef90adb: Add Polygon and Mumbai support
+
+## 0.3.22
+
+### Patch Changes
+
+- cdb02b9: Introduce useUpdateConfig
+- 940d064: Introduce deep config update
+- c180ac8: Add troubleshooting ethers type mismatch to docs
+
+  Type mismatch when building might be an error in ethersproject version providing becouse of this
+  ading resolutions to package.json should fix problem
+
+  "resolutions": {
+  "@ethersproject/abi": "5.2.0",
+  "@ethersproject/contracts": "5.2.0"
+  }
+
+## 0.3.21
+
+### Patch Changes
+
+- 0ae62a3: Bump ethers to version 5.2.0
+
+## 0.3.20
+
+### Patch Changes
+
+- b369774: Add persisting connection, rename ReadOnlyProviderActivator
+- a087bdf: Add wallet activation error handling
+- 2757d13: Fix useContractCall hook order
+
+## 0.3.19
+
+### Patch Changes
+
+- 9d4fcca: Add getStoredTransactionState and update example
+- 75b6ea8: Add useSendTransaction, refactor useContractFunction
+
+## 0.3.18
+
+### Patch Changes
+
+- 42efd99: Expose useConfig as public API
+- 21f59f6: Add BSC support
+- 111acee: Set TransactionStatus as interface and move it to model
+
 ## 0.3.17
 
 ### Patch Changes

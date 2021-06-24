@@ -3,20 +3,18 @@ import { ChainCall } from '../providers/chainState/callsReducer'
 import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
 
-export function useChainCalls(calls: ChainCall[]) {
-  const { addCalls, removeCalls, value } = useContext(ChainStateContext)
+export function useChainCalls(calls: (ChainCall | Falsy)[]) {
+  const { dispatchCalls, value } = useContext(ChainStateContext)
 
   useEffect(() => {
-    addCalls(calls)
-    return () => removeCalls(calls)
-  }, [JSON.stringify(calls), addCalls, removeCalls])
+    const filteredCalls = calls.filter(Boolean) as ChainCall[]
+    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
+    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
+  }, [JSON.stringify(calls), dispatchCalls])
 
-  return calls.map(({ address, data }) => {
-    return value?.state?.[address]?.[data]
-  })
+  return calls.map((call) => call && value?.state?.[call.address]?.[call.data])
 }
 
 export function useChainCall(call: ChainCall | Falsy) {
-  const [result] = useChainCalls(call ? [call] : [])
-  return result
+  return useChainCalls([call])[0]
 }

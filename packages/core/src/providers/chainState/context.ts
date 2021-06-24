@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { ChainCall } from './callsReducer'
+import { Action, ChainCall } from './callsReducer'
 import { ChainState } from './model'
 
 export const ChainStateContext = createContext<{
@@ -9,14 +9,10 @@ export const ChainStateContext = createContext<{
     error?: unknown
   }
   multicallAddress: string | undefined
-  addCalls(calls: ChainCall[]): void
-  removeCalls(calls: ChainCall[]): void
+  dispatchCalls: (action: Action) => void
 }>({
   multicallAddress: '',
-  addCalls: () => {
-    // empty
-  },
-  removeCalls: () => {
+  dispatchCalls: () => {
     // empty
   },
 })

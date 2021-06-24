@@ -1,4 +1,4 @@
-type Action = AddCall | RemoveCall
+export type Action = AddCall | RemoveCall
 
 export interface ChainCall {
   address: string
