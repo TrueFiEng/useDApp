@@ -6,7 +6,7 @@ export function useStorage<T>(key: string) {
 
   useEffect(() => {
     setState(undefined)
-    if (window.chrome) {
+    if (window.chrome?.storage) {
       let cancelled = false
       chrome.storage.local.get([key], function (result) {
         console.log(`STORAGE ${key}:`, result)
@@ -32,7 +32,7 @@ export function useStorage<T>(key: string) {
       return
     }
 
-    if (window.chrome) {
+    if (window.chrome?.storage) {
       console.log(`SETTING ${key}`, state)
       chrome.storage.local.set({ [key]: state })
     } else {
