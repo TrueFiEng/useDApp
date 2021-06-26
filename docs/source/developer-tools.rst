@@ -85,5 +85,13 @@ Error 
 Adding custom ABIs
 ------------------
 
+ABIs are used to parse call data. Adding ABIs from your contracts will allow you to easily inspect method calls that your application is making. You can add ABIs as Solidity function signatures or as JSON.
+
+.. image:: images/developer-tools-abis.png
+
 Adding name tags
 ----------------
+
+Name tags are used for identifying Ethereum addresses. Instead of remembering the hex values you can assign a human readable name to them. This names are used across this extension. Some addresses and names are added automatically (e.g. connected accounts or multicall contracts). Those can be changed at any point.
+
+.. image:: images/developer-tools-names.png
