@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useEthers, shortenAddress } from '@usedapp/core'
+import { useEthers, shortenAddress, useLookupAddress } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
-// @TODO replace once merged and published into @usedapp/core
-import { useLookupAddress } from '../../../../core/dist/esm/src/hooks/useLookupAddress'
 import styled from 'styled-components'
 
 import { AccountModal } from './AccountModal'
