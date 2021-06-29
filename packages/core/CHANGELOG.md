@@ -1,5 +1,17 @@
 # @usedapp/core
 
+## 0.4.0
+
+### Minor Changes
+
+- 9ab6e2f: Add devtools extension integration
+
+### Patch Changes
+
+- b9304cb: Remove useCallback from ChainStateProvider
+- 9e4e4f5: Add useLookupAddress hook for ENS
+- 0011fe5: Add support for Multicall (via Localhost multicall contract deploy)
+
 ## 0.3.24
 
 ### Patch Changes
