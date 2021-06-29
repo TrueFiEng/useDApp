@@ -1,10 +1,12 @@
-import React, { ReactNode, useCallback, useEffect, useReducer } from 'react'
+import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { ChainStateContext } from './context'
 import { chainStateReducer } from './chainStateReducer'
 import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
+import { notifyDevtools } from '../devtools'
+import { useDevtoolsReporting } from './useDevtoolsReporting'
 
 interface Props {
   children: ReactNode
@@ -21,8 +23,12 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
+  // used for deep equality in hook dependencies
+  const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 
   const multicallAddress = chainId !== undefined ? multicallAddresses[chainId] : undefined
+
+  useDevtoolsReporting(uniqueCallsJSON, uniqueCalls, blockNumber, multicallAddresses)
 
   useEffect(() => {
     if (library && blockNumber !== undefined && chainId !== undefined) {
@@ -30,14 +36,34 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
         console.error(`Missing multicall address for chain id ${chainId}`)
         return
       }
+      const start = Date.now()
       multicall(library, multicallAddress, blockNumber, uniqueCalls)
-        .then((state) => dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state }))
+        .then((state) => {
+          dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state })
+          notifyDevtools({
+            type: 'MULTICALL_SUCCESS',
+            duration: Date.now() - start,
+            chainId,
+            blockNumber,
+            multicallAddress,
+            state,
+          })
+        })
         .catch((error) => {
           console.error(error)
           dispatchState({ type: 'FETCH_ERROR', blockNumber, chainId, error })
+          notifyDevtools({
+            type: 'MULTICALL_ERROR',
+            duration: Date.now() - start,
+            chainId,
+            blockNumber,
+            multicallAddress,
+            calls: uniqueCalls,
+            error,
+          })
         })
     }
-  }, [library, blockNumber, chainId, multicallAddress, JSON.stringify(uniqueCalls)])
+  }, [library, blockNumber, chainId, multicallAddress, uniqueCallsJSON])
 
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
