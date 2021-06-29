@@ -9,7 +9,6 @@ export function useStorage<T>(key: string) {
     if (window.chrome?.storage) {
       let cancelled = false
       chrome.storage.local.get([key], function (result) {
-        console.log(`STORAGE ${key}:`, result)
         if (!cancelled) {
           setState(result[key])
         }
@@ -33,7 +32,6 @@ export function useStorage<T>(key: string) {
     }
 
     if (window.chrome?.storage) {
-      console.log(`SETTING ${key}`, state)
       chrome.storage.local.set({ [key]: state })
     } else {
       localStorage.setItem(key, JSON.stringify(state))
