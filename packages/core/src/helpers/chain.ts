@@ -1,4 +1,4 @@
-import { ChainId, CHAIN_NAMES, TEST_CHAINS } from '../constants'
+import { ChainId, CHAIN_NAMES, LOCAL_CHAINS, TEST_CHAINS } from '../constants'
 
 function etherscanNetworkPrefix(chainId: ChainId) {
   switch (chainId) {
@@ -56,4 +56,8 @@ export function getChainName(chainId: ChainId) {
 
 export function isTestChain(chainId: ChainId) {
   return TEST_CHAINS.includes(chainId)
+}
+
+export function isLocalChain(chainId: ChainId) {
+  return LOCAL_CHAINS.includes(chainId)
 }
