@@ -1,11 +1,11 @@
 import type { ParsedValue } from './ParsedValue'
 import type { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
-import { AbiEntry, toAbiEntries } from './AbiEntry'
+import { AbiEntry, AbiInput, toAbiEntries } from './AbiEntry'
 
 export class AbiParser {
   private cache: Record<string, CallParser> = {}
 
-  static fromAbis(abis: any[]) {
+  static fromAbis(abis: AbiInput[]) {
     return new AbiParser(toAbiEntries(abis))
   }
 
