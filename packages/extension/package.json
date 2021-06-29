@@ -18,7 +18,6 @@
     "ethers": "^5.1.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
@@ -32,7 +31,6 @@
     "@types/mocha": "^8.2.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
     "babel-loader": "^8.2.2",
     "chai": "^4.2.0",
