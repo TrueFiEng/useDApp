@@ -1,5 +1,19 @@
 # @usedapp/example
 
+## 0.2.7
+
+### Patch Changes
+
+- 9e4e4f5: Add useLookupAddress hook for ENS
+- 88c5983: Refactor coingecko
+- Updated dependencies [b9304cb]
+- Updated dependencies [9ab6e2f]
+- Updated dependencies [9e4e4f5]
+- Updated dependencies [0011fe5]
+- Updated dependencies [88c5983]
+  - @usedapp/core@0.4.0
+  - @usedapp/coingecko@0.3.22
+
 ## 0.2.6
 
 ### Patch Changes
