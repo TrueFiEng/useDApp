@@ -29,10 +29,10 @@ export const AccountButton = () => {
       <ErrorWrapper>{activateError}</ErrorWrapper>
       {showModal && <AccountModal setShowModal={setShowModal} />}
       {account ? (
-        <Account>
+        <>
           <AccountLabel onClick={() => setShowModal(!showModal)}>{ens ?? shortenAddress(account)}</AccountLabel>
           <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
-        </Account>
+        </>
       ) : (
         <LoginButton onClick={activate}>Connect</LoginButton>
       )}
@@ -41,7 +41,7 @@ export const AccountButton = () => {
 }
 
 const ErrorWrapper = styled.div`
-  color: red;
+  color: #ff3960;
   margin-right: 40px;
   margin-left: 40px;
   overflow: auto;
@@ -53,24 +53,14 @@ const Account = styled.div`
 `
 
 const LoginButton = styled(Button)`
-  float: right;
   background-color: ${Colors.Yellow[100]};
 `
 
-const AccountLabel = styled.div`
-  float: left;
-
-  border: 1px solid black;
-  margin: 10px;
+const AccountLabel = styled(Button)`
+  height: 32px;
   margin-right: -40px;
-  padding: 7px;
   padding-right: 40px;
-  display: flex;
-
-  background-color: ${Colors.Yellow[200]};
-  border-radius: 20px;
-  &:hover {
-    background-color: black;
-    color: ${Colors.Yellow[100]};
-  }
+  padding-left: 8px;
+  background-color: ${Colors.Yellow[100]};
+  font-size: 12px;
 `

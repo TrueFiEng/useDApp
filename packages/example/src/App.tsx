@@ -10,6 +10,7 @@ import { Block } from './pages/Block'
 import { Tokens } from './pages/Tokens'
 import { Transactions } from './pages/Transactions'
 import { SendEtherPage } from './pages/SendEtherPage'
+import { NotificationsList } from './components/Transactions/History'
 
 export function App() {
   return (
@@ -27,6 +28,7 @@ export function App() {
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>
+      <NotificationsList />
     </Page>
   )
 }

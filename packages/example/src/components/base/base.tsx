@@ -33,7 +33,20 @@ export const MainContent = styled.main`
   width: 100%;
   height: 100%;
   min-height: calc(100vh - ${Sizes.headerHeight});
-  background-image: ${Gradients.bodyBackground};
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    background-image: ${Gradients.bodyBackground};
+  }
 `
 
 export const Section = styled.section`

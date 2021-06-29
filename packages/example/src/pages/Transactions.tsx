@@ -1,12 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Container, MainContent, Section, SectionRow } from '../components/base/base'
-
-import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'
-import { NotificationsList, TransactionsList } from '../components/Transactions/History'
-import { Title } from '../typography/Title'
-
 import { AccountButton } from '../components/account/AccountButton'
+import { Container, MainContent, Section, SectionRow } from '../components/base/base'
+import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'
+import { Title } from '../typography/Title'
 
 export function Transactions() {
   return (
@@ -21,7 +18,6 @@ export function Transactions() {
             <DepositEth />
             <WithdrawEth />
           </TableGrid>
-          <NotificationsList />
         </Section>
       </Container>
     </MainContent>
