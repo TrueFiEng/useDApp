@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.4.1
+
+### Patch Changes
+
+- 810e536: fix(devtools): Adding a check for window object
+
 ## 0.4.0
 
 ### Minor Changes
