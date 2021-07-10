@@ -65,7 +65,10 @@ type Notification =
   | MulticallError
   | GenericError
 
-const hook: any = (window as any).__USEDAPP_DEVTOOLS_HOOK__
+let hook: any
+if (typeof window !== 'undefined') {
+  hook = (window as any).__USEDAPP_DEVTOOLS_HOOK__
+}
 
 // immediately notify devtools that the page is using it
 notifyDevtools({ type: 'INIT' })
