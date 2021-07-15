@@ -1,6 +1,7 @@
 import { TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
+import { useCallback } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 
@@ -24,10 +25,13 @@ export function useContractFunction(contract: Contract, functionName: string, op
   const { library, chainId } = useEthers()
   const { promiseTransaction, state } = usePromiseTransaction(chainId, options)
 
-  const send = async (...args: any[]) => {
-    const contractWithSigner = connectContractToSigner(contract, options, library)
-    await promiseTransaction(contractWithSigner[functionName](...args))
-  }
+  const send = useCallback(
+    async (...args: any[]) => {
+      const contractWithSigner = connectContractToSigner(contract, options, library)
+      await promiseTransaction(contractWithSigner[functionName](...args))
+    },
+    [contract, functionName, options, library]
+  )
 
   return { send, state }
 }
