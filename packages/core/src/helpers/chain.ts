@@ -28,6 +28,8 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`
     case ChainId.Mumbai:
       return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
+    case ChainId.Harmony:
+      return `https://explorer.harmony.one/address/${address}`
   }
 }
 
@@ -47,6 +49,8 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`
     case ChainId.Mumbai:
       return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`
+    case ChainId.Harmony:
+      return `https://explorer.harmony.one/tx/${transactionHash}`
   }
 }
 
