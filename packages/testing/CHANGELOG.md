@@ -1,5 +1,16 @@
 # @usedapp/testing
 
+## 0.2.10
+
+### Patch Changes
+
+- 779efc9: upgrade to ethers.js to 5.4.1
+- Updated dependencies [684dbaf]
+- Updated dependencies [366e705]
+- Updated dependencies [779efc9]
+- Updated dependencies [59592f3]
+  - @usedapp/core@0.4.2
+
 ## 0.2.9
 
 ### Patch Changes

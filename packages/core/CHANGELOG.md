@@ -1,5 +1,14 @@
 # @usedapp/core
 
+## 0.4.2
+
+### Patch Changes
+
+- 684dbaf: Memoize hook return values to prevent unnecessary re-renders
+- 366e705: Use error messages from RPC client if available
+- 779efc9: upgrade to ethers.js to 5.4.1
+- 59592f3: Add Harmony support
+
 ## 0.4.1
 
 ### Patch Changes
