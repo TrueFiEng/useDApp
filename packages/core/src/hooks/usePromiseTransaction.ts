@@ -21,7 +21,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           transactionName: options?.transactionName,
         })
         const receipt = await transaction.wait()
-
         setState({ receipt, transaction, status: 'Success', chainId })
       } catch (e) {
         const errorMessage = e.reason ?? e.message

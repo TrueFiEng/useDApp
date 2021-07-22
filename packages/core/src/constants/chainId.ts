@@ -8,6 +8,7 @@ export enum ChainId {
   xDai = 100,
   Polygon = 137,
   Mumbai = 80001,
+  Harmony = 1666600000,
   Localhost = 1337,
   Hardhat = 31337,
 }
@@ -22,6 +23,7 @@ export const CHAIN_NAMES = {
   [ChainId.xDai]: 'xDai',
   [ChainId.Polygon]: 'Polygon',
   [ChainId.Mumbai]: 'Mumbai',
+  [ChainId.Harmony]: 'Harmony',
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
 }
@@ -36,6 +38,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   [ChainId.Polygon]: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
   [ChainId.Mumbai]: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
+  [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
 }
 
 export const TEST_CHAINS = [

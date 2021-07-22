@@ -656,7 +656,7 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Mumbai``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Mumbai, Harmony``
 
 
 Helpers
@@ -686,6 +686,9 @@ Returns URL to blockchain explorer for an address on a given chain.
   getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
   // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
+    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)   
+  // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
+
 
 getExplorerTransactionLink
 ==========================
@@ -710,6 +713,9 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
   // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
+   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)   
+  // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+
 getChainName
 ============
 
@@ -727,6 +733,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(ChainId.Mainnet) // Mainnet
   getChainName(ChainId.Ropsten) // Ropsten
   getChainName(ChainId.xDai)    // xDai
+  getChainName(ChainId.Harmony)    // Harmony
 
 isTestChain
 ===========

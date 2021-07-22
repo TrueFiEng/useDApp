@@ -15,6 +15,7 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Hardhat,
     ChainId.Polygon,
     ChainId.Mumbai,
+    ChainId.Harmony,
   ],
   notifications: {
     checkInterval: 500,
