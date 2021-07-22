@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { ChainCall } from '../providers/chainState/callsReducer'
 import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
@@ -12,7 +12,10 @@ export function useChainCalls(calls: (ChainCall | Falsy)[]) {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return calls.map((call) => call && value?.state?.[call.address]?.[call.data])
+  return useMemo(() => calls.map((call) => call && value?.state?.[call.address]?.[call.data]), [
+    JSON.stringify(calls),
+    value,
+  ])
 }
 
 export function useChainCall(call: ChainCall | Falsy) {
