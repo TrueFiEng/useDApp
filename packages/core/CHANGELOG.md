@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.4.3
+
+### Patch Changes
+
+- dc49e68: Catch lookupAddress errors for unsupported chains, e.g. Matic
+- c4f2abb: use rpc errors if available
+
 ## 0.4.2
 
 ### Patch Changes
