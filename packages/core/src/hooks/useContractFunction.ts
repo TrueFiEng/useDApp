@@ -1,9 +1,10 @@
 import { TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
+import { LogDescription } from 'ethers/lib/utils'
 
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: Web3Provider) {
   if (contract.signer) {
@@ -24,14 +25,22 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
 export function useContractFunction(contract: Contract, functionName: string, options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state } = usePromiseTransaction(chainId, options)
+  const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
 
   const send = useCallback(
     async (...args: any[]) => {
       const contractWithSigner = connectContractToSigner(contract, options, library)
-      await promiseTransaction(contractWithSigner[functionName](...args))
+      const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
+      if (receipt) {
+        if (receipt.logs && receipt.logs.length > 0) {
+          setEvents(receipt.logs.map((log) => contract.interface.parseLog(log)))
+        } else {
+          setEvents([])
+        }
+      }
     },
     [contract, functionName, options, library]
   )
 
-  return { send, state }
+  return { send, state, events }
 }
