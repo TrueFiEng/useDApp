@@ -1,7 +1,7 @@
 import { useContractFunction } from '@usedapp/core'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
-import { Contract } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { renderWeb3Hook } from '../src'
 import { contractCallOutOfGasMock } from '../src/mocks'
 import { deployMockToken } from '../src/utils/deployMockToken'
@@ -27,6 +27,24 @@ describe('useContractFunction', () => {
 
     expect(result.current.state.status).to.eq('Success')
     expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+  })
+
+  it('events', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
+      mockProvider,
+    })
+
+    await result.current.send(spender.address, 200)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current?.events?.length).to.eq(1)
+
+    const event = result.current?.events?.[0]
+
+    expect(event?.name).to.eq('Approval')
+    expect(event?.args['owner']).to.eq(deployer.address)
+    expect(event?.args['spender']).to.eq(spender.address)
+    expect(event?.args['value']).to.eq(BigNumber.from(200))
   })
 
   it('exception (bad arguments)', async () => {
