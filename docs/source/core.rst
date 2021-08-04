@@ -137,9 +137,11 @@ A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments 
 
 useContractFunction
 ===================
-Hook returns an object with two variables: ``state`` and ``send``.
+Hook returns an object with three variables: ``state`` , ``send`` and ``events``.
 
-The former represents the status of transaction. See `TransactionStatus`_.
+The ``state`` represents the status of transaction. See `TransactionStatus`_.
+
+The ``events`` is a array of parsed transaction events of type `LogDescription <https://docs.ethers.io/v5/api/utils/abi/interface/#LogDescription>`_.
 
 To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
@@ -153,7 +155,7 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
 **Returns**
 
-- ``{ send: (...args: any[]) => void, state: TransactionStatus }`` - object with two variables: ``send`` and ``state``
+- ``{ send: (...args: any[]) => void, state: TransactionStatus, events: LogDescription[] }`` - object with variables: ``send`` , ``state`` , ``events``
 
 **Example**
 
