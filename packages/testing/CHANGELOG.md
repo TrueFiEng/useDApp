@@ -1,5 +1,13 @@
 # @usedapp/testing
 
+## 0.2.11
+
+### Patch Changes
+
+- 4c68ebb: Introduce contract events
+- Updated dependencies [4c68ebb]
+  - @usedapp/core@0.4.4
+
 ## 0.2.10
 
 ### Patch Changes
