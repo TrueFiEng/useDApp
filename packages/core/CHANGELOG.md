@@ -1,8 +1,8 @@
 # @usedapp/core
 
-## 0.5.0
+## 0.4.6
 
-### Minor Changes
+### Patch Changes
 
 - 0a98795: Update ERC20 ABI
 - afe26a5: Prevent crash when parsing transaction logs from contract call
