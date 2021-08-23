@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.4.5
+
+### Patch Changes
+
+- d9f4868: Use currently connected network as chainId for transactions
+
 ## 0.4.4
 
 ### Patch Changes
