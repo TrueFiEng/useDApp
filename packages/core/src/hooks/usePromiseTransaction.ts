@@ -16,7 +16,10 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
         setState({ transaction, status: 'Mining', chainId })
         addTransaction({
-          transaction,
+          transaction: {
+            ...transaction,
+            chainId: chainId,
+          },
           submittedAt: Date.now(),
           transactionName: options?.transactionName,
         })
