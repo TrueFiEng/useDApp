@@ -31,17 +31,11 @@ export function useContractFunction(contract: Contract, functionName: string, op
     async (...args: any[]) => {
       const contractWithSigner = connectContractToSigner(contract, options, library)
       const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
-      if (receipt) {
-        if (receipt.logs && receipt.logs.length > 0) {
-          setEvents(receipt.logs.reduce<LogDescription[]>((result, log) => {
-            if (log.address === contract.address) {
-              result.push(contract.interface.parseLog(log))
-            }
-            return result
-          }, []))
-        } else {
-          setEvents([])
-        }
+      if (receipt?.logs) {
+        const events = receipt.logs
+          .filter((log) => log.address === contract.address)
+          .map((log) => contract.interface.parseLog(log))
+        setEvents(events)
       }
     },
     [contract, functionName, options, library]
