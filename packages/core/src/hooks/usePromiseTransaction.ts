@@ -27,7 +27,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         setState({ receipt, transaction, status: 'Success', chainId })
         return receipt
       } catch (e) {
-        const errorMessage = e.error?.message ?? e.reason ?? e.message
+        const errorMessage = e.error?.message ?? e.reason ?? e.data?.message ?? e.message
         if (transaction) {
           setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
         } else {
