@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.4.6
+
+### Patch Changes
+
+- 0a98795: Update ERC20 ABI
+- afe26a5: Prevent crash when parsing transaction logs from contract call
+- 0a82f09: Improve errorMessage from a contract call
+
 ## 0.4.5
 
 ### Patch Changes
