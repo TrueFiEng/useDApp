@@ -1,5 +1,15 @@
 # @usedapp/example
 
+## 0.2.8
+
+### Patch Changes
+
+- Updated dependencies [0a98795]
+- Updated dependencies [afe26a5]
+- Updated dependencies [0a82f09]
+  - @usedapp/core@0.5.0
+  - @usedapp/coingecko@0.3.23
+
 ## 0.2.7
 
 ### Patch Changes
