@@ -1,5 +1,5 @@
 ---
-'@usedapp/core': minor
+'@usedapp/core': patch
 ---
 
 Improve errorMessage from a contract call
