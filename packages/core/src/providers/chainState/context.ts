@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { Action, ChainCall } from './callsReducer'
+import { Action } from './callsReducer'
 import { ChainState } from './model'
 
 export const ChainStateContext = createContext<{

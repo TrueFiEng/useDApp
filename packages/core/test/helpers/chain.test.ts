@@ -20,6 +20,7 @@ describe('Chain helpers', () => {
     expect(getChainName(ChainId.Polygon)).to.eq('Polygon')
     expect(getChainName(ChainId.Mumbai)).to.eq('Mumbai')
     expect(getChainName(ChainId.Harmony)).to.eq('Harmony')
+    expect(getChainName(ChainId.Moonriver)).to.eq('Moonriver')
   })
 
   it('isTestChain', () => {
@@ -33,6 +34,7 @@ describe('Chain helpers', () => {
     expect(isTestChain(ChainId.Polygon)).to.be.false
     expect(isTestChain(ChainId.Mumbai)).to.be.true
     expect(isTestChain(ChainId.Harmony)).to.be.false
+    expect(isTestChain(ChainId.Moonriver)).to.be.false
   })
 
   it('isLocalChain', () => {
@@ -45,6 +47,7 @@ describe('Chain helpers', () => {
     expect(isLocalChain(ChainId.Harmony)).to.be.false
     expect(isLocalChain(ChainId.Localhost)).to.be.true
     expect(isLocalChain(ChainId.Hardhat)).to.be.true
+    expect(isLocalChain(ChainId.Moonriver)).to.be.false
   })
 
   it('getExplorerAddressLink', () => {
@@ -79,6 +82,9 @@ describe('Chain helpers', () => {
     expect(getExplorerAddressLink(address, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
+    expect(getExplorerAddressLink(address, ChainId.Moonriver)).to.eq(
+      'https://blockscout.moonriver.moonbeam.network/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions'
+    )
   })
 
   it('getExplorerTransactionLink', () => {
@@ -112,6 +118,9 @@ describe('Chain helpers', () => {
     )
     expect(getExplorerTransactionLink(tx, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
+    )
+    expect(getExplorerTransactionLink(tx, ChainId.Moonriver)).to.eq(
+      'https://blockscout.moonriver.moonbeam.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'      
     )
   })
 })
