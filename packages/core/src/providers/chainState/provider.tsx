@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useReducer } from 'react'
+import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { ChainStateContext } from './context'
