@@ -7,7 +7,7 @@ export enum ChainId {
   BSC = 56,
   xDai = 100,
   Polygon = 137,
-  Moonriver = 1287,
+  Moonriver = 1285,
   Mumbai = 80001,
   Harmony = 1666600000,
   Localhost = 1337,
