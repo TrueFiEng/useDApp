@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.4.7
+
+### Patch Changes
+
+- 344d795: Add Moonriver support
+
 ## 0.4.6
 
 ### Patch Changes
