@@ -120,7 +120,7 @@ describe('Chain helpers', () => {
       'https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Moonriver)).to.eq(
-      'https://blockscout.moonriver.moonbeam.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'      
+      'https://blockscout.moonriver.moonbeam.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
     )
   })
 })
