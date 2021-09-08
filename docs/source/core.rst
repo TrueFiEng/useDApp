@@ -735,6 +735,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(ChainId.Mainnet) // Mainnet
   getChainName(ChainId.Ropsten) // Ropsten
   getChainName(ChainId.xDai)    // xDai
+  getChainName(ChainId.Theta) // Theta
   getChainName(ChainId.Harmony) // Harmony
   getChainName(ChainId.Moonriver) // Moonriver
 

@@ -15,6 +15,8 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Hardhat,
     ChainId.Polygon,
     ChainId.Mumbai,
+    ChainId.Theta,
+    ChainId.ThetaTestnet,
     ChainId.Harmony,
     ChainId.Moonriver,
   ],
