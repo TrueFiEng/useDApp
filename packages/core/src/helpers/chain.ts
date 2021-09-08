@@ -27,11 +27,11 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
     case ChainId.Polygon:
       return `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`
     case ChainId.Mumbai:
-        return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
+      return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
     case ChainId.Theta:
-        return `https://explorer.thetatoken.org/address/${address}`
+      return `https://explorer.thetatoken.org/address/${address}`
     case ChainId.ThetaTestnet:
-          return `https://testnet-explorer.thetatoken.org/address/${address}`
+      return `https://testnet-explorer.thetatoken.org/address/${address}`
     case ChainId.Harmony:
       return `https://explorer.harmony.one/address/${address}`
     case ChainId.Moonriver:
@@ -56,9 +56,9 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
     case ChainId.Mumbai:
       return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`
     case ChainId.Theta:
-        return `https://explorer.thetatoken.org/tx/${transactionHash}`
+      return `https://explorer.thetatoken.org/tx/${transactionHash}`
     case ChainId.ThetaTestnet:
-        return `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`
+      return `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`
     case ChainId.Harmony:
       return `https://explorer.harmony.one/tx/${transactionHash}`
     case ChainId.Moonriver:

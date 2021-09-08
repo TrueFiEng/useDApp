@@ -83,10 +83,10 @@ describe('Chain helpers', () => {
       'https://explorer-mumbai.maticvigil.com/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions'
     )
     expect(getExplorerAddressLink(address, ChainId.Theta)).to.eq(
-      'https://explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions'
+      'https://explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
     expect(getExplorerAddressLink(address, ChainId.ThetaTestnet)).to.eq(
-      'https://testnet-explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions'
+      'https://testnet-explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
     expect(getExplorerAddressLink(address, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
@@ -126,10 +126,10 @@ describe('Chain helpers', () => {
       'https://explorer-mumbai.maticvigil.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Theta)).to.eq(
-      'https://explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
+      'https://explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.ThetaTestnet)).to.eq(
-      'https://testnet-explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
+      'https://testnet-explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
