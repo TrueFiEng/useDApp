@@ -658,7 +658,7 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Fantom``
 
 
 Helpers
@@ -737,6 +737,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(ChainId.xDai)    // xDai
   getChainName(ChainId.Harmony) // Harmony
   getChainName(ChainId.Moonriver) // Moonriver
+  getChainName(ChainId.Fantom) // Fantom
 
 isTestChain
 ===========
