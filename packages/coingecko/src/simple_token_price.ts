@@ -26,4 +26,4 @@ export const fetchCoingeckoTokenPrice = (fetchFunction: any) => async (
   }
 }
 
-export const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(window && window.fetch)
+export const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(typeof window !== 'undefined' && window.fetch)
