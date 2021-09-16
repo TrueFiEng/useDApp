@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.4.8
+
+### Patch Changes
+
+- a94fae5: Add missing lodash-merge dependency
+
 ## 0.4.7
 
 ### Patch Changes
