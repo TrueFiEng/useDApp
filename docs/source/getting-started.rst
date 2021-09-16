@@ -30,6 +30,7 @@ Below is a simple example:
 .. code-block:: javascript
 
   import { ChainId, DAppProvider, useEtherBalance, useEthers } from '@usedapp/core'
+  import { formatEther } from '@ethersproject/units'
 
   const config: Config = {
     readOnlyChainId: ChainId.Mainnet,
