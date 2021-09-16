@@ -1,6 +1,15 @@
 # @usedapp/coingecko
 
+## 0.3.23
+
+### Patch Changes
+
+- c03e2ac: Don't break SSR apps with Coingecko hook
+- Updated dependencies [a94fae5]
+  - @usedapp/core@0.4.8
+
 ## 0.3.22
+
 ### Patch Changes
 
 - 88c5983: Refactor coingecko
