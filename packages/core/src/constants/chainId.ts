@@ -10,6 +10,7 @@ export enum ChainId {
   Moonriver = 1285,
   Mumbai = 80001,
   Harmony = 1666600000,
+  Palm = 11297108109,
   Localhost = 1337,
   Hardhat = 31337,
 }
@@ -26,6 +27,7 @@ export const CHAIN_NAMES = {
   [ChainId.Moonriver]: 'Moonriver',
   [ChainId.Mumbai]: 'Mumbai',
   [ChainId.Harmony]: 'Harmony',
+  [ChainId.Palm]: 'Palm',
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
 }
@@ -42,6 +44,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Moonriver]: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
   [ChainId.Mumbai]: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
   [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
+  [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
 }
 
 export const TEST_CHAINS = [
