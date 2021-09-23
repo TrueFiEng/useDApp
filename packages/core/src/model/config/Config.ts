@@ -18,6 +18,9 @@ export type FullConfig = {
     checkInterval: number
     expirationPeriod: number
   }
+  localStorage: {
+    transactionPath: string
+  }
 }
 
 export type Config = Partial<FullConfig>
