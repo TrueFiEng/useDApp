@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.5.0
+
+### Minor Changes
+
+- f5a5c47: Added local storage path to config
+
 ## 0.4.8
 
 ### Patch Changes
