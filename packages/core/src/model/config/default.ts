@@ -23,6 +23,6 @@ export const DEFAULT_CONFIG: FullConfig = {
     expirationPeriod: 5000,
   },
   localStorage: {
-    transactionPath: 'transactions'
-  }
+    transactionPath: 'transactions',
+  },
 }

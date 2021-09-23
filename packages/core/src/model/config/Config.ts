@@ -17,7 +17,7 @@ export type FullConfig = {
   notifications: {
     checkInterval: number
     expirationPeriod: number
-  },
+  }
   localStorage: {
     transactionPath: string
   }
