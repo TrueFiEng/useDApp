@@ -36,6 +36,8 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://explorer.harmony.one/address/${address}`
     case ChainId.Moonriver:
       return `https://blockscout.moonriver.moonbeam.network/address/${address}/transactions`
+    case ChainId.Palm:
+      return `https://explorer.palm.io/address/${address}`
   }
 }
 
@@ -63,6 +65,8 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://explorer.harmony.one/tx/${transactionHash}`
     case ChainId.Moonriver:
       return `https://blockscout.moonriver.moonbeam.network/tx/${transactionHash}/internal-transactions`
+    case ChainId.Palm:
+      return `https://explorer.palm.io/tx/${transactionHash}`
   }
 }
 

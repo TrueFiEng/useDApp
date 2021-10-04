@@ -19,9 +19,13 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.ThetaTestnet,
     ChainId.Harmony,
     ChainId.Moonriver,
+    ChainId.Palm,
   ],
   notifications: {
     checkInterval: 500,
     expirationPeriod: 5000,
+  },
+  localStorage: {
+    transactionPath: 'transactions',
   },
 }
