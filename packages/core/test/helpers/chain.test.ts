@@ -19,6 +19,8 @@ describe('Chain helpers', () => {
     expect(getChainName(ChainId.xDai)).to.eq('xDai')
     expect(getChainName(ChainId.Polygon)).to.eq('Polygon')
     expect(getChainName(ChainId.Mumbai)).to.eq('Mumbai')
+    expect(getChainName(ChainId.Theta)).to.eq('Theta')
+    expect(getChainName(ChainId.ThetaTestnet)).to.eq('ThetaTestnet')
     expect(getChainName(ChainId.Harmony)).to.eq('Harmony')
     expect(getChainName(ChainId.Moonriver)).to.eq('Moonriver')
     expect(getChainName(ChainId.Palm)).to.eq('Palm')
@@ -33,6 +35,7 @@ describe('Chain helpers', () => {
     expect(isTestChain(ChainId.BSC)).to.be.false
     expect(isTestChain(ChainId.xDai)).to.be.false
     expect(isTestChain(ChainId.Polygon)).to.be.false
+    expect(isTestChain(ChainId.Theta)).to.be.false
     expect(isTestChain(ChainId.Mumbai)).to.be.true
     expect(isTestChain(ChainId.Harmony)).to.be.false
     expect(isTestChain(ChainId.Moonriver)).to.be.false
@@ -82,6 +85,12 @@ describe('Chain helpers', () => {
     expect(getExplorerAddressLink(address, ChainId.Mumbai)).to.eq(
       'https://explorer-mumbai.maticvigil.com/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions'
     )
+    expect(getExplorerAddressLink(address, ChainId.Theta)).to.eq(
+      'https://explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
+    )
+    expect(getExplorerAddressLink(address, ChainId.ThetaTestnet)).to.eq(
+      'https://testnet-explorer.thetatoken.org/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
+    )
     expect(getExplorerAddressLink(address, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
@@ -121,6 +130,12 @@ describe('Chain helpers', () => {
     )
     expect(getExplorerTransactionLink(tx, ChainId.Mumbai)).to.eq(
       'https://explorer-mumbai.maticvigil.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions'
+    )
+    expect(getExplorerTransactionLink(tx, ChainId.Theta)).to.eq(
+      'https://explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
+    )
+    expect(getExplorerTransactionLink(tx, ChainId.ThetaTestnet)).to.eq(
+      'https://testnet-explorer.thetatoken.org/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Harmony)).to.eq(
       'https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
