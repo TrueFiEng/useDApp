@@ -24,7 +24,7 @@ Provides basic services for a DApp. It combines the following components: ``<Con
       [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
     },
   }
-  
+
   return (
     <DAppProvider config={config}>
       <App />
@@ -52,7 +52,7 @@ Stores configurations and makes them available via `useConfig`_ hook.
 <LocalMulticallProvider>
 =====================
 
-Ensures that a multicall contract address is available when developing on a local chain. 
+Ensures that a multicall contract address is available when developing on a local chain.
 A multicall contract will be deployed when a multicall address on a local chainID is not defined in the `Config`_.
 
 While the contract is being deployed, a temporary "Deploying multicall..." message will be rendered instead
@@ -144,7 +144,7 @@ The ``state`` represents the status of transaction. See `TransactionStatus`_.
 The ``events`` is a array of parsed transaction events of type `LogDescription <https://docs.ethers.io/v5/api/utils/abi/interface/#LogDescription>`_.
 
 To send a transaction use ``send`` function returned by ``useContractFunction``.
-The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments. 
+The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments.
 Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
 
 **Parameters**
@@ -159,15 +159,15 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
 **Example**
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-  
+
   const depositEther = (etherAmount: string) => {
     send({ value: utils.parseEther(etherAmount) })
   }
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
@@ -219,17 +219,17 @@ Function takes no parameters.
 useDebounce
 ===========
 
-Debounce a value of type T. 
+Debounce a value of type T.
 It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
 
 **Generic parameters**
 
-- ``T`` - type of stored value 
+- ``T`` - type of stored value
 
 **Parameters**
 
 - ``value: T`` - variable to be debounced
-- ``delay: number`` - debounce time - amount of time in ms 
+- ``delay: number`` - debounce time - amount of time in ms
 
 **Returns**
 
@@ -239,14 +239,14 @@ It stores a single value but returns after debounced time unless a new value is 
 
 .. code-block:: javascript
 
-  const [someValue, setValue] = useState(...) 
+  const [someValue, setValue] = useState(...)
   const debouncedValue = useDebounce(value, 1000)
-  
+
 
 useDebouncePair
 ===============
 
-Debounce a pair of values of types T and U. 
+Debounce a pair of values of types T and U.
 It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
 
 This function is used for debouncing multicall until enough calls are aggregated.
@@ -254,8 +254,8 @@ This function is used for debouncing multicall until enough calls are aggregated
 
 **Generic parameters**
 
-- ``T`` - type of first stored value 
-- ``U`` - type of second stored value  
+- ``T`` - type of first stored value
+- ``U`` - type of second stored value
 
 **Parameters**
 
@@ -341,25 +341,25 @@ To use this hook call:
 
 ``notifications`` is an array of ``NotificationPayload``.
 
-Each notification is removed from ``notifications`` after time declared in 
+Each notification is removed from ``notifications`` after time declared in
 config.notifications.expirationPeriod
 
 Each can be one of the following:
 
 .. code-block:: javascript
 
-  { 
-    type: 'walletConnected'; 
-    address: string 
+  {
+    type: 'walletConnected';
+    address: string
   }
 
 .. code-block:: javascript
 
-  { 
-    type: 'transactionStarted'; 
+  {
+    type: 'transactionStarted';
     submittedAt: number
-    transaction: TransactionResponse; 
-    transactionName?: string 
+    transaction: TransactionResponse;
+    transactionName?: string
   }
 
 .. code-block:: javascript
@@ -372,7 +372,7 @@ Each can be one of the following:
   }
 
 .. code-block:: javascript
-  
+
   {
     type: 'transactionFailed'
     transaction: TransactionResponse
@@ -443,9 +443,9 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
 useTransactions
 ===============
 
-``useTransactions`` hook returns a list ``transactions``. This list contains 
+``useTransactions`` hook returns a list ``transactions``. This list contains
 all transactions that were sent using ``useContractFunction`` and ``useSendTransaction``.
-Transactions are stored in local storage and the status is rechecked on every new block. 
+Transactions are stored in local storage and the status is rechecked on every new block.
 
 Each transaction has following type:
 
@@ -524,6 +524,17 @@ List of intended supported chains. If a user tries to connect to an unsupported 
 **pollingInterval**
 Polling interval for a new block.
 
+**localStorage**
+Paths to locations in local storage
+
+**Default value:**
+
+.. code-block:: javascript
+
+    {
+      transactionPath: 'transactions'
+    }
+
 ChainCall
 =========
 
@@ -548,7 +559,7 @@ Fields:
 - ``method: string`` - function name
 
 - ``args: any[]`` - arguments for the function
-  
+
 
 Currency
 ========
@@ -623,7 +634,7 @@ TransactionStatus
 
 Represents a state of a single transaction.
 
-Fields: 
+Fields:
 
 - ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
 
@@ -658,7 +669,8 @@ ChainId
 Enum that represents chain ids.
 
 **Values:**
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Fantom``
+
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom``
 
 
 Helpers
@@ -678,17 +690,17 @@ Returns URL to blockchain explorer for an address on a given chain.
 **Example**
 
 .. code-block:: javascript
-    
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
+
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)
   // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)
   // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)
   // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
-    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)   
+    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)
   // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
 
 
@@ -706,16 +718,16 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
 
 .. code-block:: javascript
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)   
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)
   // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)   
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)
   // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)   
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)
   // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
-   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)   
+   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)
   // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
 getChainName
@@ -735,6 +747,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(ChainId.Mainnet) // Mainnet
   getChainName(ChainId.Ropsten) // Ropsten
   getChainName(ChainId.xDai)    // xDai
+  getChainName(ChainId.Theta) // Theta
   getChainName(ChainId.Harmony) // Harmony
   getChainName(ChainId.Moonriver) // Moonriver
   getChainName(ChainId.Fantom) // Fantom
@@ -816,7 +829,7 @@ Returns true if transaction failed or had an exception
 compareAddress
 ==============
 
-Returns 1 if first address is bigger than second address. 
+Returns 1 if first address is bigger than second address.
 Returns 0 if both addresses are equal.
 Returns -1 if first address is smaller than second address.
 If any address can't be parsed throws an error.
