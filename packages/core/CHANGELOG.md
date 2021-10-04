@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.5.2
+
+### Patch Changes
+
+- cf8e28d: Add support for Theta
+
 ## 0.5.1
 
 ### Patch Changes
