@@ -10,6 +10,7 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Rinkeby,
     ChainId.Ropsten,
     ChainId.BSC,
+    ChainId.BSCTestnet,
     ChainId.xDai,
     ChainId.Localhost,
     ChainId.Hardhat,
