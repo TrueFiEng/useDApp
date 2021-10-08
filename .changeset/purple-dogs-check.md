@@ -2,4 +2,5 @@
 "@usedapp/core": patch
 ---
 
-fantom support added
+Fantom support added, changeset note missing
+
