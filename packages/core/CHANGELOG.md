@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.5.3
+
+### Patch Changes
+
+- eee8bc5: Skipping unparsable logs for useContractFunction
+- 5042868: Fantom support added
+
 ## 0.5.2
 
 ### Patch Changes
