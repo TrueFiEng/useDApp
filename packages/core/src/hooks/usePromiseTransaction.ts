@@ -1,11 +1,13 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
-import { useTransactionsContext } from '../providers'
+import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
+import { TransactionState } from '../model'
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
   const { addTransaction } = useTransactionsContext()
+  const { addNotification } = useNotificationsContext()
 
   const promiseTransaction = useCallback(
     async (transactionPromise: Promise<TransactionResponse>) => {
@@ -26,10 +28,41 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         const receipt = await transaction.wait()
         setState({ receipt, transaction, status: 'Success', chainId })
         return receipt
-      } catch (e) {
+      } catch (e: any) {
         const errorMessage = e.error?.message ?? e.reason ?? e.data?.message ?? e.message
         if (transaction) {
-          setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
+          // tx was dropped, has a replacement, and the reason was a reprice or NOT a cancellation.
+          const droppedAndReplaced =
+            e?.code === 'TRANSACTION_REPLACED' && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+
+          if (droppedAndReplaced) {
+            // was replace transaction a success or fail
+            const status: TransactionState = e.receipt.status === 0 ? 'Fail' : 'Success'
+            const type = status === 'Fail' ? 'transactionFailed' : 'transactionSucceed'
+
+            // notify of this new tx
+            addNotification({
+              notification: {
+                type,
+                submittedAt: Date.now(),
+                transaction: e.replacement,
+                receipt: e.receipt,
+                transactionName: e.replacement?.transactionName,
+              },
+              chainId,
+            })
+
+            setState({
+              status,
+              transaction: e.replacement,
+              receipt: e.receipt,
+              errorMessage,
+              chainId,
+            })
+          } else {
+            // regular fail/cancel
+            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
+          }
         } else {
           setState({ status: 'Exception', errorMessage, chainId })
         }
