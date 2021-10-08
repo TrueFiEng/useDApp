@@ -32,9 +32,15 @@ export function useContractFunction(contract: Contract, functionName: string, op
       const contractWithSigner = connectContractToSigner(contract, options, library)
       const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
       if (receipt?.logs) {
-        const events = receipt.logs
-          .filter((log) => log.address === contract.address)
-          .map((log) => contract.interface.parseLog(log))
+        const events = receipt.logs.reduce((accumulatedLogs, log) => {
+          try {
+            return log.address === contract.address
+              ? [...accumulatedLogs, contract.interface.parseLog(log)]
+              : accumulatedLogs
+          } catch (_err) {
+            return accumulatedLogs
+          }
+        }, [] as LogDescription[])
         setEvents(events)
       }
     },
