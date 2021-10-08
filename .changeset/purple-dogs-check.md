@@ -2,4 +2,4 @@
 "@usedapp/core": patch
 ---
 
-fantom support added
+Fantom support added
