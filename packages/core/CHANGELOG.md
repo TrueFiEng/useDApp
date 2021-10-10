@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.5.4
+
+### Patch Changes
+
+- daa3b7e: Added BSC Testnet chain ID and addresses along with currencies
+
 ## 0.5.3
 
 ### Patch Changes
