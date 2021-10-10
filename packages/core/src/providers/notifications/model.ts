@@ -8,12 +8,14 @@ type NotificationPayload = { submittedAt: number } & (
       transaction: TransactionResponse
       receipt: TransactionReceipt
       transactionName?: string
+      originalTransaction?: TransactionResponse
     }
   | {
       type: 'transactionFailed'
       transaction: TransactionResponse
       receipt: TransactionReceipt
       transactionName?: string
+      originalTransaction?: TransactionResponse
     }
   | { type: 'walletConnected'; address: string }
 )

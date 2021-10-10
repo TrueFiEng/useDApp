@@ -9,6 +9,7 @@ export interface TransactionStatus {
   receipt?: TransactionReceipt
   chainId?: ChainId
   errorMessage?: string
+  originalTransaction?: TransactionResponse
 }
 
 export function transactionErrored(transaction: TransactionStatus) {
