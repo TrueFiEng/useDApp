@@ -11,8 +11,12 @@ function warnOnInvalidContractCall(call: ContractCall | Falsy) {
 }
 
 function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
+  if (!call || !call.address || !call.method) {
+    warnOnInvalidContractCall(call)
+    return undefined
+  }
   try {
-    return call && { address: call.address, data: call.abi.encodeFunctionData(call.method, call.args) }
+    return { address: call.address, data: call.abi.encodeFunctionData(call.method, call.args) }
   } catch {
     warnOnInvalidContractCall(call)
     return undefined
