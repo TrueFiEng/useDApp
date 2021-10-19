@@ -670,7 +670,7 @@ Enum that represents chain ids.
 
 **Values:**
 
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche``
 
 
 Helpers
