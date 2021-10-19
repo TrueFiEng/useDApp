@@ -26,6 +26,7 @@ describe('Chain helpers', () => {
     expect(getChainName(ChainId.Moonriver)).to.eq('Moonriver')
     expect(getChainName(ChainId.Palm)).to.eq('Palm')
     expect(getChainName(ChainId.Fantom)).to.eq('Fantom')
+    expect(getChainName(ChainId.FantomTestnet)).to.eq('Fantom Testnet')
   })
 
   it('isTestChain', () => {
@@ -44,6 +45,7 @@ describe('Chain helpers', () => {
     expect(isTestChain(ChainId.Moonriver)).to.be.false
     expect(isTestChain(ChainId.Palm)).to.be.false
     expect(isTestChain(ChainId.Fantom)).to.be.false
+    expect(isTestChain(ChainId.FantomTestnet)).to.be.true
   })
 
   it('isLocalChain', () => {
@@ -59,7 +61,8 @@ describe('Chain helpers', () => {
     expect(isLocalChain(ChainId.Hardhat)).to.be.true
     expect(isLocalChain(ChainId.Moonriver)).to.be.false
     expect(isLocalChain(ChainId.Palm)).to.be.false
-    expect(isTestChain(ChainId.Fantom)).to.be.false
+    expect(isLocalChain(ChainId.Fantom)).to.be.false
+    expect(isLocalChain(ChainId.FantomTestnet)).to.be.false
   })
 
   it('getExplorerAddressLink', () => {
@@ -112,6 +115,9 @@ describe('Chain helpers', () => {
     expect(getExplorerAddressLink(address, ChainId.Fantom)).to.eq(
       'https://ftmscan.com/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
+    expect(getExplorerAddressLink(address, ChainId.FantomTestnet)).to.eq(
+      'https://ftmscan.com/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
+    )
   })
 
   it('getExplorerTransactionLink', () => {
@@ -162,6 +168,9 @@ describe('Chain helpers', () => {
       'https://explorer.palm.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Fantom)).to.eq(
+      'https://ftmscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
+    )
+    expect(getExplorerTransactionLink(tx, ChainId.FantomTestnet)).to.eq(
       'https://ftmscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
   })
