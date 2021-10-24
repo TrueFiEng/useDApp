@@ -478,7 +478,7 @@ useLookupAddress
 .. code-block:: javascript
 
   const { account } = useEthers()
-  const ens = useDisplayName()
+  const ens = useLookupAddress()
 
   return (
     <p>Account: {ens ?? account}</p>
