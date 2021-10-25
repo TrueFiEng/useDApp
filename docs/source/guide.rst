@@ -132,14 +132,21 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
 
 .. code-block:: javascript
 
-  function useTokenBalance(tokenAddress: string | Falsy, address: string | Falsy) {
-    const [tokenBalance] = useContractCall(
-      ERC20Interface, // ABI interface of the called contract
-      tokenAddress, // On-chain address of the deployed contract
-      'balanceOf', // Method to be called
-      address && [address] // Method arguments - address to be checked for balance
-    ) ?? []
-    return tokenBalance
+  function useTokenBalance(
+    tokenAddress: string | Falsy,
+    address: string | Falsy
+  ) {
+    const [tokenBalance] =
+      useContractCall(
+        address &&
+          tokenAddress && {
+            abi: ERC20Interface, // ABI interface of the called contract
+            address: tokenAddress, // On-chain address of the deployed contract
+            method: "balanceOf", // Method to be called
+            args: [address], // Method arguments - address to be checked for balance
+          }
+      ) ?? [];
+    return tokenBalance;
   }
 
 Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
