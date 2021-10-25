@@ -12,6 +12,7 @@ export type FullConfig = {
   readOnlyChainId?: ChainId
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
+  persistConnection?: boolean
   supportedChains: number[]
   pollingInterval?: number
   notifications: {

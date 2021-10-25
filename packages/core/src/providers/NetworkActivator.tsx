@@ -6,7 +6,7 @@ import { useConfig } from './config/context'
 
 export function NetworkActivator() {
   const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
-  const { supportedChains, readOnlyChainId, readOnlyUrls } = useConfig()
+  const { supportedChains, readOnlyChainId, readOnlyUrls, persistConnection } = useConfig()
 
   useEffect(() => {
     const eagerConnect = async () => {
@@ -15,7 +15,10 @@ export function NetworkActivator() {
         activate(injected)
       }
     }
-    eagerConnect()
+
+    if (persistConnection) {
+      eagerConnect()
+    }
   }, [])
 
   useEffect(() => {
