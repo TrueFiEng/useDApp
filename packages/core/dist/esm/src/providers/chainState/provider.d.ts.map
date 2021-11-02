@@ -1,0 +1,1 @@
+{"version":3,"file":"provider.d.ts","sourceRoot":"","sources":["../../../../../src/providers/chainState/provider.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAyB,MAAM,OAAO,CAAA;AAUxD,UAAU,KAAK;IACb,QAAQ,EAAE,SAAS,CAAA;IACnB,kBAAkB,EAAE;QAClB,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,CAAA;KAC1B,CAAA;CACF;AAED,wBAAgB,kBAAkB,CAAC,EAAE,QAAQ,EAAE,kBAAkB,EAAE,EAAE,KAAK,eAsDzE"}

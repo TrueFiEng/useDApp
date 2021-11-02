@@ -1,0 +1,1 @@
+{"version":3,"file":"usePromiseTransaction.d.ts","sourceRoot":"","sources":["../../../../src/hooks/usePromiseTransaction.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAAE,MAAM,kCAAkC,CAAA;AAGtE,OAAO,EAAE,iBAAiB,EAAE,kBAAkB,EAAE,MAAM,WAAW,CAAA;AAEjE,wBAAgB,qBAAqB,CAAC,OAAO,EAAE,MAAM,GAAG,SAAS,EAAE,OAAO,CAAC,EAAE,kBAAkB;6CAKhE,QAAQ,mBAAmB,CAAC;;EAgC1D"}

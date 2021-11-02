@@ -1,0 +1,1 @@
+{"version":3,"file":"reducer.d.ts","sourceRoot":"","sources":["../../../../../src/providers/blockNumber/reducer.ts"],"names":[],"mappings":"AAAA,UAAU,gBAAgB;IACxB,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,GAAG,SAAS,CAAA;CACtC;AAED,UAAU,kBAAkB;IAC1B,OAAO,EAAE,MAAM,CAAA;IACf,WAAW,EAAE,MAAM,CAAA;CACpB;AAED,wBAAgB,kBAAkB,CAAC,KAAK,8BAAuB,EAAE,MAAM,EAAE,kBAAkB,oBAS1F"}

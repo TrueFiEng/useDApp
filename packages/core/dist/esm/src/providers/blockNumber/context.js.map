@@ -1,0 +1,1 @@
+{"version":3,"file":"context.js","sourceRoot":"","sources":["../../../../../src/providers/blockNumber/context.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,UAAU,EAAE,MAAM,OAAO,CAAA;AAEjD,MAAM,CAAC,MAAM,kBAAkB,GAAG,aAAa,CAAqB,SAAS,CAAC,CAAA;AAE9E,MAAM,UAAU,cAAc;IAC5B,OAAO,UAAU,CAAC,kBAAkB,CAAC,CAAA;AACvC,CAAC"}

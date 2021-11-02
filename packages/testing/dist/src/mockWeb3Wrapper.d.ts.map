@@ -1,0 +1,1 @@
+{"version":3,"file":"mockWeb3Wrapper.d.ts","sourceRoot":"","sources":["../../src/mockWeb3Wrapper.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,gCAAgC,CAAA;AAElE,OAAc,EAAE,SAAS,EAAa,MAAM,OAAO,CAAA;AAInD,MAAM,WAAW,oBAAoB;IACnC,SAAS,CAAC,EAAE,iBAAiB,CAAA;IAC7B,QAAQ,CAAC,EAAE,SAAS,CAAA;CACrB;AAaD,eAAO,MAAM,eAAe,4BAA6B,oBAAoB,gBAM5E,CAAA"}
