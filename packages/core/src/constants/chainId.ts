@@ -17,6 +17,8 @@ export enum ChainId {
   Localhost = 1337,
   Hardhat = 31337,
   Fantom = 250,
+  RinkebyArbitrum = 421611,
+//   ArbitrumOne = 42161
 }
 
 export const CHAIN_NAMES = {
@@ -38,6 +40,8 @@ export const CHAIN_NAMES = {
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
   [ChainId.Fantom]: 'Fantom',
+  [ChainId.RinkebyArbitrum]: 'RinkebyArbitrum',
+//   [ChainId.ArbitrumOne]: 'ArbitrumOne'
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -57,6 +61,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
   [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
+  [ChainId.RinkebyArbitrum]: '0xFf79F208541DdF9dA6632dD851a269BbfA97d9aD'
 }
 
 export const TEST_CHAINS = [
@@ -69,6 +74,7 @@ export const TEST_CHAINS = [
   ChainId.ThetaTestnet,
   ChainId.Localhost,
   ChainId.Hardhat,
+  ChainId.RinkebyArbitrum
 ]
 
 export const LOCAL_CHAINS = [ChainId.Localhost, ChainId.Hardhat]
