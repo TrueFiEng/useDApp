@@ -17,6 +17,7 @@ export enum ChainId {
   Localhost = 1337,
   Hardhat = 31337,
   Fantom = 250,
+  Songbird = 19,
 }
 
 export const CHAIN_NAMES = {
@@ -38,6 +39,7 @@ export const CHAIN_NAMES = {
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
   [ChainId.Fantom]: 'Fantom',
+  [ChainId.Songbird]: 'Songbird',
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -57,6 +59,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
   [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
+  [ChainId.Songbird]: '0x60351436cf80A31EA6C3B261C784d3C127dBD6f1',
 }
 
 export const TEST_CHAINS = [
