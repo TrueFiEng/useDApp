@@ -170,7 +170,7 @@ describe('Chain helpers', () => {
     expect(getExplorerTransactionLink(tx, ChainId.Fantom)).to.eq(
       'https://ftmscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
-    expect(getExplorerTransactionLink(tx, ChainId.Fantom)).to.eq(
+    expect(getExplorerTransactionLink(tx, ChainId.Songbird)).to.eq(
       'https://songbird-explorer.flare.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
   })
