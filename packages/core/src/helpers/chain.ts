@@ -43,7 +43,7 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
     case ChainId.Fantom:
       return `https://ftmscan.com/address/${address}`
     case ChainId.Avalanche:
-      return `https://cchain.explorer.avax.network/address/${address}`
+      return `https://snowtrace.io/address/${address}`
   }
 }
 
@@ -78,7 +78,7 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
     case ChainId.Fantom:
       return `https://ftmscan.com/tx/${transactionHash}`
       case ChainId.Avalanche:
-        return `https://cchain.explorer.avax.network/tx/${transactionHash}`
+        return `https://snowtrace.io/tx/${transactionHash}`
   }
 }
 

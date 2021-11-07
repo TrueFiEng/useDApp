@@ -116,7 +116,7 @@ describe('Chain helpers', () => {
       'https://ftmscan.com/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
     expect(getExplorerAddressLink(address, ChainId.Avalanche)).to.eq(
-      'https://cchain.explorer.avax.network/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
+      'https://snowtrace.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
   })
 
@@ -171,7 +171,7 @@ describe('Chain helpers', () => {
       'https://ftmscan.com/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
     expect(getExplorerTransactionLink(tx, ChainId.Avalanche)).to.eq(
-      'https://cchain.explorer.avax.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
+      'https://snowtrace.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
   })
 })
