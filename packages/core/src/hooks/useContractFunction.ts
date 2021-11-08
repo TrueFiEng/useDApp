@@ -1,4 +1,4 @@
-import { TransactionOptions } from '../../src'
+import { addressEqual, TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
@@ -34,7 +34,7 @@ export function useContractFunction(contract: Contract, functionName: string, op
       if (receipt?.logs) {
         const events = receipt.logs.reduce((accumulatedLogs, log) => {
           try {
-            return log.address === contract.address
+            return addressEqual(log.address, contract.address)
               ? [...accumulatedLogs, contract.interface.parseLog(log)]
               : accumulatedLogs
           } catch (_err) {

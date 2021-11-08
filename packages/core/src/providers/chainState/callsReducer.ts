@@ -1,3 +1,5 @@
+import { addressEqual } from "../.."
+
 export type Action = AddCall | RemoveCall
 
 export interface ChainCall {
@@ -21,7 +23,7 @@ export function callsReducer(state: ChainCall[] = [], action: Action) {
   } else {
     let finalState = state
     for (const call of action.calls) {
-      const index = finalState.findIndex((x) => x.address === call.address && x.data === call.data)
+      const index = finalState.findIndex((x) => addressEqual(x.address, call.address) && x.data === call.data)
       if (index !== -1) {
         finalState = finalState.filter((_, i) => i !== index)
       }
