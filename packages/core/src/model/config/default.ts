@@ -22,6 +22,10 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Moonriver,
     ChainId.Palm,
     ChainId.Fantom,
+    ChainId.FantomTestnet,
+    ChainId.Avalanche,
+    ChainId.AvalancheFuji,
+    ChainId.Songbird,
   ],
   notifications: {
     checkInterval: 500,

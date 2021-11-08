@@ -42,6 +42,14 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://explorer.palm.io/address/${address}`
     case ChainId.Fantom:
       return `https://ftmscan.com/address/${address}`
+    case ChainId.FantomTestnet:
+      return `https://testnet.ftmscan.com/address/${address}`
+    case ChainId.Songbird:
+      return `https://songbird-explorer.flare.network/address/${address}/transactions`
+    case ChainId.Avalanche:
+      return `https://explorer.avax.network/address/${address}/transactions`
+    case ChainId.AvalancheFuji:
+      return `https://explorer.avax-test.network/address/${address}/transactions`
   }
 }
 
@@ -75,6 +83,14 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://explorer.palm.io/tx/${transactionHash}`
     case ChainId.Fantom:
       return `https://ftmscan.com/tx/${transactionHash}`
+    case ChainId.FantomTestnet:
+      return `https://testnet.ftmscan.com/tx/${transactionHash}`
+    case ChainId.Songbird:
+      return `https://songbird-explorer.flare.network/tx/${transactionHash}/internal-transactions`
+    case ChainId.Avalanche:
+      return `https://explorer.avax.network/tx/${transactionHash}`
+    case ChainId.AvalancheFuji:
+      return `https://explorer.avax-test.network/tx/${transactionHash}`
   }
 }
 
