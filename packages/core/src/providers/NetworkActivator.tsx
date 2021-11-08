@@ -4,7 +4,11 @@ import { useEthers } from '../hooks'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { useConfig } from './config/context'
 
-export function NetworkActivator() {
+interface INetworkActivator {
+  autoConnect: boolean
+}
+
+export function NetworkActivator({ autoConnect }: INetworkActivator) {
   const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
   const { supportedChains, readOnlyChainId, readOnlyUrls } = useConfig()
 
@@ -15,7 +19,7 @@ export function NetworkActivator() {
         activate(injected)
       }
     }
-    eagerConnect()
+    autoConnect && eagerConnect()
   }, [])
 
   useEffect(() => {

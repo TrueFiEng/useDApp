@@ -29,13 +29,13 @@ interface WithConfigProps {
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses } = useConfig()
+  const { multicallAddresses, autoConnect } = useConfig()
   const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
 
   return (
     <EthersProvider>
       <BlockNumberProvider>
-        <NetworkActivator />
+        <NetworkActivator autoConnect={autoConnect} />
         <LocalMulticallProvider>
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>
