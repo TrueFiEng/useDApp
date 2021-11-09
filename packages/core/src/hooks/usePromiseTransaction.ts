@@ -3,9 +3,10 @@ import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
 import { TransactionState } from '../model'
+import { errors } from 'ethers'
 
 const isDroppedAndReplaced = (e: any) =>
-  e?.code === 'TRANSACTION_REPLACED' && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+  e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
