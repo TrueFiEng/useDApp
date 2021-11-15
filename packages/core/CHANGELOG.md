@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.5.5
+
+### Patch Changes
+
+- bf3b543: Handle dropped and replaced transactions
+
 ## 0.5.4
 
 ### Patch Changes
