@@ -367,6 +367,7 @@ Each can be one of the following:
   {
     type: 'transactionSucceed'
     transaction: TransactionResponse
+    originalTransaction?: TransactionResponse
     receipt: TransactionReceipt
     transactionName?: string
   }
@@ -376,6 +377,7 @@ Each can be one of the following:
   {
     type: 'transactionFailed'
     transaction: TransactionResponse
+    originalTransaction?: TransactionResponse
     receipt: TransactionReceipt
     transactionName?: string
   }
@@ -457,6 +459,7 @@ Each transaction has following type:
     receipt?: TransactionReceipt
     lastCheckedBlockNumber?: number
     transactionName?: string
+    originalTransaction?: TransactionResponse
   }
 
 Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
@@ -639,6 +642,8 @@ Fields:
 - ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
 
 - ``transaction?: TransactionResponse`` - optional field. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
+
+- ``originalTransaction?: TransactionResponse`` - optional field that contains the original transaction if it has been dropped and replaced. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
 
 - ``receipt?: TransactionReceipt`` - optional field. See `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 

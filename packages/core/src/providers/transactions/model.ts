@@ -7,6 +7,7 @@ export interface StoredTransaction {
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
   transactionName?: string
+  originalTransaction?: TransactionResponse
 }
 
 export function getStoredTransactionState(transaction: StoredTransaction) {
