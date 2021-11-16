@@ -20,8 +20,8 @@ export type FullConfig = {
   }
   localStorage: {
     transactionPath: string
-  },
-  autoConnect: boolean,
+  }
+  autoConnect: boolean
 }
 
 export type Config = Partial<FullConfig>
