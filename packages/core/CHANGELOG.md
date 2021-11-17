@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.5.6
+
+### Patch Changes
+
+- b0114b5: Bump ethers version
+- e7175e7: 🦞 Skip multicall if address is undefined
+
 ## 0.5.5
 
 ### Patch Changes
