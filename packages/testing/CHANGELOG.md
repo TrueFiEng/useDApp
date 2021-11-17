@@ -1,5 +1,14 @@
 # @usedapp/testing
 
+## 0.2.12
+
+### Patch Changes
+
+- b0114b5: Bump ethers version
+- Updated dependencies [b0114b5]
+- Updated dependencies [e7175e7]
+  - @usedapp/core@0.5.6
+
 ## 0.2.11
 
 ### Patch Changes
