@@ -1,14 +1,15 @@
 import { ChainId } from '../../constants'
+import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../chain/ethereum'
 import { FullConfig } from './Config'
 
 export const DEFAULT_CONFIG: FullConfig = {
   pollingInterval: 15000,
   supportedChains: [
-    ChainId.Mainnet,
-    ChainId.Goerli,
-    ChainId.Kovan,
-    ChainId.Rinkeby,
-    ChainId.Ropsten,
+    Mainnet.chainId,
+    Ropsten.chainId,
+    Rinkeby.chainId,
+    Goerli.chainId,
+    Kovan.chainId,
     ChainId.BSC,
     ChainId.BSCTestnet,
     ChainId.xDai,

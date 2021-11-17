@@ -1,25 +1,18 @@
 import { ChainId, CHAIN_NAMES, LOCAL_CHAINS, TEST_CHAINS } from '../constants'
-
-function etherscanNetworkPrefix(chainId: ChainId) {
-  switch (chainId) {
-    case ChainId.Mainnet:
-      return ``
-    case ChainId.Ropsten:
-    case ChainId.Kovan:
-    case ChainId.Rinkeby:
-    case ChainId.Goerli:
-      return getChainName(chainId).toLocaleLowerCase() + '.'
-  }
-}
+import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
 
 export function getExplorerAddressLink(address: string, chainId: ChainId) {
   switch (chainId) {
-    case ChainId.Mainnet:
-    case ChainId.Ropsten:
-    case ChainId.Kovan:
-    case ChainId.Rinkeby:
-    case ChainId.Goerli:
-      return `https://${etherscanNetworkPrefix(chainId)}etherscan.io/address/${address}`
+    case Mainnet.chainId:
+      return Mainnet.getExplorerAddressLink(address)
+    case Ropsten.chainId:
+      return Ropsten.getExplorerAddressLink(address)
+    case Rinkeby.chainId:
+      return Rinkeby.getExplorerAddressLink(address)
+    case Goerli.chainId:
+      return Goerli.getExplorerAddressLink(address)
+    case Kovan.chainId:
+      return Kovan.getExplorerAddressLink(address)
     case ChainId.BSC:
       return `https://bscscan.com/address/${address}`
     case ChainId.BSCTestnet:
@@ -53,12 +46,16 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
 
 export function getExplorerTransactionLink(transactionHash: string, chainId: ChainId) {
   switch (chainId) {
-    case ChainId.Mainnet:
-    case ChainId.Ropsten:
-    case ChainId.Kovan:
-    case ChainId.Rinkeby:
-    case ChainId.Goerli:
-      return `https://${etherscanNetworkPrefix(chainId)}etherscan.io/tx/${transactionHash}`
+    case Mainnet.chainId:
+      return Mainnet.getExplorerTransactionLink(transactionHash)
+    case Ropsten.chainId:
+      return Ropsten.getExplorerTransactionLink(transactionHash)
+    case Kovan.chainId:
+      return Kovan.getExplorerTransactionLink(transactionHash)
+    case Rinkeby.chainId:
+      return Rinkeby.getExplorerTransactionLink(transactionHash)
+    case Goerli.chainId:
+      return Goerli.getExplorerTransactionLink(transactionHash)
     case ChainId.BSC:
       return `https://bscscan.com/tx/${transactionHash}`
     case ChainId.BSCTestnet:

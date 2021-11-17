@@ -1,3 +1,5 @@
+import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
+
 export enum ChainId {
   Mainnet = 1,
   Ropsten = 3,
@@ -23,11 +25,11 @@ export enum ChainId {
 }
 
 export const CHAIN_NAMES = {
-  [ChainId.Mainnet]: 'Mainnet',
-  [ChainId.Ropsten]: 'Ropsten',
-  [ChainId.Kovan]: 'Kovan',
-  [ChainId.Rinkeby]: 'Rinkeby',
-  [ChainId.Goerli]: 'Goerli',
+  [Mainnet.chainId]: Mainnet.chainName,
+  [Ropsten.chainId]: Ropsten.chainName,
+  [Rinkeby.chainId]: Rinkeby.chainName,
+  [Goerli.chainId]: Goerli.chainName,
+  [Kovan.chainId]: Kovan.chainName,
   [ChainId.BSC]: 'BSC',
   [ChainId.BSCTestnet]: 'BSCTestnet',
   [ChainId.xDai]: 'xDai',
@@ -47,11 +49,11 @@ export const CHAIN_NAMES = {
 }
 
 export const MULTICALL_ADDRESSES = {
-  [ChainId.Mainnet]: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
-  [ChainId.Ropsten]: '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
-  [ChainId.Rinkeby]: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
-  [ChainId.Goerli]: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
-  [ChainId.Kovan]: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
+  [Mainnet.chainId]: Mainnet.MULTICALL_ADDRESS,
+  [Ropsten.chainId]: Ropsten.MULTICALL_ADDRESS,
+  [Rinkeby.chainId]: Rinkeby.MULTICALL_ADDRESS,
+  [Goerli.chainId]: Goerli.MULTICALL_ADDRESS,
+  [Kovan.chainId]: Kovan.MULTICALL_ADDRESS,
   [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   [ChainId.BSCTestnet]: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
@@ -69,11 +71,11 @@ export const MULTICALL_ADDRESSES = {
 }
 
 export const TEST_CHAINS = [
-  ChainId.Ropsten,
-  ChainId.Kovan,
-  ChainId.Rinkeby,
+  Ropsten.chainId,
+  Rinkeby.chainId,
+  Goerli.chainId,
+  Kovan.chainId,
   ChainId.BSCTestnet,
-  ChainId.Goerli,
   ChainId.Mumbai,
   ChainId.ThetaTestnet,
   ChainId.MoonbaseAlpha,
