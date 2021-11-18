@@ -1,4 +1,4 @@
-import { ChainId } from '../../constants'
+import { Localhost, Hardhat } from '../chain/local'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../chain/ethereum'
 import { BSC, BSCTestnet } from '../chain/bsc'
 import { xDai } from '../chain/xdai'
@@ -23,8 +23,8 @@ export const DEFAULT_CONFIG: FullConfig = {
     BSC.chainId,
     BSCTestnet.chainId,
     xDai.chainId,
-    ChainId.Localhost,
-    ChainId.Hardhat,
+    Localhost.chainId,
+    Hardhat.chainId,
     Polygon.chainId,
     Mumbai.chainId,
     Theta.chainId,

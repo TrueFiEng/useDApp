@@ -1,3 +1,4 @@
+import { Localhost, Hardhat } from '../model/chain/local'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
 import { BSC, BSCTestnet } from '../model/chain/bsc'
 import { xDai } from '../model/chain/xdai'
@@ -49,8 +50,8 @@ export const CHAIN_NAMES = {
   [Mumbai.chainId]: Mumbai.chainName,
   [Harmony.chainId]: Harmony.chainName,
   [Palm.chainId]: Palm.chainName,
-  [ChainId.Localhost]: 'Localhost',
-  [ChainId.Hardhat]: 'Hardhat',
+  [Localhost.chainId]: Localhost.chainName,
+  [Hardhat.chainId]: Hardhat.chainName,
   [Fantom.chainId]: Fantom.chainName,
 }
 
@@ -81,8 +82,8 @@ export const TEST_CHAINS = [
   BSCTestnet.chainId,
   Mumbai.chainId,
   ThetaTestnet.chainId,
-  ChainId.Localhost,
-  ChainId.Hardhat,
+  Localhost.chainId,
+  Hardhat.chainId,
 ]
 
-export const LOCAL_CHAINS = [ChainId.Localhost, ChainId.Hardhat]
+export const LOCAL_CHAINS = [Localhost.chainId, Hardhat.chainId]
