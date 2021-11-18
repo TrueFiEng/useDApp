@@ -1,5 +1,7 @@
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
 import { BSC, BSCTestnet } from '../model/chain/bsc'
+import { xDai } from '../model/chain/xdai'
+import { Polygon, Mumbai } from '../model/chain/polygon'
 
 export enum ChainId {
   Mainnet = 1,
@@ -33,12 +35,12 @@ export const CHAIN_NAMES = {
   [Kovan.chainId]: Kovan.chainName,
   [BSC.chainId]: BSC.chainName,
   [BSCTestnet.chainId]: BSCTestnet.chainName,
-  [ChainId.xDai]: 'xDai',
-  [ChainId.Polygon]: 'Polygon',
+  [xDai.chainId]: xDai.chainName,
+  [Polygon.chainId]: Polygon.chainName,
   [ChainId.Theta]: 'Theta',
   [ChainId.ThetaTestnet]: 'ThetaTestnet',
   [ChainId.Moonriver]: 'Moonriver',
-  [ChainId.Mumbai]: 'Mumbai',
+  [Mumbai.chainId]: Mumbai.chainName,
   [ChainId.Harmony]: 'Harmony',
   [ChainId.Palm]: 'Palm',
   [ChainId.Localhost]: 'Localhost',
@@ -57,12 +59,12 @@ export const MULTICALL_ADDRESSES = {
   [Kovan.chainId]: Kovan.MULTICALL_ADDRESS,
   [BSC.chainId]: BSC.MULTICALL_ADDRESS,
   [BSCTestnet.chainId]: BSCTestnet.MULTICALL_ADDRESS,
-  [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
-  [ChainId.Polygon]: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
+  [xDai.chainId]: xDai.MULTICALL_ADDRESS,
+  [Polygon.chainId]: Polygon.MULTICALL_ADDRESS,
   [ChainId.Theta]: '0xe2ec58a54f3ab2714eddbae87533793011f1e14e',
   [ChainId.ThetaTestnet]: '0xf822bf2e728e264c58d7618022addd9cbc780350',
   [ChainId.Moonriver]: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
-  [ChainId.Mumbai]: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
+  [Mumbai.chainId]: Mumbai.MULTICALL_ADDRESS,
   [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
   [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
@@ -77,7 +79,7 @@ export const TEST_CHAINS = [
   Goerli.chainId,
   Kovan.chainId,
   BSCTestnet.chainId,
-  ChainId.Mumbai,
+  Mumbai.chainId,
   ChainId.ThetaTestnet,
   ChainId.MoonbaseAlpha,
   ChainId.Localhost,

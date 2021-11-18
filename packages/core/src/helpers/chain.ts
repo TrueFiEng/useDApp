@@ -1,6 +1,8 @@
 import { ChainId, CHAIN_NAMES, LOCAL_CHAINS, TEST_CHAINS } from '../constants'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
 import { BSC, BSCTestnet } from '../model/chain/bsc'
+import { xDai } from '../model/chain/xdai'
+import { Polygon, Mumbai } from '../model/chain/polygon'
 
 export function getExplorerAddressLink(address: string, chainId: ChainId) {
   switch (chainId) {
@@ -18,12 +20,12 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return BSC.getExplorerAddressLink(address)
     case BSCTestnet.chainId:
       return BSCTestnet.getExplorerAddressLink(address)
-    case ChainId.xDai:
-      return `https://blockscout.com/poa/xdai/address/${address}/transactions`
-    case ChainId.Polygon:
-      return `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`
-    case ChainId.Mumbai:
-      return `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`
+    case xDai.chainId:
+      return xDai.getExplorerAddressLink(address)
+    case Polygon.chainId:
+      return Polygon.getExplorerAddressLink(address)
+    case Mumbai.chainId:
+      return Mumbai.getExplorerAddressLink(address)
     case ChainId.Theta:
       return `https://explorer.thetatoken.org/address/${address}`
     case ChainId.ThetaTestnet:
@@ -61,12 +63,12 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return BSC.getExplorerTransactionLink(transactionHash)
     case BSCTestnet.chainId:
       return BSCTestnet.getExplorerTransactionLink(transactionHash)
-    case ChainId.xDai:
-      return `https://blockscout.com/poa/xdai/tx/${transactionHash}/internal-transactions`
-    case ChainId.Polygon:
-      return `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`
-    case ChainId.Mumbai:
-      return `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`
+    case xDai.chainId:
+      return xDai.getExplorerTransactionLink(transactionHash)
+    case Polygon.chainId:
+      return Polygon.getExplorerTransactionLink(transactionHash)
+    case Mumbai.chainId:
+      return Mumbai.getExplorerTransactionLink(transactionHash)
     case ChainId.Theta:
       return `https://explorer.thetatoken.org/tx/${transactionHash}`
     case ChainId.ThetaTestnet:

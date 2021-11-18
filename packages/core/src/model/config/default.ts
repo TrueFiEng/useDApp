@@ -1,6 +1,8 @@
 import { ChainId } from '../../constants'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../chain/ethereum'
 import { BSC, BSCTestnet } from '../chain/bsc'
+import { xDai } from '../chain/xdai'
+import { Polygon, Mumbai } from '../chain/polygon'
 import { FullConfig } from './Config'
 
 export const DEFAULT_CONFIG: FullConfig = {
@@ -13,11 +15,11 @@ export const DEFAULT_CONFIG: FullConfig = {
     Kovan.chainId,
     BSC.chainId,
     BSCTestnet.chainId,
-    ChainId.xDai,
+    xDai.chainId,
     ChainId.Localhost,
     ChainId.Hardhat,
-    ChainId.Polygon,
-    ChainId.Mumbai,
+    Polygon.chainId,
+    Mumbai.chainId,
     ChainId.Theta,
     ChainId.ThetaTestnet,
     ChainId.Harmony,
