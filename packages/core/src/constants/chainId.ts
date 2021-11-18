@@ -7,7 +7,7 @@ import { Theta, ThetaTestnet } from '../model/chain/theta'
 import { Moonriver } from '../model/chain/moonriver'
 import { Harmony } from '../model/chain/harmony'
 import { Palm } from '../model/chain/palm'
-import { Fantom } from '../model/chain/Fantom'
+import { Fantom } from '../model/chain/fantom'
 import { Avalanche } from '../model/chain/avalanche'
 
 export const SUPPORT_NETWORKS = [
@@ -29,6 +29,7 @@ export const SUPPORT_NETWORKS = [
   Harmony,
   Palm,
   Fantom,
+  Avalanche,
 ]
 
 export enum ChainId {

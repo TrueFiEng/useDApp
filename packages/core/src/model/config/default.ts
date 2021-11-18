@@ -7,7 +7,7 @@ import { Theta, ThetaTestnet } from '../chain/theta'
 import { Moonriver } from '../chain/moonriver'
 import { Harmony } from '../chain/harmony'
 import { Palm } from '../chain/palm'
-import { Fantom } from '../chain/Fantom'
+import { Fantom } from '../chain/fantom'
 import { Avalanche } from '../chain/avalanche'
 
 import { FullConfig } from './Config'
