@@ -2,6 +2,7 @@ import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereu
 import { BSC, BSCTestnet } from '../model/chain/bsc'
 import { xDai } from '../model/chain/xdai'
 import { Polygon, Mumbai } from '../model/chain/polygon'
+import { Theta, ThetaTestnet } from '../model/chain/theta'
 
 export enum ChainId {
   Mainnet = 1,
@@ -37,8 +38,8 @@ export const CHAIN_NAMES = {
   [BSCTestnet.chainId]: BSCTestnet.chainName,
   [xDai.chainId]: xDai.chainName,
   [Polygon.chainId]: Polygon.chainName,
-  [ChainId.Theta]: 'Theta',
-  [ChainId.ThetaTestnet]: 'ThetaTestnet',
+  [Theta.chainId]: Theta.chainName,
+  [ThetaTestnet.chainId]: ThetaTestnet.chainName,
   [ChainId.Moonriver]: 'Moonriver',
   [Mumbai.chainId]: Mumbai.chainName,
   [ChainId.Harmony]: 'Harmony',
@@ -47,8 +48,6 @@ export const CHAIN_NAMES = {
   [ChainId.Hardhat]: 'Hardhat',
   [ChainId.Fantom]: 'Fantom',
   [ChainId.Avalanche]: 'Avalanche',
-  [ChainId.Songbird]: 'Songbird',
-  [ChainId.MoonbaseAlpha]: 'Moonbase Alpha',
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -61,16 +60,14 @@ export const MULTICALL_ADDRESSES = {
   [BSCTestnet.chainId]: BSCTestnet.MULTICALL_ADDRESS,
   [xDai.chainId]: xDai.MULTICALL_ADDRESS,
   [Polygon.chainId]: Polygon.MULTICALL_ADDRESS,
-  [ChainId.Theta]: '0xe2ec58a54f3ab2714eddbae87533793011f1e14e',
-  [ChainId.ThetaTestnet]: '0xf822bf2e728e264c58d7618022addd9cbc780350',
+  [Theta.chainId]: ThetaTestnet.MULTICALL_ADDRESS,
+  [ThetaTestnet.chainId]: ThetaTestnet.MULTICALL_ADDRESS,
   [ChainId.Moonriver]: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
   [Mumbai.chainId]: Mumbai.MULTICALL_ADDRESS,
   [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
   [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
   [ChainId.Avalanche]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
-  [ChainId.Songbird]: '0x60351436cf80A31EA6C3B261C784d3C127dBD6f1',
-  [ChainId.MoonbaseAlpha]: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
 }
 
 export const TEST_CHAINS = [
@@ -80,8 +77,7 @@ export const TEST_CHAINS = [
   Kovan.chainId,
   BSCTestnet.chainId,
   Mumbai.chainId,
-  ChainId.ThetaTestnet,
-  ChainId.MoonbaseAlpha,
+  ThetaTestnet.chainId,
   ChainId.Localhost,
   ChainId.Hardhat,
 ]

@@ -3,6 +3,8 @@ import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../chain/ethereum'
 import { BSC, BSCTestnet } from '../chain/bsc'
 import { xDai } from '../chain/xdai'
 import { Polygon, Mumbai } from '../chain/polygon'
+import { Theta, ThetaTestnet } from '../chain/theta'
+
 import { FullConfig } from './Config'
 
 export const DEFAULT_CONFIG: FullConfig = {
@@ -20,15 +22,13 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Hardhat,
     Polygon.chainId,
     Mumbai.chainId,
-    ChainId.Theta,
-    ChainId.ThetaTestnet,
+    Theta.chainId,
+    ThetaTestnet.chainId,
     ChainId.Harmony,
     ChainId.Moonriver,
     ChainId.Palm,
     ChainId.Fantom,
     ChainId.Avalanche,
-    ChainId.Songbird,
-    ChainId.MoonbaseAlpha,
   ],
   notifications: {
     checkInterval: 500,

@@ -3,6 +3,7 @@ import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereu
 import { BSC, BSCTestnet } from '../model/chain/bsc'
 import { xDai } from '../model/chain/xdai'
 import { Polygon, Mumbai } from '../model/chain/polygon'
+import { Theta, ThetaTestnet } from '../model/chain/theta'
 
 export function getExplorerAddressLink(address: string, chainId: ChainId) {
   switch (chainId) {
@@ -26,10 +27,10 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return Polygon.getExplorerAddressLink(address)
     case Mumbai.chainId:
       return Mumbai.getExplorerAddressLink(address)
-    case ChainId.Theta:
-      return `https://explorer.thetatoken.org/address/${address}`
-    case ChainId.ThetaTestnet:
-      return `https://testnet-explorer.thetatoken.org/address/${address}`
+    case Theta.chainId:
+      return Theta.getExplorerAddressLink(address)
+    case ThetaTestnet.chainId:
+      return ThetaTestnet.getExplorerAddressLink(address)
     case ChainId.Harmony:
       return `https://explorer.harmony.one/address/${address}`
     case ChainId.Moonriver:
@@ -40,10 +41,6 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://ftmscan.com/address/${address}`
     case ChainId.Avalanche:
       return `https://snowtrace.io/address/${address}`
-    case ChainId.Songbird:
-      return `https://songbird-explorer.flare.network/address/${address}`
-    case ChainId.MoonbaseAlpha:
-      return `https://moonbase.moonscan.io/address/${address}`
   }
 }
 
@@ -69,10 +66,10 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return Polygon.getExplorerTransactionLink(transactionHash)
     case Mumbai.chainId:
       return Mumbai.getExplorerTransactionLink(transactionHash)
-    case ChainId.Theta:
-      return `https://explorer.thetatoken.org/tx/${transactionHash}`
-    case ChainId.ThetaTestnet:
-      return `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`
+    case Theta.chainId:
+      return Theta.getExplorerTransactionLink(transactionHash)
+    case ThetaTestnet.chainId:
+      return ThetaTestnet.getExplorerTransactionLink(transactionHash)
     case ChainId.Harmony:
       return `https://explorer.harmony.one/tx/${transactionHash}`
     case ChainId.Moonriver:
@@ -83,10 +80,6 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://ftmscan.com/tx/${transactionHash}`
     case ChainId.Avalanche:
       return `https://snowtrace.io/tx/${transactionHash}`
-    case ChainId.Songbird:
-      return `https://songbird-explorer.flare.network/tx/${transactionHash}`
-    case ChainId.MoonbaseAlpha:
-      return `https://moonbase.moonscan.io/tx/${transactionHash}`
   }
 }
 
