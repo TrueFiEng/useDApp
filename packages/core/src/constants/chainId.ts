@@ -1,4 +1,5 @@
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
+import { BSC, BSCTestnet } from '../model/chain/bsc'
 
 export enum ChainId {
   Mainnet = 1,
@@ -30,8 +31,8 @@ export const CHAIN_NAMES = {
   [Rinkeby.chainId]: Rinkeby.chainName,
   [Goerli.chainId]: Goerli.chainName,
   [Kovan.chainId]: Kovan.chainName,
-  [ChainId.BSC]: 'BSC',
-  [ChainId.BSCTestnet]: 'BSCTestnet',
+  [BSC.chainId]: BSC.chainName,
+  [BSCTestnet.chainId]: BSCTestnet.chainName,
   [ChainId.xDai]: 'xDai',
   [ChainId.Polygon]: 'Polygon',
   [ChainId.Theta]: 'Theta',
@@ -54,8 +55,8 @@ export const MULTICALL_ADDRESSES = {
   [Rinkeby.chainId]: Rinkeby.MULTICALL_ADDRESS,
   [Goerli.chainId]: Goerli.MULTICALL_ADDRESS,
   [Kovan.chainId]: Kovan.MULTICALL_ADDRESS,
-  [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
-  [ChainId.BSCTestnet]: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
+  [BSC.chainId]: BSC.MULTICALL_ADDRESS,
+  [BSCTestnet.chainId]: BSCTestnet.MULTICALL_ADDRESS,
   [ChainId.xDai]: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   [ChainId.Polygon]: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
   [ChainId.Theta]: '0xe2ec58a54f3ab2714eddbae87533793011f1e14e',
@@ -75,7 +76,7 @@ export const TEST_CHAINS = [
   Rinkeby.chainId,
   Goerli.chainId,
   Kovan.chainId,
-  ChainId.BSCTestnet,
+  BSCTestnet.chainId,
   ChainId.Mumbai,
   ChainId.ThetaTestnet,
   ChainId.MoonbaseAlpha,

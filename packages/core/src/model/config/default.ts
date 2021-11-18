@@ -1,5 +1,6 @@
 import { ChainId } from '../../constants'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../chain/ethereum'
+import { BSC, BSCTestnet } from '../chain/bsc'
 import { FullConfig } from './Config'
 
 export const DEFAULT_CONFIG: FullConfig = {
@@ -10,8 +11,8 @@ export const DEFAULT_CONFIG: FullConfig = {
     Rinkeby.chainId,
     Goerli.chainId,
     Kovan.chainId,
-    ChainId.BSC,
-    ChainId.BSCTestnet,
+    BSC.chainId,
+    BSCTestnet.chainId,
     ChainId.xDai,
     ChainId.Localhost,
     ChainId.Hardhat,

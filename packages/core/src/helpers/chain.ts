@@ -1,5 +1,6 @@
 import { ChainId, CHAIN_NAMES, LOCAL_CHAINS, TEST_CHAINS } from '../constants'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
+import { BSC, BSCTestnet } from '../model/chain/bsc'
 
 export function getExplorerAddressLink(address: string, chainId: ChainId) {
   switch (chainId) {
@@ -13,10 +14,10 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return Goerli.getExplorerAddressLink(address)
     case Kovan.chainId:
       return Kovan.getExplorerAddressLink(address)
-    case ChainId.BSC:
-      return `https://bscscan.com/address/${address}`
-    case ChainId.BSCTestnet:
-      return `https://testnet.bscscan.com/address/${address}`
+    case BSC.chainId:
+      return BSC.getExplorerAddressLink(address)
+    case BSCTestnet.chainId:
+      return BSCTestnet.getExplorerAddressLink(address)
     case ChainId.xDai:
       return `https://blockscout.com/poa/xdai/address/${address}/transactions`
     case ChainId.Polygon:
@@ -56,10 +57,10 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return Rinkeby.getExplorerTransactionLink(transactionHash)
     case Goerli.chainId:
       return Goerli.getExplorerTransactionLink(transactionHash)
-    case ChainId.BSC:
-      return `https://bscscan.com/tx/${transactionHash}`
-    case ChainId.BSCTestnet:
-      return `https://testnet.bscscan.com/tx/${transactionHash}`
+    case BSC.chainId:
+      return BSC.getExplorerTransactionLink(transactionHash)
+    case BSCTestnet.chainId:
+      return BSCTestnet.getExplorerTransactionLink(transactionHash)
     case ChainId.xDai:
       return `https://blockscout.com/poa/xdai/tx/${transactionHash}/internal-transactions`
     case ChainId.Polygon:
