@@ -56,8 +56,8 @@ export enum ChainId {
 }
 
 export const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-SUPPORT_NETWORKS
-  .filter(network => network.MULTICALL_ADDRESS)
-  .map((network) => MULTICALL_ADDRESSES[network.chainId] = network.MULTICALL_ADDRESS)
+SUPPORT_NETWORKS.filter((network) => network.MULTICALL_ADDRESS).map(
+  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.MULTICALL_ADDRESS)
+)
 
 export const LOCAL_CHAINS = [Localhost.chainId, Hardhat.chainId]
