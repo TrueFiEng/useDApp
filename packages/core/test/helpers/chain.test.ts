@@ -62,7 +62,7 @@ describe('Chain helpers', () => {
     expect(isLocalChain(ChainId.Moonriver)).to.be.false
     expect(isLocalChain(ChainId.Palm)).to.be.false
     expect(isLocalChain(ChainId.Fantom)).to.be.false
-    expect(isLocalChain(ChainId.Avalanche))
+    expect(isLocalChain(ChainId.Avalanche)).to.be.false
   })
 
   it('getExplorerAddressLink', () => {
