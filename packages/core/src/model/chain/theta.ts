@@ -13,7 +13,8 @@ export const ThetaTestnet = {
   isTestChain: true,
   MULTICALL_ADDRESS: '0xf822bf2e728e264c58d7618022addd9cbc780350',
   getExplorerAddressLink: (address: string) => `https://testnet-explorer.thetatoken.org/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`,
 }
 
 export default {

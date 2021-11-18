@@ -3,8 +3,10 @@ export const Polygon = {
   chainName: 'Polygon',
   isTestChain: false,
   MULTICALL_ADDRESS: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
-  getExplorerAddressLink: (address: string) => `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`,
+  getExplorerAddressLink: (address: string) =>
+    `https://explorer-mainnet.maticvigil.com/address/${address}/transactions`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`,
 }
 
 export const Mumbai = {
@@ -13,7 +15,8 @@ export const Mumbai = {
   isTestChain: true,
   MULTICALL_ADDRESS: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
   getExplorerAddressLink: (address: string) => `https://explorer-mumbai.maticvigil.com/address/${address}/transactions`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://explorer-mumbai.maticvigil.com/tx/${transactionHash}/internal-transactions`,
 }
 
 export default { Polygon, Mumbai }
