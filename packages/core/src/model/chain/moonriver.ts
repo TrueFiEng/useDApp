@@ -4,6 +4,7 @@ export const Moonriver: Chain = {
   chainId: 1285,
   chainName: 'Moonriver',
   isTestChain: false,
+  isLocalChain: false,
   MULTICALL_ADDRESS: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
   getExplorerAddressLink: (address: string) =>
     `https://blockscout.moonriver.moonbeam.network/address/${address}/transactions`,
