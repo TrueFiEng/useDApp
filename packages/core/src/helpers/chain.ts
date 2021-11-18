@@ -4,6 +4,10 @@ import { BSC, BSCTestnet } from '../model/chain/bsc'
 import { xDai } from '../model/chain/xdai'
 import { Polygon, Mumbai } from '../model/chain/polygon'
 import { Theta, ThetaTestnet } from '../model/chain/theta'
+import { Moonriver } from '../model/chain/moonriver'
+import { Harmony } from '../model/chain/harmony'
+import { Palm } from '../model/chain/palm'
+import { Fantom } from '../model/chain/Fantom'
 
 export function getExplorerAddressLink(address: string, chainId: ChainId) {
   switch (chainId) {
@@ -31,16 +35,14 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return Theta.getExplorerAddressLink(address)
     case ThetaTestnet.chainId:
       return ThetaTestnet.getExplorerAddressLink(address)
-    case ChainId.Harmony:
-      return `https://explorer.harmony.one/address/${address}`
-    case ChainId.Moonriver:
-      return `https://blockscout.moonriver.moonbeam.network/address/${address}/transactions`
-    case ChainId.Palm:
-      return `https://explorer.palm.io/address/${address}`
-    case ChainId.Fantom:
-      return `https://ftmscan.com/address/${address}`
-    case ChainId.Avalanche:
-      return `https://snowtrace.io/address/${address}`
+    case Harmony.chainId:
+      return Harmony.getExplorerAddressLink(address)
+    case Moonriver.chainId:
+      return Moonriver.getExplorerAddressLink(address)
+    case Palm.chainId:
+      return Palm.getExplorerAddressLink(address)
+    case Fantom.chainId:
+      return Fantom.getExplorerAddressLink(address)
   }
 }
 
@@ -70,16 +72,14 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return Theta.getExplorerTransactionLink(transactionHash)
     case ThetaTestnet.chainId:
       return ThetaTestnet.getExplorerTransactionLink(transactionHash)
-    case ChainId.Harmony:
-      return `https://explorer.harmony.one/tx/${transactionHash}`
-    case ChainId.Moonriver:
-      return `https://blockscout.moonriver.moonbeam.network/tx/${transactionHash}/internal-transactions`
-    case ChainId.Palm:
-      return `https://explorer.palm.io/tx/${transactionHash}`
-    case ChainId.Fantom:
-      return `https://ftmscan.com/tx/${transactionHash}`
-    case ChainId.Avalanche:
-      return `https://snowtrace.io/tx/${transactionHash}`
+    case Harmony.chainId:
+      return Harmony.getExplorerTransactionLink(transactionHash)
+    case Moonriver.chainId:
+      return Moonriver.getExplorerTransactionLink(transactionHash)
+    case Palm.chainId:
+      return Palm.getExplorerTransactionLink(transactionHash)
+    case Fantom.chainId:
+      return Fantom.getExplorerTransactionLink(transactionHash)
   }
 }
 

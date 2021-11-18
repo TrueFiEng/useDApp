@@ -4,6 +4,11 @@ import { BSC, BSCTestnet } from '../chain/bsc'
 import { xDai } from '../chain/xdai'
 import { Polygon, Mumbai } from '../chain/polygon'
 import { Theta, ThetaTestnet } from '../chain/theta'
+import { Moonriver } from '../chain/moonriver'
+import { Harmony } from '../chain/harmony'
+import { Palm } from '../chain/palm'
+import { Fantom } from '../chain/Fantom'
+import { Avalanche } from '../chain/avalanche'
 
 import { FullConfig } from './Config'
 
@@ -24,11 +29,11 @@ export const DEFAULT_CONFIG: FullConfig = {
     Mumbai.chainId,
     Theta.chainId,
     ThetaTestnet.chainId,
-    ChainId.Harmony,
-    ChainId.Moonriver,
-    ChainId.Palm,
-    ChainId.Fantom,
-    ChainId.Avalanche,
+    Harmony.chainId,
+    Palm.chainId,
+    Moonriver.chainId,
+    Fantom.chainId,
+    Avalanche.chainId,
   ],
   notifications: {
     checkInterval: 500,

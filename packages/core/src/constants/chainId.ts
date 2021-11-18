@@ -3,6 +3,11 @@ import { BSC, BSCTestnet } from '../model/chain/bsc'
 import { xDai } from '../model/chain/xdai'
 import { Polygon, Mumbai } from '../model/chain/polygon'
 import { Theta, ThetaTestnet } from '../model/chain/theta'
+import { Moonriver } from '../model/chain/moonriver'
+import { Harmony } from '../model/chain/harmony'
+import { Palm } from '../model/chain/palm'
+import { Fantom } from '../model/chain/Fantom'
+import { Avalanche } from '../model/chain/avalanche'
 
 export enum ChainId {
   Mainnet = 1,
@@ -40,14 +45,13 @@ export const CHAIN_NAMES = {
   [Polygon.chainId]: Polygon.chainName,
   [Theta.chainId]: Theta.chainName,
   [ThetaTestnet.chainId]: ThetaTestnet.chainName,
-  [ChainId.Moonriver]: 'Moonriver',
+  [Moonriver.chainId]: Moonriver.chainName,
   [Mumbai.chainId]: Mumbai.chainName,
-  [ChainId.Harmony]: 'Harmony',
-  [ChainId.Palm]: 'Palm',
+  [Harmony.chainId]: Harmony.chainName,
+  [Palm.chainId]: Palm.chainName,
   [ChainId.Localhost]: 'Localhost',
   [ChainId.Hardhat]: 'Hardhat',
-  [ChainId.Fantom]: 'Fantom',
-  [ChainId.Avalanche]: 'Avalanche',
+  [Fantom.chainId]: Fantom.chainName,
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -62,12 +66,11 @@ export const MULTICALL_ADDRESSES = {
   [Polygon.chainId]: Polygon.MULTICALL_ADDRESS,
   [Theta.chainId]: ThetaTestnet.MULTICALL_ADDRESS,
   [ThetaTestnet.chainId]: ThetaTestnet.MULTICALL_ADDRESS,
-  [ChainId.Moonriver]: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
+  [Moonriver.chainId]: Moonriver.MULTICALL_ADDRESS,
   [Mumbai.chainId]: Mumbai.MULTICALL_ADDRESS,
-  [ChainId.Harmony]: '0xFE4980f62D708c2A84D3929859Ea226340759320',
-  [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
-  [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
-  [ChainId.Avalanche]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
+  [Harmony.chainId]: Harmony.MULTICALL_ADDRESS,
+  [Palm.chainId]: Palm.MULTICALL_ADDRESS,
+  [Fantom.chainId]: Fantom.MULTICALL_ADDRESS,
 }
 
 export const TEST_CHAINS = [
