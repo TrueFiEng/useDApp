@@ -1,4 +1,6 @@
-export const Mainnet = {
+import { Chain } from './Chain'
+
+export const Mainnet: Chain = {
   chainId: 1,
   chainName: 'Mainnet',
   isTestChain: false,
@@ -7,7 +9,7 @@ export const Mainnet = {
   getExplorerTransactionLink: (transactionHash: string) => `https://etherscan.io/tx/${transactionHash}`,
 }
 
-export const Ropsten = {
+export const Ropsten: Chain = {
   chainId: 3,
   chainName: 'Ropsten',
   isTestChain: true,
@@ -16,7 +18,7 @@ export const Ropsten = {
   getExplorerTransactionLink: (transactionHash: string) => `https://ropsten.etherscan.io/tx/${transactionHash}`,
 }
 
-export const Rinkeby = {
+export const Rinkeby: Chain = {
   chainId: 4,
   chainName: 'Rinkeby',
   isTestChain: true,
@@ -25,7 +27,7 @@ export const Rinkeby = {
   getExplorerTransactionLink: (transactionHash: string) => `https://rinkeby.etherscan.io/tx/${transactionHash}`,
 }
 
-export const Goerli = {
+export const Goerli: Chain = {
   chainId: 5,
   chainName: 'Goerli',
   isTestChain: true,
@@ -34,7 +36,7 @@ export const Goerli = {
   getExplorerTransactionLink: (transactionHash: string) => `https://goerli.etherscan.io/tx/${transactionHash}`,
 }
 
-export const Kovan = {
+export const Kovan: Chain = {
   chainId: 42,
   chainName: 'Kovan',
   isTestChain: true,

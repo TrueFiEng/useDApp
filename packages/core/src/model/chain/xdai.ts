@@ -1,4 +1,6 @@
-export const xDai = {
+import { Chain } from './Chain'
+
+export const xDai: Chain = {
   chainId: 100,
   chainName: 'xDai',
   isTestChain: false,

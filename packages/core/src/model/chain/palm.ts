@@ -1,4 +1,6 @@
-export const Palm = {
+import { Chain } from './Chain'
+
+export const Palm: Chain = {
   chainId: 11297108109,
   chainName: 'Palm',
   isTestChain: false,

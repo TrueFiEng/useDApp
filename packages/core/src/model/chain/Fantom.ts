@@ -1,4 +1,6 @@
-export const Fantom = {
+import { Chain } from './Chain'
+
+export const Fantom: Chain = {
   chainId: 250,
   chainName: 'Fantom',
   isTestChain: false,

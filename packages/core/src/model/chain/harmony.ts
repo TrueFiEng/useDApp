@@ -1,4 +1,6 @@
-export const Harmony = {
+import { Chain } from './Chain'
+
+export const Harmony: Chain = {
   chainId: 1666600000,
   chainName: 'Harmony',
   isTestChain: false,

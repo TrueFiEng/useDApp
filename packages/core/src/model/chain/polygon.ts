@@ -1,4 +1,6 @@
-export const Polygon = {
+import { Chain } from './Chain'
+
+export const Polygon: Chain = {
   chainId: 137,
   chainName: 'Polygon',
   isTestChain: false,
@@ -9,7 +11,7 @@ export const Polygon = {
     `https://explorer-mainnet.maticvigil.com/tx/${transactionHash}/internal-transactions`,
 }
 
-export const Mumbai = {
+export const Mumbai: Chain = {
   chainId: 80001,
   chainName: 'Mumbai',
   isTestChain: true,

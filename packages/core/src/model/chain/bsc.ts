@@ -1,4 +1,6 @@
-export const BSC = {
+import { Chain } from './Chain'
+
+export const BSC: Chain = {
   chainId: 56,
   chainName: 'BSC',
   isTestChain: false,
@@ -7,7 +9,7 @@ export const BSC = {
   getExplorerTransactionLink: (transactionHash: string) => `https://bscscan.com/tx/${transactionHash}`,
 }
 
-export const BSCTestnet = {
+export const BSCTestnet: Chain = {
   chainId: 97,
   chainName: 'BSCTestnet',
   isTestChain: true,

@@ -1,4 +1,6 @@
-export const Moonriver = {
+import { Chain } from './Chain'
+
+export const Moonriver: Chain = {
   chainId: 1285,
   chainName: 'Moonriver',
   isTestChain: false,

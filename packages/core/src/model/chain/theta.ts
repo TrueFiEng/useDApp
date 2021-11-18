@@ -1,4 +1,6 @@
-export const Theta = {
+import { Chain } from './Chain'
+
+export const Theta: Chain = {
   chainId: 361,
   chainName: 'Theta',
   isTestChain: false,
@@ -7,7 +9,7 @@ export const Theta = {
   getExplorerTransactionLink: (transactionHash: string) => `https://explorer.thetatoken.org/tx/${transactionHash}`,
 }
 
-export const ThetaTestnet = {
+export const ThetaTestnet: Chain = {
   chainId: 365,
   chainName: 'ThetaTestnet',
   isTestChain: true,
