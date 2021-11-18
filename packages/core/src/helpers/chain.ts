@@ -42,6 +42,8 @@ export function getExplorerAddressLink(address: string, chainId: ChainId) {
       return `https://explorer.palm.io/address/${address}`
     case ChainId.Fantom:
       return `https://ftmscan.com/address/${address}`
+    case ChainId.Avalanche:
+      return `https://snowtrace.io/address/${address}`
   }
 }
 
@@ -75,6 +77,8 @@ export function getExplorerTransactionLink(transactionHash: string, chainId: Cha
       return `https://explorer.palm.io/tx/${transactionHash}`
     case ChainId.Fantom:
       return `https://ftmscan.com/tx/${transactionHash}`
+    case ChainId.Avalanche:
+      return `https://snowtrace.io/tx/${transactionHash}`
   }
 }
 
