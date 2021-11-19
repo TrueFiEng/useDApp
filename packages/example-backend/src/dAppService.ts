@@ -1,31 +1,30 @@
-import { ChainId, Config, BlockNumberContext, useBlockMeta } from "@usedapp/core";
+import { ChainId, Config, BlockNumberContext, useBlockMeta, useBlockNumber } from '@usedapp/core'
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { Callback, State } from 'reactive-properties'
 
-type GetInnerType<S> = S extends React.Context<infer T> ? T : never
 interface Web3ProviderBundle {
-  provider: JsonRpcProvider,
-  unsubscribe: () => void
+  provider: JsonRpcProvider
+  unsubscribe?: () => void
+}
+
+interface BlockNumberStateBundle {
+  blockNumberState: State<ReturnType<typeof useBlockNumber>>
+  unsubscribe?: () => void
 }
 
 export class DAppService {
   private web3Providers: Map<ChainId, Web3ProviderBundle> = new Map()
 
-  private blockNumberProviders: Map<ChainId, GetInnerType<typeof BlockNumberContext>> = new Map()
-  private blockMetaProviders: Map<ChainId, ReturnType<typeof useBlockMeta>> = new Map()
+  private blockNumberStates: Map<ChainId, BlockNumberStateBundle> = new Map()
+  private blockMetaStates: Map<ChainId, State<ReturnType<typeof useBlockMeta>>> = new Map()
 
-  constructor (private config: Config) { }
+  constructor(private config: Config) {}
 
-  // public chain(chainId: ChainId) {
-  //   return new Proxy(this, {
-
-  //   })
-  // }
-
-  public web3Provider(chainId: ChainId) {
+  web3Provider(chainId: ChainId) {
     if (!this.web3Providers.has(chainId)) {
       this.web3Providers.set(chainId, this.createWeb3Provider(chainId))
     }
-    return this.web3Providers.get(chainId)
+    return this.web3Providers.get(chainId)!
   }
 
   protected createWeb3Provider(chainId: ChainId): Web3ProviderBundle {
@@ -33,23 +32,33 @@ export class DAppService {
       throw new Error(`Missing URL for chainId "${chainId}".`)
     }
     const provider = new JsonRpcProvider(this.config.readOnlyUrls[chainId], 'any')
-    const update = (blockNumber: number) => this.blockNumberProviders.set(chainId, blockNumber)
-    provider.on('block', update)
-    return {
-      provider,
-      unsubscribe: () => provider.off('block', update)
+    return { provider }
+  }
+
+  blockNumberState(chainId: ChainId) {
+    if (!this.blockNumberStates.has(chainId)) {
+      const provider = this.web3Provider(chainId).provider
+      const blockNumberState = new State<number | undefined>(undefined)
+      const update = (blockNumber: number) => blockNumberState.set(blockNumber)
+      provider.on('block', update)
+      const unsubscribe = () => provider.off('block', update)
+      this.blockNumberStates.set(chainId, { blockNumberState, unsubscribe })
     }
+    return this.blockNumberStates.get(chainId)!
   }
 
-  useBlockNumber(chainId: ChainId) {
-    return this.blockNumberProviders.get(chainId)
+  blockNumber(chainId: ChainId) {
+    return this.blockNumberState(chainId).blockNumberState.get()
   }
 
-  useBlockMeta() {
-
+  useBlockNumber(chainId: ChainId, onUpdate: (blockNumber: number | undefined) => void) {
+    return this.blockNumberState(chainId).blockNumberState
+      .subscribe(() => onUpdate(this.blockNumber(chainId)))
   }
 
-  public stop() {
+  useBlockMeta() {}
 
+  stop() {
+    // TODO: Unsubscriptions and disconnections.
   }
 }

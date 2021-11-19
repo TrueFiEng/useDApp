@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { solidity } from 'ethereum-waffle'
 import { server, start } from '../src/server'
 
-export type Awaited<T> = T extends Promise<infer U> ? U : T;
+export type Awaited<T> = T extends Promise<infer U> ? U : T
 chai.use(solidity)
 chai.use(chaiAsPromised)
 
