@@ -1,3 +1,3 @@
-import { start } from './server'
+import { startApp } from "./app";
 
-start(process.env.PORT || 3000)
+startApp(process.env.PORT || 3000)
