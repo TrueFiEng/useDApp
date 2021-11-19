@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { adjustImageSource } from '../../utils'
 import { BorderRad } from '../../global/styles'
 
 export function TokenIcon({ src, alt }: { src: string; alt: string }) {
@@ -11,7 +12,7 @@ export function TokenIcon({ src, alt }: { src: string; alt: string }) {
         '🤷‍♂️'
       ) : (
         <Icon
-          src={src}
+          src={adjustImageSource(src)}
           alt={alt}
           onError={() => {
             setIconError(true)

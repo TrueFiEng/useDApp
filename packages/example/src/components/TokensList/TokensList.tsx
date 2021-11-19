@@ -5,6 +5,7 @@ import { ERC20Interface, useContractCalls, useEthers, useTokenList } from '@used
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
+import { adjustImageSource } from '../../utils'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -26,13 +27,11 @@ export function TokensList() {
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
   const balances = useTokensBalance(tokens, account)
 
-  console.log({ logoURI })
-
   return (
     <List>
       <ListTitleRow>
         <ListTitle>{name}</ListTitle>
-        {logoURI && <TokenIcon src={logoURI} alt={`${name} logo`} />}
+        {logoURI && <ListLogo src={adjustImageSource(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
       {tokens &&
         tokens.map((token, idx) => (
@@ -106,11 +105,17 @@ const TokenBalance = styled(TextBold)`
 
 const ListTitleRow = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   padding: 16px;
 `
 
 const ListTitle = styled(TextBold)`
   margin-right: 10px;
   font-size: 18px;
+`
+
+const ListLogo = styled.img`
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 `
