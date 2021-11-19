@@ -386,6 +386,35 @@ Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#p
 
 Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
+useToken
+===============
+
+Returns name, symbol, decimals and token supply of a given token.
+
+**Parameters**
+
+- ``tokenAddress: string | Falsy`` - address of a token contract.
+
+**Returns**
+
+- ``tokenInfo: TokenInfo | undefined`` - a token info object (see `TokenInfo`_) or undefined if all four methods don't exist on a token.
+
+**Example**
+
+.. code-block:: javascript
+
+  const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
+  const daiInfo = useToken(DAI_ADDRESS)
+
+  return daiInfo ? (
+    <>
+      <p>Dai name: {daiInfo?.name}</p>
+      <p>Dai symbol: {daiInfo?.symbol}</p>
+      <p>Dai decimals: {daiInfo?.decimals}</p>
+      <p>Dai totalSupply: {daiInfo?.totalSupply ? formatUnits(daiInfo?.totalSupply, daiInfo?.decimals) : ''}</p>
+    </>
+  ) : null
+
 useTokenBalance
 ===============
 
@@ -563,7 +592,6 @@ Fields:
 
 - ``args: any[]`` - arguments for the function
 
-
 Currency
 ========
 
@@ -615,6 +643,23 @@ The ``CurrencyValue`` class represents a value tied to a currency. The methods i
 - ``gt(other)`` - checks if this value is greater than the other value. The argument must be a CurrencyValue with the same Currency.
 - ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
 - ``isZero()`` - returns true if the value is zero.
+
+.. _TokenInfo:
+
+TokenInfo
+=========
+
+Represents general token information.
+
+Fields:
+
+- ``name: string`` - token name or an empty string.
+
+- ``symbol: string`` - token symbol or an empty string.
+
+- ``decimals?: numbers`` - optional field that contains token decimals.
+
+- ``totalSupply?: BigNumberish`` - optional field that contains total supply of the token.
 
 .. _TransactionOptions:
 
