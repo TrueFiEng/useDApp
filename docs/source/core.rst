@@ -489,12 +489,13 @@ If an error occurs ``undefined`` is returned.
     </div>
   )
 
-.. _useTokenList
-
 **See**
 
 - Token lists: <https://uniswap.org/blog/token-lists>
 - Token list json example: <https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json>
+
+.. _useTokenList
+
 
 useTransactions
 ===============
