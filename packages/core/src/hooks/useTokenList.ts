@@ -18,7 +18,7 @@ export function useTokenList(tokenListURI: string, overrideChainId?: ChainId) {
   useEffect(() => {
     fetch(tokenListURI)
       .then(async (response) => {
-        if(response.ok) {
+        if (response.ok) {
           const { name, logoURI, tokens } = await response.json()
           setTokenList({
             name,
