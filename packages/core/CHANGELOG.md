@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.6.2
+
+### Patch Changes
+
+- 0365a73: 🛷 Add useTokenList
+
 ## 0.6.1
 
 ### Patch Changes
