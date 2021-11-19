@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.6.3
+
+### Patch Changes
+
+- a12bfeb: Add Moonbase Alpha support (testnet for Moonbeam)
+
 ## 0.6.2
 
 ### Patch Changes
