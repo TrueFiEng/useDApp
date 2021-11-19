@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { formatUnits } from '@ethersproject/units'
-import { ERC20Interface, useContractCalls, useEthers, useTokenList } from '@usedapp/core'
+import { ERC20Interface, useContractCalls, useEthers, useTokensList } from '@usedapp/core'
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
@@ -9,10 +9,10 @@ import { adjustImageSource } from '../../utils'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
-function useTokensBalance(tokenList?: any[], account?: string | null) {
+function useTokensBalance(tokensList?: any[], account?: string | null) {
   return useContractCalls(
-    tokenList && account
-      ? tokenList.map((token: any) => ({
+    tokensList && account
+      ? tokensList.map((token: any) => ({
           abi: ERC20Interface,
           address: token.address,
           method: 'balanceOf',
@@ -24,7 +24,7 @@ function useTokensBalance(tokenList?: any[], account?: string | null) {
 
 export function TokensList() {
   const { account, chainId } = useEthers()
-  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
+  const { name, logoURI, tokens } = useTokensList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
   const balances = useTokensBalance(tokens, account)
 
   return (

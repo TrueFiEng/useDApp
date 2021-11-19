@@ -3,24 +3,24 @@ import { TokenInfo } from '@uniswap/token-lists'
 import { ChainId } from '../constants'
 import { useEthers } from './useEthers'
 
-interface TokenList {
+interface TokensList {
   name: string
   logoURI: string
   tokens: TokenInfo[]
 }
 
-export function useTokenList(tokenListURI: string, overrideChainId?: ChainId) {
+export function useTokensList(tokensListURI: string, overrideChainId?: ChainId) {
   const { chainId: providerChainId } = useEthers()
-  const [tokenList, setTokenList] = useState<TokenList>()
+  const [tokensList, setTokensList] = useState<TokensList>()
 
   const chainId = overrideChainId || providerChainId
 
   useEffect(() => {
-    fetch(tokenListURI)
+    fetch(tokensListURI)
       .then(async (response) => {
         if (response.ok) {
           const { name, logoURI, tokens } = await response.json()
-          setTokenList({
+          setTokensList({
             name,
             logoURI,
             tokens: (tokens as TokenInfo[]).filter((token) => token.chainId === chainId),
@@ -32,9 +32,9 @@ export function useTokenList(tokenListURI: string, overrideChainId?: ChainId) {
       })
       .catch((err) => {
         console.log(err)
-        setTokenList(undefined)
+        setTokensList(undefined)
       })
-  }, [tokenListURI, chainId])
+  }, [tokensListURI, chainId])
 
-  return tokenList
+  return tokensList
 }
