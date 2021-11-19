@@ -9,7 +9,7 @@ interface TokensList {
   tokens: TokenInfo[]
 }
 
-export function useTokensList(tokensListURI: string, overrideChainId?: ChainId) {
+export function useTokensList(tokensListURI: string, overrideChainId?: ChainId, tags?: string[]) {
   const { chainId: providerChainId } = useEthers()
   const [tokensList, setTokensList] = useState<TokensList>()
 
@@ -23,7 +23,13 @@ export function useTokensList(tokensListURI: string, overrideChainId?: ChainId) 
           setTokensList({
             name,
             logoURI,
-            tokens: (tokens as TokenInfo[]).filter((token) => token.chainId === chainId),
+            tokens: (tokens as TokenInfo[]).filter((token) => {
+              const sameChainId = token.chainId === chainId
+              if (!tags) {
+                return sameChainId
+              }
+              return sameChainId && token.tags && token.tags.some((tag) => tags.includes(tag))
+            }),
           })
         } else {
           const errorMessage = await response.text()
