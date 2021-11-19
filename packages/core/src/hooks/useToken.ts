@@ -7,9 +7,9 @@ export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
   const partialCall = {
     abi: ERC20Interface,
     address: tokenAddress || '',
-    args:[]
+    args: [],
   }
-  const args = ['name', 'symbol', 'decimals','totalSupply'].map((method): ContractCall => ({...partialCall, method}))
+  const args = ['name', 'symbol', 'decimals', 'totalSupply'].map((method): ContractCall => ({ ...partialCall, method }))
   const [name, symbol, decimals, totalSupply] = useContractCalls(args)
 
   if (!name && !symbol && !decimals && !totalSupply) {
