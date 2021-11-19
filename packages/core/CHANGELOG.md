@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.6.0
+
+### Minor Changes
+
+- 5365c19: Add Avalanche support
+
 ## 0.5.6
 
 ### Patch Changes
