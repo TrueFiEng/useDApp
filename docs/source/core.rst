@@ -386,6 +386,35 @@ Link to: `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#p
 
 Link to: `Transaction Receipt <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt>`_.
 
+useToken
+===============
+
+Returns name, symbol, decimals and token supply of a given token.
+
+**Parameters**
+
+- ``tokenAddress: string | Falsy`` - address of a token contract.
+
+**Returns**
+
+- ``tokenInfo: TokenInfo | undefined`` - a token info object (see `TokenInfo`_) or undefined if all four methods don't exist on a token.
+
+**Example**
+
+.. code-block:: javascript
+
+  const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
+  const daiInfo = useToken(DAI_ADDRESS)
+
+  return daiInfo ? (
+    <>
+      <p>Dai name: {daiInfo?.name}</p>
+      <p>Dai symbol: {daiInfo?.symbol}</p>
+      <p>Dai decimals: {daiInfo?.decimals}</p>
+      <p>Dai totalSupply: {daiInfo?.totalSupply ? formatUnits(daiInfo?.totalSupply, daiInfo?.decimals) : ''}</p>
+    </>
+  ) : null
+
 useTokenBalance
 ===============
 
@@ -441,6 +470,61 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   )
 
 .. _useTransactions:
+
+useTokenList
+=============
+
+Fetches ERC20 token list under a given address and filters them by chain id. Optionally it can filter also by token tags.
+
+**Parameters**
+
+- ``tokenListURI: string`` - URI to fetch token list from
+- ``overrideChainId?: ChainId`` - chain id to filter tokens by (if not specified then current network is used)
+- ``tags?: string[]`` - list of tags to filter tokens by (token is included if it contains any of given tags)
+
+**Returns**
+
+- ``name: string`` - token list name
+- ``logoURI: string`` - URI to get token list logo from
+- ``tokens: TokenInfo[]`` - list of ``TokenInfo`` objects
+
+If an error occurs ``undefined`` is returned.
+
+**Example**
+
+.. code-block:: javascript
+
+  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI) || {}
+
+  const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI
+  return (
+    <div>
+      <div>
+        {name}
+        {httpSource && <img src={httpSource} alt={name}/>}
+      </div>
+      <ol>
+        {tokens?.map(token => (
+          <li>
+            <ul>
+              <li>Name: {token.name}</li>
+              <li>Symbol: {token.symbol}</li>
+              <li>Decimals: {token.decimals}</li>
+              <li>Address: {token.address}</li>
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+
+**See**
+
+- Token lists: <https://uniswap.org/blog/token-lists>
+- Token list json example: <https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json>
+- ``TokenInfo`` object: <https://github.com/Uniswap/token-lists/blob/main/src/types.ts>
+
+.. _useTokenList
 
 useTransactions
 ===============
@@ -538,6 +622,19 @@ Paths to locations in local storage
       transactionPath: 'transactions'
     }
 
+
+**autoConnect**
+Enables reconnecting to last used provider when user revisits the page.
+
+**Default value:**
+
+.. code-block:: javascript
+
+    {
+      autoConnect: true
+    }
+
+
 ChainCall
 =========
 
@@ -562,7 +659,6 @@ Fields:
 - ``method: string`` - function name
 
 - ``args: any[]`` - arguments for the function
-
 
 Currency
 ========
@@ -615,6 +711,23 @@ The ``CurrencyValue`` class represents a value tied to a currency. The methods i
 - ``gt(other)`` - checks if this value is greater than the other value. The argument must be a CurrencyValue with the same Currency.
 - ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
 - ``isZero()`` - returns true if the value is zero.
+
+.. _TokenInfo:
+
+TokenInfo
+=========
+
+Represents general token information.
+
+Fields:
+
+- ``name: string`` - token name or an empty string.
+
+- ``symbol: string`` - token symbol or an empty string.
+
+- ``decimals?: numbers`` - optional field that contains token decimals.
+
+- ``totalSupply?: BigNumberish`` - optional field that contains total supply of the token.
 
 .. _TransactionOptions:
 
@@ -675,8 +788,7 @@ Enum that represents chain ids.
 
 **Values:**
 
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche``
-
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
 
 Helpers
 *******

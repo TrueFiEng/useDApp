@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Container, ContentBlock, MainContent, Section, SectionRow } from '../components/base/base'
-import { TokensList } from '../components/TokensList/TokensList'
+import { TokenList } from '../components/TokenList/TokenList'
 import { Title } from '../typography/Title'
 
 import { AccountButton } from '../components/account/AccountButton'
@@ -16,7 +16,7 @@ export function Tokens() {
             <AccountButton />
           </SectionRow>
           <TokensContentBlock>
-            <TokensList />
+            <TokenList />
           </TokensContentBlock>
         </Section>
       </Container>

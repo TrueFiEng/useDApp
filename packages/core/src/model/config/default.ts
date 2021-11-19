@@ -23,6 +23,7 @@ export const DEFAULT_CONFIG: FullConfig = {
     ChainId.Palm,
     ChainId.Fantom,
     ChainId.Avalanche,
+    ChainId.Songbird,
     ChainId.MoonbaseAlpha,
   ],
   notifications: {
@@ -32,4 +33,5 @@ export const DEFAULT_CONFIG: FullConfig = {
   localStorage: {
     transactionPath: 'transactions',
   },
+  autoConnect: true,
 }

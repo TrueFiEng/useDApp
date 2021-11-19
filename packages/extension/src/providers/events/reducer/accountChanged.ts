@@ -3,7 +3,7 @@ import type { State } from '../State'
 import { offsetToTime } from './time'
 
 export function accountChanged(state: State, message: HookMessage<AccountChangedPayload>): State {
-  if (message.payload.address === state.account) {
+  if (message.payload.address?.toLowerCase() === state.account?.toLowerCase()) {
     return state
   }
 

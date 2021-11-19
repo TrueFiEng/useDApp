@@ -7,6 +7,7 @@ import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
 import { useDevtoolsReporting } from './useDevtoolsReporting'
+import { addressEqual } from '../..'
 
 interface Props {
   children: ReactNode
@@ -74,7 +75,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
 function getUnique(requests: ChainCall[]) {
   const unique: ChainCall[] = []
   for (const request of requests) {
-    if (!unique.find((x) => x.address === request.address && x.data === request.data)) {
+    if (!unique.find((x) => addressEqual(x.address, request.address) && x.data === request.data)) {
       unique.push(request)
     }
   }
