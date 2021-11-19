@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.2.10
+
+### Patch Changes
+
+- 0365a73: 🛷 Add useTokenList
+- Updated dependencies [0365a73]
+  - @usedapp/core@0.6.2
+
 ## 0.2.9
 
 ### Patch Changes
