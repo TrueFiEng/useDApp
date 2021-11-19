@@ -20,7 +20,7 @@ export function useTokenList(tokenListURI: string, chainId: ChainId = ChainId.Ma
         setTokenList({
           name,
           logoURI,
-          tokens
+          tokens: tokens.filter((token: TokenInfo) => token.chainId === chainId)
         })
       })
       .catch(err => {
