@@ -65,7 +65,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
   [ChainId.Avalanche]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
   [ChainId.Songbird]: '0x60351436cf80A31EA6C3B261C784d3C127dBD6f1',
-  [ChainId.MoonbaseAlpha]: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21'
+  [ChainId.MoonbaseAlpha]: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
 }
 
 export const TEST_CHAINS = [
