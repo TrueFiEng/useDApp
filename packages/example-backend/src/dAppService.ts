@@ -2,61 +2,72 @@ import { ChainId, Config, BlockNumberContext, useBlockMeta, useBlockNumber } fro
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import { Callback, State } from 'reactive-properties'
 
-interface Web3ProviderBundle {
-  provider: JsonRpcProvider
+type BlockNumber = ReturnType<typeof useBlockNumber>
+interface BlockNumberStateBundle {
+  state: State<BlockNumber>
   unsubscribe?: () => void
 }
 
-interface BlockNumberStateBundle {
-  blockNumberState: State<ReturnType<typeof useBlockNumber>>
+type BlockMeta = ReturnType<typeof useBlockMeta>
+interface BlockMetaStateBundle {
+  state: State<BlockMeta>
   unsubscribe?: () => void
 }
 
 export class DAppService {
-  private web3Providers: Map<ChainId, Web3ProviderBundle> = new Map()
+  private web3Provider: JsonRpcProvider
 
-  private blockNumberStates: Map<ChainId, BlockNumberStateBundle> = new Map()
-  private blockMetaStates: Map<ChainId, State<ReturnType<typeof useBlockMeta>>> = new Map()
+  private _blockNumberState: BlockNumberStateBundle | undefined
+  private _blockMetaState: BlockMetaStateBundle | undefined
 
-  constructor(private config: Config) {}
-
-  web3Provider(chainId: ChainId) {
-    if (!this.web3Providers.has(chainId)) {
-      this.web3Providers.set(chainId, this.createWeb3Provider(chainId))
-    }
-    return this.web3Providers.get(chainId)!
-  }
-
-  protected createWeb3Provider(chainId: ChainId): Web3ProviderBundle {
+  constructor(private config: Config, private chainId: ChainId) {
     if (!this.config.readOnlyUrls?.[chainId]) {
       throw new Error(`Missing URL for chainId "${chainId}".`)
     }
-    const provider = new JsonRpcProvider(this.config.readOnlyUrls[chainId], 'any')
-    return { provider }
+    this.web3Provider = new JsonRpcProvider(this.config.readOnlyUrls[chainId], 'any')
   }
 
-  blockNumberState(chainId: ChainId) {
-    if (!this.blockNumberStates.has(chainId)) {
-      const provider = this.web3Provider(chainId).provider
-      const blockNumberState = new State<number | undefined>(undefined)
-      const update = (blockNumber: number) => blockNumberState.set(blockNumber)
-      provider.on('block', update)
-      const unsubscribe = () => provider.off('block', update)
-      this.blockNumberStates.set(chainId, { blockNumberState, unsubscribe })
+  protected blockNumberState() {
+    if (!this._blockNumberState) {
+      const state = new State<BlockNumber>(undefined)
+      const update = (blockNumber: number) => state.set(blockNumber)
+      this.web3Provider.on('block', update)
+      const unsubscribe = () => this.web3Provider.off('block', update)
+      this._blockNumberState = { state, unsubscribe }
     }
-    return this.blockNumberStates.get(chainId)!
+    return this._blockNumberState!
   }
 
-  blockNumber(chainId: ChainId) {
-    return this.blockNumberState(chainId).blockNumberState.get()
+  get blockNumber() {
+    return this.blockNumberState().state.get()
   }
 
-  useBlockNumber(chainId: ChainId, onUpdate: (blockNumber: number | undefined) => void) {
-    return this.blockNumberState(chainId).blockNumberState
-      .subscribe(() => onUpdate(this.blockNumber(chainId)))
+  useBlockNumber(onUpdate: (blockNumber: BlockNumber) => void) {
+    return this.blockNumberState().state.subscribe(() => onUpdate(this.blockNumber))
   }
 
-  useBlockMeta() {}
+  protected blockMetaState() {
+    if (!this._blockMetaState) {
+      const blockNumberState = this.blockNumberState().state
+      const state = new State<BlockMeta>({ timestamp: undefined, difficulty: undefined })
+      const cb: Callback = () => {
+        const blockNumber = blockNumberState.get()
+      }
+      const unsubscribe = blockNumberState.subscribe(cb)
+      this._blockMetaState = { state, unsubscribe }
+    }
+    return this._blockMetaState!
+  }
+
+  get blockMeta() {
+    return this.blockMetaState().state.get()
+  }
+
+  useBlockMeta(onUpdate: (blockMeta: BlockMeta) => void) {
+    return this.blockMetaState().state.subscribe(() => onUpdate(this.blockMeta))
+  }
+
+  protected etherBalanceState() {}
 
   stop() {
     // TODO: Unsubscriptions and disconnections.

@@ -23,18 +23,13 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   })
 
   const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
-  server.get('/:chainId/balance', async (request, reply) => {
-    const { chainId } = request.params as any
-    console.log({ chainId })
-
+  server.get('/balance', async (request, reply) => {
     const balance = 1
     return { eth2StakingContract: formatEther(balance) }
   })
 
-  server.get('/:chainId/block', async (request, reply) => {
-    const { chainId } = request.params as any
-    console.log({ chainId })
-    const blockNumber = dAppService.blockNumber(chainId)
+  server.get('/block', async (request, reply) => {
+    const blockNumber = dAppService.blockNumber
     return { blockNumber }
   })
 }

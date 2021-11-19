@@ -14,8 +14,8 @@ const server: FastifyInstance = Fastify({})
 
 export const startApp = async (port: number | string) => {
   try {
-    const useDapp = new DAppService(config)
-    routes(server, useDapp)
+    const mainnetService = new DAppService(config, ChainId.Mainnet)
+    routes(server, mainnetService)
     await server.listen(port)
     console.log(`Server listening on port ${port}.`)
   } catch (err) {
