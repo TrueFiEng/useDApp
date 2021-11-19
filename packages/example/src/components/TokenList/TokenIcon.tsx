@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { adjustImageSource } from '../../utils'
+import { adjustIPFSPath } from '../../utils'
 import { BorderRad } from '../../global/styles'
 
 export function TokenIcon({ src, alt }: { src: string; alt: string }) {
@@ -12,7 +12,7 @@ export function TokenIcon({ src, alt }: { src: string; alt: string }) {
         '🤷‍♂️'
       ) : (
         <Icon
-          src={adjustImageSource(src)}
+          src={adjustIPFSPath(src)}
           alt={alt}
           onError={() => {
             setIconError(true)

@@ -5,7 +5,7 @@ import { ERC20Interface, useContractCalls, useEthers, useTokenList } from '@used
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
-import { adjustImageSource } from '../../utils'
+import { adjustIPFSPath } from '../../utils'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -31,7 +31,7 @@ export function TokenList() {
   //   <List>
   //     <ListTitleRow>
   //       <ListTitle>{name}</ListTitle>
-  //       {logoURI && <ListLogo src={adjustImageSource(logoURI)} alt={`${name} logo`} />}
+  //       {logoURI && <ListLogo src={adjustIPFSPath(logoURI)} alt={`${name} logo`} />}
   //     </ListTitleRow>
   //     {tokens &&
   //       tokens.map((token, idx) => (

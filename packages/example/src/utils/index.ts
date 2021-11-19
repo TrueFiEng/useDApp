@@ -1,1 +1,1 @@
-export * from './adjustImageSource'
+export * from './adjustIPFSPath'
