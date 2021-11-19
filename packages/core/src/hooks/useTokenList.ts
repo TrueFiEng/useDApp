@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { TokenInfo } from '@uniswap/token-lists'
 import { ChainId } from '../constants'
+import { useEthers } from './useEthers'
 
 interface TokenList {
   name: string
@@ -9,8 +10,11 @@ interface TokenList {
   tokens: TokenInfo[]
 }
 
-export function useTokenList(tokenListURI: string, chainId: ChainId = ChainId.Mainnet) {
+export function useTokenList(tokenListURI: string, overrideChainId?: ChainId) {
+  const { chainId: providerChainId } = useEthers()
   const [tokenList, setTokenList] = useState<TokenList>()
+
+  const chainId = overrideChainId || providerChainId
 
   useEffect(() => {
     axios
