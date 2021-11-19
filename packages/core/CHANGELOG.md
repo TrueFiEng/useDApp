@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 0.6.1
+
+### Patch Changes
+
+- e3b9841: Add Songbird support
+- 5a93444: Enable configuring autoconnection for network provider
+
 ## 0.6.0
 
 ### Minor Changes
