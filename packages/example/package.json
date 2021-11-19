@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.7",
-    "@uniswap/default-token-list": "^2.0.0",
     "@usedapp/coingecko": "^0.3.25",
     "@usedapp/core": "^0.6.0",
     "file-loader": "^6.2.0",
