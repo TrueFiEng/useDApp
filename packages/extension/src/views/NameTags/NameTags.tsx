@@ -43,7 +43,7 @@ export function NameTags({ onNavigate }: Props) {
         .map((tag) => ({ ...tag, address: getAddress(tag.address) }))
         .map((tag, i, array) => ({
           ...tag,
-          shadowed: array.some((x, j) => j > i && x.address === tag.address),
+          shadowed: array.some((x, j) => j > i && x.address.toLowerCase() === tag.address.toLowerCase()),
         })),
     [nameTags]
   )

@@ -86,9 +86,16 @@ describe('addressHelper', () => {
   })
 
   describe('addressEqual', () => {
-    it('equal', () => {
+    it('equal without prefix', () => {
       const address1 = '0x263b2f09cc8754351b6ba9926a7e73ff2302d81f'
       const address2 = '263b2f09cc8754351b6ba9926a7e73ff2302d81f'
+
+      expect(addressEqual(address1, address2)).to.eq(true)
+    })
+
+    it('equal with different case', () => {
+      const address1 = '0x263b2f09cc8754351b6ba9926a7e73ff2302d81f'
+      const address2 = '0x263b2f09Cc8754351B6bA9926a7e73FF2302D81f'
 
       expect(addressEqual(address1, address2)).to.eq(true)
     })

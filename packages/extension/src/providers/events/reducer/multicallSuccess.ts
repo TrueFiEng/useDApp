@@ -16,7 +16,9 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
   const persisted: StateEntry[] = []
   const known = new Set<StateEntry>()
   for (const entry of previousEntries) {
-    const corresponding = currentEntries.find((x) => x.address === entry.address && x.data === entry.data)
+    const corresponding = currentEntries.find(
+      (x) => x.address.toLowerCase() === entry.address.toLowerCase() && x.data === entry.data
+    )
     if (corresponding?.value !== entry.value) {
       if (state.blockNumbers[network] === message.payload.blockNumber && corresponding?.value === undefined) {
         persisted.push(entry)

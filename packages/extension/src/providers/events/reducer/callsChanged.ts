@@ -9,7 +9,9 @@ export function callsChanged(state: State, message: HookMessage<CallsChangedPayl
   const persistedCalls = new Set<ChainCall>()
 
   for (const call of message.payload.calls) {
-    const existing = state.calls.find((x) => x.address === call.address && x.data === call.data)
+    const existing = state.calls.find(
+      (x) => x.address.toLowerCase() === call.address.toLowerCase() && x.data === call.data
+    )
     if (existing) {
       persistedCalls.add(existing)
     } else {
