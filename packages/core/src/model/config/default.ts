@@ -31,4 +31,5 @@ export const DEFAULT_CONFIG: FullConfig = {
   localStorage: {
     transactionPath: 'transactions',
   },
+  autoConnect: true,
 }

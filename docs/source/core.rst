@@ -538,6 +538,19 @@ Paths to locations in local storage
       transactionPath: 'transactions'
     }
 
+
+**autoConnect**
+Enables reconnecting to last used provider when user revisits the page.
+
+**Default value:**
+
+.. code-block:: javascript
+
+    {
+      autoConnect: true
+    }
+
+
 ChainCall
 =========
 
