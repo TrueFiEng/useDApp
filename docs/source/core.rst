@@ -457,7 +457,7 @@ Fetches ERC20 token list under a given address and filters them by chain id. Opt
 
 - ``name: string`` - token list name
 - ``logoURI: string`` - URI to get token list logo from
-- ``tokens: TokenInfo[]`` - list of `TokenInfo` objects (see <https://github.com/Uniswap/token-lists/blob/main/src/types.ts>)
+- ``tokens: TokenInfo[]`` - list of ``TokenInfo`` objects
 
 If an error occurs ``undefined`` is returned.
 
@@ -493,9 +493,9 @@ If an error occurs ``undefined`` is returned.
 
 - Token lists: <https://uniswap.org/blog/token-lists>
 - Token list json example: <https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json>
+- ``TokenInfo`` object: <https://github.com/Uniswap/token-lists/blob/main/src/types.ts>
 
 .. _useTokenList
-
 
 useTransactions
 ===============
