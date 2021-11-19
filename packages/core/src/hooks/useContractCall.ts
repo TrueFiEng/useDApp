@@ -10,7 +10,7 @@ function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   )
 }
 
-function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
+export function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
   if (!call || !call.address || !call.method) {
     warnOnInvalidContractCall(call)
     return undefined

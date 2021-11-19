@@ -10,12 +10,12 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
           type: 'object',
           properties: {
             pong: {
-              type: 'string'
-            }
-          }
-        }
-      }
-    }
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   }
 
   server.get('/ping', opts, async (request, reply) => {

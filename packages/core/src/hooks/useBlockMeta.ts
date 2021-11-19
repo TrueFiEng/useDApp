@@ -3,8 +3,14 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { useChainCall } from './useChainCalls'
 import { useMulticallAddress } from './useMulticallAddress'
 
-const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
-const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
+export const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
+export const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
+
+export const parseTimestamp = (timestamp: ReturnType<typeof useChainCall>) =>
+  timestamp !== undefined ? new Date(BigNumber.from(timestamp).mul(1000).toNumber()) : undefined
+
+export const parseDifficulty = (difficulty: ReturnType<typeof useChainCall>) =>
+  difficulty !== undefined ? BigNumber.from(difficulty) : undefined
 
 export function useBlockMeta() {
   const address = useMulticallAddress()
@@ -12,7 +18,7 @@ export function useBlockMeta() {
   const difficulty = useChainCall(address && { address, data: GET_CURRENT_BLOCK_DIFFICULTY_CALL })
 
   return {
-    timestamp: timestamp !== undefined ? new Date(BigNumber.from(timestamp).mul(1000).toNumber()) : undefined,
-    difficulty: difficulty !== undefined ? BigNumber.from(difficulty) : undefined,
+    timestamp: parseTimestamp(timestamp),
+    difficulty: parseDifficulty(difficulty),
   }
 }

@@ -6,8 +6,8 @@ import { routes } from './routes'
 const config = {
   readOnlyChainId: ChainId.Mainnet,
   readOnlyUrls: {
-    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/3165a249c65f4198bf57200109b8fadf'
-  }
+    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/3165a249c65f4198bf57200109b8fadf',
+  },
 }
 
 const server: FastifyInstance = Fastify({})
