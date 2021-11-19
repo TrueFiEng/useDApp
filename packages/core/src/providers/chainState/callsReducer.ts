@@ -1,4 +1,4 @@
-import { addressEqual } from "../.."
+import { addressEqual } from '../..'
 
 export type Action = AddCall | RemoveCall
 
