@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { TokenInfo } from '@uniswap/token-lists'
 import { ChainId } from '../constants'
 import { useEthers } from './useEthers'
@@ -17,15 +16,19 @@ export function useTokenList(tokenListURI: string, overrideChainId?: ChainId) {
   const chainId = overrideChainId || providerChainId
 
   useEffect(() => {
-    axios
-      .get(tokenListURI)
-      .then((response) => {
-        const { name, logoURI, tokens } = response.data
-        setTokenList({
-          name,
-          logoURI,
-          tokens: (tokens as TokenInfo[]).filter((token) => token.chainId === chainId),
-        })
+    fetch(tokenListURI)
+      .then(async (response) => {
+        if(response.ok) {
+          const { name, logoURI, tokens } = await response.json()
+          setTokenList({
+            name,
+            logoURI,
+            tokens: (tokens as TokenInfo[]).filter((token) => token.chainId === chainId),
+          })
+        } else {
+          const errorMessage = await response.text()
+          return Promise.reject(new Error(errorMessage))
+        }
       })
       .catch((err) => {
         console.log(err)
