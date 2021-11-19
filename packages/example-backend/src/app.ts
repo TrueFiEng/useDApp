@@ -1,5 +1,5 @@
-import { UseDapp } from "./usedapp"
 import { ChainId } from '@usedapp/core'
+import { DAppService } from './dAppService'
 import Fastify, { FastifyInstance } from 'fastify'
 import { routes } from "./routes"
 
@@ -14,7 +14,8 @@ const server: FastifyInstance = Fastify({})
 
 export const startApp = async (port: number | string) => {
   try {
-    const useDapp = new UseDapp()
+    const useDapp = new DAppService(config)
+    const mainnetUseDapp = new DAppService(config, ChainId.Mainnet)
     routes(server, useDapp)
     await server.listen(port)
     console.log(`Server listening on port ${port}.`)
