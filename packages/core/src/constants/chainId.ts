@@ -18,6 +18,7 @@ export enum ChainId {
   Hardhat = 31337,
   Fantom = 250,
   Avalanche = 43114,
+  MoonbaseAlpha = 1287,
 }
 
 export const CHAIN_NAMES = {
@@ -40,6 +41,7 @@ export const CHAIN_NAMES = {
   [ChainId.Hardhat]: 'Hardhat',
   [ChainId.Fantom]: 'Fantom',
   [ChainId.Avalanche]: 'Avalanche',
+  [ChainId.MoonbaseAlpha]: 'Moonbase Alpha',
 }
 
 export const MULTICALL_ADDRESSES = {
@@ -60,6 +62,7 @@ export const MULTICALL_ADDRESSES = {
   [ChainId.Palm]: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
   [ChainId.Fantom]: '0xdc85396592f0F466224390771C861EE3957a3ff4',
   [ChainId.Avalanche]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
+  [ChainId.MoonbaseAlpha]: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
 }
 
 export const TEST_CHAINS = [
@@ -70,6 +73,7 @@ export const TEST_CHAINS = [
   ChainId.Goerli,
   ChainId.Mumbai,
   ChainId.ThetaTestnet,
+  ChainId.MoonbaseAlpha,
   ChainId.Localhost,
   ChainId.Hardhat,
 ]
