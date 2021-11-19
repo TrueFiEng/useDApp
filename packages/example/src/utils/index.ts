@@ -1,1 +1,1 @@
-export * from './adjustIPFSPath'
+export * from './toHttpPath'
