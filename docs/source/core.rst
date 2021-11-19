@@ -442,6 +442,60 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
 
 .. _useTransactions:
 
+useTokenList
+=============
+
+Fetches ERC20 token list under a given address and filters them by chain id. Optionally it can filter also by token tags.
+
+**Parameters**
+
+- ``tokenListURI: string`` - URI to fetch token list from
+- ``overrideChainId?: ChainId`` - chain id to filter tokens by (if not specified then current network is used)
+- ``tags?: string[]`` - list of tags to filter tokens by (token is included if it contains any of given tags)
+
+**Returns**
+
+- ``name: string`` - token list name
+- ``logoURI: string`` - URI to get token list logo from
+- ``tokens: TokenInfo[]`` - list of `TokenInfo` objects (see <https://github.com/Uniswap/token-lists/blob/main/src/types.ts>)
+
+If an error occurs ``undefined`` is returned.
+
+**Example**
+
+.. code-block:: javascript
+
+  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI) || {}
+
+  const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI
+  return (
+    <div>
+      <div>
+        {name}
+        {httpSource && <img src={httpSource} alt={name}/>}
+      </div>
+      <ol>
+        {tokens?.map(token => (
+          <li>
+            <ul>
+              <li>Name: {token.name}</li>
+              <li>Symbol: {token.symbol}</li>
+              <li>Decimals: {token.decimals}</li>
+              <li>Address: {token.address}</li>
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+
+.. _useTokenList
+
+**See**
+
+- Token lists: <https://uniswap.org/blog/token-lists>
+- Token list json example: <https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json>
+
 useTransactions
 ===============
 
