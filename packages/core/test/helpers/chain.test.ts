@@ -28,6 +28,7 @@ describe('Chain helpers', () => {
     expect(getChainName(ChainId.Fantom)).to.eq('Fantom')
     expect(getChainName(ChainId.Avalanche)).to.eq('Avalanche')
     expect(getChainName(ChainId.Songbird)).to.eq('Songbird')
+    expect(getChainName(ChainId.MoonbaseAlpha)).to.eq('Moonbase Alpha')
   })
 
   it('isTestChain', () => {
@@ -48,6 +49,7 @@ describe('Chain helpers', () => {
     expect(isTestChain(ChainId.Fantom)).to.be.false
     expect(isTestChain(ChainId.Avalanche)).to.be.false
     expect(isTestChain(ChainId.Songbird)).to.be.false
+    expect(isTestChain(ChainId.MoonbaseAlpha)).to.be.true
   })
 
   it('isLocalChain', () => {
@@ -65,8 +67,8 @@ describe('Chain helpers', () => {
     expect(isLocalChain(ChainId.Palm)).to.be.false
     expect(isLocalChain(ChainId.Fantom)).to.be.false
     expect(isLocalChain(ChainId.Avalanche)).to.be.false
-    expect(isTestChain(ChainId.Fantom)).to.be.false
-    expect(isTestChain(ChainId.Songbird)).to.be.false
+    expect(isLocalChain(ChainId.Songbird)).to.be.false
+    expect(isLocalChain(ChainId.MoonbaseAlpha)).to.be.false
   })
 
   it('getExplorerAddressLink', () => {
@@ -125,6 +127,9 @@ describe('Chain helpers', () => {
     expect(getExplorerAddressLink(address, ChainId.Songbird)).to.eq(
       'https://songbird-explorer.flare.network/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
     )
+    expect(getExplorerAddressLink(address, ChainId.MoonbaseAlpha)).to.eq(
+      'https://moonbase.moonscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987'
+    )
   })
 
   it('getExplorerTransactionLink', () => {
@@ -182,6 +187,9 @@ describe('Chain helpers', () => {
     )
     expect(getExplorerTransactionLink(tx, ChainId.Songbird)).to.eq(
       'https://songbird-explorer.flare.network/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
+    )
+    expect(getExplorerTransactionLink(tx, ChainId.MoonbaseAlpha)).to.eq(
+      'https://moonbase.moonscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a'
     )
   })
 })
