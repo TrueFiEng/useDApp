@@ -27,24 +27,45 @@ export function TokenList() {
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
   const balances = useTokensBalance(tokens, account)
 
+  // return (
+  //   <List>
+  //     <ListTitleRow>
+  //       <ListTitle>{name}</ListTitle>
+  //       {logoURI && <ListLogo src={adjustImageSource(logoURI)} alt={`${name} logo`} />}
+  //     </ListTitleRow>
+  //     {tokens &&
+  //       tokens.map((token, idx) => (
+  //         <TokenItem key={token.address}>
+  //           <TokenIconContainer>
+  //             {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
+  //           </TokenIconContainer>
+  //           <TokenName>{token.name}</TokenName>
+  //           <TokenTicker>{token.symbol}</TokenTicker>
+  //           {balances?.[idx] && <TokenBalance>{formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>}
+  //         </TokenItem>
+  //       ))}
+  //   </List>
+  // )
+  const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI
   return (
-    <List>
-      <ListTitleRow>
-        <ListTitle>{name}</ListTitle>
-        {logoURI && <ListLogo src={adjustImageSource(logoURI)} alt={`${name} logo`} />}
-      </ListTitleRow>
-      {tokens &&
-        tokens.map((token, idx) => (
-          <TokenItem key={token.address}>
-            <TokenIconContainer>
-              {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
-            </TokenIconContainer>
-            <TokenName>{token.name}</TokenName>
-            <TokenTicker>{token.symbol}</TokenTicker>
-            {balances?.[idx] && <TokenBalance>{formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>}
-          </TokenItem>
+    <div>
+      <div>
+        {name}
+        {httpSource && <img src={httpSource} alt={name}/>}
+      </div>
+      <ol>
+        {tokens?.map(token => (
+          <li>
+            <ul>
+              <li>Name: {token.name}</li>
+              <li>Symbol: {token.symbol}</li>
+              <li>Decimals: {token.decimals}</li>
+              <li>Address: {token.address}</li>
+            </ul>
+          </li>
         ))}
-    </List>
+      </ol>
+    </div>
   )
 }
 
