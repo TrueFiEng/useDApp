@@ -15,15 +15,15 @@ export function useTokenList(tokenListURI: string, chainId: ChainId = ChainId.Ma
   useEffect(() => {
     axios
       .get(tokenListURI)
-      .then(response => {
+      .then((response) => {
         const { name, logoURI, tokens } = response.data
         setTokenList({
           name,
           logoURI,
-          tokens: (tokens as TokenInfo[]).filter(token => token.chainId === chainId)
+          tokens: (tokens as TokenInfo[]).filter((token) => token.chainId === chainId),
         })
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
         setTokenList(undefined)
       })
