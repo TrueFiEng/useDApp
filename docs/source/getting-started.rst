@@ -1,7 +1,7 @@
 Getting started
 ===============
 
-Installation 
+Installation
 ------------
 
 To start working with useDapp you need to have working React environment.

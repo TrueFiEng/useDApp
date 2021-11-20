@@ -589,7 +589,7 @@ Config
 
 Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 
-*Example*
+***Example***
 
 .. code-block:: javascript
 
@@ -600,13 +600,19 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
     }
   }
 
-**multicallAddresses**
+**multicallAddresses **
 
-**supportedChains**
+**supportedChains (deprecated) **
 List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
 
-**Default value:**
-``[ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
+***Default value:***
+-``[ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
+
+**networks**
+List of intended supported chain configs. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
+
+***Default value:***
+``[Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]``
 
 **pollingInterval**
 Polling interval for a new block.
@@ -614,7 +620,7 @@ Polling interval for a new block.
 **localStorage**
 Paths to locations in local storage
 
-**Default value:**
+***Default value:***
 
 .. code-block:: javascript
 
@@ -626,7 +632,7 @@ Paths to locations in local storage
 **autoConnect**
 Enables reconnecting to last used provider when user revisits the page.
 
-**Default value:**
+***Default value:***
 
 .. code-block:: javascript
 

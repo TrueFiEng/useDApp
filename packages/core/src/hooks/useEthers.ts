@@ -15,17 +15,17 @@ export type Web3Ethers = ReturnType<typeof useWeb3React> & {
 
 export function useEthers(): Web3Ethers {
   const result = useWeb3React<Web3Provider>()
-  const { supportedChains } = useConfig()
+  const { networks } = useConfig()
   const activateBrowserWallet = useCallback<ActivateBrowserWallet>(
     async (onError, throwErrors) => {
-      const injected = new InjectedConnector({ supportedChainIds: supportedChains })
+      const injected = new InjectedConnector({ supportedChainIds: networks.map((network) => network.chainId) })
       if (onError instanceof Function) {
         await result.activate(injected, onError, throwErrors)
       } else {
         await result.activate(injected, undefined, throwErrors)
       }
     },
-    [supportedChains]
+    [networks]
   )
   return { ...result, activateBrowserWallet }
 }

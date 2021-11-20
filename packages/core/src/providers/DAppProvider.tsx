@@ -27,13 +27,12 @@ interface WithConfigProps {
   children: ReactNode
 }
 
-const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-DEFAULT_SUPPORTED_CHAINS.filter((network) => network.multicallAddress).map(
-  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
-)
-
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses } = useConfig()
+  const { multicallAddresses, networks } = useConfig()
+  const MULTICALL_ADDRESSES: { [index: number]: string } = {}
+  networks.map(
+    (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
+  )
   const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
 
   return (
