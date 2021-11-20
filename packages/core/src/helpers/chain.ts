@@ -1,4 +1,4 @@
-import { DEFAULT_SUPPORTED_CHAINS, ChainId, Chain } from '../constants'
+import { DEFAULT_SUPPORTED_CHAINS, ChainId } from '../constants'
 
 export const getChainById = (chainId: ChainId) =>
   DEFAULT_SUPPORTED_CHAINS.find((network) => network.chainId === chainId)
