@@ -14,17 +14,18 @@ import {
   ChainState,
   ContractCall,
   encodeCallData,
-  ERC20Interface
+  ERC20Interface,
+  multicall
 } from '@usedapp/core'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { State } from 'reactive-properties'
 
-type BlockNumber = ReturnType<typeof useBlockNumber>
-type BlockMeta = ReturnType<typeof useBlockMeta>
-type EtherBalance = ReturnType<typeof useEtherBalance>
-type TokenBalance = ReturnType<typeof useTokenBalance>
+export type BlockNumber = ReturnType<typeof useBlockNumber>
+export type BlockMeta = ReturnType<typeof useBlockMeta>
+export type EtherBalance = ReturnType<typeof useEtherBalance>
+export type TokenBalance = ReturnType<typeof useTokenBalance>
 
-type OnUpdate<T> = (newValue: T) => void | Promise<void>
+export type OnUpdate<T> = (newValue: T) => void | Promise<void>
 
 // TODO:
 // Squeeze the calls through multicall
@@ -83,14 +84,19 @@ export class DAppService {
 
   async refresh() {
     try {
-      console.log(`Block number ${this.blockNumber}, refreshing...`)
+      const blockNumber = this.blockNumber
+      const multicallAddress = this.multicallAddress
+      if (!blockNumber || !multicallAddress) return
+      console.log(`Block number ${blockNumber}, refreshing ${this._chainCalls.length} unique out of ${this._chainCalls.length} calls...`)
 
-      // Call multicall here and update the blockchain state.
+      const newState = await multicall(this.web3Provider, multicallAddress, blockNumber, this._chainCalls)
+      this._chainState.set(newState)
 
       console.log('Refresh completed.')
     } catch (e: any) {
-      console.error(e)
       // This is a hackathon so no proper error handling.
+      console.error('Refresh failed.')
+      console.error(e)
     }
   }
 

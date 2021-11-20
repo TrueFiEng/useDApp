@@ -1,6 +1,6 @@
 import { formatEther } from '@ethersproject/units'
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
-import { DAppService } from './dAppService'
+import { DAppService, EtherBalance } from './dAppService'
 
 export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   const opts: RouteShorthandOptions = {
