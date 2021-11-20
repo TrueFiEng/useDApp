@@ -11,7 +11,8 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "experimentalDecorators": true
   },
   "include": [
     "src",

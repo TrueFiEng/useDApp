@@ -19,6 +19,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "@dxos/async": "^2.17.1",
     "@usedapp/core": "^0.6.0",
     "fastify": "^3.24.0",
     "reactive-properties": "^0.1.12"

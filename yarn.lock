@@ -1409,6 +1409,21 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
+"@dxos/async@^2.17.1":
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/@dxos/async/-/async-2.17.1.tgz#359f223f482258a57691604d44ece2921e5a4c55"
+  integrity sha512-UAWV5yFce0sJ5LChTosr3CRy6K1KT5qQJOX6/tgl1sgpGQe060AFKOUvc7m0eFuQ+5ICmY908x+yneG86kRT0g==
+  dependencies:
+    "@dxos/debug" "2.17.1"
+
+"@dxos/debug@2.17.1":
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/@dxos/debug/-/debug-2.17.1.tgz#b770bc51fc59e3bfdad16f219b661158cd7f88b2"
+  integrity sha512-7Ygov2nd2/a+uAgeDXge6XuiPECM4lsltht/hr88LfzDZD+aI/uKwWhtvinu61mfVCLgx0lfUH/1ETOxkZvwmg==
+  dependencies:
+    "@types/node" "^14.0.9"
+    debug "^4.1.1"
+
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -3394,6 +3409,11 @@
   version "14.17.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.4.tgz#218712242446fc868d0e007af29a4408c7765bc0"
   integrity sha512-8kQ3+wKGRNN0ghtEn7EGps/B8CzuBz1nXZEIGGLP2GnwbqYn4dbTs7k+VKLTq1HvZLRCIDtN3Snx1Ege8B7L5A==
+
+"@types/node@^14.0.9":
+  version "14.17.34"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.34.tgz#fe4b38b3f07617c0fa31ae923fca9249641038f0"
+  integrity sha512-USUftMYpmuMzeWobskoPfzDi+vkpe0dvcOBRNOscFrGxVp4jomnRxWuVohgqBow2xyIPC0S3gjxV/5079jhmDg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
