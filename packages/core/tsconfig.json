@@ -9,7 +9,9 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "target": "ES5"
   },
   "include": [
     "src",

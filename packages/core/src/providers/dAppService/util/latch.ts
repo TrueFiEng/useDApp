@@ -7,7 +7,7 @@
  */
 export const latch = <T>() => {
   let callback: (value: T) => void
-  const promise = new Promise<T>(resolve => {
+  const promise = new Promise<T>((resolve) => {
     callback = resolve
   })
 

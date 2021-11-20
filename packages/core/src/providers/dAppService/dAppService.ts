@@ -9,8 +9,8 @@ import {
   parseTimestamp,
   useBlockMeta,
   useEtherBalance,
-  useTokenBalance
-} from '@usedapp/core'
+  useTokenBalance,
+} from '../..'
 import { DAppServiceBase, emptyChainCallResult, OnUpdate, ChainCallResult } from './dAppServiceBase'
 
 export type BlockTimestamp = ReturnType<typeof useBlockMeta>['timestamp']
@@ -23,16 +23,16 @@ export class DAppService extends DAppServiceBase {
     if (!this.multicallAddress) return emptyChainCallResult
     const call: ChainCall = {
       address: this.multicallAddress,
-      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL
+      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL,
     }
 
-    const { unsubscribe, value } = this.useChainCall(call, result => {
+    const { unsubscribe, value } = this.useChainCall(call, (result) => {
       result && onUpdate?.(parseTimestamp(result))
     })
 
     return {
       unsubscribe,
-      value: (async () => parseTimestamp(await value))()
+      value: (async () => parseTimestamp(await value))(),
     }
   }
 
@@ -40,16 +40,16 @@ export class DAppService extends DAppServiceBase {
     if (!this.multicallAddress) return emptyChainCallResult
     const call: ChainCall = {
       address: this.multicallAddress,
-      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL
+      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL,
     }
 
-    const { unsubscribe, value } = this.useChainCall(call, result => {
+    const { unsubscribe, value } = this.useChainCall(call, (result) => {
       result && onUpdate?.(parseDifficulty(result))
     })
 
     return {
       unsubscribe,
-      value: (async () => parseDifficulty(await value))()
+      value: (async () => parseDifficulty(await value))(),
     }
   }
 
@@ -59,7 +59,7 @@ export class DAppService extends DAppServiceBase {
       abi: MultiCallABI,
       address: this.multicallAddress,
       method: 'getEthBalance',
-      args: [address]
+      args: [address],
     }
 
     return this.useContractCall(contractCall, onUpdate)
@@ -70,12 +70,11 @@ export class DAppService extends DAppServiceBase {
     address: string,
     onUpdate?: OnUpdate<TokenBalance>
   ): ChainCallResult<TokenBalance> {
-    if (!this.multicallAddress) return emptyChainCallResult
     const contractCall: ContractCall = {
       abi: ERC20Interface,
       address: tokenAddress,
       method: 'balanceOf',
-      args: [address]
+      args: [address],
     }
 
     return this.useContractCall(contractCall, onUpdate)

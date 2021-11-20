@@ -9,8 +9,8 @@ import {
   encodeCallData,
   getUnique,
   multicall,
-  useBlockNumber
-} from '@usedapp/core'
+  useBlockNumber,
+} from '../../'
 import { State } from 'reactive-properties'
 import { latch } from './util'
 
@@ -113,7 +113,7 @@ export class DAppServiceBase {
   @synchronized
   protected removeCall(call: ChainCall) {
     const chainCalls = this._chainCalls.get()
-    const index = chainCalls.findIndex(x => x.address === call.address && x.data === call.data)
+    const index = chainCalls.findIndex((x) => x.address === call.address && x.data === call.data)
     if (index !== -1) {
       this._chainCalls.set(chainCalls.filter((_, i) => i !== index))
     }
@@ -123,7 +123,7 @@ export class DAppServiceBase {
     const [value, setValue] = latch<string | undefined>()
     this.addCall(call)
 
-    const unsub = this.useChainState(call.address, call.data, result => {
+    const unsub = this.useChainState(call.address, call.data, (result) => {
       if (result !== undefined) {
         setValue(result)
         onUpdate?.(result)
@@ -135,7 +135,7 @@ export class DAppServiceBase {
         unsub()
         this.removeCall(call)
       },
-      value
+      value,
     }
   }
 
@@ -144,7 +144,7 @@ export class DAppServiceBase {
     const call = encodeCallData(contractCall)
     if (!call) return emptyChainCallResult
 
-    const { unsubscribe } = this.useChainCall(call, result => {
+    const { unsubscribe } = this.useChainCall(call, (result) => {
       const decoded: T | undefined = result
         ? contractCall.abi.decodeFunctionResult(contractCall.method, result)[0]
         : undefined
@@ -156,7 +156,7 @@ export class DAppServiceBase {
 
     return {
       unsubscribe,
-      value
+      value,
     }
   }
 }

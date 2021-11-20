@@ -42,7 +42,8 @@
     "@web3-react/network-connector": "6.1.5",
     "ethers": "5.5.1",
     "lodash.merge": "^4.6.2",
-    "nanoid": "3.1.22"
+    "nanoid": "3.1.22",
+    "reactive-properties": "^0.1.12"
   },
   "peerDependencies": {
     "react": "*"
