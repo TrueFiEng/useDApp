@@ -10,6 +10,7 @@ import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
+import { DAppServiceProvider } from './dAppService'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -44,7 +45,11 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         <LocalMulticallProvider>
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>
-              <TransactionProvider>{children}</TransactionProvider>
+              <TransactionProvider>
+                <DAppServiceProvider>
+                  {children}
+                </DAppServiceProvider>
+              </TransactionProvider>
             </NotificationsProvider>
           </ChainStateProvider>
         </LocalMulticallProvider>

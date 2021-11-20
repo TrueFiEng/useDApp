@@ -1,6 +1,6 @@
 import React from 'react'
 import { formatEther } from '@ethersproject/units'
-import { useEtherBalance, useEthers } from '@usedapp/core'
+import { useEtherBalance, useEtherBalance2, useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
@@ -14,6 +14,7 @@ export function Balance() {
   const { account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
+  const stakingBalance2 = useEtherBalance2(STAKING_CONTRACT)
 
   return (
     <MainContent>
@@ -27,6 +28,12 @@ export function Balance() {
             {stakingBalance && (
               <ContentRow>
                 <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
+                <Label>ETH</Label>
+              </ContentRow>
+            )}
+            {stakingBalance2 && (
+              <ContentRow>
+                <Label>Same according to DAppService:</Label> <TextInline>{formatEther(stakingBalance2)}</TextInline>{' '}
                 <Label>ETH</Label>
               </ContentRow>
             )}
