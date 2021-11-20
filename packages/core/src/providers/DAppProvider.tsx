@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
-import { DEFAULT_SUPPORTED_CHAINS } from '../constants'
-import { Config } from '../model/config/Config'
+import { DEFAULT_SUPPORTED_CHAINS, Config } from '../constants'
 import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'

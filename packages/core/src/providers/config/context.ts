@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { FullConfig, Config } from '../../model/config/Config'
+import { FullConfig, Config } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 
 export const ConfigContext = createContext<{ config: FullConfig; updateConfig: (config: Config) => void }>({

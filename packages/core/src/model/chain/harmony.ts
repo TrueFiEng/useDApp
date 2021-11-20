@@ -1,4 +1,4 @@
-import { Chain } from '../../constants/Chain'
+import { Chain } from '../../constants'
 
 export const Harmony: Chain = {
   chainId: 1666600000,

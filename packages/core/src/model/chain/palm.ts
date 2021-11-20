@@ -1,4 +1,4 @@
-import { Chain } from '../../constants/Chain'
+import { Chain } from '../../constants'
 
 export const Palm: Chain = {
   chainId: 11297108109,
