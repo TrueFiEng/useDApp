@@ -24,8 +24,11 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
 
   const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
   server.get('/balance', async (request, reply) => {
-    const balance = 1
-    return { eth2StakingContract: formatEther(balance) }
+    // An endpoint that busy waits is terrible.
+    const balance = await new Promise<EtherBalance>((res, rej) => {
+      const unsub = dAppService.useEtherBalance(STAKING_CONTRACT, res)
+    })
+    return { eth2StakingContract: balance ? formatEther(balance) : undefined }
   })
 
   server.get('/block', async (request, reply) => {

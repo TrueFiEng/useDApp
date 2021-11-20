@@ -38,6 +38,7 @@ export type OnUpdate<T> = (newValue: T) => void | Promise<void>
 // Clean app (remove from chainCalls array on sunsub, watch multiple subs & unsubs)
 
 export class DAppService {
+  private _refreshing: boolean = false
   private web3Provider: JsonRpcProvider
   private _unsubscribe: Function | undefined
 
@@ -83,6 +84,8 @@ export class DAppService {
   }
 
   async refresh() {
+    if (this._refreshing) return
+    this._refreshing = true
     try {
       const blockNumber = this.blockNumber
       const multicallAddress = this.multicallAddress
@@ -97,6 +100,8 @@ export class DAppService {
       // This is a hackathon so no proper error handling.
       console.error('Refresh failed.')
       console.error(e)
+    } finally {
+      this._refreshing = false
     }
   }
 
@@ -152,6 +157,7 @@ export class DAppService {
     }
     const call = encodeCallData(contractCall)
     if (!call) return
+    this.addCall(call)
 
     const unsub = this.useChainState(call.address, call.data, (result) => {
       if (result) {
@@ -175,6 +181,7 @@ export class DAppService {
     }
     const call = encodeCallData(contractCall)
     if (!call) return
+    this.addCall(call)
 
     const unsub = this.useChainState(call.address, call.data, (result) => {
       if (result) {
