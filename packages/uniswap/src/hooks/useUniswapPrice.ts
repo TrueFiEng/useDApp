@@ -19,7 +19,7 @@ import { BigNumber, parseFixed, formatFixed } from '@ethersproject/bignumber'
 export function useUniswapPrice(
   baseCurrency: string,
   quateCurrency: string,
-  overrides?: { factory?: string; digits?: number }
+  overrides?: { factory?: string; initCodeHash?:string; digits?: number }
 ): BigNumber | undefined {
   // token0 is smaller than token1
   let token0: string
@@ -37,7 +37,7 @@ export function useUniswapPrice(
   const pair = getCreate2Address(
     overrides?.factory || UNISWAP_V2_FACTORY_ADDRESS[1], // Mainnet
     keccak256(['bytes'], [pack(['address', 'address'], [token0, token1])]),
-    INIT_CODE_HASH
+    overrides?.initCodeHash || INIT_CODE_HASH
   )
   const [reserve0, reserve1] =
     useContractCall(
