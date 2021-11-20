@@ -28,16 +28,6 @@ export type TokenBalance = ReturnType<typeof useTokenBalance>
 
 export type OnUpdate<T> = (newValue: T) => void | Promise<void>
 
-// TODO:
-// Squeeze the calls through multicall
-// Unsubscription
-// Try to use in a backend
-// Try to reimplemnent the React hooks and use on the frontend.
-// sending tx - useSendTransaction | SCRATCH that, KISS
-// Extract boilerplate if possible. useContractCall.
-// Websockets, try out with curl
-// Clean app (remove from chainCalls array on sunsub, watch multiple subs & unsubs)
-
 export class DAppService {
   private _refreshing = false
   private _web3Provider: JsonRpcProvider
@@ -70,10 +60,12 @@ export class DAppService {
     if (this._unsubscribe) return // Already started.
     const update = (blockNumber: number) => this._blockNumberState.set(blockNumber)
     this._web3Provider.on('block', update)
-    const onNewBlock = () => this.refresh()
-    const unsub = this._blockNumberState.subscribe(onNewBlock)
+
+    const unsub1 = this._blockNumberState.subscribe(() => this.refresh())
+    const unsub2 = this._chainCalls.subscribe(() => this.refresh())
     this._unsubscribe = () => {
-      unsub()
+      unsub1()
+      unsub2()
       this._web3Provider.off('block', update)
     }
   }
