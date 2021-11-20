@@ -3,7 +3,7 @@ export type Chain = {
   chainName: string
   isTestChain: boolean
   isLocalChain: boolean
-  MULTICALL_ADDRESS: string
+  multicallAddress: string
   getExplorerAddressLink: (address: string) => string
   getExplorerTransactionLink: (address: string) => string
 }

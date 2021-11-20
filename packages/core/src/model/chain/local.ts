@@ -5,7 +5,7 @@ export const Localhost: Chain = {
   chainName: 'Localhost',
   isTestChain: true,
   isLocalChain: true,
-  MULTICALL_ADDRESS: '',
+  multicallAddress: '',
   getExplorerAddressLink: () => '',
   getExplorerTransactionLink: () => '',
 }
@@ -15,7 +15,7 @@ export const Hardhat: Chain = {
   chainName: 'Hardhat',
   isTestChain: true,
   isLocalChain: true,
-  MULTICALL_ADDRESS: '',
+  multicallAddress: '',
   getExplorerAddressLink: () => '',
   getExplorerTransactionLink: () => '',
 }

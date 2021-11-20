@@ -11,7 +11,7 @@ import { Songbird } from '../model/chain/songbird'
 import { Theta, ThetaTestnet } from '../model/chain/theta'
 import { xDai } from '../model/chain/xdai'
 
-export const SUPPORT_NETWORKS = [
+export const DEFAULT_SUPPORTED_CHAINS = [
   Localhost,
   Hardhat,
   Avalanche,
@@ -60,8 +60,8 @@ export enum ChainId {
 }
 
 export const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-SUPPORT_NETWORKS.filter((network) => network.MULTICALL_ADDRESS).map(
-  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.MULTICALL_ADDRESS)
+DEFAULT_SUPPORTED_CHAINS.filter((network) => network.multicallAddress).map(
+  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
 )
 
 export const LOCAL_CHAINS = [Localhost.chainId, Hardhat.chainId]
