@@ -58,5 +58,3 @@ export enum ChainId {
   Songbird = 19,
   MoonbaseAlpha = 1287,
 }
-
-export const LOCAL_CHAINS = [Localhost.chainId, Hardhat.chainId]
