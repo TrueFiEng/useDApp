@@ -10,13 +10,14 @@ chai.use(chaiAsPromised)
 
 describe('Basic', () => {
   const mockProvider = new MockProvider()
-  const [deployer] = mockProvider.getWallets()
-  let server: Awaited<ReturnType<typeof startApp>>
+  // const [deployer] = mockProvider.getWallets()
+  let stopApp: Awaited<ReturnType<typeof startApp>>['stopApp']
+  let server: Awaited<ReturnType<typeof startApp>>['server']
 
   before(async () => {
-    server = await startApp(3000)
+    ;({ stopApp, server } = await startApp(3000))
   })
-  after(async () => server.close())
+  after(() => stopApp())
 
   it('Plays ping pong', async () => {
     const response = await server.inject('/ping')

@@ -7,14 +7,14 @@ const config: Config = {
   readOnlyUrls: {
     [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/3165a249c65f4198bf57200109b8fadf',
   },
-  multicallAddresses: MULTICALL_ADDRESSES
+  multicallAddresses: MULTICALL_ADDRESSES,
 }
 
 const server: FastifyInstance = Fastify({})
+const mainnetService = new DAppService(config, ChainId.Mainnet)
 
 export const startApp = async (port: number | string) => {
   try {
-    const mainnetService = new DAppService(config, ChainId.Mainnet)
     await mainnetService.start()
     routes(server, mainnetService)
     await server.listen(port)
@@ -23,5 +23,12 @@ export const startApp = async (port: number | string) => {
     server.log.error(err)
     process.exit(1)
   }
-  return server
+
+  return {
+    stopApp: () => {
+      server.close()
+      mainnetService.stop()
+    },
+    server,
+  }
 }

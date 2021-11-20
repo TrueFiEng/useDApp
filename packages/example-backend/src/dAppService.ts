@@ -15,7 +15,7 @@ import {
   ContractCall,
   encodeCallData,
   ERC20Interface,
-  multicall
+  multicall,
 } from '@usedapp/core'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { State } from 'reactive-properties'
@@ -38,9 +38,9 @@ export type OnUpdate<T> = (newValue: T) => void | Promise<void>
 // Clean app (remove from chainCalls array on sunsub, watch multiple subs & unsubs)
 
 export class DAppService {
-  private _refreshing: boolean = false
+  private _refreshing = false
   private web3Provider: JsonRpcProvider
-  private _unsubscribe: Function | undefined
+  private _unsubscribe: (() => void) | undefined
 
   private _blockNumberState = new State<BlockNumber>(undefined)
 
@@ -66,7 +66,7 @@ export class DAppService {
     return this._blockNumberState.subscribe(() => onUpdate(this.blockNumber))
   }
 
-  start () {
+  start() {
     if (this._unsubscribe) return // Already started.
     const update = (blockNumber: number) => this._blockNumberState.set(blockNumber)
     this.web3Provider.on('block', update)
@@ -90,7 +90,9 @@ export class DAppService {
       const blockNumber = this.blockNumber
       const multicallAddress = this.multicallAddress
       if (!blockNumber || !multicallAddress) return
-      console.log(`Block number ${blockNumber}, refreshing ${this._chainCalls.length} unique out of ${this._chainCalls.length} calls...`)
+      console.log(
+        `Block number ${blockNumber}, refreshing ${this._chainCalls.length} unique out of ${this._chainCalls.length} calls...`
+      )
 
       const newState = await multicall(this.web3Provider, multicallAddress, blockNumber, this._chainCalls)
       this._chainState.set(newState)
@@ -111,7 +113,7 @@ export class DAppService {
   }
 
   useChainState(address: string | undefined, data: string, onUpdate: OnUpdate<string | undefined>) {
-    if (!address) return () => {}
+    if (!address) return () => {} // eslint-disable-line @typescript-eslint/no-empty-function
     return this._chainState.subscribe(() => onUpdate(this.chainState(address, data)))
   }
 
@@ -131,15 +133,17 @@ export class DAppService {
     if (!address) return
     const call: ChainCall = {
       address,
-      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL
+      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL,
     }
 
     this.addCall(call)
 
-    const unsub = this.useChainState(address, GET_CURRENT_BLOCK_TIMESTAMP_CALL, () => onUpdate({
-      difficulty: parseDifficulty(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_DIFFICULTY_CALL)),
-      timestamp: parseTimestamp(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_TIMESTAMP_CALL)),
-    }))
+    const unsub = this.useChainState(address, GET_CURRENT_BLOCK_TIMESTAMP_CALL, () =>
+      onUpdate({
+        difficulty: parseDifficulty(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_DIFFICULTY_CALL)),
+        timestamp: parseTimestamp(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_TIMESTAMP_CALL)),
+      })
+    )
 
     return () => {
       unsub()
