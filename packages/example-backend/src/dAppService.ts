@@ -16,6 +16,7 @@ import {
   encodeCallData,
   ERC20Interface,
   multicall,
+  getUnique
 } from '@usedapp/core'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { State } from 'reactive-properties'
@@ -39,19 +40,18 @@ export type OnUpdate<T> = (newValue: T) => void | Promise<void>
 
 export class DAppService {
   private _refreshing = false
-  private web3Provider: JsonRpcProvider
+  private _web3Provider: JsonRpcProvider
   private _unsubscribe: (() => void) | undefined
 
   private _blockNumberState = new State<BlockNumber>(undefined)
-
   private _chainState = new State<ChainState>({})
-  private _chainCalls: ChainCall[] = []
+  private _chainCalls = new State<ChainCall[]>([])
 
   constructor(private config: Config, private chainId: ChainId) {
     if (!this.config.readOnlyUrls?.[chainId]) {
       throw new Error(`Missing URL for chainId "${chainId}".`)
     }
-    this.web3Provider = new JsonRpcProvider(this.config.readOnlyUrls[chainId], 'any')
+    this._web3Provider = new JsonRpcProvider(this.config.readOnlyUrls[chainId], 'any')
   }
 
   get multicallAddress() {
@@ -69,12 +69,12 @@ export class DAppService {
   start() {
     if (this._unsubscribe) return // Already started.
     const update = (blockNumber: number) => this._blockNumberState.set(blockNumber)
-    this.web3Provider.on('block', update)
+    this._web3Provider.on('block', update)
     const onNewBlock = () => this.refresh()
     const unsub = this._blockNumberState.subscribe(onNewBlock)
     this._unsubscribe = () => {
       unsub()
-      this.web3Provider.off('block', update)
+      this._web3Provider.off('block', update)
     }
   }
 
@@ -89,12 +89,14 @@ export class DAppService {
     try {
       const blockNumber = this.blockNumber
       const multicallAddress = this.multicallAddress
+      const chainCalls = this._chainCalls.get()
       if (!blockNumber || !multicallAddress) return
+      const uniqueCalls = getUnique(chainCalls)
       console.log(
-        `Block number ${blockNumber}, refreshing ${this._chainCalls.length} unique out of ${this._chainCalls.length} calls...`
+        `Block number ${blockNumber}, refreshing ${uniqueCalls.length} unique out of ${chainCalls.length} calls...`
       )
 
-      const newState = await multicall(this.web3Provider, multicallAddress, blockNumber, this._chainCalls)
+      const newState = await multicall(this._web3Provider, multicallAddress, blockNumber, uniqueCalls)
       this._chainState.set(newState)
 
       console.log('Refresh completed.')
@@ -118,13 +120,14 @@ export class DAppService {
   }
 
   private addCall(call: ChainCall) {
-    this._chainCalls.push(call)
+    this._chainCalls.set([...this._chainCalls.get(), call])
   }
 
   private removeCall(call: ChainCall) {
-    const index = this._chainCalls.findIndex((x) => x.address === call.address && x.data === call.data)
+    const chainCalls = this._chainCalls.get()
+    const index = chainCalls.findIndex((x) => x.address === call.address && x.data === call.data)
     if (index !== -1) {
-      this._chainCalls = this._chainCalls.filter((_, i) => i !== index)
+      this._chainCalls.set(chainCalls.filter((_, i) => i !== index))
     }
   }
 

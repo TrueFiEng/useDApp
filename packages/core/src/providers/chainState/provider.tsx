@@ -72,7 +72,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   return <ChainStateContext.Provider value={provided} children={children} />
 }
 
-function getUnique(requests: ChainCall[]) {
+export function getUnique(requests: ChainCall[]) {
   const unique: ChainCall[] = []
   for (const request of requests) {
     if (!unique.find((x) => addressEqual(x.address, request.address) && x.data === request.data)) {
