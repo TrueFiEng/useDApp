@@ -24,6 +24,8 @@ type BlockMeta = ReturnType<typeof useBlockMeta>
 type EtherBalance = ReturnType<typeof useEtherBalance>
 type TokenBalance = ReturnType<typeof useTokenBalance>
 
+type OnUpdate<T> = (newValue: T) => void | Promise<void>
+
 // TODO:
 // Squeeze the calls through multicall
 // Unsubscription
@@ -97,7 +99,7 @@ export class DAppService {
     return this._chainState.get()[address]?.[data]
   }
 
-  useChainState(address: string | undefined, data: string, onUpdate: (state: string | undefined) => void) {
+  useChainState(address: string | undefined, data: string, onUpdate: OnUpdate<string | undefined>) {
     if (!address) return () => {}
     return this._chainState.subscribe(() => onUpdate(this.chainState(address, data)))
   }
@@ -113,7 +115,7 @@ export class DAppService {
     }
   }
 
-  useBlockMeta(onUpdate: (blockMeta: BlockMeta) => void) {
+  useBlockMeta(onUpdate: OnUpdate<BlockMeta>) {
     const address = this.multicallAddress
     if (!address) return
     const call: ChainCall = {
@@ -134,7 +136,7 @@ export class DAppService {
     }
   }
 
-  useEtherBalance(address: string, onUpdate: (etherBalance: EtherBalance) => void) {
+  useEtherBalance(address: string, onUpdate: OnUpdate<EtherBalance>) {
     if (!this.multicallAddress) return
     const contractCall: ContractCall = {
       abi: MultiCallABI,
@@ -157,7 +159,7 @@ export class DAppService {
     }
   }
 
-  useTokenBalance(tokenAddress: string, address: string, onUpdate: (tokenBalance: TokenBalance) => void) {
+  useTokenBalance(tokenAddress: string, address: string, onUpdate: OnUpdate<TokenBalance>) {
     if (!this.multicallAddress) return
     const contractCall: ContractCall = {
       abi: ERC20Interface,
