@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { MULTICALL_ADDRESSES } from '../constants'
+import { DEFAULT_SUPPORTED_CHAINS } from '../constants'
 import { Config } from '../model/config/Config'
 import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
@@ -27,6 +27,11 @@ export function DAppProvider({ config, children }: DAppProviderProps) {
 interface WithConfigProps {
   children: ReactNode
 }
+
+const MULTICALL_ADDRESSES: { [index: number]: string } = {}
+DEFAULT_SUPPORTED_CHAINS.filter((network) => network.multicallAddress).map(
+  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
+)
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
   const { multicallAddresses } = useConfig()
