@@ -28,11 +28,14 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   })
 
   server.get('/blockmeta', async () => {
-    const { unsubscribe, value } = dAppService.useBlockMeta()
-    const blockMeta = await value
-    unsubscribe?.()
+    const { unsubscribe: unsubDifficulty, value: difficulty } = dAppService.useBlockDifficulty()
+    const { unsubscribe: unsubTimestamp, value: timestamp } = dAppService.useBlockTimestamp()
 
-    return { ...blockMeta }
+    const result = { difficulty: await difficulty, timestamp: await timestamp }
+    unsubDifficulty?.()
+    unsubTimestamp?.()
+
+    return result
   })
 
   const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'

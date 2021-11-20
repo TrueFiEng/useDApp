@@ -24,7 +24,8 @@ import { synchronized } from '@dxos/async'
 import { latch } from './util'
 
 export type BlockNumber = ReturnType<typeof useBlockNumber>
-export type BlockMeta = ReturnType<typeof useBlockMeta>
+export type BlockTimestamp = ReturnType<typeof useBlockMeta>['timestamp']
+export type BlockDifficulty = ReturnType<typeof useBlockMeta>['difficulty']
 export type EtherBalance = ReturnType<typeof useEtherBalance>
 export type TokenBalance = ReturnType<typeof useTokenBalance>
 
@@ -37,7 +38,8 @@ export interface UseChainCallResult<T = string | undefined> {
 const emptyChainCallResult: UseChainCallResult<any> = { unsubscribe: () => {}, value: undefined }
 
 export class DAppService {
-  private _refreshing = false
+  private _lastProcessedBlock: number | undefined = undefined
+  private _lastProcessedCalls: string | undefined = undefined
   private _web3Provider: JsonRpcProvider
   private _unsubscribe: (() => void) | undefined
 
@@ -69,11 +71,11 @@ export class DAppService {
     const update = (blockNumber: number) => this._blockNumberState.set(blockNumber)
     this._web3Provider.on('block', update)
 
-    const unsub1 = this._blockNumberState.subscribe(() => this.refresh()) // Refresh on block number change.
-    const unsub2 = this._chainCalls.subscribe(() => this.refresh()) // Refresh on a change in a list of calls.
+    const unsubscribeBlockNumber = this._blockNumberState.subscribe(() => this.refresh()) // Refresh on block number change.
+    const unsubscribeCalls = this._chainCalls.subscribe(() => this.refresh()) // Refresh on a change in a list of calls.
     this._unsubscribe = () => {
-      unsub1()
-      unsub2()
+      unsubscribeBlockNumber()
+      unsubscribeCalls()
       this._web3Provider.off('block', update)
     }
   }
@@ -83,30 +85,26 @@ export class DAppService {
     this._unsubscribe = undefined
   }
 
+  @synchronized
   private async refresh() {
-    if (this._refreshing) return
-    this._refreshing = true
     try {
       const blockNumber = this.blockNumber
-      const multicallAddress = this.multicallAddress
+      if (!blockNumber || !this.multicallAddress) return
       const chainCalls = this._chainCalls.get()
-      if (!blockNumber || !multicallAddress) return
       const uniqueCalls = getUnique(chainCalls)
-      console.log(
-        `\n\nBlock number ${blockNumber}, refreshing. `,
-        `${uniqueCalls.length} unique out of ${chainCalls.length} calls...`
-      )
+      if ((this._lastProcessedBlock ?? 0 >= blockNumber) && this._lastProcessedCalls === JSON.stringify(uniqueCalls)) {
+        // The state for this block number and exactly these calls has already been updated.
+        return
+      }
 
-      const newState = await multicall(this._web3Provider, multicallAddress, blockNumber, uniqueCalls)
+      const newState = await multicall(this._web3Provider, this.multicallAddress, blockNumber, uniqueCalls)
       this._chainState.set(newState)
 
-      console.log('Refresh completed.')
+      this._lastProcessedBlock = blockNumber
+      this._lastProcessedCalls = JSON.stringify(uniqueCalls)
     } catch (e) {
-      // This is a hackathon so no proper error handling.
       console.error('Refresh failed.')
       console.error(e)
-    } finally {
-      this._refreshing = false
     }
   }
 
@@ -139,8 +137,10 @@ export class DAppService {
     this.addCall(call)
 
     const unsub = this.useChainState(call.address, call.data, result => {
-      setValue(result)
-      onUpdate?.(result)
+      if (result !== undefined) {
+        setValue(result)
+        onUpdate?.(result)
+      }
     })
 
     return {
@@ -173,36 +173,37 @@ export class DAppService {
     }
   }
 
-  useBlockMeta(onUpdate?: OnUpdate<BlockMeta>): UseChainCallResult<BlockMeta> {
+  useBlockTimestamp(onUpdate?: OnUpdate<BlockTimestamp>): UseChainCallResult<BlockTimestamp> {
     if (!this.multicallAddress) return emptyChainCallResult
-    const difficultyCall: ChainCall = {
-      address: this.multicallAddress,
-      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL
-    }
-    const timestampCall: ChainCall = {
+    const call: ChainCall = {
       address: this.multicallAddress,
       data: GET_CURRENT_BLOCK_TIMESTAMP_CALL
     }
 
-    // useBlockMeta is a hook that really combines two hooks, useBlockDifficulty and useBlockTimestamp.
-    const combinedUpdate = () =>
-      onUpdate?.({
-        difficulty: parseDifficulty(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_DIFFICULTY_CALL)),
-        timestamp: parseTimestamp(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_TIMESTAMP_CALL))
-      })
+    const { unsubscribe, value } = this.useChainCall(call, result => {
+      result && onUpdate?.(parseTimestamp(result))
+    })
 
-    // TODO: Add this.useChainCalls
-    const { unsubscribe: difficultyUnsub, value: difficultyValue } = this.useChainCall(difficultyCall, combinedUpdate)
-    const { unsubscribe: timestampUnsub, value: timestampValue } = this.useChainCall(timestampCall, combinedUpdate)
     return {
-      unsubscribe: () => {
-        difficultyUnsub?.()
-        timestampUnsub?.()
-      },
-      value: (async () => ({
-        timestamp: parseTimestamp(await timestampValue),
-        difficulty: parseDifficulty(await difficultyValue)
-      }))()
+      unsubscribe,
+      value: (async () => parseTimestamp(await value))()
+    }
+  }
+
+  useBlockDifficulty(onUpdate?: OnUpdate<BlockDifficulty>): UseChainCallResult<BlockDifficulty> {
+    if (!this.multicallAddress) return emptyChainCallResult
+    const call: ChainCall = {
+      address: this.multicallAddress,
+      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL
+    }
+
+    const { unsubscribe, value } = this.useChainCall(call, result => {
+      result && onUpdate?.(parseDifficulty(result))
+    })
+
+    return {
+      unsubscribe,
+      value: (async () => parseDifficulty(await value))()
     }
   }
 
