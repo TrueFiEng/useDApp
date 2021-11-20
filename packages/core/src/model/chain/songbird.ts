@@ -1,4 +1,4 @@
-import { Chain } from './Chain'
+import { Chain } from '../../constants/Chain'
 
 export const Songbird: Chain = {
   chainId: 19,

@@ -1,4 +1,4 @@
-import { Chain } from './Chain'
+import { Chain } from '../../constants/Chain'
 
 export const Polygon: Chain = {
   chainId: 137,

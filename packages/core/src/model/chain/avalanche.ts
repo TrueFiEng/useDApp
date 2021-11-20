@@ -1,4 +1,6 @@
-export const Avalanche = {
+import { Chain } from '../../constants/Chain'
+
+export const Avalanche: Chain = {
   chainId: 43114,
   chainName: 'Avalanche',
   isTestChain: false,
