@@ -59,9 +59,4 @@ export enum ChainId {
   MoonbaseAlpha = 1287,
 }
 
-export const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-DEFAULT_SUPPORTED_CHAINS.filter((network) => network.multicallAddress).map(
-  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
-)
-
 export const LOCAL_CHAINS = [Localhost.chainId, Hardhat.chainId]
