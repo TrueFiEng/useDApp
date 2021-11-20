@@ -8,8 +8,8 @@ Installation
 
 In order to use useDapp developer tools you can install it for your browser.
 
-#. Chrome Web Store (not available yet)
-#. Firefox Add-ons (not available yet)
+#. Chrome Web Store 
+#. Firefox Add-ons 
 
 Alternatively you can built it from source and manually install it.
 
