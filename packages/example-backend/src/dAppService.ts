@@ -20,8 +20,8 @@ import {
 } from '@usedapp/core'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { State } from 'reactive-properties'
-import { synchronized } from '@dxos/async';
-import { latch } from './util';
+import { synchronized } from '@dxos/async'
+import { latch } from './util'
 
 export type BlockNumber = ReturnType<typeof useBlockNumber>
 export type BlockMeta = ReturnType<typeof useBlockMeta>
@@ -29,6 +29,12 @@ export type EtherBalance = ReturnType<typeof useEtherBalance>
 export type TokenBalance = ReturnType<typeof useTokenBalance>
 
 export type OnUpdate<T> = (newValue: T) => void | Promise<void>
+export interface UseChainCallResult<T = string | undefined> {
+  unsubscribe: () => void
+  value: undefined | Promise<T>
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const emptyChainCallResult: UseChainCallResult<any> = { unsubscribe: () => {}, value: undefined }
 
 export class DAppService {
   private _refreshing = false
@@ -95,7 +101,7 @@ export class DAppService {
       this._chainState.set(newState)
 
       console.log('Refresh completed.')
-    } catch (e: any) {
+    } catch (e) {
       // This is a hackathon so no proper error handling.
       console.error('Refresh failed.')
       console.error(e)
@@ -122,79 +128,109 @@ export class DAppService {
   @synchronized
   protected removeCall(call: ChainCall) {
     const chainCalls = this._chainCalls.get()
-    const index = chainCalls.findIndex((x) => x.address === call.address && x.data === call.data)
+    const index = chainCalls.findIndex(x => x.address === call.address && x.data === call.data)
     if (index !== -1) {
       this._chainCalls.set(chainCalls.filter((_, i) => i !== index))
     }
   }
 
-  protected useChainCall(call: ChainCall, onUpdate: OnUpdate<string | undefined>) {
+  protected useChainCall(call: ChainCall, onUpdate?: OnUpdate<string | undefined>): UseChainCallResult {
+    const [value, setValue] = latch<string | undefined>()
     this.addCall(call)
 
-    const unsub = this.useChainState(call.address, call.data, onUpdate)
-
-    return () => {
-      unsub()
-      this.removeCall(call)
-    }
-  }
-
-  protected useContractCall<T>(contractCall: ContractCall, onUpdate: OnUpdate<T>) {
-    const call = encodeCallData(contractCall)
-    if (!call) return
-
-    return this.useChainCall(call, (result) => {
-      result && onUpdate(contractCall.abi.decodeFunctionResult(contractCall.method, result)[0])
+    const unsub = this.useChainState(call.address, call.data, result => {
+      setValue(result)
+      onUpdate?.(result)
     })
+
+    return {
+      unsubscribe: () => {
+        unsub()
+        this.removeCall(call)
+      },
+      value
+    }
   }
 
-  useBlockMeta(onUpdate: OnUpdate<BlockMeta>) {
-    if (!this.multicallAddress) return
-    const call1: ChainCall = {
-      address: this.multicallAddress,
-      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL,
+  protected useContractCall<T>(contractCall: ContractCall, onUpdate?: OnUpdate<T>): UseChainCallResult<T> {
+    const [value, setValue] = latch<T>()
+    const call = encodeCallData(contractCall)
+    if (!call) return emptyChainCallResult
+
+    const { unsubscribe } = this.useChainCall(call, result => {
+      const decoded: T | undefined = result
+        ? contractCall.abi.decodeFunctionResult(contractCall.method, result)[0]
+        : undefined
+      if (decoded !== undefined) {
+        setValue(decoded)
+        onUpdate?.(decoded)
+      }
+    })
+
+    return {
+      unsubscribe,
+      value
     }
-    const call2: ChainCall = {
+  }
+
+  useBlockMeta(onUpdate?: OnUpdate<BlockMeta>): UseChainCallResult<BlockMeta> {
+    if (!this.multicallAddress) return emptyChainCallResult
+    const difficultyCall: ChainCall = {
       address: this.multicallAddress,
-      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL,
+      data: GET_CURRENT_BLOCK_DIFFICULTY_CALL
+    }
+    const timestampCall: ChainCall = {
+      address: this.multicallAddress,
+      data: GET_CURRENT_BLOCK_TIMESTAMP_CALL
     }
 
     // useBlockMeta is a hook that really combines two hooks, useBlockDifficulty and useBlockTimestamp.
-    const combinedUpdate = () => onUpdate({
-      difficulty: parseDifficulty(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_DIFFICULTY_CALL)),
-      timestamp: parseTimestamp(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_TIMESTAMP_CALL)),
-    })
-    
+    const combinedUpdate = () =>
+      onUpdate?.({
+        difficulty: parseDifficulty(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_DIFFICULTY_CALL)),
+        timestamp: parseTimestamp(this.chainState(this.multicallAddress, GET_CURRENT_BLOCK_TIMESTAMP_CALL))
+      })
+
     // TODO: Add this.useChainCalls
-    const unsub1 = this.useChainCall(call1, combinedUpdate)
-    const unsub2 = this.useChainCall(call2, combinedUpdate)
-    return () => {
-      unsub1?.()
-      unsub2?.()
+    const { unsubscribe: difficultyUnsub, value: difficultyValue } = this.useChainCall(difficultyCall, combinedUpdate)
+    const { unsubscribe: timestampUnsub, value: timestampValue } = this.useChainCall(timestampCall, combinedUpdate)
+    return {
+      unsubscribe: () => {
+        difficultyUnsub?.()
+        timestampUnsub?.()
+      },
+      value: (async () => ({
+        timestamp: parseTimestamp(await timestampValue),
+        difficulty: parseDifficulty(await difficultyValue)
+      }))()
     }
   }
 
-  useEtherBalance(address: string, onUpdate: OnUpdate<EtherBalance>) {
-    if (!this.multicallAddress) return
+  useEtherBalance(address: string, onUpdate?: OnUpdate<EtherBalance>): UseChainCallResult<EtherBalance> {
+    if (!this.multicallAddress) return emptyChainCallResult
     const contractCall: ContractCall = {
       abi: MultiCallABI,
       address: this.multicallAddress,
       method: 'getEthBalance',
-      args: [address],
+      args: [address]
     }
 
     return this.useContractCall(contractCall, onUpdate)
   }
 
-  useTokenBalance(tokenAddress: string, address: string, onUpdate: OnUpdate<TokenBalance>) {
-    if (!this.multicallAddress) return
+  useTokenBalance(
+    tokenAddress: string,
+    address: string,
+    onUpdate?: OnUpdate<TokenBalance>
+  ): UseChainCallResult<TokenBalance> {
+    if (!this.multicallAddress) return emptyChainCallResult
     const contractCall: ContractCall = {
       abi: ERC20Interface,
       address: tokenAddress,
       method: 'balanceOf',
-      args: [address],
+      args: [address]
     }
-    
+
     return this.useContractCall(contractCall, onUpdate)
   }
 }

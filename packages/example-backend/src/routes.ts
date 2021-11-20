@@ -1,7 +1,6 @@
 import { formatEther } from '@ethersproject/units'
 import { FastifyInstance, RouteShorthandOptions } from 'fastify'
-import { BlockMeta, DAppService, EtherBalance } from './dAppService'
-import { latch } from './util'
+import { DAppService } from './dAppService'
 
 export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   const opts: RouteShorthandOptions = {
@@ -11,12 +10,12 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
           type: 'object',
           properties: {
             pong: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
+              type: 'string'
+            }
+          }
+        }
+      }
+    }
   }
 
   server.get('/ping', opts, async () => {
@@ -29,22 +28,18 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   })
 
   server.get('/blockmeta', async () => {
-    const [value, setValue] = latch<BlockMeta>()
-
-    const unsub = dAppService.useBlockMeta(setValue)
+    const { unsubscribe, value } = dAppService.useBlockMeta()
     const blockMeta = await value
-    unsub?.()
+    unsubscribe?.()
 
     return { ...blockMeta }
   })
 
   const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
   server.get('/balance', async () => {
-    const [value, setValue] = latch<EtherBalance>()
-
-    const unsub = dAppService.useEtherBalance(STAKING_CONTRACT, setValue)
+    const { unsubscribe, value } = dAppService.useEtherBalance(STAKING_CONTRACT)
     const balance = await value
-    unsub?.()
+    unsubscribe?.()
 
     return { eth2StakingContract: balance ? formatEther(balance) : undefined }
   })
