@@ -1,6 +1,6 @@
 import { formatEther } from '@ethersproject/units'
 import { FastifyInstance, RouteShorthandOptions } from 'fastify'
-import { DAppService } from './dAppService'
+import type { DAppService } from '@usedapp/core'
 
 export const routes = (server: FastifyInstance, dAppService: DAppService) => {
   const opts: RouteShorthandOptions = {
@@ -10,12 +10,12 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
           type: 'object',
           properties: {
             pong: {
-              type: 'string'
-            }
-          }
-        }
-      }
-    }
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   }
 
   server.get('/ping', opts, async () => {
@@ -31,7 +31,10 @@ export const routes = (server: FastifyInstance, dAppService: DAppService) => {
     const { unsubscribe: unsubDifficulty, value: difficulty } = dAppService.useBlockDifficulty()
     const { unsubscribe: unsubTimestamp, value: timestamp } = dAppService.useBlockTimestamp()
 
-    const result = { difficulty: await difficulty, timestamp: await timestamp }
+    const result = {
+      difficulty: (await difficulty)?.toString(),
+      timestamp: (await timestamp)?.toLocaleString(),
+    }
     unsubDifficulty?.()
     unsubTimestamp?.()
 

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, ReactNode } from 'react'
+import { useEffect, ReactNode } from 'react'
 import { DAppService } from '.'
 import { useConfig } from '..'
 import { ChainId } from '../..'

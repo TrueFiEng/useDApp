@@ -79,7 +79,7 @@ export class DAppServiceBase {
       if (!blockNumber || !this.multicallAddress) return
       const chainCalls = this._chainCalls.get()
       const uniqueCalls = getUnique(chainCalls)
-      if ((this._lastProcessedBlock ?? 0 >= blockNumber) && this._lastProcessedCalls === JSON.stringify(uniqueCalls)) {
+      if ((this._lastProcessedBlock ?? 0) >= blockNumber && this._lastProcessedCalls === JSON.stringify(uniqueCalls)) {
         // The state for this block number and exactly these calls has already been updated.
         return
       }

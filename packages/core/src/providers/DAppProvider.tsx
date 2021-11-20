@@ -46,9 +46,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>
               <TransactionProvider>
-                <DAppServiceProvider>
-                  {children}
-                </DAppServiceProvider>
+                <DAppServiceProvider>{children}</DAppServiceProvider>
               </TransactionProvider>
             </NotificationsProvider>
           </ChainStateProvider>
