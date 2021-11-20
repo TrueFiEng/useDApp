@@ -12,4 +12,14 @@ export const Moonriver: Chain = {
     `https://blockscout.moonriver.moonbeam.network/tx/${transactionHash}/internal-transactions`,
 }
 
+export const MoonbaseAlpha: Chain = {
+  chainId: 1287,
+  chainName: 'Moonbase Alpha',
+  isTestChain: true,
+  isLocalChain: false,
+  MULTICALL_ADDRESS: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
+  getExplorerAddressLink: (address: string) => `https://moonbase.moonscan.io/address/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://moonbase.moonscan.io/tx/${transactionHash}`,
+}
+
 export default { Moonriver }

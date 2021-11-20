@@ -1,18 +1,20 @@
 import { Localhost, Hardhat } from '../model/chain/local'
-import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
-import { BSC, BSCTestnet } from '../model/chain/bsc'
-import { xDai } from '../model/chain/xdai'
-import { Polygon, Mumbai } from '../model/chain/polygon'
-import { Theta, ThetaTestnet } from '../model/chain/theta'
-import { Moonriver } from '../model/chain/moonriver'
-import { Harmony } from '../model/chain/harmony'
-import { Palm } from '../model/chain/palm'
-import { Fantom } from '../model/chain/fantom'
 import { Avalanche } from '../model/chain/avalanche'
+import { BSC, BSCTestnet } from '../model/chain/bsc'
+import { Fantom } from '../model/chain/fantom'
+import { Harmony } from '../model/chain/harmony'
+import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
+import { Moonriver, MoonbaseAlpha } from '../model/chain/moonriver'
+import { Palm } from '../model/chain/palm'
+import { Polygon, Mumbai } from '../model/chain/polygon'
+import { Songbird } from '../model/chain/songbird'
+import { Theta, ThetaTestnet } from '../model/chain/theta'
+import { xDai } from '../model/chain/xdai'
 
 export const SUPPORT_NETWORKS = [
   Localhost,
   Hardhat,
+  Avalanche,
   Mainnet,
   Ropsten,
   Rinkeby,
@@ -20,16 +22,17 @@ export const SUPPORT_NETWORKS = [
   Kovan,
   BSC,
   BSCTestnet,
-  xDai,
+  Fantom,
+  Harmony,
+  Moonriver,
+  MoonbaseAlpha,
+  Palm,
   Polygon,
   Mumbai,
+  Songbird,
   Theta,
   ThetaTestnet,
-  Moonriver,
-  Harmony,
-  Palm,
-  Fantom,
-  Avalanche,
+  xDai,
 ]
 
 export enum ChainId {
