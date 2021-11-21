@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { chainStateReducer, State } from '../../src/providers/chainState/chainStateReducer'
-import { ChainId } from '../../src'
+import { Mainnet } from '../../src'
 
 describe('chainStateReducer', () => {
   const ADDRESS_A = '0x' + 'a'.repeat(40)
@@ -9,7 +9,7 @@ describe('chainStateReducer', () => {
 
   it('ignores updates from older blocks', () => {
     const state: State = {
-      [ChainId.Mainnet]: {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
@@ -20,7 +20,7 @@ describe('chainStateReducer', () => {
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
-      chainId: ChainId.Mainnet,
+      chainId: Mainnet.chainId,
       blockNumber: 1233,
       state: {
         [ADDRESS_A]: {
@@ -33,7 +33,7 @@ describe('chainStateReducer', () => {
 
   it('overwrites with updates from newer blocks', () => {
     const state: State = {
-      [ChainId.Mainnet]: {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
@@ -44,7 +44,7 @@ describe('chainStateReducer', () => {
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
-      chainId: ChainId.Mainnet,
+      chainId: Mainnet.chainId,
       blockNumber: 1235,
       state: {
         [ADDRESS_B]: {
@@ -53,7 +53,7 @@ describe('chainStateReducer', () => {
       },
     })
     const expected: State = {
-      [ChainId.Mainnet]: {
+      [Mainnet.chainId]: {
         blockNumber: 1235,
         state: {
           [ADDRESS_B]: {
@@ -77,7 +77,7 @@ describe('chainStateReducer', () => {
     // the user would need to wait for the next block to see their data.
     // To prevent this we merge the state for updates from the same block.
     const state: State = {
-      [ChainId.Mainnet]: {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
@@ -91,7 +91,7 @@ describe('chainStateReducer', () => {
     }
     const result = chainStateReducer(state, {
       type: 'FETCH_SUCCESS',
-      chainId: ChainId.Mainnet,
+      chainId: Mainnet.chainId,
       blockNumber: 1234,
       state: {
         [ADDRESS_A]: {
@@ -103,7 +103,7 @@ describe('chainStateReducer', () => {
       },
     })
     const expected: State = {
-      [ChainId.Mainnet]: {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {

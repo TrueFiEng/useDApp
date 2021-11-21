@@ -1,16 +1,27 @@
-import { Localhost, Hardhat } from '../model/chain/local'
 // organize imports in alphabet order to sparse the conflict when adding a new chain
-import { Avalanche } from '../model/chain/avalanche'
-import { BSC, BSCTestnet } from '../model/chain/bsc'
-import { Fantom } from '../model/chain/fantom'
-import { Harmony } from '../model/chain/harmony'
-import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
-import { Moonriver, MoonbaseAlpha } from '../model/chain/moonriver'
-import { Palm } from '../model/chain/palm'
-import { Polygon, Mumbai } from '../model/chain/polygon'
-import { Songbird } from '../model/chain/songbird'
-import { Theta, ThetaTestnet } from '../model/chain/theta'
-import { xDai } from '../model/chain/xdai'
+import {
+  Localhost,
+  Hardhat,
+  Avalanche,
+  BSC,
+  BSCTestnet,
+  Fantom,
+  Harmony,
+  Mainnet,
+  Ropsten,
+  Rinkeby,
+  Goerli,
+  Kovan,
+  Moonriver,
+  MoonbaseAlpha,
+  Palm,
+  Polygon,
+  Mumbai,
+  Songbird,
+  Theta,
+  ThetaTestnet,
+  xDai,
+} from '../model'
 
 // rough alphabet order (put network from the same chain together)
 export const DEFAULT_SUPPORTED_CHAINS = [

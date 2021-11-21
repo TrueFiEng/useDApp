@@ -18,10 +18,12 @@ Provides basic services for a DApp. It combines the following components: ``<Con
 
 .. code-block:: jsx
 
+  import { Mainnet, DAppProvider } from '@usedapp/core'
+
   const config = {
-    readOnlyChainId: ChainId.Mainnet,
+    readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
-      [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+      [Mainnet.chainId]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
     },
   }
 
@@ -596,7 +598,7 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
   {
     ...
     readOnlyUrls: {
-      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
+      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
     }
   }
 
@@ -613,6 +615,8 @@ List of intended supported chain configs. If a user tries to connect to an unsup
 
 ***Default value:***
 ``[Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]``
+
+Check the full list in https://github.com/EthWorks/useDApp/tree/master/packages/core/src/model/chain
 
 **pollingInterval**
 Polling interval for a new block.
@@ -799,8 +803,13 @@ Enum that represents chain ids.
 Helpers
 *******
 
-getExplorerAddressLink
-======================
+getExplorerAddressLink (deprecated)
+====================================
+
+> can call with Chain directly, ex:
+> import { Mainnet } from '@usedapp/core'
+> Mainnet.getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
+> // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
 Returns URL to blockchain explorer for an address on a given chain.
 
@@ -814,21 +823,26 @@ Returns URL to blockchain explorer for an address on a given chain.
 
 .. code-block:: javascript
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
   // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
   // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
   // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
-    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)
+    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
   // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
 
 
-getExplorerTransactionLink
-==========================
+getExplorerTransactionLink (deprecated)
+==========================================
+
+> can call with Chain directly, ex:
+> import { Mainnet } from '@usedapp/core'
+> Mainnet.getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
+> // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
 Returns URL to blockchain explorer for a transaction hash on a given chain.
 
@@ -841,23 +855,27 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
 
 .. code-block:: javascript
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Mainnet)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
   // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Ropsten)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
   // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.xDai)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
   // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
-   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', ChainId.Harmony)
+   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
   // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-getChainName
-============
+getChainName (deprecated)
+================================
+
+> can call with Chain directly, ex:
+> import { Mainnet } from '@usedapp/core'
+> Mainnet.chainName
+> // Mainnet
 
 Returns name of a chain for a given `chainId`.
-
 
 **Parameters**
 
@@ -867,16 +885,23 @@ Returns name of a chain for a given `chainId`.
 
 .. code-block:: javascript
 
-  getChainName(ChainId.Mainnet) // Mainnet
-  getChainName(ChainId.Ropsten) // Ropsten
-  getChainName(ChainId.xDai)    // xDai
-  getChainName(ChainId.Theta) // Theta
-  getChainName(ChainId.Harmony) // Harmony
-  getChainName(ChainId.Moonriver) // Moonriver
-  getChainName(ChainId.Fantom) // Fantom
+  getChainName(Mainnet.chainID) // Mainnet
+  getChainName(Ropsten.chainID) // Ropsten
+  getChainName(xDai.chainID)    // xDai
+  getChainName(Theta.chainID) // Theta
+  getChainName(Harmony.chainID) // Harmony
+  getChainName(Moonriver.chainID) // Moonriver
+  getChainName(Fantom.chainID) // Fantom
 
-isTestChain
-===========
+isTestChain (deprecated)
+=========================
+
+> can call with Chain directly, ex:
+> import { Mainnet } from '@usedapp/core'
+> Mainnet.isTestChain
+> // false
+> Ropsten.isTestChain
+> // true
 
 Returns if a given chain is a testnet.
 
@@ -888,9 +913,9 @@ Returns if a given chain is a testnet.
 
 .. code-block:: javascript
 
-  isTestChain(ChainId.Mainnet) // false
-  isTestChain(ChainId.Ropsten) // true
-  isTestChain(ChainId.xDai)    // false
+  isTestChain(Mainnet.chainId) // false
+  isTestChain(Ropsten.chainId) // true
+  isTestChain(xDai.chainId)    // false
 
 shortenAddress
 ==============

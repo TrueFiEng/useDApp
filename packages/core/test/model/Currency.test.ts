@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { AddressZero } from '@ethersproject/constants'
-import { ChainId, Currency, FiatCurrency, NativeCurrency, Token } from '../../src'
+import { Mainnet, Currency, FiatCurrency, NativeCurrency, Token } from '../../src'
 
 describe('Currency', () => {
   it('can be constructed', () => {
@@ -21,13 +21,13 @@ describe('Currency', () => {
   })
 
   it('NativeCurrency', () => {
-    const ether = new NativeCurrency('Ether', 'ETH', ChainId.Mainnet)
+    const ether = new NativeCurrency('Ether', 'ETH', Mainnet.chainId)
     const formatted = ether.format('123'.concat('0'.repeat(18)))
     expect(formatted).to.equal('123 ETH')
   })
 
   it('Token', () => {
-    const token = new Token('Fake Dai', 'FDI', ChainId.Mainnet, AddressZero)
+    const token = new Token('Fake Dai', 'FDI', Mainnet.chainId, AddressZero)
     const formatted = token.format('123'.concat('0'.repeat(18)))
     expect(formatted).to.equal('123 FDI')
   })

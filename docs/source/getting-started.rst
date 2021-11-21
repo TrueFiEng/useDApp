@@ -29,13 +29,13 @@ Below is a simple example:
 
 .. code-block:: javascript
 
-  import { ChainId, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
+  import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
   import { formatEther } from '@ethersproject/units'
 
   const config: Config = {
-    readOnlyChainId: ChainId.Mainnet,
+    readOnlyChainId: Mainnet.chainID,
     readOnlyUrls: {
-      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
   }
 
