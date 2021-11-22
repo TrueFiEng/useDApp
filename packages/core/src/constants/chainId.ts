@@ -2,7 +2,7 @@ import { Localhost, Hardhat } from '../model/chain/local'
 // organize imports in alphabet order to sparse the conflict when adding a new chain
 import { Avalanche } from '../model/chain/avalanche'
 import { BSC, BSCTestnet } from '../model/chain/bsc'
-import { Fantom } from '../model/chain/fantom'
+import { Fantom, FantomTestnet } from '../model/chain/fantom'
 import { Harmony } from '../model/chain/harmony'
 import { Mainnet, Ropsten, Rinkeby, Goerli, Kovan } from '../model/chain/ethereum'
 import { Moonriver, MoonbaseAlpha } from '../model/chain/moonriver'
