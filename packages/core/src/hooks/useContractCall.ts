@@ -1,6 +1,6 @@
 import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
-import { Falsy } from '../model/types'
+import { ContractMethodNames, Falsy, Params, TypedContract, Awaited } from '../model/types'
 import { useChainCalls } from './useChainCalls'
 import { ChainCall } from '../providers/chainState/callsReducer'
 
@@ -28,6 +28,45 @@ export interface ContractCall {
   address: string
   method: string
   args: any[]
+}
+
+export function useTypedContractCall<T extends TypedContract, MN extends ContractMethodNames<T>>(call: {
+  contract: T
+  method: MN
+  args: Params<T, MN>
+}): Awaited<ReturnType<T['functions'][MN]>> | undefined {
+  let contractCall: ContractCall | Falsy
+  if (call.contract) {
+    contractCall = {
+      abi: call.contract.interface,
+      address: call.contract.address,
+      method: call.method,
+      args: call.args,
+    }
+  }
+  return useContractCall(contractCall) as any
+}
+
+export function useTypedContractCalls<T extends TypedContract, MN extends ContractMethodNames<T>>(
+  calls: {
+    contract: T
+    method: MN
+    args: Params<T, MN>
+  }[]
+): Awaited<ReturnType<T['functions'][MN]>> | undefined[] {
+  const contractCalls: (ContractCall | Falsy)[] = calls.map((call) => {
+    if (call.contract) {
+      return {
+        abi: call.contract.interface,
+        address: call.contract.address,
+        method: call.method,
+        args: call.args,
+      }
+    } else {
+      return undefined
+    }
+  })
+  return useContractCalls(contractCalls) as any
 }
 
 export function useContractCall(call: ContractCall | Falsy): any[] | undefined {

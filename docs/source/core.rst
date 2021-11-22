@@ -107,6 +107,49 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 - ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
+.. _useTypedContractCall-label:
+
+useTypedContractCall
+===============
+
+For type checking see :ref:`typeChecking-label`
+
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useChainCall`_ that uses Contract, function name, and arguments instead of raw data.
+
+
+**Parameters**
+
+- ``call: {contract, method, args}`` - An object of call data:
+    - contract can be either ethers or typechain contract if contract is a typechain type then method and args are type checked
+    - method string representing a contract method
+    - args array of arguments
+
+**Returns**
+
+- ``any[] | undefined`` - the result of a call or undefined if call didn't return yet the results are typed if typechain contract is used in parameters
+
+.. _useTypedContractCalls-label:
+
+useTypedContractCalls
+===============
+
+For type checking see :ref:`typeChecking-label`
+
+Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useChainCall`_ that uses Contract, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``call: {contract, method, args}[]`` - Array with an objects of call data:
+    - contract can be either ethers or typechain contract if contract is a typechain type then method and args are type checked
+    - method string representing a contract method
+    - args array of arguments
+
+**Returns**
+
+- ``(any[] | undefined)[]`` - array of the results of a calls or undefined if call didn't return yet the results are typed if typechain contract is used in parameters
+
 useContractCall
 ===============
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
@@ -137,6 +180,8 @@ A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments 
 
 useContractFunction
 ===================
+For type checking see :ref:`typeChecking-label`
+
 Hook returns an object with three variables: ``state`` , ``send`` and ``events``.
 
 The ``state`` represents the status of transaction. See `TransactionStatus`_.
@@ -149,7 +194,7 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
 **Parameters**
 
-- ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
+- ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_ if a typechain generated contract is used then function name is type checked
 - ``functionName: string`` - name of function to call
 - ``options?: Options`` - additional options of type `TransactionOptions`_.
 

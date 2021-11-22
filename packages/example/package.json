@@ -3,8 +3,9 @@
   "version": "0.2.10",
   "private": true,
   "scripts": {
+    "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./contracts",
     "start": "webpack serve --mode development",
-    "build": "tsc --noEmit && rimraf build && webpack --mode production --progress",
+    "build": "yarn typechain:generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@testing-library/react": "^11.0.0",
+    "@typechain/ethers-v5": "^8.0.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
@@ -36,6 +38,7 @@
     "rimraf": "^3.0.2",
     "speed-measure-webpack-plugin": "^1.5.0",
     "ts-loader": "^8.0.7",
+    "typechain": "^6.0.3",
     "typescript": "^4.0.0",
     "webpack": "^4.44.2",
     "webpack-bundle-analyzer": "^4.4.0",

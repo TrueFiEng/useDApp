@@ -462,6 +462,48 @@ For example :
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
 
+.. typeChecking-label:
+
+Using typed contract calls and functions
+****************************************
+
+:ref:`useContractFunction-label` accepts as first parameter both ethers `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_ and typechain generated contract `typechain <https://github.com/dethcrypto/TypeChain>`_ (which extends ethers contract with function types).
+If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
+
+The same is true for :ref:`_useTypedContractCall-label` and :ref:`_useTypedContractCalls-label`.
+
+If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
+
+Example
+=======
+
+To use typechain packages typechain and @typechain/ethers-v5 need to be added to repository.
+
+After that typechain contracts can be generated from json abi with following command
+
+```
+yarn typechain --target=ethers-v5 [path to json files] --out-dir=[outdir]
+```
+
+With that type checking can be used in functions
+
+```
+import { Weth10 } from '../../../contracts'
+import WethAbi from '../../abi/Weth10.json'
+
+const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+
+const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+const [balance] = useTypedContractCall({contract: contract, method:'balanceOf', args:[account ?? '']}) ?? []
+```
+
+With that ``balance`` and ``state`` will also be properly typed.
+
+Contract can also be typecasted inside ``useTypedContractCall``:
+
+```
+const [balance] = useTypedContractCall({contract: contract as Weth10, method:'balanceOf', args:[account ?? '']}) ?? []
+```
 
 Handling wallet activation errrors
 **********************************
