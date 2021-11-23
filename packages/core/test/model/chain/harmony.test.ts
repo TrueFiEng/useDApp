@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Harmony } from '../../../src'
 
 describe('Harmony Chain', () => {
+  it('getChainId', () => {
+    expect(Harmony.chainId).to.equal(1666600000)
+  })
+
   it('getChainName', () => {
     expect(Harmony.chainName).to.eq('Harmony')
   })

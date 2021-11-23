@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { xDai } from '../../../src'
 
 describe('xDai Chain', () => {
+  it('getChainId', () => {
+    expect(xDai.chainId).to.equal(100)
+  })
+
   it('getChainName', () => {
     expect(xDai.chainName).to.eq('xDai')
   })

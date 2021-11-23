@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Avalanche } from '../../../src'
 
 describe('Avalanche Chain', () => {
+  it('getChainId', () => {
+    expect(Avalanche.chainId).to.equal(43114)
+  })
+
   it('getChainName', () => {
     expect(Avalanche.chainName).to.eq('Avalanche')
   })

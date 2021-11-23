@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Palm } from '../../../src'
 
 describe('Palm Chain', () => {
+  it('getChainId', () => {
+    expect(Palm.chainId).to.equal(11297108109)
+  })
+
   it('getChainName', () => {
     expect(Palm.chainName).to.eq('Palm')
   })

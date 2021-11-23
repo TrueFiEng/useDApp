@@ -3,6 +3,14 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Mainnet, Ropsten, Kovan, Rinkeby, Goerli } from '../../../src'
 
 describe('Ethereum Chain', () => {
+  it('getChainId', () => {
+    expect(Mainnet.chainId).to.equal(1)
+    expect(Ropsten.chainId).to.equal(3)
+    expect(Rinkeby.chainId).to.equal(4)
+    expect(Goerli.chainId).to.equal(5)
+    expect(Kovan.chainId).to.equal(42)
+  })
+
   it('getChainName', () => {
     expect(Mainnet.chainName).to.eq('Mainnet')
     expect(Ropsten.chainName).to.eq('Ropsten')

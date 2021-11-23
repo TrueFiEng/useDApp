@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Songbird } from '../../../src'
 
 describe('Songbird Chain', () => {
+  it('getChainId', () => {
+    expect(Songbird.chainId).to.equal(19)
+  })
+
   it('getChainName', () => {
     expect(Songbird.chainName).to.eq('Songbird')
   })

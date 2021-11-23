@@ -3,6 +3,11 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Theta, ThetaTestnet } from '../../../src'
 
 describe('Theta Chain', () => {
+  it('getChainId', () => {
+    expect(Theta.chainId).to.equal(361)
+    expect(Theta.chainId).to.equal(365)
+  })
+
   it('getChainName', () => {
     expect(Theta.chainName).to.eq('Theta')
     expect(ThetaTestnet.chainName).to.eq('ThetaTestnet')

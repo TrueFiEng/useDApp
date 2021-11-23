@@ -3,6 +3,11 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Moonriver, MoonbaseAlpha } from '../../../src'
 
 describe('Moonriver Chain', () => {
+  it('getChainId', () => {
+    expect(Moonriver.chainId).to.equal(1285)
+    expect(MoonbaseAlpha.chainId).to.equal(1287)
+  })
+
   it('getChainName', () => {
     expect(Moonriver.chainName).to.eq('Moonriver')
     expect(MoonbaseAlpha.chainName).to.eq('Moonbase Alpha')

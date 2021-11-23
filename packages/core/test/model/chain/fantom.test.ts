@@ -3,6 +3,10 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Fantom } from '../../../src'
 
 describe('Fantom Chain', () => {
+  it('getChainId', () => {
+    expect(Fantom.chainId).to.equal(250)
+  })
+
   it('getChainName', () => {
     expect(Fantom.chainName).to.eq('Fantom')
   })

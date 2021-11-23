@@ -3,6 +3,11 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { Polygon, Mumbai } from '../../../src'
 
 describe('Polygon Chain', () => {
+  it('getChainId', () => {
+    expect(Polygon.chainId).to.equal(137)
+    expect(Mumbai.chainId).to.equal(80001)
+  })
+
   it('getChainName', () => {
     expect(Polygon.chainName).to.eq('Polygon')
     expect(Mumbai.chainName).to.eq('Mumbai')

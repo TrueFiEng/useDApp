@@ -3,6 +3,11 @@ import { TEST_ADDRESS, TEST_TX } from './defaults'
 import { BSC, BSCTestnet } from '../../../src'
 
 describe('BSC Chain', () => {
+  it('getChainId', () => {
+    expect(BSC.chainId).to.equal(56)
+    expect(BSCTestnet.chainId).to.equal(97)
+  })
+
   it('getChainName', () => {
     expect(BSC.chainName).to.eq('BSC')
     expect(BSCTestnet.chainName).to.eq('BSCTestnet')
