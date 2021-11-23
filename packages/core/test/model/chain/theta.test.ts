@@ -5,7 +5,7 @@ import { Theta, ThetaTestnet } from '../../../src'
 describe('Theta Chain', () => {
   it('getChainId', () => {
     expect(Theta.chainId).to.equal(361)
-    expect(Theta.chainId).to.equal(365)
+    expect(ThetaTestnet.chainId).to.equal(365)
   })
 
   it('getChainName', () => {
