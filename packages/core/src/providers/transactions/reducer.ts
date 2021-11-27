@@ -1,4 +1,4 @@
-import _isNumber from 'lodash/isNumber'
+import { ChainId } from '../../constants'
 
 import { StoredTransaction, StoredTransactions } from './model'
 
@@ -10,12 +10,12 @@ interface AddTransaction {
 }
 interface UpdateTransactions {
   type: 'UPDATE_TRANSACTIONS'
-  chainId: number
+  chainId: ChainId
   transactions: StoredTransaction[]
 }
 
-function isChainId(chainId: number): chainId is number {
-  return _isNumber(chainId)
+function isChainId(chainId: number): chainId is ChainId {
+  return Object.values(ChainId).includes(chainId)
 }
 
 export function transactionReducer(state: StoredTransactions, action: Action): StoredTransactions {

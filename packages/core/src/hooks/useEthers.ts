@@ -18,7 +18,7 @@ export function useEthers(): Web3Ethers {
   const { networks } = useConfig()
   const activateBrowserWallet = useCallback<ActivateBrowserWallet>(
     async (onError, throwErrors) => {
-      const injected = new InjectedConnector({ supportedChainIds: networks.map((network) => network.chainId) })
+      const injected = new InjectedConnector({ supportedChainIds: networks?.map((network) => network.chainId) })
       if (onError instanceof Function) {
         await result.activate(injected, onError, throwErrors)
       } else {

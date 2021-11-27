@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { Config } from '../constants'
+import { ReactNode, useMemo } from 'react'
+import { Config, Chain } from '../constants'
 import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
@@ -27,11 +27,16 @@ interface WithConfigProps {
   children: ReactNode
 }
 
+const getMulticallAddresses = (networks: Chain[] | undefined) => {
+  const result: { [index: number]: string } = {}
+  networks?.map((network) => (result[network.chainId] = network.multicallAddress))
+  return result
+}
+
 function DAppProviderWithConfig({ children }: WithConfigProps) {
   const { multicallAddresses, networks } = useConfig()
-  const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-  networks.map((network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress))
-  const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
+  const defaultAddresses = useMemo(() => getMulticallAddresses(networks), [networks])
+  const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
     <EthersProvider>

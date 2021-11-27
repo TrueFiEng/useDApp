@@ -3,27 +3,30 @@ import { DEFAULT_SUPPORTED_CHAINS, ChainId } from '../constants'
 export const getChainById = (chainId: ChainId) =>
   DEFAULT_SUPPORTED_CHAINS.find((network) => network.chainId === chainId)
 
+const deprecationWarning = (methodName: string) =>
+  console.warn(`${methodName} is deprecated, can call with Chain directly`)
+
 export const getExplorerAddressLink = (address: string, chainId: ChainId): string | '' => {
-  console.warn('getExplorerAddressLink is deprecated, can call with Chain directly')
+  deprecationWarning('getExplorerAddressLink')
   return getChainById(chainId)?.getExplorerAddressLink(address) || ''
 }
 
 export const getExplorerTransactionLink = (transactionHash: string, chainId: ChainId): string | '' => {
-  console.warn('getExplorerTransactionLink is deprecated, can call with Chain directly')
+  deprecationWarning('getExplorerTransactionLink')
   return getChainById(chainId)?.getExplorerTransactionLink(transactionHash) || ''
 }
 
 export const getChainName = (chainId: ChainId) => {
-  console.warn('getChainName is deprecated, can call with Chain directly')
+  deprecationWarning('getChainName')
   return getChainById(chainId)?.chainName || ''
 }
 
 export const isTestChain = (chainId: ChainId) => {
-  console.warn('isTestChain is deprecated, can call with Chain directly')
+  deprecationWarning('isTestChain')
   return getChainById(chainId)?.isTestChain || false
 }
 
 export const isLocalChain = (chainId: ChainId) => {
-  console.warn('isLocalChain is deprecated, can call with Chain directly')
+  deprecationWarning('isLocalChain')
   return getChainById(chainId)?.isLocalChain || false
 }
