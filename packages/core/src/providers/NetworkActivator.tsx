@@ -6,12 +6,12 @@ import { useConfig } from './config/context'
 
 export function NetworkActivator() {
   const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
-  const { supportedChains, networks, readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
+  const { networks, readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
 
   useEffect(() => {
     const eagerConnect = async () => {
       const injected = new InjectedConnector({
-        supportedChainIds: supportedChains || networks?.map((network) => network.chainId),
+        supportedChainIds: networks?.map((network) => network?.chainId) || [],
       })
       if (await injected.isAuthorized()) {
         activate(injected)
