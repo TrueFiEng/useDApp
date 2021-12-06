@@ -11,13 +11,14 @@ To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``r
 See example configuration below:
 
 .. code-block:: javascript
- 
+  import { Mainnet } from '@usedapp/core'
+
   const config = {
-    readOnlyChainId: ChainId.Mainnet,
+    readOnlyChainId: Mainnet.chainID,
     readOnlyUrls: {
-      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
-  } 
+  }
 
 
 Browser wallet
@@ -73,11 +74,12 @@ When wallet is connected additionally it shows user's account along with it's ba
 Example is available `here <https://example.usedapp.io/balance>`_.
 
 .. code-block:: javascript
+  import { Mainnet } from '@usedapp/core'
 
   const config = {
-    readOnlyChainId: ChainId.Mainnet,
+    readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
-      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
   }
 
@@ -99,7 +101,6 @@ Example is available `here <https://example.usedapp.io/balance>`_.
       <div>
         {!account && <button onClick={activateBrowserWallet}> Connect </button>}
         {account && <button onClick={deactivate}> Disconnect </button>}
-      
         {stakingBalance && <p>ETH2 staking balance: {formatEther(stakingBalance)} ETH </p>}
         {account && <p>Account: {account}</p>}
         {userBalance && <p>Ether balance: {formatEther(userBalance)} ETH </p>}

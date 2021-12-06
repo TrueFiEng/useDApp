@@ -1,4 +1,5 @@
 import { ChainId } from '../../constants'
+
 import { StoredTransaction, StoredTransactions } from './model'
 
 type Action = AddTransaction | UpdateTransactions

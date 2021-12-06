@@ -19,10 +19,12 @@ Combines the best practices:
 ## Example
 
 ```tsx
+import { Mainnet } from '@usedapp/core/modal/chain/ethereum'
+
 const config = {
-  readOnlyChainId: ChainId.Mainnet,
+  readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
   },
 }
 
@@ -44,7 +46,6 @@ export function App() {
     <div>
       {!account && <button onClick={activateBrowserWallet}> Connect </button>}
       {account && <button onClick={deactivate}> Disconnect </button>}
-    
       {stakingBalance && <p>ETH2 staking balance: {formatEther(stakingBalance)} ETH </p>}
       {account && <p>Account: {account}</p>}
       {userBalance && <p>Ether balance: {formatEther(userBalance)} ETH </p>}
