@@ -1,5 +1,16 @@
 # @usedapp/example
 
+## 0.2.11
+
+### Patch Changes
+
+- 2f37156: 🛷 Add useTokenList
+- Updated dependencies [45a6dc2]
+- Updated dependencies [2f37156]
+- Updated dependencies [2f37156]
+  - @usedapp/core@0.7.0
+  - @usedapp/coingecko@0.3.26
+
 ## 0.2.10
 
 ### Patch Changes

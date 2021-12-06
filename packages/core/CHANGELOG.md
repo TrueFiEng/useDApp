@@ -1,5 +1,16 @@
 # @usedapp/core
 
+## 0.7.0
+
+### Minor Changes
+
+- 2f37156: Replace supportedChains with networks in config (#411)
+
+### Patch Changes
+
+- 45a6dc2: Remove warnings when falsy call is passed to useContractCall
+- 2f37156: 🛷 Add useTokenList
+
 ## 0.6.3
 
 ### Patch Changes
