@@ -12,7 +12,7 @@ export interface StoredTransaction {
 
 export function getStoredTransactionState(transaction: StoredTransaction) {
   if (transaction.receipt) {
-    return transaction?.receipt.status === 0 ? 'Fail' : 'Success'
+    return transaction.receipt.status === 0 ? 'Fail' : 'Success'
   }
   return 'Mining'
 }
