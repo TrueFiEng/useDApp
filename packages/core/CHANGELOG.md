@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.7.1
+
+### Patch Changes
+
+- d878308: Fix can't resolve 'lodash/merge #432
+
 ## 0.7.0
 
 ### Minor Changes
