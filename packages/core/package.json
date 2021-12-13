@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
