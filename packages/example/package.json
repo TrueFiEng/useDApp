@@ -3,7 +3,7 @@
   "version": "0.2.10",
   "private": true,
   "scripts": {
-    "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./contracts",
+    "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
     "start": "webpack serve --mode development",
     "build": "yarn typechain:generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",

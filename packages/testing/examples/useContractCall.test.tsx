@@ -1,4 +1,4 @@
-import { useContractCall, useContractCalls, useTypedContractCall, useTypedContractCalls } from '@usedapp/core'
+import { useContractCall, useContractCalls } from '@usedapp/core'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
@@ -69,7 +69,7 @@ describe('useTypedContractCall', () => {
 
   it('success', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useTypedContractCall({ contract: token, method: 'balanceOf', args: [deployer.address] }),
+      () => useContractCall({ contract: token, typedMethod: 'balanceOf', typedArgs: [deployer.address] }),
       {
         mockProvider,
       }
@@ -90,7 +90,7 @@ describe('useTypedContractCalls', () => {
 
   it('success', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useTypedContractCalls([{ contract: token, method: 'balanceOf', args: [deployer.address] }]),
+      () => useContractCalls([{ contract: token, typedMethod: 'balanceOf', typedArgs: [deployer.address] }]),
       {
         mockProvider,
       }

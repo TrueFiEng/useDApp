@@ -470,7 +470,7 @@ Using typed contract calls and functions
 :ref:`useContractFunction-label` accepts as first parameter both ethers `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_ and typechain generated contract `typechain <https://github.com/dethcrypto/TypeChain>`_ (which extends ethers contract with function types).
 If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
 
-The same is true for :ref:`_useTypedContractCall-label` and :ref:`_useTypedContractCalls-label`.
+In :ref:`_useContractCall-label` and :ref:`_useContractCalls-label` if `TypedContractCall` is used as parameter then function will be type checked.
 
 If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
 
@@ -494,15 +494,15 @@ import WethAbi from '../../abi/Weth10.json'
 const contract = new Contract(wethContractAddress, wethInterface) as Weth10
 
 const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
-const [balance] = useTypedContractCall({contract: contract, method:'balanceOf', args:[account ?? '']}) ?? []
+const [balance] = useContractCall({contract: contract, typedMethod:'balanceOf', typedArgs:[account ?? '']}) ?? []
 ```
 
 With that ``balance`` and ``state`` will also be properly typed.
 
-Contract can also be typecasted inside ``useTypedContractCall``:
+Contract can also be typecasted inside ``useContractCall``:
 
 ```
-const [balance] = useTypedContractCall({contract: contract as Weth10, method:'balanceOf', args:[account ?? '']}) ?? []
+const [balance] = useContractCall({contract: contract, typedMethod:'balanceOf', typedArgs:[account ?? '']}) ?? []
 ```
 
 Handling wallet activation errrors

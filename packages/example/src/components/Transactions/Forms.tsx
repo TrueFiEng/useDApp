@@ -1,8 +1,8 @@
 import { Contract } from '@ethersproject/contracts'
 import { utils } from 'ethers'
 import React from 'react'
-import { useContractFunction, useEtherBalance, useEthers, useTokenBalance, useTypedContractCall } from '@usedapp/core'
-import { Weth10 } from '../../../contracts'
+import { useContractCall, useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
+import { Weth10 } from '../../../gen/types'
 import { TransactionForm } from './TransactionForm'
 
 import WethAbi from '../../abi/Weth10.json'
