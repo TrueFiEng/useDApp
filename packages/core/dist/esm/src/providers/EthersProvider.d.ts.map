@@ -1,0 +1,1 @@
+{"version":3,"file":"EthersProvider.d.ts","sourceRoot":"","sources":["../../../../src/providers/EthersProvider.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAE,SAAS,EAAE,MAAM,OAAO,CAAA;AAIjC,UAAU,mBAAmB;IAC3B,QAAQ,EAAE,SAAS,CAAA;IACnB,eAAe,CAAC,EAAE,MAAM,CAAA;CACzB;AAED,wBAAgB,cAAc,CAAC,EAAE,QAAQ,EAAE,eAAe,EAAE,EAAE,mBAAmB,eAOhF"}
