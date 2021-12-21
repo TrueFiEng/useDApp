@@ -22,6 +22,8 @@ import {
   Theta,
   ThetaTestnet,
   xDai,
+  OptimismKovan,
+  Optimism,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -48,6 +50,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Theta,
   ThetaTestnet,
   xDai,
+  OptimismKovan,
+  Optimism,
 ]
 
 export enum ChainId {
@@ -73,4 +77,6 @@ export enum ChainId {
   Songbird = 19,
   MoonbaseAlpha = 1287,
   Stardust = 1287
+  OptimismKovan = 69,
+  Optimism = 10,
 }
