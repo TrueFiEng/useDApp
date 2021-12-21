@@ -76,7 +76,7 @@ export enum ChainId {
   Avalanche = 43114,
   Songbird = 19,
   MoonbaseAlpha = 1287,
-  Stardust = 1287
+  Stardust = 588,
   OptimismKovan = 69,
   Optimism = 10,
 }
