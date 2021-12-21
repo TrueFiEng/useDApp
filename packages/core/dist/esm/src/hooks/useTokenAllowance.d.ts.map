@@ -1,1 +1,0 @@
-{"version":3,"file":"useTokenAllowance.d.ts","sourceRoot":"","sources":["../../../../src/hooks/useTokenAllowance.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,0BAA0B,CAAA;AAEpD,OAAO,EAAE,KAAK,EAAE,MAAM,gBAAgB,CAAA;AAGtC,wBAAgB,iBAAiB,CAC/B,YAAY,EAAE,MAAM,GAAG,KAAK,EAC5B,YAAY,EAAE,MAAM,GAAG,KAAK,EAC5B,cAAc,EAAE,MAAM,GAAG,KAAK,GAC7B,SAAS,GAAG,SAAS,CAavB"}
