@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.7.2
+
+### Patch Changes
+
+- 9786e0d: Fixed the chainId property name in the Getting Started
+
+  Add Optimism and Optimism Kovan network configurations
+
 ## 0.7.1
 
 ### Patch Changes
