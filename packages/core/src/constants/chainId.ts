@@ -81,5 +81,5 @@ export enum ChainId {
   OptimismKovan = 69,
   Optimism = 10,
   Arbitrum = 42161,
-  ArbitrumRinkeby = 421611
+  ArbitrumRinkeby = 421611,
 }

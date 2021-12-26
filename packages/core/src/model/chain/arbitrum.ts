@@ -7,8 +7,7 @@ export const ArbitrumRinkeby: Chain = {
   isLocalChain: false,
   multicallAddress: '0xd27BEFd29F8Da4E187fDAEf663aEDF7742f9F47F',
   getExplorerAddressLink: (address: string) => `https://testnet.arbiscan.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://testnet.arbiscan.io/tx/${transactionHash}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://testnet.arbiscan.io/tx/${transactionHash}`,
 }
 
 export const Arbitrum: Chain = {

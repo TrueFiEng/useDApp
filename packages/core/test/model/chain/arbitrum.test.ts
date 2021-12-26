@@ -24,9 +24,7 @@ describe('Arbitrum Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(Arbitrum.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://arbiscan.io/address/${TEST_ADDRESS}`
-    )
+    expect(Arbitrum.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://arbiscan.io/address/${TEST_ADDRESS}`)
     expect(ArbitrumRinkeby.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
       `https://testnet.arbiscan.io/address/${TEST_ADDRESS}`
     )
@@ -34,8 +32,6 @@ describe('Arbitrum Chain', () => {
 
   it('getExplorerTransactionLink', () => {
     expect(Arbitrum.getExplorerTransactionLink(TEST_TX)).to.eq(`https://arbiscan.io/tx/${TEST_TX}`)
-    expect(ArbitrumRinkeby.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://testnet.arbiscan.io/tx/${TEST_TX}`
-    )
+    expect(ArbitrumRinkeby.getExplorerTransactionLink(TEST_TX)).to.eq(`https://testnet.arbiscan.io/tx/${TEST_TX}`)
   })
 })
