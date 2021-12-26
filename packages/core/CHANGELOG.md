@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.7.3
+
+### Patch Changes
+
+- 99ded36: Add Arbitrum chains
+
+  Add Metis chain
+
 ## 0.7.2
 
 ### Patch Changes
