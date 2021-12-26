@@ -12,6 +12,7 @@ import {
   Rinkeby,
   Goerli,
   Kovan,
+  Stardust,
   Moonriver,
   MoonbaseAlpha,
   Palm,
@@ -39,6 +40,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   BSCTestnet,
   Fantom,
   Harmony,
+  Stardust,
   Moonriver,
   MoonbaseAlpha,
   Palm,
@@ -74,6 +76,7 @@ export enum ChainId {
   Avalanche = 43114,
   Songbird = 19,
   MoonbaseAlpha = 1287,
+  Stardust = 588,
   OptimismKovan = 69,
   Optimism = 10,
 }
