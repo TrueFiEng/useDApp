@@ -2,6 +2,8 @@
 import {
   Localhost,
   Hardhat,
+  Arbitrum,
+  ArbitrumRinkeby,
   Avalanche,
   BSC,
   BSCTestnet,
@@ -31,6 +33,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Localhost,
   Hardhat,
   Avalanche,
+  Arbitrum,
+  ArbitrumRinkeby,
   Mainnet,
   Ropsten,
   Rinkeby,
@@ -79,4 +83,6 @@ export enum ChainId {
   Stardust = 588,
   OptimismKovan = 69,
   Optimism = 10,
+  Arbitrum = 42161,
+  ArbitrumRinkeby = 421611,
 }
