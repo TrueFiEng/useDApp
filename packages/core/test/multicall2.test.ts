@@ -11,7 +11,6 @@ import { sendEmptyTx } from './utils/sendEmptyTx'
 chai.use(solidity)
 chai.use(chaiAsPromised)
 
-
 describe('Multicall2', () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
