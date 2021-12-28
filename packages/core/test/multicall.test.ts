@@ -21,10 +21,7 @@ describe('Multicall', () => {
     const args = ['MOCKToken', 'MOCK', deployer.address, '10000']
     tokenContract = await deployContract(deployer, ERC20Mock, args)
 
-    multicallContract = await deployContract((await mockProvider.getWallets())[0], {
-      bytecode: MultiCall.bytecode,
-      abi: MultiCall.abi,
-    })
+    multicallContract = await deployContract(deployer, MultiCall)
   })
 
   it('Retrieves token balance using aggregate', async () => {
