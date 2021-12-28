@@ -1,12 +1,12 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Interface } from '@ethersproject/abi'
 import { Contract } from '@ethersproject/contracts'
-import { AddressZero } from '@ethersproject/constants'
 import chai, { expect } from 'chai'
 import { deployContract, solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
 import { ChainCall, ERC20Mock, MultiCall, multicall } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
+import { sendEmptyTx } from './utils/sendEmptyTx'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
@@ -25,8 +25,6 @@ describe('Multicall', () => {
       bytecode: MultiCall.bytecode,
       abi: MultiCall.abi,
     })
-
-    await deployer.sendTransaction({ to: AddressZero })
   })
 
   it('Retrieves token balance using aggregate', async () => {
@@ -60,6 +58,7 @@ describe('Multicall', () => {
       data,
     }
 
+    await sendEmptyTx(deployer)
     const blockNumber = (await mockProvider.getBlockNumber()) - 1
     const result = await multicall(mockProvider, multicallContract.address, blockNumber, [call])
     const unwrappedResult = result[tokenContract.address]![data]
