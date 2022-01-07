@@ -1,7 +1,7 @@
 import { ChainId } from '../constants'
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
 
-export type TransactionState = 'None' | 'Mining' | 'Success' | 'Fail' | 'Exception'
+export type TransactionState = 'None' | 'PendingSignature' | 'Mining' | 'Success' | 'Fail' | 'Exception'
 
 export interface TransactionStatus {
   status: TransactionState

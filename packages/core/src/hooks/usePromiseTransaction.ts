@@ -18,6 +18,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
+        setState({ status: 'PendingSignature', chainId })
+
         transaction = await transactionPromise
 
         setState({ transaction, status: 'Mining', chainId })
