@@ -10,7 +10,7 @@
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
-    "test": "mocha",
+    "test": "mocha --exit",
     "storybook": "start-storybook -s ./static -p 6006",
     "build-storybook": "build-storybook -s ./static"
   },
