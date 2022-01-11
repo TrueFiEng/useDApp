@@ -1,5 +1,17 @@
 # @usedapp/core
 
+## 0.8.0
+
+### Minor Changes
+
+- 33ade3b: Add PendingSignature TransactionState for transactions that are pending signature. This gets set on each new transaction function call and clears out the previous error when new attempts are made.
+- ece010c: Support Node LTS v14 and v16, abandon v10 and v12
+
+### Patch Changes
+
+- 1c257ce: Use isLocalChain Chain property instead of function
+- e5f0951: Add multicall2 function
+
 ## 0.7.3
 
 ### Patch Changes

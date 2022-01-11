@@ -1,5 +1,19 @@
 # @usedapp/testing
 
+## 0.3.0
+
+### Minor Changes
+
+- ece010c: Support Node LTS v14 and v16, abandon v10 and v12
+
+### Patch Changes
+
+- Updated dependencies [33ade3b]
+- Updated dependencies [1c257ce]
+- Updated dependencies [ece010c]
+- Updated dependencies [e5f0951]
+  - @usedapp/core@0.8.0
+
 ## 0.2.12
 
 ### Patch Changes
