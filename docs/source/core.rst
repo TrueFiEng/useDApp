@@ -52,7 +52,7 @@ Stores configurations and makes them available via `useConfig`_ hook.
 
 
 <LocalMulticallProvider>
-=====================
+========================
 
 Ensures that a multicall contract address is available when developing on a local chain.
 A multicall contract will be deployed when a multicall address on a local chainID is not defined in the `Config`_.
@@ -474,7 +474,7 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
 .. _useTransactions:
 
 useTokenList
-=============
+============
 
 Fetches ERC20 token list under a given address and filters them by chain id. Optionally it can filter also by token tags.
 
@@ -525,8 +525,6 @@ If an error occurs ``undefined`` is returned.
 - Token lists: <https://uniswap.org/blog/token-lists>
 - Token list json example: <https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json>
 - ``TokenInfo`` object: <https://github.com/Uniswap/token-lists/blob/main/src/types.ts>
-
-.. _useTokenList
 
 useTransactions
 ===============
@@ -602,9 +600,9 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
     }
   }
 
-**multicallAddresses **
+**multicallAddresses**
 
-**supportedChains (deprecated) **
+**supportedChains (deprecated)**
 List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
 
 ***Default value:***
