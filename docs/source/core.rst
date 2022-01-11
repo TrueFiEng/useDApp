@@ -775,6 +775,7 @@ Fields:
 ``status`` can be one of the following:
 
 - **None** - before a transaction is created.
+- **PendingSignature** - when a transaction has been initiated, but requires signature.
 - **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
 - **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
 - **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
