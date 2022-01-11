@@ -24,7 +24,7 @@ See example configuration below:
 Browser wallet
 ==============
 
-To connect to a wallet in a web3-enabled browser, use ``activateBrowserWallet`` returned by ``useEthers()``. 
+To connect to a wallet in a web3-enabled browser, use ``activateBrowserWallet`` returned by ``useEthers()``.
 Once connected ``account`` variable will be available.
 
 See example below:
@@ -208,7 +208,7 @@ To write a test, start with a setup code that will create a mock provider and te
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
 
-Before each test, deploy an ERC20 contract. It's important as otherwise the result of one 
+Before each test, deploy an ERC20 contract. It's important as otherwise the result of one
 test could break the other one.
 
 .. code-block:: javascript
@@ -242,7 +242,7 @@ To check if the hook reads data correctly, we need to prepare it first. We appro
 To test the hook we need to render it using ``renderWeb3Hook``. It works like ``renderHook`` from the `react-testing-library <https://testing-library.com/docs/react-testing-library/intro/>`_,
 but it wraps the hook into additional providers.
 
-React components update asynchronically. Reading data from the blockchain is also an async operation.
+React components are asynchronous. Reading data from the blockchain is also an async operation.
 To get the return value from the hook, wait for the result to be set. You can do it with ``waitForCurrent``.
 
 Then we can check if our result is correct. ``result.current`` is a value returned from our hook. It should be equal to 1 Ether.
@@ -304,15 +304,15 @@ is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` fu
 
 Simply call a hook in a component.
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const { sendTransaction, state } = useSendTransaction()
 
 Then when you want to send a transaction, call ``sendTransaction`` for example in a button callback.
 Function accepts a `Transaction Request <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest>`_ object as a parameter.
-In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining). 
+In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining).
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const handleClick = () => {
     setDisabled(true)
@@ -320,7 +320,7 @@ In example below ``setDisabled(true)`` sets input components to disabled while t
   }
 
 
-After that you can use state to check the state of your transtaction. State is of type :ref:`TransactionStatus`.
+After that you can use state to check the state of your transaction. State is of type :ref:`TransactionStatus`.
 Example below clears inputs and enables all disabled components back:
 
 .. code-block:: javascript
@@ -336,10 +336,10 @@ Example below clears inputs and enables all disabled components back:
 Executing contract function
 ===========================
 
-To send a transaction that executes a function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook, 
+To send a transaction that executes a function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook,
 it works similarly to :ref:`useSendTransaction`. It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
-To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_. 
+To use ``useContractFunction`` we need to supply it with a Contract of type `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_.
 And a string ``functionName``.
 
 ``send`` function maps arguments 1 to 1 with functions of a contract and also accepts one additional argument of type `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_
@@ -348,7 +348,7 @@ And a string ``functionName``.
 
 Start by declaring a contract variable with address of contract you want to call and ABI interface of a contract.
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   import { utils } from 'ethers'
   import { Contract } from '@ethersproject/contracts'
@@ -362,15 +362,15 @@ Start by declaring a contract variable with address of contract you want to call
 
 After that you can use the hook to create ``send`` function and ``state`` object.
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-  
+
   const depositEther = (etherAmount: string) => {
     send({ value: utils.parseEther(etherAmount) })
   }
 
-.. code-block:: javascript  
+.. code-block:: javascript
 
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
@@ -395,7 +395,7 @@ To access history of transactions, use ``useTransactions`` hook.
 
   const { transactions } = useTransactions()
 
-``transactions`` is an array so you can use ``transactions.map(...)`` to display all of 
+``transactions`` is an array so you can use ``transactions.map(...)`` to display all of
 transactions.
 
 For example:
@@ -427,12 +427,12 @@ To use notifications in your app simply call:
   const { notifications } = useNotifications()
 
 After that you can use ``notifications`` as an array.
-Notifications are automatically removed from array after time 
+Notifications are automatically removed from array after time
 declared in config.notifications.expirationPeriod.
 
 In react you can simply use ``notifications.map(...)`` to display them.
 
-For example : 
+For example :
 
 .. code-block:: javascript
 
@@ -464,10 +464,10 @@ You have to remember that object in ``notifications`` array may not contain tran
  (that's why there is if statement).
 
 
-Handling wallet activation errrors
+Handling wallet activation errors
 **********************************
 
-Because ``activateBrowserWallet()`` from :ref:`useEthers` is using activate from web3-react. It is made so that it can handle 
+Because ``activateBrowserWallet()`` from :ref:`useEthers` is using activate from web3-react. It is made so that it can handle
 errors the same way that ``activate()`` handles them, for more info see `here <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#understanding-error-bubbling>`_.
 
 As such the error can be handled in 3 ways:
@@ -511,5 +511,5 @@ As such the error can be handled in 3 ways:
   }
 
 
-Becouse useDApp defaults to read only connector ``error`` from ``useEthers()`` is only shown for few frames as such if you want to 
+Because useDApp defaults to read only connector ``error`` from ``useEthers()`` is only shown for few frames as such if you want to
 handle it you need to store error in a state
