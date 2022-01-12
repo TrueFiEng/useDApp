@@ -1,31 +1,15 @@
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
-import { useCallback } from 'react'
-import { useConfig } from '../providers/config/context'
-import { InjectedConnector } from '@web3-react/injected-connector'
+import { useConnectors } from '../providers'
 
-type ActivateBrowserWallet = (onError?: (error: Error) => void, throwErrors?: boolean) => void
+export function useEthers() {
+  const {connectors} = useConnectors()
+  const [activeConnector, hooks] = connectors[0]
+  const result = hooks.useWeb3React(hooks.useProvider())
+  const ensName = hooks.useENSName(result.library)
+  const deactivate = () => activeConnector.deactivate?.()
+  const activate = () => activeConnector.activate()
+  // Backwards compatibility
+  const activateBrowserWallet = () => activate()
 
-export type Web3Ethers = ReturnType<typeof useWeb3React> & {
-  library?: Web3Provider
-  chainId?: ChainId
-  activateBrowserWallet: ActivateBrowserWallet
-}
-
-export function useEthers(): Web3Ethers {
-  const result = useWeb3React<Web3Provider>()
-  const { networks } = useConfig()
-  const activateBrowserWallet = useCallback<ActivateBrowserWallet>(
-    async (onError, throwErrors) => {
-      const injected = new InjectedConnector({ supportedChainIds: networks?.map((network) => network.chainId) })
-      if (onError instanceof Function) {
-        await result.activate(injected, onError, throwErrors)
-      } else {
-        await result.activate(injected, undefined, throwErrors)
-      }
-    },
-    [networks]
-  )
-  return { ...result, activateBrowserWallet }
+  return { ...result, chainId: result.chainId as ChainId, ensName, activate, deactivate, activateBrowserWallet }
 }
