@@ -2,4 +2,4 @@
 '@usedapp/core': patch
 ---
 
-Adding the moonbeam network.
+Add the moonbeam network
