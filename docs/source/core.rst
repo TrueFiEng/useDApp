@@ -764,7 +764,7 @@ Represents a state of a single transaction.
 
 Fields:
 
-- ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
+- ``status: TransactionState`` - string that can contain one of ``None`` ``PendingSignature`` ``Mining`` ``Success`` ``Fail`` ``Exception``
 
 - ``transaction?: TransactionResponse`` - optional field. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
 
