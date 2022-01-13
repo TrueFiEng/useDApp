@@ -1,5 +1,15 @@
 # @usedapp/core
 
+## 0.9.0
+
+### Minor Changes
+
+- 26a4314: Add resetState function to useContractFunction and useSendTransaction so the UI can be reset easily after a transaction attempt.
+
+### Patch Changes
+
+- 3015cbd: Replace polygon explorer to polyscan
+
 ## 0.8.0
 
 ### Minor Changes
