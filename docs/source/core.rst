@@ -801,7 +801,7 @@ Enum that represents chain ids.
 
 **Values:**
 
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Moonbeam, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
 
 Helpers
 *******
@@ -894,6 +894,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(Theta.chainID) // Theta
   getChainName(Harmony.chainID) // Harmony
   getChainName(Moonriver.chainID) // Moonriver
+  getChainName(Moonbeam.chainID) // Moonbeam
   getChainName(Fantom.chainID) // Fantom
 
 isTestChain (deprecated)
