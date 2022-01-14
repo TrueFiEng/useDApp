@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/example",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",
@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.7",
-    "@usedapp/coingecko": "^0.4.0",
-    "@usedapp/core": "^0.8.0",
+    "@usedapp/coingecko": "^0.4.1",
+    "@usedapp/core": "^0.9.0",
     "@walletconnect/web3-provider": "^1.7.1",
     "@web3-react/core": "^8.0.0-beta.0",
     "@web3-react/eip1193": "^8.0.0-beta.0",
