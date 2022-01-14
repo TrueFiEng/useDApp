@@ -53,7 +53,7 @@
 
 - 99ded36: Add Arbitrum chains
 
-  Add Metis chain
+  Add Andromeda chain
 
 ## 0.7.2
 
