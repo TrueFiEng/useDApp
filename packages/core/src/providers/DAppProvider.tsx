@@ -7,8 +7,7 @@ import { NotificationsProvider } from './notifications/provider'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { ConnectorsProvider } from './connectors'
-import { initializeConnector } from '@web3-react/core'
-import { MetaMask } from '@web3-react/metamask'
+import { NetworkActivator } from './NetworkActivator'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -29,19 +28,19 @@ interface WithConfigProps {
 
 const getMulticallAddresses = (networks: Chain[] | undefined) => {
   const result: { [index: number]: string } = {}
-  networks?.map((network) => (result[network.chainId] = network.multicallAddress))
+  networks?.map(network => (result[network.chainId] = network.multicallAddress))
   return result
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses, networks } = useConfig()
+  const { multicallAddresses, networks, defaultConnectors } = useConfig()
   const defaultAddresses = useMemo(() => getMulticallAddresses(networks), [networks])
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
-  const defaultProvider = initializeConnector<MetaMask>((actions) => new MetaMask(actions))
 
   return (
-    <ConnectorsProvider defaultConnectors={[defaultProvider]}>
+    <ConnectorsProvider defaultConnectors={defaultConnectors}>
       <BlockNumberProvider>
+        <NetworkActivator/>
         <LocalMulticallProvider>
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>

@@ -3980,6 +3980,16 @@
     "@web3-react/types" "^8.0.0-beta.0"
     zustand "^4.0.0-beta.0"
 
+"@web3-react/core@^8.0.1-beta.0":
+  version "8.0.1-beta.0"
+  resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-8.0.1-beta.0.tgz#6e0cd8117f948e56e8f09a0e467ff31fcfa9b0ed"
+  integrity sha512-a705UzxItTcqYUEHSG/cfLf+nAUJnfaPNcQ1N46dk9/uIjYwdgEQrpsOB41sCyWt8OQ5RTS93M5IxK0Bs102WQ==
+  dependencies:
+    "@ethersproject/providers" "^5.5.1"
+    "@web3-react/store" "^8.0.0-beta.0"
+    "@web3-react/types" "^8.0.0-beta.0"
+    zustand "^4.0.0-beta.0"
+
 "@web3-react/eip1193@^8.0.0-beta.0":
   version "8.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/@web3-react/eip1193/-/eip1193-8.0.0-beta.0.tgz#ffe19aaf28506769db4bceb1b829861de4f6bd7a"

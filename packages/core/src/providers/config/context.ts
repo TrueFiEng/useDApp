@@ -2,6 +2,9 @@ import { createContext, useContext } from 'react'
 import { FullConfig, Config, Chain } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 import { getChainById } from '../../helpers/chain'
+import { initializeConnector } from '@web3-react/core'
+import { Network } from '@web3-react/network'
+import { MetaMask } from '@web3-react/metamask'
 
 export const ConfigContext = createContext<{ config: FullConfig; updateConfig: (config: Config) => void }>({
   config: DEFAULT_CONFIG,
@@ -27,6 +30,14 @@ export function useConfig() {
       networks,
     })
   }
+
+  config.defaultConnectors = [
+    initializeConnector<Network>(
+      actions => new Network(actions, config.readOnlyUrls ?? []),
+      config.networks?.map(({ chainId }) => Number(chainId))
+    ),
+    initializeConnector<MetaMask>(actions => new MetaMask(actions))
+  ]
 
   return validConfigs(config)
 }
