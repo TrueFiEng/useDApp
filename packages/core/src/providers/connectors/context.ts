@@ -14,7 +14,7 @@ export const ConnectorsContext = createContext<ConnectorContextProps>({
   activeConnector: undefined,
   setConnectors: () => undefined,
   setActiveConnector: () => undefined,
-  setProvider: () => undefined
+  setProvider: () => undefined,
 })
 
 export function useConnectors() {

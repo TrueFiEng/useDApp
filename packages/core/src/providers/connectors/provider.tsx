@@ -5,7 +5,6 @@ import { EIP1193 } from '@web3-react/eip1193'
 import { Provider } from '@ethersproject/providers'
 import { ConnectorTuple } from '../../constants'
 
-
 interface ConnectorsProviderProps {
   children: ReactNode
   defaultConnectors: ConnectorTuple[]
@@ -25,7 +24,7 @@ export function ConnectorsProvider({ defaultConnectors, children }: ConnectorsPr
 
   const setProvider = useCallback(
     (provider: Provider) => {
-      const _connectors = [initializeConnector<EIP1193>(actions => new EIP1193(actions, provider as any))]
+      const _connectors = [initializeConnector<EIP1193>((actions) => new EIP1193(actions, provider as any))]
       setConnectors(_connectors)
       setActiveConnector(_connectors[0])
     },

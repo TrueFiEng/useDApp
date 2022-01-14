@@ -26,20 +26,20 @@ export const Web3ModalButton = () => {
       injected: {
         display: {
           name: 'Metamask',
-          description: 'Connect with the provider in your Browser'
+          description: 'Connect with the provider in your Browser',
         },
-        package: null
+        package: null,
       },
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: '14a0951f47e646c1b241aa533e150219'
-        }
-      }
+          infuraId: '14a0951f47e646c1b241aa533e150219',
+        },
+      },
     }
 
     const web3Modal = new Web3Modal({
-      providerOptions
+      providerOptions,
     })
     const provider = await web3Modal.connect()
     setProvider(provider)

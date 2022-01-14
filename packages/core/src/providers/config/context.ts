@@ -33,10 +33,10 @@ export function useConfig() {
 
   config.defaultConnectors = [
     initializeConnector<Network>(
-      actions => new Network(actions, config.readOnlyUrls ?? []),
+      (actions) => new Network(actions, config.readOnlyUrls ?? []),
       config.networks?.map(({ chainId }) => Number(chainId))
     ),
-    initializeConnector<MetaMask>(actions => new MetaMask(actions))
+    initializeConnector<MetaMask>((actions) => new MetaMask(actions)),
   ]
 
   return validConfigs(config)

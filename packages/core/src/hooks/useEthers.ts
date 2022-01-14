@@ -9,7 +9,7 @@ function findActiveConnector(connectors: ConnectorTuple[]) {
 
 export function useEthers() {
   const { activeConnector, setConnectors, connectors, setActiveConnector } = useConnectors()
-  const {defaultConnectors} = useConfig()
+  const { defaultConnectors } = useConfig()
   const [connector, hooks, store] = activeConnector ?? findActiveConnector(connectors) ?? connectors[0]
   const result = hooks.useWeb3React(hooks.useProvider())
 

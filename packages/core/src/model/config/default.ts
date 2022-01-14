@@ -12,5 +12,5 @@ export const DEFAULT_CONFIG: FullConfig = {
     transactionPath: 'transactions',
   },
   autoConnect: true,
-  defaultConnectors: []
+  defaultConnectors: [],
 }

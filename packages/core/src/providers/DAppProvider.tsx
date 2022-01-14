@@ -28,7 +28,7 @@ interface WithConfigProps {
 
 const getMulticallAddresses = (networks: Chain[] | undefined) => {
   const result: { [index: number]: string } = {}
-  networks?.map(network => (result[network.chainId] = network.multicallAddress))
+  networks?.map((network) => (result[network.chainId] = network.multicallAddress))
   return result
 }
 
@@ -40,7 +40,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   return (
     <ConnectorsProvider defaultConnectors={defaultConnectors}>
       <BlockNumberProvider>
-        <NetworkActivator/>
+        <NetworkActivator />
         <LocalMulticallProvider>
           <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
             <NotificationsProvider>
