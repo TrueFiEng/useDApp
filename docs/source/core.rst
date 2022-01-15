@@ -109,6 +109,26 @@ It is recommended to use `useContractCall`_ where applicable instead of this met
 
 - ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
+useChainConnectionState
+=============
+
+A useful helper for keeping track of the state of your connection to the network. The hook will cause the component to refresh when values change.
+
+*Parameters*
+
+- ``expectedChainId: number`` - an optional parameter that will return the state `WrongNetwork` if the provider's chainId does not match what you expect it to be. You can use this in situations where you want to display an error message when a user's wallet is connected to another blockchain not supported by your application.
+
+**Returns**
+
+- ``state`` - `Disconnected`, `PendingNetworkConnection`, `Connected`, or `WrongNetwork` if you pass an optional chainId parameter.
+- ``isDisconnected`` - true if the state is `Disconnected` (e.g. no `account` is found).
+- ``isConnected`` - true if the state is `Connected`
+- ``isPendingNetworkConnection`` - true if the state is `PendingNetworkConnection`. This is true while waiting for the
+  promise fetching the actual `chainId` to resolve.
+- ``isWrongNetwork`` - true if the state is `WrongNetwork`. This is only set if you pass in an `expectedChainId` and the
+  actual `chainId` is not undefined and does not match your param.
+
+
 useContractCall
 ===============
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.

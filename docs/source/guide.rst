@@ -41,6 +41,48 @@ See example below:
     )
   }
 
+You can use this in combination with ``useChainConnectionState`` for more control over your connection states.
+
+.. code-block:: javascript
+
+  export function App() {
+    const { activateBrowserWallet } = useEthers()
+    const ETHEREUM_MAINNET_ID = 1;
+    // the parameter is optional for useChainConnectionState. isWrongNetwork can only ever be true you pass
+    // an ID in and the actual network ID is not undefined and does not match your expected ID.
+    const { isDisconnected, isPendingNetworkConnection, isWrongNetwork, isConnected } = useChainConnectionState(ETHEREUM_MAINNET_ID);
+
+    if (isDisconnected) {
+      return (
+        <div>
+          <h1>Please connect your wallet</h1>
+          <button onClick={activateBrowserWallet}>Connect</button>
+        </div>
+      )
+    }
+
+    if (isPendingNetworkConnection) {
+      return (
+        <div>
+          <h1>loading...</h1>
+        </div>
+      )
+    }
+
+    if (isWrongNetwork) {
+      return (
+        <div>
+          <h1>Your are connected, but you are not on Ethereum Mainnet!</h1>
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <h1>GM. You are connected and on Ethereum Mainnet!</h1>
+      </div>
+    )
+  }
 
 useEthers
 =========
