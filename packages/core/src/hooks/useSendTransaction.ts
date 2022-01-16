@@ -5,7 +5,7 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state } = usePromiseTransaction(chainId, options)
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
@@ -14,5 +14,5 @@ export function useSendTransaction(options?: TransactionOptions) {
     }
   }
 
-  return { sendTransaction, state }
+  return { sendTransaction, state, resetState }
 }
