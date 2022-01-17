@@ -17,7 +17,8 @@ export const CronosTestnet: Chain = {
   isLocalChain: false,
   multicallAddress: '0x6a8c1ba309136D78245f1F0a14790239b71a9577',
   getExplorerAddressLink: (address: string) => `https://cronos.crypto.org/explorer/testnet3/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://cronos.crypto.org/explorer/testnet3/tx/${transactionHash}`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://cronos.crypto.org/explorer/testnet3/tx/${transactionHash}`,
 }
 
 export default {

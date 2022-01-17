@@ -41,7 +41,7 @@ export function TokenList() {
             </TokenIconContainer>
             <TokenName>{token.name}</TokenName>
             <TokenTicker>{token.symbol}</TokenTicker>
-            {balances?.[idx] && <TokenBalance>{formatUnits(balances[idx]![0], token.decimals)}</TokenBalance>}
+            {balances?.[idx] && <TokenBalance>{formatUnits(balances[idx][0], token.decimals)}</TokenBalance>}
           </TokenItem>
         ))}
     </List>
