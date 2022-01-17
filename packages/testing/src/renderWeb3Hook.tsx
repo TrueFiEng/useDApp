@@ -1,9 +1,12 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
+import { DAppProvider } from '@usedapp/core'
 import React from 'react'
-import { MockConnector } from './mockConnector'
+import { initializeConnector } from '@web3-react/core'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
+import 'mock-local-storage'
+import { EIP1193 } from '@web3-react/eip1193'
+import { Provider } from '@web3-react/types'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: MockProvider
@@ -20,11 +23,12 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
   options?: renderWeb3HookOptions<Tprops>
 ) => {
-  const provider = options?.mockProvider || new MockProvider()
+  const provider: MockProvider & Provider = (options?.mockProvider || new MockProvider()) as any
   provider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
-  const connector = new MockConnector(provider)
+  provider.request = async ({ method, params }) => provider.send(method, params as any)
+  const connector = initializeConnector<EIP1193>((actions) => new EIP1193(actions, provider))
 
-  const multicallAddresses = await deployMulticall(provider, connector)
+  const multicallAddresses = await deployMulticall(provider, (await provider.getNetwork()).chainId)
   // In some occasions the block number lags behind.
   // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
   // and it results in a failed call. So we force the provider to catch up on the block number here.
@@ -32,20 +36,20 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
-  const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
+  const { result, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <BlockNumberProvider>
-        <ChainStateProvider multicallAddresses={multicallAddresses}>
-          <UserWrapper {...wrapperProps} />
-        </ChainStateProvider>
-      </BlockNumberProvider>
+      <DAppProvider
+        config={{
+          multicallAddresses,
+          defaultConnectors: [connector],
+          autoConnect: false,
+        }}
+      >
+        <UserWrapper {...wrapperProps} />
+      </DAppProvider>
     ),
     initialProps: options?.renderHook?.initialProps,
   })
-
-  // we wait for the first update, before that the current is always undefined.
-  // after this, we get the actual first return value of the hook (which might happen to be undefined anyway)
-  await waitForNextUpdate()
 
   return {
     result,

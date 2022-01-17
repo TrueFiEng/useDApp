@@ -31,7 +31,7 @@ export function useConfig() {
     })
   }
 
-  config.defaultConnectors = [
+  config.defaultConnectors = config.defaultConnectors ?? [
     initializeConnector<Network>(
       (actions) => new Network(actions, config.readOnlyUrls ?? []),
       config.networks?.map(({ chainId }) => Number(chainId))

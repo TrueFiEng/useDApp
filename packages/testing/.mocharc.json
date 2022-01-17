@@ -7,6 +7,6 @@
     "require": ["ts-node/register/transpile-only", "jsdom-global/register"],
     "watchExtensions": "ts",
     "extension": "ts",
-    "timeout": 3000,
+    "timeout": 5000,
     "exit": true
 }
