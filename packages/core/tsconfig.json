@@ -2,14 +2,17 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "module": "commonjs",
+    "lib": ["es2020", "dom"],
+    "module": "es2020",
+    "target": "es6",
     "composite": true,
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
     "src",

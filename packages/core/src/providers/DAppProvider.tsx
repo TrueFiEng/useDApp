@@ -1,14 +1,13 @@
 import { ReactNode, useMemo } from 'react'
-import { Config, Chain } from '../constants'
-import { ConfigProvider } from '../providers/config/provider'
+import { Chain, Config } from '../constants'
+import { ConfigProvider, useConfig } from './config'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
-import { useConfig } from './config/context'
-import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
-import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
+import { ConnectorsProvider } from './connectors'
+import { NetworkActivator } from './NetworkActivator'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -34,12 +33,12 @@ const getMulticallAddresses = (networks: Chain[] | undefined) => {
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses, networks } = useConfig()
+  const { multicallAddresses, networks, defaultConnectors } = useConfig()
   const defaultAddresses = useMemo(() => getMulticallAddresses(networks), [networks])
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <EthersProvider>
+    <ConnectorsProvider defaultConnectors={defaultConnectors}>
       <BlockNumberProvider>
         <NetworkActivator />
         <LocalMulticallProvider>
@@ -50,6 +49,6 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
           </ChainStateProvider>
         </LocalMulticallProvider>
       </BlockNumberProvider>
-    </EthersProvider>
+    </ConnectorsProvider>
   )
 }
