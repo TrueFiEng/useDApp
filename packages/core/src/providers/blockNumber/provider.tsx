@@ -10,7 +10,6 @@ interface Props {
 export function BlockNumberProvider({ children }: Props) {
   const { library, chainId } = useEthers()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
-
   useEffect(() => {
     if (library && chainId !== undefined) {
       const update = (blockNumber: number) => dispatch({ chainId, blockNumber })

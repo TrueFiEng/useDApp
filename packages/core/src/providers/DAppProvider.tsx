@@ -4,11 +4,11 @@ import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
 import { ChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
-import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
+import { NetworkProvider } from './network'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -39,7 +39,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <EthersProvider>
+    <NetworkProvider>
       <BlockNumberProvider>
         <NetworkActivator />
         <LocalMulticallProvider>
@@ -50,6 +50,6 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
           </ChainStateProvider>
         </LocalMulticallProvider>
       </BlockNumberProvider>
-    </EthersProvider>
+    </NetworkProvider>
   )
 }

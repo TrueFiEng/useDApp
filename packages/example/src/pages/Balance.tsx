@@ -11,10 +11,9 @@ import { AccountButton } from '../components/account/AccountButton'
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 export function Balance() {
-  const { account, ...rest } = useEthers()
+  const { account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
-  console.log(account, rest)
 
   return (
     <MainContent>

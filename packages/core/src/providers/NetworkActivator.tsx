@@ -1,32 +1,31 @@
-import { NetworkConnector } from '@web3-react/network-connector'
 import { useEffect } from 'react'
 import { useEthers } from '../hooks'
-import { InjectedConnector } from '@web3-react/injected-connector'
 import { useConfig } from './config/context'
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 
 export function NetworkActivator() {
-  const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
-  const { networks, readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
-
-  useEffect(() => {
-    const eagerConnect = async () => {
-      const injected = new InjectedConnector({
-        supportedChainIds: networks?.map((network) => network?.chainId) || [],
-      })
-      if (await injected.isAuthorized()) {
-        activate(injected)
-      }
-    }
-    autoConnect && eagerConnect()
-  }, [])
+  const { activate, chainId: connectedChainId, active } = useEthers()
+  const { readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
 
   useEffect(() => {
     if (readOnlyChainId && readOnlyUrls) {
-      if (!active || (connector instanceof NetworkConnector && connectedChainId !== readOnlyChainId)) {
-        activate(new NetworkConnector({ defaultChainId: readOnlyChainId, urls: readOnlyUrls || [] }))
+      if (!active && readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
+        const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
+        activate(provider)
       }
     }
-  }, [readOnlyChainId, readOnlyUrls, active, account, connectedChainId, connector])
+  }, [readOnlyChainId, readOnlyUrls, active, connectedChainId])
+
+  useEffect(() => {
+    const eagerConnect = async () => {
+      if ((window as any).ethereum) {
+        const provider = new Web3Provider((window as any).ethereum)
+        await provider.send('eth_requestAccounts', [])
+        activate(provider)
+      }
+    }
+    autoConnect && active && eagerConnect()
+  }, [active])
 
   return null
 }

@@ -1,0 +1,26 @@
+import { networksReducer } from '../../src/providers/network/reducer'
+import { Wallet } from 'ethers'
+import { expect } from 'chai'
+
+describe('NetworkReducer', () => {
+  const initialState = {
+    provider: undefined,
+    chainId: undefined,
+    accounts: [],
+  }
+  describe('Update', () => {
+    it('updates provider', async () => {
+      const newNetwork = {
+        provider: { provider: 'provider' } as any,
+        chainId: 1,
+        accounts: [Wallet.createRandom().address],
+      }
+      expect(
+        networksReducer(initialState, {
+          type: 'UPDATE_NETWORK',
+          ...newNetwork,
+        })
+      ).to.deep.equal(newNetwork)
+    })
+  })
+})
