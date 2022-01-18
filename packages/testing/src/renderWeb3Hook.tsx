@@ -1,9 +1,8 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider } from '@usedapp/core'
+import { BlockNumberProvider, ChainStateProvider, NetworkProvider } from '@usedapp/core'
 import React from 'react'
 import { MockConnector } from './mockConnector'
-import { MockWeb3Wrapper } from './mockWeb3Wrapper'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
 export interface renderWeb3HookOptions<Tprops> {
@@ -35,13 +34,13 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <MockWeb3Wrapper connector={connector}>
+      <NetworkProvider>
         <BlockNumberProvider>
           <ChainStateProvider multicallAddresses={multicallAddresses}>
             <UserWrapper {...wrapperProps} />
           </ChainStateProvider>
         </BlockNumberProvider>
-      </MockWeb3Wrapper>
+      </NetworkProvider>
     ),
     initialProps: options?.renderHook?.initialProps,
   })
