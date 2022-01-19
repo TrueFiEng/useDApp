@@ -1,10 +1,7 @@
-import { JsonRpcProvider, Provider, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
 import { useCallback } from 'react'
-import { useConfig } from '../providers/config/context'
 import { useNetwork } from '../providers/network'
-
-type ActivateBrowserWallet = (onError?: (error: Error) => void, throwErrors?: boolean) => void
 
 export type Web3Ethers = {
   activate: (provider: JsonRpcProvider) => Promise<void>
@@ -16,7 +13,7 @@ export type Web3Ethers = {
   error?: Error
   library?: JsonRpcProvider
   active: boolean
-  activateBrowserWallet: ActivateBrowserWallet
+  activateBrowserWallet: () => void
 }
 
 async function tryToGetAccount(provider: JsonRpcProvider) {
@@ -28,10 +25,10 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 }
 
 export function useEthers(): Web3Ethers {
-  const { networks } = useConfig()
   const {
     network: { provider, chainId, accounts },
     update,
+    injectedProvider,
   } = useNetwork()
 
   const result = {
@@ -62,10 +59,13 @@ export function useEthers(): Web3Ethers {
     error: undefined,
   }
 
-  const activateBrowserWallet = useCallback<ActivateBrowserWallet>(async () => {
-    const provider = new Web3Provider((window as any).ethereum)
-    await provider.send('eth_requestAccounts', [])
-    await result.activate(provider)
-  }, [networks])
+  const activateBrowserWallet = useCallback(async () => {
+    if (!injectedProvider) {
+      return
+    }
+    await injectedProvider.send('eth_requestAccounts', [])
+    await result.activate(injectedProvider)
+  }, [injectedProvider])
+
   return { ...result, activateBrowserWallet }
 }

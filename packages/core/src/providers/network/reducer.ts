@@ -5,9 +5,7 @@ export function networksReducer(prevState: Network, actions: Actions): Network {
     case 'UPDATE_NETWORK':
       return {
         ...prevState,
-        provider: actions.provider,
-        chainId: actions.chainId,
-        accounts: actions.accounts,
+        ...actions.network,
       }
     default:
       return prevState

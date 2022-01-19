@@ -18,9 +18,25 @@ describe('NetworkReducer', () => {
       expect(
         networksReducer(initialState, {
           type: 'UPDATE_NETWORK',
-          ...newNetwork,
+          network: newNetwork,
         })
       ).to.deep.equal(newNetwork)
+    })
+
+    it('updates provider with partial network', async () => {
+      const newNetwork = {
+        chainId: 1,
+        accounts: [Wallet.createRandom().address],
+      }
+      expect(
+        networksReducer(initialState, {
+          type: 'UPDATE_NETWORK',
+          network: newNetwork,
+        })
+      ).to.deep.equal({
+        provider: initialState.provider,
+        ...newNetwork
+      })
     })
   })
 })

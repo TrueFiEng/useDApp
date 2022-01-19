@@ -7,8 +7,9 @@ export interface Network {
   accounts: string[]
 }
 
-interface UpdateNetwork extends Network {
+interface UpdateNetwork {
   type: 'UPDATE_NETWORK'
+  network: Partial<Network>
 }
 
 export type Actions = UpdateNetwork
