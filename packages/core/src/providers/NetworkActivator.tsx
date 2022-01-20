@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { useEthers } from '../hooks'
 import { useConfig } from './config'
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { useNetwork } from './network'
+import { useInjectedProvider } from './injectedProvider'
 
 export function NetworkActivator() {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
-  const { injectedProvider } = useNetwork()
+  const injectedProvider = useInjectedProvider()
   const [readonlyConnected, setReadonlyConnected] = useState(false)
 
   useEffect(() => {

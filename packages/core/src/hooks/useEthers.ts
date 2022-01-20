@@ -1,7 +1,7 @@
+import { useCallback } from 'react'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
-import { useCallback } from 'react'
-import { useNetwork } from '../providers/network'
+import { useInjectedProvider, useNetwork } from '../providers'
 
 export type Web3Ethers = {
   activate: (provider: JsonRpcProvider) => Promise<void>
@@ -28,8 +28,8 @@ export function useEthers(): Web3Ethers {
   const {
     network: { provider, chainId, accounts },
     update,
-    injectedProvider,
   } = useNetwork()
+  const { injectedProvider, connect } = useInjectedProvider()
 
   const result = {
     connector: undefined,
@@ -63,7 +63,7 @@ export function useEthers(): Web3Ethers {
     if (!injectedProvider) {
       return
     }
-    await injectedProvider.send('eth_requestAccounts', [])
+    await connect()
     await result.activate(injectedProvider)
   }, [injectedProvider])
 

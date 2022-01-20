@@ -1,14 +1,14 @@
 import { ReactNode, useMemo } from 'react'
-import { Config, Chain } from '../constants'
-import { ConfigProvider } from '../providers/config/provider'
-import { BlockNumberProvider } from './blockNumber/provider'
+import { Chain, Config } from '../constants'
+import { ConfigProvider, useConfig } from './config'
+import { BlockNumberProvider } from './blockNumber'
 import { ChainStateProvider } from './chainState'
-import { useConfig } from './config/context'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider } from './network'
+import { InjectedProviderProvider } from './injectedProvider'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -40,16 +40,18 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
 
   return (
     <NetworkProvider>
-      <BlockNumberProvider>
-        <NetworkActivator />
-        <LocalMulticallProvider>
-          <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-            <NotificationsProvider>
-              <TransactionProvider>{children}</TransactionProvider>
-            </NotificationsProvider>
-          </ChainStateProvider>
-        </LocalMulticallProvider>
-      </BlockNumberProvider>
+      <InjectedProviderProvider>
+        <BlockNumberProvider>
+          <NetworkActivator />
+          <LocalMulticallProvider>
+            <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
+              <NotificationsProvider>
+                <TransactionProvider>{children}</TransactionProvider>
+              </NotificationsProvider>
+            </ChainStateProvider>
+          </LocalMulticallProvider>
+        </BlockNumberProvider>
+      </InjectedProviderProvider>
     </NetworkProvider>
   )
 }
