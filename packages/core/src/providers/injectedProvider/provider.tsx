@@ -9,7 +9,7 @@ interface InjectedProviderProviderProps {
 }
 
 export function InjectedProviderProvider({ children }: InjectedProviderProviderProps) {
-  const { update } = useNetwork()
+  const { update, reportError } = useNetwork()
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
 
   useEffect(function () {
@@ -18,24 +18,29 @@ export function InjectedProviderProvider({ children }: InjectedProviderProviderP
 
   useEffect(() => {
     const underlyingProvider: any = injectedProvider?.provider
-    subscribeToInjectedProvider(underlyingProvider, update)
+    return subscribeToInjectedProvider(underlyingProvider, update, reportError)
   }, [injectedProvider])
 
   const connect = useCallback(async () => {
     if (!injectedProvider) {
-      //todo error
+      reportError('No injected provider available')
       return
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
+      return injectedProvider
     } catch (e) {
-      // todo error
+      reportError(e)
     }
-    return injectedProvider
   }, [injectedProvider])
 
-  return <InjectedProviderContext.Provider value={{
-    injectedProvider,
-    connect
-  }} children={children} />
+  return (
+    <InjectedProviderContext.Provider
+      value={{
+        injectedProvider,
+        connect,
+      }}
+      children={children}
+    />
+  )
 }

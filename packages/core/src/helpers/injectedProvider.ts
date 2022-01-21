@@ -14,22 +14,37 @@ export async function getInjectedProvider() {
 
 export function subscribeToInjectedProvider(
   provider: EventEmitter | undefined,
-  onUpdate: (updatedNetwork: Partial<Network>) => void
+  onUpdate: (updatedNetwork: Partial<Network>) => void,
+  onError: (error: Error) => void
 ) {
   if (provider?.on) {
-    provider.on('connect', (all: any): void => {
-      console.log(all)
-      onUpdate({ chainId: Number(all.chainId) })
-    })
-    provider.on('disconnect', (error: any): void => {
-      // todo handle error
-      // actions.reportError(error)
-    })
-    provider.on('chainChanged', (chainId: string): void => {
+    const onConnectListener = ({ chainId }: { chainId: string }): void => {
       onUpdate({ chainId: Number(chainId) })
-    })
-    provider.on('accountsChanged', (accounts: string[]): void => {
+    }
+    provider.on('connect', onConnectListener)
+
+    const onDisconnectListener = (error: any): void => {
+      onError(error)
+    }
+    provider.on('disconnect', onDisconnectListener)
+
+    const onChainChangedListener = (chainId: string): void => {
+      onUpdate({ chainId: Number(chainId) })
+    }
+    provider.on('chainChanged', onChainChangedListener)
+
+    const onAccountsChangedListener = (accounts: string[]): void => {
       onUpdate({ accounts })
-    })
+    }
+    provider.on('accountsChanged', onAccountsChangedListener)
+
+    return () => {
+      provider.off('connect', onConnectListener)
+      provider.off('disconnect', onDisconnectListener)
+      provider.off('chainChanged', onChainChangedListener)
+      provider.off('accountsChanged', onAccountsChangedListener)
+    }
   }
+
+  return () => undefined
 }
