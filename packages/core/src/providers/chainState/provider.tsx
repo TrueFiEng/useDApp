@@ -7,7 +7,7 @@ import { callsReducer, ChainCall } from './callsReducer'
 import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
 import { useDevtoolsReporting } from './useDevtoolsReporting'
-import { addressEqual } from '../..'
+import { addressEqual, useNetwork } from '../..'
 
 interface Props {
   children: ReactNode
@@ -19,6 +19,7 @@ interface Props {
 export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
+  const { reportError } = useNetwork()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
@@ -52,6 +53,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
         })
         .catch((error) => {
           console.error(error)
+          reportError(error)
           dispatchState({ type: 'FETCH_ERROR', blockNumber, chainId, error })
           notifyDevtools({
             type: 'MULTICALL_ERROR',
