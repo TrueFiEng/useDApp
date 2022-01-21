@@ -1,2 +1,2 @@
-export {useInjectedProvider} from './context'
+export { useInjectedProvider } from './context'
 export * from './provider'
