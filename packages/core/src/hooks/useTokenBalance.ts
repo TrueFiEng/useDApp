@@ -13,6 +13,6 @@ export function useTokenBalance(tokenAddress: string | Falsy, address: string | 
           method: 'balanceOf',
           args: [address],
         }
-    ) ?? []
+    ).result ?? []
   return tokenBalance
 }

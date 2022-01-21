@@ -10,7 +10,7 @@ export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
     args: [],
   }
   const args = ['name', 'symbol', 'decimals', 'totalSupply'].map((method): ContractCall => ({ ...partialCall, method }))
-  const [name, symbol, decimals, totalSupply] = useContractCalls(args)
+  const [name, symbol, decimals, totalSupply] = useContractCalls(args).results
 
   if (!name && !symbol && !decimals && !totalSupply) {
     return undefined

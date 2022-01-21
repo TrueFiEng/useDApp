@@ -18,6 +18,6 @@ export function useTokenAllowance(
           method: 'allowance',
           args: [ownerAddress, spenderAddress],
         }
-    ) ?? []
+    ).result ?? []
   return allowance
 }

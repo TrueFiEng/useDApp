@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { formatUnits } from '@ethersproject/units'
 import { ERC20Interface, useContractCalls, useEthers, useTokenList } from '@usedapp/core'
-import { Colors } from '../../global/styles'
+import { BorderRad, Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
 import { toHttpPath } from '../../utils'
@@ -25,7 +25,11 @@ function useTokensBalance(tokenList?: any[], account?: string | null) {
 export function TokenList() {
   const { account, chainId } = useEthers()
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
-  const balances = useTokensBalance(tokens, account)
+  const { results: balances, error } = useTokensBalance(tokens, account)
+
+  if (error) {
+    return <ErrorMessage>Error encountered: {error.message ? error.message.toString() : error.toString()}</ErrorMessage>
+  }
 
   return (
     <List>
@@ -34,6 +38,7 @@ export function TokenList() {
         {logoURI && <ListLogo src={toHttpPath(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
       {tokens &&
+        balances.every((balance) => !!balance) &&
         tokens.map((token, idx) => (
           <TokenItem key={token.address}>
             <TokenIconContainer>
@@ -118,4 +123,10 @@ const ListLogo = styled.img`
   width: 40px;
   height: 40px;
   object-fit: contain;
+`
+
+const ErrorMessage = styled.div`
+  border-radius: ${BorderRad.m};
+  color: ${Colors.Red[400]};
+  word-wrap: break-word;
 `

@@ -33,23 +33,37 @@ export interface ContractCall {
   args: any[]
 }
 
-export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
-  return useContractCalls([call])[0]
+export interface ContractCallResult {
+  result: any[] | undefined
+  error?: any
 }
 
-export function useContractCalls(calls: (ContractCall | Falsy)[]): (any[] | undefined)[] {
-  const results = useChainCalls(calls.map(encodeCallData))
+export function useContractCall(call: ContractCall | Falsy): ContractCallResult {
+  const { results, error } = useContractCalls([call])
+  return { result: results[0], error }
+}
 
-  return useMemo(
-    () =>
-      results.map((result, idx) => {
-        const call = calls[idx]
-        if (result === '0x') {
-          warnOnInvalidContractCall(call)
-          return undefined
-        }
-        return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
-      }),
-    [results]
-  )
+export interface ContractCallResults {
+  results: (any[] | undefined)[]
+  error?: any
+}
+
+export function useContractCalls(calls: (ContractCall | Falsy)[]): ContractCallResults {
+  const { results, error } = useChainCalls(calls.map(encodeCallData))
+
+  return {
+    results: useMemo(
+      () =>
+        results.map((result, idx) => {
+          const call = calls[idx]
+          if (result === '0x') {
+            warnOnInvalidContractCall(call)
+            return undefined
+          }
+          return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
+        }),
+      [results]
+    ),
+    error,
+  }
 }

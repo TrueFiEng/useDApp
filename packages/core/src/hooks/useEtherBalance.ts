@@ -15,6 +15,6 @@ export function useEtherBalance(address: string | Falsy): BigNumber | undefined 
           method: 'getEthBalance',
           args: [address],
         }
-    ) ?? []
+    ).result ?? []
   return etherBalance
 }

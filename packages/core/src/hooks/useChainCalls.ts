@@ -12,12 +12,21 @@ export function useChainCalls(calls: (ChainCall | Falsy)[]) {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return useMemo(() => calls.map((call) => call && value?.state?.[call.address]?.[call.data]), [
-    JSON.stringify(calls),
-    value,
-  ])
+  return {
+    results: useMemo(
+      () =>
+        calls.map((call) => {
+          if (call && value) {
+            return value.state?.[call.address]?.[call.data]
+          }
+        }),
+      [JSON.stringify(calls), value]
+    ),
+    error: value?.error,
+  }
 }
 
 export function useChainCall(call: ChainCall | Falsy) {
-  return useChainCalls([call])[0]
+  const { results, error } = useChainCalls([call])
+  return { result: results[0], error }
 }
