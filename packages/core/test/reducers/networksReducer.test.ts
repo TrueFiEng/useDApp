@@ -22,7 +22,10 @@ describe('NetworkReducer', () => {
           type: 'UPDATE_NETWORK',
           network: newNetwork,
         })
-      ).to.deep.equal(newNetwork)
+      ).to.deep.equal({
+        ...newNetwork,
+        errors: [],
+      })
     })
 
     it('updates provider with partial network', async () => {
@@ -37,6 +40,7 @@ describe('NetworkReducer', () => {
         })
       ).to.deep.equal({
         provider: initialState.provider,
+        errors: [],
         ...newNetwork,
       })
     })
