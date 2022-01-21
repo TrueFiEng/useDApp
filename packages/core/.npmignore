@@ -1,0 +1,5 @@
+dist/**/test/
+test/
+dist/**/*.map
+dist/**/tsconfig.tsbuildinfo
+CHANGELOG.md
