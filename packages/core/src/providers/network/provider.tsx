@@ -11,13 +11,20 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
   const [network, dispatch] = useReducer(networksReducer, {
     provider: undefined,
     chainId: undefined,
-    accounts: []
+    accounts: [],
+    errors: [],
   })
 
-  const update = useCallback((newNetwork: Partial<Network>) => {
-    dispatch({ type: 'UPDATE_NETWORK', network: newNetwork })
-  }, [network])
+  const update = useCallback(
+    (newNetwork: Partial<Network>) => {
+      dispatch({ type: 'UPDATE_NETWORK', network: newNetwork })
+    },
+    [network]
+  )
 
+  const reportError = useCallback((error: Error | string) => {
+    dispatch({ type: 'ADD_ERROR', error })
+  }, [])
 
-  return <NetworkContext.Provider value={{ network, update }} children={children} />
+  return <NetworkContext.Provider value={{ network, update, reportError }} children={children} />
 }

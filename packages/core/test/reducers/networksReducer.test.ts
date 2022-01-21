@@ -7,7 +7,9 @@ describe('NetworkReducer', () => {
     provider: undefined,
     chainId: undefined,
     accounts: [],
+    errors: [],
   }
+
   describe('Update', () => {
     it('updates provider', async () => {
       const newNetwork = {
@@ -35,7 +37,38 @@ describe('NetworkReducer', () => {
         })
       ).to.deep.equal({
         provider: initialState.provider,
-        ...newNetwork
+        ...newNetwork,
+      })
+    })
+  })
+
+  describe('Errors', () => {
+    it('adds first error', async () => {
+      expect(
+        networksReducer(initialState, {
+          type: 'ADD_ERROR',
+          error: 'new error',
+        })
+      ).to.deep.equal({
+        ...initialState,
+        errors: ['new error'],
+      })
+    })
+
+    it('adds more errors', async () => {
+      const intermediateState = networksReducer(initialState, {
+        type: 'ADD_ERROR',
+        error: 'new error',
+      })
+      const anotherError = new Error('another error')
+      expect(
+        networksReducer(intermediateState, {
+          type: 'ADD_ERROR',
+          error: anotherError,
+        })
+      ).to.deep.equal({
+        ...initialState,
+        errors: ['new error', anotherError],
       })
     })
   })

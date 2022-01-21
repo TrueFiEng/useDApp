@@ -5,6 +5,7 @@ export interface Network {
   provider?: JsonRpcProvider
   chainId?: ChainId
   accounts: string[]
+  errors: (Error | string)[]
 }
 
 interface UpdateNetwork {
@@ -12,4 +13,9 @@ interface UpdateNetwork {
   network: Partial<Network>
 }
 
-export type Actions = UpdateNetwork
+interface AddError {
+  type: 'ADD_ERROR'
+  error: Error | string
+}
+
+export type Actions = UpdateNetwork | AddError
