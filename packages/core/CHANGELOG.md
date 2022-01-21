@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.9.1
+
+### Patch Changes
+
+- b6fe5e1: Add the Oasis Emerald network
+- 34ba891: Add missing documentation for TransactionStatus
+- d04c8bb: Add the moonbeam network
+
 ## 0.9.0
 
 ### Minor Changes
