@@ -10,4 +10,17 @@ export const Avalanche: Chain = {
   getExplorerTransactionLink: (transactionHash: string) => `https://snowtrace.io/tx/${transactionHash}`,
 }
 
-export default { Avalanche }
+export const AvalancheTestnet: Chain = {
+  chainId: 43113,
+  chainName: 'AvalancheTestnet',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a',
+  getExplorerAddressLink: (address: string) => `https://testnet.snowtrace.io/tx/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://testnet.snowtrace.io/tx/${transactionHash}`,
+}
+
+export default { 
+  Avalanche,
+  AvalancheTestnet
+}
