@@ -25,7 +25,7 @@ export function InjectedProviderProvider({ children }: InjectedProviderProviderP
 
   const connect = useCallback(async () => {
     if (!injectedProvider) {
-      reportError('No injected provider available')
+      reportError(new Error('No injected provider available'))
       return
     }
     try {

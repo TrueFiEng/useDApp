@@ -51,7 +51,7 @@ describe('NetworkReducer', () => {
       expect(
         networksReducer(initialState, {
           type: 'ADD_ERROR',
-          error: 'new error',
+          error: ('new error' as unknown) as Error,
         })
       ).to.deep.equal({
         ...initialState,
@@ -62,7 +62,7 @@ describe('NetworkReducer', () => {
     it('adds more errors', async () => {
       const intermediateState = networksReducer(initialState, {
         type: 'ADD_ERROR',
-        error: 'new error',
+        error: ('new error' as unknown) as Error,
       })
       const anotherError = new Error('another error')
       expect(

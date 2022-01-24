@@ -5,7 +5,7 @@ export interface Network {
   provider?: JsonRpcProvider
   chainId?: ChainId
   accounts: string[]
-  errors: (Error | string)[]
+  errors: Error[]
 }
 
 interface UpdateNetwork {
@@ -15,7 +15,7 @@ interface UpdateNetwork {
 
 interface AddError {
   type: 'ADD_ERROR'
-  error: Error | string
+  error: Error
 }
 
 export type Actions = UpdateNetwork | AddError

@@ -4,7 +4,7 @@ import { Network } from './model'
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
-  reportError: (error: Error | string) => void
+  reportError: (error: Error) => void
   network: Network
 }>({
   network: {
