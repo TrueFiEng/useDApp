@@ -21,3 +21,31 @@ export function useChainCalls(calls: (ChainCall | Falsy)[]) {
 export function useChainCall(call: ChainCall | Falsy) {
   return useChainCalls([call])[0]
 }
+
+export function useChainCallsWithError(calls: (ChainCall | Falsy)[]) {
+  const { dispatchCalls, value } = useContext(ChainStateContext)
+
+  useEffect(() => {
+    const filteredCalls = calls.filter(Boolean) as ChainCall[]
+    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
+    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
+  }, [JSON.stringify(calls), dispatchCalls])
+
+  return {
+    results: useMemo(
+      () =>
+        calls.map((call) => {
+          if (call && value) {
+            return value.state?.[call.address]?.[call.data]
+          }
+        }),
+      [JSON.stringify(calls), value]
+    ),
+    error: value?.error,
+  }
+}
+
+export function useChainCallWithError(call: ChainCall | Falsy) {
+  const { results, error } = useChainCallsWithError([call])
+  return { result: results[0], error }
+}
