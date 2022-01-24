@@ -25,7 +25,9 @@ describe('Avalanche Chain', () => {
 
   it('getExplorerAddressLink', () => {
     expect(Avalanche.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://snowtrace.io/address/${TEST_ADDRESS}`)
-    expect(AvalancheTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://testnet.snowtrace.io/address/${TEST_ADDRESS}`)
+    expect(AvalancheTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://testnet.snowtrace.io/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {

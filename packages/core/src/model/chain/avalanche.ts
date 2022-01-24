@@ -20,7 +20,7 @@ export const AvalancheTestnet: Chain = {
   getExplorerTransactionLink: (transactionHash: string) => `https://testnet.snowtrace.io/tx/${transactionHash}`,
 }
 
-export default { 
+export default {
   Avalanche,
-  AvalancheTestnet
+  AvalancheTestnet,
 }
