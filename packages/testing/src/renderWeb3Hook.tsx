@@ -44,10 +44,6 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     initialProps: options?.renderHook?.initialProps,
   })
 
-  // we wait for the first update, before that the current is always undefined.
-  // after this, we get the actual first return value of the hook (which might happen to be undefined anyway)
-  // await waitForNextUpdate()
-
   return {
     result,
     provider,
