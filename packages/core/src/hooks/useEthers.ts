@@ -26,7 +26,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 
 export function useEthers(): Web3Ethers {
   const {
-    network: { provider, chainId, accounts },
+    network: { provider, chainId, accounts, errors },
     update,
   } = useNetwork()
   const { injectedProvider, connect } = useInjectedProvider()
@@ -56,7 +56,7 @@ export function useEthers(): Web3Ethers {
       })
     },
 
-    error: undefined,
+    error: errors.at(-1),
   }
 
   const activateBrowserWallet = useCallback(async () => {
