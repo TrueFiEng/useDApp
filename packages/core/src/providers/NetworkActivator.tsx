@@ -32,7 +32,7 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
 
   useEffect(() => {
     autoConnect && injectedProvider && !providerOverride && readonlyConnected && activateBrowserWallet()
-  }, [injectedProvider, readonlyConnected])
+  }, [readonlyConnected])
 
   return null
 }

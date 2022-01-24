@@ -56,7 +56,7 @@ export function useEthers(): Web3Ethers {
       })
     },
 
-    error: errors.at(-1),
+    error: errors[errors.length - 1],
   }
 
   const activateBrowserWallet = useCallback(async () => {
