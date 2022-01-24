@@ -6,7 +6,7 @@ import { useInjectedProvider } from './injectedProvider'
 
 export function NetworkActivator() {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
-  const { readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
+  const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const injectedProvider = useInjectedProvider()
   const [readonlyConnected, setReadonlyConnected] = useState(false)
 
@@ -14,6 +14,7 @@ export function NetworkActivator() {
     if (readOnlyChainId && readOnlyUrls) {
       if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
         const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
+        provider.pollingInterval = pollingInterval
         activate(provider).then(() => setReadonlyConnected(true))
       }
     }
