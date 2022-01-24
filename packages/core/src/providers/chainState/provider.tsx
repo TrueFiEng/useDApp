@@ -52,7 +52,6 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
           })
         })
         .catch((error) => {
-          console.error(error)
           reportError(error)
           dispatchState({ type: 'FETCH_ERROR', blockNumber, chainId, error })
           notifyDevtools({

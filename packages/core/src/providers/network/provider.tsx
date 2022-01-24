@@ -23,6 +23,7 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
   )
 
   const reportError = useCallback((error: Error | string) => {
+    console.error(error)
     dispatch({ type: 'ADD_ERROR', error })
   }, [])
 
