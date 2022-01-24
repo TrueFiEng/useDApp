@@ -16,7 +16,7 @@ export const AvalancheTestnet: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a',
-  getExplorerAddressLink: (address: string) => `https://testnet.snowtrace.io/tx/${address}`,
+  getExplorerAddressLink: (address: string) => `https://testnet.snowtrace.io/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://testnet.snowtrace.io/tx/${transactionHash}`,
 }
 
