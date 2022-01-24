@@ -1,6 +1,6 @@
 import { addressEqual, TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'

@@ -1,7 +1,8 @@
 {
     "spec": "examples/**/*.test.{ts,tsx}",
-    "require": "ts-node/register",
+    "require": ["ts-node/register", "jsdom-global/register"],
     "watchExtensions": "ts",
     "extension": "ts",
-    "timeout": 3000
+    "timeout": 3000,
+    "exit": true
 }

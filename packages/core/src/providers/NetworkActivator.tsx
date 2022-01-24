@@ -4,14 +4,24 @@ import { useConfig } from './config'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useInjectedProvider } from './injectedProvider'
 
-export function NetworkActivator() {
+interface NetworkActivatorProps {
+  providerOverride?: JsonRpcProvider
+}
+
+export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const injectedProvider = useInjectedProvider()
   const [readonlyConnected, setReadonlyConnected] = useState(false)
 
   useEffect(() => {
-    if (readOnlyChainId && readOnlyUrls) {
+    if (providerOverride) {
+      activate(providerOverride).then(() => undefined)
+    }
+  }, [providerOverride])
+
+  useEffect(() => {
+    if (readOnlyChainId && readOnlyUrls && !providerOverride) {
       if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
         const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
         provider.pollingInterval = pollingInterval
@@ -21,7 +31,7 @@ export function NetworkActivator() {
   }, [readOnlyChainId, readOnlyUrls])
 
   useEffect(() => {
-    autoConnect && injectedProvider && readonlyConnected && activateBrowserWallet()
+    autoConnect && injectedProvider && !providerOverride && readonlyConnected && activateBrowserWallet()
   }, [injectedProvider, readonlyConnected])
 
   return null

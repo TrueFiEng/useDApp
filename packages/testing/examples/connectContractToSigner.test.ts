@@ -35,7 +35,7 @@ describe('connectContractToSigner', () => {
 
   it('takes signer from library', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useEthers(), { mockProvider })
-    await waitForCurrent((val) => val !== undefined)
+    await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 
     const connectedContract = connectContractToSigner(token, undefined, library)
