@@ -16,7 +16,7 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
 
   useEffect(() => {
     if (providerOverride) {
-      activate(providerOverride).then(() => undefined)
+      activate(providerOverride)
     }
   }, [providerOverride])
 
