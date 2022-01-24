@@ -1,9 +1,8 @@
 import { useMemo } from 'react'
 import { Falsy } from '../model/types'
-import { useChainCallsWithError } from './useChainCalls'
+import { useChainStateCalls } from './useChainStateCalls'
 import { ChainCall } from '../providers/chainState/callsReducer'
 import { Contract } from '@ethersproject/contracts'
-import { Interface } from '@ethersproject/abi'
 
 function warnOnInvalidCall(call: Call | Falsy) {
   if (!call) {
@@ -52,7 +51,7 @@ export interface CallResults {
 }
 
 export function useCalls(calls: (Call | Falsy)[]): CallResults {
-  const { results, error } = useChainCallsWithError(calls.map(encodeCallData))
+  const { results, error } = useChainStateCalls(calls.map(encodeCallData))
 
   return {
     results: useMemo(
