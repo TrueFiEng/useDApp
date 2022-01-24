@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useReducer } from 'react'
 import { NetworkContext } from './context'
-import { networksReducer } from './reducer'
+import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 
 interface NetworkProviderProps {
@@ -8,12 +8,7 @@ interface NetworkProviderProps {
 }
 
 export function NetworkProvider({ children }: NetworkProviderProps) {
-  const [network, dispatch] = useReducer(networksReducer, {
-    provider: undefined,
-    chainId: undefined,
-    accounts: [],
-    errors: [],
-  })
+  const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
 
   const update = useCallback(
     (newNetwork: Partial<Network>) => {

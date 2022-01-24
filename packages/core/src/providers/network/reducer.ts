@@ -1,5 +1,12 @@
 import { Actions, Network } from './model'
 
+export const defaultNetworkState = {
+  provider: undefined,
+  chainId: undefined,
+  accounts: [],
+  errors: [],
+}
+
 export function networksReducer(prevState: Network, actions: Actions): Network {
   switch (actions.type) {
     case 'UPDATE_NETWORK':

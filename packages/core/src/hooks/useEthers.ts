@@ -10,7 +10,7 @@ export type Web3Ethers = {
   connector: undefined
   chainId?: ChainId
   account?: null | string
-  error?: Error
+  error?: Error | string
   library?: JsonRpcProvider
   active: boolean
   activateBrowserWallet: () => void

@@ -52,7 +52,7 @@ interface MulticallError {
 
 interface GenericError {
   type: 'GENERIC_ERROR'
-  error: Error
+  error: Error | string
 }
 
 type Notification =

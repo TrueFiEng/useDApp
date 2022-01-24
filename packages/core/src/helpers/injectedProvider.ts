@@ -47,6 +47,8 @@ export function subscribeToInjectedProvider(
       provider.off('accountsChanged', onAccountsChangedListener)
     }
   }
-
+  if (provider && !provider.on) {
+    onError(new Error('Provider does not support subscriptions'))
+  }
   return () => undefined
 }
