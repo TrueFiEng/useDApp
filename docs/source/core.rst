@@ -83,36 +83,119 @@ useBlockNumber
 
 Get the current block number. Will update automatically when the new block is mined.
 
-useChainCall
-============
+useCall
+=======
+
+Makes a call to a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useChainStateCall`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: Call | Falsy`` - a single call to a contract , also see `Call`_
+
+**Returns**
+
+- ``result: any[] | undefined`` - the result of a call or undefined if call didn't return yet
+
+- ``error?: any`` - encountered error or undefined if call was successful
+
+
+useCalls
+================
+Makes calls to specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
+A syntax sugar for `useChainStateCalls`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: Call[]`` - a list of contract calls , also see `Call`_
+
+**Returns**
+
+- ``any[] | undefined`` - array of results or undefined if call didn't return yet
+
+- ``error?: any`` - encountered error or undefined if call was successful
+
+
+useChainCall (deprecated)
+=========================
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
 
-It is recommended to use `useContractCall`_ where applicable instead of this method.
+It is recommended to use `useCall`_ where applicable instead of this method.
 
 *Parameters*
 
 - ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
 
+*Returns*
 
-useChainCalls
-=============
+- ``string | Falsy`` - encoded result or Falsy value if call didn't return yet or an error occured
+
+
+useChainCalls (deprecated)
+==========================
 
 Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
-It is recommended to use `useContractCall`_ where applicable instead of this method.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
 
 - ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
-useContractCall
-===============
+*Returns*
+
+- ``(string | Falsy)[]`` - encoded results or Falsy values if call didn't return yet or an error occured
+
+
+useChainStateCall
+=================
+
+Makes a call to a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+
+Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+It is recommended to use `useCall`_ where applicable instead of this method.
+
+*Parameters*
+
+- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
+
+*Returns*
+
+- ``result: string | undefined`` - encoded result or undefined if call didn't return yet or an error occured
+
+- ``error?: any`` - encountered error or undefined if call was successful
+
+
+useChainStateCalls
+==================
+
+Makes multiple calls to specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
+
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+It is recommended to use `useCalls`_ where applicable instead of this method.
+
+*Parameters*
+
+- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
+
+*Returns*
+
+- ``results: (string | undefined)[]`` - encoded results or undefined values if call didn't return yet or an error occured
+
+- ``error?: any`` - encountered error or undefined if call was successful
+
+
+
+useContractCall (deprecated)
+============================
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments instead of raw data.
+
+It is recommended to use `useCall`_ where applicable instead of this method as it is deprecated.
 
 **Parameters**
 
@@ -122,10 +205,13 @@ A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments i
 
 - ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
 
-useContractCalls
-================
+
+useContractCalls (deprecated)
+=============================
 Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
 A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
+
+It is recommended to use `useCalls`_ where applicable instead of this method as it is deprecated.
 
 **Parameters**
 
@@ -645,6 +731,20 @@ Enables reconnecting to last used provider when user revisits the page.
     {
       autoConnect: true
     }
+
+Call
+====
+
+Represents a single call to a contract that can be included in multicall.
+
+Fields:
+
+- ``contract: Contract`` - contract instance, see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
+
+- ``method: string`` - function name
+
+- ``args: any[]`` - arguments for the function
+
 
 
 ChainCall
