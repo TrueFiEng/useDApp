@@ -3,12 +3,12 @@ import { ChainCall } from '../providers/chainState/callsReducer'
 import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
 
-interface ChainCallResult {
+interface Result {
   results: (string | undefined)[]
   error?: any
 }
 
-export function useChainStateCalls(calls: (ChainCall | Falsy)[]): ChainCallResult {
+export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Result {
   const { dispatchCalls, value } = useContext(ChainStateContext)
 
   useEffect(() => {
