@@ -3,12 +3,9 @@ import { ChainCall } from '../providers/chainState/callsReducer'
 import { Falsy } from '../model/types'
 import { ChainState2Context } from '..'
 
-interface Result {
-  results: ({ value: string | undefined; success: boolean } | undefined)[]
-  error?: any
-}
+type Result = { value: string | undefined; success: boolean } | undefined
 
-export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Result {
+export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Result[] {
   const { dispatchCalls, value } = useContext(ChainState2Context)
 
   useEffect(() => {
@@ -17,21 +14,17 @@ export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Result {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return {
-    results: useMemo(
-      () =>
-        calls.map((call) => {
-          if (call && value) {
-            return value.state?.[call.address]?.[call.data]
-          }
-        }),
-      [JSON.stringify(calls), value]
-    ),
-    error: value?.error,
-  }
+  return useMemo(
+    () =>
+      calls.map((call) => {
+        if (call && value) {
+          return value.state?.[call.address]?.[call.data]
+        }
+      }),
+    [JSON.stringify(calls), value]
+  )
 }
 
 export function useChainStateCall(call: ChainCall | Falsy) {
-  const { results, error } = useChainStateCalls([call])
-  return { result: results[0], error }
+  return useChainStateCalls([call])[0]
 }

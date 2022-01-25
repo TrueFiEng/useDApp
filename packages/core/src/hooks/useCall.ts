@@ -36,53 +36,37 @@ export interface Call {
   args: any[]
 }
 
-export interface CallResult {
-  result: { value: any[]; success: boolean } | undefined
-  error?: any
-}
+type ErrorMessage = string
+
+export type CallResult = { value: any[] | undefined; error: ErrorMessage | undefined } | undefined
 
 export function useCall(call: Call | Falsy): CallResult {
-  const { results, error } = useCalls([call])
-  return { result: results[0], error }
+  return useCalls([call])[0]
 }
 
-type Error = [string]
+export function useCalls(calls: (Call | Falsy)[]): CallResult[] {
+  const results = useChainStateCalls(calls.map(encodeCallData))
 
-export interface CallResults {
-  results: ({ value: any[] | Error; success: boolean } | undefined)[]
-  error?: any
-}
-
-export function useCalls(calls: (Call | Falsy)[]): CallResults {
-  const { results, error } = useChainStateCalls(calls.map(encodeCallData))
-
-  return {
-    results: useMemo(
-      () =>
-        results.map((result, idx) => {
-          const call = calls[idx]
-          if (!result || !call) {
-            return undefined
-          }
-          const { value, success } = result
-          if (value === '0x' || value === undefined) {
-            warnOnInvalidCall(call)
-            return undefined
-          }
-          if (success) {
-            return {
-              success,
-              value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
-            }
-          } else {
-            return {
-              success,
-              value: utils.defaultAbiCoder.decode(['string'], value) as Error, // decode error message
-            }
-          }
-        }),
-      [results]
-    ),
-    error,
-  }
+  return useMemo(() => results.map((result, idx) => {
+    const call = calls[idx]
+    if (!result || !call) {
+      return undefined
+    }
+    const { value, success } = result
+    if (value === undefined || value === '0x') {
+      warnOnInvalidCall(call)
+      return undefined
+    }
+    if (success) {
+      return {
+        value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
+        error: undefined
+      }
+    } else {
+      return {
+        value: undefined,
+        error: utils.defaultAbiCoder.decode(['string'], value)[0] as string, // decode error message,
+      }
+    }
+  }), [results])
 }

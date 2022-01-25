@@ -7,6 +7,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { ChainCall, ERC20Mock, MultiCall2, multicall2 } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
 import { sendEmptyTx } from './utils/sendEmptyTx'
+import { utils } from 'ethers'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
@@ -33,8 +34,9 @@ describe('Multicall2', () => {
 
     const blockNumber = await mockProvider.getBlockNumber()
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-    const unwrappedResult = result[tokenContract.address]![data]
-    expect(BigNumber.from(unwrappedResult)).to.eq('10000')
+    const { value, success } = result[tokenContract.address]![data]
+    expect(success).to.be.true
+    expect(BigNumber.from(value)).to.eq('10000')
   })
 
   it('Fails to retrieve data on block number in the future', async () => {
@@ -58,31 +60,53 @@ describe('Multicall2', () => {
     await sendEmptyTx(deployer)
     const blockNumber = (await mockProvider.getBlockNumber()) - 1
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-    const unwrappedResult = result[tokenContract.address]![data]
-    expect(BigNumber.from(unwrappedResult)).to.eq('10000')
+    const { value, success } = result[tokenContract.address]![data]
+    expect(success).to.be.true
+    expect(BigNumber.from(value)).to.eq('10000')
   })
 
   it('Does not fail when doing multiple calls at once', async () => {
-    const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
-    const call: ChainCall = {
-      address: tokenContract.address,
-      data,
-    }
+    const calls: ChainCall[] = [
+      {
+        address: tokenContract.address,
+        data: new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address]),
+      },
+      {
+        address: tokenContract.address,
+        data: new Interface(ERC20Mock.abi).encodeFunctionData('symbol', []),
+      },
+      {
+        address: tokenContract.address,
+        data: new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [multicallContract.address]),
+      },
+    ]
 
     const blockNumber = await mockProvider.getBlockNumber()
-    await Promise.all([
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-      multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    ])
+    const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
+
+    expect(result[calls[0].address]![calls[0].data].value).to.equal(BigNumber.from(10000))
+    expect(result[calls[0].address]![calls[0].data].success).to.be.true
+    expect(result[calls[1].address]![calls[1].data].value).to.equal('MOCK')
+    expect(result[calls[1].address]![calls[1].data].success).to.be.true
+    expect(result[calls[2].address]![calls[2].data].value).to.equal(BigNumber.from(0))
+    expect(result[calls[2].address]![calls[2].data].success).to.be.true
+    // await Promise.all([
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
+    // ])
+  })
+
+  it('Does not fail when some of the calls fail', async () => {
+    
   })
 })

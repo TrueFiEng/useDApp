@@ -1,7 +1,5 @@
-import { ChainStateWithError } from '.'
-import { ChainState as ChainStateRaw } from './model'
-
-type ChainState = ChainStateRaw | ChainStateWithError
+import { Multicall1ChainState, Multicall2ChainState } from "."
+import { ChainState } from "./model"
 
 export interface State<T extends ChainState> {
   [chainId: number]:
@@ -31,7 +29,7 @@ interface FetchError {
 
 // TODO: try to merge somehow these reducers
 
-function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: Action<T>) {
+export function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: Action<T>) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
     if (action.type === 'FETCH_SUCCESS') {
@@ -64,10 +62,10 @@ function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: A
   return state
 }
 
-export function multicall1ChainStateReducer(state: State<ChainStateRaw>, action: Action<ChainStateRaw>) {
-  return chainStateReducer<ChainStateRaw>(state, action)
+export function multicall1ChainStateReducer(state: State<Multicall1ChainState>, action: Action<Multicall1ChainState>) {
+  return chainStateReducer<Multicall1ChainState>(state, action)
 }
 
-export function multicall2ChainStateReducer(state: State<ChainStateWithError>, action: Action<ChainStateWithError>) {
-  return chainStateReducer<ChainStateWithError>(state, action)
+export function multicall2ChainStateReducer(state: State<Multicall2ChainState>, action: Action<Multicall2ChainState>) {
+  return chainStateReducer<Multicall2ChainState>(state, action)
 }

@@ -1,5 +1,5 @@
 import { ChainId } from '../constants'
-import { ChainCall, ChainState, ChainStateWithError } from './chainState'
+import { ChainCall, ChainState } from './chainState'
 
 // NOTE: If you modify this file please ensure consistency with
 // packages/extension/src/providers/events/Message.ts
@@ -38,7 +38,7 @@ interface MulticallSuccess {
   duration: number
   chainId: ChainId
   blockNumber: number
-  state: ChainState | ChainStateWithError
+  state: ChainState
 }
 
 interface MulticallError {

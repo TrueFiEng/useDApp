@@ -1,4 +1,4 @@
-export type ChainState = {
+export type Multicall1ChainState = {
   [address: string]:
     | {
         [data: string]: string | undefined
@@ -7,7 +7,7 @@ export type ChainState = {
 }
 
 // TODO: better naming
-export type ChainStateWithError = {
+export type Multicall2ChainState = {
   [address: string]:
     | {
         [data: string]: {
@@ -17,3 +17,5 @@ export type ChainStateWithError = {
       }
     | undefined
 }
+
+export type ChainState = Multicall1ChainState | Multicall2ChainState

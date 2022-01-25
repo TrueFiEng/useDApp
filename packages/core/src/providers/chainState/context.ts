@@ -1,13 +1,11 @@
-import { createContext, useContext } from 'react'
-import { ChainStateWithError } from '.'
-import { useConfig } from '..'
+import { createContext } from 'react'
+import { Multicall1ChainState, Multicall2ChainState } from './model'
 import { Action } from './callsReducer'
-import { ChainState } from './model'
 
 export const ChainStateContext = createContext<{
   value?: {
     blockNumber: number
-    state?: ChainState
+    state?: Multicall1ChainState
     error?: unknown
   }
   multicallAddress: string | undefined
@@ -22,7 +20,7 @@ export const ChainStateContext = createContext<{
 export const ChainState2Context = createContext<{
   value?: {
     blockNumber: number
-    state?: ChainStateWithError
+    state?: Multicall2ChainState
     error?: unknown
   }
   multicallAddress: string | undefined
@@ -33,8 +31,3 @@ export const ChainState2Context = createContext<{
     // empty
   },
 })
-
-// export function useChainState() {
-//   const { multicallVersion } = useConfig()
-//   return multicallVersion === 1 ? useContext(ChainStateContext) : useContext(ChainState2Context)
-// }

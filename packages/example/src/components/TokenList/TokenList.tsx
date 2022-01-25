@@ -25,15 +25,15 @@ function useTokensBalance(tokenList?: any[], account?: string | null) {
 export function TokenList() {
   const { account, chainId } = useEthers()
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
-  const { results: balances, error } = useTokensBalance(tokens, account)
+  const results = useTokensBalance(tokens, account)
 
-  if (error && error.event === 'noNetwork') {
-    return <span>Connect wallet to see tokens list</span>
-  }
+  // if (error && error.event === 'noNetwork') {
+  //   return <span>Connect wallet to see tokens list</span>
+  // }
 
-  if (error) {
-    return <ErrorMessage>Error encountered: {error.message ? error.message.toString() : error.toString()}</ErrorMessage>
-  }
+  // if (error) {
+  //   return <ErrorMessage>Error encountered: {error.message ? error.message.toString() : error.toString()}</ErrorMessage>
+  // }
 
   return (
     <List>
@@ -42,7 +42,6 @@ export function TokenList() {
         {logoURI && <ListLogo src={toHttpPath(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
       {tokens &&
-        balances.every((balance) => !!balance) &&
         tokens.map((token, idx) => (
           <TokenItem key={token.address}>
             <TokenIconContainer>
@@ -50,7 +49,7 @@ export function TokenList() {
             </TokenIconContainer>
             <TokenName>{token.name}</TokenName>
             <TokenTicker>{token.symbol}</TokenTicker>
-            {balances?.[idx] && <TokenBalance>{formatUnits(balances?.[idx]?.[0], token.decimals)}</TokenBalance>}
+            {results?.[idx]?.value && <TokenBalance>{formatUnits(results?.[idx]?.value?.[0], token.decimals)}</TokenBalance>}
           </TokenItem>
         ))}
     </List>
