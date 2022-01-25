@@ -1,5 +1,23 @@
 # @usedapp/core
 
+## 0.9.1
+
+### Patch Changes
+
+- b6fe5e1: Add the Oasis Emerald network
+- 34ba891: Add missing documentation for TransactionStatus
+- d04c8bb: Add the moonbeam network
+
+## 0.9.0
+
+### Minor Changes
+
+- 26a4314: Add resetState function to useContractFunction and useSendTransaction so the UI can be reset easily after a transaction attempt.
+
+### Patch Changes
+
+- 3015cbd: Replace polygon explorer to polyscan
+
 ## 0.8.0
 
 ### Minor Changes

@@ -24,20 +24,12 @@ describe('Polygon Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(Polygon.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://explorer-mainnet.maticvigil.com/address/${TEST_ADDRESS}/transactions`
-    )
-    expect(Mumbai.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://explorer-mumbai.maticvigil.com/address/${TEST_ADDRESS}/transactions`
-    )
+    expect(Polygon.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://polygonscan.com/address/${TEST_ADDRESS}`)
+    expect(Mumbai.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://mumbai.polygonscan.com/address/${TEST_ADDRESS}`)
   })
 
   it('getExplorerTransactionLink', () => {
-    expect(Polygon.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://explorer-mainnet.maticvigil.com/tx/${TEST_TX}/internal-transactions`
-    )
-    expect(Mumbai.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://explorer-mumbai.maticvigil.com/tx/${TEST_TX}/internal-transactions`
-    )
+    expect(Polygon.getExplorerTransactionLink(TEST_TX)).to.eq(`https://polygonscan.com/tx/${TEST_TX}`)
+    expect(Mumbai.getExplorerTransactionLink(TEST_TX)).to.eq(`https://mumbai.polygonscan.com/tx/${TEST_TX}`)
   })
 })

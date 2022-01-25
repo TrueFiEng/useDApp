@@ -24,7 +24,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
 
 export function useContractFunction(contract: Contract, functionName: string, options?: TransactionOptions) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state } = usePromiseTransaction(chainId, options)
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
 
   const send = useCallback(
@@ -47,5 +47,5 @@ export function useContractFunction(contract: Contract, functionName: string, op
     [contract, functionName, options, library]
   )
 
-  return { send, state, events }
+  return { send, state, events, resetState }
 }

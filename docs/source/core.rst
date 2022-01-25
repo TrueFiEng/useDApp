@@ -139,9 +139,11 @@ A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments 
 
 useContractFunction
 ===================
-Hook returns an object with three variables: ``state`` , ``send`` and ``events``.
+Hook returns an object with four variables: ``state`` , ``send``, ``events`` , and ``resetState``.
 
 The ``state`` represents the status of transaction. See `TransactionStatus`_.
+
+``resetState`` can be used to reset the state to `None` after a transaction attempt has either succeeded or failed.
 
 The ``events`` is a array of parsed transaction events of type `LogDescription <https://docs.ethers.io/v5/api/utils/abi/interface/#LogDescription>`_.
 
@@ -181,9 +183,11 @@ Additionally, there can be one extra argument - `TransactionOverrides <https://d
 
 useSendTransaction
 ==================
-Hook returns an object with two variables: ``state`` and ``sendTransaction``.
+Hook returns an object with three variables: ``state``, ``resetState``, and ``sendTransaction``.
 
-The former represents the status of transaction. See `TransactionStatus`_.
+``state`` represents the status of transaction. See `TransactionStatus`_.
+
+``resetState`` can be used to reset the state to `None` after a transaction attempt has either succeeded or failed.
 
 To send a transaction use ``sendTransaction`` function returned by ``useSendTransaction``.
 
@@ -760,7 +764,7 @@ Represents a state of a single transaction.
 
 Fields:
 
-- ``status: TransactionState`` - string that can contain one of ``None`` ``Mining`` ``Success`` ``Fail`` ``Exception``
+- ``status: TransactionState`` - string that can contain one of ``None`` ``PendingSignature`` ``Mining`` ``Success`` ``Fail`` ``Exception``
 
 - ``transaction?: TransactionResponse`` - optional field. See `Transaction Response <https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse>`_.
 
@@ -797,7 +801,7 @@ Enum that represents chain ids.
 
 **Values:**
 
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, xDai, Polygon, Moonriver, Mumbai, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, Cronos, xDai, Polygon, Moonriver, Moonbeam, Mumbai, OasisEmerald, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
 
 Helpers
 *******
@@ -890,6 +894,8 @@ Returns name of a chain for a given `chainId`.
   getChainName(Theta.chainID) // Theta
   getChainName(Harmony.chainID) // Harmony
   getChainName(Moonriver.chainID) // Moonriver
+  getChainName(Moonbeam.chainID) // Moonbeam
+  getChainName(OasisEmerald.chainID) //Oasis Emerald Paratime
   getChainName(Fantom.chainID) // Fantom
 
 isTestChain (deprecated)
