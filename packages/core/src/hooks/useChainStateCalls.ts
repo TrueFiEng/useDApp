@@ -1,15 +1,15 @@
 import { useContext, useEffect, useMemo } from 'react'
 import { ChainCall } from '../providers/chainState/callsReducer'
-import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
+import { ChainState2Context } from '..'
 
 interface Result {
-  results: (string | undefined)[]
+  results: ({ value: string | undefined; success: boolean } | undefined)[]
   error?: any
 }
 
 export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Result {
-  const { dispatchCalls, value } = useContext(ChainStateContext)
+  const { dispatchCalls, value } = useContext(ChainState2Context)
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as ChainCall[]

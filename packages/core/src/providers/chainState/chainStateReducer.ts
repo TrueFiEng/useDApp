@@ -1,22 +1,25 @@
-import { ChainState } from './model'
+import { ChainStateWithError } from '.'
+import { ChainState as ChainStateRaw } from './model'
 
-export interface State {
+type ChainState = ChainStateRaw | ChainStateWithError
+
+export interface State<T extends ChainState> {
   [chainId: number]:
     | {
         blockNumber: number
-        state?: ChainState
+        state?: T
         error?: unknown
       }
     | undefined
 }
 
-type Action = FetchSuccess | FetchError
+type Action<T extends ChainState> = FetchSuccess<T> | FetchError
 
-interface FetchSuccess {
+interface FetchSuccess<T extends ChainState> {
   type: 'FETCH_SUCCESS'
   chainId: number
   blockNumber: number
-  state: ChainState
+  state: T
 }
 
 interface FetchError {
@@ -26,7 +29,9 @@ interface FetchError {
   error: unknown
 }
 
-export function chainStateReducer(state: State = {}, action: Action) {
+// TODO: try to merge somehow these reducers
+
+function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: Action<T>) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
     if (action.type === 'FETCH_SUCCESS') {
@@ -34,7 +39,7 @@ export function chainStateReducer(state: State = {}, action: Action) {
       if (action.blockNumber === current) {
         // merge with existing state to prevent requests coming out of order
         // from overwriting the data
-        const oldState = state[action.chainId]?.state ?? {}
+        const oldState = (state[action.chainId]?.state as T) ?? {}
         for (const [address, entries] of Object.entries(oldState)) {
           newState = {
             ...newState,
@@ -57,4 +62,12 @@ export function chainStateReducer(state: State = {}, action: Action) {
     }
   }
   return state
+}
+
+export function multicall1ChainStateReducer(state: State<ChainStateRaw>, action: Action<ChainStateRaw>) {
+  return chainStateReducer<ChainStateRaw>(state, action)
+}
+
+export function multicall2ChainStateReducer(state: State<ChainStateWithError>, action: Action<ChainStateWithError>) {
+  return chainStateReducer<ChainStateWithError>(state, action)
 }

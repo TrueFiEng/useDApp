@@ -3,6 +3,7 @@ import { Falsy } from '../model/types'
 import { useChainStateCalls } from './useChainStateCalls'
 import { ChainCall } from '../providers/chainState/callsReducer'
 import { Contract } from '@ethersproject/contracts'
+import { utils } from 'ethers'
 
 function warnOnInvalidCall(call: Call | Falsy) {
   if (!call) {
@@ -36,7 +37,7 @@ export interface Call {
 }
 
 export interface CallResult {
-  result: any[] | undefined
+  result: { value: any[]; success: boolean } | undefined
   error?: any
 }
 
@@ -45,8 +46,10 @@ export function useCall(call: Call | Falsy): CallResult {
   return { result: results[0], error }
 }
 
+type Error = [string]
+
 export interface CallResults {
-  results: (any[] | undefined)[]
+  results: ({ value: any[] | Error; success: boolean } | undefined)[]
   error?: any
 }
 
@@ -58,13 +61,25 @@ export function useCalls(calls: (Call | Falsy)[]): CallResults {
       () =>
         results.map((result, idx) => {
           const call = calls[idx]
-          if (result === '0x') {
+          if (!result || !call) {
+            return undefined
+          }
+          const { value, success } = result
+          if (value === '0x' || value === undefined) {
             warnOnInvalidCall(call)
             return undefined
           }
-          return call && result
-            ? (call.contract.interface.decodeFunctionResult(call.method, result) as any[])
-            : undefined
+          if (success) {
+            return {
+              success,
+              value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
+            }
+          } else {
+            return {
+              success,
+              value: utils.defaultAbiCoder.decode(['string'], value) as Error, // decode error message
+            }
+          }
         }),
       [results]
     ),

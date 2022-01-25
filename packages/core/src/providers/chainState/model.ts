@@ -5,3 +5,15 @@ export type ChainState = {
       }
     | undefined
 }
+
+// TODO: better naming
+export type ChainStateWithError = {
+  [address: string]:
+    | {
+        [data: string]: {
+          value: string | undefined
+          success: boolean
+        }
+      }
+    | undefined
+}
