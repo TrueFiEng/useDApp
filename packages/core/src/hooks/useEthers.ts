@@ -2,9 +2,10 @@ import { useCallback } from 'react'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
 import { useInjectedNetwork, useNetwork } from '../providers'
+import { EventEmitter } from 'events'
 
 export type Web3Ethers = {
-  activate: (provider: JsonRpcProvider) => Promise<void>
+  activate: (provider: JsonRpcProvider | EventEmitter) => Promise<void>
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
@@ -16,22 +17,11 @@ export type Web3Ethers = {
   activateBrowserWallet: () => void
 }
 
-async function tryToGetAccount(provider: JsonRpcProvider) {
-  try {
-    return await provider.getSigner().getAddress()
-  } catch (e) {
-    if (e.code === 'UNSUPPORTED_OPERATION') {
-      return undefined
-    }
-    throw e
-  }
-}
-
 export function useEthers(): Web3Ethers {
   const {
     network: { provider, chainId, accounts, errors },
-    update,
-    reportError,
+    deactivate,
+    activate,
   } = useNetwork()
   const { injectedProvider, connect } = useInjectedNetwork()
 
@@ -41,27 +31,23 @@ export function useEthers(): Web3Ethers {
     chainId,
     account: accounts[0],
     active: !!provider,
-    activate: async (provider: JsonRpcProvider) => {
-      try {
-        const account = await tryToGetAccount(provider)
-        const chainId = (await provider?.getNetwork())?.chainId
-        update({
-          provider,
-          chainId,
-          accounts: account ? [account] : [],
-        })
-      } catch (e) {
-        reportError(e)
+    activate: async (
+      providerOrConnector:
+        | JsonRpcProvider
+        | EventEmitter
+        | { getProvider: () => JsonRpcProvider | EventEmitter; activate: () => Promise<void> }
+    ) => {
+      if ('getProvider' in providerOrConnector) {
+        console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
+        await providerOrConnector.activate()
+        return activate(await providerOrConnector.getProvider())
       }
+      return activate(providerOrConnector)
     },
+    deactivate,
 
-    setError: () => undefined,
-    deactivate: () => {
-      update({
-        provider,
-        chainId,
-        accounts: [],
-      })
+    setError: () => {
+      throw new Error('setError is deprecated')
     },
 
     error: errors[errors.length - 1],

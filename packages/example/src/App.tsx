@@ -11,6 +11,8 @@ import { Tokens } from './pages/Tokens'
 import { Transactions } from './pages/Transactions'
 import { SendEtherPage } from './pages/SendEtherPage'
 import { NotificationsList } from './components/Transactions/History'
+import { Web3Modal } from './pages/Web3Modal'
+import { Web3ReactConnector } from './pages/Web3ReactConnector'
 
 export function App() {
   return (
@@ -25,6 +27,8 @@ export function App() {
           <Route exact path="/tokens" component={Tokens} />
           <Route exact path="/send" component={SendEtherPage} />
           <Route exact path="/transactions" component={Transactions} />
+          <Route exact path="/web3modal" component={Web3Modal} />
+          <Route exact path="/web3react" component={Web3ReactConnector} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>

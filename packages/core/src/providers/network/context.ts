@@ -1,10 +1,14 @@
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../constants'
 import { Network } from './model'
+import { JsonRpcProvider } from '@ethersproject/providers'
+import { EventEmitter } from 'events'
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
   reportError: (error: Error) => void
+  activate: (provider: JsonRpcProvider | EventEmitter) => Promise<void>
+  deactivate: () => void
   network: Network
 }>({
   network: {
@@ -15,6 +19,8 @@ export const NetworkContext = createContext<{
   },
   update: () => undefined,
   reportError: () => undefined,
+  activate: async () => undefined,
+  deactivate: () => undefined,
 })
 
 export function useNetwork() {
