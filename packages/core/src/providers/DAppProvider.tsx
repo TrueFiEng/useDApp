@@ -1,14 +1,14 @@
 import { ReactNode, useMemo } from 'react'
-import { Config, Chain } from '../constants'
-import { ConfigProvider } from '../providers/config/provider'
-import { BlockNumberProvider } from './blockNumber/provider'
+import { Chain, Config } from '../constants'
+import { ConfigProvider, useConfig } from './config'
+import { BlockNumberProvider } from './blockNumber'
 import { ChainStateProvider } from './chainState'
-import { useConfig } from './config/context'
-import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
+import { NetworkProvider } from './network'
+import { InjectedNetworkProvider } from './injectedNetwork'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -39,17 +39,19 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <EthersProvider>
-      <BlockNumberProvider>
-        <NetworkActivator />
-        <LocalMulticallProvider>
-          <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-            <NotificationsProvider>
-              <TransactionProvider>{children}</TransactionProvider>
-            </NotificationsProvider>
-          </ChainStateProvider>
-        </LocalMulticallProvider>
-      </BlockNumberProvider>
-    </EthersProvider>
+    <NetworkProvider>
+      <InjectedNetworkProvider>
+        <BlockNumberProvider>
+          <NetworkActivator />
+          <LocalMulticallProvider>
+            <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
+              <NotificationsProvider>
+                <TransactionProvider>{children}</TransactionProvider>
+              </NotificationsProvider>
+            </ChainStateProvider>
+          </LocalMulticallProvider>
+        </BlockNumberProvider>
+      </InjectedNetworkProvider>
+    </NetworkProvider>
   )
 }

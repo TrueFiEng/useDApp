@@ -1,12 +1,12 @@
 import { addressEqual, TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
-import { Web3Provider } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 
-export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: Web3Provider) {
+export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: JsonRpcProvider) {
   if (contract.signer) {
     return contract
   }

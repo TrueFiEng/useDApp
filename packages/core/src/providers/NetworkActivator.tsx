@@ -1,32 +1,38 @@
-import { NetworkConnector } from '@web3-react/network-connector'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useEthers } from '../hooks'
-import { InjectedConnector } from '@web3-react/injected-connector'
-import { useConfig } from './config/context'
+import { useConfig } from './config'
+import { JsonRpcProvider } from '@ethersproject/providers'
+import { useInjectedNetwork } from './injectedNetwork'
 
-export function NetworkActivator() {
-  const { activate, account, chainId: connectedChainId, active, connector } = useEthers()
-  const { networks, readOnlyChainId, readOnlyUrls, autoConnect } = useConfig()
+interface NetworkActivatorProps {
+  providerOverride?: JsonRpcProvider
+}
 
-  useEffect(() => {
-    const eagerConnect = async () => {
-      const injected = new InjectedConnector({
-        supportedChainIds: networks?.map((network) => network?.chainId) || [],
-      })
-      if (await injected.isAuthorized()) {
-        activate(injected)
-      }
-    }
-    autoConnect && eagerConnect()
-  }, [])
+export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
+  const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
+  const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
+  const injectedProvider = useInjectedNetwork()
+  const [readonlyConnected, setReadonlyConnected] = useState(false)
 
   useEffect(() => {
-    if (readOnlyChainId && readOnlyUrls) {
-      if (!active || (connector instanceof NetworkConnector && connectedChainId !== readOnlyChainId)) {
-        activate(new NetworkConnector({ defaultChainId: readOnlyChainId, urls: readOnlyUrls || [] }))
+    if (providerOverride) {
+      activate(providerOverride)
+    }
+  }, [providerOverride])
+
+  useEffect(() => {
+    if (readOnlyChainId && readOnlyUrls && !providerOverride) {
+      if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
+        const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
+        provider.pollingInterval = pollingInterval
+        activate(provider).then(() => setReadonlyConnected(true))
       }
     }
-  }, [readOnlyChainId, readOnlyUrls, active, account, connectedChainId, connector])
+  }, [readOnlyChainId, readOnlyUrls])
+
+  useEffect(() => {
+    autoConnect && injectedProvider && !providerOverride && readonlyConnected && activateBrowserWallet()
+  }, [readonlyConnected])
 
   return null
 }

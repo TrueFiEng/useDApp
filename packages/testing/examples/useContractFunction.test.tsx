@@ -18,10 +18,13 @@ describe('useContractFunction', () => {
   })
 
   it('success', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
-      mockProvider,
-    })
-
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(token, 'approve'),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
     await result.current.send(spender.address, 200)
     await waitForCurrent((val) => val.state !== undefined)
 
@@ -30,10 +33,13 @@ describe('useContractFunction', () => {
   })
 
   it('events', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
-      mockProvider,
-    })
-
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(token, 'approve'),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
     await result.current.send(spender.address, 200)
     await waitForCurrent((val) => val.state !== undefined)
 
@@ -48,10 +54,14 @@ describe('useContractFunction', () => {
   })
 
   it('exception (bad arguments)', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(token, 'approve'), {
-      mockProvider,
-    })
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(token, 'approve'),
+      {
+        mockProvider,
+      }
+    )
 
+    await waitForNextUpdate()
     await result.current.send()
     await waitForCurrent((val) => val.state !== undefined)
 
@@ -64,10 +74,14 @@ describe('useContractFunction', () => {
   it('fail (when transaction reverts)', async () => {
     const contractMock = contractCallOutOfGasMock
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useContractFunction(contractMock, 'transfer'), {
-      mockProvider,
-    })
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(contractMock, 'transfer'),
+      {
+        mockProvider,
+      }
+    )
 
+    await waitForNextUpdate()
     await result.current.send(spender.address, 10)
     await waitForCurrent((val) => val.state !== undefined)
 

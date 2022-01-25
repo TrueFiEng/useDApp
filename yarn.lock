@@ -1865,7 +1865,7 @@
     "@ethersproject/bytes" "^5.5.0"
     js-sha3 "0.8.0"
 
-"@ethersproject/keccak256@>=5.0.0-beta.127", "@ethersproject/keccak256@^5.0.0-beta.130", "@ethersproject/keccak256@^5.0.7":
+"@ethersproject/keccak256@>=5.0.0-beta.127", "@ethersproject/keccak256@^5.0.7":
   version "5.0.8"
   resolved "https://registry.yarnpkg.com/@ethersproject/keccak256/-/keccak256-5.0.8.tgz#13aaf69e1c8bd15fc59a2ebd055c0878f2a059c8"
   integrity sha512-zoGbwXcWWs9MX4NOAZ7N0hhgIRl4Q/IO/u9c/RHRY4WqDy3Ywm0OLamEV53QDwhjwn3YiiVwU1Ve5j7yJ0a/KQ==
@@ -2244,6 +2244,11 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
+"@metamask/detect-provider@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@metamask/detect-provider/-/detect-provider-1.2.0.tgz#3667a7531f2a682e3c3a43eaf3a1958bdb42a696"
+  integrity sha512-ocA76vt+8D0thgXZ7LxFPyqw3H7988qblgzddTDA6B8a/yU0uKV42QR/DhA+Jh11rJjxW0jKvwb5htA6krNZDQ==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2296,6 +2301,21 @@
     html-entities "^1.2.1"
     native-url "^0.2.6"
     schema-utils "^2.6.5"
+    source-map "^0.7.3"
+
+"@pmmmwh/react-refresh-webpack-plugin@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.4.tgz#df0d0d855fc527db48aac93c218a0bf4ada41f99"
+  integrity sha512-zZbZeHQDnoTlt2AF+diQT0wsSXpvWiaIOZwBRdltNFhG1+I3ozyaw7U/nBiUwyJ0D+zwdXp0E3bWOl38Ag2BMw==
+  dependencies:
+    ansi-html-community "^0.0.8"
+    common-path-prefix "^3.0.0"
+    core-js-pure "^3.8.1"
+    error-stack-parser "^2.0.6"
+    find-up "^5.0.0"
+    html-entities "^2.1.0"
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
     source-map "^0.7.3"
 
 "@polka/url@^1.0.0-next.9":
@@ -3388,6 +3408,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.4.tgz#218712242446fc868d0e007af29a4408c7765bc0"
   integrity sha512-8kQ3+wKGRNN0ghtEn7EGps/B8CzuBz1nXZEIGGLP2GnwbqYn4dbTs7k+VKLTq1HvZLRCIDtN3Snx1Ege8B7L5A==
 
+"@types/node@^17.0.10":
+  version "17.0.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.10.tgz#616f16e9d3a2a3d618136b1be244315d95bd7cab"
+  integrity sha512-S/3xB4KzyFxYGCppyDt68yzBU9ysL88lSdIah4D6cptdcltc4NCPCAMc0+PCpg/lLIyC7IPvj2Z52OJWeIUkog==
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
@@ -3679,47 +3704,6 @@
   version "1.0.0-beta.27"
   resolved "https://registry.yarnpkg.com/@uniswap/token-lists/-/token-lists-1.0.0-beta.27.tgz#8b02a979b0b0024cc96f60e694a3f6db6b2ccab2"
   integrity sha512-x5hmIniQ9TGqOBCRqfWcmZi/U5kB0qrHMDQ9igs3nMbK0wwmYLraL4owbIwXFGR/co6/lJYJC4K/Gjn4wZY5mQ==
-
-"@web3-react/abstract-connector@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@web3-react/abstract-connector/-/abstract-connector-6.0.7.tgz#401b3c045f1e0fab04256311be49d5144e9badc6"
-  integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
-  dependencies:
-    "@web3-react/types" "^6.0.7"
-
-"@web3-react/core@6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-6.1.1.tgz#06c853890723f600b387b738a4b71ef41d5cccb7"
-  integrity sha512-HKXOgPNCmFvrVsed+aW/HlVhwzs8t3b+nzg3BoxgJQo/5yLiJXSumHRBdUrPxhBQiHkHRZiVPAvzf/8JMnm74Q==
-  dependencies:
-    "@ethersproject/keccak256" "^5.0.0-beta.130"
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-invariant "^1.0.6"
-    tiny-warning "^1.0.3"
-
-"@web3-react/injected-connector@6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@web3-react/injected-connector/-/injected-connector-6.0.7.tgz#1e0be23f51fa07fe6547fe986768a46b74c3a426"
-  integrity sha512-Y7aJSz6pg+MWKtvdyuqyy6LWuH+4Tqtph1LWfiyVms9II9ar/9B/de4R8wh4wjg91wmHkU+D75yP09E/Soh2RA==
-  dependencies:
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-warning "^1.0.3"
-
-"@web3-react/network-connector@6.1.5":
-  version "6.1.5"
-  resolved "https://registry.yarnpkg.com/@web3-react/network-connector/-/network-connector-6.1.5.tgz#1fcce1dc7b03dac23fcc01ad0b0c870cb0e39e0b"
-  integrity sha512-Uwk8iMG8YCnTeKmyXt3Q7QJN28qTs0YTTW8/aes2R26KmYWCk3GdL2eal0QcXUixJy/IjrhXzbwzHgpneJqrWg==
-  dependencies:
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-invariant "^1.0.6"
-
-"@web3-react/types@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@web3-react/types/-/types-6.0.7.tgz#34a6204224467eedc6123abaf55fbb6baeb2809f"
-  integrity sha512-ofGmfDhxmNT1/P/MgVa8IKSkCStFiyvXe+U5tyZurKdrtTDFU+wJ/LxClPDtFerWpczNFPUSrKcuhfPX1sI6+A==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -4088,6 +4072,11 @@ ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.npmjs.org/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
+
+ansi-html-community@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
+  integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
 
 ansi-html@0.0.7, ansi-html@^0.0.7:
   version "0.0.7"
@@ -6145,6 +6134,11 @@ commander@^7.0.0:
   resolved "https://registry.npmjs.org/commander/-/commander-7.1.0.tgz#f2eaecf131f10e36e07d894698226e36ae0eb5ff"
   integrity sha512-pRxBna3MJe6HKnBGsDyMv8ETbptw3axEdYHoqNh7gu5oDcew8fs0xnivZGm06Ogk8zGAJ9VX+OPEr2GXEQK4dg==
 
+common-path-prefix@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/common-path-prefix/-/common-path-prefix-3.0.0.tgz#7d007a7e07c58c4b4d5f433131a19141b29f11e0"
+  integrity sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==
+
 commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
@@ -6318,6 +6312,11 @@ core-js-pure@^3.0.0, core-js-pure@^3.0.1:
   version "3.8.3"
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.8.3.tgz#10e9e3b2592ecaede4283e8f3ad7020811587c02"
   integrity sha512-V5qQZVAr9K0xu7jXg1M7qTEwuxUgqr7dUOezGaNa7i+Xn9oXAU/d1fzqD9ObuwpVQOaorO5s70ckyi1woP9lVA==
+
+core-js-pure@^3.8.1:
+  version "3.20.3"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.20.3.tgz#6cc4f36da06c61d95254efc54024fe4797fd5d02"
+  integrity sha512-Q2H6tQ5MtPtcC7f3HxJ48i4Q7T9ybPKgvWyuH7JXIoNa2pm0KuBnycsET/qw1SLLZYfbsbrZQNMeIOClb+6WIA==
 
 core-js-pure@^3.8.2:
   version "3.15.1"
@@ -9376,6 +9375,11 @@ html-entities@^1.2.0, html-entities@^1.2.1, html-entities@^1.3.1:
   version "1.4.0"
   resolved "https://registry.npmjs.org/html-entities/-/html-entities-1.4.0.tgz#cfbd1b01d2afaf9adca1b10ae7dffab98c71d2dc"
   integrity sha512-8nxjcBcd8wovbeKx7h3wTji4e6+rhaVuPNpMqwWgnHh+N9ToqsCs6XztWRBPQ+UtzsoMAdKZtUENoVzU/EMtZA==
+
+html-entities@^2.1.0:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-2.3.2.tgz#760b404685cb1d794e4f4b744332e3b00dcfe488"
+  integrity sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==
 
 html-escaper@^2.0.0:
   version "2.0.2"
@@ -15181,7 +15185,7 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tiny-invariant@^1.0.2, tiny-invariant@^1.0.6:
+tiny-invariant@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
   integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==

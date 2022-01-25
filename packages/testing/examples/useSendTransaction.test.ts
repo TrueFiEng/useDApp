@@ -27,10 +27,13 @@ describe('useSendTransaction', () => {
     const receiverBalance = await receiver.getBalance()
     const secondReceiverBalance = await secondReceiver.getBalance()
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useSendTransaction({ signer: receiver }), {
-      mockProvider,
-    })
-
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useSendTransaction({ signer: receiver }),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
     await result.current.sendTransaction({ to: secondReceiver.address, value: BigNumber.from(10) })
     await waitForCurrent((val) => val.state != undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -39,7 +42,8 @@ describe('useSendTransaction', () => {
   })
 
   it('Exception(invalid sender)', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    await waitForNextUpdate()
 
     await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
     await waitForCurrent((val) => val.state !== undefined)

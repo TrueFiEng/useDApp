@@ -1,31 +1,79 @@
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../constants'
 import { useCallback } from 'react'
-import { useConfig } from '../providers/config/context'
-import { InjectedConnector } from '@web3-react/injected-connector'
+import { JsonRpcProvider } from '@ethersproject/providers'
+import { ChainId } from '../constants'
+import { useInjectedNetwork, useNetwork } from '../providers'
 
-type ActivateBrowserWallet = (onError?: (error: Error) => void, throwErrors?: boolean) => void
-
-export type Web3Ethers = ReturnType<typeof useWeb3React> & {
-  library?: Web3Provider
+export type Web3Ethers = {
+  activate: (provider: JsonRpcProvider) => Promise<void>
+  setError: (error: Error) => void
+  deactivate: () => void
+  connector: undefined
   chainId?: ChainId
-  activateBrowserWallet: ActivateBrowserWallet
+  account?: null | string
+  error?: Error
+  library?: JsonRpcProvider
+  active: boolean
+  activateBrowserWallet: () => void
+}
+
+async function tryToGetAccount(provider: JsonRpcProvider) {
+  try {
+    return await provider.getSigner().getAddress()
+  } catch (e) {
+    if (e.code === 'UNSUPPORTED_OPERATION') {
+      return undefined
+    }
+    throw e
+  }
 }
 
 export function useEthers(): Web3Ethers {
-  const result = useWeb3React<Web3Provider>()
-  const { networks } = useConfig()
-  const activateBrowserWallet = useCallback<ActivateBrowserWallet>(
-    async (onError, throwErrors) => {
-      const injected = new InjectedConnector({ supportedChainIds: networks?.map((network) => network.chainId) })
-      if (onError instanceof Function) {
-        await result.activate(injected, onError, throwErrors)
-      } else {
-        await result.activate(injected, undefined, throwErrors)
+  const {
+    network: { provider, chainId, accounts, errors },
+    update,
+    reportError,
+  } = useNetwork()
+  const { injectedProvider, connect } = useInjectedNetwork()
+
+  const result = {
+    connector: undefined,
+    library: provider,
+    chainId,
+    account: accounts[0],
+    active: !!provider,
+    activate: async (provider: JsonRpcProvider) => {
+      try {
+        const account = await tryToGetAccount(provider)
+        const chainId = (await provider?.getNetwork())?.chainId
+        update({
+          provider,
+          chainId,
+          accounts: account ? [account] : [],
+        })
+      } catch (e) {
+        reportError(e)
       }
     },
-    [networks]
-  )
+
+    setError: () => undefined,
+    deactivate: () => {
+      update({
+        provider,
+        chainId,
+        accounts: [],
+      })
+    },
+
+    error: errors[errors.length - 1],
+  }
+
+  const activateBrowserWallet = useCallback(async () => {
+    if (!injectedProvider) {
+      return
+    }
+    await connect()
+    await result.activate(injectedProvider)
+  }, [injectedProvider])
+
   return { ...result, activateBrowserWallet }
 }
