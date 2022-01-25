@@ -48,7 +48,7 @@
     "build": "yarn run build:esm && yarn run build:cjs",
     "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
-    "test": "mocha --exit",
+    "test": "mocha",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
