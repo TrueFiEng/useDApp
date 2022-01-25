@@ -8,7 +8,7 @@ import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider } from './network'
-import { InjectedProviderProvider } from './injectedProvider'
+import { InjectedNetworkProvider } from './injectedNetwork'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -40,7 +40,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
 
   return (
     <NetworkProvider>
-      <InjectedProviderProvider>
+      <InjectedNetworkProvider>
         <BlockNumberProvider>
           <NetworkActivator />
           <LocalMulticallProvider>
@@ -51,7 +51,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
             </ChainStateProvider>
           </LocalMulticallProvider>
         </BlockNumberProvider>
-      </InjectedProviderProvider>
+      </InjectedNetworkProvider>
     </NetworkProvider>
   )
 }

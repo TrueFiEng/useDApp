@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
 
-export const InjectedProviderContext = createContext<{
+export const InjectedNetworkContext = createContext<{
   injectedProvider: Web3Provider | undefined
   connect: () => Promise<Web3Provider | undefined>
 }>({
@@ -9,6 +9,6 @@ export const InjectedProviderContext = createContext<{
   connect: async () => undefined,
 })
 
-export function useInjectedProvider() {
-  return useContext(InjectedProviderContext)
+export function useInjectedNetwork() {
+  return useContext(InjectedNetworkContext)
 }

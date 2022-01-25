@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useEthers } from '../hooks'
 import { useConfig } from './config'
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { useInjectedProvider } from './injectedProvider'
+import { useInjectedNetwork } from './injectedNetwork'
 
 interface NetworkActivatorProps {
   providerOverride?: JsonRpcProvider
@@ -11,7 +11,7 @@ interface NetworkActivatorProps {
 export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
-  const injectedProvider = useInjectedProvider()
+  const injectedProvider = useInjectedNetwork()
   const [readonlyConnected, setReadonlyConnected] = useState(false)
 
   useEffect(() => {

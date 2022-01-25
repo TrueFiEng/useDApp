@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
-import { useInjectedProvider, useNetwork } from '../providers'
+import { useInjectedNetwork, useNetwork } from '../providers'
 
 export type Web3Ethers = {
   activate: (provider: JsonRpcProvider) => Promise<void>
@@ -33,7 +33,7 @@ export function useEthers(): Web3Ethers {
     update,
     reportError,
   } = useNetwork()
-  const { injectedProvider, connect } = useInjectedProvider()
+  const { injectedProvider, connect } = useInjectedNetwork()
 
   const result = {
     connector: undefined,

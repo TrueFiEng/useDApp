@@ -1,15 +1,15 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react'
-import { InjectedProviderContext } from './context'
+import { InjectedNetworkContext } from './context'
 import { Web3Provider } from '@ethersproject/providers'
 import { getInjectedProvider, subscribeToInjectedProvider } from '../../helpers/injectedProvider'
 import { useNetwork } from '../network'
 import { useConfig } from '../config'
 
-interface InjectedProviderProviderProps {
+interface InjectedNetworkProviderProps {
   children: ReactNode
 }
 
-export function InjectedProviderProvider({ children }: InjectedProviderProviderProps) {
+export function InjectedNetworkProvider({ children }: InjectedNetworkProviderProps) {
   const { update, reportError } = useNetwork()
   const { pollingInterval } = useConfig()
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
@@ -37,7 +37,7 @@ export function InjectedProviderProvider({ children }: InjectedProviderProviderP
   }, [injectedProvider])
 
   return (
-    <InjectedProviderContext.Provider
+    <InjectedNetworkContext.Provider
       value={{
         injectedProvider,
         connect,
