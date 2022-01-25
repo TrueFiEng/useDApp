@@ -19,8 +19,11 @@ export type Web3Ethers = {
 async function tryToGetAccount(provider: JsonRpcProvider) {
   try {
     return await provider.getSigner().getAddress()
-  } catch {
-    return undefined
+  } catch (e) {
+    if (e.code === 'UNSUPPORTED_OPERATION') {
+      return undefined
+    }
+    throw e
   }
 }
 
@@ -28,6 +31,7 @@ export function useEthers(): Web3Ethers {
   const {
     network: { provider, chainId, accounts, errors },
     update,
+    reportError,
   } = useNetwork()
   const { injectedProvider, connect } = useInjectedProvider()
 
@@ -38,13 +42,17 @@ export function useEthers(): Web3Ethers {
     account: accounts[0],
     active: !!provider,
     activate: async (provider: JsonRpcProvider) => {
-      const account = await tryToGetAccount(provider)
-      const chainId = (await provider?.getNetwork())?.chainId
-      update({
-        provider,
-        chainId,
-        accounts: account ? [account] : [],
-      })
+      try {
+        const account = await tryToGetAccount(provider)
+        const chainId = (await provider?.getNetwork())?.chainId
+        update({
+          provider,
+          chainId,
+          accounts: account ? [account] : [],
+        })
+      } catch (e) {
+        reportError(e)
+      }
     },
 
     setError: () => undefined,
