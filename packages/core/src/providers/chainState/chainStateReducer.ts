@@ -59,7 +59,7 @@ export function chainStateReducer<T extends ChainState>(state: State<T> = {}, ac
   return state
 }
 
-function getChainStateReducer<T extends ChainState>() {
+export function getChainStateReducer<T extends ChainState>() {
   return (state: State<T>, action: Action<T>) => chainStateReducer(state, action)
 }
 

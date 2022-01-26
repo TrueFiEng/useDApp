@@ -34,7 +34,7 @@ describe('Multicall2', () => {
 
     const blockNumber = await mockProvider.getBlockNumber()
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-    const { value, success } = result[tokenContract.address]![data]
+    const { value, success } = result[tokenContract.address]![data] || {}
     expect(success).to.be.true
     expect(BigNumber.from(value)).to.eq('10000')
   })
@@ -60,7 +60,7 @@ describe('Multicall2', () => {
     await sendEmptyTx(deployer)
     const blockNumber = (await mockProvider.getBlockNumber()) - 1
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-    const { value, success } = result[tokenContract.address]![data]
+    const { value, success } = result[tokenContract.address]![data] || {}
     expect(success).to.be.true
     expect(BigNumber.from(value)).to.eq('10000')
   })
@@ -86,15 +86,16 @@ describe('Multicall2', () => {
     const blockNumber = await mockProvider.getBlockNumber()
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
 
-    expect(result[calls[0].address]![calls[0].data].value).to.equal(BigNumber.from(10000))
-    expect(result[calls[0].address]![calls[0].data].success).to.be.true
-
-    const decodedSymbol = utils.defaultAbiCoder.decode(['string'], result[calls[1].address]![calls[1].data].value!)[0]
+    let { value, success } = result[calls[0].address]![calls[0].data] || {}
+    expect(value).to.equal(BigNumber.from(10000))
+    expect(success).to.be.true
+    ;({ value, success } = result[calls[1].address]![calls[1].data] || {})
+    const decodedSymbol = utils.defaultAbiCoder.decode(['string'], value!)[0]
     expect(decodedSymbol).to.equal('MOCK')
-    expect(result[calls[1].address]![calls[1].data].success).to.be.true
-
-    expect(result[calls[2].address]![calls[2].data].value).to.equal(BigNumber.from(0))
-    expect(result[calls[2].address]![calls[2].data].success).to.be.true
+    expect(success).to.be.true
+    ;({ value, success } = result[calls[2].address]![calls[2].data] || {})
+    expect(value).to.equal(BigNumber.from(0))
+    expect(success).to.be.true
   })
 
   it('Does not fail when some of the calls fail', async () => {
@@ -123,15 +124,15 @@ describe('Multicall2', () => {
     const blockNumber = await mockProvider.getBlockNumber()
     const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
 
-    expect(result[calls[0].address]![calls[0].data].value).to.equal(BigNumber.from(10000))
-    expect(result[calls[0].address]![calls[0].data].success).to.be.true
-
-    const { value, success } = result[calls[1].address]![calls[1].data]
+    let { value, success } = result[calls[0].address]![calls[0].data] || {}
+    expect(value).to.equal(BigNumber.from(10000))
+    expect(success).to.be.true
+    ;({ value, success } = result[calls[1].address]![calls[1].data] || {})
     const decodedValue = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value!)[0]
     expect(decodedValue).to.equal('ERC20: transfer amount exceeds balance')
     expect(success).to.be.false
-
-    expect(result[calls[2].address]![calls[2].data].value).to.equal(BigNumber.from(0))
-    expect(result[calls[2].address]![calls[2].data].success).to.be.true
+    ;({ value, success } = result[calls[2].address]![calls[2].data] || {})
+    expect(value).to.equal(BigNumber.from(0))
+    expect(success).to.be.true
   })
 })

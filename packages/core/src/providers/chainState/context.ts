@@ -1,17 +1,19 @@
-import { createContext } from 'react'
+import { Context, createContext } from 'react'
 import { Action } from './callsReducer'
 import { ChainState, Multicall1ChainState, Multicall2ChainState } from './model'
 
-export function getChainStateContext<T extends ChainState>() {
-  return createContext<{
-    value?: {
-      blockNumber: number
-      state?: T
-      error?: unknown
-    }
-    multicallAddress: string | undefined
-    dispatchCalls: (action: Action) => void
-  }>({
+export interface MulticallContext<T> {
+  value?: {
+    blockNumber: number
+    state?: T
+    error?: unknown
+  }
+  multicallAddress: string | undefined
+  dispatchCalls: (action: Action) => void
+}
+
+export function getChainStateContext<T extends ChainState>(): Context<MulticallContext<T>> {
+  return createContext<MulticallContext<T>>({
     multicallAddress: '',
     dispatchCalls: () => {
       // empty

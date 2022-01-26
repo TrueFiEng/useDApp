@@ -2,7 +2,7 @@ import { ReactNode, useMemo } from 'react'
 import { Config, Chain } from '../constants'
 import { ConfigProvider } from '../providers/config/provider'
 import { BlockNumberProvider } from './blockNumber/provider'
-import { ChainStateProvider as ChainStateProvider1, ChainStateProvider2 } from './chainState'
+import { ChainStateProvider as ChainState1Provider, ChainState2Provider } from './chainState'
 import { useConfig } from './config/context'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
@@ -52,7 +52,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   )
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
-  const ChainStateProvider = multicallVersion === 1 ? ChainStateProvider1 : ChainStateProvider2
+  const ChainStateProvider = multicallVersion === 1 ? ChainState1Provider : ChainState2Provider
 
   return (
     <NetworkProvider>
