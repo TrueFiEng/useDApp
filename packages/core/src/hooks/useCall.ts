@@ -46,27 +46,30 @@ export function useCall(call: Call | Falsy): CallResult {
 
 export function useCalls(calls: (Call | Falsy)[]): CallResult[] {
   const results = useChainStateCalls(calls.map(encodeCallData))
-
-  return useMemo(() => results.map((result, idx) => {
-    const call = calls[idx]
-    if (!result || !call) {
-      return undefined
-    }
-    const { value, success } = result
-    if (value === undefined || value === '0x') {
-      warnOnInvalidCall(call)
-      return undefined
-    }
-    if (success) {
-      return {
-        value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
-        error: undefined
-      }
-    } else {
-      return {
-        value: undefined,
-        error: utils.defaultAbiCoder.decode(['string'], value)[0] as string, // decode error message,
-      }
-    }
-  }), [results])
+  return useMemo(
+    () =>
+      results.map((result, idx) => {
+        const call = calls[idx]
+        if (!result || !call) {
+          return undefined
+        }
+        const { value, success } = result
+        if (value === undefined || value === '0x') {
+          warnOnInvalidCall(call)
+          return undefined
+        }
+        if (success) {
+          return {
+            value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
+            error: undefined,
+          }
+        } else {
+          return {
+            value: undefined,
+            error: new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0] as string, // decode error message,
+          }
+        }
+      }),
+    [results]
+  )
 }

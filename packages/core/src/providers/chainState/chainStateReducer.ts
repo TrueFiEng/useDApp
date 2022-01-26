@@ -1,5 +1,5 @@
-import { Multicall1ChainState, Multicall2ChainState } from "."
-import { ChainState } from "./model"
+import { Multicall1ChainState, Multicall2ChainState } from '.'
+import { ChainState } from './model'
 
 export interface State<T extends ChainState> {
   [chainId: number]:

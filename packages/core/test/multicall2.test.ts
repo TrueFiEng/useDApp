@@ -66,18 +66,20 @@ describe('Multicall2', () => {
   })
 
   it('Does not fail when doing multiple calls at once', async () => {
+    const erc20Interface = new Interface(ERC20Mock.abi)
+
     const calls: ChainCall[] = [
       {
         address: tokenContract.address,
-        data: new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address]),
+        data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
       },
       {
         address: tokenContract.address,
-        data: new Interface(ERC20Mock.abi).encodeFunctionData('symbol', []),
+        data: erc20Interface.encodeFunctionData('symbol', []),
       },
       {
         address: tokenContract.address,
-        data: new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [multicallContract.address]),
+        data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
       },
     ]
 
@@ -86,27 +88,50 @@ describe('Multicall2', () => {
 
     expect(result[calls[0].address]![calls[0].data].value).to.equal(BigNumber.from(10000))
     expect(result[calls[0].address]![calls[0].data].success).to.be.true
-    expect(result[calls[1].address]![calls[1].data].value).to.equal('MOCK')
+
+    const decodedSymbol = utils.defaultAbiCoder.decode(['string'], result[calls[1].address]![calls[1].data].value!)[0]
+    expect(decodedSymbol).to.equal('MOCK')
     expect(result[calls[1].address]![calls[1].data].success).to.be.true
+
     expect(result[calls[2].address]![calls[2].data].value).to.equal(BigNumber.from(0))
     expect(result[calls[2].address]![calls[2].data].success).to.be.true
-    // await Promise.all([
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    //   multicall2(mockProvider, multicallContract.address, blockNumber, [call]),
-    // ])
   })
 
   it('Does not fail when some of the calls fail', async () => {
-    
+    const erc20Interface = new Interface(ERC20Mock.abi)
+
+    const calls: ChainCall[] = [
+      {
+        address: tokenContract.address,
+        data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
+      },
+      // invalid one
+      {
+        address: tokenContract.address,
+        data: erc20Interface.encodeFunctionData('transferFrom', [
+          multicallContract.address,
+          deployer.address,
+          BigNumber.from(10000),
+        ]),
+      },
+      {
+        address: tokenContract.address,
+        data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
+      },
+    ]
+
+    const blockNumber = await mockProvider.getBlockNumber()
+    const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
+
+    expect(result[calls[0].address]![calls[0].data].value).to.equal(BigNumber.from(10000))
+    expect(result[calls[0].address]![calls[0].data].success).to.be.true
+
+    const { value, success } = result[calls[1].address]![calls[1].data]
+    const decodedValue = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value!)[0]
+    expect(decodedValue).to.equal('ERC20: transfer amount exceeds balance')
+    expect(success).to.be.false
+
+    expect(result[calls[2].address]![calls[2].data].value).to.equal(BigNumber.from(0))
+    expect(result[calls[2].address]![calls[2].data].success).to.be.true
   })
 })

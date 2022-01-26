@@ -1,5 +1,9 @@
 import { expect } from 'chai'
-import { multicall1ChainStateReducer, multicall2ChainStateReducer, State } from '../../src/providers/chainState/chainStateReducer'
+import {
+  multicall1ChainStateReducer,
+  multicall2ChainStateReducer,
+  State,
+} from '../../src/providers/chainState/chainStateReducer'
 import { Mainnet, Multicall1ChainState, Multicall2ChainState } from '../../src'
 
 describe('chainStateReducer', () => {
@@ -31,7 +35,7 @@ describe('chainStateReducer', () => {
       })
       expect(result).to.deep.equal(state)
     })
-  
+
     it('overwrites with updates from newer blocks', () => {
       const state: State<Multicall1ChainState> = {
         [Mainnet.chainId]: {
@@ -65,7 +69,7 @@ describe('chainStateReducer', () => {
       }
       expect(result).to.deep.equal(expected)
     })
-  
+
     it('merges updates from same block', () => {
       // This behavior is needed to handle requests resolving out of order.
       // Imagine the following calls are made:
@@ -133,8 +137,8 @@ describe('chainStateReducer', () => {
             [ADDRESS_A]: {
               '0xdead': {
                 value: '0xbeef',
-                success: true
-              }
+                success: true,
+              },
             },
           },
         },
@@ -147,8 +151,8 @@ describe('chainStateReducer', () => {
           [ADDRESS_A]: {
             '0xdead': {
               value: '0x0001',
-              success: true
-            }
+              success: true,
+            },
           },
         },
       })
@@ -163,7 +167,7 @@ describe('chainStateReducer', () => {
             [ADDRESS_A]: {
               '0xdead': {
                 value: '0xbeef',
-                success: true
+                success: true,
               },
             },
           },
@@ -177,7 +181,7 @@ describe('chainStateReducer', () => {
           [ADDRESS_B]: {
             '0xabcd': {
               value: '0x5678',
-              success: false
+              success: false,
             },
           },
         },
@@ -189,7 +193,7 @@ describe('chainStateReducer', () => {
             [ADDRESS_B]: {
               '0xabcd': {
                 value: '0x5678',
-                success: false
+                success: false,
               },
             },
           },
@@ -206,13 +210,13 @@ describe('chainStateReducer', () => {
             [ADDRESS_A]: {
               '0xdead': {
                 value: '0xbeef',
-                success: true
-              }
+                success: true,
+              },
             },
             [ADDRESS_C]: {
               '0xcc': {
                 value: '0xdd',
-                success: false
+                success: false,
               },
             },
           },
@@ -232,7 +236,7 @@ describe('chainStateReducer', () => {
           [ADDRESS_B]: {
             '0xabcd': {
               value: '0x5678',
-              success: true
+              success: true,
             },
           },
         },
@@ -244,23 +248,23 @@ describe('chainStateReducer', () => {
             [ADDRESS_A]: {
               '0xdead': {
                 value: '0xbeef',
-                success: true
+                success: true,
               },
               '0xabcd': {
                 value: '0x30',
-                success: false
+                success: false,
               },
             },
             [ADDRESS_B]: {
               '0xabcd': {
                 value: '0x5678',
-                success: true
-              }
+                success: true,
+              },
             },
             [ADDRESS_C]: {
               '0xcc': {
                 value: '0xdd',
-                success: false
+                success: false,
               },
             },
           },
