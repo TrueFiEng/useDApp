@@ -1,5 +1,21 @@
 # @usedapp/example
 
+## 0.4.0
+
+### Minor Changes
+
+- fd8e924: Remove @web3-react dependency, introduce own way of provider management
+
+### Patch Changes
+
+- c70a76e: Support EIP-1193 providers and legacy web3-react connectors
+- be413b4: Fix peer dependency conflict:
+  - update @pmmmwh/react-refresh-webpack-plugin
+- Updated dependencies [c70a76e]
+- Updated dependencies [fd8e924]
+  - @usedapp/core@0.10.0
+  - @usedapp/coingecko@0.4.2
+
 ## 0.3.1
 
 ### Patch Changes

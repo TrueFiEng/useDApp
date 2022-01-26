@@ -1,5 +1,17 @@
 # @usedapp/testing
 
+## 0.4.0
+
+### Minor Changes
+
+- fd8e924: Remove @web3-react dependency, introduce own way of provider management
+
+### Patch Changes
+
+- Updated dependencies [c70a76e]
+- Updated dependencies [fd8e924]
+  - @usedapp/core@0.10.0
+
 ## 0.3.0
 
 ### Minor Changes
