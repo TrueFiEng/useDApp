@@ -10,7 +10,9 @@ import {
 } from '../providers'
 import { Falsy } from '../model/types'
 
-function useChainCallsRaw<T extends ChainState>(calls: (ChainCall | Falsy)[]): any[] {
+type MulticallResult = Multicall1Result | Multicall2Result
+
+function useChainCallsRaw<T extends ChainState, U extends MulticallResult>(calls: (ChainCall | Falsy)[]) {
   const { dispatchCalls, value } = useContext(getChainStateContext<T>())
 
   useEffect(() => {
@@ -25,21 +27,21 @@ function useChainCallsRaw<T extends ChainState>(calls: (ChainCall | Falsy)[]): a
         if (call && value) {
           return value.state?.[call.address]?.[call.data]
         }
-      }),
+      }) as U[],
     [JSON.stringify(calls), value]
   )
 }
 
-export function useChainCalls(calls: (ChainCall | Falsy)[]): Multicall1Result[] {
-  return useChainCallsRaw<Multicall1ChainState>(calls)
+export function useChainCalls(calls: (ChainCall | Falsy)[]) {
+  return useChainCallsRaw<Multicall1ChainState, Multicall1Result>(calls)
 }
 
 export function useChainCall(call: ChainCall | Falsy) {
   return useChainCalls([call])[0]
 }
 
-export function useChainStateCalls(calls: (ChainCall | Falsy)[]): Multicall2Result[] {
-  return useChainCallsRaw<Multicall2ChainState>(calls)
+export function useChainStateCalls(calls: (ChainCall | Falsy)[]) {
+  return useChainCallsRaw<Multicall2ChainState, Multicall2Result>(calls)
 }
 
 export function useChainStateCall(call: ChainCall | Falsy) {
