@@ -141,7 +141,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
       useCall(
         address &&
           tokenAddress && {
-            contract: contract: new Contract(tokenAddress, ERC20Interface), // instance of called contract
+            contract: new Contract(tokenAddress, ERC20Interface), // instance of called contract
             method: "balanceOf", // Method to be called
             args: [address], // Method arguments - address to be checked for balance
           }
