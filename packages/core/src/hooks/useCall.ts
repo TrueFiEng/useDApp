@@ -1,34 +1,8 @@
 import { useMemo } from 'react'
+import { utils, Contract } from 'ethers'
 import { Falsy } from '../model/types'
 import { useChainStateCalls } from './useChainStateCalls'
-import { ChainCall } from '../providers/chainState/callsReducer'
-import { Contract } from '@ethersproject/contracts'
-import { utils } from 'ethers'
-
-function warnOnInvalidCall(call: Call | Falsy) {
-  if (!call) {
-    return
-  }
-  const { contract, method, args } = call
-  console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
-}
-
-function encodeCallData(call: Call | Falsy): ChainCall | Falsy {
-  if (!call) {
-    return undefined
-  }
-  const { contract, method, args } = call
-  if (!contract.address || !method) {
-    warnOnInvalidCall(call)
-    return undefined
-  }
-  try {
-    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args) }
-  } catch {
-    warnOnInvalidCall(call)
-    return undefined
-  }
-}
+import { encodeCallData, warnOnInvalidCall } from '../helpers'
 
 export interface Call {
   contract: Contract
@@ -37,8 +11,7 @@ export interface Call {
 }
 
 type ErrorMessage = string
-
-export type CallResult = { value: any[] | undefined; error: ErrorMessage | undefined } | undefined
+type CallResult = { value: any[] | undefined; error: ErrorMessage | undefined } | undefined
 
 export function useCall(call: Call | Falsy): CallResult {
   return useCalls([call])[0]
@@ -66,7 +39,10 @@ export function useCalls(calls: (Call | Falsy)[]): CallResult[] {
         } else {
           return {
             value: undefined,
-            error: new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0] as ErrorMessage, // decode error message,
+            error: new utils.Interface(['function Error(string)']).decodeFunctionData(
+              'Error',
+              value
+            )[0] as ErrorMessage, // decode error message,
           }
         }
       }),

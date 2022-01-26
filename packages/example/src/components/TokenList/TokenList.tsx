@@ -41,7 +41,9 @@ export function TokenList() {
             </TokenIconContainer>
             <TokenName>{token.name}</TokenName>
             <TokenTicker>{token.symbol}</TokenTicker>
-            {results?.[idx]?.value && <TokenBalance>{formatUnits(results?.[idx]?.value?.[0], token.decimals)}</TokenBalance>}
+            {results?.[idx]?.value && (
+              <TokenBalance>{formatUnits(results?.[idx]?.value?.[0], token.decimals)}</TokenBalance>
+            )}
           </TokenItem>
         ))}
     </List>
@@ -118,10 +120,4 @@ const ListLogo = styled.img`
   width: 40px;
   height: 40px;
   object-fit: contain;
-`
-
-const ErrorMessage = styled.div`
-  border-radius: ${BorderRad.m};
-  color: ${Colors.Red[400]};
-  word-wrap: break-word;
 `
