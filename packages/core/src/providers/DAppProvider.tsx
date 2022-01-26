@@ -30,13 +30,26 @@ interface WithConfigProps {
 
 const getMulticallAddresses = (networks: Chain[] | undefined) => {
   const result: { [index: number]: string } = {}
-  networks?.map((network) => (result[network.chainId] = network.multicallAddress))
+  networks?.forEach((network) => (result[network.chainId] = network.multicallAddress))
+  return result
+}
+
+const getMulticall2Addresses = (networks: Chain[] | undefined) => {
+  const result: { [index: number]: string } = {}
+  networks?.forEach((network) => {
+    if (network.multicall2Address) {
+      result[network.chainId] = network.multicall2Address
+    }
+  })
   return result
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
   const { multicallAddresses, networks, multicallVersion } = useConfig()
-  const defaultAddresses = useMemo(() => getMulticallAddresses(networks), [networks])
+  const defaultAddresses = useMemo(
+    () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
+    [networks, multicallVersion]
+  )
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   const ChainStateProvider = multicallVersion === 1 ? ChainStateProvider1 : ChainStateProvider2

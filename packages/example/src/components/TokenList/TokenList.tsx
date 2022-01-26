@@ -27,14 +27,6 @@ export function TokenList() {
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
   const results = useTokensBalance(tokens, account)
 
-  // if (error && error.event === 'noNetwork') {
-  //   return <span>Connect wallet to see tokens list</span>
-  // }
-
-  // if (error) {
-  //   return <ErrorMessage>Error encountered: {error.message ? error.message.toString() : error.toString()}</ErrorMessage>
-  // }
-
   return (
     <List>
       <ListTitleRow>
