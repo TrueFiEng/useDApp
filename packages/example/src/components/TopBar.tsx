@@ -40,6 +40,14 @@ export function TopBar() {
               {' '}
               Transactions{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/web3modal">
+              {' '}
+              Web3Modal example{' '}
+            </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/web3react">
+              {' '}
+              Web3React Connector example{' '}
+            </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
       </HeaderContainer>
