@@ -19,6 +19,8 @@ interface Props {
   }
 }
 
+// TODO: try to unify providers to generic one
+
 export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
@@ -76,7 +78,6 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   return <ChainStateContext.Provider value={provided} children={children} />
 }
 
-// TODO: extract to a separate file
 export function ChainStateProvider2({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
