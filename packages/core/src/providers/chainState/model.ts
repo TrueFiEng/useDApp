@@ -1,7 +1,15 @@
+export type Multicall1Result = string | undefined
+export type Multicall2Result =
+  | {
+      value: string | undefined
+      success: boolean
+    }
+  | undefined
+
 export type Multicall1ChainState = {
   [address: string]:
     | {
-        [data: string]: string | undefined
+        [data: string]: Multicall1Result
       }
     | undefined
 }
@@ -10,10 +18,7 @@ export type Multicall1ChainState = {
 export type Multicall2ChainState = {
   [address: string]:
     | {
-        [data: string]: {
-          value: string | undefined
-          success: boolean
-        }
+        [data: string]: Multicall2Result
       }
     | undefined
 }

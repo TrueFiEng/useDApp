@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
-import { ChainStateContext, ChainState2Context } from './context'
+import { Multicall1ChainStateContext, Multicall2ChainStateContext } from './context'
 import { callsReducer } from './callsReducer'
 import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
@@ -10,7 +10,7 @@ import { useNetwork } from '../../providers'
 import { getUniqueCalls } from '../../helpers'
 import { multicall2 } from './multicall2'
 import { getChainStateReducer } from './chainStateReducer'
-import { Multicall1ChainState, Multicall2ChainState } from './model' 
+import { Multicall1ChainState, Multicall2ChainState } from './model'
 
 interface Props {
   children: ReactNode
@@ -75,7 +75,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
 
-  return <ChainStateContext.Provider value={provided} children={children} />
+  return <Multicall1ChainStateContext.Provider value={provided} children={children} />
 }
 
 export function ChainStateProvider2({ children, multicallAddresses }: Props) {
@@ -131,5 +131,5 @@ export function ChainStateProvider2({ children, multicallAddresses }: Props) {
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
 
-  return <ChainState2Context.Provider value={provided} children={children} />
+  return <Multicall2ChainStateContext.Provider value={provided} children={children} />
 }

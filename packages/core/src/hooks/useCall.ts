@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { utils, Contract } from 'ethers'
 import { Falsy } from '../model/types'
-import { useChainStateCalls } from './useChainStateCalls'
+import { useChainStateCalls } from './useChainCalls'
 import { encodeCallData, warnOnInvalidCall } from '../helpers'
 
 export interface Call {
