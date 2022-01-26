@@ -2,14 +2,15 @@ import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
 import { ChainStateContext, ChainState2Context } from './context'
-import { multicall1ChainStateReducer, multicall2ChainStateReducer } from './chainStateReducer'
-import { callsReducer, ChainCall } from './callsReducer'
+import { callsReducer } from './callsReducer'
 import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
 import { useDevtoolsReporting } from './useDevtoolsReporting'
 import { useNetwork } from '../../providers'
 import { getUniqueCalls } from '../../helpers'
 import { multicall2 } from './multicall2'
+import { getChainStateReducer } from './chainStateReducer'
+import { Multicall1ChainState, Multicall2ChainState } from './model' 
 
 interface Props {
   children: ReactNode
@@ -23,7 +24,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const blockNumber = useBlockNumber()
   const { reportError } = useNetwork()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
-  const [state, dispatchState] = useReducer(multicall1ChainStateReducer, {})
+  const [state, dispatchState] = useReducer(getChainStateReducer<Multicall1ChainState>(), {})
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
@@ -80,7 +81,7 @@ export function ChainStateProvider2({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
-  const [state, dispatchState] = useReducer(multicall2ChainStateReducer, {})
+  const [state, dispatchState] = useReducer(getChainStateReducer<Multicall2ChainState>(), {})
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
