@@ -26,8 +26,6 @@ interface FetchError {
   error: unknown
 }
 
-// TODO: try to merge somehow these reducers
-
 export function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: Action<T>) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
