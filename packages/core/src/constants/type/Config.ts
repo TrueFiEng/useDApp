@@ -11,7 +11,7 @@ export type MulticallAddresses = {
 export type FullConfig = {
   readOnlyChainId?: ChainId
   readOnlyUrls?: NodeUrls
-  multicallAddresses?: MulticallAddresses // TODO: merge this and following line into object multicall { addresses, version }
+  multicallAddresses?: MulticallAddresses
   multicallVersion: 1 | 2
   supportedChains?: number[]
   networks?: Chain[]
