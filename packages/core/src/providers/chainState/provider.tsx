@@ -8,7 +8,7 @@ import { multicall } from './multicall'
 import { notifyDevtools } from '../devtools'
 import { useDevtoolsReporting } from './useDevtoolsReporting'
 import { useNetwork } from '../../providers'
-import { addressEqual } from '../../helpers'
+import { getUniqueCalls } from '../../helpers'
 import { multicall2 } from './multicall2'
 
 interface Props {
@@ -26,7 +26,7 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const [state, dispatchState] = useReducer(multicall1ChainStateReducer, {})
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
-  const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
+  const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 
@@ -75,16 +75,6 @@ export function ChainStateProvider({ children, multicallAddresses }: Props) {
   return <ChainStateContext.Provider value={provided} children={children} />
 }
 
-function getUnique(requests: ChainCall[]) {
-  const unique: ChainCall[] = []
-  for (const request of requests) {
-    if (!unique.find((x) => addressEqual(x.address, request.address) && x.data === request.data)) {
-      unique.push(request)
-    }
-  }
-  return unique
-}
-
 // TODO: extract to a separate file
 export function ChainStateProvider2({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
@@ -93,7 +83,7 @@ export function ChainStateProvider2({ children, multicallAddresses }: Props) {
   const [state, dispatchState] = useReducer(multicall2ChainStateReducer, {})
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
-  const uniqueCalls = debouncedId === chainId ? getUnique(debouncedCalls) : []
+  const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 

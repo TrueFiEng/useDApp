@@ -1,6 +1,7 @@
 import { Call } from '../hooks/useCall'
 import { Falsy } from '../model/types'
 import { ChainCall } from '../providers'
+import { addressEqual } from './address'
 
 export function warnOnInvalidCall(call: Call | Falsy) {
   if (!call) {
@@ -25,4 +26,14 @@ export function encodeCallData(call: Call | Falsy): ChainCall | Falsy {
     warnOnInvalidCall(call)
     return undefined
   }
+}
+
+export function getUniqueCalls(requests: ChainCall[]) {
+  const unique: ChainCall[] = []
+  for (const request of requests) {
+    if (!unique.find((x) => addressEqual(x.address, request.address) && x.data === request.data)) {
+      unique.push(request)
+    }
+  }
+  return unique
 }
