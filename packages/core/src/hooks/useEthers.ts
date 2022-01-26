@@ -4,8 +4,13 @@ import { ChainId } from '../constants'
 import { useInjectedNetwork, useNetwork } from '../providers'
 import { EventEmitter } from 'events'
 
+type SupportedProviders =
+  | JsonRpcProvider
+  | EventEmitter
+  | { getProvider: () => JsonRpcProvider | EventEmitter; activate: () => Promise<void> }
+
 export type Web3Ethers = {
-  activate: (provider: JsonRpcProvider | EventEmitter) => Promise<void>
+  activate: (provider: SupportedProviders) => Promise<void>
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
@@ -31,12 +36,7 @@ export function useEthers(): Web3Ethers {
     chainId,
     account: accounts[0],
     active: !!provider,
-    activate: async (
-      providerOrConnector:
-        | JsonRpcProvider
-        | EventEmitter
-        | { getProvider: () => JsonRpcProvider | EventEmitter; activate: () => Promise<void> }
-    ) => {
+    activate: async (providerOrConnector: SupportedProviders) => {
       if ('getProvider' in providerOrConnector) {
         console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
         await providerOrConnector.activate()
