@@ -66,7 +66,7 @@ export function useCalls(calls: (Call | Falsy)[]): CallResult[] {
         } else {
           return {
             value: undefined,
-            error: new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0] as string, // decode error message,
+            error: new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0] as ErrorMessage, // decode error message,
           }
         }
       }),
