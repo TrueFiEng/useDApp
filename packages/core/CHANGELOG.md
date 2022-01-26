@@ -1,5 +1,15 @@
 # @usedapp/core
 
+## 0.10.0
+
+### Minor Changes
+
+- fd8e924: Remove @web3-react dependency, introduce own way of provider management
+
+### Patch Changes
+
+- c70a76e: Support EIP-1193 providers and legacy web3-react connectors
+
 ## 0.9.1
 
 ### Patch Changes
