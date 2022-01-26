@@ -24,11 +24,14 @@ export type Web3Ethers = {
 
 export function useEthers(): Web3Ethers {
   const {
-    network: { provider, chainId, accounts, errors },
+    network: { provider, chainId, accounts },
+    errors,
     deactivate,
     activate,
   } = useNetwork()
   const { injectedProvider, connect } = useInjectedNetwork()
+
+  const error = errors[errors.length - 1]
 
   const result = {
     connector: undefined,
@@ -50,7 +53,7 @@ export function useEthers(): Web3Ethers {
       throw new Error('setError is deprecated')
     },
 
-    error: errors[errors.length - 1],
+    error: error instanceof Error ? error : error?.error,
   }
 
   const activateBrowserWallet = useCallback(async () => {

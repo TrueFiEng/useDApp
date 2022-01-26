@@ -42,11 +42,13 @@ export function TopBar() {
             </HeaderLink>
             <HeaderLink activeClassName="active-page" to="/web3modal">
               {' '}
-              Web3Modal example{' '}
+              Web3-Modal{' '}
             </HeaderLink>
             <HeaderLink activeClassName="active-page" to="/web3react">
               {' '}
-              Web3React Connector example{' '}
+              Web3-React
+              <br />
+              Connector{' '}
             </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
