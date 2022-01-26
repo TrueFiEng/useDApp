@@ -1,4 +1,4 @@
-import { ChainState } from './model'
+import { ChainState, Multicall1ChainState, Multicall2ChainState } from './model'
 
 export interface State<T extends ChainState> {
   [chainId: number]:
@@ -59,6 +59,9 @@ export function chainStateReducer<T extends ChainState>(state: State<T> = {}, ac
   return state
 }
 
-export function getChainStateReducer<T extends ChainState>() {
+function getChainStateReducer<T extends ChainState>() {
   return (state: State<T>, action: Action<T>) => chainStateReducer(state, action)
 }
+
+export const multicall1ChainStateReducer = getChainStateReducer<Multicall1ChainState>()
+export const multicall2ChainStateReducer = getChainStateReducer<Multicall2ChainState>()
