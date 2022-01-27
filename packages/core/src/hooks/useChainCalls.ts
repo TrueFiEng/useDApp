@@ -2,6 +2,8 @@ import { useContext, useEffect, useMemo } from 'react'
 import { ChainCall, ChainStateContext, MulticallResult } from '../providers'
 import { Falsy } from '../model/types'
 
+// TODO: should it be a separate hook to keep backward compatibility or it's not used directly?
+
 export function useChainCalls(calls: (ChainCall | Falsy)[]): MulticallResult[] {
   const { dispatchCalls, value } = useContext(ChainStateContext)
 
