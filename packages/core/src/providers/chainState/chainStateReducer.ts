@@ -34,7 +34,7 @@ export function chainStateReducer(state: State = {}, action: Action) {
       if (action.blockNumber === current) {
         // merge with existing state to prevent requests coming out of order
         // from overwriting the data
-        const oldState = (state[action.chainId]?.state as ChainState) ?? {}
+        const oldState = state[action.chainId]?.state ?? {}
         for (const [address, entries] of Object.entries(oldState)) {
           newState = {
             ...newState,

@@ -10,7 +10,7 @@ import { getUniqueCalls } from '../../helpers'
 import { multicall2 } from './multicall2'
 import { chainStateReducer } from './chainStateReducer'
 import { useConfig } from '../config'
-import { ChainStateContext } from '.'
+import { ChainStateContext } from './context'
 
 interface Props {
   children: ReactNode
