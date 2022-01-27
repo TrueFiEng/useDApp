@@ -1,181 +1,71 @@
 import { expect } from 'chai'
-import {
-  multicall1ChainStateReducer,
-  multicall2ChainStateReducer,
-  State,
-} from '../../src/providers/chainState/chainStateReducer'
-import { Mainnet, Multicall1ChainState, Multicall2ChainState } from '../../src'
+import { State, chainStateReducer } from '../../src/providers/chainState/chainStateReducer'
+import { Mainnet } from '../../src'
 
 describe('chainStateReducer', () => {
   const ADDRESS_A = '0x' + 'a'.repeat(40)
   const ADDRESS_B = '0x' + 'b'.repeat(40)
   const ADDRESS_C = '0x' + 'c'.repeat(40)
 
-  describe('multicall1ChainStateReducer', () => {
-    it('ignores updates from older blocks', () => {
-      const state: State<Multicall1ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-            },
-          },
-        },
-      }
-      const result = multicall1ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
-        blockNumber: 1233,
-        state: {
-          [ADDRESS_A]: {
-            '0xdead': '0x0001',
-          },
-        },
-      })
-      expect(result).to.deep.equal(state)
-    })
-
-    it('overwrites with updates from newer blocks', () => {
-      const state: State<Multicall1ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-            },
-          },
-        },
-      }
-      const result = multicall1ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
-        blockNumber: 1235,
-        state: {
-          [ADDRESS_B]: {
-            '0xabcd': '0x5678',
-          },
-        },
-      })
-      const expected: State<Multicall1ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1235,
-          state: {
-            [ADDRESS_B]: {
-              '0xabcd': '0x5678',
-            },
-          },
-        },
-      }
-      expect(result).to.deep.equal(expected)
-    })
-
-    it('merges updates from same block', () => {
-      // This behavior is needed to handle requests resolving out of order.
-      // Imagine the following calls are made:
-      //   a.foo()
-      //   b.bar()
-      // Then the user navigates to a different page and other calls are:
-      //   c.baz()
-      // This results in two multicall requests being made. Now imagine that
-      // they resolve out of order. Data for c.baz() then would be overwritten and
-      // the user would need to wait for the next block to see their data.
-      // To prevent this we merge the state for updates from the same block.
-      const state: State<Multicall1ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-            },
-            [ADDRESS_C]: {
-              '0xcc': '0xdd',
-            },
-          },
-        },
-      }
-      const result = multicall1ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
+  it('ignores updates from older blocks', () => {
+    const state: State = {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xabcd': '0x30',
-          },
-          [ADDRESS_B]: {
-            '0xabcd': '0x5678',
-          },
-        },
-      })
-      const expected: State<Multicall1ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-              '0xabcd': '0x30',
-            },
-            [ADDRESS_B]: {
-              '0xabcd': '0x5678',
-            },
-            [ADDRESS_C]: {
-              '0xcc': '0xdd',
-            },
-          },
-        },
-      }
-      expect(result).to.deep.equal(expected)
-    })
-  })
-
-  describe('multicall2ChainStateReducer', () => {
-    it('ignores updates from older blocks', () => {
-      const state: State<Multicall2ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': {
-                value: '0xbeef',
-                success: true,
-              },
-            },
-          },
-        },
-      }
-      const result = multicall2ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
-        blockNumber: 1233,
-        state: {
-          [ADDRESS_A]: {
             '0xdead': {
-              value: '0x0001',
+              value: '0xbeef',
               success: true,
             },
           },
         },
-      })
-      expect(result).to.deep.equal(state)
+      },
+    }
+    const result = chainStateReducer(state, {
+      type: 'FETCH_SUCCESS',
+      chainId: Mainnet.chainId,
+      blockNumber: 1233,
+      state: {
+        [ADDRESS_A]: {
+          '0xdead': {
+            value: '0x0001',
+            success: true,
+          },
+        },
+      },
     })
+    expect(result).to.deep.equal(state)
+  })
 
-    it('overwrites with updates from newer blocks', () => {
-      const state: State<Multicall2ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': {
-                value: '0xbeef',
-                success: true,
-              },
+  it('overwrites with updates from newer blocks', () => {
+    const state: State = {
+      [Mainnet.chainId]: {
+        blockNumber: 1234,
+        state: {
+          [ADDRESS_A]: {
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
             },
           },
         },
-      }
-      const result = multicall2ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
+      },
+    }
+    const result = chainStateReducer(state, {
+      type: 'FETCH_SUCCESS',
+      chainId: Mainnet.chainId,
+      blockNumber: 1235,
+      state: {
+        [ADDRESS_B]: {
+          '0xabcd': {
+            value: '0x5678',
+            success: false,
+          },
+        },
+      },
+    })
+    const expected: State = {
+      [Mainnet.chainId]: {
         blockNumber: 1235,
         state: {
           [ADDRESS_B]: {
@@ -185,49 +75,70 @@ describe('chainStateReducer', () => {
             },
           },
         },
-      })
-      const expected: State<Multicall2ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1235,
-          state: {
-            [ADDRESS_B]: {
-              '0xabcd': {
-                value: '0x5678',
-                success: false,
-              },
-            },
-          },
-        },
-      }
-      expect(result).to.deep.equal(expected)
-    })
+      },
+    }
+    expect(result).to.deep.equal(expected)
+  })
 
-    it('merges updates from same block', () => {
-      const state: State<Multicall2ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': {
-                value: '0xbeef',
-                success: true,
-              },
-            },
-            [ADDRESS_C]: {
-              '0xcc': {
-                value: '0xdd',
-                success: false,
-              },
-            },
-          },
-        },
-      }
-      const result = multicall2ChainStateReducer(state, {
-        type: 'FETCH_SUCCESS',
-        chainId: Mainnet.chainId,
+  it('merges updates from same block', () => {
+    // This behavior is needed to handle requests resolving out of order.
+    // Imagine the following calls are made:
+    //   a.foo()
+    //   b.bar()
+    // Then the user navigates to a different page and other calls are:
+    //   c.baz()
+    // This results in two multicall requests being made. Now imagine that
+    // they resolve out of order. Data for c.baz() then would be overwritten and
+    // the user would need to wait for the next block to see their data.
+    // To prevent this we merge the state for updates from the same block.
+
+    const state: State = {
+      [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
+          },
+          [ADDRESS_C]: {
+            '0xcc': {
+              value: '0xdd',
+              success: false,
+            },
+          },
+        },
+      },
+    }
+    const result = chainStateReducer(state, {
+      type: 'FETCH_SUCCESS',
+      chainId: Mainnet.chainId,
+      blockNumber: 1234,
+      state: {
+        [ADDRESS_A]: {
+          '0xabcd': {
+            value: '0x30',
+            success: false,
+          },
+        },
+        [ADDRESS_B]: {
+          '0xabcd': {
+            value: '0x5678',
+            success: true,
+          },
+        },
+      },
+    })
+    const expected: State = {
+      [Mainnet.chainId]: {
+        blockNumber: 1234,
+        state: {
+          [ADDRESS_A]: {
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
             '0xabcd': {
               value: '0x30',
               success: false,
@@ -239,38 +150,15 @@ describe('chainStateReducer', () => {
               success: true,
             },
           },
-        },
-      })
-      const expected: State<Multicall2ChainState> = {
-        [Mainnet.chainId]: {
-          blockNumber: 1234,
-          state: {
-            [ADDRESS_A]: {
-              '0xdead': {
-                value: '0xbeef',
-                success: true,
-              },
-              '0xabcd': {
-                value: '0x30',
-                success: false,
-              },
-            },
-            [ADDRESS_B]: {
-              '0xabcd': {
-                value: '0x5678',
-                success: true,
-              },
-            },
-            [ADDRESS_C]: {
-              '0xcc': {
-                value: '0xdd',
-                success: false,
-              },
+          [ADDRESS_C]: {
+            '0xcc': {
+              value: '0xdd',
+              success: false,
             },
           },
         },
-      }
-      expect(result).to.deep.equal(expected)
-    })
+      },
+    }
+    expect(result).to.deep.equal(expected)
   })
 })

@@ -1,22 +1,22 @@
-import { ChainState, Multicall1ChainState, Multicall2ChainState } from './model'
+import { ChainState } from './model'
 
-export interface State<T extends ChainState> {
+export interface State {
   [chainId: number]:
     | {
         blockNumber: number
-        state?: T
+        state?: ChainState
         error?: unknown
       }
     | undefined
 }
 
-type Action<T extends ChainState> = FetchSuccess<T> | FetchError
+type Action = FetchSuccess | FetchError
 
-interface FetchSuccess<T extends ChainState> {
+interface FetchSuccess {
   type: 'FETCH_SUCCESS'
   chainId: number
   blockNumber: number
-  state: T
+  state: ChainState
 }
 
 interface FetchError {
@@ -26,7 +26,7 @@ interface FetchError {
   error: unknown
 }
 
-export function chainStateReducer<T extends ChainState>(state: State<T> = {}, action: Action<T>) {
+export function chainStateReducer(state: State = {}, action: Action) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
     if (action.type === 'FETCH_SUCCESS') {
@@ -34,7 +34,7 @@ export function chainStateReducer<T extends ChainState>(state: State<T> = {}, ac
       if (action.blockNumber === current) {
         // merge with existing state to prevent requests coming out of order
         // from overwriting the data
-        const oldState = (state[action.chainId]?.state as T) ?? {}
+        const oldState = (state[action.chainId]?.state as ChainState) ?? {}
         for (const [address, entries] of Object.entries(oldState)) {
           newState = {
             ...newState,
@@ -58,10 +58,3 @@ export function chainStateReducer<T extends ChainState>(state: State<T> = {}, ac
   }
   return state
 }
-
-export function getChainStateReducer<T extends ChainState>() {
-  return (state: State<T>, action: Action<T>) => chainStateReducer(state, action)
-}
-
-export const multicall1ChainStateReducer = getChainStateReducer<Multicall1ChainState>()
-export const multicall2ChainStateReducer = getChainStateReducer<Multicall2ChainState>()

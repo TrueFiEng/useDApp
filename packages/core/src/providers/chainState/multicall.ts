@@ -2,7 +2,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 import { ChainCall } from './callsReducer'
-import { Multicall1ChainState } from './model'
+import { ChainState } from './model'
 
 const ABI = [
   'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
@@ -13,7 +13,7 @@ export async function multicall(
   address: string,
   blockNumber: number,
   requests: ChainCall[]
-): Promise<Multicall1ChainState> {
+): Promise<ChainState> {
   if (requests.length === 0) {
     return {}
   }
@@ -22,12 +22,12 @@ export async function multicall(
     requests.map(({ address, data }) => [address, data]),
     { blockTag: blockNumber }
   )
-  const state: Multicall1ChainState = {}
+  const state: ChainState = {}
   for (let i = 0; i < requests.length; i++) {
     const { address, data } = requests[i]
     const result = results[i]
     const stateForAddress = state[address] ?? {}
-    stateForAddress[data] = result
+    stateForAddress[data] = { value: result, success: true }
     state[address] = stateForAddress
   }
   return state

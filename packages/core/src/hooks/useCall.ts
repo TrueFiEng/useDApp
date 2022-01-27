@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { utils, Contract } from 'ethers'
 import { Falsy } from '../model/types'
-import { useChainStateCalls } from './useChainCalls'
+import { useChainCalls } from './useChainCalls'
 import { encodeCallData, warnOnInvalidCall } from '../helpers'
 
 export interface Call {
@@ -18,7 +18,7 @@ export function useCall(call: Call | Falsy): CallResult {
 }
 
 export function useCalls(calls: (Call | Falsy)[]): CallResult[] {
-  const results = useChainStateCalls(calls.map(encodeCallData))
+  const results = useChainCalls(calls.map(encodeCallData))
   return useMemo(
     () =>
       results.map((result, idx) => {

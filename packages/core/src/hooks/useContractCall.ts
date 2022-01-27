@@ -44,11 +44,12 @@ export function useContractCalls(calls: (ContractCall | Falsy)[]): (any[] | unde
     () =>
       results.map((result, idx) => {
         const call = calls[idx]
-        if (result === '0x') {
+        const { value } = result || {}
+        if (!value || value === '0x') {
           warnOnInvalidContractCall(call)
           return undefined
         }
-        return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
+        return call && value ? (call.abi.decodeFunctionResult(call.method, value) as any[]) : undefined
       }),
     [results]
   )

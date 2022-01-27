@@ -10,7 +10,9 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
   }
 
   const previousEntries = state.state[network] ?? []
-  const currentEntries = getStateEntries(message.payload.state)
+  const currentEntries = getStateEntries(
+    message.payload.state.value ? message.payload.state.value : message.payload.state
+  )
 
   const updated: StateUpdate[] = []
   const persisted: StateEntry[] = []

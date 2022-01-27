@@ -34,7 +34,7 @@ describe('Multicall', () => {
     const blockNumber = await mockProvider.getBlockNumber()
     const result = await multicall(mockProvider, multicallContract.address, blockNumber, [call])
     const unwrappedResult = result[tokenContract.address]![data]
-    expect(BigNumber.from(unwrappedResult)).to.eq('10000')
+    expect(BigNumber.from(unwrappedResult?.value)).to.eq('10000')
   })
 
   it('Fails to retrieve data on block number in the future', async () => {
@@ -59,7 +59,7 @@ describe('Multicall', () => {
     const blockNumber = (await mockProvider.getBlockNumber()) - 1
     const result = await multicall(mockProvider, multicallContract.address, blockNumber, [call])
     const unwrappedResult = result[tokenContract.address]![data]
-    expect(BigNumber.from(unwrappedResult)).to.eq('10000')
+    expect(BigNumber.from(unwrappedResult?.value)).to.eq('10000')
   })
 
   it('Does not fail when doing multiple calls at once', async () => {

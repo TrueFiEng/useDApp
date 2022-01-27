@@ -1,16 +1,16 @@
-import { Context, ReactNode, useEffect, useReducer } from 'react'
+import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../hooks'
 import { useBlockNumber } from '../blockNumber/context'
-import { Multicall1ChainStateContext, Multicall2ChainStateContext, MulticallContext } from './context'
-import { callsReducer, ChainCall } from './callsReducer'
-import { multicall } from './multicall'
+import { callsReducer } from './callsReducer'
+import { multicall as multicall1 } from './multicall'
 import { notifyDevtools } from '../devtools'
 import { useDevtoolsReporting } from './useDevtoolsReporting'
-import { ChainState, useNetwork } from '../../providers'
+import { useNetwork } from '../../providers'
 import { getUniqueCalls } from '../../helpers'
 import { multicall2 } from './multicall2'
-import { getChainStateReducer } from './chainStateReducer'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { chainStateReducer } from './chainStateReducer'
+import { useConfig } from '../config'
+import { ChainStateContext } from '.'
 
 interface Props {
   children: ReactNode
@@ -19,27 +19,14 @@ interface Props {
   }
 }
 
-interface GenericProps<T extends ChainState> extends Props {
-  multicallCallback: (
-    library: JsonRpcProvider,
-    multicallAddress: string,
-    blockNumber: number,
-    uniqueCalls: ChainCall[]
-  ) => Promise<T>
-  context: Context<MulticallContext<T>>
-}
-
-function ChainStateGenericProvider<T extends ChainState>({
-  children,
-  multicallAddresses,
-  multicallCallback,
-  context,
-}: GenericProps<T>) {
+export function ChainStateProvider({ children, multicallAddresses }: Props) {
+  const { multicallVersion } = useConfig()
+  const multicall = multicallVersion === 1 ? multicall1 : multicall2
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
   const { reportError } = useNetwork()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
-  const [state, dispatchState] = useReducer(getChainStateReducer<T>(), {})
+  const [state, dispatchState] = useReducer(chainStateReducer, {})
 
   const [debouncedCalls, debouncedId] = useDebouncePair(calls, chainId, 50)
   const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
@@ -57,7 +44,7 @@ function ChainStateGenericProvider<T extends ChainState>({
         return
       }
       const start = Date.now()
-      multicallCallback(library, multicallAddress, blockNumber, uniqueCalls)
+      multicall(library, multicallAddress, blockNumber, uniqueCalls)
         .then((state) => {
           dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state })
           notifyDevtools({
@@ -88,29 +75,5 @@ function ChainStateGenericProvider<T extends ChainState>({
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
 
-  return <context.Provider value={provided} children={children} />
-}
-
-export function ChainStateProvider({ children, multicallAddresses }: Props) {
-  return (
-    <ChainStateGenericProvider
-      multicallAddresses={multicallAddresses}
-      multicallCallback={multicall}
-      context={Multicall1ChainStateContext}
-    >
-      {children}
-    </ChainStateGenericProvider>
-  )
-}
-
-export function ChainState2Provider({ children, multicallAddresses }: Props) {
-  return (
-    <ChainStateGenericProvider
-      multicallAddresses={multicallAddresses}
-      multicallCallback={multicall2}
-      context={Multicall2ChainStateContext}
-    >
-      {children}
-    </ChainStateGenericProvider>
-  )
+  return <ChainStateContext.Provider value={provided} children={children} />
 }
