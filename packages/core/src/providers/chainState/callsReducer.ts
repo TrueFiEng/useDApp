@@ -1,8 +1,9 @@
-import { addressEqual } from '../..'
+import { addressEqual, ChainId } from '../..'
 
 export type Action = AddCall | RemoveCall
 
 export interface ChainCall {
+  chainId: ChainId
   address: string
   data: string
 }

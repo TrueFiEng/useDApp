@@ -16,7 +16,3 @@ export const ChainStateContext = createContext<{
     // empty
   },
 })
-
-export function useChainState() {
-  return useContext(ChainStateContext)
-}

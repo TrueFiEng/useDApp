@@ -1,10 +1,11 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { ChainCall } from '../providers/chainState/callsReducer'
-import { ChainStateContext } from '../providers/chainState/context'
 import { Falsy } from '../model/types'
+import { useChainState } from './useChainState'
+import { ChainId } from '../constants'
 
-export function useChainCalls(calls: (ChainCall | Falsy)[]) {
-  const { dispatchCalls, value } = useContext(ChainStateContext)
+export function useChainCalls(calls: (ChainCall | Falsy)[], chainId?: ChainId): ChainCall[] {
+  const { dispatchCalls, value } = useChainState(chainId)
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as ChainCall[]

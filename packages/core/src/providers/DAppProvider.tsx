@@ -9,6 +9,9 @@ import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider } from './network'
 import { InjectedNetworkProvider } from './injectedNetwork'
+import { ReadonlyNetworksProvider } from './multichain/readonlyNetworks'
+import { MultiBlockNumbersProvider } from './multichain/blockNumbers'
+import { MultiChainStateProvider } from './multichain/chainState'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -39,19 +42,25 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <NetworkProvider>
-      <InjectedNetworkProvider>
-        <BlockNumberProvider>
-          <NetworkActivator />
-          <LocalMulticallProvider>
-            <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-              <NotificationsProvider>
-                <TransactionProvider>{children}</TransactionProvider>
-              </NotificationsProvider>
-            </ChainStateProvider>
-          </LocalMulticallProvider>
-        </BlockNumberProvider>
-      </InjectedNetworkProvider>
-    </NetworkProvider>
+    <ReadonlyNetworksProvider>
+      <NetworkProvider>
+        <InjectedNetworkProvider>
+          <BlockNumberProvider>
+            <MultiBlockNumbersProvider>
+              <NetworkActivator />
+              <LocalMulticallProvider>
+                <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                  <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                    <NotificationsProvider>
+                      <TransactionProvider>{children}</TransactionProvider>
+                    </NotificationsProvider>
+                  </MultiChainStateProvider>
+                </ChainStateProvider>
+              </LocalMulticallProvider>
+            </MultiBlockNumbersProvider>
+          </BlockNumberProvider>
+        </InjectedNetworkProvider>
+      </NetworkProvider>
+    </ReadonlyNetworksProvider>
   )
 }
