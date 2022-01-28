@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { Falsy } from '../model/types'
 import { useChainCalls } from './useChainCalls'
 import { ChainCall } from '../providers/chainState/callsReducer'
+import { ChainId } from '../constants'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -10,7 +11,7 @@ function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   )
 }
 
-function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
+function encodeCallData(call: ContractCall | Falsy, chainId?: ChainId): ChainCall | Falsy {
   if (!call) {
     return undefined
   }
@@ -19,7 +20,7 @@ function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
     return undefined
   }
   try {
-    return { address: call.address, data: call.abi.encodeFunctionData(call.method, call.args) }
+    return { address: call.address, data: call.abi.encodeFunctionData(call.method, call.args), chainId }
   } catch {
     warnOnInvalidContractCall(call)
     return undefined
@@ -33,12 +34,15 @@ export interface ContractCall {
   args: any[]
 }
 
-export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
-  return useContractCalls([call])[0]
+export function useContractCall(call: ContractCall | Falsy, chainId?: ChainId): any[] | undefined {
+  return useContractCalls([call], chainId)[0]
 }
 
-export function useContractCalls(calls: (ContractCall | Falsy)[]): (any[] | undefined)[] {
-  const results = useChainCalls(calls.map(encodeCallData))
+export function useContractCalls(calls: (ContractCall | Falsy)[], chainId?: ChainId): (any[] | undefined)[] {
+  const results = useChainCalls(
+    calls.map((call) => encodeCallData(call, chainId)),
+    chainId
+  )
 
   return useMemo(
     () =>

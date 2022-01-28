@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
-import { Action } from './callsReducer'
 import { ChainId } from '../../../constants'
-import { ChainState } from '../../chainState'
+import { Action, ChainState } from '../../chainState'
 
 export const MultiChainStatesContext = createContext<{
   chains: {

@@ -3,7 +3,7 @@ import { addressEqual, ChainId } from '../..'
 export type Action = AddCall | RemoveCall
 
 export interface ChainCall {
-  chainId: ChainId
+  chainId?: ChainId
   address: string
   data: string
 }

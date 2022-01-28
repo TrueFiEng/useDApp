@@ -4,7 +4,7 @@ import { Falsy } from '../model/types'
 import { useChainState } from './useChainState'
 import { ChainId } from '../constants'
 
-export function useChainCalls(calls: (ChainCall | Falsy)[], chainId?: ChainId): ChainCall[] {
+export function useChainCalls(calls: (ChainCall | Falsy)[], chainId?: ChainId) {
   const { dispatchCalls, value } = useChainState(chainId)
 
   useEffect(() => {
@@ -19,6 +19,6 @@ export function useChainCalls(calls: (ChainCall | Falsy)[], chainId?: ChainId): 
   ])
 }
 
-export function useChainCall(call: ChainCall | Falsy) {
-  return useChainCalls([call])[0]
+export function useChainCall(call: ChainCall | Falsy, chainId?: ChainId) {
+  return useChainCalls([call], chainId)[0]
 }
