@@ -5,7 +5,7 @@ import { useContractCall } from './useContractCall'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export function useEtherBalance(address: string | Falsy, chainId?: ChainId): BigNumber | undefined {
-  const multicallAddress = useMulticallAddress()
+  const multicallAddress = useMulticallAddress(chainId)
   const [etherBalance] =
     useContractCall(
       multicallAddress &&

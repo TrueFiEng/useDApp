@@ -1,74 +1,80 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import { Colors, Shadows, Sizes, Transitions } from '../global/styles'
+import { BorderRad, Colors, Shadows, Transitions } from '../global/styles'
 import { HeaderContainer } from './base/base'
 
-export function TopBar() {
+export function NavBar() {
   return (
-    <Header>
+    <Sidebar>
       <HeaderContainer>
-        <HeaderNav>
+        <SidebarNav>
           <ToMain href="/">
             <span>useDapp</span>
             <ToMainBottom>
               Ethereum <Handshaking>🤝</Handshaking> React
             </ToMainBottom>
           </ToMain>
-          <HeaderNavLinks>
-            <HeaderLink activeClassName="active-page" to="/balance">
+          <SidebarNavLinks>
+            <SidebarLink activeClassName="active-page" to="/balance">
               {' '}
               Balance{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/prices">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/prices">
               {' '}
               Prices{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/block">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/block">
               {' '}
               Block{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/tokens">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/tokens">
               {' '}
               Tokens{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/send">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/send">
               {' '}
               Send Ether{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/transactions">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/transactions">
               {' '}
               Transactions{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/web3modal">
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/web3modal">
               {' '}
-              Web3Modal example{' '}
-            </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/web3react">
+              Web3 Modal{' '}
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/web3react">
               {' '}
-              Web3React Connector example{' '}
-            </HeaderLink>
-          </HeaderNavLinks>
-        </HeaderNav>
+              Web3 React
+              <br />
+              Connector{' '}
+            </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/multichain">
+              {' '}
+              Multichain state{' '}
+            </SidebarLink>
+          </SidebarNavLinks>
+        </SidebarNav>
       </HeaderContainer>
-    </Header>
+    </Sidebar>
   )
 }
 
-const Header = styled.header`
+const Sidebar = styled.header`
   display: flex;
   position: fixed;
-  top: 0;
+  left: 0;
   align-items: center;
-  width: 100%;
-  height: ${Sizes.headerHeight};
+  height: 100%;
   background-color: ${Colors.White};
   box-shadow: ${Shadows.main};
   z-index: 100;
 `
 
-const HeaderNav = styled.nav`
+const SidebarNav = styled.nav`
   display: flex;
+  flex-direction: column;
   align-items: center;
   height: 100%;
   position: relative;
@@ -78,6 +84,7 @@ const ToMain = styled.a`
   display: flex;
   flex-direction: column;
   width: fit-content;
+  margin-top: 16px;
   font-size: 18px;
   line-height: 24px;
   font-weight: 700;
@@ -103,19 +110,13 @@ const Handshaking = styled.span`
   letter-spacing: -0.3em;
 `
 
-const HeaderNavLinks = styled.div`
-  display: grid;
-  position: absolute;
-  left: 50%;
-  grid-auto-flow: column;
-  align-items: center;
-  grid-column-gap: 20px;
-  align-items: center;
-  height: 100%;
-  transform: translateX(-50%);
+const SidebarNavLinks = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
 `
 
-const HeaderLink = styled(NavLink)`
+const SidebarLink = styled(NavLink)`
   display: flex;
   position: relative;
   justify-content: center;
@@ -150,6 +151,9 @@ const HeaderLink = styled(NavLink)`
     }
   }
   &.active-page {
+    background: ${Colors.Yellow[200]};
+    border-radius: ${BorderRad.s};
+
     &:after {
       transform: scaleX(1);
     }
