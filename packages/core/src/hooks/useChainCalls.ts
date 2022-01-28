@@ -9,7 +9,6 @@ export function useChainCalls(calls: (ChainCall | Falsy)[], chainId?: ChainId) {
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as ChainCall[]
-    console.log('filteredCalls', filteredCalls, chainId)
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])

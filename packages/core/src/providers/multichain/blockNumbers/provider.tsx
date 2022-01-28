@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useReducer } from 'react'
-import { blockNumberReducer } from './reducer'
 import { useDebounce } from '../../../hooks'
 import { useReadonlyNetworks } from '../readonlyNetworks'
 import { MultiBlockNumbersContext } from './context'
+import { blockNumberReducer } from '../../blockNumber'
 
 interface Props {
   children: ReactNode
