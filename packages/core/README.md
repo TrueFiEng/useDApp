@@ -11,7 +11,7 @@ Introduces great features:
 - 🛒 **Multicall** - Combines multiple blockchain calls into a single multicall
 
 Combines the best practices:
-- 🔧 **Modern stack** - Employs [ethers.js](https://github.com/ethers-io/), [web3-react](https://github.com/NoahZinsmeister/web3-react), [multicall](https://github.com/makerdao/multicall) & [waffle](https://getwaffle.io/)
+- 🔧 **Modern stack** - Employs [ethers.js](https://github.com/ethers-io/), [multicall](https://github.com/makerdao/multicall) & [waffle](https://getwaffle.io/)
 - 📚 **Extendability** - Extends easily with custom hooks
 - 💡 **Testability** - Simple integration tests for UI and blockchain
 
