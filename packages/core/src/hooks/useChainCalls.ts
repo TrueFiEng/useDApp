@@ -1,9 +1,9 @@
-import { useContext, useEffect, useMemo } from 'react'
-import { ChainCall, ChainStateContext, MulticallResult } from '../providers'
+import { useEffect, useMemo } from 'react'
+import { ChainCall, MulticallResult, useChainState } from '../providers'
 import { Falsy } from '../model/types'
 
 export function useFailableChainCalls(calls: (ChainCall | Falsy)[]): MulticallResult[] {
-  const { dispatchCalls, value } = useContext(ChainStateContext)
+  const { dispatchCalls, value } = useChainState()
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as ChainCall[]
