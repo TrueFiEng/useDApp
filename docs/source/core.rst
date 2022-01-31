@@ -87,7 +87,7 @@ useCall
 =======
 
 Makes a call to a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
-A syntax sugar for `useChainStateCall`_ that uses ABI, function name, and arguments instead of raw data.
+A syntax sugar for `useFailableChainCall`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
@@ -103,7 +103,7 @@ The hook returns ``CallResult`` type. That is: `undefined` when call didn't retu
 useCalls
 ================
 Makes calls to specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
-A syntax sugar for `useChainStateCalls`_ that uses ABI, function name, and arguments instead of raw data.
+A syntax sugar for `useFailableChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
