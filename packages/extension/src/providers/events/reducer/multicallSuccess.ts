@@ -10,9 +10,7 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
   }
 
   const previousEntries = state.state[network] ?? []
-  const currentEntries = getStateEntries(
-    message.payload.state.value ? message.payload.state.value : message.payload.state
-  )
+  const currentEntries = getStateEntries(message.payload.state)
 
   const updated: StateUpdate[] = []
   const persisted: StateEntry[] = []
@@ -87,10 +85,10 @@ export function multicallSuccess(state: State, message: HookMessage<MulticallSuc
   }
 }
 
-function getStateEntries(state: { [address: string]: { [data: string]: string } }) {
+function getStateEntries(state: { [address: string]: { [data: string]: { value: string, success: boolean } } }) {
   const entries = []
   for (const [address, calls] of Object.entries(state)) {
-    for (const [data, value] of Object.entries(calls)) {
+    for (const [data, { value }] of Object.entries(calls)) {
       entries.push({ address, data, value })
     }
   }
