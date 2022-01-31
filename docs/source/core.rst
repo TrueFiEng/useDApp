@@ -95,9 +95,9 @@ A syntax sugar for `useChainStateCall`_ that uses ABI, function name, and argume
 
 **Returns**
 
-- ``result: any[] | undefined`` - the result of a call or undefined if call didn't return yet
+- ``{ value: any[] | undefined, error: string | undefined } | undefined``
 
-- ``error?: any`` - encountered error or undefined if call was successful
+The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful.
 
 
 useCalls
@@ -111,9 +111,7 @@ A syntax sugar for `useChainStateCalls`_ that uses ABI, function name, and argum
 
 **Returns**
 
-- ``any[] | undefined`` - array of results or undefined if call didn't return yet
-
-- ``error?: any`` - encountered error or undefined if call was successful
+- ``CallResult[]`` - a list of results (see ``CallResult`` in ``useCall`` above)
 
 
 useChainCall (deprecated)
@@ -121,7 +119,7 @@ useChainCall (deprecated)
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
 
 It is recommended to use `useCall`_ where applicable instead of this method.
 
@@ -139,7 +137,7 @@ useChainCalls (deprecated)
 
 Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
 It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
@@ -151,12 +149,12 @@ It is recommended to use `useCalls`_ where applicable instead of this method.
 - ``(string | Falsy)[]`` - encoded results or Falsy values if call didn't return yet or an error occured
 
 
-useChainStateCall
+useFailableChainCall
 =================
 
 Makes a call to a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
 It is recommended to use `useCall`_ where applicable instead of this method.
 
 *Parameters*
@@ -165,17 +163,17 @@ It is recommended to use `useCall`_ where applicable instead of this method.
 
 *Returns*
 
-- ``result: string | undefined`` - encoded result or undefined if call didn't return yet or an error occured
+- ``{ success: boolean, value: string } | undefined`` - result of multicall call
 
-- ``error?: any`` - encountered error or undefined if call was successful
+The hook returns ``MulticallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whtether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``
 
 
-useChainStateCalls
+useFailableChainCalls
 ==================
 
 Makes multiple calls to specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useChainStateCall* and *useChainStateCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
 It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
@@ -184,10 +182,7 @@ It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Returns*
 
-- ``results: (string | undefined)[]`` - encoded results or undefined values if call didn't return yet or an error occured
-
-- ``error?: any`` - encountered error or undefined if call was successful
-
+- ``MulticallResult[]`` - a list of results (see ``MulticallResult`` in ``useFailableChainCall`` above)
 
 
 useContractCall (deprecated)
