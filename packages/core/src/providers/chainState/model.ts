@@ -1,6 +1,6 @@
 export type MulticallResult =
   | {
-      value: string | undefined
+      value: string
       success: boolean
     }
   | undefined
