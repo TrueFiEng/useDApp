@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { InjectedNetworkContext } from './context'
 import { Web3Provider } from '@ethersproject/providers'
 import { getInjectedProvider } from '../../helpers/injectedProvider'
-import { useNetwork } from '../network'
+import { useActiveNetwork } from '../activeNetwork'
 import { useConfig } from '../config'
 
 interface InjectedNetworkProviderProps {
@@ -10,7 +10,7 @@ interface InjectedNetworkProviderProps {
 }
 
 export function InjectedNetworkProvider({ children }: InjectedNetworkProviderProps) {
-  const { reportError } = useNetwork()
+  const { reportError } = useActiveNetwork()
   const { pollingInterval } = useConfig()
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
 

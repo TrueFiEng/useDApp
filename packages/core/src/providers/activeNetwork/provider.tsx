@@ -1,12 +1,12 @@
 import { ReactNode, useCallback, useReducer, useState } from 'react'
-import { NetworkContext } from './context'
+import { ActiveNetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
 import { subscribeToProviderEvents } from '../../helpers/eip1193'
 
-interface NetworkProviderProps {
+interface ActiveNetworkProviderProps {
   children: ReactNode
 }
 
@@ -22,7 +22,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
   }
 }
 
-export function NetworkProvider({ children }: NetworkProviderProps) {
+export function ActiveNetworkProvider({ children }: ActiveNetworkProviderProps) {
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
 
@@ -70,5 +70,7 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
     [onUnsubscribe]
   )
 
-  return <NetworkContext.Provider value={{ network, update, activate, deactivate, reportError }} children={children} />
+  return (
+    <ActiveNetworkContext.Provider value={{ network, update, activate, deactivate, reportError }} children={children} />
+  )
 }

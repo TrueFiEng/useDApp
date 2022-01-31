@@ -4,7 +4,7 @@ import { Network } from './model'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
 
-export const NetworkContext = createContext<{
+export const ActiveNetworkContext = createContext<{
   update: (network: Partial<Network>) => void
   reportError: (error: Error) => void
   activate: (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => Promise<void>
@@ -24,5 +24,12 @@ export const NetworkContext = createContext<{
 })
 
 export function useNetwork() {
-  return useContext(NetworkContext)
+  console.warn(
+    'useNetwork is deprecated. Use useActiveNetwork to access the active network context or useReadonlyNetworks to access readonly networks.'
+  )
+  return useContext(ActiveNetworkContext)
+}
+
+export function useActiveNetwork() {
+  return useContext(ActiveNetworkContext)
 }

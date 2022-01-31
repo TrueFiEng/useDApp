@@ -7,7 +7,7 @@ import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
-import { NetworkProvider } from './network'
+import { ActiveNetworkProvider } from './activeNetwork'
 import { InjectedNetworkProvider } from './injectedNetwork'
 import { ReadonlyNetworksProvider } from './multichain/readonlyNetworks'
 import { MultiBlockNumbersProvider } from './multichain/blockNumbers'
@@ -43,7 +43,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
 
   return (
     <ReadonlyNetworksProvider>
-      <NetworkProvider>
+      <ActiveNetworkProvider>
         <InjectedNetworkProvider>
           <BlockNumberProvider>
             <MultiBlockNumbersProvider>
@@ -60,7 +60,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
             </MultiBlockNumbersProvider>
           </BlockNumberProvider>
         </InjectedNetworkProvider>
-      </NetworkProvider>
+      </ActiveNetworkProvider>
     </ReadonlyNetworksProvider>
   )
 }
