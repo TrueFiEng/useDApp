@@ -31,7 +31,6 @@ interface CallsChanged {
   calls: ChainCall[]
 }
 
-// TODO: update packages/extension/src/providers/events/Message.ts
 interface MulticallSuccess {
   type: 'MULTICALL_SUCCESS'
   multicallAddress: string
