@@ -1,6 +1,7 @@
-import * as chains from '../model/chain'
+import { useMemo } from 'react'
 import { ChainId } from '../constants'
+import { getChainMeta } from '../helpers/getChainMeta'
 
 export function useChainMeta(chainId: ChainId) {
-  return Object.values(chains).find((chain) => chain.chainId === chainId)
+  return useMemo(() => getChainMeta(chainId), [chainId])
 }
