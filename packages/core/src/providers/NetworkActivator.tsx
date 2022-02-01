@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useEthers } from '../hooks'
+import { useEthers, useLocalStorage } from '../hooks'
 import { useConfig } from './config'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useInjectedNetwork } from './injectedNetwork'
@@ -12,6 +12,7 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const injectedProvider = useInjectedNetwork()
+  const [shouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
   const [readonlyConnected, setReadonlyConnected] = useState(false)
 
   useEffect(() => {
@@ -31,7 +32,12 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
   }, [readOnlyChainId, readOnlyUrls])
 
   useEffect(() => {
-    autoConnect && injectedProvider && !providerOverride && readonlyConnected && activateBrowserWallet()
+    shouldConnectMetamask &&
+      autoConnect &&
+      injectedProvider &&
+      !providerOverride &&
+      readonlyConnected &&
+      activateBrowserWallet()
   }, [readonlyConnected])
 
   return null
