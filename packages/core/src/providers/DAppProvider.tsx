@@ -8,7 +8,7 @@ import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { ActiveNetworkProvider, InjectedNetworkProvider, ReadonlyNetworksProvider } from './network'
-import { MultiBlockNumbersProvider } from './blockNumber/blockNumbers'
+import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -43,7 +43,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
       <ActiveNetworkProvider>
         <InjectedNetworkProvider>
           <ActiveBlockNumberProvider>
-            <MultiBlockNumbersProvider>
+            <BlockNumbersProvider>
               <NetworkActivator />
               <LocalMulticallProvider>
                 <ActiveChainStateProvider multicallAddresses={multicallAddressesMerged}>
@@ -54,7 +54,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
                   </MultiChainStateProvider>
                 </ActiveChainStateProvider>
               </LocalMulticallProvider>
-            </MultiBlockNumbersProvider>
+            </BlockNumbersProvider>
           </ActiveBlockNumberProvider>
         </InjectedNetworkProvider>
       </ActiveNetworkProvider>

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebounce } from '../../../hooks'
 import { useReadonlyNetworks } from '../../network'
-import { MultiBlockNumbersContext } from './context'
+import { BlockNumbersContext } from './context'
 import { blockNumberReducer } from '../common/reducer'
 import { subscribeToNewBlock } from '../common/subscribeToNewBlock'
 
@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode
 }
 
-export function MultiBlockNumbersProvider({ children }: Props) {
+export function BlockNumbersProvider({ children }: Props) {
   const networks = useReadonlyNetworks()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
 
@@ -25,5 +25,5 @@ export function MultiBlockNumbersProvider({ children }: Props) {
 
   const debouncedState = useDebounce(state, 100)
 
-  return <MultiBlockNumbersContext.Provider value={debouncedState} children={children} />
+  return <BlockNumbersContext.Provider value={debouncedState} children={children} />
 }

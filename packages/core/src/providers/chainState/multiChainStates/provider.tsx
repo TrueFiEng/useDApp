@@ -3,7 +3,7 @@ import { useDebouncePair } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
 import { callsReducer, ChainId, chainStateReducer, State, useNetwork } from '../../..'
 import { useReadonlyNetworks } from '../../network'
-import { useMultiBlockNumbers } from '../../blockNumber/blockNumbers'
+import { useBlockNumbers } from '../../blockNumber/blockNumbers'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { getUnique } from '../common/getUnique'
@@ -31,7 +31,7 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
 
 export function MultiChainStateProvider({ children, multicallAddresses }: Props) {
   const networks = useReadonlyNetworks()
-  const blockNumbers = useMultiBlockNumbers()
+  const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])

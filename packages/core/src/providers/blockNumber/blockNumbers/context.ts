@@ -1,12 +1,12 @@
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../../constants'
 
-export const MultiBlockNumbersContext = createContext<
+export const BlockNumbersContext = createContext<
   {
     [chainId in ChainId]?: number
   }
 >({})
 
-export function useMultiBlockNumbers() {
-  return useContext(MultiBlockNumbersContext)
+export function useBlockNumbers() {
+  return useContext(BlockNumbersContext)
 }

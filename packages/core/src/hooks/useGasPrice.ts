@@ -4,13 +4,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { ChainId } from '../constants'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
-import { useMultiBlockNumbers } from '../providers/blockNumber/blockNumbers'
+import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
 
 export function useGasPrice(chainId?: ChainId): BigNumber | undefined {
   const { library } = useEthers()
   const providers = useReadonlyNetworks()
   const _blockNumber = useBlockNumber()
-  const blockNumbers = useMultiBlockNumbers()
+  const blockNumbers = useBlockNumbers()
 
   const [gasPrice, setGasPrice] = useState<BigNumber | undefined>()
 
