@@ -1,6 +1,11 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider, ActiveNetworkProvider, NetworkActivator } from '@usedapp/core'
+import {
+  ActiveBlockNumberProvider,
+  ActiveChainStateProvider,
+  ActiveNetworkProvider,
+  NetworkActivator,
+} from '@usedapp/core'
 import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
@@ -34,11 +39,11 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     wrapper: (wrapperProps) => (
       <ActiveNetworkProvider>
         <NetworkActivator providerOverride={provider} />
-        <BlockNumberProvider>
-          <ChainStateProvider multicallAddresses={multicallAddresses}>
+        <ActiveBlockNumberProvider>
+          <ActiveChainStateProvider multicallAddresses={multicallAddresses}>
             <UserWrapper {...wrapperProps} />
-          </ChainStateProvider>
-        </BlockNumberProvider>
+          </ActiveChainStateProvider>
+        </ActiveBlockNumberProvider>
       </ActiveNetworkProvider>
     ),
     initialProps: options?.renderHook?.initialProps,

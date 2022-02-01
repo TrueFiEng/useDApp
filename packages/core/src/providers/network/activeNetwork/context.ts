@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { ChainId } from '../../constants'
+import { ChainId } from '../../../constants'
 import { Network } from './model'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
@@ -24,9 +24,6 @@ export const ActiveNetworkContext = createContext<{
 })
 
 export function useNetwork() {
-  console.warn(
-    'useNetwork is deprecated. Use useActiveNetwork to access the active network context or useReadonlyNetworks to access readonly networks.'
-  )
   return useContext(ActiveNetworkContext)
 }
 

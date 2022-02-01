@@ -2,7 +2,7 @@ import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
 import { Falsy } from '../model/types'
 import { useChainCalls } from './useChainCalls'
-import { ChainCall } from '../providers/chainState/callsReducer'
+import { ChainCall } from '../providers'
 import { ChainId } from '../constants'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useEthers } from '../hooks'
 import { useConfig } from './config'
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { useInjectedNetwork } from './injectedNetwork'
+import { useInjectedNetwork } from './network/injectedNetwork'
 
 interface NetworkActivatorProps {
   providerOverride?: JsonRpcProvider

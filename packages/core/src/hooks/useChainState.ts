@@ -1,10 +1,9 @@
 import { ChainId } from '../constants'
 import { useContext } from 'react'
-import { ChainStateContext } from '../providers'
-import { MultiChainStatesContext } from '../providers/multichain/chainState'
+import { ActiveChainStateContext, MultiChainStatesContext } from '../providers'
 
 export function useChainState(chainId?: ChainId) {
-  const chainState = useContext(ChainStateContext)
+  const chainState = useContext(ActiveChainStateContext)
   const multiChainState = useContext(MultiChainStatesContext)
 
   if (chainId) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useEthers } from '../../hooks'
-import { notifyDevtools } from '../devtools'
+import { useEthers } from '../../../hooks'
+import { notifyDevtools } from '../../devtools'
 import { ChainCall } from './callsReducer'
 
 export function useDevtoolsReporting(

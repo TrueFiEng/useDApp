@@ -1,10 +1,10 @@
-import { useBlockNumber } from '../providers/blockNumber/context'
+import { useBlockNumber } from '../providers/blockNumber/activeBlockNumber/context'
 import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { ChainId } from '../constants'
-import { useReadonlyNetworks } from '../providers/multichain/readonlyNetworks'
-import { useMultiBlockNumbers } from '../providers/multichain/blockNumbers'
+import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
+import { useMultiBlockNumbers } from '../providers/blockNumber/blockNumbers'
 
 export function useGasPrice(chainId?: ChainId): BigNumber | undefined {
   const { library } = useEthers()

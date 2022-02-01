@@ -1,5 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainId } from '../../constants'
+import { ChainId } from '../../../constants'
 
 export interface Network {
   provider?: JsonRpcProvider

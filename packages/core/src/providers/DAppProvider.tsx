@@ -1,17 +1,14 @@
 import { ReactNode, useMemo } from 'react'
 import { Chain, Config } from '../constants'
 import { ConfigProvider, useConfig } from './config'
-import { BlockNumberProvider } from './blockNumber'
-import { ChainStateProvider } from './chainState'
+import { ActiveBlockNumberProvider } from './blockNumber/activeBlockNumber'
+import { ActiveChainStateProvider, MultiChainStateProvider } from './chainState'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
-import { ActiveNetworkProvider } from './activeNetwork'
-import { InjectedNetworkProvider } from './injectedNetwork'
-import { ReadonlyNetworksProvider } from './multichain/readonlyNetworks'
-import { MultiBlockNumbersProvider } from './multichain/blockNumbers'
-import { MultiChainStateProvider } from './multichain/chainState'
+import { ActiveNetworkProvider, InjectedNetworkProvider, ReadonlyNetworksProvider } from './network'
+import { MultiBlockNumbersProvider } from './blockNumber/blockNumbers'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -45,20 +42,20 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
     <ReadonlyNetworksProvider>
       <ActiveNetworkProvider>
         <InjectedNetworkProvider>
-          <BlockNumberProvider>
+          <ActiveBlockNumberProvider>
             <MultiBlockNumbersProvider>
               <NetworkActivator />
               <LocalMulticallProvider>
-                <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                <ActiveChainStateProvider multicallAddresses={multicallAddressesMerged}>
                   <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
                     <NotificationsProvider>
                       <TransactionProvider>{children}</TransactionProvider>
                     </NotificationsProvider>
                   </MultiChainStateProvider>
-                </ChainStateProvider>
+                </ActiveChainStateProvider>
               </LocalMulticallProvider>
             </MultiBlockNumbersProvider>
-          </BlockNumberProvider>
+          </ActiveBlockNumberProvider>
         </InjectedNetworkProvider>
       </ActiveNetworkProvider>
     </ReadonlyNetworksProvider>

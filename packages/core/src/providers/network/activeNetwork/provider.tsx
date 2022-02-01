@@ -4,7 +4,7 @@ import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
-import { subscribeToProviderEvents } from '../../helpers/eip1193'
+import { subscribeToProviderEvents } from '../../../helpers/eip1193'
 
 interface ActiveNetworkProviderProps {
   children: ReactNode

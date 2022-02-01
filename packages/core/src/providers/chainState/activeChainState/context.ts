@@ -1,8 +1,7 @@
-import { createContext, useContext } from 'react'
-import { Action } from './callsReducer'
-import { ChainState } from './model'
+import { createContext } from 'react'
+import { Action, ChainState } from '../common'
 
-export const ChainStateContext = createContext<{
+export const ActiveChainStateContext = createContext<{
   value?: {
     blockNumber: number
     state?: ChainState

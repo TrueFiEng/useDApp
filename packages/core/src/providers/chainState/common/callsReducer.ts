@@ -1,4 +1,4 @@
-import { addressEqual, ChainId } from '../..'
+import { addressEqual, ChainId } from '../../..'
 
 export type Action = AddCall | RemoveCall
 

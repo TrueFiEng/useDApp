@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { getChainById } from '../helpers'
 import { useEthers } from '../hooks'
-import { useBlockNumber } from './blockNumber'
+import { useBlockNumber } from './blockNumber/activeBlockNumber'
 import { useConfig, useUpdateConfig } from './config'
 import multicallABI from '../constants/abi/MultiCall.json'
 import { deployContract } from '../helpers/contract'

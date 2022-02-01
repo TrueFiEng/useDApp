@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../../constants'
-import { Action, ChainState } from '../../chainState'
+import { Action, ChainState } from '..'
 
 export const MultiChainStatesContext = createContext<{
   chains: {

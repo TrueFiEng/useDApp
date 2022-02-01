@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { ChainCall } from '../providers/chainState/callsReducer'
+import { ChainCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useChainState } from './useChainState'
 import { ChainId } from '../constants'

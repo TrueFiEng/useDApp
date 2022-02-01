@@ -2,7 +2,7 @@ interface BlockNumberState {
   [chainId: number]: number | undefined
 }
 
-interface BlockNumberChanged {
+export interface BlockNumberChanged {
   chainId: number
   blockNumber: number
 }
