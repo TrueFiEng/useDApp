@@ -5,3 +5,7 @@ export const ActiveBlockNumberContext = createContext<number | undefined>(undefi
 export function useBlockNumber() {
   return useContext(ActiveBlockNumberContext)
 }
+
+export function useActiveBlockNumber() {
+  return useContext(ActiveBlockNumberContext)
+}
