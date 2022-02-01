@@ -1,6 +1,7 @@
+import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Falsy } from '../model/types'
-import { RawCall } from '../providers'
+import { RawCall, RawCallResult } from '../providers'
 import { addressEqual } from './address'
 
 export function warnOnInvalidCall(call: Call | Falsy) {
@@ -36,4 +37,32 @@ export function getUniqueCalls(requests: RawCall[]) {
     }
   }
   return unique
+}
+
+export class CallError {
+  constructor(readonly message: string) {}
+}
+
+type LoadingResult = { status: 'Loading' }
+type ErrorResult = { status: 'Error', error: CallError }
+type SuccessResult = { status: 'Success', value: any[] }
+export type CallResult = LoadingResult | ErrorResult | SuccessResult
+
+export function decodeCallResult(call: Call | Falsy, result: RawCallResult): CallResult {
+  if (!result || !call) {
+    return { status: 'Loading' }
+  }
+  const { value, success } = result
+  if (success) {
+    return { 
+      status: 'Success',
+      value: call.contract.interface.decodeFunctionResult(call.method, value) as any[]
+    }
+  } else {
+    const errorMessage: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0]
+    return {
+      status: 'Error',
+      error: new CallError(errorMessage)
+    }
+  }
 }
