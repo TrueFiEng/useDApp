@@ -1,13 +1,12 @@
-
-import { ChainCall } from '../providers'
+import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
-import { useFailableChainCalls } from './useFailableChainCalls'
+import { useRawCalls } from './useRawCalls'
 
-export function useChainCalls(calls: (ChainCall | Falsy)[]) {
-  const results = useFailableChainCalls(calls)
+export function useChainCalls(calls: (RawCall | Falsy)[]) {
+  const results = useRawCalls(calls)
   return results.map((result) => result?.value)
 }
 
-export function useChainCall(call: ChainCall | Falsy) {
+export function useChainCall(call: RawCall | Falsy) {
   return useChainCalls([call])[0]
 }

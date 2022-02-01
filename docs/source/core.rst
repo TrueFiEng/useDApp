@@ -165,7 +165,7 @@ It is recommended to use `useCall`_ where applicable instead of this method.
 
 - ``{ success: boolean, value: string } | undefined`` - result of multicall call
 
-The hook returns ``MulticallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whtether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``
+The hook returns ``RawCallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whtether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``
 
 
 useFailableChainCalls
@@ -182,7 +182,7 @@ It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Returns*
 
-- ``MulticallResult[]`` - a list of results (see ``MulticallResult`` in ``useFailableChainCall`` above)
+- ``RawCallResult[]`` - a list of results (see ``RawCallResult`` in ``useFailableChainCall`` above)
 
 
 useContractCall (deprecated)

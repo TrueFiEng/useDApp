@@ -1,4 +1,4 @@
-export type MulticallResult =
+export type RawCallResult =
   | {
       value: string
       success: boolean
@@ -8,7 +8,7 @@ export type MulticallResult =
 export type ChainState = {
   [address: string]:
     | {
-        [data: string]: MulticallResult
+        [data: string]: RawCallResult
       }
     | undefined
 }

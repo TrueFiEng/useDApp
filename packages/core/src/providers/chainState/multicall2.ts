@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
-import { ChainCall } from './callsReducer'
+import { RawCall } from './callsReducer'
 import { ChainState } from './model'
 
 const ABI = [
@@ -11,7 +11,7 @@ export async function multicall2(
   provider: Provider,
   address: string,
   blockNumber: number,
-  requests: ChainCall[]
+  requests: RawCall[]
 ): Promise<ChainState> {
   if (requests.length === 0) {
     return {}

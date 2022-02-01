@@ -4,7 +4,7 @@ import { Contract } from '@ethersproject/contracts'
 import chai, { expect } from 'chai'
 import { deployContract, solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
-import { ChainCall, ERC20Mock, MultiCall2, multicall2 } from '../src'
+import { RawCall, ERC20Mock, MultiCall2, multicall2 } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
 import { sendEmptyTx } from './utils/sendEmptyTx'
 import { utils } from 'ethers'
@@ -27,7 +27,7 @@ describe('Multicall2', () => {
 
   it('Retrieves token balance using tryAggregate', async () => {
     const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
-    const call: ChainCall = {
+    const call: RawCall = {
       address: tokenContract.address,
       data,
     }
@@ -41,7 +41,7 @@ describe('Multicall2', () => {
 
   it('Fails to retrieve data on block number in the future', async () => {
     const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
-    const call: ChainCall = {
+    const call: RawCall = {
       address: tokenContract.address,
       data,
     }
@@ -52,7 +52,7 @@ describe('Multicall2', () => {
 
   it('Does not fail when retrieving data on block number from the past', async () => {
     const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
-    const call: ChainCall = {
+    const call: RawCall = {
       address: tokenContract.address,
       data,
     }
@@ -68,7 +68,7 @@ describe('Multicall2', () => {
   it('Does not fail when doing multiple calls at once', async () => {
     const erc20Interface = new Interface(ERC20Mock.abi)
 
-    const calls: ChainCall[] = [
+    const calls: RawCall[] = [
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
@@ -101,7 +101,7 @@ describe('Multicall2', () => {
   it('Does not fail when some of the calls fail', async () => {
     const erc20Interface = new Interface(ERC20Mock.abi)
 
-    const calls: ChainCall[] = [
+    const calls: RawCall[] = [
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),

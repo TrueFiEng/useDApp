@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react'
-import { MulticallResult, useChainState } from '../providers'
-import { ChainCall } from '../providers'
+import { RawCallResult, useChainState } from '../providers'
+import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 
-export function useFailableChainCalls(calls: (ChainCall | Falsy)[]): MulticallResult[] {
+export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, value } = useChainState()
 
   useEffect(() => {
-    const filteredCalls = calls.filter(Boolean) as ChainCall[]
+    const filteredCalls = calls.filter(Boolean) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
@@ -23,6 +23,6 @@ export function useFailableChainCalls(calls: (ChainCall | Falsy)[]): MulticallRe
   )
 }
 
-export function useFailableChainCall(call: ChainCall | Falsy) {
-  return useFailableChainCalls([call])[0]
+export function useRawCall(call: RawCall | Falsy) {
+  return useRawCalls([call])[0]
 }
