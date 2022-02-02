@@ -86,8 +86,8 @@ Get the current block number. Will update automatically when the new block is mi
 useCall
 =======
 
-Makes a call to a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
-A syntax sugar for `useFailableChainCall`_ that uses ABI, function name, and arguments instead of raw data.
+Makes a call to a specific method of a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useRawCall`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
@@ -95,15 +95,15 @@ A syntax sugar for `useFailableChainCall`_ that uses ABI, function name, and arg
 
 **Returns**
 
-- ``{ value: any[] | undefined, error: string | undefined } | undefined``
+- ``{ value: any[], error: undefined } | { value: undefined, error: CallError} | undefined``
 
-The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful.
+The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful. CallError contains ``message: string`` field that describes the error reason. 
 
 
 useCalls
 ================
-Makes calls to specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
-A syntax sugar for `useFailableChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
+Makes calls to specific methods of specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
+A syntax sugar for `useRawCalls`_ that uses ABI, function name, and arguments instead of raw data.
 
 **Parameters**
 
@@ -119,7 +119,7 @@ useChainCall (deprecated)
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
 
 It is recommended to use `useCall`_ where applicable instead of this method.
 
@@ -137,7 +137,7 @@ useChainCalls (deprecated)
 
 Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
 It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
@@ -149,12 +149,12 @@ It is recommended to use `useCalls`_ where applicable instead of this method.
 - ``(string | Falsy)[]`` - encoded results or Falsy values if call didn't return yet or an error occured
 
 
-useFailableChainCall
+useRawCall
 =================
 
-Makes a call to a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+A low-level function that makes a call to a specific method of a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
+Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
 It is recommended to use `useCall`_ where applicable instead of this method.
 
 *Parameters*
@@ -168,12 +168,12 @@ It is recommended to use `useCall`_ where applicable instead of this method.
 The hook returns ``RawCallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whtether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``
 
 
-useFailableChainCalls
+useRawCalls
 ==================
 
-Makes multiple calls to specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
+A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useFailableChainCall* and *useFailableChainCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
 It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
@@ -182,7 +182,7 @@ It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Returns*
 
-- ``RawCallResult[]`` - a list of results (see ``RawCallResult`` in ``useFailableChainCall`` above)
+- ``RawCallResult[]`` - a list of results (see ``RawCallResult`` in ``useRawCall`` above)
 
 
 useContractCall (deprecated)
