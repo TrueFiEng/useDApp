@@ -43,26 +43,23 @@ export class CallError {
   constructor(readonly message: string) {}
 }
 
-type LoadingResult = { status: 'Loading' }
-type ErrorResult = { status: 'Error', error: CallError }
-type SuccessResult = { status: 'Success', value: any[] }
-export type CallResult = LoadingResult | ErrorResult | SuccessResult
+export type CallResult = { value: any[]; error: undefined } | { value: undefined; error: CallError } | undefined
 
 export function decodeCallResult(call: Call | Falsy, result: RawCallResult): CallResult {
   if (!result || !call) {
-    return { status: 'Loading' }
+    return undefined
   }
   const { value, success } = result
   if (success) {
-    return { 
-      status: 'Success',
-      value: call.contract.interface.decodeFunctionResult(call.method, value) as any[]
+    return {
+      value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
+      error: undefined,
     }
   } else {
     const errorMessage: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0]
     return {
-      status: 'Error',
-      error: new CallError(errorMessage)
+      value: undefined,
+      error: new CallError(errorMessage),
     }
   }
 }
