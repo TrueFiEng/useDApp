@@ -1,4 +1,4 @@
-import { networksReducer } from '../../src/providers/network/activeNetwork/reducer'
+import { networksReducer } from '../../src/providers/network/network/reducer'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
 

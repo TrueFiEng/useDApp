@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { Action, ChainState } from '../common'
 
-export const ActiveChainStateContext = createContext<{
+export const ChainStateContext = createContext<{
   value?: {
     blockNumber: number
     state?: ChainState

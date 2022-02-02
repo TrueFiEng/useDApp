@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage } from '../../hooks'
-import { useBlockNumber } from '../blockNumber/activeBlockNumber'
+import { useBlockNumber } from '../blockNumber/blockNumber'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'

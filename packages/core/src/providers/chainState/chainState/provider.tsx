@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useReducer } from 'react'
 import { useDebouncePair, useEthers } from '../../../hooks'
-import { useBlockNumber } from '../../blockNumber/activeBlockNumber'
-import { ActiveChainStateContext } from './context'
+import { useBlockNumber } from '../../blockNumber/blockNumber'
+import { ChainStateContext } from './context'
 import { callsReducer, chainStateReducer } from '../common'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useNetwork } from '../../..'
@@ -15,7 +15,7 @@ interface Props {
   }
 }
 
-export function ActiveChainStateProvider({ children, multicallAddresses }: Props) {
+export function ChainStateProvider({ children, multicallAddresses }: Props) {
   const { library, chainId } = useEthers()
   const blockNumber = useBlockNumber()
   const { reportError } = useNetwork()
@@ -44,5 +44,5 @@ export function ActiveChainStateProvider({ children, multicallAddresses }: Props
   const value = chainId !== undefined ? state[chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
 
-  return <ActiveChainStateContext.Provider value={provided} children={children} />
+  return <ChainStateContext.Provider value={provided} children={children} />
 }

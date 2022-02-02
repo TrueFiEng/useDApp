@@ -52,7 +52,8 @@ export function NavBar() {
             </SidebarLink>
             <SidebarLink activeClassName="active-page" to="/multichain">
               {' '}
-              Multichain state{' '}
+              Multichain state
+              <br /> <SidebarLinkDescription>experimental</SidebarLinkDescription>
             </SidebarLink>
           </SidebarNavLinks>
         </SidebarNav>
@@ -124,9 +125,9 @@ const SidebarLink = styled(NavLink)`
   height: 100%;
   padding: 10px;
   font-size: 12px;
-  line-height: 24px;
   font-weight: 700;
   letter-spacing: 0.1em;
+  line-height: 16px;
   text-transform: uppercase;
   transition: ${Transitions.all};
   white-space: nowrap;
@@ -158,4 +159,10 @@ const SidebarLink = styled(NavLink)`
       transform: scaleX(1);
     }
   }
+`
+
+const SidebarLinkDescription = styled.span`
+  display: contents;
+  color: ${Colors.Gray[600]};
+  text-transform: none;
 `

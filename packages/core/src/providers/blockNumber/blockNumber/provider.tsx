@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useReducer } from 'react'
-import { ActiveBlockNumberContext } from './context'
+import { BlockNumberContext } from './context'
 import { blockNumberReducer } from '../common/reducer'
 import { useDebounce, useEthers } from '../../../hooks'
 import { subscribeToNewBlock } from '../common/subscribeToNewBlock'
@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode
 }
 
-export function ActiveBlockNumberProvider({ children }: Props) {
+export function BlockNumberProvider({ children }: Props) {
   const { library, chainId } = useEthers()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
 
@@ -17,5 +17,5 @@ export function ActiveBlockNumberProvider({ children }: Props) {
   const debouncedState = useDebounce(state, 100)
   const blockNumber = chainId !== undefined ? debouncedState[chainId] : undefined
 
-  return <ActiveBlockNumberContext.Provider value={blockNumber} children={children} />
+  return <BlockNumberContext.Provider value={blockNumber} children={children} />
 }

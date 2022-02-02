@@ -1,4 +1,4 @@
-import { useBlockNumber } from '../providers/blockNumber/activeBlockNumber/context'
+import { useBlockNumber } from '../providers/blockNumber/blockNumber/context'
 import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'

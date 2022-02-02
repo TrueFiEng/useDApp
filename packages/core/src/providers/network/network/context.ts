@@ -4,7 +4,7 @@ import { Network } from './model'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
 
-export const ActiveNetworkContext = createContext<{
+export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
   reportError: (error: Error) => void
   activate: (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => Promise<void>
@@ -24,9 +24,5 @@ export const ActiveNetworkContext = createContext<{
 })
 
 export function useNetwork() {
-  return useContext(ActiveNetworkContext)
-}
-
-export function useActiveNetwork() {
-  return useContext(ActiveNetworkContext)
+  return useContext(NetworkContext)
 }
