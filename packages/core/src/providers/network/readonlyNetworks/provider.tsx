@@ -3,31 +3,27 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 import { useConfig } from '../../config'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
-import { Chain, NodeUrls } from '../../../constants'
+import { NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 
 interface NetworkProviderProps {
   children: ReactNode
 }
 
-export const getProvidersFromConfig = (networks: Chain[], readOnlyUrls: NodeUrls) =>
-  fromEntries(
-    networks
-      .filter(({ chainId }) => readOnlyUrls[chainId])
-      .map(({ chainId }) => [chainId, new JsonRpcProvider(readOnlyUrls[chainId])])
-  )
+export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
+  fromEntries(Object.entries(readOnlyUrls).map(([chainId, url]) => [chainId, new JsonRpcProvider(url)]))
 
 export function ReadonlyNetworksProvider({ children }: NetworkProviderProps) {
-  const { readOnlyUrls, networks } = useConfig()
+  const { readOnlyUrls } = useConfig()
   const [providers, setProviders] = useState<Providers>({})
 
   useEffect(() => {
-    if (!networks || !readOnlyUrls) {
+    if (!readOnlyUrls) {
       setProviders({})
     } else {
-      setProviders(getProvidersFromConfig(networks, readOnlyUrls))
+      setProviders(getProvidersFromConfig(readOnlyUrls))
     }
-  }, [readOnlyUrls, networks])
+  }, [readOnlyUrls])
 
   return <ReadonlyNetworksContext.Provider value={providers}>{children}</ReadonlyNetworksContext.Provider>
 }
