@@ -192,7 +192,7 @@ Documentation for hooks is available :ref:`here <core:Hooks>`.
 Using hooks considerations
 ==========================
 
-There are some important considerations when using hooks based on `useFailableChainCall`, `useFailableChainCalls`, `useCall` and `useCalls`.
+There are some important considerations when using hooks based on `useRawCall`, `useRawCalls`, `useCall` and `useCalls`.
 
 Avoid using the result of one hook in another.
 This will break single multicall into multiple multicalls.
