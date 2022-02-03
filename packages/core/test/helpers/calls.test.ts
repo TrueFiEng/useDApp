@@ -28,7 +28,7 @@ describe('decodeCallResult', () => {
     expect(error?.message).to.equal(errorMessage)
   })
 
-  it('decode error', () => {
+  it('decoding error', () => {
     const result: RawCallResult = {
       success: true,
       value: '0x0',
