@@ -17,6 +17,4 @@ export const ChainStateContext = createContext<{
   },
 })
 
-export function useChainState() {
-  return useContext(ChainStateContext)
-}
+export const useChainState = () => useContext(ChainStateContext)

@@ -1,23 +1,18 @@
-import { useContext, useEffect, useMemo } from 'react'
-import { ChainCall } from '../providers/chainState/callsReducer'
-import { ChainStateContext } from '../providers/chainState/context'
+import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
+import { useRawCalls } from './useRawCalls'
 
-export function useChainCalls(calls: (ChainCall | Falsy)[]) {
-  const { dispatchCalls, value } = useContext(ChainStateContext)
-
-  useEffect(() => {
-    const filteredCalls = calls.filter(Boolean) as ChainCall[]
-    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
-    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
-  }, [JSON.stringify(calls), dispatchCalls])
-
-  return useMemo(() => calls.map((call) => call && value?.state?.[call.address]?.[call.data]), [
-    JSON.stringify(calls),
-    value,
-  ])
+/**
+ * @deprecated It's recommended to use useRawCalls instead
+ */
+export function useChainCalls(calls: (RawCall | Falsy)[]) {
+  const results = useRawCalls(calls)
+  return results.map((result) => result?.value)
 }
 
-export function useChainCall(call: ChainCall | Falsy) {
+/**
+ * @deprecated It's recommended to use useRawCall instead
+ */
+export function useChainCall(call: RawCall | Falsy) {
   return useChainCalls([call])[0]
 }

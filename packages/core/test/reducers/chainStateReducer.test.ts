@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { chainStateReducer, State } from '../../src/providers/chainState/chainStateReducer'
+import { State, chainStateReducer } from '../../src/providers/chainState/chainStateReducer'
 import { Mainnet } from '../../src'
 
 describe('chainStateReducer', () => {
@@ -13,7 +13,10 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
           },
         },
       },
@@ -24,7 +27,10 @@ describe('chainStateReducer', () => {
       blockNumber: 1233,
       state: {
         [ADDRESS_A]: {
-          '0xdead': '0x0001',
+          '0xdead': {
+            value: '0x0001',
+            success: true,
+          },
         },
       },
     })
@@ -37,7 +43,10 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
           },
         },
       },
@@ -48,7 +57,10 @@ describe('chainStateReducer', () => {
       blockNumber: 1235,
       state: {
         [ADDRESS_B]: {
-          '0xabcd': '0x5678',
+          '0xabcd': {
+            value: '0x5678',
+            success: false,
+          },
         },
       },
     })
@@ -57,7 +69,10 @@ describe('chainStateReducer', () => {
         blockNumber: 1235,
         state: {
           [ADDRESS_B]: {
-            '0xabcd': '0x5678',
+            '0xabcd': {
+              value: '0x5678',
+              success: false,
+            },
           },
         },
       },
@@ -76,15 +91,22 @@ describe('chainStateReducer', () => {
     // they resolve out of order. Data for c.baz() then would be overwritten and
     // the user would need to wait for the next block to see their data.
     // To prevent this we merge the state for updates from the same block.
+
     const state: State = {
       [Mainnet.chainId]: {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
           },
           [ADDRESS_C]: {
-            '0xcc': '0xdd',
+            '0xcc': {
+              value: '0xdd',
+              success: false,
+            },
           },
         },
       },
@@ -95,10 +117,16 @@ describe('chainStateReducer', () => {
       blockNumber: 1234,
       state: {
         [ADDRESS_A]: {
-          '0xabcd': '0x30',
+          '0xabcd': {
+            value: '0x30',
+            success: false,
+          },
         },
         [ADDRESS_B]: {
-          '0xabcd': '0x5678',
+          '0xabcd': {
+            value: '0x5678',
+            success: true,
+          },
         },
       },
     })
@@ -107,14 +135,26 @@ describe('chainStateReducer', () => {
         blockNumber: 1234,
         state: {
           [ADDRESS_A]: {
-            '0xdead': '0xbeef',
-            '0xabcd': '0x30',
+            '0xdead': {
+              value: '0xbeef',
+              success: true,
+            },
+            '0xabcd': {
+              value: '0x30',
+              success: false,
+            },
           },
           [ADDRESS_B]: {
-            '0xabcd': '0x5678',
+            '0xabcd': {
+              value: '0x5678',
+              success: true,
+            },
           },
           [ADDRESS_C]: {
-            '0xcc': '0xdd',
+            '0xcc': {
+              value: '0xdd',
+              success: false,
+            },
           },
         },
       },

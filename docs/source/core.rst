@@ -83,36 +83,149 @@ useBlockNumber
 
 Get the current block number. Will update automatically when the new block is mined.
 
-useChainCall
-============
+useCall
+=======
+
+Makes a call to a specific method of a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
+A syntax sugar for `useRawCall`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: Call | Falsy`` - a single call to a contract , also see `Call`_
+
+**Returns**
+
+- ``{ value: any[], error: undefined } | { value: undefined, error: CallError} | undefined``
+
+The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful. CallError contains ``message: string`` field that describes the error reason.
+
+**Example**
+
+.. code-block:: javascript
+
+  function useTotalSupply(tokenAddress: string | undefined): BigNumber | undefined {
+    const { value, error } = useCall(tokenAddress && {
+      contract: new Contract(tokenAddress, ERC20Interface),
+      method: 'totalSupply',
+      args: []
+    }) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
+  }
+
+
+useCalls
+================
+Makes calls to specific methods of specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
+A syntax sugar for `useRawCalls`_ that uses ABI, function name, and arguments instead of raw data.
+
+**Parameters**
+
+- ``calls: Call[]`` - a list of contract calls , also see `Call`_
+
+**Returns**
+
+- ``CallResult[]`` - a list of results (see ``CallResult`` in ``useCall`` above)
+
+**Example**
+
+.. code-block:: javascript
+
+  function useTotalSupplies(tokenAddresses: string[] | undefined): (BigNumber | undefined)[] {
+    const calls = tokenAddresses?.map(address => ({
+      contract: new Contract(address, ERC20Interface),
+      method: 'totalSupply',
+      args: []
+    })) ?? []
+    const results = useCalls(calls) ?? []
+    results.forEach((result, idx) => {
+      if(result && result.error) {
+        console.error(`Error encountered calling 'totalSupply' on ${calls[idx]?.contract.address}: ${result.error.message}`)
+      }
+    })
+    return results.map(result => result?.value?.[0])
+  }
+
+useChainCall (deprecated)
+=========================
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
-Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
 
-It is recommended to use `useContractCall`_ where applicable instead of this method.
+It is recommended to use `useCall`_ where applicable instead of this method.
 
 *Parameters*
 
 - ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
 
+*Returns*
 
-useChainCalls
-=============
+- ``string | Falsy`` - encoded result or Falsy value if call didn't return yet or an error occured
+
+
+useChainCalls (deprecated)
+==========================
 
 Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
-Calls will be combined into a single multicall across all uses of *useChainCall* and *useChainCalls*.
-It is recommended to use `useContractCall`_ where applicable instead of this method.
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
+It is recommended to use `useCalls`_ where applicable instead of this method.
 
 *Parameters*
 
 - ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
 
-useContractCall
-===============
+*Returns*
+
+- ``(string | Falsy)[]`` - encoded results or Falsy values if call didn't return yet or an error occured
+
+
+useRawCall
+=================
+
+A low-level function that makes a call to a specific method of a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+
+Calls will be combined into a single multicall across all uses of  *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
+It is recommended to use `useCall`_ where applicable instead of this method.
+
+*Parameters*
+
+- ``call: ChainCall | Falsy`` - a single call, also see `ChainCall`_. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
+
+*Returns*
+
+- ``{ success: boolean, value: string } | undefined`` - result of multicall call
+
+The hook returns ``RawCallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``.
+
+
+useRawCalls
+==================
+
+A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
+
+Calls will be combined into a single multicall across all uses of *useChainCall*, *useChainCalls*, *useRawCall* and *useRawCalls*.
+It is recommended to use `useCalls`_ where applicable instead of this method.
+
+*Parameters*
+
+- ``calls: ChainCall[]`` - list of calls, also see `ChainCall`_. Calls need to be in the same order across component renders.
+
+*Returns*
+
+- ``RawCallResult[]`` - a list of results (see ``RawCallResult`` in ``useRawCall`` above)
+
+
+useContractCall (deprecated)
+============================
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments instead of raw data.
+
+It is recommended to use `useCall`_ where applicable instead of this method as it is deprecated.
 
 **Parameters**
 
@@ -122,10 +235,13 @@ A syntax sugar for `useChainCall`_ that uses ABI, function name, and arguments i
 
 - ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
 
-useContractCalls
-================
+
+useContractCalls (deprecated)
+=============================
 Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
 A syntax sugar for `useChainCalls`_ that uses ABI, function name, and arguments instead of raw data.
+
+It is recommended to use `useCalls`_ where applicable instead of this method as it is deprecated.
 
 **Parameters**
 
@@ -645,6 +761,20 @@ Enables reconnecting to last used provider when user revisits the page.
     {
       autoConnect: true
     }
+
+Call
+====
+
+Represents a single call to a contract that can be included in multicall.
+
+Fields:
+
+- ``contract: Contract`` - contract instance, see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
+
+- ``method: string`` - function name
+
+- ``args: any[]`` - arguments for the function
+
 
 
 ChainCall

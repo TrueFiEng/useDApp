@@ -2,6 +2,14 @@ import { addressEqual } from '../..'
 
 export type Action = AddCall | RemoveCall
 
+export interface RawCall {
+  address: string
+  data: string
+}
+
+/**
+ * @deprecated It's recommended to use RawCall instead
+ */
 export interface ChainCall {
   address: string
   data: string
@@ -9,15 +17,15 @@ export interface ChainCall {
 
 interface AddCall {
   type: 'ADD_CALLS'
-  calls: ChainCall[]
+  calls: RawCall[]
 }
 
 interface RemoveCall {
   type: 'REMOVE_CALLS'
-  calls: ChainCall[]
+  calls: RawCall[]
 }
 
-export function callsReducer(state: ChainCall[] = [], action: Action) {
+export function callsReducer(state: RawCall[] = [], action: Action) {
   if (action.type === 'ADD_CALLS') {
     return [...state, ...action.calls]
   } else {

@@ -2,7 +2,7 @@ import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
 import { Falsy } from '../model/types'
 import { useChainCalls } from './useChainCalls'
-import { ChainCall } from '../providers/chainState/callsReducer'
+import { RawCall } from '../providers/chainState/callsReducer'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -10,7 +10,7 @@ function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   )
 }
 
-function encodeCallData(call: ContractCall | Falsy): ChainCall | Falsy {
+function encodeCallData(call: ContractCall | Falsy): RawCall | Falsy {
   if (!call) {
     return undefined
   }

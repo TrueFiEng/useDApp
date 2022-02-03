@@ -8,6 +8,7 @@ const config = {
   readOnlyUrls: {
     [Mainnet.chainId]: 'https://mainnet.infura.io/v3/14a0951f47e646c1b241aa533e150219',
   },
+  multicallVersion: 2 as const,
 }
 
 ReactDOM.render(

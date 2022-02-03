@@ -13,6 +13,10 @@ import type { Event, FetchErrorEvent, State, StateUpdatedEvent } from '../../../
 const STATE_WITH_INIT = reducer(INITIAL_STATE, makeInitMessage('12:00:00.000'))
 const INIT_EVENT = STATE_WITH_INIT.events[0]
 
+function createSuccessResult(value: string) {
+  return { value, success: true }
+}
+
 describe('reducer', () => {
   describe('init', () => {
     it('adds the init event', () => {
@@ -351,7 +355,7 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
           state: {
             [ADDRESS_A]: {
-              '0xdead': '0xbeef',
+              '0xdead': createSuccessResult('0xbeef'),
             },
           },
         })
@@ -441,14 +445,14 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
           state: {
             [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-              '0x1f00': '0x2b00',
+              '0xdead': createSuccessResult('0xbeef'),
+              '0x1f00': createSuccessResult('0x2b00'),
             },
             [ADDRESS_B]: {
-              '0xcc': '0xdd',
+              '0xcc': createSuccessResult('0xdd'),
             },
             [ADDRESS_C]: {
-              '0x1234': '0x5678',
+              '0x1234': createSuccessResult('0x5678'),
             },
           },
         }),
@@ -459,11 +463,11 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
           state: {
             [ADDRESS_A]: {
-              '0xdead': '0xf00d',
-              '0x12aa': '0x34bb',
+              '0xdead': createSuccessResult('0xf00d'),
+              '0x12aa': createSuccessResult('0x34bb'),
             },
             [ADDRESS_B]: {
-              '0xcc': '0xdd',
+              '0xcc': createSuccessResult('0xdd'),
             },
           },
         })
@@ -537,14 +541,14 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
           state: {
             [ADDRESS_A]: {
-              '0xdead': '0xbeef',
-              '0x1f00': '0x2b00',
+              '0xdead': createSuccessResult('0xbeef'),
+              '0x1f00': createSuccessResult('0x2b00'),
             },
             [ADDRESS_B]: {
-              '0xcc': '0xdd',
+              '0xcc': createSuccessResult('0xdd'),
             },
             [ADDRESS_C]: {
-              '0x1234': '0x5678',
+              '0x1234': createSuccessResult('0x5678'),
             },
           },
         }),
@@ -555,11 +559,11 @@ describe('reducer', () => {
           multicallAddress: MULTICALL,
           state: {
             [ADDRESS_A]: {
-              '0xdead': '0xf00d',
-              '0x12aa': '0x34bb',
+              '0xdead': createSuccessResult('0xf00d'),
+              '0x12aa': createSuccessResult('0x34bb'),
             },
             [ADDRESS_B]: {
-              '0xcc': '0xdd',
+              '0xcc': createSuccessResult('0xdd'),
             },
           },
         })
