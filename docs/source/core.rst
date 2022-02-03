@@ -97,7 +97,26 @@ A syntax sugar for `useRawCall`_ that uses ABI, function name, and arguments ins
 
 - ``{ value: any[], error: undefined } | { value: undefined, error: CallError} | undefined``
 
-The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful. CallError contains ``message: string`` field that describes the error reason. 
+The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful. CallError contains ``message: string`` field that describes the error reason.
+
+**Example**
+
+.. code-block:: javascript
+
+function useTotalSupply(tokenAddress: string | undefined) {
+  const { value, error } = useCall(tokenAddress && {
+    contract: new Contract(tokenAddress, ERC20Interface),
+    method: 'totalSupply',
+    args: []
+  }) ?? {}
+  if(error) {
+    console.error(error.message)
+    return undefined
+  }
+  if(value) {
+    return value[0] as BigNumber
+  }
+}
 
 
 useCalls
@@ -113,6 +132,28 @@ A syntax sugar for `useRawCalls`_ that uses ABI, function name, and arguments in
 
 - ``CallResult[]`` - a list of results (see ``CallResult`` in ``useCall`` above)
 
+**Example**
+
+.. code-block:: javascript
+
+function useTotalSupplies(tokenAddresses: string[] | undefined) {
+  const calls = tokenAddresses?.map(address => ({
+    contract: new Contract(address, ERC20Interface),
+    method: 'totalSupply',
+    args: []
+  })) ?? []
+  const results = useCalls(calls) ?? []
+  results.forEach((result, idx) => {
+    if(result && result.error) {
+      console.error(`Error encountered calling 'totalSupply' on ${calls[idx]?.contract.address}: ${result.error.message}`)
+    }
+  })
+  return results.map(result => {
+    if(result && result.value) {
+      return result.value[0] as BigNumber
+    }
+  })
+}
 
 useChainCall (deprecated)
 =========================
