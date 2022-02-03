@@ -34,18 +34,19 @@ export function TokenList() {
         {logoURI && <ListLogo src={toHttpPath(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
       {tokens &&
-        tokens.map((token, idx) => (
-          <TokenItem key={token.address}>
-            <TokenIconContainer>
-              {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
-            </TokenIconContainer>
-            <TokenName>{token.name}</TokenName>
-            <TokenTicker>{token.symbol}</TokenTicker>
-            {results && results[idx] && !results[idx].error && (
-              <TokenBalance>{formatUnits(results[idx].value?.[0], token.decimals)}</TokenBalance>
-            )}
-          </TokenItem>
-        ))}
+        tokens.map((token, idx) => {
+          const result = results[idx]
+          return (
+            <TokenItem key={token.address}>
+              <TokenIconContainer>
+                {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
+              </TokenIconContainer>
+              <TokenName>{token.name}</TokenName>
+              <TokenTicker>{token.symbol}</TokenTicker>
+              {result && !result.error && <TokenBalance>{formatUnits(result.value[0], token.decimals)}</TokenBalance>}
+            </TokenItem>
+          )
+        })}
     </List>
   )
 }
