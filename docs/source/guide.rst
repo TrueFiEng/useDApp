@@ -137,7 +137,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     tokenAddress: string | Falsy,
     address: string | Falsy
   ) {
-    const [tokenBalance] =
+    const { value, error } =
       useCall(
         address &&
           tokenAddress && {
@@ -145,8 +145,12 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
             method: "balanceOf", // Method to be called
             args: [address], // Method arguments - address to be checked for balance
           }
-      ) ?? [];
-    return tokenBalance;
+      ) ?? {};
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value
   }
 
 Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
@@ -158,7 +162,7 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
     ownerAddress: string | Falsy,
     spenderAddress: string | Falsy
   ) {
-    const [allowance] =
+    const { value, error } =
       useCall(
         ownerAddress &&
           spenderAddress &&
@@ -167,8 +171,12 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
             method: 'allowance',
             args: [ownerAddress, spenderAddress],
           }
-      ) ?? []
-    return allowance
+      ) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value
   }
 
 
