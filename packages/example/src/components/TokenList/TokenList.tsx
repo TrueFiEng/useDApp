@@ -25,7 +25,7 @@ function useTokensBalance(tokenList?: any[], account?: string | null) {
 export function TokenList() {
   const { account, chainId } = useEthers()
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
-  const results = useTokensBalance(tokens, account)
+  const balances = useTokensBalance(tokens, account)
 
   return (
     <List>
@@ -35,7 +35,7 @@ export function TokenList() {
       </ListTitleRow>
       {tokens &&
         tokens.map((token, idx) => {
-          const result = results[idx]
+          const balance = balances[idx]
           return (
             <TokenItem key={token.address}>
               <TokenIconContainer>
@@ -43,7 +43,9 @@ export function TokenList() {
               </TokenIconContainer>
               <TokenName>{token.name}</TokenName>
               <TokenTicker>{token.symbol}</TokenTicker>
-              {result && !result.error && <TokenBalance>{formatUnits(result.value[0], token.decimals)}</TokenBalance>}
+              {balance && !balance.error && (
+                <TokenBalance>{formatUnits(balance.value[0], token.decimals)}</TokenBalance>
+              )}
             </TokenItem>
           )
         })}
