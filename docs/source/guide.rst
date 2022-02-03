@@ -150,7 +150,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
       console.error(error.message)
       return undefined
     }
-    return value[0]
+    return value?.[0]
   }
 
 Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
@@ -176,7 +176,7 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
       console.error(error.message)
       return undefined
     }
-    return value[0]
+    return value?.[0]
   }
 
 
