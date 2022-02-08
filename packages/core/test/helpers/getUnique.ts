@@ -1,12 +1,11 @@
-import { ChainCall } from '../../src'
+import { getUniqueCalls, RawCall } from '../../src'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
-import { getUnique } from '../../src/providers/chainState/common/getUnique'
 
 describe('getUniqueChainCalls', () => {
   it('returns a list of unique chain calls', () => {
     const addresses = [Wallet.createRandom().address, Wallet.createRandom().address]
-    const calls: ChainCall[] = [
+    const calls: RawCall[] = [
       {
         chainId: 1,
         address: addresses[0],
@@ -34,7 +33,7 @@ describe('getUniqueChainCalls', () => {
       },
     ]
 
-    expect(getUnique(calls)).to.deep.equal([
+    expect(getUniqueCalls(calls)).to.deep.equal([
       {
         chainId: 1,
         address: addresses[0],

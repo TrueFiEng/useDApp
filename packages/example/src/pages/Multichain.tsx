@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
 import { Arbitrum, Kovan, Mainnet, Ropsten } from '@usedapp/core'
-import { ChainState } from '../components/chainState'
+import { ChainState } from '../components/ChainState'
 import { Title } from '../typography/Title'
 import styled from 'styled-components'
 

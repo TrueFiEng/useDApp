@@ -1,10 +1,12 @@
 import { useEffect, useMemo } from 'react'
-import { RawCallResult, useChainState } from '../providers'
+import { RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
+import { useChainState } from './useChainState'
+import { ChainId } from '../constants'
 
-export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
-  const { dispatchCalls, value } = useChainState()
+export function useRawCalls(calls: (RawCall | Falsy)[], chainId?: ChainId): RawCallResult[] {
+  const { dispatchCalls, value } = useChainState(chainId)
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
@@ -23,6 +25,6 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   )
 }
 
-export function useRawCall(call: RawCall | Falsy) {
-  return useRawCalls([call])[0]
+export function useRawCall(call: RawCall | Falsy, chainId?: ChainId) {
+  return useRawCalls([call], chainId)[0]
 }

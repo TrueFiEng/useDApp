@@ -1,22 +1,27 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainCall } from './callsReducer'
+import { RawCall } from './callsReducer'
 import { Dispatch } from 'react'
 import { ChainStateAction } from './chainStateReducer'
 import { ChainId } from '../../../constants'
-import { multicall } from './multicall'
 import { notifyDevtools } from '../../devtools'
 
 export function performMulticall(
-  library: JsonRpcProvider,
+  provider: JsonRpcProvider,
+  multicallExecutor: (
+    provider: JsonRpcProvider,
+    multicallAddress: string,
+    blockNumber: number,
+    uniqueCalls: RawCall[]
+  ) => Promise<any>,
   multicallAddress: string,
   blockNumber: number,
-  uniqueCalls: ChainCall[],
+  uniqueCalls: RawCall[],
   dispatchState: Dispatch<ChainStateAction>,
   chainId: ChainId,
   reportError: (error: Error) => void
 ) {
   const start = Date.now()
-  multicall(library, multicallAddress, blockNumber, uniqueCalls)
+  multicallExecutor(provider, multicallAddress, blockNumber, uniqueCalls)
     .then((state) => {
       dispatchState({ type: 'FETCH_SUCCESS', blockNumber, chainId, state })
       notifyDevtools({

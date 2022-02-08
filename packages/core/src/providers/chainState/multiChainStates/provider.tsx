@@ -1,12 +1,21 @@
 import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
-import { callsReducer, ChainId, chainStateReducer, State, useNetwork } from '../../..'
+import {
+  callsReducer,
+  ChainId,
+  chainStateReducer,
+  getUniqueCalls,
+  multicall as multicall1,
+  multicall2,
+  State,
+  useConfig,
+  useNetwork,
+} from '../../..'
 import { useReadonlyNetworks } from '../../network'
 import { useBlockNumbers } from '../../blockNumber/blockNumbers'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
-import { getUnique } from '../common/getUnique'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { JsonRpcProvider } from '@ethersproject/providers'
 
@@ -30,6 +39,7 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
 }
 
 export function MultiChainStateProvider({ children, multicallAddresses }: Props) {
+  const { multicallVersion } = useConfig()
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
@@ -37,8 +47,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
+  const multicall = multicallVersion === 1 ? multicall1 : multicall2
+
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
-  const uniqueCalls = debouncedNetworks === networks ? getUnique(debouncedCalls) : []
+  const uniqueCalls = debouncedNetworks === networks ? getUniqueCalls(debouncedCalls) : []
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 
@@ -57,7 +69,16 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     if (callsOnThisChain.length === 0) {
       return
     }
-    performMulticall(provider, multicallAddress, blockNumber, callsOnThisChain, dispatchState, chainId, reportError)
+    performMulticall(
+      provider,
+      multicall,
+      multicallAddress,
+      blockNumber,
+      callsOnThisChain,
+      dispatchState,
+      chainId,
+      reportError
+    )
   }
 
   useEffect(() => {

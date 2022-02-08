@@ -3,6 +3,7 @@ import { addressEqual, ChainId } from '../../..'
 export type Action = AddCall | RemoveCall
 
 export interface RawCall {
+  chainId?: ChainId
   address: string
   data: string
 }

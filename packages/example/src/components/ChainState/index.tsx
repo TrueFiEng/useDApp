@@ -1,6 +1,6 @@
 import React from 'react'
 import type { ChainId } from '@usedapp/core'
-import { useBlockMeta, useChainState, useEtherBalance, useEthers } from '@usedapp/core'
+import { useBlockMeta, useChainMeta, useChainState, useEtherBalance, useEthers } from '@usedapp/core'
 import { ContentBlock, ContentRow } from '../base/base'
 import { Label } from '../../typography/Label'
 import { TextInline } from '../../typography/Text'
@@ -12,12 +12,16 @@ interface ChainStateProps {
 }
 
 export function ChainState({ chainId }: ChainStateProps) {
+  const { chainName } = useChainMeta(chainId)
   const { value } = useChainState(chainId)
   const { difficulty, timestamp } = useBlockMeta(chainId)
   const { account } = useEthers()
   const balance = useEtherBalance(account, chainId)
   return (
     <ChainBlock>
+      <ContentRow>
+        <Label>{chainName}</Label>
+      </ContentRow>
       <ContentRow>
         <Label>Chain id:</Label> <TextInline>{chainId}</TextInline>
       </ContentRow>
@@ -48,5 +52,5 @@ const ChainBlock = styled(ContentBlock)`
   margin-right: 5px;
   margin-bottom: 5px;
   width: calc(50% - 5px);
-  height: 230px;
+  height: 260px;
 `

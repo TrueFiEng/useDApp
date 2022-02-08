@@ -32,7 +32,11 @@ export function encodeCallData(call: Call | Falsy): RawCall | Falsy {
 export function getUniqueCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   for (const request of requests) {
-    if (!unique.find((x) => addressEqual(x.address, request.address) && x.data === request.data)) {
+    if (
+      !unique.find(
+        (x) => addressEqual(x.address, request.address) && x.data === request.data && x.chainId === request.chainId
+      )
+    ) {
       unique.push(request)
     }
   }

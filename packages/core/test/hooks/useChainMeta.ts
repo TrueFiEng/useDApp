@@ -13,9 +13,4 @@ describe('useChainMeta', () => {
     const { result } = renderHook(() => useChainMeta(Arbitrum.chainId))
     expect(result.current).to.deep.equal(Arbitrum)
   })
-
-  it('returns undefined for unknown chain', async () => {
-    const { result } = renderHook(() => useChainMeta(420))
-    expect(result.current).to.be.undefined
-  })
 })
