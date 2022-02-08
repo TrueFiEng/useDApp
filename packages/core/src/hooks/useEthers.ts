@@ -3,6 +3,7 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 import { ChainId } from '../constants'
 import { useInjectedNetwork, useNetwork } from '../providers'
 import { EventEmitter } from 'events'
+import { useLocalStorage } from './useLocalStorage'
 
 type SupportedProviders =
   | JsonRpcProvider
@@ -29,6 +30,7 @@ export function useEthers(): Web3Ethers {
     activate,
   } = useNetwork()
   const { injectedProvider, connect } = useInjectedNetwork()
+  const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
   const result = {
     connector: undefined,
@@ -44,7 +46,10 @@ export function useEthers(): Web3Ethers {
       }
       return activate(providerOrConnector)
     },
-    deactivate,
+    deactivate: () => {
+      deactivate()
+      setShouldConnectMetamask(false)
+    },
 
     setError: () => {
       throw new Error('setError is deprecated')
@@ -59,6 +64,7 @@ export function useEthers(): Web3Ethers {
     }
     await connect()
     await result.activate(injectedProvider)
+    setShouldConnectMetamask(true)
   }, [injectedProvider])
 
   return { ...result, activateBrowserWallet }
