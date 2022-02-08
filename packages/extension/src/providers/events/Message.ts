@@ -41,7 +41,10 @@ export interface MulticallSuccessPayload {
   blockNumber: number
   state: {
     [address: string]: {
-      [data: string]: string
+      [data: string]: {
+        value: string
+        success: boolean
+      }
     }
   }
 }

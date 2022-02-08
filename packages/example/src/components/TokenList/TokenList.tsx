@@ -1,20 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import { formatUnits } from '@ethersproject/units'
-import { ERC20Interface, useContractCalls, useEthers, useTokenList } from '@usedapp/core'
+import { ERC20Interface, useCalls, useEthers, useTokenList } from '@usedapp/core'
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
 import { toHttpPath } from '../../utils'
+import { Contract } from '@ethersproject/contracts'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
 function useTokensBalance(tokenList?: any[], account?: string | null) {
-  return useContractCalls(
+  return useCalls(
     tokenList && account
       ? tokenList.map((token: any) => ({
-          abi: ERC20Interface,
-          address: token.address,
+          contract: new Contract(token.address, ERC20Interface),
           method: 'balanceOf',
           args: [account],
         }))
@@ -34,16 +34,21 @@ export function TokenList() {
         {logoURI && <ListLogo src={toHttpPath(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
       {tokens &&
-        tokens.map((token, idx) => (
-          <TokenItem key={token.address}>
-            <TokenIconContainer>
-              {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
-            </TokenIconContainer>
-            <TokenName>{token.name}</TokenName>
-            <TokenTicker>{token.symbol}</TokenTicker>
-            {balances?.[idx] && <TokenBalance>{formatUnits(balances?.[idx]?.[0], token.decimals)}</TokenBalance>}
-          </TokenItem>
-        ))}
+        tokens.map((token, idx) => {
+          const balance = balances[idx]
+          return (
+            <TokenItem key={token.address}>
+              <TokenIconContainer>
+                {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
+              </TokenIconContainer>
+              <TokenName>{token.name}</TokenName>
+              <TokenTicker>{token.symbol}</TokenTicker>
+              {balance && !balance.error && (
+                <TokenBalance>{formatUnits(balance.value[0], token.decimals)}</TokenBalance>
+              )}
+            </TokenItem>
+          )
+        })}
     </List>
   )
 }

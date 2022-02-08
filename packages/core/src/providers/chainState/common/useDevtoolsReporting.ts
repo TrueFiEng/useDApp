@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useEthers } from '../../../hooks'
 import { notifyDevtools } from '../../devtools'
-import { ChainCall } from './callsReducer'
+import { RawCall } from './callsReducer'
 
 export function useDevtoolsReporting(
   uniqueCallsJSON: string,
-  uniqueCalls: ChainCall[],
+  uniqueCalls: RawCall[],
   blockNumber: number | undefined,
   multicallAddresses: { [network: string]: string }
 ) {

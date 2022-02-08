@@ -1,8 +1,9 @@
 import { ReactNode, useMemo } from 'react'
-import { Chain, Config } from '../constants'
-import { ConfigProvider, useConfig } from './config'
+import { Config, Chain } from '../constants'
+import { ConfigProvider } from './config'
 import { BlockNumberProvider } from './blockNumber/blockNumber'
 import { ChainStateProvider, MultiChainStateProvider } from './chainState'
+import { useConfig } from './config/context'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
@@ -29,13 +30,26 @@ interface WithConfigProps {
 
 const getMulticallAddresses = (networks: Chain[] | undefined) => {
   const result: { [index: number]: string } = {}
-  networks?.map((network) => (result[network.chainId] = network.multicallAddress))
+  networks?.forEach((network) => (result[network.chainId] = network.multicallAddress))
+  return result
+}
+
+const getMulticall2Addresses = (networks: Chain[] | undefined) => {
+  const result: { [index: number]: string } = {}
+  networks?.forEach((network) => {
+    if (network.multicall2Address) {
+      result[network.chainId] = network.multicall2Address
+    }
+  })
   return result
 }
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses, networks } = useConfig()
-  const defaultAddresses = useMemo(() => getMulticallAddresses(networks), [networks])
+  const { multicallAddresses, networks, multicallVersion } = useConfig()
+  const defaultAddresses = useMemo(
+    () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
+    [networks, multicallVersion]
+  )
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (

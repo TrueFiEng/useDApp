@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -25,6 +25,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "ethereum-waffle": "^3.2.2",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",

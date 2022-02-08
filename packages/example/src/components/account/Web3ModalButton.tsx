@@ -41,8 +41,13 @@ export const Web3ModalButton = () => {
     const web3Modal = new Web3Modal({
       providerOptions,
     })
-    const provider = await web3Modal.connect()
-    await activate(provider)
+    try {
+      const provider = await web3Modal.connect()
+      await activate(provider)
+      setActivateError('')
+    } catch (error: any) {
+      setActivateError(error.message)
+    }
   }
 
   return (

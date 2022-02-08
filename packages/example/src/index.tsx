@@ -11,7 +11,7 @@ const config: Config = {
     [Kovan.chainId]: 'https://kovan.infura.io/v3/14a0951f47e646c1b241aa533e150219',
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
   },
-  networks: [Mainnet, Ropsten, Kovan, Arbitrum],
+  multicallVersion: 2 as const,
 }
 
 ReactDOM.render(

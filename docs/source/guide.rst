@@ -120,7 +120,7 @@ There is a number of useful hooks that you can use to read blockchain state:
 - ``useTokenBalance(tokenAddress, address)`` - returns balance of a given token as BigNumber for given address (or undefined)
 - ``useTokenAllowance(tokenAddress, ownerAddress, spenderAddress)`` - returns allowance of a given token as BigNumber for given owner and spender address pair (or undefined)
 
-Sooner or later you will want to make a custom call to a smart contract. Use ``useContractCall`` and ``useContractCalls`` for that purpose.
+Sooner or later you will want to make a custom call to a smart contract. Use ``useCall`` and ``useCalls`` for that purpose.
 See section below on creating custom hooks.
 
 
@@ -137,17 +137,20 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
     tokenAddress: string | Falsy,
     address: string | Falsy
   ) {
-    const [tokenBalance] =
-      useContractCall(
+    const { value, error } =
+      useCall(
         address &&
           tokenAddress && {
-            abi: ERC20Interface, // ABI interface of the called contract
-            address: tokenAddress, // On-chain address of the deployed contract
+            contract: new Contract(tokenAddress, ERC20Interface), // instance of called contract
             method: "balanceOf", // Method to be called
             args: [address], // Method arguments - address to be checked for balance
           }
-      ) ?? [];
-    return tokenBalance;
+      ) ?? {};
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
   }
 
 Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
@@ -159,22 +162,25 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
     ownerAddress: string | Falsy,
     spenderAddress: string | Falsy
   ) {
-    const [allowance] =
-      useContractCall(
+    const { value, error } =
+      useCall(
         ownerAddress &&
           spenderAddress &&
           tokenAddress && {
-            abi: ERC20Interface,
-            address: tokenAddress,
+            contract: new Contract(tokenAddress, ERC20Interface),
             method: 'allowance',
             args: [ownerAddress, spenderAddress],
           }
-      ) ?? []
-    return allowance
+      ) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
   }
 
 
-The *useContractCall* hook will take care of updating the balance of new blocks.
+The *useCall* hook will take care of updating the balance of new blocks.
 The results are deferred so that the hook does not update too frequently.
 
 In our custom hooks we can use any standard react hooks, custom react hooks and useDapp hooks.
@@ -186,7 +192,7 @@ Documentation for hooks is available :ref:`here <core:Hooks>`.
 Using hooks considerations
 ==========================
 
-There are some important considerations when using hooks based on `useChainCall`, `useChainCalls` and `useContractCalls`.
+There are some important considerations when using hooks based on `useRawCall`, `useRawCalls`, `useCall` and `useCalls`.
 
 Avoid using the result of one hook in another.
 This will break single multicall into multiple multicalls.

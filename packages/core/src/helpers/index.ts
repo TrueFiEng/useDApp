@@ -1,3 +1,5 @@
 export * from './chain'
+export * from './calls'
 export * from './address'
 export * from './transaction'
+export * from './getChainMeta'
