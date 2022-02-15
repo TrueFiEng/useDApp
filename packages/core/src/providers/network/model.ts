@@ -1,9 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainId } from '../../constants'
 
 export interface Network {
   provider?: JsonRpcProvider
-  chainId?: ChainId
+  chainId?: number
   accounts: string[]
   errors: Error[]
 }

@@ -1,4 +1,3 @@
-import { ChainId } from '../constants'
 import { CurrencyFormatOptions, DEFAULT_OPTIONS, formatCurrency } from './formatting'
 
 export class Currency {
@@ -32,7 +31,7 @@ export class NativeCurrency extends Currency {
   constructor(
     name: string,
     ticker: string,
-    readonly chainId: ChainId,
+    readonly chainId: number,
     decimals = 18,
     formattingOptions: Partial<CurrencyFormatOptions> = {}
   ) {
@@ -48,7 +47,7 @@ export class Token extends Currency {
   constructor(
     name: string,
     ticker: string,
-    readonly chainId: ChainId,
+    readonly chainId: number,
     readonly address: string,
     decimals = 18,
     formattingOptions: Partial<CurrencyFormatOptions> = {}
