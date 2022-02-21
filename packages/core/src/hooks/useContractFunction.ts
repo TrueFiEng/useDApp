@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
+import { ContractFunctionNames, Params, TypedContract } from '../model/types'
 
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: JsonRpcProvider) {
   if (contract.signer) {
@@ -22,13 +23,17 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
   throw new TypeError('No signer available in contract, options or library')
 }
 
-export function useContractFunction(contract: Contract, functionName: string, options?: TransactionOptions) {
+export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
+  contract: T,
+  functionName: FN,
+  options?: TransactionOptions
+) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
 
   const send = useCallback(
-    async (...args: any[]) => {
+    async (...args: Params<T, FN>): Promise<void> => {
       const contractWithSigner = connectContractToSigner(contract, options, library)
       const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
       if (receipt?.logs) {
