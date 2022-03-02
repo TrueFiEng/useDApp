@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
-import { Falsy } from '../model/types'
+import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { addressEqual } from './address'
 
@@ -39,9 +39,15 @@ export function getUniqueCalls(requests: RawCall[]) {
   return unique
 }
 
-export type CallResult = { value: any[]; error: undefined } | { value: undefined; error: Error } | undefined
+export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
+  | { value: Awaited<ReturnType<T['functions'][MN]>>; error: undefined }
+  | { value: undefined; error: Error }
+  | undefined
 
-export function decodeCallResult(call: Call | Falsy, result: RawCallResult): CallResult {
+export function decodeCallResult<T extends TypedContract, MN extends ContractMethodNames<T>>(
+  call: Call | Falsy,
+  result: RawCallResult
+): CallResult<T, MN> {
   if (!result || !call) {
     return undefined
   }
@@ -49,7 +55,9 @@ export function decodeCallResult(call: Call | Falsy, result: RawCallResult): Cal
   try {
     if (success) {
       return {
-        value: call.contract.interface.decodeFunctionResult(call.method, value) as any[],
+        value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
+          ReturnType<T['functions'][MN]>
+        >,
         error: undefined,
       }
     } else {

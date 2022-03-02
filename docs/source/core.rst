@@ -83,15 +83,19 @@ useBlockNumber
 
 Get the current block number. Will update automatically when the new block is mined.
 
+.. useCall-label:
+
 useCall
 =======
 
 Makes a call to a specific method of a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for `useRawCall`_ that uses ABI, function name, and arguments instead of raw data.
-
+If typechain contract is used in `call` parameter then method name and arguments will be type checked. Result will be typed as well.
 **Parameters**
 
-- ``calls: Call | Falsy`` - a single call to a contract , also see `Call`_
+- ``call: Call | Falsy`` - a single call to a contract , also see `Call`_
+
+More on type checking :ref:`typeChecking-label`
 
 **Returns**
 
@@ -266,6 +270,10 @@ The ``events`` is a array of parsed transaction events of type `LogDescription <
 To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments.
 Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
+
+If typechain contract is supplied as contract parameter then function name and send arguments will be type checked.
+
+More on type checking :ref:`typeChecking-label`
 
 **Parameters**
 
@@ -775,7 +783,19 @@ Fields:
 
 - ``args: any[]`` - arguments for the function
 
+Typecheking:
 
+If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
+
+.. code-block:: javascript
+
+  const typedCall: Call<ERC20> = {contract:ERC20Contract,method:'name',args:[]}
+
+If you also supply a method name in type arguments will also be type checked
+
+.. code-block:: javascript
+
+  const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 
 ChainCall
 =========
