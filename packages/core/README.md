@@ -20,6 +20,7 @@ Combines the best practices:
 
 ```tsx
 import { Mainnet } from '@usedapp/core/modal/chain/ethereum'
+import { useEthers, useEtherBalance } from '@usedapp/core'
 
 const config = {
   readOnlyChainId: Mainnet.chainId,

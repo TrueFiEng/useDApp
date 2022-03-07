@@ -6,9 +6,9 @@ import { App } from './App'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/14a0951f47e646c1b241aa533e150219',
-    [Ropsten.chainId]: 'https://ropsten.infura.io/v3/14a0951f47e646c1b241aa533e150219',
-    [Kovan.chainId]: 'https://kovan.infura.io/v3/14a0951f47e646c1b241aa533e150219',
+    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
+    [Ropsten.chainId]: 'https://ropsten.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
+    [Kovan.chainId]: 'https://kovan.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
   },
   multicallVersion: 2 as const,

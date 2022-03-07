@@ -1,5 +1,15 @@
 # @usedapp/core
 
+## 0.11.0
+
+### Minor Changes
+
+- 0029496: Change Metamask connection logic when page is loaded
+
+### Patch Changes
+
+- 3d1ec30: Add sourcemaps to published package
+
 ## 0.10.1
 
 ### Patch Changes

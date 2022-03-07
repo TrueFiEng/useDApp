@@ -83,21 +83,25 @@ useBlockNumber
 
 Get the current block number. Will update automatically when the new block is mined.
 
+.. useCall-label:
+
 useCall
 =======
 
 Makes a call to a specific method of a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for `useRawCall`_ that uses ABI, function name, and arguments instead of raw data.
-
+If typechain contract is used in `call` parameter then method name and arguments will be type checked. Result will be typed as well.
 **Parameters**
 
-- ``calls: Call | Falsy`` - a single call to a contract , also see `Call`_
+- ``call: Call | Falsy`` - a single call to a contract , also see `Call`_
+
+More on type checking :ref:`typeChecking-label`
 
 **Returns**
 
-- ``{ value: any[], error: undefined } | { value: undefined, error: CallError} | undefined``
+- ``{ value: any[], error: undefined } | { value: undefined, error: Error} | undefined``
 
-The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value`` - array of results or undefined if error occured, ``error: string | undefined`` - encountered error or undefined if call was successful. CallError contains ``message: string`` field that describes the error reason.
+The hook returns ``CallResult`` type. That is: `undefined` when call didn't return yet or a object ``{ value | error }`` if it did, ``value: any[] | undefined`` - array of results or undefined if error occured, ``error: Error | undefined`` - encountered error or undefined if call was successful.
 
 **Example**
 
@@ -267,6 +271,10 @@ To send a transaction use ``send`` function returned by ``useContractFunction``.
 The function forwards arguments to ethers.js contract object, so that arguments map 1 to 1 with Solidity function arguments.
 Additionally, there can be one extra argument - `TransactionOverrides <https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend>`_, which can be used to manipulate transaction parameters like gasPrice, nonce, etc
 
+If typechain contract is supplied as contract parameter then function name and send arguments will be type checked.
+
+More on type checking :ref:`typeChecking-label`
+
 **Parameters**
 
 - ``contract: Contract`` - contract which function is to be called , also see `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_
@@ -426,7 +434,7 @@ Returns connection state and functions that allow to manipulate the state.
     - ``chainId: ChainId`` - current chainId (or *undefined* if not connected)
     - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
     - ``active: boolean`` - returns if provider is connected (read or write mode)
-    - ``activateBrowserWallet(onError?: (error: Error) => void, throwErrors?: boolean)`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
+    - ``activateBrowserWallet()`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - ``async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)`` - function that allows to connect to a wallet
     - ``async deactivate()`` - function that disconnects wallet
     - ``error?: Error`` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
@@ -775,7 +783,19 @@ Fields:
 
 - ``args: any[]`` - arguments for the function
 
+Typecheking:
 
+If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
+
+.. code-block:: javascript
+
+  const typedCall: Call<ERC20> = {contract:ERC20Contract,method:'name',args:[]}
+
+If you also supply a method name in type arguments will also be type checked
+
+.. code-block:: javascript
+
+  const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 
 ChainCall
 =========
