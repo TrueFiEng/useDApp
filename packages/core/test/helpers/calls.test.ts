@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Contract, utils } from 'ethers'
 import { Interface } from 'ethers/lib/utils'
-import { Call, CallError, decodeCallResult, RawCallResult } from '../../src'
+import { Call, decodeCallResult, RawCallResult } from '../../src'
 
 describe('decodeCallResult', () => {
   const erc20Abi = ['function name() view returns (string)']
@@ -17,13 +17,25 @@ describe('decodeCallResult', () => {
     expect(decodeCallResult(call, undefined)).to.be.undefined
   })
 
-  it('error', () => {
+  it('call error', () => {
     const errorMessage = 'Testing error message'
     const errorResult: RawCallResult = {
       success: false,
       value: new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage]),
     }
-    expect(decodeCallResult(call, errorResult)).to.deep.equal({ value: undefined, error: new CallError(errorMessage) })
+    const { value, error } = decodeCallResult(call, errorResult) || {}
+    expect(value).to.be.undefined
+    expect(error?.message).to.equal(errorMessage)
+  })
+
+  it('decoding error', () => {
+    const result: RawCallResult = {
+      success: true,
+      value: '0x0',
+    }
+    const { value, error } = decodeCallResult(call, result) || {}
+    expect(value).to.be.undefined
+    expect(error?.message.startsWith('hex data is odd-length')).to.be.true
   })
 
   it('success', () => {

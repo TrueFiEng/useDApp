@@ -1,5 +1,6 @@
 {
   "extends": [
-    "../../.eslintrc.json"
+    "../../.eslintrc.json",
+    "plugin:react-hooks/recommended"
   ]
 }

@@ -1,5 +1,14 @@
 # @usedapp/example
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [3d1ec30]
+- Updated dependencies [0029496]
+  - @usedapp/core@0.11.0
+  - @usedapp/coingecko@0.4.3
+
 ## 0.4.0
 
 ### Minor Changes

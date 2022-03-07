@@ -469,37 +469,41 @@ For example :
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
 
+.. typeChecking-label:
+
+Using typed contract calls and functions
+****************************************
+
+:ref:`useContractFunction-label` accepts as first parameter both ethers `Contract <https://docs.ethers.io/v5/api/contract/contract/>`_ and typechain generated contract `typechain <https://github.com/dethcrypto/TypeChain>`_ (which extends ethers contract with function types).
+If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
+In :ref:`_useCall-label` if typed `Call` is used as parameter then function will be type checked.
+If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
+
+Example
+=======
+
+To use typechain packages typechain and @typechain/ethers-v5 need to be added to repository.
+After that typechain contracts can be generated from json abi with following command
+
+```
+yarn typechain --target=ethers-v5 [path to json files] --out-dir=[outdir]
+```
+
+With that type checking can be used in functions
+
+```
+import { Weth10 } from '../../../contracts'
+import WethAbi from '../../abi/Weth10.json'
+const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+const [balance] = useCall({contract: contract, typedMethod:'balanceOf', typedArgs:[account ?? '']}) ?? []
+```
+
 
 Handling wallet activation errors
 **********************************
 
-Because ``activateBrowserWallet()`` from :ref:`useEthers` is using activate from web3-react. It is made so that it can handle
-errors the same way that ``activate()`` handles them, for more info see `here <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#understanding-error-bubbling>`_.
-
-As such the error can be handled in 3 ways:
-
-- By passing a callback as first parameter of :
-
-.. code-block:: javascript
-
-  const onError = (error: Error) => {
-    console.log(error.message)
-  }
-  activateBrowserWallet(onError)
-
-
-- By passing a true as second argument will make activateBrowserWallet throw on errors :
-
-.. code-block:: javascript
-
-  try{
-    await activateBrowserWallet(undefined,true)
-  } catch(error) {
-    console.log(error)
-  }
-
-
-- By checking if `const {error} = useEthers()` changes :
+It is possible to access wallet activation errors by checking if `const {error} = useEthers()` changes :
 
 .. code-block:: javascript
 
@@ -515,7 +519,3 @@ As such the error can be handled in 3 ways:
     setActivateError('')
     activateBrowserWallet()
   }
-
-
-Because useDApp defaults to read only connector ``error`` from ``useEthers()`` is only shown for few frames as such if you want to
-handle it you need to store error in a state
