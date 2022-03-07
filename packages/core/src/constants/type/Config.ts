@@ -1,4 +1,4 @@
-import { ChainId, Chain } from '../../constants'
+import { Chain } from '../../constants'
 
 export type NodeUrls = {
   [chainId: number]: string
@@ -9,7 +9,7 @@ export type MulticallAddresses = {
 }
 
 export type FullConfig = {
-  readOnlyChainId?: ChainId
+  readOnlyChainId?: number
   readOnlyUrls?: NodeUrls
   multicallAddresses?: MulticallAddresses
   multicallVersion: 1 | 2
