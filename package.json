@@ -5,11 +5,6 @@
     "node": ">=10",
     "yarn": "^1.17.3"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
   "scripts": {
     "lint": "wsrun -c -s lint",
     "lint:fix": "wsrun -c -s lint:fix",

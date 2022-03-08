@@ -13,7 +13,7 @@ interface NetworkProviderProps {
 async function tryToGetAccount(provider: JsonRpcProvider) {
   try {
     return await provider.getSigner().getAddress()
-  } catch (e) {
+  } catch (e: any) {
     if (e.code === 'UNSUPPORTED_OPERATION') {
       // readonly provider
       return undefined
@@ -63,7 +63,7 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
           chainId,
           accounts: account ? [account] : [],
         })
-      } catch (e) {
+      } catch (e: any) {
         reportError(e)
       }
     },
