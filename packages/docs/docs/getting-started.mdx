@@ -1,5 +1,7 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
+id: getting-started
+slug: /
 ---
 
 # Getting started
@@ -60,7 +62,7 @@ Let's go over it step by step.
 
 ## Setup
 
-The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config :ref:`here<config>`.
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config [here](./core#config).
 
 ```jsx
   <DAppProvider>
@@ -88,7 +90,7 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bes
 
 After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
 
-If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the `web3-react <https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview>` doc for that one. 
+If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the [web3-react](https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview) doc for that one.
 
 ## Ether balance
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Guides
@@ -180,7 +180,7 @@ The results are deferred so that the hook does not update too frequently.
 In our custom hooks we can use any standard react hooks, custom react hooks and useDapp hooks.
 Rules of hooks apply.
 
-Documentation for hooks is available :ref:`here <core:Hooks>`.
+Documentation for hooks is available [here](./core#hooks).
 
 
 ### Using hooks considerations
@@ -292,7 +292,7 @@ Then we can check if our result is correct. ``result.current`` is a value return
 Example is available [here](https://example.usedapp.io/send).
 
 Sending transactions is really simple with useDApp. All we need to send a simple transaction,
-is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` function and ``state`` object.
+is to use [useSendTransaction](./core#usesendtransaction) hook, which returns a ``sendTransaction`` function and ``state`` object.
 
 **Example**
 
@@ -313,7 +313,7 @@ In example below ``setDisabled(true)`` sets input components to disabled while t
   }
 ```
 
-After that you can use state to check the state of your transaction. State is of type :ref:`TransactionStatus`.
+After that you can use state to check the state of your transaction. State is of type [TransactionStatus](./core#transactionstatus).
 Example below clears inputs and enables all disabled components back:
 
 ```javascript
@@ -328,8 +328,8 @@ Example below clears inputs and enables all disabled components back:
 
 ### Executing contract function
 
-To send a transaction that executes a function of a contract on a blockchain, you can use a :ref:`useContractFunction-label` hook,
-it works similarly to :ref:`useSendTransaction`. It returns a ``send`` function that we can use to call a contract function and ``state`` object.
+To send a transaction that executes a function of a contract on a blockchain, you can use a [useContractFunction](./core#usecontractfunction) hook,
+it works similarly to [useSendTransaction](./core#usesendtransaction). It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
 To use ``useContractFunction`` we need to supply it with a Contract of type [Contract](https://docs.ethers.io/v5/api/contract/contract/).
 And a string ``functionName``.
@@ -375,7 +375,7 @@ Withdraw function needs amount of ether to withdraw as a input argument.
 
 ### History
 
-See :ref:`useTransactions`
+See [useSendTransaction](./core#usesendtransaction).
 
 To access history of transactions, use ``useTransactions`` hook.
 
@@ -402,10 +402,9 @@ For example:
 
 ``ListElement`` is a react function that displays information about single transaction.
 
-
 ### Notifications
 
-See :ref:`useNotifications`.
+See [useSendTransaction](./core#usesendtransaction).
 
 To use notifications in your app simply call:
 
@@ -450,13 +449,11 @@ For example :
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
 
-.. typeChecking-label:
-
 ## Using typed contract calls and functions
 
-:ref:`useContractFunction-label` accepts as first parameter both ethers [Contract](https://docs.ethers.io/v5/api/contract/contract/) and typechain generated contract [typechain](https://github.com/dethcrypto/TypeChain) (which extends ethers contract with function types).
+[useContractFunction](./core#usecontractfunction) hook accepts as first parameter both ethers [Contract](https://docs.ethers.io/v5/api/contract/contract/) and typechain generated contract [typechain](https://github.com/dethcrypto/TypeChain) (which extends ethers contract with function types).
 If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
-In :ref:`_useCall-label` if typed `Call` is used as parameter then function will be type checked.
+In [useCall](./core#usecall) if typed `Call` is used as parameter then function will be type checked.
 If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
 
 ### Example
