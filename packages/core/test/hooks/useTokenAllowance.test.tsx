@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useTokenAllowance } from '@usedapp/core'
+import { useTokenAllowance } from '../../src'
 import { expect } from 'chai'
 import { renderWeb3Hook, deployMockToken } from '../../src/testing'
 import { utils } from 'ethers'

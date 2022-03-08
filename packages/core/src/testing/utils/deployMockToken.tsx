@@ -1,6 +1,6 @@
 import { utils, Wallet } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { ERC20Mock } from '@usedapp/core'
+import { ERC20Mock } from '../../constants'
 
 export const MOCK_TOKEN_INITIAL_BALANCE = utils.parseEther('10')
 

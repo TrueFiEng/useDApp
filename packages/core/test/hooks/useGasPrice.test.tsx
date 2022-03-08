@@ -1,4 +1,4 @@
-import { useGasPrice } from '@usedapp/core'
+import { useGasPrice } from '../../src'
 import chai, { expect } from 'chai'
 import { renderWeb3Hook } from '../../src/testing'
 

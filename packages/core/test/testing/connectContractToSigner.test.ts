@@ -1,4 +1,4 @@
-import { ERC20Interface, connectContractToSigner, useEthers } from '@usedapp/core'
+import { ERC20Interface, connectContractToSigner, useEthers } from '../../src'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'

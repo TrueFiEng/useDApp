@@ -1,4 +1,4 @@
-import { useContractFunction } from '@usedapp/core'
+import { useContractFunction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, Contract } from 'ethers'
