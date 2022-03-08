@@ -1,5 +1,4 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
-import { ChainId } from '../../constants'
 
 export interface StoredTransaction {
   transaction: TransactionResponse
@@ -18,7 +17,7 @@ export function getStoredTransactionState(transaction: StoredTransaction) {
 }
 
 export type StoredTransactions = {
-  [T in ChainId]?: StoredTransaction[]
+  [chainID: number]: StoredTransaction[]
 }
 
 export const DEFAULT_STORED_TRANSACTIONS: StoredTransactions = {}
