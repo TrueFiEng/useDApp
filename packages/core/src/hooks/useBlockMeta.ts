@@ -10,8 +10,8 @@ const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCu
 export function useBlockMeta(queryParams: QueryParams = {}) {
   const { chainId } = queryParams
   const address = useMulticallAddress(queryParams)
-  const timestamp = useChainCall(address && { address, data: GET_CURRENT_BLOCK_TIMESTAMP_CALL, chainId }, queryParams)
-  const difficulty = useChainCall(address && { address, data: GET_CURRENT_BLOCK_DIFFICULTY_CALL, chainId }, queryParams)
+  const timestamp = useChainCall(address && { address, data: GET_CURRENT_BLOCK_TIMESTAMP_CALL, chainId })
+  const difficulty = useChainCall(address && { address, data: GET_CURRENT_BLOCK_DIFFICULTY_CALL, chainId })
 
   return {
     timestamp: timestamp !== undefined ? new Date(BigNumber.from(timestamp).mul(1000).toNumber()) : undefined,

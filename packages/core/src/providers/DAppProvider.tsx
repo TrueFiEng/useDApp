@@ -60,13 +60,11 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
             <BlockNumbersProvider>
               <NetworkActivator />
               <LocalMulticallProvider>
-                <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
                   <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
                     <NotificationsProvider>
                       <TransactionProvider>{children}</TransactionProvider>
                     </NotificationsProvider>
                   </MultiChainStateProvider>
-                </ChainStateProvider>
               </LocalMulticallProvider>
             </BlockNumbersProvider>
           </BlockNumberProvider>

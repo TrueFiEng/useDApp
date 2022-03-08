@@ -1,18 +1,19 @@
 import { createContext, useContext } from 'react'
-import { ChainId } from '../../../constants'
 import { Action, ChainState } from '..'
 
-export const MultiChainStatesContext = createContext<{
-  chains: {
-    [chainId in ChainId]?: {
-      value?: {
-        blockNumber: number
-        state?: ChainState
-        error?: unknown
-      }
-      multicallAddress: string | undefined
+export type MultiChainState = {
+  [chainId in number]?: {
+    value?: {
+      blockNumber: number
+      state?: ChainState
+      error?: unknown
     }
+    multicallAddress: string | undefined
   }
+}
+
+export const MultiChainStatesContext = createContext<{
+  chains: MultiChainState
   dispatchCalls: (action: Action) => void
 }>({
   chains: {},

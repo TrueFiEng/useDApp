@@ -45,7 +45,6 @@ export function useContractCalls(
 ): (any[] | undefined)[] {
   const results = useChainCalls(
     calls.map((call) => encodeCallData(call, queryParams.chainId)),
-    queryParams
   )
 
   return useMemo(

@@ -18,6 +18,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
 }
 
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
-  const results = useRawCalls(calls.map(encodeCallData), queryParams)
+  const rawCalls = calls.map((call) => encodeCallData(call, queryParams.chainId))
+  const results = useRawCalls(rawCalls)
   return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
 }

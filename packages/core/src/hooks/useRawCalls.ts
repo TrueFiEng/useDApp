@@ -1,12 +1,13 @@
-import { useEffect, useMemo } from 'react'
-import { RawCallResult } from '../providers'
+import { useContext, useEffect, useMemo } from 'react'
+import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
-import { useChainState } from './useChainState'
-import { QueryParams } from '../constants/type/QueryParams'
+import { MultiChainState } from '../providers/chainState/multiChainStates/context'
+import { useEthers } from './useEthers'
 
-export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams = {}): RawCallResult[] {
-  const { dispatchCalls, value } = useChainState(queryParams)
+export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
+  const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
+  const { chainId } = useEthers()
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
@@ -17,14 +18,20 @@ export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams
   return useMemo(
     () =>
       calls.map((call) => {
-        if (call && value) {
-          return value.state?.[call.address]?.[call.data]
-        }
+        return call ? extractCallResult(chains, call, chainId) : undefined
       }),
-    [JSON.stringify(calls), value]
+    [JSON.stringify(calls), chains]
   )
 }
 
-export function useRawCall(call: RawCall | Falsy, queryParams: QueryParams = {}) {
-  return useRawCalls([call], queryParams)[0]
+export function useRawCall(call: RawCall | Falsy) {
+  return useRawCalls([call])[0]
+}
+
+
+function extractCallResult(chains: MultiChainState, call: RawCall, defaultChainId: number | undefined ): RawCallResult {
+  const chainId = call.chainId ?? defaultChainId
+  return chainId !== undefined
+    ? chains[chainId]?.value?.state?.[call.address]?.[call.data] 
+    : undefined
 }
