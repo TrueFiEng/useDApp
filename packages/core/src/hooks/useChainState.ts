@@ -1,6 +1,6 @@
 import { useContext } from 'react'
+import { QueryParams } from '../constants/type/Options'
 import { ChainStateContext, MultiChainStatesContext } from '../providers'
-import { QueryParams } from './useContractCall'
 
 export function useChainState(queryParams: QueryParams) {
   const chainState = useContext(ChainStateContext)

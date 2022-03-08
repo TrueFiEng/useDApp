@@ -1,7 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ERC20Interface } from '../constants'
+import { QueryParams } from '../constants/type/Options'
 import { Falsy } from '../model/types'
-import { useContractCall, QueryParams } from './useContractCall'
+import { useContractCall } from './useContractCall'
 
 export function useTokenBalance(
   tokenAddress: string | Falsy,

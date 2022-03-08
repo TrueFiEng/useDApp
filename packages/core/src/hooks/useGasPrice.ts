@@ -2,10 +2,9 @@ import { useBlockNumber } from '../providers/blockNumber/blockNumber/context'
 import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
-import { ChainId } from '../constants'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
-import { QueryParams } from './useContractCall'
+import { QueryParams } from '../constants/type/Options'
 
 export function useGasPrice(queryParams: QueryParams): BigNumber | undefined {
   const { library } = useEthers()

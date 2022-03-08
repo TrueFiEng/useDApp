@@ -4,6 +4,7 @@ import { Falsy } from '../model/types'
 import { useChainCalls } from './useChainCalls'
 import { RawCall } from '../providers'
 import { ChainId } from '../constants'
+import { QueryParams } from '../constants/type/Options'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -32,10 +33,6 @@ export interface ContractCall {
   address: string
   method: string
   args: any[]
-}
-
-export interface QueryParams {
-  chainId?: ChainId
 }
 
 export function useContractCall(call: ContractCall | Falsy, queryParams: QueryParams = {}): any[] | undefined {

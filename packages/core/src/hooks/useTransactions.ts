@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
+import { QueryParams } from '../constants/type/Options'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
-import { QueryParams } from './useContractCall'
 
 export function useTransactions(queryParams: QueryParams = {}) {
   const { chainId: defaultChainId, account } = useEthers()

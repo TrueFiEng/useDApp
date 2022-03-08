@@ -1,7 +1,7 @@
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
-import { QueryParams } from './useContractCall'
+import { QueryParams } from '../constants/type/Options'
 
 /**
  * @deprecated It's recommended to use useRawCalls instead
