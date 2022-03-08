@@ -5,7 +5,7 @@
     "target": "ES2018",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": "./",
     "strict": true,
     "skipLibCheck": true,
