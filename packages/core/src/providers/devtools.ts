@@ -1,4 +1,3 @@
-import { ChainId } from '../constants'
 import { RawCall, ChainState } from './chainState'
 
 // NOTE: If you modify this file please ensure consistency with
@@ -10,13 +9,13 @@ interface Init {
 
 interface NetworkChanged {
   type: 'NETWORK_CHANGED'
-  chainId?: ChainId
+  chainId?: number
   multicallAddress?: string
 }
 
 interface BlockNumberChanged {
   type: 'BLOCK_NUMBER_CHANGED'
-  chainId: ChainId
+  chainId: number
   blockNumber: number
 }
 
@@ -27,7 +26,7 @@ interface AccountChanged {
 
 interface CallsChanged {
   type: 'CALLS_CHANGED'
-  chainId?: ChainId
+  chainId?: number
   calls: RawCall[]
 }
 
@@ -35,7 +34,7 @@ interface MulticallSuccess {
   type: 'MULTICALL_SUCCESS'
   multicallAddress: string
   duration: number
-  chainId: ChainId
+  chainId: number
   blockNumber: number
   state: ChainState
 }
@@ -45,7 +44,7 @@ interface MulticallError {
   multicallAddress: string
   duration: number
   calls: RawCall[]
-  chainId: ChainId
+  chainId: number
   blockNumber: number
   error: any
 }

@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainId } from '../constants'
 import { useInjectedNetwork, useNetwork } from '../providers'
 import { EventEmitter } from 'events'
 import { useLocalStorage } from './useLocalStorage'
@@ -15,7 +14,7 @@ export type Web3Ethers = {
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
-  chainId?: ChainId
+  chainId?: number
   account?: null | string
   error?: Error
   library?: JsonRpcProvider

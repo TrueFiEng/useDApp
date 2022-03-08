@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { TokenInfo } from '@uniswap/token-lists'
-import { ChainId } from '../constants'
 import { useEthers } from './useEthers'
 
 interface TokenList {
@@ -9,7 +8,7 @@ interface TokenList {
   tokens: TokenInfo[]
 }
 
-export function useTokenList(tokenListURI: string, overrideChainId?: ChainId, tags?: string[]) {
+export function useTokenList(tokenListURI: string, overrideChainId?: number, tags?: string[]) {
   const { chainId: providerChainId } = useEthers()
   const [tokenList, setTokenList] = useState<TokenList>()
 
