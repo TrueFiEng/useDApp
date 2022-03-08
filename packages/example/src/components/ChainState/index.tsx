@@ -13,8 +13,8 @@ interface ChainStateProps {
 
 export function ChainState({ chainId }: ChainStateProps) {
   const { chainName } = useChainMeta(chainId)
-  const { value } = useChainState(chainId)
-  const { difficulty, timestamp } = useBlockMeta(chainId)
+  const { value } = useChainState({ chainId })
+  const { difficulty, timestamp } = useBlockMeta({ chainId })
   const { account } = useEthers()
   const balance = useEtherBalance(account, { chainId })
   return (

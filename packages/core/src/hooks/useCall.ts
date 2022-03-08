@@ -3,6 +3,7 @@ import { Contract } from 'ethers'
 import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
+import { QueryParams } from './useContractCall'
 
 export interface Call<T extends TypedContract = Contract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
   contract: T
@@ -16,7 +17,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
   return useCalls([call])[0]
 }
 
-export function useCalls(calls: (Call | Falsy)[], chainId?: number): CallResult<Contract, string>[] {
-  const results = useRawCalls(calls.map(encodeCallData), chainId)
+export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
+  const results = useRawCalls(calls.map(encodeCallData), queryParams)
   return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
 }

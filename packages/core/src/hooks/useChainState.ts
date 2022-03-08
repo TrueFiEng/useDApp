@@ -1,14 +1,14 @@
-import { ChainId } from '../constants'
 import { useContext } from 'react'
 import { ChainStateContext, MultiChainStatesContext } from '../providers'
+import { QueryParams } from './useContractCall'
 
-export function useChainState(chainId?: ChainId) {
+export function useChainState(queryParams: QueryParams) {
   const chainState = useContext(ChainStateContext)
   const multiChainState = useContext(MultiChainStatesContext)
 
-  if (chainId) {
+  if (queryParams.chainId) {
     return {
-      ...multiChainState.chains[chainId],
+      ...multiChainState.chains[queryParams.chainId],
       dispatchCalls: multiChainState.dispatchCalls,
     }
   }

@@ -1,6 +1,6 @@
-import { ChainId } from '../constants'
 import { useChainState } from './useChainState'
+import { QueryParams } from './useContractCall'
 
-export function useMulticallAddress(chainId?: ChainId): string | undefined {
-  return useChainState(chainId).multicallAddress
+export function useMulticallAddress(queryParams: QueryParams): string | undefined {
+  return useChainState(queryParams).multicallAddress
 }

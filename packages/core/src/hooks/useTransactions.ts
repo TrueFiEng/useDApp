@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
-import { ChainId } from '../constants'
+import { QueryParams } from './useContractCall'
 
-export function useTransactions(_chainId?: ChainId) {
+export function useTransactions(queryParams: QueryParams = {}) {
   const { chainId: defaultChainId, account } = useEthers()
   const { addTransaction, transactions } = useTransactionsContext()
+  const { chainId: _chainId } = queryParams
 
   const chainId = useMemo(() => _chainId ?? defaultChainId, [_chainId, defaultChainId])
 

@@ -3,10 +3,10 @@ import { RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useChainState } from './useChainState'
-import { ChainId } from '../constants'
+import { QueryParams } from './useContractCall'
 
-export function useRawCalls(calls: (RawCall | Falsy)[], chainId?: ChainId): RawCallResult[] {
-  const { dispatchCalls, value } = useChainState(chainId)
+export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams): RawCallResult[] {
+  const { dispatchCalls, value } = useChainState(queryParams)
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
@@ -25,6 +25,6 @@ export function useRawCalls(calls: (RawCall | Falsy)[], chainId?: ChainId): RawC
   )
 }
 
-export function useRawCall(call: RawCall | Falsy, chainId?: ChainId) {
-  return useRawCalls([call], chainId)[0]
+export function useRawCall(call: RawCall | Falsy, queryParams: QueryParams) {
+  return useRawCalls([call], queryParams)[0]
 }

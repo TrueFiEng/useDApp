@@ -1,19 +1,19 @@
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
-import { ChainId } from '../constants'
+import { QueryParams } from './useContractCall'
 
 /**
  * @deprecated It's recommended to use useRawCalls instead
  */
-export function useChainCalls(calls: (RawCall | Falsy)[], chainId?: ChainId) {
-  const results = useRawCalls(calls, chainId)
+export function useChainCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams = {}) {
+  const results = useRawCalls(calls, queryParams)
   return results.map((result) => result?.value)
 }
 
 /**
  * @deprecated It's recommended to use useRawCall instead
  */
-export function useChainCall(call: RawCall | Falsy, chainId?: ChainId) {
-  return useChainCalls([call], chainId)[0]
+export function useChainCall(call: RawCall | Falsy, queryParams: QueryParams = {}) {
+  return useChainCalls([call], queryParams)[0]
 }
