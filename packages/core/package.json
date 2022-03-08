@@ -1,15 +1,24 @@
 {
   "name": "@usedapp/core",
   "version": "0.11.0",
-  "main": "dist/cjs/src/index.js",
-  "module": "dist/esm/src/index.js",
-  "types": "dist/esm/src/index.d.ts",
   "repository": "git@github.com:EthWorks/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
   "sideEffects": false,
-  "publishConfig": {
-    "access": "public"
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/src/index.js",
+      "import": "./dist/esm/src/index.js",
+      "types": "./dist/esm/src/index.d.ts"
+    },
+    "./testing": {
+      "require": "./dist/cjs/src/testing/index.js",
+      "import": "./dist/esm/src/testing/index.js",
+      "types": "./dist/esm/src/testing/index.d.ts"
+    }
   },
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
@@ -51,5 +60,8 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
