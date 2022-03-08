@@ -42,7 +42,10 @@ export function useContractCall(call: ContractCall | Falsy, queryParams: QueryPa
   return useContractCalls([call], queryParams)[0]
 }
 
-export function useContractCalls(calls: (ContractCall | Falsy)[], queryParams: QueryParams = {}): (any[] | undefined)[] {
+export function useContractCalls(
+  calls: (ContractCall | Falsy)[],
+  queryParams: QueryParams = {}
+): (any[] | undefined)[] {
   const results = useChainCalls(
     calls.map((call) => encodeCallData(call, queryParams.chainId)),
     queryParams
