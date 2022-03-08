@@ -5,7 +5,7 @@ import { Falsy } from '../model/types'
 import { useChainState } from './useChainState'
 import { QueryParams } from '../constants/type/Options'
 
-export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams): RawCallResult[] {
+export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams = {}): RawCallResult[] {
   const { dispatchCalls, value } = useChainState(queryParams)
 
   useEffect(() => {
@@ -25,6 +25,6 @@ export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams
   )
 }
 
-export function useRawCall(call: RawCall | Falsy, queryParams: QueryParams) {
+export function useRawCall(call: RawCall | Falsy, queryParams: QueryParams = {}) {
   return useRawCalls([call], queryParams)[0]
 }
