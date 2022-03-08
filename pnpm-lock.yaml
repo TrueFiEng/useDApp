@@ -135,6 +135,10 @@ importers:
 
   packages/example:
     specifiers:
+      '@ethersproject/abi': ^5.5.0
+      '@ethersproject/contracts': ^5.5.0
+      '@ethersproject/providers': ^5.5.3
+      '@ethersproject/units': ^5.5.0
       '@pmmmwh/react-refresh-webpack-plugin': ^0.5.4
       '@testing-library/react': ^11.0.0
       '@typechain/ethers-v5': ^9.0.0
@@ -169,6 +173,10 @@ importers:
       webpack-cli: ^4.1.0
       webpack-dev-server: ^3.11.0
     dependencies:
+      '@ethersproject/abi': 5.5.0
+      '@ethersproject/contracts': 5.5.0
+      '@ethersproject/providers': 5.5.3
+      '@ethersproject/units': 5.5.0
       '@types/styled-components': 5.1.7
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
@@ -184,7 +192,7 @@ importers:
     devDependencies:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.4_88948ee041cb9382f454904e4fa8020d
       '@testing-library/react': 11.2.5_react-dom@17.0.1+react@17.0.1
-      '@typechain/ethers-v5': 9.0.0_0964c9adca6c68483c86c0e292de1239
+      '@typechain/ethers-v5': 9.0.0_e6ff842266d8d39e4e1a69f9c3c41a9c
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.1
       '@types/react-router-dom': 5.1.7
@@ -3928,7 +3936,7 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@typechain/ethers-v5/9.0.0_0964c9adca6c68483c86c0e292de1239:
+  /@typechain/ethers-v5/9.0.0_e6ff842266d8d39e4e1a69f9c3c41a9c:
     resolution: {integrity: sha512-bAanuPl1L2itaUdMvor/QvwnIH+TM/CmG00q17Ilv3ZZMeJ2j8HcarhgJUZ9pBY1teBb85P8cC03dz3mSSx+tQ==}
     peerDependencies:
       '@ethersproject/abi': ^5.0.0
@@ -3938,6 +3946,8 @@ packages:
       typechain: ^7.0.0
       typescript: '>=4.0.0'
     dependencies:
+      '@ethersproject/abi': 5.5.0
+      '@ethersproject/providers': 5.5.3
       ethers: 5.5.1
       lodash: 4.17.21
       ts-essentials: 7.0.3_typescript@4.1.4
