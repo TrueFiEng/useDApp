@@ -1,13 +1,13 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, ERC20Interface } from '../constants'
+import { ERC20Interface } from '../constants'
 import { Falsy } from '../model/types'
-import { useContractCall } from './useContractCall'
+import { useContractCall, QueryParams } from './useContractCall'
 
 export function useTokenAllowance(
   tokenAddress: string | Falsy,
   ownerAddress: string | Falsy,
   spenderAddress: string | Falsy,
-  chainId?: ChainId
+  queryParams: QueryParams = {}
 ): BigNumber | undefined {
   const [allowance] =
     useContractCall(
@@ -19,7 +19,7 @@ export function useTokenAllowance(
           method: 'allowance',
           args: [ownerAddress, spenderAddress],
         },
-      chainId
+      queryParams
     ) ?? []
   return allowance
 }

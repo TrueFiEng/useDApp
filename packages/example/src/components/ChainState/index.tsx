@@ -16,7 +16,7 @@ export function ChainState({ chainId }: ChainStateProps) {
   const { value } = useChainState(chainId)
   const { difficulty, timestamp } = useBlockMeta(chainId)
   const { account } = useEthers()
-  const balance = useEtherBalance(account, chainId)
+  const balance = useEtherBalance(account, { chainId })
   return (
     <ChainBlock>
       <ContentRow>

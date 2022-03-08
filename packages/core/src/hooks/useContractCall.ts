@@ -34,14 +34,18 @@ export interface ContractCall {
   args: any[]
 }
 
-export function useContractCall(call: ContractCall | Falsy, chainId?: ChainId): any[] | undefined {
-  return useContractCalls([call], chainId)[0]
+export interface QueryParams {
+  chainId?: ChainId
 }
 
-export function useContractCalls(calls: (ContractCall | Falsy)[], chainId?: ChainId): (any[] | undefined)[] {
+export function useContractCall(call: ContractCall | Falsy, queryParams: QueryParams = {}): any[] | undefined {
+  return useContractCalls([call], queryParams)[0]
+}
+
+export function useContractCalls(calls: (ContractCall | Falsy)[], queryParams: QueryParams = {}): (any[] | undefined)[] {
   const results = useChainCalls(
-    calls.map((call) => encodeCallData(call, chainId)),
-    chainId
+    calls.map((call) => encodeCallData(call, queryParams.chainId)),
+    queryParams.chainId
   )
 
   return useMemo(

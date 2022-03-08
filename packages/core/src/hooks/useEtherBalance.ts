@@ -1,11 +1,11 @@
-import { ChainId, MultiCallABI } from '../constants'
+import { MultiCallABI } from '../constants'
 import { useMulticallAddress } from './useMulticallAddress'
 import { Falsy } from '../model/types'
-import { useContractCall } from './useContractCall'
+import { useContractCall, QueryParams } from './useContractCall'
 import { BigNumber } from '@ethersproject/bignumber'
 
-export function useEtherBalance(address: string | Falsy, chainId?: ChainId): BigNumber | undefined {
-  const multicallAddress = useMulticallAddress(chainId)
+export function useEtherBalance(address: string | Falsy, queryParams: QueryParams = {}): BigNumber | undefined {
+  const multicallAddress = useMulticallAddress(queryParams.chainId)
   const [etherBalance] =
     useContractCall(
       multicallAddress &&
@@ -15,7 +15,7 @@ export function useEtherBalance(address: string | Falsy, chainId?: ChainId): Big
           method: 'getEthBalance',
           args: [address],
         },
-      chainId
+      queryParams
     ) ?? []
   return etherBalance
 }

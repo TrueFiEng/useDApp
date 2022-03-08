@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, ERC20Interface } from '../constants'
+import { ERC20Interface } from '../constants'
 import { Falsy } from '../model/types'
-import { useContractCall } from './useContractCall'
+import { useContractCall, QueryParams } from './useContractCall'
 
 export function useTokenBalance(
   tokenAddress: string | Falsy,
   address: string | Falsy,
-  chainId?: ChainId
+  queryParams: QueryParams = {}
 ): BigNumber | undefined {
   const [tokenBalance] =
     useContractCall(
@@ -17,7 +17,7 @@ export function useTokenBalance(
           method: 'balanceOf',
           args: [address],
         },
-      chainId
+      queryParams
     ) ?? []
   return tokenBalance
 }
