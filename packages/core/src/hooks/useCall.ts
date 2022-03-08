@@ -3,7 +3,7 @@ import { Contract } from 'ethers'
 import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 
 export interface Call<T extends TypedContract = Contract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
   contract: T

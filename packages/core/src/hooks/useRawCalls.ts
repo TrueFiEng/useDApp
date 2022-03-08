@@ -3,7 +3,7 @@ import { RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useChainState } from './useChainState'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 
 export function useRawCalls(calls: (RawCall | Falsy)[], queryParams: QueryParams = {}): RawCallResult[] {
   const { dispatchCalls, value } = useChainState(queryParams)

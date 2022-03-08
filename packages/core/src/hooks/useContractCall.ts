@@ -4,7 +4,7 @@ import { Falsy } from '../model/types'
 import { useChainCalls } from './useChainCalls'
 import { RawCall } from '../providers'
 import { ChainId } from '../constants'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(

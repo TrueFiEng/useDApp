@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ERC20Interface } from '../constants'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 import { Falsy } from '../model/types'
 import { useContractCall } from './useContractCall'
 

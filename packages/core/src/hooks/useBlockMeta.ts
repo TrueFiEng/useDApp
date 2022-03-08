@@ -2,7 +2,7 @@ import { MultiCallABI } from '../constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useChainCall } from './useChainCalls'
 import { useMulticallAddress } from './useMulticallAddress'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 
 const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
 const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])

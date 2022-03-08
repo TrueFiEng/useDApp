@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
 

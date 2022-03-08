@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
-import { QueryParams } from '../constants/type/Options'
+import { QueryParams } from '../constants/type/QueryParams'
 
 export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefined {
   const { library } = useEthers()
