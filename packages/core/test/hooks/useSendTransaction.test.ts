@@ -1,8 +1,8 @@
-import { useSendTransaction } from '@usedapp/core'
+import { useSendTransaction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils } from 'ethers'
-import { renderWeb3Hook } from '../src'
+import { renderWeb3Hook } from '../../src/testing'
 
 describe('useSendTransaction', () => {
   const mockProvider = new MockProvider()

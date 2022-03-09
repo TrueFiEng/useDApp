@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider, NetworkProvider, NetworkActivator } from '@usedapp/core'
+import { BlockNumberProvider, ChainStateProvider, NetworkProvider, NetworkActivator } from '../providers'
 import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
