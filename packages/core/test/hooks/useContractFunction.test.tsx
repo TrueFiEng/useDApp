@@ -1,12 +1,8 @@
-import { useContractFunction } from '@usedapp/core'
-import chai, { expect } from 'chai'
-import { MockProvider, solidity } from 'ethereum-waffle'
+import { useContractFunction } from '../../src'
+import { expect } from 'chai'
+import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, Contract } from 'ethers'
-import { renderWeb3Hook } from '../src'
-import { contractCallOutOfGasMock } from '../src/mocks'
-import { deployMockToken } from '../src/utils/deployMockToken'
-
-chai.use(solidity)
+import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken } from '../../src/testing'
 
 describe('useContractFunction', () => {
   const mockProvider = new MockProvider()

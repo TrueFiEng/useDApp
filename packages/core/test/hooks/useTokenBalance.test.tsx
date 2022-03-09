@@ -1,12 +1,8 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useTokenBalance } from '@usedapp/core'
-import chai, { expect } from 'chai'
-import { solidity } from 'ethereum-waffle'
-import { renderWeb3Hook } from '../src'
-import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
-
-chai.use(solidity)
+import { useTokenBalance } from '../../src'
+import { expect } from 'chai'
+import { renderWeb3Hook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../../src/testing'
 
 describe('useTokenBalance', () => {
   const mockProvider = new MockProvider()

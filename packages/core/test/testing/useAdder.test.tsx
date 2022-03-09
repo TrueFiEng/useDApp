@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { AdderProvider, useAdder } from './useAdder'
-import { renderWeb3Hook } from '../src'
+import { renderWeb3Hook } from '../../src/testing'
 
 describe('useAdder', () => {
   it('properly renders without arguments or context wrapper', async () => {

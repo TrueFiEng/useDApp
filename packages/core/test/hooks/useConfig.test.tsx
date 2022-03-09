@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { useConfig, ConfigProvider, useUpdateConfig } from '@usedapp/core'
-import { renderWeb3Hook } from '../src'
+import { useConfig, ConfigProvider, useUpdateConfig } from '../../src'
+import { renderWeb3Hook } from '../../src/testing'
 
 describe('useConfig', () => {
   it('default', async () => {
