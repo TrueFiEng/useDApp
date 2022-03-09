@@ -29,6 +29,9 @@
     "lodash.merge": "^4.6.2",
     "nanoid": "3.1.22"
   },
+  "peerDependencies": {
+    "react": "*"
+  },
   "devDependencies": {
     "@ethereum-waffle/provider": "^3.2.2",
     "@types/chai": "^4.2.14",
