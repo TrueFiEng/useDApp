@@ -5,6 +5,7 @@ import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'
 import { subscribeToProviderEvents } from '../../helpers/eip1193'
+import { MockProvider } from 'ethereum-waffle'
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -51,7 +52,7 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
 
   const activate = useCallback(
     async (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => {
-      const wrappedProvider = provider instanceof JsonRpcProvider ? provider : new Web3Provider(provider)
+      const wrappedProvider = (provider instanceof JsonRpcProvider || provider instanceof MockProvider) ? provider : new Web3Provider(provider)
       try {
         const account = await tryToGetAccount(wrappedProvider)
         const chainId = (await wrappedProvider.getNetwork())?.chainId
