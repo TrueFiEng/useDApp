@@ -31,8 +31,7 @@
   "dependencies": {
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.3",
-    "@usedapp/core": "^0.11.0",
-    "react": "^17.0.1"
+    "@usedapp/core": "^0.11.0"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs",
