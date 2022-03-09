@@ -52,7 +52,8 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
 
   const activate = useCallback(
     async (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => {
-      const wrappedProvider = (provider instanceof JsonRpcProvider || provider instanceof MockProvider) ? provider : new Web3Provider(provider)
+      const wrappedProvider =
+        provider instanceof JsonRpcProvider || provider instanceof MockProvider ? provider : new Web3Provider(provider)
       try {
         const account = await tryToGetAccount(wrappedProvider)
         const chainId = (await wrappedProvider.getNetwork())?.chainId
