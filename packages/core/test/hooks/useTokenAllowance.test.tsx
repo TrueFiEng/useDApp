@@ -1,13 +1,9 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useTokenAllowance } from '@usedapp/core'
-import chai, { expect } from 'chai'
-import { solidity } from 'ethereum-waffle'
-import { renderWeb3Hook } from '../src'
-import { deployMockToken } from '../src/utils/deployMockToken'
+import { useTokenAllowance } from '../../src'
+import { expect } from 'chai'
+import { renderWeb3Hook, deployMockToken } from '../../src/testing'
 import { utils } from 'ethers'
-
-chai.use(solidity)
 
 describe('useTokenAllowance', () => {
   const mockProvider = new MockProvider()
