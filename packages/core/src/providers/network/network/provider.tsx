@@ -3,7 +3,6 @@ import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
-import { EventEmitter } from 'events'
 import { subscribeToProviderEvents } from '../../../helpers/eip1193'
 
 interface NetworkProviderProps {
@@ -50,7 +49,7 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
   }, [])
 
   const activate = useCallback(
-    async (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => {
+    async (provider: JsonRpcProvider | ExternalProvider) => {
       const wrappedProvider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
       try {
         const account = await tryToGetAccount(wrappedProvider)

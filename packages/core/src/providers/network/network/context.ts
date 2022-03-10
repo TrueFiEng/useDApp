@@ -7,7 +7,7 @@ import { EventEmitter } from 'events'
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
   reportError: (error: Error) => void
-  activate: (provider: JsonRpcProvider | (EventEmitter & ExternalProvider)) => Promise<void>
+  activate: (provider: JsonRpcProvider | ExternalProvider) => Promise<void>
   deactivate: () => void
   network: Network
 }>({

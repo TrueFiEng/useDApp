@@ -14,6 +14,7 @@ import { NotificationsList } from './components/Transactions/History'
 import { Web3Modal } from './pages/Web3Modal'
 import { Web3ReactConnector } from './pages/Web3ReactConnector'
 import { Multichain } from './pages/Multichain'
+import { WalletConnect } from './pages/WalletConnect'
 
 export function App() {
   return (
@@ -31,6 +32,7 @@ export function App() {
           <Route exact path="/web3modal" component={Web3Modal} />
           <Route exact path="/web3react" component={Web3ReactConnector} />
           <Route exact path="/multichain" component={Multichain} />
+          <Route exact path="/wallet-connect" component={WalletConnect} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>

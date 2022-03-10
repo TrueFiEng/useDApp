@@ -2,12 +2,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { BorderRad, Colors, Shadows, Transitions } from '../global/styles'
-import { HeaderContainer } from './base/base'
+import { HeaderContainer as SidebarContainer } from './base/base'
 
 export function NavBar() {
   return (
     <Sidebar>
-      <HeaderContainer>
+      <SidebarContainer>
         <SidebarNav>
           <ToMain href="/">
             <span>useDapp</span>
@@ -55,9 +55,13 @@ export function NavBar() {
               Multichain
               <br /> <SidebarLinkDescription>&nbsp;experimental</SidebarLinkDescription>
             </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/wallet-connect">
+              {' '}
+              WalletConnect example{' '}
+            </SidebarLink>
           </SidebarNavLinks>
         </SidebarNav>
-      </HeaderContainer>
+      </SidebarContainer>
     </Sidebar>
   )
 }

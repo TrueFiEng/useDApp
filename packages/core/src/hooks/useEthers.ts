@@ -1,13 +1,14 @@
 import { useCallback } from 'react'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { useInjectedNetwork, useNetwork } from '../providers'
-import { EventEmitter } from 'events'
 import { useLocalStorage } from './useLocalStorage'
+
+type MaybePromise<T> = Promise<T> | any
 
 type SupportedProviders =
   | JsonRpcProvider
-  | EventEmitter
-  | { getProvider: () => JsonRpcProvider | EventEmitter; activate: () => Promise<void> }
+  | ExternalProvider
+  | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
 
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
