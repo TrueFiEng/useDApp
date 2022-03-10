@@ -34,7 +34,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
         working-directory: packages/docs
-          
       - name: Deploy
         uses: nwtgck/actions-netlify@v1.2
         with:
