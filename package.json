@@ -6,6 +6,7 @@
     "yarn": "^1.17.3"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "lint": "wsrun -c -s lint",
     "lint:fix": "wsrun -c -s lint:fix",
     "build": "wsrun -e -c -s build",
