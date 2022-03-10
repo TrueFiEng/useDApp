@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { RawCall, useTokenBalance } from '../../src'
+import { RawCall } from '../../src'
 import { expect } from 'chai'
 import { renderWeb3Hook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../../src/testing'
 import { useRawCall } from '../../src/hooks/useRawCalls'
@@ -14,7 +14,7 @@ describe('useRawCall', () => {
     token = await deployMockToken(deployer)
   })
 
-  it.only('can query ERC20 balance', async () => {
+  it('can query ERC20 balance', async () => {
     const call: RawCall = {
       address: token.address,
       data: token.interface.encodeFunctionData('balanceOf', [deployer.address]),
