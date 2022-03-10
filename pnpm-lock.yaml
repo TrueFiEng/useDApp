@@ -207,7 +207,6 @@ importers:
     dependencies:
       '@ethersproject/abi': 5.5.0
       '@ethersproject/contracts': 5.5.0
-      '@ethersproject/providers': 5.5.3
       '@ethersproject/units': 5.5.0
       '@types/styled-components': 5.1.7
       '@usedapp/coingecko': link:../coingecko
@@ -223,6 +222,7 @@ importers:
       styled-components: 5.3.3_react-dom@17.0.1+react@17.0.1
       web3modal: 1.9.5
     devDependencies:
+      '@ethersproject/providers': 5.5.3
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.4_88948ee041cb9382f454904e4fa8020d
       '@testing-library/react': 11.2.5_react-dom@17.0.1+react@17.0.1
       '@typechain/ethers-v5': 9.0.0_b60b876f3d461c3061d3e5203132e4f0
@@ -4436,7 +4436,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /@ethersproject/random/5.5.0:
     resolution: {integrity: sha512-egGYZwZ/YIFKMHcoBUo8t3a8Hb/TKYX8BCBoLjudVCZh892welR3jOxgOmb48xznc9bTcMm7Tpwc1gHC1PFNFQ==}
