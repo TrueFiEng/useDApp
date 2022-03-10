@@ -1,0 +1,1 @@
+{"version":3,"file":"context.js","sourceRoot":"","sources":["../../../../../../src/providers/network/readonlyNetworks/context.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,UAAU,EAAE,MAAM,OAAO,CAAA;AAGjD,MAAM,CAAC,MAAM,uBAAuB,GAAG,aAAa,CAAY,EAAE,CAAC,CAAA;AAEnE,MAAM,UAAU,mBAAmB;IACjC,OAAO,UAAU,CAAC,uBAAuB,CAAC,CAAA;AAC5C,CAAC"}

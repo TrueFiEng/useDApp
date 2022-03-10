@@ -1,0 +1,1 @@
+{"version":3,"file":"useChainMeta.js","sourceRoot":"","sources":["../../../../src/hooks/useChainMeta.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,OAAO,CAAA;AAE/B,OAAO,EAAE,YAAY,EAAE,MAAM,yBAAyB,CAAA;AAEtD,MAAM,UAAU,YAAY,CAAC,OAAgB;IAC3C,OAAO,OAAO,CAAC,GAAG,EAAE,CAAC,YAAY,CAAC,OAAO,CAAC,EAAE,CAAC,OAAO,CAAC,CAAC,CAAA;AACxD,CAAC"}

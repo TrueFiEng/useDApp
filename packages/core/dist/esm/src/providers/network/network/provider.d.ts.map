@@ -1,0 +1,1 @@
+{"version":3,"file":"provider.d.ts","sourceRoot":"","sources":["../../../../../../src/providers/network/network/provider.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAqC,MAAM,OAAO,CAAA;AAOpE,UAAU,oBAAoB;IAC5B,QAAQ,EAAE,SAAS,CAAA;CACpB;AAcD,wBAAgB,eAAe,CAAC,EAAE,QAAQ,EAAE,EAAE,oBAAoB,eAiDjE"}

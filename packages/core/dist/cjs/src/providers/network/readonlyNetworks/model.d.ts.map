@@ -1,0 +1,1 @@
+{"version":3,"file":"model.d.ts","sourceRoot":"","sources":["../../../../../../src/providers/network/readonlyNetworks/model.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,oBAAoB,CAAA;AAC5C,OAAO,EAAE,eAAe,EAAE,MAAM,0BAA0B,CAAA;AAE1D,oBAAY,SAAS,GAAG;KACrB,OAAO,IAAI,OAAO,CAAC,CAAC,EAAE,eAAe;CACvC,CAAA"}

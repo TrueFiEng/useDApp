@@ -1,0 +1,1 @@
+{"version":3,"file":"model.d.ts","sourceRoot":"","sources":["../../../../../../src/providers/chainState/common/model.ts"],"names":[],"mappings":"AAAA,oBAAY,aAAa,GACrB;IACE,KAAK,EAAE,MAAM,CAAA;IACb,OAAO,EAAE,OAAO,CAAA;CACjB,GACD,SAAS,CAAA;AAEb,oBAAY,UAAU,GAAG;IACvB,CAAC,OAAO,EAAE,MAAM,GACZ;QACE,CAAC,IAAI,EAAE,MAAM,GAAG,aAAa,CAAA;KAC9B,GACD,SAAS,CAAA;CACd,CAAA"}

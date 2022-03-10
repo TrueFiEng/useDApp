@@ -1,0 +1,1 @@
+{"version":3,"file":"provider.d.ts","sourceRoot":"","sources":["../../../../../../src/providers/blockNumber/blockNumbers/provider.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAyB,MAAM,OAAO,CAAA;AAOxD,UAAU,KAAK;IACb,QAAQ,EAAE,SAAS,CAAA;CACpB;AAED,wBAAgB,oBAAoB,CAAC,EAAE,QAAQ,EAAE,EAAE,KAAK,eAiBvD"}

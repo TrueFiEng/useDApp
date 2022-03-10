@@ -17,7 +17,8 @@
     "@changesets/cli": "^2.14.1",
     "ethers": "^5.5.4",
     "prettier": "2.1.2",
-    "wsrun": "^5.2.1"
+    "wsrun": "^5.2.1",
+    "yarn": "^1.22.17"
   },
   "resolutions": {
     "ethers": "^5.5.4"
