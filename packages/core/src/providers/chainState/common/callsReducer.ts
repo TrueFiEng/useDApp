@@ -1,8 +1,9 @@
-import { addressEqual } from '../..'
+import { addressEqual, ChainId } from '../../..'
 
 export type Action = AddCall | RemoveCall
 
 export interface RawCall {
+  chainId: ChainId
   address: string
   data: string
 }
@@ -11,6 +12,7 @@ export interface RawCall {
  * @deprecated It's recommended to use RawCall instead
  */
 export interface ChainCall {
+  chainId?: ChainId
   address: string
   data: string
 }

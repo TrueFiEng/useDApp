@@ -10,7 +10,7 @@ export interface State {
     | undefined
 }
 
-type Action = FetchSuccess | FetchError
+export type ChainStateAction = FetchSuccess | FetchError
 
 interface FetchSuccess {
   type: 'FETCH_SUCCESS'
@@ -26,7 +26,7 @@ interface FetchError {
   error: unknown
 }
 
-export function chainStateReducer(state: State = {}, action: Action) {
+export function chainStateReducer(state: State = {}, action: ChainStateAction) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
     if (action.type === 'FETCH_SUCCESS') {

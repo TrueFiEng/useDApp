@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { ChainId } from '../../constants'
+import { ChainId } from '../../../constants'
 import { Network } from './model'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { EventEmitter } from 'events'

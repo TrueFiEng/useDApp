@@ -1,15 +1,15 @@
 import { ReactNode, useMemo } from 'react'
 import { Config, Chain } from '../constants'
 import { ConfigProvider } from './config'
-import { BlockNumberProvider } from './blockNumber'
-import { ChainStateProvider } from './chainState'
+import { BlockNumberProvider } from './blockNumber/blockNumber'
+import { MultiChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
-import { NetworkProvider } from './network'
-import { InjectedNetworkProvider } from './injectedNetwork'
+import { NetworkProvider, InjectedNetworkProvider, ReadonlyNetworksProvider } from './network'
+import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 
 interface DAppProviderProps {
   children: ReactNode
@@ -53,19 +53,23 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <NetworkProvider>
-      <InjectedNetworkProvider>
-        <BlockNumberProvider>
-          <NetworkActivator />
-          <LocalMulticallProvider>
-            <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-              <NotificationsProvider>
-                <TransactionProvider>{children}</TransactionProvider>
-              </NotificationsProvider>
-            </ChainStateProvider>
-          </LocalMulticallProvider>
-        </BlockNumberProvider>
-      </InjectedNetworkProvider>
-    </NetworkProvider>
+    <ReadonlyNetworksProvider>
+      <NetworkProvider>
+        <InjectedNetworkProvider>
+          <BlockNumberProvider>
+            <BlockNumbersProvider>
+              <NetworkActivator />
+              <LocalMulticallProvider>
+                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                  <NotificationsProvider>
+                    <TransactionProvider>{children}</TransactionProvider>
+                  </NotificationsProvider>
+                </MultiChainStateProvider>
+              </LocalMulticallProvider>
+            </BlockNumbersProvider>
+          </BlockNumberProvider>
+        </InjectedNetworkProvider>
+      </NetworkProvider>
+    </ReadonlyNetworksProvider>
   )
 }

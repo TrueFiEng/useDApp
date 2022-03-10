@@ -30,6 +30,7 @@ describe('Multicall2', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     const blockNumber = await mockProvider.getBlockNumber()
@@ -44,6 +45,7 @@ describe('Multicall2', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     const blockNumber = (await mockProvider.getBlockNumber()) + 1
@@ -55,6 +57,7 @@ describe('Multicall2', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     await sendEmptyTx(deployer)
@@ -72,14 +75,17 @@ describe('Multicall2', () => {
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
+        chainId: mockProvider._network.chainId,
       },
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('symbol', []),
+        chainId: mockProvider._network.chainId,
       },
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
+        chainId: mockProvider._network.chainId,
       },
     ]
 
@@ -105,6 +111,7 @@ describe('Multicall2', () => {
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
+        chainId: mockProvider._network.chainId,
       },
       // invalid one
       {
@@ -114,10 +121,12 @@ describe('Multicall2', () => {
           deployer.address,
           BigNumber.from(10000),
         ]),
+        chainId: mockProvider._network.chainId,
       },
       {
         address: tokenContract.address,
         data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
+        chainId: mockProvider._network.chainId,
       },
     ]
 

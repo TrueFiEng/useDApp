@@ -1,5 +1,6 @@
-import { useChainState } from '../providers'
+import { QueryParams } from '../constants/type/QueryParams'
+import { useChainState } from './useChainState'
 
-export function useMulticallAddress(): string | undefined {
-  return useChainState().multicallAddress
+export function useMulticallAddress(queryParams: QueryParams = {}): string | undefined {
+  return useChainState(queryParams)?.multicallAddress
 }

@@ -3,7 +3,7 @@ import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
-import { subscribeToProviderEvents } from '../../helpers/eip1193'
+import { subscribeToProviderEvents } from '../../../helpers/eip1193'
 
 interface NetworkProviderProps {
   children: ReactNode

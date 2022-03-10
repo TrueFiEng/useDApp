@@ -1,8 +1,8 @@
-import { networksReducer } from '../../src/providers/network/reducer'
+import { networksReducer } from '../../src/providers/network/network/reducer'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
 
-describe('NetworkReducer', () => {
+describe('ActiveNetworkReducer', () => {
   const initialState = {
     provider: undefined,
     chainId: undefined,

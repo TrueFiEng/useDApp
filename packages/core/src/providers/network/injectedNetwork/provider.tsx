@@ -1,9 +1,9 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { InjectedNetworkContext } from './context'
 import { Web3Provider } from '@ethersproject/providers'
-import { getInjectedProvider } from '../../helpers/injectedProvider'
+import { getInjectedProvider } from '../../../helpers/injectedProvider'
 import { useNetwork } from '../network'
-import { useConfig } from '../config'
+import { useConfig } from '../../config'
 
 interface InjectedNetworkProviderProps {
   children: ReactNode

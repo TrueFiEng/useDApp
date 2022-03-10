@@ -29,6 +29,7 @@ describe('Multicall', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     const blockNumber = await mockProvider.getBlockNumber()
@@ -42,6 +43,7 @@ describe('Multicall', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     const blockNumber = (await mockProvider.getBlockNumber()) + 1
@@ -53,6 +55,7 @@ describe('Multicall', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     await sendEmptyTx(deployer)
@@ -67,6 +70,7 @@ describe('Multicall', () => {
     const call: RawCall = {
       address: tokenContract.address,
       data,
+      chainId: mockProvider._network.chainId,
     }
 
     const blockNumber = await mockProvider.getBlockNumber()
