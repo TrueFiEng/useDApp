@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { BorderRad, Colors, Shadows, Transitions } from '../global/styles'
-import { HeaderContainer as SidebarContainer } from './base/base'
+import { SidebarContainer } from './base/base'
 
 export function NavBar() {
   return (
