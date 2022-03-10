@@ -48,6 +48,10 @@ export function TopBar() {
               {' '}
               Web3React Connector example{' '}
             </HeaderLink>
+            <HeaderLink activeClassName="active-page" to="/wallet-connect">
+              {' '}
+              WalletConnect example{' '}
+            </HeaderLink>
           </HeaderNavLinks>
         </HeaderNav>
       </HeaderContainer>
