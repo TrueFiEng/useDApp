@@ -21,7 +21,7 @@ export const Container = styled.div`
   padding-right: 14px;
 `
 
-export const HeaderContainer = styled(Container)`
+export const SidebarContainer = styled(Container)`
   max-width: 1200px;
 `
 
