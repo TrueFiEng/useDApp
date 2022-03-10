@@ -951,7 +951,7 @@ Enum that represents chain ids.
 
 **Values:**
 
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, Cronos, xDai, Polygon, Moonriver, Moonbeam, Mumbai, OasisEmerald, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
+``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, Cronos, xDai, Polygon, Moonriver, Moonbeam, Mumbai, OasisEmerald, OasisEmeraldTestnet, Harmony, Theta, Palm, Fantom, Avalanche, Songbird``
 
 Helpers
 *******
@@ -1046,6 +1046,7 @@ Returns name of a chain for a given `chainId`.
   getChainName(Moonriver.chainID) // Moonriver
   getChainName(Moonbeam.chainID) // Moonbeam
   getChainName(OasisEmerald.chainID) //Oasis Emerald Paratime
+  getChainName(OasisEmeraldTestnet.chainID)
   getChainName(Fantom.chainID) // Fantom
 
 isTestChain (deprecated)
