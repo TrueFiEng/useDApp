@@ -16,7 +16,6 @@ jobs:
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-        working-directory: packages/docs
       - name: Deploy
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -40,7 +39,6 @@ jobs:
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-        working-directory: packages/docs
       - name: Deploy
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -49,7 +47,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           overwrites-pull-request-comment: true
           production-deploy: ${{ github.event_name != 'pull_request' }}
-          publish-dir: packages/docs/build
+          publish-dir: packages/example/build
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
