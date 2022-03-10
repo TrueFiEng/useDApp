@@ -18,7 +18,7 @@ export function WalletConnect() {
       infuraId: '57fc2c19095745e59ab96a4aa87dada8',
     })
     await provider.enable()
-    activate(provider as any)
+    activate(provider)
   }
 
   const userBalance = useEtherBalance(account)
