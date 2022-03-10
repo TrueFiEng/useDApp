@@ -5,7 +5,7 @@ on:
     branches:
       - master
 jobs:
-  deploy-docs:
+  deploy-apps:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - name: Deploy
+      - name: Deploy usedapp-docs.netlify.app
         uses: nwtgck/actions-netlify@v1.2
         with:
           enable-commit-comment: true
@@ -28,18 +28,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
-  deploy-example:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - run: npm i -g pnpm@6.20.3
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - name: Deploy
+      - name: Deploy example.usedapp.io
         uses: nwtgck/actions-netlify@v1.2
         with:
           enable-commit-comment: true
