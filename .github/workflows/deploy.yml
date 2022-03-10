@@ -1,0 +1,55 @@
+name: Deploy
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - run: npm i -g pnpm@6.20.3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+        working-directory: packages/docs
+      - name: Deploy
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          enable-commit-comment: true
+          enable-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          overwrites-pull-request-comment: true
+          production-deploy: ${{ github.event_name != 'pull_request' }}
+          publish-dir: packages/docs/build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
+  deploy-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - run: npm i -g pnpm@6.20.3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+        working-directory: packages/docs
+      - name: Deploy
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          enable-commit-comment: true
+          enable-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          overwrites-pull-request-comment: true
+          production-deploy: ${{ github.event_name != 'pull_request' }}
+          publish-dir: packages/docs/build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
