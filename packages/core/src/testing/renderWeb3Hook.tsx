@@ -35,7 +35,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
       <NetworkProvider>
-        <ReadonlyNetworksProvider>
+        <ReadonlyNetworksProvider providerOverrides={{ [provider.network.chainId]: provider }}>
           <NetworkActivator providerOverride={provider} />
           <BlockNumberProvider>
             <BlockNumbersProvider>

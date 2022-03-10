@@ -60,6 +60,8 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     const blockNumber = blockNumbers[chainId]
     const multicallAddress = multicallAddresses[chainId]
 
+    console.log({ blockNumber, multicallAddress, uniqueCalls, chainId })
+
     if (!provider || !blockNumber) {
       return
     }
