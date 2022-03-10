@@ -6,6 +6,7 @@
     "yarn": "^1.17.3"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "lint": "wsrun -c -s lint",
     "lint:fix": "wsrun -c -s lint:fix",
     "build": "wsrun -e -c -s build",
@@ -14,11 +15,11 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
-    "ethers": "5.5.1",
+    "ethers": "^5.5.4",
     "prettier": "2.1.2",
     "wsrun": "^5.2.1"
   },
   "resolutions": {
-    "ethers": "5.5.1"
+    "ethers": "^5.5.4"
   }
 }

@@ -15,9 +15,9 @@
     "build-storybook": "build-storybook -s ./static"
   },
   "dependencies": {
-    "@ethersproject/abi": "^5.5.0",
-    "@ethersproject/address": "^5.5.0",
-    "ethers": "^5.5.1",
+    "@ethersproject/abi": "5.6.0",
+    "@ethersproject/address": "5.6.0",
+    "ethers": "^5.5.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "styled-components": "^5.2.1"

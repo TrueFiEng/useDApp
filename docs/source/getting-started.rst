@@ -192,5 +192,5 @@ For example:
 
   "resolutions": {
     "@ethersproject/abi": "5.2.0",
-    "@ethersproject/contracts": "5.2.0"
+    "@ethersproject/contracts": "^5.6.0"
   }
