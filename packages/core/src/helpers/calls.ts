@@ -12,7 +12,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
   console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
 }
 
-export function encodeCallData(call: Call | Falsy, chainId?: number): RawCall | Falsy {
+export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | Falsy {
   if (!call) {
     return undefined
   }

@@ -13,7 +13,7 @@ describe('useTokenBalance', () => {
     token = await deployMockToken(deployer)
   })
 
-  it('returns balance', async () => {
+  it.only('returns balance', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenBalance(token.address, deployer.address), {
       mockProvider,
     })

@@ -47,6 +47,8 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
+  console.log({ calls, state })
+
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
@@ -94,6 +96,8 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   ])
 
   const provided = { chains, dispatchCalls }
+
+  console.log(chains)
 
   return <MultiChainStatesContext.Provider value={provided} children={children} />
 }
