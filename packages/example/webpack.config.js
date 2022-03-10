@@ -62,4 +62,11 @@ module.exports = {
     overlay: true,
     hot: true,
   },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
+    module: 'empty'
+  },
 }

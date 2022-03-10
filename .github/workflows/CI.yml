@@ -17,7 +17,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
-    - run: yarn install --frozen-lockfile
+    - run: npm i -g pnpm@6.20.3
+    - run: pnpm install --frozen-lockfile
     - run: yarn lint
     - run: yarn build
     - run: yarn test
