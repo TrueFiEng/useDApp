@@ -47,7 +47,7 @@ export function useContractCalls(
   const chainId = queryParams.chainId ?? network.chainId
 
   const results = useChainCalls(
-    calls.map((call) => chainId !== undefined ? encodeCallData(call, chainId) : undefined),
+    calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
   )
 
   return useMemo(

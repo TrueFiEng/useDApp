@@ -7,7 +7,7 @@ import { NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 
 interface NetworkProviderProps {
-  providerOverrides?: Providers, 
+  providerOverrides?: Providers
   children?: ReactNode
 }
 
@@ -16,7 +16,10 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
   const { readOnlyUrls = {} } = useConfig()
-  const [providers, setProviders] = useState<Providers>(() => ({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides }))
+  const [providers, setProviders] = useState<Providers>(() => ({
+    ...getProvidersFromConfig(readOnlyUrls),
+    ...providerOverrides,
+  }))
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })

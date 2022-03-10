@@ -22,7 +22,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const { network } = useNetwork()
   const chainId = queryParams.chainId ?? network.chainId
 
-  const rawCalls = calls.map((call) => chainId !== undefined ? encodeCallData(call, chainId) : undefined)
+  const rawCalls = calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
   const results = useRawCalls(rawCalls)
   return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
 }

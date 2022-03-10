@@ -23,7 +23,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 ) => {
   const provider = options?.mockProvider || new MockProvider()
   provider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
-  const { chainId } = await provider.getNetwork();
+  const { chainId } = await provider.getNetwork()
 
   const multicallAddresses = await deployMulticall(provider, chainId)
   // In some occasions the block number lags behind.

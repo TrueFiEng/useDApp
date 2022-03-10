@@ -13,8 +13,10 @@ export function subscribeToNewBlock(
     provider.on('block', update)
 
     provider.getBlockNumber().then(
-      blockNumber => update(blockNumber),
-      (err) => { console.error(err) }
+      (blockNumber) => update(blockNumber),
+      (err) => {
+        console.error(err)
+      }
     )
 
     return () => {
