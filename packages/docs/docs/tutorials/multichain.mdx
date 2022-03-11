@@ -17,7 +17,7 @@ The most common approach for a DApp is to operate on a single chain. But there a
 
 `useDApp` has inbuilt multichain support.
 
-In this tutorial we will create a simple DApp that will display simultaneously balance on some address on Mainnet and balance of another address on Kovan.
+In this tutorial we will create a simple DApp that will display simultaneously balance of some address on Mainnet and balance of another address on Kovan.
 
 ## Add Kovan network to config
 
@@ -64,10 +64,10 @@ Create a file named `Multichain.tsx` and add the following code.
 ```tsx
 import React from 'react'
 import { Kovan, Mainnet, useEtherBalance } from "@usedapp/core"
-import { formatEther } from '@ethersproject/units';
+import { formatEther } from '@ethersproject/units'
 
-const mainnetAddress = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC';
-const kovanAddress = '0x65CfF9525915291C1F976BfDe85a99058d62fF82';
+const mainnetAddress = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC'
+const kovanAddress = '0x65CfF9525915291C1F976BfDe85a99058d62fF82'
 
 export const Multichain = () => {
   const mainnetBalance = useEtherBalance(mainnetAddress, { chainId: Mainnet.chainId })
