@@ -21,7 +21,7 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * A syntax sugar for useRawCall that uses ABI, function name, and arguments instead of raw data.
  * If typechain contract is used in call parameter then method name and arguments will be type checked.
  * Result will be typed as well.
- * 
+ *
  * @param call a single call to a contract , also see {@link Call}
  * @returns The hook returns {@link CallResult} type.
  *          That is: undefined when call didn't return yet or a object { value | error } if it did,
