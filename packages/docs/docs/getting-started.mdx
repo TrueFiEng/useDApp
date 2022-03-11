@@ -20,8 +20,14 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-```javascript
-  import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
+```tsx
+  import {
+    Mainnet,
+    DAppProvider,
+    useEtherBalance,
+    useEthers,
+    Config,
+  } from '@usedapp/core'
   import { formatEther } from '@ethersproject/units'
 
   const config: Config = {
@@ -54,7 +60,6 @@ Below is a simple example:
     )
   }
 ```
-
 
 Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/EthWorks/useDapp/tree/master/packages/example).
 

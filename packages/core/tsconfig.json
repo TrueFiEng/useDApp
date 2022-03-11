@@ -14,6 +14,5 @@
   "include": [
     "src",
     "src/**/*.json",
-    "test"
   ]
 }

@@ -22,27 +22,21 @@ export type FullConfig = {
    */
   readOnlyUrls?: NodeUrls
   /**
-   * Mapping of ChainId's to multicall addresses to use for queries.
-   * See https://github.com/makerdao/multicall.
+   * Mapping of ChainId's to multicall contract addresses on the chain.
    */
   multicallAddresses?: MulticallAddresses
   /**
-   * Version of the multicall contract.
-   * Either 1 or 2
+   * Version of multicall contract on the chain.
    */
   multicallVersion: 1 | 2
   /**
-   * List of intended supported chains.
-   * If a user tries to connect to an unsupported chain an error value will be returned by useEthers.
-   * @default {} [ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]
-   * @deprecated Use `networks` instead.
+   * @deprecated
    */
   supportedChains?: number[]
   /**
    * List of intended supported chain configs.
    * If a user tries to connect to an unsupported chain an error value will be returned by useEthers.
-   * Check the full list in https://github.com/TrueFiENg/useDApp/tree/master/packages/core/src/model/chain
-   * @default {} [Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]
+   * @default DEFAULT_SUPPORTED_CHAINS
    */
   networks?: Chain[]
   /**
