@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
+    "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
