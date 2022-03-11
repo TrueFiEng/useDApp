@@ -11,7 +11,7 @@ In this tutorial, we will go through the steps of connecting to a custom Chain, 
 
 The tutorial assumes the user has already started with the basics of `useDApp`.
 
-See the [Getting Started](../getting-started) guide if you are a new user.
+See the [Getting Started](../getting-started.mdx) guide if you are a new user.
 
 ## Motivation
 
@@ -27,7 +27,7 @@ The first step is to create a Chain configuration object with all the required i
 
 ### Example
 
-```javascript
+```typescript
 import { Chain } from '@usedapp/core'
 
 export const TutorialChain: Chain = {
@@ -42,5 +42,37 @@ export const TutorialChain: Chain = {
 ```
 
 ## Step 2 - Include your chain in Config
+When using `<DAppProvider>` component, pass the modified config.
+```typescript
+import {
+  DAppProvider,
+  useEtherBalance,
+  useEthers,
+  Config,
+  DEFAULT_SUPPORTED_CHAINS
+} from '@usedapp/core'
+import { formatEther } from '@ethersproject/units'
+
+import App from 'App'
+import { TutorialChain } from 'tutorial-chain'
+
+const config: Config = {
+  readOnlyChainId: TutorialChain.chainId,
+  readOnlyUrls: {
+    [TutorialChain.chainId]: '<url of the node>',
+  },
+  networks: [...DEFAULT_SUPPORTED_CHAINS, TutorialChain],
+}
+
+ReactDOM.render(
+  <React.StrictMode>
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+)
+```
+You're fully setup - now in the `<App>` component, you can use the functionality provided by `useDApp` to access your TutorialChain.
 
 ## Step 3 (optional) - Send a PR to `useDApp`
