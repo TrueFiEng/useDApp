@@ -3,6 +3,7 @@ import { Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 
 /**
+ * @public
  * @deprecated It's recommended to use useRawCalls instead
  */
 export function useChainCalls(calls: (RawCall | Falsy)[]) {
@@ -11,6 +12,7 @@ export function useChainCalls(calls: (RawCall | Falsy)[]) {
 }
 
 /**
+ * @public
  * @deprecated It's recommended to use useRawCall instead
  */
 export function useChainCall(call: RawCall | Falsy) {

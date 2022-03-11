@@ -8,6 +8,10 @@ export type MulticallAddresses = {
   [chainId: number]: string
 }
 
+/**
+ * useDapp configuration.
+ * @public
+ */
 export type FullConfig = {
   /**
    * ChainId of a chain you want to connect to by default in a read-only mode
@@ -39,12 +43,13 @@ export type FullConfig = {
    * Polling interval for a new block.
    */
   pollingInterval: number
+
   notifications: {
     checkInterval: number
     expirationPeriod: number
   }
   /**
-   * Paths to locations in local storage
+   * Paths to locations in local storage.
    */
   localStorage: {
     transactionPath: string
@@ -55,4 +60,8 @@ export type FullConfig = {
   autoConnect: boolean
 }
 
+/**
+ * useDapp configuration.
+ * @public
+ */
 export type Config = Partial<FullConfig>
