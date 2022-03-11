@@ -1,0 +1,46 @@
+---
+sidebar_position: 7
+
+---
+
+# Connecting to custom Chains
+
+In this tutorial, we will go through the steps of connecting to a custom Chain, that's not listed as part of [known Chains](https://github.com/TrueFiEng/useDApp/tree/master/packages/core/src/model/chain).
+
+## Prerequisites
+
+The tutorial assumes the user has already started with the basics of `useDApp`.
+
+See the [Getting Started](../getting-started) guide if you are a new user.
+
+## Motivation
+
+The typical use of `useDApp` is to connect to a well known chain, such as Ethereum Mainnet or xDai chain.
+
+However if your use case is to connect to a lesser known chain, or a custom one created by your team, this tutorial uncovers the steps required to connect `useDApp` to any chain.
+
+As a first step, see if your chain is not already listed in the list of [known Chains](https://github.com/TrueFiEng/useDApp/tree/master/packages/core/src/model/chain).
+
+## Step 1 - Create the new chain object
+
+The first step is to create a Chain configuration object with all the required information regarding the custom chain.
+
+### Example
+
+```javascript
+import { Chain } from '@usedapp/core'
+
+export const TutorialChain: Chain = {
+  chainId: 99999,
+  chainName: 'TutorialChain',
+  isTestChain: false,
+  isLocalChain: false,
+  multicallAddress: '0x0000000000000000000000000000000000000000',
+  getExplorerAddressLink: (address: string) => `https://tutorialchain.etherscan.io/address/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://tutorialchain.etherscan.io/tx/${transactionHash}`,
+}
+```
+
+## Step 2 - Include your chain in Config
+
+## Step 3 (optional) - Send a PR to `useDApp`
