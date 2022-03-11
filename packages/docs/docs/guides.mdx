@@ -12,7 +12,7 @@ To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``r
 
 See example configuration below:
 
-```javascript
+```tsx
   import { Mainnet } from '@usedapp/core'
 
   const config = {
@@ -30,7 +30,7 @@ Once connected ``account`` variable will be available.
 
 See example below:
 
-```javascript
+```tsx
   export function App() {
     const { activateBrowserWallet, account } = useEthers()
     return (
@@ -71,7 +71,7 @@ When wallet is connected additionally it shows user's account along with it's ba
 
 Example is available [here](https://example.usedapp.io/balance).
 
-```javascript
+```tsx
   import { Mainnet } from '@usedapp/core'
 
   const config = {
@@ -126,7 +126,7 @@ Creating a custom hook with the use of our core hooks is straightforward, for ex
 
 The hook will retrieve a balance of an ERC20 token of the provided address.
 
-```javascript
+```tsx
   function useTokenBalance(
     tokenAddress: string | Falsy,
     address: string | Falsy
@@ -150,7 +150,7 @@ The hook will retrieve a balance of an ERC20 token of the provided address.
 
 Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
 
-```javascript
+```tsx
   function useTokenAllowance(
     tokenAddress: string | Falsy,
     ownerAddress: string | Falsy,
@@ -200,7 +200,7 @@ Let's take ``useTokenAllowance`` as an example.
 
 To write a test, start with a setup code that will create a mock provider and test wallets.
 
-```javascript
+```tsx
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
 ```
@@ -208,7 +208,7 @@ To write a test, start with a setup code that will create a mock provider and te
 Before each test, deploy an ERC20 contract. It's important as otherwise the result of one
 test could break the other one.
 
-```javascript
+```tsx
   let token: Contract
 
   beforeEach(async () => {
@@ -219,7 +219,7 @@ test could break the other one.
 
 After setup, we have to test the hook.
 
-```javascript
+```tsx
   await token.approve(spender.address, utils.parseEther('1'))
 
   const { result, waitForCurrent } = await renderWeb3Hook(
@@ -247,7 +247,7 @@ Then we can check if our result is correct. ``result.current`` is a value return
 
 **Full example**
 
-```javascript
+```tsx
   import { MockProvider } from '@ethereum-waffle/provider'
   import { Contract } from '@ethersproject/contracts'
   import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
@@ -298,7 +298,7 @@ is to use [useSendTransaction](./core#usesendtransaction) hook, which returns a 
 
 Simply call a hook in a component.
 
-```javascript
+```tsx
   const { sendTransaction, state } = useSendTransaction()
 ```
 
@@ -306,7 +306,7 @@ Then when you want to send a transaction, call ``sendTransaction`` for example i
 Function accepts a [Transaction Request](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest) object as a parameter.
 In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining).
 
-```javascript
+```tsx
   const handleClick = () => {
     setDisabled(true)
     sendTransaction({ to: address, value: utils.parseEther(amount) })
@@ -316,7 +316,7 @@ In example below ``setDisabled(true)`` sets input components to disabled while t
 After that you can use state to check the state of your transaction. State is of type [TransactionStatus](./core#transactionstatus).
 Example below clears inputs and enables all disabled components back:
 
-```javascript
+```tsx
     useEffect(() => {
       if (state.status != 'Mining') {
         setDisabled(false)
@@ -340,7 +340,7 @@ And a string ``functionName``.
 
 Start by declaring a contract variable with address of contract you want to call and ABI interface of a contract.
 
-```javascript
+```tsx
   import { utils } from 'ethers'
   import { Contract } from '@ethersproject/contracts'
 
@@ -353,7 +353,7 @@ Start by declaring a contract variable with address of contract you want to call
 
 After that you can use the hook to create ``send`` function and ``state`` object.
 
-```javascript
+```tsx
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
   const depositEther = (etherAmount: string) => {
@@ -361,7 +361,7 @@ After that you can use the hook to create ``send`` function and ``state`` object
   }
 ```
 
-```javascript
+```tsx
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
@@ -379,7 +379,7 @@ See [useSendTransaction](./core#usesendtransaction).
 
 To access history of transactions, use ``useTransactions`` hook.
 
-```javascript
+```tsx
   const { transactions } = useTransactions()
 ```
 
@@ -388,7 +388,7 @@ transactions.
 
 For example:
 
-```javascript
+```tsx
   {transactions.map((transaction) => (
           <ListElement
             transaction={transaction.transaction}
@@ -408,7 +408,7 @@ See [useSendTransaction](./core#usesendtransaction).
 
 To use notifications in your app simply call:
 
-```javascript
+```tsx
   const { notifications } = useNotifications()
 ```
 
@@ -420,7 +420,7 @@ In react you can simply use ``notifications.map(...)`` to display them.
 
 For example :
 
-```javascript
+```tsx
   {notifications.map((notification) => {
     if ('transaction' in notification)
       return (
@@ -479,7 +479,7 @@ const [balance] = useCall({contract: contract, typedMethod:'balanceOf', typedArg
 
 It is possible to access wallet activation errors by checking if `const {error} = useEthers()` changes :
 
-```javascript
+```tsx
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
