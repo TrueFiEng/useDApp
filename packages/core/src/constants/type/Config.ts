@@ -30,7 +30,7 @@ export type FullConfig = {
    */
   supportedChains?: number[]
   /**
-   * List of intended supported chain configs. 
+   * List of intended supported chain configs.
    * If a user tries to connect to an unsupported chain an error value will be returned by useEthers.
    * @default DEFAULT_SUPPORTED_CHAINS
    */
