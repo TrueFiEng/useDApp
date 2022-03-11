@@ -35,6 +35,7 @@ export {
   ConfigContext,
   ConfigProvider,
   DAppProvider,
+  DAppProviderProps,
   DEFAULT_NOTIFICATIONS,
   DEFAULT_STORED_TRANSACTIONS,
   InjectedNetworkProvider,
