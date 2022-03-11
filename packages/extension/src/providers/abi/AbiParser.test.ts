@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Interface } from '@ethersproject/abi'
-import { AbiParser } from '../../../src/providers/abi/AbiParser'
+import { AbiParser } from './AbiParser'
 
 describe('AbiParser', () => {
   describe('name', () => {

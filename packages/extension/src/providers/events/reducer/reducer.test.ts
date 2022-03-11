@@ -6,9 +6,9 @@ import type {
   Message,
   MulticallErrorPayload,
   MulticallSuccessPayload,
-} from '../../../src/providers/events/Message'
-import { reducer, INITIAL_STATE } from '../../../src/providers/events/reducer'
-import type { Event, FetchErrorEvent, State, StateUpdatedEvent } from '../../../src/providers/events/State'
+} from '../Message'
+import { reducer, INITIAL_STATE } from '.'
+import type { Event, FetchErrorEvent, State, StateUpdatedEvent } from '../State'
 
 const STATE_WITH_INIT = reducer(INITIAL_STATE, makeInitMessage('12:00:00.000'))
 const INIT_EVENT = STATE_WITH_INIT.events[0]

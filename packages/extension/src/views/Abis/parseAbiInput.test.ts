@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { parseAbiInput } from '../../../src/views/Abis/parseAbiInput'
+import { parseAbiInput } from './parseAbiInput'
 
 const ABI = [
   {
