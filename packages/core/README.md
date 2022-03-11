@@ -73,7 +73,8 @@ Contributions are always welcome, no matter how large or small. Before contribut
 
 To install dependencies type:
 ```sh
-yarn
+npm i -g pnpm
+pnpm install
 ```
 
 To build project:
