@@ -736,6 +736,19 @@ If you also supply a method name in type arguments will also be type checked
   const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 ```
 
+### RawCall
+
+Represents a single call on the blockchain that can be included in multicall.
+
+Fields:
+
+- ``address: string`` - address of a contract to call
+
+- ``data: string`` - calldata of the call that encodes function call
+
+- ``chainId: number`` - chain id of the chain to perform the call on
+
+
 ### ChainCall
 
 Represents a single call on the blockchain that can be included in multicall.

@@ -1,3 +1,5 @@
+// NOTE: We explicitly export the symbols in the root index.ts file to have better control over package's public API.
+
 export {
   ChainId,
   BNB,
