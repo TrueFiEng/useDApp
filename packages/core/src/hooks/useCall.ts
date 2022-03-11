@@ -40,7 +40,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * A syntax sugar for useRawCalls that uses ABI, function name, and arguments instead of raw data.
  * @param calls a list of contract calls , also see {@link Call}.
  * @param queryParams see {@link QueryParams}.
- * @returns 
+ * @returns a list of results (see {@link CallResult} in {@link useCall} above).
  */
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
   const { network } = useNetwork()
