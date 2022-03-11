@@ -24,7 +24,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/TrueFiEng/useDApp/tree/docosaurus/packages/docs/',
+          editUrl: 'https://github.com/TrueFiEng/useDApp/tree/master/packages/docs/',
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
           ],
@@ -33,7 +33,7 @@ const config = {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/TrueFiEng/useDApp/tree/docosaurus/packages/docs/',
+            'https://github.com/TrueFiEng/useDApp/tree/master/packages/docs/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
