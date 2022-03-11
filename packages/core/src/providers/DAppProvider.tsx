@@ -11,11 +11,18 @@ import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, InjectedNetworkProvider, ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 
-interface DAppProviderProps {
-  children: ReactNode
+export interface DAppProviderProps {
+  children?: ReactNode
+  /**
+   * Configuration of the DApp. See {@link Config} for more details.
+   */
   config: Config
 }
 
+/**
+ * Provides basic services for a DApp.
+ * @public
+ */
 export function DAppProvider({ config, children }: DAppProviderProps) {
   return (
     <ConfigProvider config={config}>

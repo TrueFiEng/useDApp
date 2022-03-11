@@ -43,6 +43,9 @@ export function getUniqueCalls(requests: RawCall[]) {
   return unique
 }
 
+/**
+ * @public
+ */
 export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
   | { value: Awaited<ReturnType<T['functions'][MN]>>; error: undefined }
   | { value: undefined; error: Error }
