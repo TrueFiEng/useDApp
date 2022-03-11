@@ -13,14 +13,15 @@ See the [Getting Started](../getting-started.mdx) guide if you are a new user.
 
 ## Motivation
 
-The most common approach for a DApp is to operate on a single chain. But there are some use cases when one would want to display or/and modify data on multiple chains simultaneously. 
+The most common approach for a DApp is to operate on a single chain. But there are some use cases when one would want to display data from multiple chains simultaneously. 
 
-`useDApp` has inbuilt multichain support.
+`useDApp` has built-in multichain support.
 
-In this tutorial we will create a simple DApp that will display simultaneously balance of some address on Mainnet and balance of another address on Kovan.
+In this tutorial we will create a simple DApp that will display simultaneously balance of the address both on Mainnet and Kovan.
 
 ## Add Kovan network to config
 
+As a first step we need to add the Kovan network configuration. As Kovan is a network supported by default in `useDApp`, the only thing we have to do is to specify an endpoint where requests can be sent to. In our case we will use Infura - free Etherum API, that also supports the Kovan testnet. 
 Please make the following changes to the app's entrypoint file. 
 ````diff
   import {
@@ -66,17 +67,16 @@ import React from 'react'
 import { Kovan, Mainnet, useEtherBalance } from "@usedapp/core"
 import { formatEther } from '@ethersproject/units'
 
-const mainnetAddress = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC'
-const kovanAddress = '0x65CfF9525915291C1F976BfDe85a99058d62fF82'
+const address = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC'
 
 export const Multichain = () => {
-  const mainnetBalance = useEtherBalance(mainnetAddress, { chainId: Mainnet.chainId })
-  const kovanBalance = useEtherBalance(kovanAddress, { chainId: Kovan.chainId })
+  const mainnetBalance = useEtherBalance(address, { chainId: Mainnet.chainId })
+  const kovanBalance = useEtherBalance(address, { chainId: Kovan.chainId })
 
   return (
     <>
-      <div> {mainnetAddress} balance on Mainnet: {mainnetBalance && formatEther(mainnetBalance)}. </div>
-      <div> {kovanAddress} balance on Kovan: {kovanBalance && formatEther(kovanBalance)}. </div>
+      <div> {address} balance on Mainnet: {mainnetBalance && formatEther(mainnetBalance)}. </div>
+      <div> {address} balance on Kovan: {kovanBalance && formatEther(kovanBalance)}. </div>
     </>
   )
 }
