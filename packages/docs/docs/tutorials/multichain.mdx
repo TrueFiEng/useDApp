@@ -1,0 +1,100 @@
+---
+sidebar_position: 8
+
+---
+
+# Using multichain
+
+## Prerequisites
+
+The tutorial assumes the user has already started with the basics of `useDApp`.
+
+See the [Getting Started](../getting-started.mdx) guide if you are a new user.
+
+## Motivation
+
+The most common approach for a DApp is to operate on a single chain. But there are some use cases when one would want to display or/and modify data on multiple chains simultaneously. 
+
+`useDApp` has inbuilt multichain support.
+
+In this tutorial we will create a simple DApp that will display simultaneously balance on some address on Mainnet and balance of another address on Kovan.
+
+## Add Kovan network to config
+
+Please make the following changes to the app's entrypoint file. 
+````diff
+  import {
+    Mainnet,
+    Kovan,
+    DAppProvider,
+    useEtherBalance,
+    useEthers,
+    Config
+  } from '@usedapp/core'
+  import { formatEther } from '@ethersproject/units'
+
+  import App from 'App'
+
+  const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
++     [Kovan.chainId]: 'https://kovan.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+  }
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <DAppProvider config={config}>
+        <App />
+      </DAppProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  )
+````
+
+## Display balances on Mainnet and Kovan
+
+Our app will be based on a one described in the [Getting Started](../getting-started.mdx) guide.
+
+Create a file named `Multichain.tsx` and add the following code.
+
+#### **`Multichain.tsx`**
+
+```tsx
+import React from 'react'
+import { Kovan, Mainnet, useEtherBalance } from "@usedapp/core"
+import { formatEther } from '@ethersproject/units';
+
+const mainnetAddress = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC';
+const kovanAddress = '0x65CfF9525915291C1F976BfDe85a99058d62fF82';
+
+export const Multichain = () => {
+  const mainnetBalance = useEtherBalance(mainnetAddress, { chainId: Mainnet.chainId })
+  const kovanBalance = useEtherBalance(kovanAddress, { chainId: Kovan.chainId })
+
+  return (
+    <>
+      <div> {mainnetAddress} balance on Mainnet: {mainnetBalance && formatEther(mainnetBalance)}. </div>
+      <div> {kovanAddress} balance on Kovan: {kovanBalance && formatEther(kovanBalance)}. </div>
+    </>
+  )
+}
+```
+
+In `App.tsx` we will import `Multichain` and render it.
+
+#### **`App.tsx`**
+
+```tsx
+import React from 'react'
+
+import { Multichain } from './Multichain'
+
+const App = () => <Multichain />
+
+export default App
+
+```
+
+Now after running the app, you should see the balances on both chains.
