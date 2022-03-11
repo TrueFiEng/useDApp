@@ -25,7 +25,7 @@ export type Chain = {
   multicall2Address?: string
   /**
    * A function to construct a link to a blockchain explorer, based on an ethereum address.
-   */ 
+   */
   getExplorerAddressLink: (address: string) => string
   /**
    * A function to construct a link to a blockchain explorer, based on a transaction hash.
