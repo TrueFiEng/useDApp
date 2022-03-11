@@ -67,7 +67,7 @@ If the chain is a local development chain, the Multicall contract is automatical
 
 ## Include your custom chain in Config
 
-With the custom chain config created and saved in `tutorial-chain.ts` file, you can include it in `useDApp` Config object that was introduced in [Getting Started example](../getting-started.mdx#example).
+With the custom chain config created and saved in `tutorial-chain.ts` file, you can include it in `useDApp` Config object that was introduced in the [Getting Started example](../getting-started.mdx#example).
 
 The new Config object with your custom chain will be passed into the `<DAppProvider>` component.
 
@@ -109,7 +109,6 @@ You're fully setup - now in the `<App>` component, you can use the functionality
 ## Send a PR to `useDApp` (optional)
 
 If you want to add your custom chain to the list of known chains, you can send a PR to the [useDApp repository](https://github.com/TrueFiEng/useDApp).
-The PR will be reviewed in the shortest possible time.
 In your PR, please make sure to include the following changes:
 
 - Add file describing your chain to the `packages/core/src/model/chain` directory. Please name the file `<chainName>.ts`. For example, if your chain is called `TutorialChain`, the file name should be `tutorial-chain.ts`. The file should export one object that implements the `Chain` interface. The example chain object is provided in the first step of this tutorial.
