@@ -29,7 +29,8 @@ Below is a simple example:
 
 .. code-block:: javascript
 
-  import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
+  import { Mainnet, DAppProvider, useEtherBalance, useEthers } from '@usedapp/core'
+  import type { Config } from '@usedapp/core'
   import { formatEther } from '@ethersproject/units'
 
   const config: Config = {
