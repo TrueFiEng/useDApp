@@ -39,7 +39,9 @@ export * from './bar';
 
 ### Writing JSDocs
 
-All public symbols must have JSDoc documentation. It should be written in full sentences with proper punctuation.
+All public symbols must have JSDoc documentation.
+It should be written in full sentences with proper punctuation.
+Prefer to add newlines after sentences so that lines don't get too long.
 
 - Use `@public` to mark public APIs.
 - Use `@deprecated` to mark deprecated APIs.
