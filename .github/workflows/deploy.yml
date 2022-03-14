@@ -40,3 +40,15 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
+      - name: Deploy usedapp.io
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          enable-commit-comment: true
+          enable-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          overwrites-pull-request-comment: true
+          production-deploy: ${{ github.event_name != 'pull_request' }}
+          publish-dir: packages/website/dist
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_LANDING_SITE_ID }}
