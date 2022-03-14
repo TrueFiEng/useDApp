@@ -9,7 +9,7 @@ sidebar_position: 3
 Example is available [here](https://example.usedapp.io/send).
 
 Sending transactions is really simple with useDApp. All we need to send a simple transaction,
-is to use [useSendTransaction](./core#usesendtransaction) hook, which returns a ``sendTransaction`` function and ``state`` object.
+is to use [useSendTransaction](../core#usesendtransaction) hook, which returns a ``sendTransaction`` function and ``state`` object.
 
 **Example**
 
@@ -46,7 +46,7 @@ Example below clears inputs and enables all disabled components back:
 ## Executing contract function
 
 To send a transaction that executes a function of a contract on a blockchain, you can use a [useContractFunction](./core#usecontractfunction) hook,
-it works similarly to [useSendTransaction](./core#usesendtransaction). It returns a ``send`` function that we can use to call a contract function and ``state`` object.
+it works similarly to [useSendTransaction](../core#usesendtransaction). It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
 To use ``useContractFunction`` we need to supply it with a Contract of type [Contract](https://docs.ethers.io/v5/api/contract/contract/).
 And a string ``functionName``.
@@ -92,7 +92,7 @@ Withdraw function needs amount of ether to withdraw as a input argument.
 
 ## History
 
-See [useSendTransaction](./core#usesendtransaction).
+See [useSendTransaction](../core#usesendtransaction).
 
 To access history of transactions, use ``useTransactions`` hook.
 

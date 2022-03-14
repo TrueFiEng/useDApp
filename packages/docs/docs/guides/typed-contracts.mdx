@@ -4,9 +4,9 @@ sidebar_position: 4
 
 # Using typed contract calls and functions
 
-[useContractFunction](./core#usecontractfunction) hook accepts as first parameter both ethers [Contract](https://docs.ethers.io/v5/api/contract/contract/) and typechain generated contract [typechain](https://github.com/dethcrypto/TypeChain) (which extends ethers contract with function types).
+[useContractFunction](../core#usecontractfunction) hook accepts as first parameter both ethers [Contract](https://docs.ethers.io/v5/api/contract/contract/) and typechain generated contract [typechain](https://github.com/dethcrypto/TypeChain) (which extends ethers contract with function types).
 If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
-In [useCall](./core#usecall) if typed `Call` is used as parameter then function will be type checked.
+In [useCall](../core#usecall) if typed `Call` is used as parameter then function will be type checked.
 If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
 
 ## Example
