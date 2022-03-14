@@ -4,7 +4,7 @@ import { useToken } from '..'
 import { expect } from 'chai'
 import { renderWeb3Hook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../testing'
 
-describe('useToken', async() => {
+describe('useToken', async () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let token: Contract

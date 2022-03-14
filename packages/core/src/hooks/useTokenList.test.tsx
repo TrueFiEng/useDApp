@@ -21,7 +21,7 @@ describe('useTokenList', () => {
 
   it('returns token list', async () => {
     fetchMock.mock('http://example.com', tokens)
-    
+
     const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenList('http://example.com'), {})
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
