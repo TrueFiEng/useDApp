@@ -30,7 +30,7 @@ In example below ``setDisabled(true)`` sets input components to disabled while t
   }
 ```
 
-After that you can use state to check the state of your transaction. State is of type [TransactionStatus](./core#transactionstatus).
+After that you can use state to check the state of your transaction. State is of type [TransactionStatus](../core#transactionstatus).
 Example below clears inputs and enables all disabled components back:
 
 ```tsx
@@ -45,7 +45,7 @@ Example below clears inputs and enables all disabled components back:
 
 ## Executing contract function
 
-To send a transaction that executes a function of a contract on a blockchain, you can use a [useContractFunction](./core#usecontractfunction) hook,
+To send a transaction that executes a function of a contract on a blockchain, you can use a [useContractFunction](../core#usecontractfunction) hook,
 it works similarly to [useSendTransaction](../core#usesendtransaction). It returns a ``send`` function that we can use to call a contract function and ``state`` object.
 
 To use ``useContractFunction`` we need to supply it with a Contract of type [Contract](https://docs.ethers.io/v5/api/contract/contract/).
@@ -121,7 +121,7 @@ For example:
 
 ## Notifications
 
-See [useSendTransaction](./core#usesendtransaction).
+See [useSendTransaction](../core#usesendtransaction).
 
 To use notifications in your app simply call:
 
