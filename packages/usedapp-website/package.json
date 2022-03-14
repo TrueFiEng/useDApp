@@ -1,0 +1,21 @@
+{
+  "name": "use-dapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "gulp build",
+    "lint": "true",
+    "test": "true",
+    "compile:sass": "node-sass sass/main.scss css/main.css -w",
+    "gulp": "gulp"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-sass": "^5.0.0",
+    "sass": "^1.43.4"
+  }
+}
