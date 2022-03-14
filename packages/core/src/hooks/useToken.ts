@@ -3,6 +3,9 @@ import { Falsy } from '../model/types'
 import { ContractCall, useContractCalls } from './useContractCall'
 import { TokenInfo } from '../model/TokenInfo'
 
+/**
+ * @public
+ */
 export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
   const partialCall = {
     abi: ERC20Interface,

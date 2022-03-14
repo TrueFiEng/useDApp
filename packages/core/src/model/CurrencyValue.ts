@@ -2,6 +2,9 @@ import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { Currency } from './Currency'
 import { CurrencyFormatOptions } from './formatting'
 
+/**
+ * @public
+ */
 export class CurrencyValue {
   constructor(readonly currency: Currency, readonly value: BigNumber) {}
 

@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export type RawCallResult =
   | {
       value: string

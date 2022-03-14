@@ -1,5 +1,8 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 
+/**
+ * @public
+ */
 export interface StoredTransaction {
   transaction: TransactionResponse
   submittedAt: number
@@ -9,6 +12,9 @@ export interface StoredTransaction {
   originalTransaction?: TransactionResponse
 }
 
+/**
+ * @public
+ */
 export function getStoredTransactionState(transaction: StoredTransaction) {
   if (transaction.receipt) {
     return transaction.receipt.status === 0 ? 'Fail' : 'Success'
@@ -16,6 +22,9 @@ export function getStoredTransactionState(transaction: StoredTransaction) {
   return 'Mining'
 }
 
+/**
+ * @public
+ */
 export type StoredTransactions = {
   [chainID: number]: StoredTransaction[]
 }

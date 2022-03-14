@@ -4,6 +4,9 @@ import { QueryParams } from '../constants/type/QueryParams'
 import { Falsy } from '../model/types'
 import { useContractCall } from './useContractCall'
 
+/**
+ * @public
+ */
 export function useTokenAllowance(
   tokenAddress: string | Falsy,
   ownerAddress: string | Falsy,

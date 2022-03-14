@@ -23,6 +23,9 @@ export const NetworkContext = createContext<{
   deactivate: () => undefined,
 })
 
+/**
+ * @public
+ */
 export function useNetwork() {
   return useContext(NetworkContext)
 }
