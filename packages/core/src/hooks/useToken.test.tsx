@@ -4,16 +4,10 @@ import { useToken } from '..'
 import { expect } from 'chai'
 import { renderWeb3Hook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../testing'
 
-describe('useToken', () => {
+describe('useToken', async() => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let token: Contract
-  const mockTokenData = {
-    name: 'MOCKToken',
-    symbol: 'MOCK',
-    decimals: 18,
-    totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
-  }
 
   beforeEach(async () => {
     token = await deployMockToken(deployer)
@@ -25,6 +19,11 @@ describe('useToken', () => {
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.deep.equal(mockTokenData)
+    expect(result.current).to.deep.equal({
+      name: 'MOCKToken',
+      symbol: 'MOCK',
+      decimals: 18,
+      totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
+    })
   })
 })
