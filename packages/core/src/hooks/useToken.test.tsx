@@ -12,7 +12,7 @@ describe('useToken', () => {
     name: 'MOCKToken',
     symbol: 'MOCK',
     decimals: 18,
-    totalSupply: MOCK_TOKEN_INITIAL_BALANCE
+    totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
   }
 
   beforeEach(async () => {

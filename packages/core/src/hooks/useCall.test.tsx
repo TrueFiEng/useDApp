@@ -15,9 +15,9 @@ describe('useCall', () => {
 
   it('initial test balance to be correct', async () => {
     const callData = {
-        contract: token,
-        method: 'balanceOf',
-        args: [deployer.address],
+      contract: token,
+      method: 'balanceOf',
+      args: [deployer.address],
     }
     const { result, waitForCurrent } = await renderWeb3Hook(() => useCall(callData), {
       mockProvider,

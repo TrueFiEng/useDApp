@@ -11,13 +11,13 @@ describe('useTokenList', () => {
       name: 'Aave',
       symbol: 'AAVE',
       decimals: 18,
-      logoURI: 'https://assets.coingecko.com/coins/images/12645/thumb/AAVE.png?1601374110'
-    }
+      logoURI: 'https://assets.coingecko.com/coins/images/12645/thumb/AAVE.png?1601374110',
+    },
   ]
   const tokens = {
     name: 'Uniswap Labs List',
     logoURI: 'ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir',
-    tokens: tokenList
+    tokens: tokenList,
   }
 
   it('returns token list', async () => {

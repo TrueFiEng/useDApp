@@ -17,13 +17,16 @@ describe('useChainCall', () => {
 
   it('initial test balance to be correct', async () => {
     const callData = {
-        contract: token,
-        method: 'balanceOf',
-        args: [deployer.address],
+      contract: token,
+      method: 'balanceOf',
+      args: [deployer.address],
     }
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useChainCall(encodeCallData(callData, ChainId.Localhost)), {
-      mockProvider,
-    })
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useChainCall(encodeCallData(callData, ChainId.Localhost)),
+      {
+        mockProvider,
+      }
+    )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
