@@ -373,7 +373,7 @@ importers:
       prettier: 2.1.2
       typescript: 4.6.2
 
-  packages/usedapp-website:
+  packages/website:
     specifiers:
       browser-sync: ^2.26.3
       del: ^3.0.0
@@ -8475,7 +8475,7 @@ packages:
       glob-parent: 3.1.0
       inherits: 2.0.4
       is-binary-path: 1.0.1
-      is-glob: 4.0.1
+      is-glob: 4.0.3
       normalize-path: 3.0.0
       path-is-absolute: 1.0.1
       readdirp: 2.2.1
