@@ -17,5 +17,6 @@
     "gulp-autoprefixer": "^4.0.0",
     "gulp-sass": "^5.0.0",
     "sass": "^1.43.4"
-  }
+  },
+  "private": true
 }
