@@ -15,7 +15,7 @@ describe('useChainCall', () => {
     token = await deployMockToken(deployer)
   })
 
-  it.only('initial test balance to be correct', async () => {
+  it('initial test balance to be correct', async () => {
     const callData = {
         contract: token,
         method: 'balanceOf',
