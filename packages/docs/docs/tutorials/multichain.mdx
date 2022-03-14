@@ -17,16 +17,16 @@ The most common approach for a DApp is to operate on a single chain. But there a
 
 `useDApp` has built-in multichain support.
 
-In this tutorial we will create a simple DApp that will display simultaneously balance of the address both on Mainnet and Kovan.
+In this tutorial we will create a simple DApp that will display simultaneously balance of an address both on Mainnet and om Kovan.
 
-## Add Kovan network to config
+## Add Kovan network to the config
 
 As a first step we need to add the Kovan network configuration. As Kovan is a network supported by default in `useDApp`, the only thing we have to do is to specify an endpoint where requests can be sent to. In our case we will use Infura - free Etherum API, that also supports the Kovan testnet. 
 Please make the following changes to the app's entrypoint file. 
 ````diff
   import {
     Mainnet,
-    Kovan,
++   Kovan,
     DAppProvider,
     useEtherBalance,
     useEthers,
@@ -54,13 +54,13 @@ Please make the following changes to the app's entrypoint file.
   )
 ````
 
-## Display balances on Mainnet and Kovan
+## Display balances on Mainnet and on Kovan
 
-Our app will be based on a one described in the [Getting Started](../getting-started.mdx) guide.
+Our app will be based on one described in the [Getting Started](../getting-started.mdx) guide.
 
-Create a file named `Multichain.tsx` and add the following code.
+Populate the `App.tsx` file with the following code.
 
-#### **`Multichain.tsx`**
+#### **`App.tsx`**
 
 ```tsx
 import React from 'react'
@@ -69,7 +69,7 @@ import { formatEther } from '@ethersproject/units'
 
 const address = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC'
 
-export const Multichain = () => {
+export const App = () => {
   const mainnetBalance = useEtherBalance(address, { chainId: Mainnet.chainId })
   const kovanBalance = useEtherBalance(address, { chainId: Kovan.chainId })
 
@@ -80,21 +80,14 @@ export const Multichain = () => {
     </>
   )
 }
+
+export default App;
 ```
 
-In `App.tsx` we will import `Multichain` and render it.
-
-#### **`App.tsx`**
-
-```tsx
-import React from 'react'
-
-import { Multichain } from './Multichain'
-
-const App = () => <Multichain />
-
-export default App
-
-```
+This will take the `0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC` address and display the ether balance of it on both chains.
 
 Now after running the app, you should see the balances on both chains.
+
+## Summary
+
+In this tutorial we created a simple DApp that displays the balance of an address on two chains. This demonstrates how to display data from different chains using `useDApp`. 
