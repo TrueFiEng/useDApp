@@ -10,6 +10,9 @@ type SupportedProviders =
   | ExternalProvider
   | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
 
+/**
+ * @public
+ */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
   setError: (error: Error) => void
@@ -23,6 +26,9 @@ export type Web3Ethers = {
   activateBrowserWallet: () => void
 }
 
+/**
+ * @public
+ */
 export function useEthers(): Web3Ethers {
   const {
     network: { provider, chainId, accounts, errors },

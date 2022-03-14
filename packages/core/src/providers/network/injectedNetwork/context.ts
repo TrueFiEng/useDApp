@@ -9,6 +9,9 @@ export const InjectedNetworkContext = createContext<{
   connect: async () => undefined,
 })
 
+/**
+ * @public
+ */
 export function useInjectedNetwork() {
   return useContext(InjectedNetworkContext)
 }

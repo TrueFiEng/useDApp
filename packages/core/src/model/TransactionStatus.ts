@@ -1,7 +1,13 @@
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
 
+/**
+ * @public
+ */
 export type TransactionState = 'None' | 'PendingSignature' | 'Mining' | 'Success' | 'Fail' | 'Exception'
 
+/**
+ * @public
+ */
 export interface TransactionStatus {
   status: TransactionState
   transaction?: TransactionResponse
@@ -11,6 +17,9 @@ export interface TransactionStatus {
   originalTransaction?: TransactionResponse
 }
 
+/**
+ * @public
+ */
 export function transactionErrored(transaction: TransactionStatus) {
   return 'errorMessage' in transaction
 }

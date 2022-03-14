@@ -23,6 +23,9 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
   throw new TypeError('No signer available in contract, options or library')
 }
 
+/**
+ * @public
+ */
 export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
   contract: T,
   functionName: FN,

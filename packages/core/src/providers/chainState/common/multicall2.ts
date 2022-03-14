@@ -7,6 +7,9 @@ const ABI = [
   'function tryAggregate(bool requireSuccess, tuple(address target, bytes callData)[] calls) public view returns (tuple(bool success, bytes returnData)[])',
 ]
 
+/**
+ * @public
+ */
 export async function multicall2(
   provider: Provider,
   address: string,

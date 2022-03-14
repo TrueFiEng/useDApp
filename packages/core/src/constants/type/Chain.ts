@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export type Chain = {
   /**
    * The ID of the chain. Every chain has a unique chainID.

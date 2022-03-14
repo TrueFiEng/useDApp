@@ -5,6 +5,7 @@ import { useChainCalls } from './useChainCalls'
 import { RawCall, useNetwork } from '../providers'
 import { ChainId } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'
+import type { useCall, useCalls } from './useCall'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -28,6 +29,10 @@ function encodeCallData(call: ContractCall | Falsy, chainId: ChainId): RawCall |
   }
 }
 
+/**
+ * @public
+ * @deprecated Use {@link useCall} instead.
+ */
 export interface ContractCall {
   abi: Interface
   address: string
@@ -35,10 +40,18 @@ export interface ContractCall {
   args: any[]
 }
 
+/**
+ * @public
+ * @deprecated Use {@link useCalls} instead.
+ */
 export function useContractCall(call: ContractCall | Falsy, queryParams: QueryParams = {}): any[] | undefined {
   return useContractCalls([call], queryParams)[0]
 }
 
+/**
+ * @public
+ * @deprecated Use {@link useCall} instead.
+ */
 export function useContractCalls(
   calls: (ContractCall | Falsy)[],
   queryParams: QueryParams = {}

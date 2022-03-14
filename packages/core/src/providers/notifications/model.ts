@@ -19,18 +19,30 @@ type NotificationPayload = { submittedAt: number } & (
   | { type: 'walletConnected'; address: string }
 )
 
+/**
+ * @public
+ */
 export type Notification = { id: string } & NotificationPayload
 
+/**
+ * @public
+ */
 export type AddNotificationPayload = {
   chainId: number
   notification: NotificationPayload
 }
 
+/**
+ * @public
+ */
 export type RemoveNotificationPayload = {
   chainId: number
   notificationId: string
 }
 
+/**
+ * @public
+ */
 export type Notifications = {
   [chainID: number]: Notification[]
 }

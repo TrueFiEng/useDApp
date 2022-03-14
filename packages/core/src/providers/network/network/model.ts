@@ -1,5 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
 
+/**
+ * @public
+ */
 export interface Network {
   provider?: JsonRpcProvider
   chainId?: number
