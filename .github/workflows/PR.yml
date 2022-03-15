@@ -6,7 +6,7 @@ jobs:
   emoji:
     name: Pull Request should start from emoji
     runs-on: ubuntu-latest
-    steps:
+    steps:all
       - uses: deepakputhraya/action-pr-title@v1.0.2
         with:
           # Check if first character is an emoji, regex borrowed from https://medium.com/reactnative/emojis-in-javascript-f693d0eb79fb#.enomgcu63
