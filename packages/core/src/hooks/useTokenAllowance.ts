@@ -25,5 +25,5 @@ export function useTokenAllowance(
         },
       queryParams
     ) ?? {}
-  return allowance
+  return allowance?.[0]
 }

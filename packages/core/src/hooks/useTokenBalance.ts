@@ -23,5 +23,5 @@ export function useTokenBalance(
         },
       queryParams
     ) ?? {}
-  return tokenBalance
+  return tokenBalance?.[0]
 }

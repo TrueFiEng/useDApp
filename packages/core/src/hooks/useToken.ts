@@ -21,9 +21,9 @@ export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
   }
 
   return {
-    name: name?.value ?? '',
-    symbol: symbol?.value ?? '',
-    decimals: decimals?.value,
-    totalSupply: totalSupply?.value,
+    name: name?.value[0] ?? '',
+    symbol: symbol?.value[0] ?? '',
+    decimals: decimals?.value[0],
+    totalSupply: totalSupply?.value[0],
   }
 }
