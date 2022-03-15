@@ -65,10 +65,12 @@ describe('useRawCall', () => {
             chainId
           )
         ),
-      {
-        mockProvider,
-        otherProvider: secondMockProvider,
-      }
+        {
+          mockProvider: { 
+          [ChainId.Localhost]: mockProvider,
+          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+          }
+        }
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined

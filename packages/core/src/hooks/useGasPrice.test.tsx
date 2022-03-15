@@ -5,7 +5,8 @@ import { MockProvider } from 'ethereum-waffle'
 import { ChainId } from '../constants/chainId'
 
 describe('useGasPrice', () => {
-  const otherMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const mockProvider = new MockProvider()
+  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
 
   it('retrieves gas price', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useGasPrice)
@@ -21,8 +22,11 @@ describe('useGasPrice', () => {
   })
 
   const testMultiChainUseGasPrice = async (chainId: number) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useGasPrice({ chainId }), {
-      otherProvider: otherMockProvider,
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useGasPrice({ chainId }),       {
+      mockProvider: { 
+      [ChainId.Localhost]: mockProvider,
+      [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+      }
     })
 
     await waitForCurrent((val) => val !== undefined)
