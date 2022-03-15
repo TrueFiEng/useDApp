@@ -17,29 +17,12 @@ const config: Config = {
   },
 }
 
-console.log('THIS RUNS')
-
-
-
-const intervalId = setInterval(() => {
-  if(document.getElementById('root123')) {
-    clearInterval(intervalId)
-
-    ReactDOM.render(
-      <React.StrictMode>
-        <DAppProvider config={config}>
-          <App />
-        </DAppProvider>
-      </React.StrictMode>,
-      document.getElementById('root123')
-    )
-
-  }
-}, 100)
-
-// document.onload = () => {
-//   console.log(document.getElementById('root123'))
-// }
+ReactDOM.render(
+  <DAppProvider config={config}>
+    <App />
+  </DAppProvider>,
+  document.getElementById('root')
+)
 
 export function App() {
   const { activateBrowserWallet, account } = useEthers()

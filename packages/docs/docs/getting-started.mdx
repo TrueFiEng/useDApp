@@ -18,86 +18,21 @@ npm install @usedapp/core
 
 ## Example
 
-### outside of iframe
+import {setup, CodeWrapper} from '../src/examples/setup';
+const root = 'getting-started-example';
+const {render} = setup({root});
+import {App as GettingStartedApp} from '../src/examples/GettingStarted.tsx';
+import * as GettingStartedCode from '../loader.js!../src/examples/GettingStarted.tsx'
 
-<div id="root123"></div>
-{require('../src/examples/GettingStarted.tsx'), void 0}
-<p>End</p>
+<div id={root}>Loading example...</div>
 
-<!-- ### In iframe -->
+<>{render(GettingStartedApp)}</>
 
-<!-- <iframe srcDoc="
-  <html>
-    <body>
-      <div id='root'></div>
-      <script src='/dist/GettingStarted.js'></script>
-    </body>
-  </html>
-"/> -->
+---
 
-<!-- # ../src/examples/GettingStarted.tsx' -> /dist/GettingStarted.js -->
-
-<!-- Below is a simple example: -->
-<!--  -->
-<!-- import 'setimmediate'; -->
-<!-- import * as TaskApp from '@dxos/demo-task-app/src/TaskApp.js?@dxos/showcase'; -->
-<!-- import { ShowcaseComponent } from '@dxos/showcase'; -->
-
-<!-- import * as GettingStartedExample from '../loader.js!../src/examples/GettingStarted.tsx'
-
-<>
-<br/>
-{JSON.stringify(GettingStartedExample, null, 4)}
-</> -->
-
-
-### Old example
-
-
-```tsx
-  import {
-    Mainnet,
-    DAppProvider,
-    useEtherBalance,
-    useEthers,
-    Config,
-  } from '@usedapp/core'
-  import { formatEther } from '@ethersproject/units'
-
-  const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
-    },
-  }
-
-  ReactDOM.render(
-    <React.StrictMode>
-      <DAppProvider config={config}>
-        <App />
-      </DAppProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
-  )
-
-  export function App() {
-    const { activateBrowserWallet, account } = useEthers()
-    const etherBalance = useEtherBalance(account)
-    return (
-      <div>
-        <div>
-          <button onClick={() => activateBrowserWallet()}>Connect</button>
-        </div>
-        {account && <p>Account: {account}</p>}
-        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
-      </div>
-    )
-  }
-```
-
-Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/EthWorks/useDapp/tree/master/packages/example).
-
-Let's go over it step by step.
+<CodeWrapper title="App.tsx">
+  {GettingStartedCode.rawContent.ts}
+</CodeWrapper>
 
 ## Setup
 
