@@ -18,7 +18,41 @@ npm install @usedapp/core
 
 ## Example
 
-Below is a simple example:
+### outside of iframe
+
+<div id="root123"></div>
+{require('../src/examples/GettingStarted.tsx'), void 0}
+<p>End</p>
+
+<!-- ### In iframe -->
+
+<!-- <iframe srcDoc="
+  <html>
+    <body>
+      <div id='root'></div>
+      <script src='/dist/GettingStarted.js'></script>
+    </body>
+  </html>
+"/> -->
+
+<!-- # ../src/examples/GettingStarted.tsx' -> /dist/GettingStarted.js -->
+
+<!-- Below is a simple example: -->
+<!--  -->
+<!-- import 'setimmediate'; -->
+<!-- import * as TaskApp from '@dxos/demo-task-app/src/TaskApp.js?@dxos/showcase'; -->
+<!-- import { ShowcaseComponent } from '@dxos/showcase'; -->
+
+<!-- import * as GettingStartedExample from '../loader.js!../src/examples/GettingStarted.tsx'
+
+<>
+<br/>
+{JSON.stringify(GettingStartedExample, null, 4)}
+</> -->
+
+
+### Old example
+
 
 ```tsx
   import {
