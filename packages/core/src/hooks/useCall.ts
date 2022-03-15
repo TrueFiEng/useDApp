@@ -30,7 +30,7 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  */
 export function useCall<T extends TypedContract, MN extends ContractMethodNames<T>>(
   call: Call<T, MN> | Falsy,
-  queryParams: QueryParams = {},
+  queryParams: QueryParams = {}
 ): CallResult<T, MN> {
   return useCalls([call], queryParams)[0]
 }
