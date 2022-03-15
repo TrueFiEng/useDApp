@@ -5,9 +5,6 @@ const originalRender: ReactDOM.Renderer = ReactDOM.render.bind(ReactDOM);
 (ReactDOM as any).render = () => {
   // Not rendering anything, overriding default behaviour of App examples.
 }
-export interface SetupResult {
-  render: (Component: any, root: string) => void
-}
 
 export const render = (Component, root) => {
   const intervalId = setInterval(() => {
