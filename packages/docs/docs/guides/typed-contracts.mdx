@@ -21,7 +21,7 @@ npm run typechain --target=ethers-v5 [path to json files] --out-dir=[output dire
 ```
 
 The common pattern in this case is to include type generation script into your `package.json` file and invoke it before `build` command.
-```json
+```json title="package.json"
 {
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
@@ -35,9 +35,7 @@ In the example above we assume that all of the contracts' ABI definitions are un
 
 In this section we'll show how to use the `useCall` hook with the generated types. We'll use `Weth10` contract as an example. We'll assume that the `package.json` file contains type generating commands as described in the previous section - that's the `Weth10` contract's ABI is placed in the `src/abi` directory, the generated types are saved to `gen/types`. Let's create a simple component that displays the current `Weth10` balance of the current user.
 
-#### **`src/Weth10Balance.tsx`**
-
-```tsx
+```tsx title="src/Weth10Balance.tsx"
 import React from 'react'
 
 import { utils } from 'ethers'
@@ -74,9 +72,7 @@ In the code above the variable `value` is of the type `[BigNumber] | undefined`.
 
 The `useContractFunction` hook supports type checking as well. Let's create a similar example as in case of `useCall` hook, but this time we'll use the `deposit` method of the `Weth10` contract.
 
-#### **`src/DepositWeth.tsx`**
-
-```tsx
+```tsx title="src/DepositWeth.tsx"
 import React from 'react'
 
 import { utils } from 'ethers'
