@@ -81,8 +81,6 @@ export {
   useCall,
   useCalls,
   useChainMeta,
-  useContractCall,
-  useContractCalls,
   useContractFunction,
   useEtherBalance,
   useEthers,
@@ -98,6 +96,8 @@ export {
   TokenList,
   useTransactions,
   // To be removed from public API:
+  useContractCall,
+  useContractCalls,
   useChainCall,
   useChainCalls,
   useChainState,
