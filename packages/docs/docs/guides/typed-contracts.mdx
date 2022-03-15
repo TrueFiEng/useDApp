@@ -4,26 +4,68 @@ sidebar_position: 4
 
 # Using typed contract calls and functions
 
-[useContractFunction](../core#usecontractfunction) hook accepts as first parameter both ethers [Contract](https://docs.ethers.io/v5/api/contract/contract/) and typechain generated contract [typechain](https://github.com/dethcrypto/TypeChain) (which extends ethers contract with function types).
-If typechain contract or contract following typechain schema is used as argument than function name and send function arguments will be typechecked.
-In [useCall](../core#usecall) if typed `Call` is used as parameter then function will be type checked.
-If ethers contract is used then no type checking will be done and any function or method name and any args can be supplied.
+`useDapp` provides support for [`typechain](https://www.npmjs.com/package/typechain) by default. When using typescript, you can generate types for the contracts you use and take advantage of type checking in your code. 
 
-## Example
+## Typechain usage
 
-To use typechain packages typechain and @typechain/ethers-v5 need to be added to repository.
-After that typechain contracts can be generated from json abi with following command
+To use typechain packages `typechain` and `@typechain/ethers-v5` need to be added to the repository.
 
 ```bash npm2yarn
-npm run typechain --target=ethers-v5 [path to json files] --out-dir=[outdir]
+npm install typechain @typechain/ethers-v5
 ```
 
-With that type checking can be used in functions
+After that typechain contracts can be generated from the contracts' json ABI with the following command:
 
-```typescript
-import { Weth10 } from '../../../contracts'
-import WethAbi from '../../abi/Weth10.json'
+```bash npm2yarn
+npm run typechain --target=ethers-v5 [path to json files] --out-dir=[output directory]
+```
+
+The common pattern in this case is to include type generation script into your `package.json` file and invoke it before `build` command.
+```json
+{
+  "scripts": {
+    "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
+    "build": "yarn typechain:generate && <your build script>"
+  }
+}
+```
+In the example above we assume that all of the contracts' ABI definitions are under `src/abi` directory. The generated typescript files will be placed in `gen/types` directory - you'll be able to import them in your code.
+
+## useCall hook
+
+In this section we'll show how to use the generated types in your code. We'll use `Weth10` contract as an example.We'll assume that the `package.json` file contains type generating commands as described in the previous section - that's the `Weth10` contract's ABI is placed in the `src/abi` directory, the generated types are saved to `gen/types`. Let's create a simple component that displays the current `Weth10` balance of the current user.
+
+#### **`src/Weth10Balance.tsx`**
+
+```tsx
+import React from 'react'
+
+import { utils } from 'ethers'
+import { Contract } from '@ethersproject/contracts'
+
+import { useCall, useEthers } from '@usedapp/core'
+
+import { Weth10 } from '../../gen/types'
+import WethAbi from '../abi/Weth10.json'
+
+
+const wethInterface = new utils.Interface(WethAbi)
 const contract = new Contract(wethContractAddress, wethInterface) as Weth10
-const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
-const [balance] = useCall({contract: contract, typedMethod:'balanceOf', typedArgs:[account ?? '']}) ?? []
+
+export const Weth10Balance = () => {
+  const { account } = useEthers()
+  const { value, error } = useCall({ contract, method: 'balanceOf', args: [account ?? ''] }) ?? {}
+
+  if (error) {
+    return <div> {error.message} </div>
+  }
+
+  if (!value) {
+    return <div> Loading... </div>
+  }
+  
+  return <div> Balance: {value[0]} </div>
+}
 ```
+
+In the code above the variable `value` is of the type `[BigNumber] | undefined`. This is because of the contract type support provided by the `useCall` hook. The `balanceOf` method of the `Weth10` contract returns a single number, but beacuse other smart contracts methods can return tuples of values, it has to be wrapped in a list to be compliant. The type checking is also performed on the parameters passed to the contract call (`args` prop in the `useCall` hook). You have to pass a list of parameters as specified in contract method declaration with optional last parameter being the `overrides` object (see [the docs](https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend)).

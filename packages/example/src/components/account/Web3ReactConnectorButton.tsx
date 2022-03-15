@@ -8,8 +8,8 @@ import { AccountModal } from './AccountModal'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 const NETWORK_CONNECTIONS = {
-  [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
-  [ChainId.Ropsten]: 'https://ropsten.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
+  [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+  [ChainId.Ropsten]: 'https://ropsten.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
   [ChainId.Localhost]: 'http://127.0.0.1:8545',
 }
 
