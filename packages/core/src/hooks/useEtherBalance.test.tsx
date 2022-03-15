@@ -38,11 +38,11 @@ describe('useEtherBalance', () => {
   })
 
   const testMultiChainUseEtherBalance = async (user: string, chainId: number, endBalance: string) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useEtherBalance(user, { chainId }),       {
-      mockProvider: { 
-      [ChainId.Localhost]: mockProvider,
-      [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-      }
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useEtherBalance(user, { chainId }), {
+      mockProvider: {
+        [ChainId.Localhost]: mockProvider,
+        [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+      },
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined

@@ -84,10 +84,10 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useTokenAllowance(contract.address, user, spenderUser, { chainId }),
       {
-        mockProvider: { 
-        [ChainId.Localhost]: mockProvider,
-        [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-        }
+        mockProvider: {
+          [ChainId.Localhost]: mockProvider,
+          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+        },
       }
     )
 

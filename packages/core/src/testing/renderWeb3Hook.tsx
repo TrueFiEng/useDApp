@@ -25,17 +25,17 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const multicallAddresses: Record<number, string> = {}
   let defaultProvider = new MockProvider()
 
-  const addSingleProvider = async(currentProvider: MockProvider) => { 
+  const addSingleProvider = async (currentProvider: MockProvider) => {
     const { chainId } = await currentProvider.getNetwork()
     currentProvider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
     providers[chainId] = currentProvider
-  
+
     const mockMulticallAddresses = await deployMulticall(currentProvider, chainId)
     multicallAddresses[chainId] = mockMulticallAddresses[chainId]
     // In some occasions the block number lags behind.
     // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
     // and it results in a failed call. So we force the provider to catch up on the block number here.
-    
+
     await currentProvider.getBlockNumber()
   }
 
@@ -43,9 +43,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   if (providerObject instanceof MockProvider) {
     defaultProvider = providerObject
     await addSingleProvider(providerObject)
-  }
-  else {
-    for (const chainIdString in providerObject) { 
+  } else {
+    for (const chainIdString in providerObject) {
       const chainId = Number(chainIdString)
       await addSingleProvider(providerObject[chainId])
     }

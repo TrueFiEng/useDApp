@@ -71,12 +71,12 @@ describe('useChainCall', () => {
             chainId
           )
         ),
-        {
-        mockProvider: { 
+      {
+        mockProvider: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-          }
-        }
+        },
+      }
     )
 
     await waitForCurrent((val) => val !== undefined)
