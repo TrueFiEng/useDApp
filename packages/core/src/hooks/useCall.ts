@@ -29,9 +29,10 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  *          error: Error | undefined - encountered error or undefined if call was successful.
  */
 export function useCall<T extends TypedContract, MN extends ContractMethodNames<T>>(
-  call: Call<T, MN> | Falsy
+  call: Call<T, MN> | Falsy,
+  queryParams: QueryParams = {}
 ): CallResult<T, MN> {
-  return useCalls([call])[0]
+  return useCalls([call], queryParams)[0]
 }
 
 /**

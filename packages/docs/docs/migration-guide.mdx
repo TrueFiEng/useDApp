@@ -4,4 +4,36 @@ sidebar_position: 7
 
 # Migration guide
 
-Migration guides will appear here after breaking changes.
+## Migrating from 0.11.0 and below
+
+### `useContractCall` is getting replaced by `useCall`
+
+It is being replaced with `useCall` that supports typed contracts from type-chain.
+
+Before:
+
+```typescript
+const [tokenBalance] =
+  useContractCall({
+    abi: ERC20Interface,
+    address: tokenAddress,
+    method: 'balanceOf',
+    args: [address],
+  }) ?? []
+```
+
+After:
+
+```typescript
+const { value: tokenBalance } =
+  useCall({
+    contract: new Contract(tokenAddress, ERC20Interface),
+    method: 'balanceOf',
+    args: [address],
+  }) ?? {}
+```
+
+### `useChainCall` is getting replaced by `useRawCall`
+
+`useRawCall` returns an object in the form of `{ value, error }` for each calls.
+This allows to get individual errors for each failing call.
