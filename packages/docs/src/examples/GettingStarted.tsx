@@ -24,7 +24,7 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-export default function App() {
+function App() {
   const { activateBrowserWallet, account } = useEthers()
   const etherBalance = useEtherBalance(account)
   return (

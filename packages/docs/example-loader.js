@@ -28,5 +28,4 @@ module.exports = async function demoLoader() {
     };
   `
   return generated;
-
 };
