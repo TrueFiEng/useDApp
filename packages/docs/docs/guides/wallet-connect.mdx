@@ -1,0 +1,122 @@
+---
+sidebar_position: 7
+
+---
+
+# Connecting with WalletConnect
+
+In this tutorial, we will go through the steps of integrating WalletConnect into your dapp(you can read more about this wallet on: https://walletconnect.com/).
+
+## Prerequisites
+
+The tutorial assumes the user has already started with the basics of `useDApp`.
+
+See the [Getting Started](../getting-started.mdx) guide if you are a new user.
+
+Let's config Your dAppProvider before integrating WalletConnect.
+
+## Motivation
+
+A lot of users are asking about custom wallet integrations and this is our reply to them :-).
+
+## Import necessary things:
+
+```tsx
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import { useEthers } from '@usedapp/core'
+```
+
+## Take 'activate' function
+
+It will allow us to activate custom provider(default is metamask).
+```tsx
+const { activate } = useEthers()
+```
+
+## Write custom connect function
+
+It overrides current provider by WalletConnect one.
+```tsx
+async function onConnect() {
+  const provider = new WalletConnectProvider({
+    infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
+  })
+  await provider.enable()
+  activate(provider)
+}// change infuraId to yours
+```
+
+## Add connect function trigger
+
+It allows us to connect after click button.
+```tsx
+<button onClick={onConnect}>Connect</button>
+```
+
+
+## Create component which use this connect functions
+
+Here is an example of complex using
+```tsx title="example/pages/WalletConnect.tsx"
+import React from 'react'
+import { formatEther } from '@ethersproject/units'
+import { useEtherBalance, useEthers } from '@usedapp/core'
+import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
+import { Label } from '../typography/Label'
+import { TextInline } from '../typography/Text'
+import { Title } from '../typography/Title'
+import { Button } from '../components/base/Button'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+
+const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+
+export function WalletConnect() {
+  const { account, activate } = useEthers()
+
+  async function onConnect() {
+    const provider = new WalletConnectProvider({
+      infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
+    })
+    await provider.enable()
+    activate(provider)
+  }
+
+  const userBalance = useEtherBalance(account)
+  const stakingBalance = useEtherBalance(STAKING_CONTRACT)
+
+  return (
+    <MainContent>
+      <Container>
+        <Section>
+          <SectionRow>
+            <Title>WalletConnect Usage Example</Title>
+            <Button onClick={onConnect}>Connect</Button>
+          </SectionRow>
+          <ContentBlock>
+            {stakingBalance && (
+              <ContentRow>
+                <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
+                <Label>ETH</Label>
+              </ContentRow>
+            )}
+            {account && (
+              <ContentRow>
+                <Label>Account:</Label> <TextInline>{account}</TextInline>
+              </ContentRow>
+            )}
+            {userBalance && (
+              <ContentRow>
+                <Label>Ether balance:</Label> <TextInline>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
+              </ContentRow>
+            )}
+          </ContentBlock>
+        </Section>
+      </Container>
+    </MainContent>
+  )
+}
+```
+
+## Summary
+
+In this tutorial we created a simple DApp that allows us to connect with custom wallet. This demonstrates how to connect to WalletConnect `useDApp`. 
