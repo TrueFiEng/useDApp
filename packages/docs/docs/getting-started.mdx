@@ -20,15 +20,12 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-import render from '../src/examples/render';
+import '../src/examples/render';
 import CodeWrapper from '../src/examples/CodeWrapper';
-const root = 'getting-started-example';
 import {App as GettingStartedApp} from '../src/examples/GettingStarted.tsx';
 import * as GettingStartedCode from '../loader.js!../src/examples/GettingStarted.tsx'
 
-<div id={root}>Loading example...</div>
-
-<>{render(GettingStartedApp, root)}</>
+<GettingStartedApp />
 
 ---
 
