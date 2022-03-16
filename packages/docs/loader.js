@@ -15,12 +15,10 @@ module.exports = async function demoLoader() {
       source: {
         ts: ${JSON.stringify(source)}
       },
+      name: ${JSON.stringify(path.basename(filename))},
       load: () => require('${this.utils.contextify(this.context, filename)}')
     };
   `
-  
-  console.log(generated);
-
   return generated;
 
 };

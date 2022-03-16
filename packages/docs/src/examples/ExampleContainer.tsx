@@ -5,6 +5,7 @@ export interface Example {
   source: {
     ts: string
   },
+  name: string,
   load: () => { default: React.FC }
 }
 
