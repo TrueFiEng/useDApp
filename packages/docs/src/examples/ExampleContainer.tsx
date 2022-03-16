@@ -18,7 +18,10 @@ export const ExampleContainer = ({ example }: ExampleContainerProps) => {
 
   return (
     <>
-      <Component />
+      <div style={{borderRadius: 16, border: '1px solid rgb(190, 195, 201)', padding: 32}}>
+        <Component />
+      </div>
+      <div style={{marginTop: 24, marginBottom: 24}}/>
       <CodeWrapper title="App.tsx">
         {example.source.ts}
       </CodeWrapper>
