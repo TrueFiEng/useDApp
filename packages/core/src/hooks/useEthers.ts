@@ -43,11 +43,7 @@ export function useEthers(): Web3Ethers {
   const isUnsupportedChainId =
     chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
   const unsupportedChainIdError = new Error(
-    "Unsupported chain id: " +
-    chainId +
-    ". Supported chain ids are: " +
-    supportedChainIds +
-    "."
+    `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
   )
   unsupportedChainIdError.name = "UnsupportedChainIdError"
   const error = isUnsupportedChainId
