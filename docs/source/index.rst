@@ -2,6 +2,10 @@
 
 Ethereum 🤝 React
 
+👉 `We migrated our documentation to a new place`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _We migrated our documentation to a new place: https://usedapp-docs.netlify.app/docs/
+
 useDapp Documentation
 =====================
 | Framework for rapid Dapp development.
@@ -16,3 +20,4 @@ useDapp Documentation
    core.rst
    developer-tools.rst
    coingecko.rst
+   
