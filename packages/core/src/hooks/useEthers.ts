@@ -40,15 +40,12 @@ export function useEthers(): Web3Ethers {
 
   const { networks } = useConfig()
   const supportedChainIds = networks?.map((network) => network.chainId)
-  const isUnsupportedChainId =
-    chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+  const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
   const unsupportedChainIdError = new Error(
     `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
   )
-  unsupportedChainIdError.name = "UnsupportedChainIdError"
-  const error = isUnsupportedChainId
-    ? unsupportedChainIdError
-    : errors[errors.length - 1]
+  unsupportedChainIdError.name = 'UnsupportedChainIdError'
+  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
 
   const result = {
     connector: undefined,
