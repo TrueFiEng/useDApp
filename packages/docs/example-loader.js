@@ -2,6 +2,14 @@ const { promises: fs } = require('fs');
 const path = require('path');
 
 /**
+ * This is a webpack loader, used in MDX for loading example apps.
+ * @returns
+ * - source code of the component in text
+ * - name of the imported file
+ * - load function to load the component for rendering
+ */
+
+/**
  * @type {import('webpack').loader.Loader}
  */
 module.exports = async function demoLoader() {

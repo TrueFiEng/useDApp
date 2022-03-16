@@ -8,9 +8,9 @@ export interface CodeWrapperProps {
 
 export const CodeWrapper = ({title, children}: CodeWrapperProps) => {
   return (
-      <CodeBlock language="tsx" title={title}>
-        {children}
-      </CodeBlock>
+    <CodeBlock language="tsx" title={title}>
+      {children}
+    </CodeBlock>
   );
 }
 
