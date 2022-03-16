@@ -48,7 +48,7 @@ export function useEthers(): Web3Ethers {
   const result = {
     connector: undefined,
     library: provider,
-    chainId,
+    chainId: isUnsupportedChainId ? undefined : chainId,
     account: accounts[0],
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
