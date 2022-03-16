@@ -5,7 +5,7 @@ sidebar_position: 7
 
 # Connecting with WalletConnect
 
-In this tutorial, we will go through the steps of integrating WalletConnect into your dapp(you can read more about this wallet on: https://walletconnect.com/).
+In this tutorial, we will go through the steps of integrating WalletConnect into your dapp (you can read more about this wallet on: https://walletconnect.com/).
 
 ## Prerequisites
 
@@ -13,11 +13,11 @@ The tutorial assumes the user has already started with the basics of `useDApp`.
 
 See the [Getting Started](../getting-started.mdx) guide if you are a new user.
 
-Let's config Your dAppProvider before integrating WalletConnect.
+Config Your DAppProvider before integrating WalletConnect.
 
 ## Motivation
 
-A lot of users are asking about custom wallet integrations and this is our reply to them :-).
+A lot of users are asking about custom wallet integrations and this is our tutorial for them.
 
 ## Import necessary things:
 
@@ -28,7 +28,7 @@ import { useEthers } from '@usedapp/core'
 
 ## Take 'activate' function
 
-It will allow us to activate custom provider(default is metamask).
+It allows us to activate custom provider(default is metamask).
 ```tsx
 const { activate } = useEthers()
 ```
@@ -48,15 +48,15 @@ async function onConnect() {
 
 ## Add connect function trigger
 
-It allows us to connect after click button.
+It allows us to connect after clicking button.
 ```tsx
 <button onClick={onConnect}>Connect</button>
 ```
 
 
-## Create component which use this connect functions
+## Create component which use your connect function
 
-Here is an example of complex using
+Here is an example of complex usage:
 ```tsx title="example/pages/WalletConnect.tsx"
 import React from 'react'
 import { formatEther } from '@ethersproject/units'
