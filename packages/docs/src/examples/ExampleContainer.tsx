@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import CodeWrapper from "./CodeWrapper"
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 export interface Example {
   source: {
@@ -13,19 +14,29 @@ export interface ExampleContainerProps {
   example: Example
 }
 
-export const ExampleContainer = ({ example }: ExampleContainerProps) => {
+export const ExampleContainer = ({ example }: ExampleContainerProps) => (
+  <>
+    <BrowserOnly>
+      {() => <ExampleRenderer example={example} />}
+    </BrowserOnly>
+    <div style={{marginTop: 24, marginBottom: 24}}/>
+    <CodeWrapper title="App.tsx">
+      {example.source.ts}
+    </CodeWrapper>
+  </>
+)
+
+interface ExampleRendererProps {
+  example: Example
+}
+
+function ExampleRenderer({ example }: ExampleRendererProps) {
   const [Component] = useState(() => loadExample(example))
 
   return (
-    <>
-      <div style={{borderRadius: 16, border: '1px solid rgb(190, 195, 201)', padding: 32}}>
-        <Component />
-      </div>
-      <div style={{marginTop: 24, marginBottom: 24}}/>
-      <CodeWrapper title="App.tsx">
-        {example.source.ts}
-      </CodeWrapper>
-    </>
+    <div style={{borderRadius: 16, border: '1px solid rgb(190, 195, 201)', padding: 32}}>
+      <Component/>
+    </div>
   )
 }
 
