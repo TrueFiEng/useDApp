@@ -37,7 +37,7 @@ export const ExampleContainer = ({ example }: ExampleContainerProps) => {
  * and could be repeated if there is more than one example in a mdx file.
  * 
  * @param example Result of importing the example script using `example-loader.js
- * @returns 
+ * @returns A renderable component
  */
 function loadExample(example: Example): React.FC {
   const ReactDOM = require('react-dom');
