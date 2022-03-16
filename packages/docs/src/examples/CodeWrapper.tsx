@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 
 export interface CodeWrapperProps {
   title: string
-  children: ReactElement
+  children?: string
 }
 
 export const CodeWrapper = ({title, children}: CodeWrapperProps) => {

@@ -5,6 +5,25 @@ const path = require('path');
  * @type {import('webpack').loader.Loader}
  */
 module.exports = async function demoLoader() {
+  const filename = this.resourcePath;
+  this.addDependency(filename);
+
+  const source = await fs.readFile(filename, { encoding: 'utf-8' });
+
+  const generated = `
+    export default {
+      source: {
+        ts: ${JSON.stringify(source)}
+      },
+      load: () => require('${this.utils.contextify(this.context, filename)}')
+    };
+  `
+  
+  console.log(generated);
+
+  return generated;
+
+
   const files = await fs.readdir(path.dirname(this.resourcePath));
   const codeFiles = files.filter((fileName) => fileName.includes('.js') || fileName.includes('.tsx') || fileName.includes('.tsx'));
   let rawContent = {
@@ -12,6 +31,13 @@ module.exports = async function demoLoader() {
     ts: null
   }
   let component = null;
+
+  console.log({
+    resourcePath: this.resourcePath,
+    context: this.context,
+  })
+
+
   let pageId = null;
   await Promise.all(codeFiles.map(async (fileName) => {
     const moduleID = fileName;
@@ -38,6 +64,8 @@ module.exports = async function demoLoader() {
   export const component = ${component};
   export const rawContent = ${JSON.stringify(rawContent, null, 2)};
   `;
+
+  console.log(transformed)
 
   // WARNING: Make sure the returned code is compatible with our .browserslistrc.
   return transformed;

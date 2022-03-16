@@ -20,18 +20,11 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-import '../src/examples/render';
-import CodeWrapper from '../src/examples/CodeWrapper';
-import {App as GettingStartedApp} from '../src/examples/GettingStarted.tsx';
-import * as GettingStartedCode from '../loader.js!../src/examples/GettingStarted.tsx'
+import { ExampleContainer } from '../src/examples/ExampleContainer';
+import GettingStarted from '../loader.js!../src/examples/GettingStarted.tsx'
 
-<GettingStartedApp />
+<ExampleContainer example={GettingStarted}/>
 
----
-
-<CodeWrapper title="App.tsx">
-  {GettingStartedCode.rawContent.ts}
-</CodeWrapper>
 
 Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/EthWorks/useDapp/tree/master/packages/example).
 
