@@ -1,5 +1,19 @@
 # @usedapp/core
 
+## 0.12.0
+
+### Minor Changes
+
+- 378177c: Fetching state from multiple chains simultaneously
+- e9907a5: Add support for wallet-connect provider
+
+### Patch Changes
+
+- 42e1adc: 🔧 Add typed contract calls
+- ca55dd0: Explicitly export public symbols.
+- d70b866: Review public API and add annotations to public symbols
+- ad021b0: Use pnpm instead of yarn
+
 ## 0.11.0
 
 ### Minor Changes
