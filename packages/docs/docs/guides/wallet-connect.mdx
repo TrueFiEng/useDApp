@@ -1,11 +1,20 @@
 ---
 sidebar_position: 7
-
+id: wallet-connect
 ---
 
 # Connecting with WalletConnect
 
 In this tutorial, we will go through the steps of integrating WalletConnect into your dapp (you can read more about this wallet on: https://walletconnect.com/).
+
+## Example
+
+Below is a simple example:
+
+import { ExampleContainer } from '../../src/examples/ExampleContainer'
+import WalletConnectExample from '../../example-loader.js!../../src/examples/WalletConnectExample.tsx'
+
+<ExampleContainer example={WalletConnectExample}/>
 
 ## Prerequisites
 
@@ -59,8 +68,7 @@ It allows us to connect after clicking button.
 Here is an example of complex usage:
 ```tsx title="example/pages/WalletConnect.tsx"
 import React from 'react'
-import { formatEther } from '@ethersproject/units'
-import { useEtherBalance, useEthers } from '@usedapp/core'
+import { useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
@@ -71,7 +79,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 export function WalletConnect() {
-  const { account, activate } = useEthers()
+  const { activate } = useEthers()
 
   async function onConnect() {
     const provider = new WalletConnectProvider({
@@ -81,9 +89,6 @@ export function WalletConnect() {
     activate(provider)
   }
 
-  const userBalance = useEtherBalance(account)
-  const stakingBalance = useEtherBalance(STAKING_CONTRACT)
-
   return (
     <MainContent>
       <Container>
@@ -91,25 +96,6 @@ export function WalletConnect() {
           <SectionRow>
             <Title>WalletConnect Usage Example</Title>
             <Button onClick={onConnect}>Connect</Button>
-          </SectionRow>
-          <ContentBlock>
-            {stakingBalance && (
-              <ContentRow>
-                <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
-                <Label>ETH</Label>
-              </ContentRow>
-            )}
-            {account && (
-              <ContentRow>
-                <Label>Account:</Label> <TextInline>{account}</TextInline>
-              </ContentRow>
-            )}
-            {userBalance && (
-              <ContentRow>
-                <Label>Ether balance:</Label> <TextInline>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
-              </ContentRow>
-            )}
-          </ContentBlock>
         </Section>
       </Container>
     </MainContent>
