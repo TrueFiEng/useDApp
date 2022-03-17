@@ -1,5 +1,18 @@
 # @usedapp/testing
 
+## 0.4.1
+
+### Patch Changes
+
+- ad021b0: Use pnpm instead of yarn
+- Updated dependencies [378177c]
+- Updated dependencies [42e1adc]
+- Updated dependencies [ca55dd0]
+- Updated dependencies [d70b866]
+- Updated dependencies [e9907a5]
+- Updated dependencies [ad021b0]
+  - @usedapp/core@0.12.0
+
 ## 0.4.0
 
 ### Minor Changes

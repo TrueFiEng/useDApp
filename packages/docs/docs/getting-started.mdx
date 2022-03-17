@@ -20,46 +20,10 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-```tsx
-  import {
-    Mainnet,
-    DAppProvider,
-    useEtherBalance,
-    useEthers,
-    Config,
-  } from '@usedapp/core'
-  import { formatEther } from '@ethersproject/units'
+import { ExampleContainer } from '../src/examples/ExampleContainer';
+import GettingStarted from '../example-loader.js!../src/examples/GettingStarted.tsx'
 
-  const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
-    },
-  }
-
-  ReactDOM.render(
-    <React.StrictMode>
-      <DAppProvider config={config}>
-        <App />
-      </DAppProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
-  )
-
-  export function App() {
-    const { activateBrowserWallet, account } = useEthers()
-    const etherBalance = useEtherBalance(account)
-    return (
-      <div>
-        <div>
-          <button onClick={() => activateBrowserWallet()}>Connect</button>
-        </div>
-        {account && <p>Account: {account}</p>}
-        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
-      </div>
-    )
-  }
-```
+<ExampleContainer example={GettingStarted}/>
 
 Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/EthWorks/useDapp/tree/master/packages/example).
 
