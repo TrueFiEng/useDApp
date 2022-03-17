@@ -24,6 +24,7 @@ module.exports = async function demoLoader() {
         ts: ${JSON.stringify(source)}
       },
       name: ${JSON.stringify(path.basename(filename))},
+      path: ${JSON.stringify(filename)},
       load: () => require('${this.utils.contextify(this.context, filename)}')
     };
   `
