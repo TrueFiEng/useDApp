@@ -11,6 +11,7 @@
     "lint:fix": "wsrun -c -s lint:fix",
     "build": "wsrun -e -c -s build",
     "test": "wsrun -e -c -s --exclude-missing test",
+    "version": "pnpm changeset version && pnpm install",
     "release": "yarn build && yarn changeset publish"
   },
   "dependencies": {
