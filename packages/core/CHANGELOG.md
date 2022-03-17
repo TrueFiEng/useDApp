@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.1
+
+### Patch Changes
+
+- 9aefc1d: Fixed pnpm lockfile.
+
 ## 0.12.0
 
 ### Minor Changes
