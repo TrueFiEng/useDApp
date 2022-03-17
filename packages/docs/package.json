@@ -23,6 +23,7 @@
     "@mdx-js/react": "^1.6.22",
     "@usedapp/core": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.1",
+    "buffer": "^6.0.3",
     "clsx": "^1.1.1",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
