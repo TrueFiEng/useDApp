@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
-import { useInjectedNetwork, useNetwork } from '../providers'
+import { useConfig, useInjectedNetwork, useNetwork } from '../providers'
 import { useLocalStorage } from './useLocalStorage'
 
 type MaybePromise<T> = Promise<T> | any
@@ -38,10 +38,19 @@ export function useEthers(): Web3Ethers {
   const { injectedProvider, connect } = useInjectedNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
+  const { networks } = useConfig()
+  const supportedChainIds = networks?.map((network) => network.chainId)
+  const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+  const unsupportedChainIdError = new Error(
+    `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
+  )
+  unsupportedChainIdError.name = 'UnsupportedChainIdError'
+  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
+
   const result = {
     connector: undefined,
     library: provider,
-    chainId,
+    chainId: isUnsupportedChainId ? undefined : chainId,
     account: accounts[0],
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -61,7 +70,7 @@ export function useEthers(): Web3Ethers {
       throw new Error('setError is deprecated')
     },
 
-    error: errors[errors.length - 1],
+    error,
   }
 
   const activateBrowserWallet = useCallback(async () => {
