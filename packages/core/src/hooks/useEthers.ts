@@ -70,7 +70,7 @@ export function useEthers(): Web3Ethers {
       throw new Error('setError is deprecated')
     },
 
-    error: error,
+    error,
   }
 
   const activateBrowserWallet = useCallback(async () => {
