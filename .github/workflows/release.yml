@@ -33,7 +33,7 @@ jobs:
         with:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm run release
-          version: pnpm changeset version && pnpm install
+          version: pnpm changeset version -- && pnpm install
           commit: "🎉 Release new version"
           title: "🎉 Release new version"
         env:
