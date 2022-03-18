@@ -60,27 +60,10 @@ Our app will be based on one described in the [Getting Started](../getting-start
 
 Populate the `App.tsx` file with the following code.
 
-```tsx title="App.tsx"
-import React from 'react'
-import { Kovan, Mainnet, useEtherBalance } from "@usedapp/core"
-import { formatEther } from '@ethersproject/units'
+import { ExampleContainer } from '../../src/examples/ExampleContainer';
+import Multichain from '../../example-loader.js!../../src/examples/Multichain.tsx'
 
-const address = '0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC'
-
-export const App = () => {
-  const mainnetBalance = useEtherBalance(address, { chainId: Mainnet.chainId })
-  const kovanBalance = useEtherBalance(address, { chainId: Kovan.chainId })
-
-  return (
-    <>
-      <div> {address} balance on Mainnet: {mainnetBalance && formatEther(mainnetBalance)}. </div>
-      <div> {address} balance on Kovan: {kovanBalance && formatEther(kovanBalance)}. </div>
-    </>
-  )
-}
-
-export default App;
-```
+<ExampleContainer example={Multichain}/>
 
 This will take the `0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC` address and display the ether balance of it on both chains.
 

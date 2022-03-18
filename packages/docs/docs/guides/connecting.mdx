@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+id: connecting-to-network
 ---
 
 # Connecting to network
@@ -67,43 +68,10 @@ Example below demonstrates how to manage and use connection.
 Application allow to see the balance of Ethereum 2.0 staking contracts in read-only mode.
 When wallet is connected additionally it shows user's account along with it's balance.
 
-Example is available [here](https://example.usedapp.io/balance).
+import { ExampleContainer } from '../../src/examples/ExampleContainer';
+import ConnectingToNetwork from '../../example-loader.js!../../src/examples/ConnectingToNetwork.tsx'
 
-```tsx
-  import { Mainnet } from '@usedapp/core'
-
-  const config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
-    },
-  }
-
-  ReactDOM.render(
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-    document.getElementById('root')
-  )
-
-  const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
-
-  export function App() {
-    const { activateBrowserWallet, deactivate, account } = useEthers()
-    const userBalance = useEtherBalance(account)
-    const stakingBalance = useEtherBalance(STAKING_CONTRACT)
-
-    return (
-      <div>
-        {!account && <button onClick={activateBrowserWallet}> Connect </button>}
-        {account && <button onClick={deactivate}> Disconnect </button>}
-        {stakingBalance && <p>ETH2 staking balance: {formatEther(stakingBalance)} ETH </p>}
-        {account && <p>Account: {account}</p>}
-        {userBalance && <p>Ether balance: {formatEther(userBalance)} ETH </p>}
-      </div>
-    )
-  }
-```
+<ExampleContainer example={ConnectingToNetwork}/>
 
 ## Handling wallet activation errors
 
