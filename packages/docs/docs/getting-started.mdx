@@ -68,20 +68,9 @@ If you need to use another connector than a browser wallet, use the `activate` m
 Provides a way to fetch the account balance. Takes the account address as an argument and returns ``BigNumber`` or ``undefined`` when data is not available (i.e. not connected). 
 To obtain currently connected ``account`` employ ``useEthers()``.
 
-```jsx
-  import { formatEther } from '@ethersproject/units'
+import EthBalance from '../example-loader.js!../src/examples/EthBalance.tsx'
 
-  export function EtherBalance() {
-    const { account } = useEthers()
-    const etherBalance = useEtherBalance(account)
-
-    return (
-      <div>
-        {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
-      </div>
-    )
-  }
-```
+<ExampleContainer example={EthBalance}/>
 
 ## Token balance
 
@@ -89,19 +78,7 @@ To obtain currently connected ``account`` employ ``useEthers()``.
 
 Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
 
-```jsx
-  import { formatUnits } from '@ethersproject/units'
+import TokenBalance from '../example-loader.js!../src/examples/TokenBalance.tsx'
 
-  const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
-
-  export function TokenBalance() {
-    const { account } = useEthers()
-    const tokenBalance = useTokenBalance(DAI, account)
-
-    return (
-      <div>
-        {tokenBalance && <p>Balance: {formatUnits(tokenBalance, 18)}</p>}
-      </div>
-    )
-  }
+<ExampleContainer example={TokenBalance}/>
 ```

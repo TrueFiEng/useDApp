@@ -156,6 +156,7 @@ importers:
       '@tsconfig/docusaurus': ^1.0.4
       '@types/react': ^17.0.40
       '@types/webpack': ^5.28.0
+      '@usedapp/coingecko': workspace:^0.4.4
       '@usedapp/core': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
@@ -172,6 +173,7 @@ importers:
       '@docusaurus/remark-plugin-npm2yarn': 2.0.0-beta.17
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': 1.6.22_react@17.0.2
+      '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
       '@walletconnect/web3-provider': 1.7.5_@babel+core@7.17.5
       buffer: 6.0.3
