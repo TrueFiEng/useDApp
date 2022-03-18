@@ -19,12 +19,12 @@ const config: Config = {
 
 ReactDOM.render(
   <DAppProvider config={config}>
-    <GettingStarted />
+    <App />
   </DAppProvider>,
   document.getElementById('root')
 )
 
-function GettingStarted() {
+function App() {
   const { activateBrowserWallet, account } = useEthers()
   const etherBalance = useEtherBalance(account)
   return (

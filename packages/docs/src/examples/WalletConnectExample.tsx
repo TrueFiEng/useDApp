@@ -20,12 +20,12 @@ const config: Config = {
 
 ReactDOM.render(
   <DAppProvider config={config}>
-    <WalletConnectExample />
+    <App />
   </DAppProvider>,
   document.getElementById('root')
 )
 
-function WalletConnectExample() {
+function App() {
     const { account, activate } = useEthers()
     const etherBalance = useEtherBalance(account)
   

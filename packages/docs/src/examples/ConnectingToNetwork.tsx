@@ -12,14 +12,14 @@ const config: Config = {
   
 ReactDOM.render(
     <DAppProvider config={config}>
-      <ConnectingToNetwork />
+      <App />
     </DAppProvider>,
     document.getElementById('root')
 )
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
-export function ConnectingToNetwork() {
+export function App() {
   const { activateBrowserWallet, deactivate, account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)

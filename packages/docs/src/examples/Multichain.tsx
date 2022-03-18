@@ -15,12 +15,12 @@ const config: Config = {
   
 ReactDOM.render(
     <DAppProvider config={config}>
-      <Multichain />
+      <App />
     </DAppProvider>,
     document.getElementById('root')
 )
 
-export function Multichain() {
+export function App() {
   const mainnetBalance = useEtherBalance(address, { chainId: Mainnet.chainId })
   const kovanBalance = useEtherBalance(address, { chainId: Kovan.chainId })
 

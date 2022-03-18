@@ -12,12 +12,12 @@ const config: Config = {
 
 ReactDOM.render(
     <DAppProvider config={config}>
-      <EthBalance />
+      <App />
     </DAppProvider>,
     document.getElementById('root')
 )
 
-export function EthBalance() {
+export function App() {
   const { account } = useEthers()
   const etherBalance = useEtherBalance(account)
 
