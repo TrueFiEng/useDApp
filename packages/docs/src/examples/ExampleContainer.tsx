@@ -7,6 +7,7 @@ export interface Example {
     ts: string
   },
   name: string,
+  path: string,
   load: () => { default: React.FC }
 }
 
@@ -40,6 +41,9 @@ function ExampleRenderer({ example }: ExampleRendererProps) {
   )
 }
 
+// Needed bacause of require caching
+const exampleCache = new Map<string, React.FC>()
+
 /**
  * Loads the example and returns the component that will render the example app.
  * It's either the JSX passed to `ReactDOM.render` or otherwise the default export of the module.
@@ -51,6 +55,10 @@ function ExampleRenderer({ example }: ExampleRendererProps) {
  * @returns A renderable component
  */
 function loadExample(example: Example): React.FC {
+  if(exampleCache.has(example.path)) {
+    return exampleCache.get(example.path)
+  }
+
   const ReactDOM = require('react-dom');
 
   const originalRender = (ReactDOM as any).render;
@@ -63,5 +71,6 @@ function loadExample(example: Example): React.FC {
   const component = renderJsx ? () => renderJsx : exports.default
   ReactDOM.render = originalRender;
   
+  exampleCache.set(example.path, component)
   return component;
 }
