@@ -47,6 +47,7 @@ const { activate } = useEthers()
 ## Write custom connect function
 
 It overrides current provider by WalletConnect one.
+
 ```tsx
 async function onConnect() {
   const provider = new WalletConnectProvider({
