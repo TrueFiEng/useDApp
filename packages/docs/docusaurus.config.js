@@ -16,6 +16,10 @@ const config = {
   organizationName: 'TrueFiEng', // Usually your GitHub org/user name.
   projectName: 'useDApp', // Usually your repo name.
 
+  plugins: [
+    './plugins/webpack-plugin.js'
+  ],
+
   presets: [
     [
       'classic',

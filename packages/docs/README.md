@@ -61,7 +61,7 @@ import Example from '../example-loader.js!../src/examples/Example.tsx'
 Final version:
 
 ```tsx
-import { ExampleContainer } from '../src/examples/ExampleContainer';
+import { ExampleContainer } from '../src/examples/ExampleContainer'
 import Example from '../example-loader.js!../src/examples/Example.tsx'
 
 <ExampleContainer example={Example}/>
