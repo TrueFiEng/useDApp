@@ -59,7 +59,6 @@ function loadExample(example: Example): React.FC {
     return exampleCache.get(example.path)
   }
 
-
   const ReactDOM = require('react-dom');
 
   const originalRender = (ReactDOM as any).render;
