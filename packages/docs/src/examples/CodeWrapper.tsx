@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode } from 'react';
-import CodeBlock from '@theme/CodeBlock';
+import React from 'react'
+import CodeBlock from '@theme/CodeBlock'
 
 export interface CodeWrapperProps {
   title: string
@@ -11,7 +11,7 @@ export const CodeWrapper = ({title, children}: CodeWrapperProps) => {
     <CodeBlock language="tsx" title={title}>
       {children}
     </CodeBlock>
-  );
+  )
 }
 
-export default CodeWrapper;
+export default CodeWrapper

@@ -1,6 +1,7 @@
-import React, { useState } from "react"
-import CodeWrapper from "./CodeWrapper"
-import BrowserOnly from '@docusaurus/BrowserOnly';
+import React, { useState } from 'react'
+import CodeWrapper from './CodeWrapper'
+import BrowserOnly from '@docusaurus/BrowserOnly'
+import  ReactDOM from 'react-dom'
 
 export interface Example {
   source: {
@@ -59,18 +60,16 @@ function loadExample(example: Example): React.FC {
     return exampleCache.get(example.path)
   }
 
-  const ReactDOM = require('react-dom');
-
-  const originalRender = (ReactDOM as any).render;
+  const originalRender = (ReactDOM as any).render
   let renderJsx = undefined;
   (ReactDOM as any).render = (jsx: any) => {
-    renderJsx = jsx;
+    renderJsx = jsx
     // Not rendering anything, overriding default behaviour of App examples.
   }
   const exports = example.load()
   const component = renderJsx ? () => renderJsx : exports.default
-  ReactDOM.render = originalRender;
+  ReactDOM.render = originalRender
   
   exampleCache.set(example.path, component)
-  return component;
+  return component
 }
