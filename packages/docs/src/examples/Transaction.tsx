@@ -24,7 +24,7 @@ export function TokenBalance() {
     const [status, setStatus] = useState('')
     const [disabled, setDisabled] = useState<boolean | undefined>(undefined)
 
-    const amount = '0.00005'
+    const amount = '0.5'
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
     const send = () => {
@@ -43,15 +43,13 @@ export function TokenBalance() {
 
     return (
     <div>
-        <div>
         <button onClick={() => activateBrowserWallet()}>Connect</button>
-        </div>
         {account && <p>Account: {account}</p>}
         {disabled 
         ? (<p>Change network from mainnet</p>)
         : (<div>
-        <button onClick={() => send()}>Send ether</button>
-        <p>Status: {status}</p>
+            <button onClick={() => send()}>Send ether</button>
+            <p>Status: {status}</p>
         </div>)
         }
     </div>
