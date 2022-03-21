@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { parseEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config } from '@usedapp/core'
@@ -21,9 +21,9 @@ ReactDOM.render(
 export function TokenBalance() {
     const { chainId } = useEthers()
     const { sendTransaction, state } = useSendTransaction()
-    const [status, setStatus] = useState('')
-    const [disabled, setDisabled] = useState<boolean | undefined>(undefined)
-
+    
+    const status = state.status
+    const disabled = chainId === ChainId.Mainnet
     const amount = '0.5'
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
@@ -31,26 +31,20 @@ export function TokenBalance() {
         sendTransaction({ to: address, value: parseEther(amount) })
     }
 
-    useEffect(() => {
-        setStatus(state.status)
-    }, [state])
-
-    useEffect(() => {
-        setDisabled(chainId === ChainId.Mainnet)
-    }, [chainId])
-
     const { activateBrowserWallet, account } = useEthers()
 
     return (
     <div>
         <button onClick={() => activateBrowserWallet()}>Connect</button>
         {account && <p>Account: {account}</p>}
-        {disabled 
-        ? (<p>Change network from mainnet</p>)
-        : (<div>
+        {disabled
+        ? <p>Change network from mainnet</p>
+        : (
+        <div>
             <button onClick={() => send()}>Send ether</button>
             <p>Status: {status}</p>
-        </div>)
+        </div>
+        )
         }
     </div>
     )
