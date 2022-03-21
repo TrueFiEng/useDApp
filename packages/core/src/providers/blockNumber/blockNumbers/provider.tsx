@@ -14,14 +14,14 @@ export function BlockNumbersProvider({ children }: Props) {
   const [state, dispatch] = useReducer(blockNumberReducer, {})
 
   useEffect(() => {
-    const onUnmount = Object.entries(networks).map(([chainId, provider]) =>
-      subscribeToNewBlock(provider, Number(chainId), dispatch)
+    const onUnmount = Object.entries(networks.providers).map(([chainId, provider]) =>
+    provider && subscribeToNewBlock(provider, Number(chainId), dispatch)
     )
 
     return () => {
-      onUnmount.forEach((fn) => fn())
+      onUnmount.forEach((fn) => fn?.())
     }
-  }, [networks])
+  }, [networks.providers])
 
   const debouncedState = useDebounce(state, 100)
 
