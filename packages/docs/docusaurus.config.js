@@ -96,6 +96,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/TrueFiEng/useDApp/',
               },
+              {
+                label: 'Discord',
+                href: 'https://discord.gg/cSSmtdq7jr',
+              },
             ],
           },
           {
