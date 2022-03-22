@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { BorderRad, Colors, Gradients, Shadows, Sizes } from '../../global/styles'
+import { BorderRad, Colors, Gradients, Shadows } from '../../global/styles'
 import { Title } from '../../typography/Title'
 
 export const Page = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  padding-top: ${Sizes.headerHeight};
   height: 100%;
   min-height: 100vh;
 `
@@ -22,7 +21,7 @@ export const Container = styled.div`
   padding-right: 14px;
 `
 
-export const HeaderContainer = styled(Container)`
+export const SidebarContainer = styled(Container)`
   max-width: 1200px;
 `
 
@@ -32,7 +31,6 @@ export const MainContent = styled.main`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  min-height: calc(100vh - ${Sizes.headerHeight});
   overflow: hidden;
 
   &:before {

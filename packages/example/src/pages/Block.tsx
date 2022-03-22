@@ -1,8 +1,9 @@
 import React from 'react'
 import { useBlockMeta, useBlockNumber, useEthers } from '@usedapp/core'
-import { Container, ContentBlock, ContentRow, MainContent, Section } from '../components/base/base'
+import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
+import { Title } from '../typography/Title'
 
 export function Block() {
   const blockNumber = useBlockNumber()
@@ -12,6 +13,10 @@ export function Block() {
     <MainContent>
       <Container>
         <Section>
+          <SectionRow>
+            <Title>Block info</Title>
+          </SectionRow>
+
           <ContentBlock>
             <ContentRow>
               <Label>Chain id:</Label> <TextInline>{chainId}</TextInline>

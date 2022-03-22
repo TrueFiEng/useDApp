@@ -1,0 +1,74 @@
+---
+sidebar_position: 6
+
+---
+
+# Using multichain
+
+## Prerequisites
+
+The tutorial assumes the user has already started with the basics of `useDApp`.
+
+See the [Getting Started](../getting-started.mdx) guide if you are a new user.
+
+## Motivation
+
+The most common approach for a DApp is to operate on a single chain. But there are some use cases when one would want to display data from multiple chains simultaneously. 
+
+`useDApp` has built-in multichain support.
+
+In this tutorial we will create a simple DApp that will display simultaneously balance of an address both on Mainnet and om Kovan.
+
+## Add Kovan network to the config
+
+As a first step we need to add the Kovan network configuration. As Kovan is a network supported by default in `useDApp`, the only thing we have to do is to specify an endpoint where requests can be sent to. In our case we will use Infura - free Etherum API, that also supports the Kovan testnet. 
+Please make the following changes to the app's entrypoint file. 
+````diff
+  import {
+    Mainnet,
++   Kovan,
+    DAppProvider,
+    useEtherBalance,
+    useEthers,
+    Config
+  } from '@usedapp/core'
+  import { formatEther } from '@ethersproject/units'
+
+  import App from 'App'
+
+  const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
++     [Kovan.chainId]: 'https://kovan.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+  }
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <DAppProvider config={config}>
+        <App />
+      </DAppProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  )
+````
+
+## Display balances on Mainnet and on Kovan
+
+Our app will be based on one described in the [Getting Started](../getting-started.mdx) guide.
+
+Populate the `App.tsx` file with the following code.
+
+import { ExampleContainer } from '../../src/examples/ExampleContainer';
+import Multichain from '../../example-loader.js!../../src/examples/Multichain.tsx'
+
+<ExampleContainer example={Multichain}/>
+
+This will take the `0x2A734Da1E0B14dC63E7dE96073329720FF50ACaC` address and display the ether balance of it on both chains.
+
+Now after running the app, you should see the balances on both chains.
+
+## Summary
+
+In this tutorial we created a simple DApp that displays the balance of an address on two chains. This demonstrates how to display data from different chains using `useDApp`. 

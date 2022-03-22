@@ -31,6 +31,8 @@ import {
   Songbird,
   Theta,
   ThetaTestnet,
+  ThunderCore,
+  ThunderCoreTestnet,
   OptimismKovan,
   Optimism,
 } from '../model'
@@ -68,6 +70,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Songbird,
   Theta,
   ThetaTestnet,
+  ThunderCore,
+  ThunderCoreTestnet,
   OptimismKovan,
   Optimism,
 ]
@@ -77,6 +81,7 @@ export enum ChainId {
   Ropsten = 3,
   Rinkeby = 4,
   Goerli = 5,
+  ThunderCoreTestnet = 18,
   Cronos = 25,
   CronosTestnet = 338,
   Kovan = 42,
@@ -84,6 +89,7 @@ export enum ChainId {
   BSCTestnet = 97,
   xDai = 100,
   Gnosis = 100,
+  ThunderCore = 108,
   Polygon = 137,
   Theta = 361,
   ThetaTestnet = 365,

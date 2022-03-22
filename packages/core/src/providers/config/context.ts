@@ -15,6 +15,9 @@ const validConfigs = (configs: FullConfig): FullConfig | Record<string, never> =
   return configs
 }
 
+/**
+ * @public
+ */
 export function useConfig() {
   const { config } = useContext(ConfigContext)
 
@@ -31,6 +34,9 @@ export function useConfig() {
   return validConfigs(config)
 }
 
+/**
+ * @public
+ */
 export function useUpdateConfig() {
   const { updateConfig } = useContext(ConfigContext)
   return updateConfig

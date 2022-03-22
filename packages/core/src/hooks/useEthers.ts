@@ -1,21 +1,24 @@
 import { useCallback } from 'react'
-import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainId } from '../constants'
-import { useInjectedNetwork, useNetwork } from '../providers'
-import { EventEmitter } from 'events'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { useConfig, useInjectedNetwork, useNetwork } from '../providers'
 import { useLocalStorage } from './useLocalStorage'
+
+type MaybePromise<T> = Promise<T> | any
 
 type SupportedProviders =
   | JsonRpcProvider
-  | EventEmitter
-  | { getProvider: () => JsonRpcProvider | EventEmitter; activate: () => Promise<void> }
+  | ExternalProvider
+  | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
 
+/**
+ * @public
+ */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
-  chainId?: ChainId
+  chainId?: number
   account?: null | string
   error?: Error
   library?: JsonRpcProvider
@@ -23,6 +26,9 @@ export type Web3Ethers = {
   activateBrowserWallet: () => void
 }
 
+/**
+ * @public
+ */
 export function useEthers(): Web3Ethers {
   const {
     network: { provider, chainId, accounts, errors },
@@ -32,10 +38,19 @@ export function useEthers(): Web3Ethers {
   const { injectedProvider, connect } = useInjectedNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
+  const { networks } = useConfig()
+  const supportedChainIds = networks?.map((network) => network.chainId)
+  const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+  const unsupportedChainIdError = new Error(
+    `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
+  )
+  unsupportedChainIdError.name = 'UnsupportedChainIdError'
+  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
+
   const result = {
     connector: undefined,
     library: provider,
-    chainId,
+    chainId: isUnsupportedChainId ? undefined : chainId,
     account: accounts[0],
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -55,7 +70,7 @@ export function useEthers(): Web3Ethers {
       throw new Error('setError is deprecated')
     },
 
-    error: errors[errors.length - 1],
+    error,
   }
 
   const activateBrowserWallet = useCallback(async () => {

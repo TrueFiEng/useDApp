@@ -1,5 +1,0 @@
-Sphinx==3.5.1
-pygments-lexer-solidity==0.5.1
-sphinx-rtd-theme==0.4.3
-sphinx-tabs==2.0.1
-jsx-lexer==0.0.8
