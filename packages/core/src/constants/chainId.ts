@@ -5,6 +5,7 @@ import {
   Arbitrum,
   ArbitrumRinkeby,
   Avalanche,
+  Aurora,
   AuroraTestnet,
   BSC,
   BSCTestnet,
@@ -41,6 +42,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Avalanche,
   Arbitrum,
   ArbitrumRinkeby,
+  Aurora,
   AuroraTestnet,
   Mainnet,
   Ropsten,
@@ -103,5 +105,6 @@ export enum ChainId {
   Optimism = 10,
   Arbitrum = 42161,
   ArbitrumRinkeby = 421611,
+  Aurora = 1313161554,
   AuroraTestnet = 1313161555,
 }

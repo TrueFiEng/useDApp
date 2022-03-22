@@ -27,7 +27,7 @@ export function InjectedNetworkProvider({ children }: InjectedNetworkProviderPro
       await injectedProvider.send('eth_requestAccounts', [])
       return injectedProvider
     } catch (e) {
-      reportError(e)
+      reportError(e as Error)
     }
   }, [injectedProvider])
 
