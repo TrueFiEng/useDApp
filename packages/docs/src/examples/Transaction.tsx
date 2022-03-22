@@ -31,10 +31,8 @@ export function App() {
 
     const { activateBrowserWallet, account } = useEthers()
 
-    return (
-    <div>
-        {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
-        {disabled
+    const WalletContent = () => {
+        return disabled
         ? <p>Please change the network from Mainnet to proceed.</p>
         : (
         <div>
@@ -42,6 +40,14 @@ export function App() {
             <p>Status: {status}</p>
         </div>
         )
+    }
+
+    return (
+    <div>
+        {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
+        {account 
+        ? <WalletContent />
+        : <p>Connect to wallet to integrate with example</p>
         }
     </div>
     )
