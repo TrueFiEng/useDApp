@@ -1,6 +1,9 @@
-import { useContext } from 'react'
-import { ChainStateContext } from '../providers/chainState/context'
+import { QueryParams } from '../constants/type/QueryParams'
+import { useChainState } from './useChainState'
 
-export function useMulticallAddress(): string | undefined {
-  return useContext(ChainStateContext).multicallAddress
+/**
+ * @public
+ */
+export function useMulticallAddress(queryParams: QueryParams = {}): string | undefined {
+  return useChainState(queryParams)?.multicallAddress
 }

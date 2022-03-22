@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
 
+/**
+ * @public
+ */
 export function useLookupAddress() {
   const { account, library } = useEthers()
   const [ens, setEns] = useState<string | null>()

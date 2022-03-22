@@ -1,5 +1,4 @@
-import { ChainId } from '../constants'
-import { ChainCall, ChainState } from './chainState'
+import { RawCall, ChainState } from './chainState'
 
 // NOTE: If you modify this file please ensure consistency with
 // packages/extension/src/providers/events/Message.ts
@@ -10,13 +9,13 @@ interface Init {
 
 interface NetworkChanged {
   type: 'NETWORK_CHANGED'
-  chainId?: ChainId
+  chainId?: number
   multicallAddress?: string
 }
 
 interface BlockNumberChanged {
   type: 'BLOCK_NUMBER_CHANGED'
-  chainId: ChainId
+  chainId: number
   blockNumber: number
 }
 
@@ -27,15 +26,15 @@ interface AccountChanged {
 
 interface CallsChanged {
   type: 'CALLS_CHANGED'
-  chainId?: ChainId
-  calls: ChainCall[]
+  chainId?: number
+  calls: RawCall[]
 }
 
 interface MulticallSuccess {
   type: 'MULTICALL_SUCCESS'
   multicallAddress: string
   duration: number
-  chainId: ChainId
+  chainId: number
   blockNumber: number
   state: ChainState
 }
@@ -44,8 +43,8 @@ interface MulticallError {
   type: 'MULTICALL_ERROR'
   multicallAddress: string
   duration: number
-  calls: ChainCall[]
-  chainId: ChainId
+  calls: RawCall[]
+  chainId: number
   blockNumber: number
   error: any
 }

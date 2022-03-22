@@ -11,4 +11,10 @@ export const xDai: Chain = {
     `https://blockscout.com/poa/xdai/tx/${transactionHash}/internal-transactions`,
 }
 
-export default { xDai }
+// xdai alias
+export const Gnosis = {
+  ...xDai,
+  chainName: 'Gnosis',
+}
+
+export default { xDai, Gnosis }

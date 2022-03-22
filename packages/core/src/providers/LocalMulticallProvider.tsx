@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { isLocalChain } from '../helpers'
+import { getChainById } from '../helpers'
 import { useEthers } from '../hooks'
-import { useBlockNumber } from './blockNumber'
+import { useBlockNumber } from './blockNumber/blockNumber'
 import { useConfig, useUpdateConfig } from './config'
 import multicallABI from '../constants/abi/MultiCall.json'
 import { deployContract } from '../helpers/contract'
@@ -29,7 +29,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   useEffect(() => {
     if (!library || !chainId) {
       setLocalMulticallState(LocalMulticallState.Unknown)
-    } else if (!isLocalChain(chainId)) {
+    } else if (!getChainById(chainId)?.isLocalChain) {
       setLocalMulticallState(LocalMulticallState.NonLocal)
     } else if (multicallAddresses && multicallAddresses[chainId]) {
       setLocalMulticallState(LocalMulticallState.Deployed)

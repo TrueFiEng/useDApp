@@ -10,6 +10,9 @@ function getExpiredNotifications(notifications: Notification[], expirationPeriod
   return notifications.filter((notification) => timeFromCreation(notification.submittedAt) >= expirationPeriod)
 }
 
+/**
+ * @public
+ */
 export function useNotifications() {
   const { chainId, account } = useEthers()
   const { addNotification, notifications, removeNotification } = useNotificationsContext()
