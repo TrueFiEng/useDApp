@@ -1,5 +1,34 @@
 # @usedapp/coingecko
 
+## 0.4.4
+
+### Patch Changes
+
+- ad021b0: Use pnpm instead of yarn
+- Updated dependencies [378177c]
+- Updated dependencies [42e1adc]
+- Updated dependencies [ca55dd0]
+- Updated dependencies [d70b866]
+- Updated dependencies [e9907a5]
+- Updated dependencies [ad021b0]
+  - @usedapp/core@0.12.0
+
+## 0.4.3
+
+### Patch Changes
+
+- Updated dependencies [3d1ec30]
+- Updated dependencies [0029496]
+  - @usedapp/core@0.11.0
+
+## 0.4.2
+
+### Patch Changes
+
+- Updated dependencies [c70a76e]
+- Updated dependencies [fd8e924]
+  - @usedapp/core@0.10.0
+
 ## 0.4.1
 
 ### Patch Changes

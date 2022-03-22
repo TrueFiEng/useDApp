@@ -1,0 +1,25 @@
+$media-xs: 320px
+$media-s: 600px
+$media-m: 900px
+$media-l: 1200px
+$media-xl: 1600px
+
+=media($size, $diff: 0, $feature: max-width)
+
+  @if $size == xs
+    $size: $media-xs
+
+  @else if $size == s
+    $size: $media-s
+
+  @else if $size == m
+    $size: $media-m
+
+  @else if $size == l
+    $size: $media-l
+
+  @else if $size == xl
+    $size: $media-xl
+
+  @media ($feature: $size + $diff)
+    @content

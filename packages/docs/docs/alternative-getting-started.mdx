@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+#  Getting started with Create Eth App
+
+## Installation
+
+You’ll need to have Node 14 or later version on your local development machine (but it’s not required on the server). You can use nvm (macOS/Linux) or nvm-windows to switch Node versions between different projects.
+
+You'll also need Yarn on your local development machine. This is because Create Eth App relies on Yarn Workspaces, a feature not supported by Npm.
+
+To quick start development with useDapp run:
+
+```bash yarn
+yarn create eth-app my-eth-app
+```
+
+It creates folder my-eth-app and inside you have everything created to start.
+
+```
+my-eth-app
+├── README.md
+├── node_modules
+├── package.json
+├── .gitignore
+└── packages
+    ├── contracts
+    │   ├── README.json
+    │   ├── package.json
+    │   └── src
+    │       ├── abis
+    │       │   ├── erc20.json
+    │       │   └── ownable.json
+    │       ├── addresses.js
+    │       └── index.js
+    ├── react-app
+    │   ├── README.md
+    │   ├── package.json
+    │   ├── node_modules
+    │   ├── public
+    │   │   ├── favicon.ico
+    │   │   ├── index.html
+    │   │   └── manifest.json
+    │   └── src
+    │       ├── App.css
+    │       ├── App.js
+    │       ├── App.test.js
+    │       ├── ethereumLogo.svg
+    │       ├── index.css
+    │       ├── index.js
+    │       ├── serviceWorker.js
+    │       └── setupTests.js
+    └── subgraph
+        ├── README.md
+        ├── abis
+        │   └── erc20.json
+        ├── package.json
+        ├── schema.graphql
+        ├── src
+        │   └── mappings
+        │       ├── tokens.ts
+        │       └── transfers.ts
+        └── subgraph.yaml
+```
+
+## Start
+
+Just run:
+
+```bash yarn
+yarn react-app:start
+```
+
+After that the app starts locally, open [http://localhost:3000/](http://localhost:3000/) to view it in the browser.
+
+## Templates
+
+Create Eth App comes with a host of decentralized finance templates pre-filled with contract ABIs, addresses and subgraphs. Go to the templates folder, select any framework from the list and see what templates are available.
+
+You can pass the name of the template as the value for the `--template` command-line argument.
+
+```bash yarn
+yarn create eth-app my-eth-app --template compound
+```
+
+## Philosophy
+
+* Minimalistic by design: You are one command away from creating a new Ethereum-powered React app. No intermediary installs, scripts or shims.
+
+* End-to-End: Create Eth App provides you everything that you need to build and maintain an Ethereum-powered React app at scale, by bringing Yarn Workspaces, Create React App and The Graph under one roof
+
+* Aimed at Experience Architects: As Kames CG argues in Ethereum Growth's Problem, the Ethereum ecosystem is in a much greater need for top-notch product creators, not smart contract developers. Create Eth App does not enable a smart contract development environment, expecting you to import your own ABIs or build on top of an established protocol like Maker, Compound or Sablier
+
+* Not Reinventing The Wheel: Under the hood, you use Create React App, one of the most popular and battle-tested frontend development environments.
+
+## What's included
+
+Your environment will have everything you need to build a modern Ethereum-powered single-page React app:
+
+* Smooth project management via Yarn Workspaces
+
+* Everything included with Create React App: React, JSX, ES6, TypeScript and Flow syntax support
+
+* Template subgraph that indexes the events emitted by an ERC-20 contract
+
+* Minimalist structure for managing the smart contract ABIs and addresses
+
+* Hassle-free updates for the above tools with a single dependency
+
+## Pros
+
+Create Eth App is a great fit for:
+
+* Learning how to write Ethereum-powered apps in a comfortable and feature-rich development environment.
+* Starting new Ethereum-powered single-page React applications without wasting time on copy-pasting boilerplates
+* Creating examples with React for your Ethereum-related libraries and components.
+
+## Source code
+
+Source code is available on [Github](https://github.com/paulrberg/create-eth-app).

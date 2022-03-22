@@ -1,31 +1,86 @@
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../constants'
 import { useCallback } from 'react'
-import { useConfig } from '../providers/config/context'
-import { InjectedConnector } from '@web3-react/injected-connector'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { useConfig, useInjectedNetwork, useNetwork } from '../providers'
+import { useLocalStorage } from './useLocalStorage'
 
-type ActivateBrowserWallet = (onError?: (error: Error) => void, throwErrors?: boolean) => void
+type MaybePromise<T> = Promise<T> | any
 
-export type Web3Ethers = ReturnType<typeof useWeb3React> & {
-  library?: Web3Provider
-  chainId?: ChainId
-  activateBrowserWallet: ActivateBrowserWallet
+type SupportedProviders =
+  | JsonRpcProvider
+  | ExternalProvider
+  | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
+
+/**
+ * @public
+ */
+export type Web3Ethers = {
+  activate: (provider: SupportedProviders) => Promise<void>
+  setError: (error: Error) => void
+  deactivate: () => void
+  connector: undefined
+  chainId?: number
+  account?: null | string
+  error?: Error
+  library?: JsonRpcProvider
+  active: boolean
+  activateBrowserWallet: () => void
 }
 
+/**
+ * @public
+ */
 export function useEthers(): Web3Ethers {
-  const result = useWeb3React<Web3Provider>()
+  const {
+    network: { provider, chainId, accounts, errors },
+    deactivate,
+    activate,
+  } = useNetwork()
+  const { injectedProvider, connect } = useInjectedNetwork()
+  const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+
   const { networks } = useConfig()
-  const activateBrowserWallet = useCallback<ActivateBrowserWallet>(
-    async (onError, throwErrors) => {
-      const injected = new InjectedConnector({ supportedChainIds: networks?.map((network) => network.chainId) })
-      if (onError instanceof Function) {
-        await result.activate(injected, onError, throwErrors)
-      } else {
-        await result.activate(injected, undefined, throwErrors)
-      }
-    },
-    [networks]
+  const supportedChainIds = networks?.map((network) => network.chainId)
+  const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+  const unsupportedChainIdError = new Error(
+    `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
   )
+  unsupportedChainIdError.name = 'UnsupportedChainIdError'
+  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
+
+  const result = {
+    connector: undefined,
+    library: provider,
+    chainId: isUnsupportedChainId ? undefined : chainId,
+    account: accounts[0],
+    active: !!provider,
+    activate: async (providerOrConnector: SupportedProviders) => {
+      if ('getProvider' in providerOrConnector) {
+        console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
+        await providerOrConnector.activate()
+        return activate(await providerOrConnector.getProvider())
+      }
+      return activate(providerOrConnector)
+    },
+    deactivate: () => {
+      deactivate()
+      setShouldConnectMetamask(false)
+    },
+
+    setError: () => {
+      throw new Error('setError is deprecated')
+    },
+
+    error,
+  }
+
+  const activateBrowserWallet = useCallback(async () => {
+    if (!injectedProvider) {
+      return
+    }
+    await connect()
+    await result.activate(injectedProvider)
+    setShouldConnectMetamask(true)
+  }, [injectedProvider])
+
   return { ...result, activateBrowserWallet }
 }

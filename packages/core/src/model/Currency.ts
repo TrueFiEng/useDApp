@@ -1,6 +1,8 @@
-import { ChainId } from '../constants'
 import { CurrencyFormatOptions, DEFAULT_OPTIONS, formatCurrency } from './formatting'
 
+/**
+ * @public
+ */
 export class Currency {
   public formattingOptions: CurrencyFormatOptions
 
@@ -18,6 +20,9 @@ export class Currency {
   }
 }
 
+/**
+ * @public
+ */
 export class FiatCurrency extends Currency {
   constructor(name: string, ticker: string, decimals = 2, formattingOptions: Partial<CurrencyFormatOptions> = {}) {
     super(name, ticker, decimals, {
@@ -28,11 +33,14 @@ export class FiatCurrency extends Currency {
   }
 }
 
+/**
+ * @public
+ */
 export class NativeCurrency extends Currency {
   constructor(
     name: string,
     ticker: string,
-    readonly chainId: ChainId,
+    readonly chainId: number,
     decimals = 18,
     formattingOptions: Partial<CurrencyFormatOptions> = {}
   ) {
@@ -44,11 +52,14 @@ export class NativeCurrency extends Currency {
   }
 }
 
+/**
+ * @public
+ */
 export class Token extends Currency {
   constructor(
     name: string,
     ticker: string,
-    readonly chainId: ChainId,
+    readonly chainId: number,
     readonly address: string,
     decimals = 18,
     formattingOptions: Partial<CurrencyFormatOptions> = {}
