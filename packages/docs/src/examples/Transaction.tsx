@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { parseEther } from '@ethersproject/units'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config } from '@usedapp/core'
-import { ChainId } from '../../../core/src/constants/chainId'
+import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, ChainId } from '@usedapp/core'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -13,32 +12,31 @@ const config: Config = {
 
 ReactDOM.render(
     <DAppProvider config={config}>
-      <TokenBalance />
+      <App />
     </DAppProvider>,
     document.getElementById('root')
 )
 
-export function TokenBalance() {
+export function App() {
     const { chainId } = useEthers()
     const { sendTransaction, state } = useSendTransaction()
     
-    const status = state.status
+    // We prevent the example from running on Mainnet so that the users do not use real Ether without realizing.
     const disabled = chainId === ChainId.Mainnet
-    const amount = '0.5'
+    const status = state.status
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
     const send = () => {
-        sendTransaction({ to: address, value: parseEther(amount) })
+        sendTransaction({ to: address, value: 1 })
     }
 
     const { activateBrowserWallet, account } = useEthers()
 
     return (
     <div>
-        <button onClick={() => activateBrowserWallet()}>Connect</button>
-        {account && <p>Account: {account}</p>}
+        {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
         {disabled
-        ? <p>Change network from mainnet</p>
+        ? <p>Please change the network from Mainnet to proceed.</p>
         : (
         <div>
             <button onClick={() => send()}>Send ether</button>
