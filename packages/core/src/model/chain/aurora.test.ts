@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { TEST_ADDRESS, TEST_TX } from './defaults'
+import { TEST_ADDRESS, TEST_TX } from './test-defaults'
 import { Aurora, AuroraTestnet } from '../../../src'
 
-describe.only('Aurora Tesnet Chain', () => {
+describe('Aurora Chain', () => {
   it('getChainId', () => {
     expect(Aurora.chainId).to.equal(1313161554)
     expect(AuroraTestnet.chainId).to.equal(1313161555)
