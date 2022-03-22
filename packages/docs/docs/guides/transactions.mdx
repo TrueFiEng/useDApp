@@ -6,8 +6,6 @@ sidebar_position: 3
 
 ## Sending transaction
 
-Example is available [here](https://example.usedapp.io/send).
-
 Sending transactions is really simple with useDApp. All we need to send a simple transaction,
 is to use [useSendTransaction](../core#usesendtransaction) hook, which returns a ``sendTransaction`` function and ``state`` object.
 
@@ -42,6 +40,16 @@ Example below clears inputs and enables all disabled components back:
       }
     }, [state])
 ```
+
+**Live example**
+
+App will send 1 wei to a test account.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+
+import { ExampleContainer } from '../../src/examples/ExampleContainer';
+import Transaction from '../../example-loader.js!../../src/examples/Transaction.tsx'
+
+<ExampleContainer example={Transaction}/>
 
 ## Executing contract function
 
