@@ -1,5 +1,12 @@
 # @usedapp/extension
 
+## 0.3.1
+
+### Patch Changes
+
+- 378177c: Fetching state from multiple chains simultaneously
+- ad021b0: Use pnpm instead of yarn
+
 ## 0.3.0
 
 ### Minor Changes

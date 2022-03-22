@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
-import { ChainId } from '../constants'
+import { Chain, ChainId } from '../constants'
 import { getChainMeta } from '../helpers/getChainMeta'
 
-export function useChainMeta(chainId: ChainId) {
+/**
+ * @public
+ */
+export function useChainMeta(chainId: ChainId): Chain {
   return useMemo(() => getChainMeta(chainId), [chainId])
 }

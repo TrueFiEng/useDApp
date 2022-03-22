@@ -1,5 +1,35 @@
 # @usedapp/core
 
+## 0.12.1
+
+### Patch Changes
+
+- 9aefc1d: Fixed pnpm lockfile.
+
+## 0.12.0
+
+### Minor Changes
+
+- 378177c: Fetching state from multiple chains simultaneously
+- e9907a5: Add support for wallet-connect provider
+
+### Patch Changes
+
+- 42e1adc: 🔧 Add typed contract calls
+- ca55dd0: Explicitly export public symbols.
+- d70b866: Review public API and add annotations to public symbols
+- ad021b0: Use pnpm instead of yarn
+
+## 0.11.0
+
+### Minor Changes
+
+- 0029496: Change Metamask connection logic when page is loaded
+
+### Patch Changes
+
+- 3d1ec30: Add sourcemaps to published package
+
 ## 0.10.1
 
 ### Patch Changes
@@ -240,7 +270,7 @@
 
   "resolutions": {
   "@ethersproject/abi": "5.2.0",
-  "@ethersproject/contracts": "5.2.0"
+  "@ethersproject/contracts": "^5.6.0"
   }
 
 ## 0.3.21

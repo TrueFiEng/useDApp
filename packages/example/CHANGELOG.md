@@ -1,5 +1,34 @@
 # @usedapp/example
 
+## 0.5.0
+
+### Minor Changes
+
+- 378177c: Fetching state from multiple chains simultaneously
+
+### Patch Changes
+
+- 42e1adc: 🔧 Add typed contract calls
+- e9907a5: Add support for wallet-connect provider
+- ad021b0: Use pnpm instead of yarn
+- Updated dependencies [378177c]
+- Updated dependencies [42e1adc]
+- Updated dependencies [ca55dd0]
+- Updated dependencies [d70b866]
+- Updated dependencies [e9907a5]
+- Updated dependencies [ad021b0]
+  - @usedapp/core@0.12.0
+  - @usedapp/coingecko@0.4.4
+
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [3d1ec30]
+- Updated dependencies [0029496]
+  - @usedapp/core@0.11.0
+  - @usedapp/coingecko@0.4.3
+
 ## 0.4.0
 
 ### Minor Changes

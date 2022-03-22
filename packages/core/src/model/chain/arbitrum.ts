@@ -16,6 +16,7 @@ export const Arbitrum: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x8a0bd1773139C6609e861B9ab68082587a3cD581',
+  multicall2Address: '0x80c7dd17b01855a6d2347444a0fcc36136a314de',
   getExplorerAddressLink: (address: string) => `https://arbiscan.io/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://arbiscan.io/tx/${transactionHash}`,
 }

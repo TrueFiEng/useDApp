@@ -20,6 +20,7 @@ Combines the best practices:
 
 ```tsx
 import { Mainnet } from '@usedapp/core/modal/chain/ethereum'
+import { useEthers, useEtherBalance } from '@usedapp/core'
 
 const config = {
   readOnlyChainId: Mainnet.chainId,
@@ -58,7 +59,7 @@ See application [here](https://example.usedapp.io/balance).
 
 
 ## Documentation
-For detailed feature walkthrough checkout [documentation](https://usedapp.readthedocs.io/en/latest/).
+For detailed feature walkthrough checkout [documentation](https://usedapp-docs.netlify.app/docs).
 
 ## Contributing
 
@@ -72,7 +73,8 @@ Contributions are always welcome, no matter how large or small. Before contribut
 
 To install dependencies type:
 ```sh
-yarn
+npm i -g pnpm
+pnpm install
 ```
 
 To build project:
@@ -88,20 +90,6 @@ yarn test
 To run linter type:
 ```sh
 yarn lint
-```
-
-### Building documentation
-
-[Install Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html) to build documentation:
-
-```sh
-cd docs
-make html
-```
-
-Before building documentation for the first time you may have to install required python packages:
-```sh
-pip3 install -r docs/requirements.txt
 ```
 
 ## License

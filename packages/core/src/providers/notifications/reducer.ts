@@ -1,15 +1,14 @@
-import { ChainId } from '../../constants'
 import { Notification, Notifications } from './model'
 
 interface AddNotification {
   type: 'ADD_NOTIFICATION'
-  chainId: ChainId
+  chainId: number
   notification: Notification
 }
 
 interface RemoveNotification {
   type: 'REMOVE_NOTIFICATION'
-  chainId: ChainId
+  chainId: number
   notificationId: string
 }
 

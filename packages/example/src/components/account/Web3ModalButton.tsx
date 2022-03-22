@@ -33,7 +33,7 @@ export const Web3ModalButton = () => {
         package: WalletConnectProvider,
         options: {
           bridge: 'https://bridge.walletconnect.org',
-          infuraId: '14a0951f47e646c1b241aa533e150219',
+          infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
         },
       },
     }

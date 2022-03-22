@@ -10,4 +10,14 @@ export const Fantom: Chain = {
   getExplorerTransactionLink: (transactionHash: string) => `https://ftmscan.com/tx/${transactionHash}`,
 }
 
-export default { Fantom }
+export const FantomTestnet: Chain = {
+  chainId: 4002,
+  chainName: 'FantomTestnet',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xA01917aF773b703717C25C483a619e9218343531',
+  getExplorerAddressLink: (address: string) => `https://testnet.ftmscan.com/address/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://testnet.ftmscan.com/tx/${transactionHash}`,
+}
+
+export default { Fantom, FantomTestnet }
