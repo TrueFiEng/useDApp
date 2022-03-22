@@ -47,7 +47,7 @@ export function App() {
         {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
         {account 
         ? <WalletContent />
-        : <p>Connect to wallet to integrate with example</p>
+        : <p>Connect to wallet to interact with the example.</p>
         }
     </div>
     )
