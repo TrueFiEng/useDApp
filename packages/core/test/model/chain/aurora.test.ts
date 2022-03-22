@@ -24,8 +24,12 @@ describe.only('Aurora Tesnet Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(Aurora.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://explorer.mainnet.aurora.dev/address/${TEST_ADDRESS}`)
-    expect(AuroraTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://explorer.testnet.aurora.dev/address/${TEST_ADDRESS}`)
+    expect(Aurora.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://explorer.mainnet.aurora.dev/address/${TEST_ADDRESS}`
+    )
+    expect(AuroraTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://explorer.testnet.aurora.dev/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {
