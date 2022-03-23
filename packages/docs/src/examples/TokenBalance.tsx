@@ -20,11 +20,12 @@ ReactDOM.render(
 )
 
 export function TokenBalance() {
-  const { account } = useEthers()
+  const { account, activateBrowserWallet } = useEthers()
   const daiBalance = useTokenBalance(DAI, account)
 
   return (
     <div>
+      {!account && <button onClick={activateBrowserWallet}> Connect </button>}
       {daiBalance && <p>Dai balance: {formatEther(daiBalance)}</p>}
     </div>
   )

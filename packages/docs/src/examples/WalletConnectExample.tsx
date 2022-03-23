@@ -26,7 +26,7 @@ ReactDOM.render(
 )
 
 function App() {
-    const { account, activate } = useEthers()
+    const { account, activate, deactivate } = useEthers()
     const etherBalance = useEtherBalance(account)
   
     async function onConnect() {
@@ -43,9 +43,8 @@ function App() {
     
   return (
     <div>
-      <div>
-        <button onClick={() => onConnect()}>Connect</button>
-      </div>
+      {!account && <button onClick={() => onConnect()}>Connect</button>}
+      {account && <button onClick={deactivate}>Disconnect</button>}
       {account && <p>Account: {account}</p>}
       {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
     </div>

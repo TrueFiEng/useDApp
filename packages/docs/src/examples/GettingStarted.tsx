@@ -29,9 +29,7 @@ function App() {
   const etherBalance = useEtherBalance(account)
   return (
     <div>
-      <div>
-        <button onClick={() => activateBrowserWallet()}>Connect</button>
-      </div>
+      {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
       {account && <p>Account: {account}</p>}
       {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
     </div>
