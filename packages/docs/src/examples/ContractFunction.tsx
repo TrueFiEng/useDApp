@@ -1,22 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useEthers, Config, ChainId, useContractFunction } from '@usedapp/core'
+import { DAppProvider, useEthers, useContractFunction } from '@usedapp/core'
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES } from './constants/Weth'
+import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
 
-const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [ChainId.Ropsten]: 'https://ropsten.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
-      [ChainId.Rinkeby]: 'https://rinkeby.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
-      [ChainId.Kovan]: 'https://kovan.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
-      [ChainId.Goerli]: 'https://goerli.infura.io/v3/57fc2c19095745e59ab96a4aa87dada8',
-    },
-}
 
 ReactDOM.render(
-    <DAppProvider config={config}>
+    <DAppProvider config={{}}>
       <App />
     </DAppProvider>,
     document.getElementById('root')
@@ -24,25 +15,21 @@ ReactDOM.render(
 
 export function App() {
     const { account, chainId, activateBrowserWallet } = useEthers()
+    const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
 
-    const wethAddress = WETH_ADDRESSES[chainId ?? ChainId.Ropsten]
-    const wethInterface = new utils.Interface(WethAbi)
-    const contract = new Contract(wethAddress, wethInterface) as any
+    const WrapEtherComponent = () => {
+        const wethAddress = WETH_ADDRESSES[chainId]
+        const wethInterface = new utils.Interface(WethAbi)
+        const contract = new Contract(wethAddress, wethInterface) as any
+    
+        const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+        const { status } = state
 
-    const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-    const { status } = state
+        const wrapEther = () => {
+            send({ value: 1 })
+        }
 
-    // We prevent the example from running on Mainnet so that the users do not use real Ether without realizing.
-    const disabled = chainId === ChainId.Mainnet
-
-    const wrapEther = () => {
-        send({ value: 1 })
-    }
-
-    const WalletContent = () => {
-        return disabled
-        ? <p>Please change the network from Mainnet to proceed.</p>
-        : (
+        return (        
         <div>
             <button onClick={() => wrapEther()}>Wrap ether</button>
             <p>Status: {status}</p>
@@ -50,12 +37,26 @@ export function App() {
         )
     }
 
+    const ChainFilter = () => {
+        return isSupportedChain
+        ? <WrapEtherComponent />
+        : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
+    }
+
+    const MetamaskConnect = () => {
+        return (
+        <div>
+            <button onClick={() => activateBrowserWallet()}>Connect</button>
+            <p>Connect to wallet to interact with the example.</p>
+        </div>
+        )
+    }
+
     return (
     <div>
-        {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
-        {account 
-        ? <WalletContent />
-        : <p>Connect to wallet to interact with the example.</p>
+        {!account 
+        ? <MetamaskConnect /> 
+        : <ChainFilter />
         }
     </div>
     )
