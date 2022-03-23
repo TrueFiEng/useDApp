@@ -1,21 +1,28 @@
-import { ReactNode } from 'react'
-import { DEFAULT_SUPPORTED_CHAINS } from '../constants'
-import { Config } from '../model/config/Config'
-import { ConfigProvider } from '../providers/config/provider'
-import { BlockNumberProvider } from './blockNumber/provider'
-import { ChainStateProvider } from './chainState'
+import { ReactNode, useMemo } from 'react'
+import { Config, Chain } from '../constants'
+import { ConfigProvider } from './config'
+import { BlockNumberProvider } from './blockNumber/blockNumber'
+import { MultiChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
-import { EthersProvider } from './EthersProvider'
 import { NotificationsProvider } from './notifications/provider'
 import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
+import { NetworkProvider, InjectedNetworkProvider, ReadonlyNetworksProvider } from './network'
+import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 
-interface DAppProviderProps {
-  children: ReactNode
+export interface DAppProviderProps {
+  children?: ReactNode
+  /**
+   * Configuration of the DApp. See {@link Config} for more details.
+   */
   config: Config
 }
 
+/**
+ * Provides basic services for a DApp.
+ * @public
+ */
 export function DAppProvider({ config, children }: DAppProviderProps) {
   return (
     <ConfigProvider config={config}>
@@ -28,27 +35,48 @@ interface WithConfigProps {
   children: ReactNode
 }
 
-const MULTICALL_ADDRESSES: { [index: number]: string } = {}
-DEFAULT_SUPPORTED_CHAINS.filter((network) => network.multicallAddress).map(
-  (network) => (MULTICALL_ADDRESSES[network.chainId] = network.multicallAddress)
-)
+const getMulticallAddresses = (networks: Chain[] | undefined) => {
+  const result: { [index: number]: string } = {}
+  networks?.forEach((network) => (result[network.chainId] = network.multicallAddress))
+  return result
+}
+
+const getMulticall2Addresses = (networks: Chain[] | undefined) => {
+  const result: { [index: number]: string } = {}
+  networks?.forEach((network) => {
+    if (network.multicall2Address) {
+      result[network.chainId] = network.multicall2Address
+    }
+  })
+  return result
+}
 
 function DAppProviderWithConfig({ children }: WithConfigProps) {
-  const { multicallAddresses } = useConfig()
-  const multicallAddressesMerged = { ...MULTICALL_ADDRESSES, ...multicallAddresses }
+  const { multicallAddresses, networks, multicallVersion } = useConfig()
+  const defaultAddresses = useMemo(
+    () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
+    [networks, multicallVersion]
+  )
+  const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <EthersProvider>
-      <BlockNumberProvider>
-        <NetworkActivator />
-        <LocalMulticallProvider>
-          <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
-            <NotificationsProvider>
-              <TransactionProvider>{children}</TransactionProvider>
-            </NotificationsProvider>
-          </ChainStateProvider>
-        </LocalMulticallProvider>
-      </BlockNumberProvider>
-    </EthersProvider>
+    <ReadonlyNetworksProvider>
+      <NetworkProvider>
+        <InjectedNetworkProvider>
+          <BlockNumberProvider>
+            <BlockNumbersProvider>
+              <NetworkActivator />
+              <LocalMulticallProvider>
+                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                  <NotificationsProvider>
+                    <TransactionProvider>{children}</TransactionProvider>
+                  </NotificationsProvider>
+                </MultiChainStateProvider>
+              </LocalMulticallProvider>
+            </BlockNumbersProvider>
+          </BlockNumberProvider>
+        </InjectedNetworkProvider>
+      </NetworkProvider>
+    </ReadonlyNetworksProvider>
   )
 }

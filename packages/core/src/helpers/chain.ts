@@ -3,16 +3,50 @@ import { DEFAULT_SUPPORTED_CHAINS, ChainId } from '../constants'
 export const getChainById = (chainId: ChainId) =>
   DEFAULT_SUPPORTED_CHAINS.find((network) => network.chainId === chainId)
 
-export const getExplorerAddressLink = (address: string, chainId: ChainId): string | '' =>
-  getChainById(chainId)?.getExplorerAddressLink(address) || ''
+const deprecationWarning = (methodName: string) =>
+  console.warn(`${methodName} is deprecated, can call with Chain directly`)
 
-export const getExplorerTransactionLink = (transactionHash: string, chainId: ChainId): string | '' =>
-  getChainById(chainId)?.getExplorerTransactionLink(transactionHash) || ''
+/**
+ * @public
+ * @deprecated
+ */
+export const getExplorerAddressLink = (address: string, chainId: ChainId): string | '' => {
+  deprecationWarning('getExplorerAddressLink')
+  return getChainById(chainId)?.getExplorerAddressLink(address) || ''
+}
 
-export const getChainName = (chainId: ChainId) => getChainById(chainId)?.chainName || ''
+/**
+ * @public
+ * @deprecated
+ */
+export const getExplorerTransactionLink = (transactionHash: string, chainId: ChainId): string | '' => {
+  deprecationWarning('getExplorerTransactionLink')
+  return getChainById(chainId)?.getExplorerTransactionLink(transactionHash) || ''
+}
 
-export const isTestChain = (chainId: ChainId) =>
-  DEFAULT_SUPPORTED_CHAINS.some((network) => network.isTestChain && network.chainId === chainId)
+/**
+ * @public
+ * @deprecated
+ */
+export const getChainName = (chainId: ChainId) => {
+  deprecationWarning('getChainName')
+  return getChainById(chainId)?.chainName || ''
+}
 
-export const isLocalChain = (chainId: ChainId) =>
-  DEFAULT_SUPPORTED_CHAINS.some((network) => network.isLocalChain && network.chainId === chainId)
+/**
+ * @public
+ * @deprecated
+ */
+export const isTestChain = (chainId: ChainId) => {
+  deprecationWarning('isTestChain')
+  return getChainById(chainId)?.isTestChain || false
+}
+
+/**
+ * @public
+ * @deprecated
+ */
+export const isLocalChain = (chainId: ChainId) => {
+  deprecationWarning('isLocalChain')
+  return getChainById(chainId)?.isLocalChain || false
+}

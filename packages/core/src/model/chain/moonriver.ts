@@ -1,4 +1,4 @@
-import { Chain } from '../../constants/Chain'
+import { Chain } from '../../constants'
 
 export const Moonriver: Chain = {
   chainId: 1285,

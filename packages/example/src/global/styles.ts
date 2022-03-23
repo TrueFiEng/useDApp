@@ -21,12 +21,8 @@ export const Fonts = {
 }
 
 export const Shadows = {
-  main: '0px 4px 28px rgba(136, 169, 200, 0.15)',
+  main: '10px 4px 28px rgba(136, 169, 200, 0.15)',
   notification: '0px 4px 14px rgba(136, 169, 200, 0.3)',
-}
-
-export const Sizes = {
-  headerHeight: '64px',
 }
 
 export const Gradients = {

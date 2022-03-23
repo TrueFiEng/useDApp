@@ -1,5 +1,5 @@
 import { ReactNode, useReducer } from 'react'
-import { Config } from '../../model/config/Config'
+import { Config } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 import { ConfigContext } from './context'
 import { configReducer } from './reducer'

@@ -1,18 +1,27 @@
 import { BigNumber } from '@ethersproject/bignumber'
+import { Contract } from 'ethers'
 import { ERC20Interface } from '../constants'
+import { QueryParams } from '../constants/type/QueryParams'
 import { Falsy } from '../model/types'
-import { useContractCall } from './useContractCall'
+import { useCall } from './useCall'
 
-export function useTokenBalance(tokenAddress: string | Falsy, address: string | Falsy): BigNumber | undefined {
-  const [tokenBalance] =
-    useContractCall(
+/**
+ * @public
+ */
+export function useTokenBalance(
+  tokenAddress: string | Falsy,
+  address: string | Falsy,
+  queryParams: QueryParams = {}
+): BigNumber | undefined {
+  const { value: tokenBalance } =
+    useCall(
       address &&
         tokenAddress && {
-          abi: ERC20Interface,
-          address: tokenAddress,
+          contract: new Contract(tokenAddress, ERC20Interface),
           method: 'balanceOf',
           args: [address],
-        }
-    ) ?? []
-  return tokenBalance
+        },
+      queryParams
+    ) ?? {}
+  return tokenBalance?.[0]
 }

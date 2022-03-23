@@ -13,11 +13,17 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
   const { addTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
 
+  const resetState = useCallback(() => {
+    setState({ status: 'None' })
+  }, [setState])
+
   const promiseTransaction = useCallback(
     async (transactionPromise: Promise<TransactionResponse>) => {
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
+        setState({ status: 'PendingSignature', chainId })
+
         transaction = await transactionPromise
 
         setState({ transaction, status: 'Mining', chainId })
@@ -73,5 +79,5 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
     [chainId, setState, addTransaction, options]
   )
 
-  return { promiseTransaction, state }
+  return { promiseTransaction, state, resetState }
 }

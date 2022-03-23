@@ -14,6 +14,7 @@
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
+  "ignorePatterns": [".eslintrc.js"],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
