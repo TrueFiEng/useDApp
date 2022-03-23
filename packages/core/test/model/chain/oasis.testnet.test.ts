@@ -12,7 +12,7 @@ describe('Oasis Emerald Chain', () => {
   })
 
   it('isTestChain', () => {
-    expect(OasisEmeraldTestnet.isTestChain).to.be.false
+    expect(OasisEmeraldTestnet.isTestChain).to.be.true
   })
 
   it('isLocalChain', () => {
