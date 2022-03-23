@@ -43,9 +43,7 @@ function App() {
     
   return (
     <div>
-      <div>
-        <button onClick={() => onConnect()}>Connect</button>
-      </div>
+      {!account && <button onClick={() => onConnect()}>Connect</button>}
       {account && <p>Account: {account}</p>}
       {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
     </div>

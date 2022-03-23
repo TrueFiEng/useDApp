@@ -18,11 +18,12 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { account } = useEthers()
+  const { account, activateBrowserWallet } = useEthers()
   const etherBalance = useEtherBalance(account)
 
   return (
     <div>
+      {!account && <button onClick={activateBrowserWallet}> Connect </button>}
       {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
     </div>
   )
