@@ -32,9 +32,10 @@
     "clsx": "^1.1.1",
     "eslint": "7.19.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "ethers": "^5.5.4",
     "node-polyfill-webpack-plugin": "^1.1.4",
-    "prism-react-renderer": "^1.2.1",
     "prettier": "^2.1.2",
+    "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
