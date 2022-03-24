@@ -11,11 +11,13 @@ importers:
       ethers: ^5.5.4
       prettier: 2.1.2
       wsrun: ^5.2.1
+      yarn: ^1.22.17
     dependencies:
       '@changesets/cli': 2.21.1
       ethers: 5.6.0
       prettier: 2.1.2
       wsrun: 5.2.4
+      yarn: 1.22.17
 
   packages/coingecko:
     specifiers:
@@ -20331,6 +20333,13 @@ packages:
       window-size: 0.2.0
       y18n: 3.2.2
       yargs-parser: 2.4.1
+
+  /yarn/1.22.17:
+    resolution: {integrity: sha512-H0p241BXaH0UN9IeH//RT82tl5PfNraVpSpEoW+ET7lmopNC61eZ+A+IDvU8FM6Go5vx162SncDL8J1ZjRBriQ==}
+    engines: {node: '>=4.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
 
   /yn/3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}

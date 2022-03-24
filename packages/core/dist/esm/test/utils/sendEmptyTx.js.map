@@ -1,0 +1,1 @@
+{"version":3,"file":"sendEmptyTx.js","sourceRoot":"","sources":["../../../../test/utils/sendEmptyTx.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,WAAW,EAAE,MAAM,0BAA0B,CAAA;AAEtD,MAAM,CAAC,KAAK,UAAU,WAAW,CAAC,MAAc;IAC9C,OAAO,MAAM,CAAC,eAAe,CAAC,EAAE,EAAE,EAAE,WAAW,EAAE,CAAC,CAAA;AACpD,CAAC"}
