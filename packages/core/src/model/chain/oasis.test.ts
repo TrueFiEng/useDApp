@@ -10,7 +10,7 @@ describe('Oasis Emerald Chain', () => {
 
   it('getChainName', () => {
     expect(OasisEmerald.chainName).to.eq('OasisEmerald')
-    expect(OasisEmeraldTestnet.chainId).to.equal('OasisEmeraldTestnet')
+    expect(OasisEmeraldTestnet.chainName).to.equal('OasisEmeraldTestnet')
   })
 
   it('isTestChain', () => {
