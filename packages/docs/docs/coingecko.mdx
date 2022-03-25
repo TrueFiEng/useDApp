@@ -1,5 +1,6 @@
 ---
-sidebar_position: 6
+sidebar_position: 5
+id: coingecko
 ---
 
 # CoinGecko API
@@ -21,13 +22,10 @@ Given base token name and the supported currencies to get token price from CoinG
 
 **Example**
 
-```javascript
-  import { useCoingeckoPrice } from '@usedapp/coingecko'
+import { ExampleContainer } from '../src/examples/ExampleContainer';
+import EthPrice from '../example-loader.js!../src/examples/EthPrice.tsx'
 
-  const etherPrice = useCoingeckoPrice('ethereum', 'usd')
-
-  return etherPrice && (<p>$ {etherPrice}</p>)
-```
+<ExampleContainer example={EthPrice}/>
 
 ### useCoingeckoTokenPrice
 
@@ -45,11 +43,6 @@ Given token contract and the supported currencies to get token price from CoinGe
 
 **Example**
 
-```javascript
-  import { useCoingeckoTokenPrice } from '@usedapp/coingecko'
+import WethPrice from '../example-loader.js!../src/examples/WethPrice.tsx'
 
-  const WETH_CONTRACT = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-  const wethPrice = useCoingeckoTokenPrice(WETH_CONTRACT, 'usd')
-
-  return wethPrice && (<p>$ {wethPrice}</p>)
-```
+<ExampleContainer example={WethPrice}/>

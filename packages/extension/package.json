@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/extension",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",
@@ -10,7 +10,7 @@
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
-    "test": "mocha --exit",
+    "test": "mocha",
     "storybook": "start-storybook -s ./static -p 6006",
     "build-storybook": "build-storybook -s ./static"
   },
@@ -28,6 +28,7 @@
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
     "@storybook/react": "^6.2.9",
+    "@swc-node/register": "^1.4.2",
     "@types/chai": "^4.2.14",
     "@types/chrome": "^0.0.136",
     "@types/mocha": "^8.2.0",

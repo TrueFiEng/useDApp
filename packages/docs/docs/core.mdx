@@ -60,8 +60,6 @@ of the user's child components.
 
 ## Hooks
 
-### useBlock
-
 ### useBlockMeta
 
 ### useBlockNumber
@@ -78,7 +76,7 @@ If typechain contract is used in `call` parameter then method name and arguments
 
 - ``call: Call | Falsy`` - a single call to a contract , also see [Call](#call)
 
-More on type checking [here](./guides#using-typed-contract-calls-and-functions).
+More on type checking [here](./guides/typed-contracts).
 
 **Returns**
 
@@ -118,7 +116,7 @@ A syntax sugar for [useRawCalls](#userawcalls) that uses ABI, function name, and
 
 **Example**
 
-```javascript
+```tsx
   function useTotalSupplies(tokenAddresses: string[] | undefined): (BigNumber | undefined)[] {
     const calls = tokenAddresses?.map(address => ({
       contract: new Contract(address, ERC20Interface),
@@ -177,7 +175,7 @@ It is recommended to use [useCall](#usecall) where applicable instead of this me
 
 *Parameters*
 
-- ``call: ChainCall | Falsy`` - a single call, also see [ChainCall](#chaincall). A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
+- ``call: RawCall | Falsy`` - a single call, also see [RawCall](#rawcall). A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
 
 *Returns*
 
@@ -195,7 +193,7 @@ It is recommended to use [useCalls](#usecalls) where applicable instead of this 
 
 *Parameters*
 
-- ``calls: ChainCall[]`` - list of calls, also see [ChainCall](#chaincall). Calls need to be in the same order across component renders.
+- ``calls: RawCall[]`` - list of calls, also see [RawCall](#rawcall). Calls need to be in the same order across component renders.
 
 *Returns*
 
@@ -248,7 +246,7 @@ Additionally, there can be one extra argument - [TransactionOverrides](https://d
 
 If typechain contract is supplied as contract parameter then function name and send arguments will be type checked.
 
-More on type checking [here](./guides#using-typed-contract-calls-and-functions).
+More on type checking [here](./guides/typed-contracts).
 
 **Parameters**
 
@@ -262,7 +260,7 @@ More on type checking [here](./guides#using-typed-contract-calls-and-functions).
 
 **Example**
 
-```javascript
+```tsx
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
   const depositEther = (etherAmount: string) => {
@@ -270,7 +268,7 @@ More on type checking [here](./guides#using-typed-contract-calls-and-functions).
   }
 ```
 
-```javascript
+```tsx
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
@@ -300,7 +298,7 @@ Function accepts a [Transaction Request](https://docs.ethers.io/v5/api/providers
 
 **Example**
 
-```javascript
+```tsx
   const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
 
   const handleClick = () => {
@@ -337,7 +335,7 @@ It stores a single value but returns after debounced time unless a new value is 
 
 **Example**
 
-```javascript
+```tsx
   const [someValue, setValue] = useState(...)
   const debouncedValue = useDebounce(value, 1000)
 ```
@@ -379,7 +377,7 @@ Returns ether balance of a given account.
 
 **Example**
 
-```javascript
+```tsx
   const { account } = useEthers()
   const etherBalance = useEtherBalance(account)
 
@@ -423,7 +421,7 @@ Notifications include information about: new transactions, transaction success o
 
 To use this hook call:
 
-```javascript
+```tsx
   const { notifications } = useNotifications()
 ```
 
@@ -434,14 +432,14 @@ config.notifications.expirationPeriod
 
 Each can be one of the following:
 
-```javascript
+```tsx
   {
     type: 'walletConnected';
     address: string
   }
 ```
 
-```javascript
+```tsx
   {
     type: 'transactionStarted';
     submittedAt: number
@@ -450,7 +448,7 @@ Each can be one of the following:
   }
 ```
 
-```javascript
+```tsx
   {
     type: 'transactionSucceed'
     transaction: TransactionResponse
@@ -460,7 +458,7 @@ Each can be one of the following:
   }
 ```
 
-```javascript
+```tsx
   {
     type: 'transactionFailed'
     transaction: TransactionResponse
@@ -488,7 +486,7 @@ Returns name, symbol, decimals and token supply of a given token.
 
 **Example**
 
-```javascript
+```tsx
   const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const daiInfo = useToken(DAI_ADDRESS)
 
@@ -517,7 +515,7 @@ Returns a balance of a given token for a given address.
 
 **Example**
 
-```javascript
+```tsx
   const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const { account } = useEthers()
   const daiBalance = useTokenBalance(DAI_ADDRESS, account)
@@ -543,7 +541,7 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
 
 **Example**
 
-```javascript
+```tsx
   const TOKEN_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
   const SPENDER_ADDRESS = '0xA193E42526F1FEA8C99AF609dcEabf30C1c29fAA'
   const { account, chainId } = useEthers()
@@ -574,7 +572,7 @@ If an error occurs ``undefined`` is returned.
 
 **Example**
 
-```javascript
+```tsx
   const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI) || {}
 
   const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI
@@ -614,7 +612,7 @@ Transactions are stored in local storage and the status is rechecked on every ne
 
 Each transaction has following type:
 
-```javascript
+```tsx
   export interface StoredTransaction {
     transaction: TransactionResponse
     submittedAt: number
@@ -639,7 +637,7 @@ Link to: [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#pr
 
 **Example**
 
-```javascript
+```tsx
   const { account } = useEthers()
   const ens = useLookupAddress()
 
@@ -662,7 +660,7 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
 
 ***Example***
 
-```javascript
+```tsx
   {
     ...
     readOnlyUrls: {
@@ -695,7 +693,7 @@ Paths to locations in local storage
 
 ***Default value:***
 
-```javascript
+```tsx
   {
     transactionPath: 'transactions'
   }
@@ -706,7 +704,7 @@ Enables reconnecting to last used provider when user revisits the page.
 
 ***Default value:***
 
-```javascript
+```tsx
   {
     autoConnect: true
   }
@@ -728,15 +726,28 @@ Typecheking:
 
 If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
 
-```javascript
+```tsx
   const typedCall: Call<ERC20> = {contract:ERC20Contract,method:'name',args:[]}
 ```
 
 If you also supply a method name in type arguments will also be type checked
 
-```javascript
+```tsx
   const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 ```
+
+### RawCall
+
+Represents a single call on the blockchain that can be included in multicall.
+
+Fields:
+
+- ``address: string`` - address of a contract to call
+
+- ``data: string`` - calldata of the call that encodes function call
+
+- ``chainId: number`` - chain id of the chain to perform the call on
+
 
 ### ChainCall
 
@@ -862,7 +873,7 @@ Fields:
 - **PendingSignature** - when a transaction has been initiated, but requires signature.
 - **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
 - **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Failed** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
+- **Fail** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
 - **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
 
 Additionally all states except ``None``, contain ``chainId: ChainId``.
@@ -893,7 +904,7 @@ Returns URL to blockchain explorer for an address on a given chain.
 
 **Example**
 
-```javascript
+```tsx
   getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
   // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
@@ -909,7 +920,7 @@ Returns URL to blockchain explorer for an address on a given chain.
 
 Can call with Chain directly:
 
-```javascript
+```tsx
 import { Mainnet } from '@usedapp/core'
 Mainnet.getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
 // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
@@ -926,7 +937,7 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
 
 **Example**
 
-```javascript
+```tsx
   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
   // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
@@ -942,7 +953,7 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
 
 Can call with Chain directly:
 
-```javascript
+```tsx
 import { Mainnet } from '@usedapp/core'
 Mainnet.getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
 // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
@@ -958,7 +969,7 @@ Returns name of a chain for a given `chainId`.
 
 **Example**
 
-```javascript
+```tsx
   getChainName(Mainnet.chainID) // Mainnet
   getChainName(Ropsten.chainID) // Ropsten
   getChainName(xDai.chainID)    // xDai
@@ -972,7 +983,7 @@ Returns name of a chain for a given `chainId`.
 
 Can call with Chain directly:
 
-```javascript
+```tsx
 > import { Mainnet } from '@usedapp/core'
 > Mainnet.chainName
 > // Mainnet
@@ -988,7 +999,7 @@ Returns if a given chain is a testnet.
 
 **Example**
 
-```javascript
+```tsx
   isTestChain(Mainnet.chainId) // false
   isTestChain(Ropsten.chainId) // true
   isTestChain(xDai.chainId)    // false
@@ -996,7 +1007,7 @@ Returns if a given chain is a testnet.
 
 Can call with Chain directly:
 
-```javascript
+```tsx
 import { Mainnet } from '@usedapp/core'
 Mainnet.isTestChain
 // false
@@ -1014,7 +1025,7 @@ Returns short representation of address or throws an error if address is incorre
 
 **Example**
 
-```javascript
+```tsx
   shortenAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
   // 0x6E9e...D3A0
 
@@ -1036,7 +1047,7 @@ Returns empty string if no address is provided.
 
 **Example**
 
-```javascript
+```tsx
   shortenIfAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
   // 0x6E9e...D3A0
 
@@ -1072,7 +1083,7 @@ If any address can't be parsed throws an error.
 
 **Example**
 
-```javascript
+```tsx
   address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
   address2 = '0x24d53843ce280bbae7d47635039a94b471000000'
   compareAddress(address1, address2)
@@ -1102,7 +1113,7 @@ Throws an error if address can't be parsed.
 
 **Example**
 
-```javascript
+```tsx
   address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
   address2 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
   addressEqual(address1, address2)

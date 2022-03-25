@@ -1,5 +1,8 @@
 import { ChainState } from './model'
 
+/**
+ * @public
+ */
 export interface State {
   [chainId: number]:
     | {

@@ -1,9 +1,9 @@
 {
-  "spec": "test/**/*.test.{ts,tsx}",
-  "require": "ts-node/register",
+  "spec": "src/**/*.test.{ts,tsx}",
+  "require": "@swc-node/register",
   "watchExtensions": "ts",
   "extension": "ts",
   "timeout": 3000,
-  "file": "./test/setup.ts",
+  "file": "./src/testing/test-setup.ts",
   "exit": true
 }

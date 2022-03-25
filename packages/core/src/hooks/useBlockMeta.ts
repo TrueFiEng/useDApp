@@ -8,6 +8,10 @@ import { useRawCall } from './useRawCalls'
 const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
 const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
 
+/**
+ * Queries block metadata.
+ * @public
+ */
 export function useBlockMeta(queryParams: QueryParams = {}) {
   const { network } = useNetwork()
   const chainId = queryParams.chainId ?? network.chainId

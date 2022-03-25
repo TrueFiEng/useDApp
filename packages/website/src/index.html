@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>useDApp | Ethereum and React cooperating</title>
+    <meta name="title" content="useDApp | Ethereum and React cooperating" />
+    <meta
+      name="description"
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
+    />
+
+    <!-- Link to edit useDapp image: https://ibb.co/7WkS6HW -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://usedapp.io/" />
+    <meta property="og:title" content="useDApp | Ethereum and React cooperating" />
+    <meta 
+      property="og:description" 
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+      />
+    <meta 
+      property="og:image" 
+      content="https://i.ibb.co/tsLHWSs/welcome.png"
+
+    />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://usedapp.io/" />
+    <meta property="twitter:title" content="useDApp | Ethereum and React cooperating" />
+    <meta 
+      property="twitter:description" 
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+    />
+    <meta 
+      property="twitter:image" 
+      content="https://i.ibb.co/tsLHWSs/welcome.png" 
+    />
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/img/favicon.ico" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header__row">
+          <nav class="nav">
+            <ul id="header-menu" class="nav__list">
+              <li data-menuanchor="features" class="nav__item">
+                <a href="#features" data-destination="features" class="nav__link anchor"> FEATURES </a>
+              </li>
+              <li data-menuanchor="build" class="nav__item">
+                <a href="#build" data-destination="build" class="nav__link anchor">BUILD</a>
+              </li>
+              <li data-menuanchor="example" class="nav__item">
+                <a href="#example" data-destination="example" class="nav__link anchor">EXAMPLE</a>
+              </li>
+              <li data-menuanchor="resources" class="nav__item">
+                <a href="#resources" data-destination="resources" class="nav__link anchor">RESOURCES</a>
+              </li>
+            </ul>
+          </nav>
+          <a
+            href="https://usedapp-docs.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button"
+            title="useDapp documentation"
+          >
+            <div>DOCUMENTATION</div>
+          </a>
+          <a
+            href="https://ethworks.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="animate__animated author author--mobile-menu"
+            title="Ethworks website homepage"
+            data-animations="animate__slideInUp"
+            style="animation-delay: 0.45s"
+          >
+            Created by
+            <svg class="author__image" x="0px" y="0px" viewBox="0 0 340 40" preserveAspectRatio="xMidYMid meet">
+              <path
+                class="ethword"
+                d="M320.2,37c-2.5,0-5-0.3-7.5-1c-2.3-0.6-4.1-1.4-5.6-2.4l2.4-5.5c1.6,0.9,3.2,1.7,4.9,2.2
+                  c1.9,0.6,3.9,0.9,5.8,0.9c2,0,3.5-0.3,4.7-0.8c1.2-0.6,1.8-1.5,1.8-2.7c0-1-0.5-1.9-1.6-2.6c-1-0.6-2.7-1.2-5.4-1.7
+                  c-3.2-0.6-5.7-1.4-7.4-2.3c-1.7-0.9-2.9-1.9-3.6-3.1s-1-2.7-1-4.4c0-2,0.6-3.8,1.7-5.3c1.1-1.6,2.7-2.9,4.8-3.8
+                  c2.1-0.9,4.5-1.4,7.2-1.4c2.4,0,4.8,0.3,7,1c2.1,0.6,3.8,1.4,5,2.4L331,12c-1.4-0.9-2.9-1.6-4.4-2.1c-1.7-0.6-3.4-0.9-5.2-0.9
+                  c-1.7,0-3.1,0.3-4.2,1s-1.7,1.7-1.7,2.9c0,0.7,0.2,1.3,0.7,1.8c0.4,0.4,1.1,0.9,2.2,1.3c1,0.4,2.5,0.8,4.4,1.2
+                  c3,0.7,5.5,1.5,7.2,2.4s2.9,1.9,3.6,3.1s1,2.6,1,4.3c0,3.2-1.2,5.6-3.7,7.4C328.4,36.1,324.8,37,320.2,37L320.2,37z M197.9,37
+                  c-3.4,0-6.4-0.7-8.9-2.1c-2.5-1.4-4.4-3.4-5.8-5.9c-1.3-2.6-2-5.6-2-9.1c0-3.4,0.7-6.5,2.1-9c1.4-2.5,3.3-4.5,5.8-5.9
+                  s5.5-2.1,8.9-2.1s6.4,0.7,8.9,2.1s4.4,3.3,5.7,5.9c1.3,2.5,2,5.6,2,9s-0.7,6.5-2,9.1s-3.3,4.5-5.7,5.9
+                  C204.3,36.3,201.3,37,197.9,37z M197.9,8.9c-2.7,0-4.9,1-6.4,2.9s-2.3,4.6-2.3,8.2s0.8,6.4,2.3,8.3s3.7,2.9,6.4,2.9s4.9-1,6.4-2.9
+                  s2.3-4.7,2.3-8.3s-0.8-6.3-2.3-8.2C202.8,9.8,200.6,8.9,197.9,8.9z M290.4,36.6L276,20.3v16.3h-8V3.4h8v15.5l14-15.5h9.2
+                  l-14.7,15.7l15.2,17.4L290.4,36.6L290.4,36.6z M247.3,36.6l-4.3-11c-0.6-1.5-2-2.2-4.1-2.2h-3.8v13.3h-7.9V3.4h15.4
+                  c4,0,7,0.9,9,2.5c2,1.7,2.9,4.1,2.9,7.2c0,2.2-0.6,4.1-1.8,5.7c-1.2,1.6-2.8,2.7-5,3.4l-1.9,0.6l1.9,0.4c0.9,0.2,1.7,0.6,2.4,1.2
+                  s1.3,1.5,1.7,2.6l3.8,9.5L247.3,36.6L247.3,36.6z M235,17.6h6.2c2,0,3.5-0.3,4.5-1c1-0.7,1.5-1.8,1.5-3.2c0-1.5-0.5-2.6-1.5-3.2
+                  c-0.9-0.6-2.4-0.9-4.5-0.9H235L235,17.6L235,17.6z M153.5,36.6L146,15.3l-7.7,21.3h-6.5L120,3.4h8.1l7.4,22.6l8-22.6h5.4l7.7,23
+                  l7.7-23h7.5L160,36.6H153.5L153.5,36.6z M100.9,36.6V22.8H86.1v13.8h-7.8V3.4h7.8v13.3h14.8V3.4h7.8v33.1L100.9,36.6L100.9,36.6z
+                  M48.9,36.6V9.7H38.7V3.4h28.5v6.3H57v26.8L48.9,36.6L48.9,36.6z"
+              ></path>
+              <path class="eth-e" d="M5,3.4h23.7v6H5V3.4z"></path>
+              <path class="eth-e" d="M5,16.8h23.7v6H5V16.8z"></path>
+              <path class="eth-e" d="M5,31h23.7v6H5V31z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+    <div class="burger burger--arrowalt js-burger">
+      <div class="burger-box">
+        <div class="burger-inner"></div>
+      </div>
+    </div>
+    <a
+      href="https://usedapp-docs.netlify.app"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="button button--mobile-fixed"
+      title="useDapp documentation"
+    >
+      <div>DOCUMENTATION</div>
+    </a>
+    <main id="fullpage" class="main" data-anchor="about">
+      <section data-sectioncolor="#FFF4D4" class="section section--main">
+        <div class="container container--left">
+          <div class="smaller-wrapper">
+            <h1 class="main-title text--left">
+              <span class="main-title__large">useDApp</span> <br />
+              Ethereum <span data-animations="animate__shakeY" class="inline-block animate__animated">🤝</span> React
+            </h1>
+            <h2 class="title-page text--left">Framework for rapid DApp development.</h2>
+          </div>
+          <div class="hero-image">
+            <div
+              class="hero-image__wrapper"
+              data-tilt
+              data-tilt-full-page-listening
+              data-tilt-max="10"
+              data-tilt-reverse="true"
+            >
+              <div class="hero-image__bottom-cloud__wrapper">
+                <img
+                  src="./img/bottom-cloud.png"
+                  alt="Hero image"
+                  data-animations="animate__fadeInBottomLeft"
+                  class="hero-image__bottom-cloud animate__animated"
+                />
+              </div>
+              <div class="hero-image__top-cloud__wrapper">
+                <img
+                  src="./img/top-cloud.png"
+                  alt="Hero image"
+                  data-animations="animate__fadeInTopRight"
+                  class="hero-image__top-cloud animate__animated"
+                />
+              </div>
+              <div class="hero-image__rocket-woman__wrapper">
+                <img
+                  src="./img/rocket-woman.png"
+                  alt="Hero image"
+                  data-animations="animate__fadeInBottomRight"
+                  class="hero-image__rocket-woman animate__animated"
+                />
+              </div>
+            </div>
+          </div>
+          <a href="#features" data-destination="features" class="button-down anchor">
+            <img src="./img/arrowDown.svg" alt="Go down" />
+          </a>
+        </div>
+      </section>
+      <section data-sectioncolor="#DCDBFF" data-anchor="features" class="section section--features">
+        <div class="container container--left">
+          <h2 class="title">Features</h2>
+          <div class="features">
+            <div data-animations="animate__fadeInLeft" class="features__box animate__animated">
+              <h2 class="features__title">🔌 Connection management</h2>
+              <ul class="features__list">
+                <li class="features__item">Read-only mode out-of the box</li>
+                <li class="features__item">Network switching</li>
+                <li class="features__item">Handling multiple networks</li>
+              </ul>
+            </div>
+            <div
+              data-animations="animate__fadeInRight"
+              style="animation-delay: 0.15s"
+              class="features__box animate__animated animate__fast"
+            >
+              <h2 class="features__title">🔄 Reading blockchain state</h2>
+              <ul class="features__list">
+                <li class="features__item">Auto refresh on new block</li>
+                <li class="features__item">Auto refresh on wallet change</li>
+                <li class="features__item">Combine multiple calls into a single multicall</li>
+              </ul>
+            </div>
+            <div
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.3s"
+              class="features__box features__box--desktop animate__animated animate__fast"
+            >
+              <h2 class="features__title">✅ Transactions</h2>
+              <ul class="features__list">
+                <li class="features__item">Track transaction state</li>
+                <li class="features__item">History</li>
+                <li class="features__item">Notifications</li>
+              </ul>
+            </div>
+            <div
+              data-animations="animate__fadeInRight"
+              style="animation-delay: 0.45s"
+              class="features__box features__box--desktop animate__animated animate__fast"
+            >
+              <h2 class="features__title">⚙️ Browser plugin</h2>
+              <ul class="features__list">
+                <li class="features__item">Available in Beta for Firefox and Chrome</li>
+                <li class="features__item">Track under-the-hood events</li>
+                <li class="features__item">Manage ABIs and tags</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section data-sectioncolor="#D4EDFF" data-anchor="build" class="section">
+        <div class="container build">
+          <h2 class="title build__title">Good design is opinionated</h2>
+          <h3 class="small-title">build on modern DApp stack</h3>
+          <div class="build__options">
+            <img
+              src="./img/react.png"
+              alt="React logo"
+              data-animations="animate__fadeInLeft"
+              style="animation-delay: 0.45s"
+              class="build__option animate__animated animate__fast"
+            />
+            <img
+              src="./img/ethers.svg"
+              alt="Ethers logo"
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.3s"
+              class="build__option animate__animated animate__fast"
+            />
+
+            <img
+              src="./img/web3.png"
+              alt="Web3 logo"
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.3s"
+              class="build__option animate__animated animate__fast"
+            />
+            <img
+              src="./img/waffle.png"
+              alt="Waffle logo"
+              data-animations="animate__fadeInRight"
+              style="animation-delay: 0.45s"
+              class="build__option animate__animated animate__fast"
+            />
+          </div>
+        </div>
+      </section>
+      <section data-sectioncolor="#DAFFE9" data-anchor="example" class="section">
+        <div class="container">
+          <div class="two-columns">
+            <div class="smaller-wrapper">
+              <h2 class="title text--left">Example</h2>
+              <p class="title-page title-page--small text--left">
+                Example app
+                <br class="br-none" />
+                is availiable
+                <a
+                  href="https://example.useDApp.io/"
+                  class="link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="useDApp example application"
+                >
+                  here</a
+                >
+                <span data-animations="animate__heartBeat animate__infinite" class="inline-block animate__animated"
+                  >❤️</span
+                >
+              </p>
+            </div>
+            <div data-animations="animate__slideInRight" class="slider animate__animated animate__slideInRight">
+              <div class="window window--active">
+                <pre
+                  class="window-pre"
+                ><code class="code" data-lines="1"><span class="code--red">const</span> config: Config = {
+    readOnlyChain: ChainId.Mainnet,
+    readOnlyUrls: {
+      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+  }
+    
+  ReactDOM.render (
+    &lt;React.StrictMode&gt;
+      &lt;DAppProvider config={config}&gt;
+        &lt;App /&gt;
+      &lt;/DAppProvider&gt;
+    &lt;/React.StrictMode&gt;,
+    document.getElementById</span>('root')
+  )
+  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
+              </div>
+              <div class="window">
+                <pre
+                  class="window-pre"
+                ><code class="code" data-lines="1"><span class="code--red">import</span> { formatUnits } from '@ethersproject/units'
+
+<span class="code--red">const</span> DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
+
+<span class="code--red">export </span><span class="code--blue">function</span> TokenBalance( ) {
+    const { account } = useEthers( )
+    const tokenBalance = useTokenBalance(DAI, account)
+                  
+<span class="code--red">return</span> (
+      &lt;div&gt;
+         {tokenBalance && &lt;p&gt;Balance: {formatUnits(tokenBalance, 18)}&lt;/p&gt;}
+      &lt;/div&gt;
+    )
+}
+
+  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
+              </div>
+              <div class="window">
+                <pre
+                  class="window-pre"
+                ><code class="code" data-lines="1"><span class="code--blue">function</span> useTokenBalance (
+  tokenAddress: string | Falsy,
+  address: string | Falsy
+) {
+  <span class="code--red">const</span> [tokenBalance] =
+    useContractCall (
+      address && tokenAddress && {
+          abi: ERC20Interface,<span class="code--gray"> // ABI interface of the called contract</span>
+          address: tokenAddress,<span class="code--gray"> // On-chain address of the deployed contract</span> 
+          method: "balanceOf",<span class="code--gray"> // Method to be called</span> 
+          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span> 
+        }
+    ) ?? [ ];
+ <span class="code--red">return</span> tokenBalance;
+}
+  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
+              </div>
+
+              <div data-animations="animate__slideInRight" class="slider__btns animate__animated animate__slideInRight">
+                <button class="slider__btn slider__btn--left"></button>
+                <button class="slider__btn slider__btn--right slider__btn--active"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-sectioncolor="#FFE9DA" data-anchor="resources" class="section section--with-footer">
+        <div class="container container--near-footer resources">
+          <h2 class="title">Resources</h2>
+          <div class="resources__list">
+            <div
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.45s"
+              class="resource animate__animated animate__fast"
+            >
+              <div class="resource__box">
+                <a
+                  href="https://example.useDApp.io/"
+                  class="resource__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="useDApp example application"
+                >
+                  <span>🎮</span>
+                  <p>Example app</p></a
+                >
+              </div>
+            </div>
+            <div
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.45s"
+              class="resource animate__animated animate__fast"
+            >
+              <div class="resource__box">
+                <a
+                  href="https://usedapp-docs.netlify.app"
+                  class="resource__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="useDApp example application"
+                >
+                  <span>📄</span>
+                  <p>Docs</p></a
+                >
+              </div>
+            </div>
+            <div
+              data-animations="animate__fadeInUp"
+              style="animation-delay: 0.45s"
+              class="resource animate__animated animate__fast"
+            >
+              <div class="resource__box">
+                <a
+                  href="https://github.com/EthWorks/useDApp"
+                  class="resource__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="useDApp example application"
+                >
+                  <img src="./img/github.svg" alt="github" />
+                  <p>Github</p></a
+                >
+              </div>
+            </div>
+            <div
+            data-animations="animate__fadeInUp"
+            style="animation-delay: 0.45s"
+            class="resource animate__animated animate__fast"
+          >
+            <div class="resource__box">
+              <a
+                href="https://discord.gg/cSSmtdq7jr"
+                class="resource__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="useDApp community discord"
+              >
+                <img src="./img/discord-logo.svg" width="15%" alt="discord"/>
+                <p>Discord</p></a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="container">
+            <nav class="footer__nav">
+              <a
+                href="https://ethworks.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="author"
+                title="Ethworks website homepage"
+              >
+                <span>Created by</span>
+                <svg class="author__image" x="0px" y="0px" viewBox="0 0 340 40" preserveAspectRatio="xMidYMid meet">
+                  <path
+                    class="ethword"
+                    d="M320.2,37c-2.5,0-5-0.3-7.5-1c-2.3-0.6-4.1-1.4-5.6-2.4l2.4-5.5c1.6,0.9,3.2,1.7,4.9,2.2
+                  c1.9,0.6,3.9,0.9,5.8,0.9c2,0,3.5-0.3,4.7-0.8c1.2-0.6,1.8-1.5,1.8-2.7c0-1-0.5-1.9-1.6-2.6c-1-0.6-2.7-1.2-5.4-1.7
+                  c-3.2-0.6-5.7-1.4-7.4-2.3c-1.7-0.9-2.9-1.9-3.6-3.1s-1-2.7-1-4.4c0-2,0.6-3.8,1.7-5.3c1.1-1.6,2.7-2.9,4.8-3.8
+                  c2.1-0.9,4.5-1.4,7.2-1.4c2.4,0,4.8,0.3,7,1c2.1,0.6,3.8,1.4,5,2.4L331,12c-1.4-0.9-2.9-1.6-4.4-2.1c-1.7-0.6-3.4-0.9-5.2-0.9
+                  c-1.7,0-3.1,0.3-4.2,1s-1.7,1.7-1.7,2.9c0,0.7,0.2,1.3,0.7,1.8c0.4,0.4,1.1,0.9,2.2,1.3c1,0.4,2.5,0.8,4.4,1.2
+                  c3,0.7,5.5,1.5,7.2,2.4s2.9,1.9,3.6,3.1s1,2.6,1,4.3c0,3.2-1.2,5.6-3.7,7.4C328.4,36.1,324.8,37,320.2,37L320.2,37z M197.9,37
+                  c-3.4,0-6.4-0.7-8.9-2.1c-2.5-1.4-4.4-3.4-5.8-5.9c-1.3-2.6-2-5.6-2-9.1c0-3.4,0.7-6.5,2.1-9c1.4-2.5,3.3-4.5,5.8-5.9
+                  s5.5-2.1,8.9-2.1s6.4,0.7,8.9,2.1s4.4,3.3,5.7,5.9c1.3,2.5,2,5.6,2,9s-0.7,6.5-2,9.1s-3.3,4.5-5.7,5.9
+                  C204.3,36.3,201.3,37,197.9,37z M197.9,8.9c-2.7,0-4.9,1-6.4,2.9s-2.3,4.6-2.3,8.2s0.8,6.4,2.3,8.3s3.7,2.9,6.4,2.9s4.9-1,6.4-2.9
+                  s2.3-4.7,2.3-8.3s-0.8-6.3-2.3-8.2C202.8,9.8,200.6,8.9,197.9,8.9z M290.4,36.6L276,20.3v16.3h-8V3.4h8v15.5l14-15.5h9.2
+                  l-14.7,15.7l15.2,17.4L290.4,36.6L290.4,36.6z M247.3,36.6l-4.3-11c-0.6-1.5-2-2.2-4.1-2.2h-3.8v13.3h-7.9V3.4h15.4
+                  c4,0,7,0.9,9,2.5c2,1.7,2.9,4.1,2.9,7.2c0,2.2-0.6,4.1-1.8,5.7c-1.2,1.6-2.8,2.7-5,3.4l-1.9,0.6l1.9,0.4c0.9,0.2,1.7,0.6,2.4,1.2
+                  s1.3,1.5,1.7,2.6l3.8,9.5L247.3,36.6L247.3,36.6z M235,17.6h6.2c2,0,3.5-0.3,4.5-1c1-0.7,1.5-1.8,1.5-3.2c0-1.5-0.5-2.6-1.5-3.2
+                  c-0.9-0.6-2.4-0.9-4.5-0.9H235L235,17.6L235,17.6z M153.5,36.6L146,15.3l-7.7,21.3h-6.5L120,3.4h8.1l7.4,22.6l8-22.6h5.4l7.7,23
+                  l7.7-23h7.5L160,36.6H153.5L153.5,36.6z M100.9,36.6V22.8H86.1v13.8h-7.8V3.4h7.8v13.3h14.8V3.4h7.8v33.1L100.9,36.6L100.9,36.6z
+                  M48.9,36.6V9.7H38.7V3.4h28.5v6.3H57v26.8L48.9,36.6L48.9,36.6z"
+                  ></path>
+                  <path class="eth-e" d="M5,3.4h23.7v6H5V3.4z"></path>
+                  <path class="eth-e" d="M5,16.8h23.7v6H5V16.8z"></path>
+                  <path class="eth-e" d="M5,31h23.7v6H5V31z"></path>
+                </svg>
+              </a>
+              <div class="footer__menu">
+                <ul class="nav__list">
+                  <li class="nav__item">
+                    <a href="#features" data-destination="features" class="nav__link anchor"> FEATURES </a>
+                  </li>
+                  <li class="nav__item">
+                    <a href="#build" data-destination="build" class="nav__link anchor">BUILD</a>
+                  </li>
+                  <li class="nav__item">
+                    <a href="#example" data-destination="example" class="nav__link anchor">EXAMPLE</a>
+                  </li>
+                  <li class="nav__item">
+                    <a href="#resources" data-destination="resources" class="nav__link anchor">RESOURCES</a>
+                  </li>
+                </ul>
+                <a
+                  href="https://usedapp-docs.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="useDapp documentation"
+                  class="button"
+                  >DOCUMENTATION</a
+                >
+              </div>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="sections-backgrounds"></div>
+
+    <script src="js/scrolloverflow.min.js"></script>
+    <script src="js/fullpage.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/code-lines.js"></script>
+    <script src="js/animations-on-scroll.js"></script>
+    <script src="js/vanilla-tilt.js"></script>
+    <script src="js/slider.js"></script>
+  </body>
+</html>

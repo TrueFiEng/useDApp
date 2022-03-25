@@ -3,6 +3,9 @@ import { QueryParams } from '../constants/type/QueryParams'
 import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
 
+/**
+ * @public
+ */
 export function useTransactions(queryParams: QueryParams = {}) {
   const { chainId: defaultChainId, account } = useEthers()
   const { addTransaction, transactions } = useTransactionsContext()

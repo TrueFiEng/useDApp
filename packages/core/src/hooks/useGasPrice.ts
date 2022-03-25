@@ -6,6 +6,9 @@ import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
 import { QueryParams } from '../constants/type/QueryParams'
 
+/**
+ * @public
+ */
 export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefined {
   const { library } = useEthers()
   const providers = useReadonlyNetworks()
