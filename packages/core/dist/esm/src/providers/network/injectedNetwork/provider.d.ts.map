@@ -1,1 +1,0 @@
-{"version":3,"file":"provider.d.ts","sourceRoot":"","sources":["../../../../../../src/providers/network/injectedNetwork/provider.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAoC,MAAM,OAAO,CAAA;AAOnE,UAAU,4BAA4B;IACpC,QAAQ,EAAE,SAAS,CAAA;CACpB;AAED,wBAAgB,uBAAuB,CAAC,EAAE,QAAQ,EAAE,EAAE,4BAA4B,eA+BjF"}
