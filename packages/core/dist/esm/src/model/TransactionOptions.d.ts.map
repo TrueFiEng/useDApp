@@ -1,1 +1,0 @@
-{"version":3,"file":"TransactionOptions.d.ts","sourceRoot":"","sources":["../../../../src/model/TransactionOptions.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,QAAQ,CAAA;AAE/B,MAAM,WAAW,kBAAkB;IACjC,MAAM,CAAC,EAAE,MAAM,CAAA;IACf,eAAe,CAAC,EAAE,MAAM,CAAA;CACzB"}
