@@ -17,14 +17,14 @@ export function App() {
     const { notifications } = useNotifications()
     const { account, chainId, activateBrowserWallet } = useEthers()
     const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
-    const [nots, setNots] = useState([])
+    const [allNotifications, setAllNotifications] = useState([])
 
     useEffect(() => {
-        const mergedArray = nots.concat(notifications)
+        const mergedArray = allNotifications.concat(notifications)
         const filteredArray = mergedArray.filter(function(el , id){
             return mergedArray.indexOf(el) == id
         }) 
-        setNots(filteredArray)
+        setAllNotifications(filteredArray)
     }, [notifications])
 
     const WrapEtherComponent = () => {
@@ -44,13 +44,12 @@ export function App() {
             <button onClick={() => wrapEther()}>Wrap ether</button>
             <p>Status: {status}</p>
             <p>Notifications</p>
-            {nots.length !== 0 && 
+            {allNotifications.length !== 0 && 
             (<table>
                 <th>Id</th>
                 <th>Type</th>
                 <th>Date</th>
-            {nots.map((notification) => {
-                console.log(notification)
+            {allNotifications.map((notification) => {
                 return (
                     <tr>
                         <td>{notification.id}</td>
