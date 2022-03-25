@@ -20,11 +20,11 @@ export function App() {
     const [allNotifications, setAllNotifications] = useState([])
 
     useEffect(() => {
-        const mergedArray = allNotifications.concat(notifications)
-        const filteredArray = mergedArray.filter(function(el , id){
-            return mergedArray.indexOf(el) == id
+        const mergedNotifications = allNotifications.concat(notifications)
+        const uniqueNotifications = mergedNotifications.filter(function(el , id){
+            return mergedNotifications.indexOf(el) == id
         }) 
-        setAllNotifications(filteredArray)
+        setAllNotifications(uniqueNotifications)
     }, [notifications])
 
     const WrapEtherComponent = () => {
