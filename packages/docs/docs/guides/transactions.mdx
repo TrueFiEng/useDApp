@@ -182,3 +182,13 @@ For example :
 ``notificationContent`` is an object that holds information about what title and icon to show.
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
+
+**Live example**
+
+App will deposit 1 wei to Wrapped Ether contract.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+It will also show us all notifications.
+
+import Notifications from '../../example-loader.js!../../src/examples/Notifications.tsx'
+
+<ExampleContainer example={Notifications}/>
