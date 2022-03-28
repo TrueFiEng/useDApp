@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { DAppProvider, useEthers, useContractFunction } from '@usedapp/core'
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/App'
+import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
 
 
 ReactDOM.render(
