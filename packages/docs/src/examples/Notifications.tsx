@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { DAppProvider, useEthers, useContractFunction, useNotifications } from '@usedapp/core'
+import { DAppProvider, useEthers, useContractFunction, useNotifications, Config } from '@usedapp/core'
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
+import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/App'
 
+const config: Config = {
+    notifications: {
+        expirationPeriod: 0,
+        checkInterval: null,
+    }
+}
 
 ReactDOM.render(
-    <DAppProvider config={{}}>
+    <DAppProvider config={config}>
       <App />
     </DAppProvider>,
     document.getElementById('root')
@@ -17,15 +23,6 @@ export function App() {
     const { notifications } = useNotifications()
     const { account, chainId, activateBrowserWallet } = useEthers()
     const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
-    const [allNotifications, setAllNotifications] = useState([])
-
-    useEffect(() => {
-        const mergedNotifications = allNotifications.concat(notifications)
-        const uniqueNotifications = mergedNotifications.filter(function(el , id){
-            return mergedNotifications.indexOf(el) == id
-        }) 
-        setAllNotifications(uniqueNotifications)
-    }, [notifications])
 
     const WrapEtherComponent = () => {
         const wethAddress = WETH_ADDRESSES[chainId]
@@ -44,12 +41,12 @@ export function App() {
             <button onClick={() => wrapEther()}>Wrap ether</button>
             <p>Status: {status}</p>
             <p>Notifications</p>
-            {allNotifications.length !== 0 && 
+            {notifications.length !== 0 && 
             (<table>
                 <th>Id</th>
                 <th>Type</th>
                 <th>Date</th>
-            {allNotifications.map((notification) => {
+            {notifications.map((notification) => {
                 return (
                     <tr>
                         <td>{notification.id}</td>
