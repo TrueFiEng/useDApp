@@ -11,4 +11,16 @@ export const OasisEmerald: Chain = {
     `https://explorer.emerald.oasis.dev/tx/${transactionHash}/internal-transactions`,
 }
 
-export default { OasisEmerald }
+export const OasisEmeraldTestnet: Chain = {
+  chainId: 42261,
+  chainName: 'OasisEmeraldTestnet',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xB2929229096d2ee6850c4d3906ef2d1f1330cdc7',
+  getExplorerAddressLink: (address: string) =>
+    `https://testnet.explorer.emerald.oasis.dev/address/${address}/transactions`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://testnet.explorer.emerald.oasis.dev/tx/${transactionHash}/internal-transactions`,
+}
+
+export default { OasisEmerald, OasisEmeraldTestnet }
