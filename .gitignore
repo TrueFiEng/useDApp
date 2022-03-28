@@ -4,6 +4,9 @@ node_modules
 .swc
 packages/example/gen/types
 dist
+<<<<<<< HEAD
 pnpm-lock.yaml
 *.yaml
 pnpm-lock.yaml
+=======
+>>>>>>> parent of 39fed13 (Revert "Merge branch 'TrueFiEng:master' into master")
