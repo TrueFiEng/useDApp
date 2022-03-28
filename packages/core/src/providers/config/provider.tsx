@@ -1,4 +1,5 @@
 import { ReactNode, useReducer } from 'react'
+import merge from 'lodash.merge'
 import { Config } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 import { ConfigContext } from './context'
@@ -10,6 +11,6 @@ interface ConfigProviderProps {
 }
 
 export function ConfigProvider({ config, children }: ConfigProviderProps) {
-  const [reducedConfig, dispatch] = useReducer(configReducer, { ...DEFAULT_CONFIG, ...config })
+  const [reducedConfig, dispatch] = useReducer(configReducer, merge({}, DEFAULT_CONFIG, config))
   return <ConfigContext.Provider value={{ config: reducedConfig, updateConfig: dispatch }} children={children} />
 }

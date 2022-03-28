@@ -182,3 +182,24 @@ For example :
 ``notificationContent`` is an object that holds information about what title and icon to show.
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
+
+### Configuration
+
+If you want to have notifications that don't disappear, set ``notifications.expirationPeriod`` to `0` in your config.
+
+```tsx
+const config: Config = {
+    notifications: {
+        expirationPeriod: 0,
+    }
+}
+```
+
+**Live example**
+
+App will deposit 1 wei to Wrapped Ether contract and display transaction notification.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+
+import Notifications from '../../example-loader.js!../../src/examples/Notifications.tsx'
+
+<ExampleContainer example={Notifications}/>

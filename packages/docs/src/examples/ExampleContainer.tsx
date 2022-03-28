@@ -42,7 +42,7 @@ function ExampleRenderer({ example }: ExampleRendererProps) {
   )
 }
 
-// Needed bacause of require caching
+// Needed because of require caching
 const exampleCache = new Map<string, React.FC>()
 
 /**
