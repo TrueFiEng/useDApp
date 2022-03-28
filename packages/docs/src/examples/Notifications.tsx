@@ -43,13 +43,11 @@ export function App() {
             <p>Notifications</p>
             {notifications.length !== 0 && 
             (<table>
-                <th>Id</th>
                 <th>Type</th>
                 <th>Date</th>
             {notifications.map((notification) => {
                 return (
                     <tr>
-                        <td>{notification.id}</td>
                         <td>{notification.type}</td>
                         <td>{new Date(notification.submittedAt).toDateString()}</td>
                     </tr>
