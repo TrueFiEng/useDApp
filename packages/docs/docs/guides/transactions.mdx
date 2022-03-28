@@ -183,15 +183,14 @@ For example :
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
 
- ### Configuration 
+### Configuration
 
-If you want to have notifications that don't disappear, you need to add ``notifications`` instance, to your config.
+If you want to have notifications that don't disappear, set ``notifications.expirationPeriod`` to `0` in your config.
 
 ```tsx
 const config: Config = {
     notifications: {
         expirationPeriod: 0,
-        checkInterval: null,
     }
 }
 ```

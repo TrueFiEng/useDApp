@@ -64,4 +64,4 @@ export type FullConfig = {
  * useDapp configuration.
  * @public
  */
-export type Config = Partial<FullConfig>
+export type Config = Partial<FullConfig & { notifications: Partial<FullConfig['notifications']> }>

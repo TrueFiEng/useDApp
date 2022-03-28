@@ -8,7 +8,6 @@ import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth
 const config: Config = {
     notifications: {
         expirationPeriod: 0,
-        checkInterval: null,
     }
 }
 
