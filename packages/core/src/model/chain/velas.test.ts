@@ -4,8 +4,8 @@ import { Velas, VelasTestnet } from '../../../src'
 
 describe('Velas Chain', () => {
   it('getChainId', () => {
-    expect(Velas.chainId).to.equal(108)
-    expect(VelasTestnet.chainId).to.equal(18)
+    expect(Velas.chainId).to.equal(106)
+    expect(VelasTestnet.chainId).to.equal(111)
   })
 
   it('getChainName', () => {
