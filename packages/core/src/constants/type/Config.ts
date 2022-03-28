@@ -60,8 +60,14 @@ export type FullConfig = {
   autoConnect: boolean
 }
 
+type RecursivePartial<Object, Keys extends {}> =  {
+  [P in keyof Object]?: P extends keyof Keys ? RecursivePartial<Object[P], Keys[P]> : Object[P];
+};
+
 /**
  * useDapp configuration.
  * @public
  */
-export type Config = Partial<FullConfig & { notifications: Partial<FullConfig['notifications']> }>
+export type Config = RecursivePartial<FullConfig, {
+  notifications: {}
+}>
