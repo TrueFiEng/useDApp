@@ -183,6 +183,19 @@ For example :
 You have to remember that object in ``notifications`` array may not contain transaction field
  (that's why there is if statement).
 
+ ### Configuration 
+
+If you want to have notifications that don't disappear, you need to add ``notifications`` instance, to your config.
+
+```tsx
+const config: Config = {
+    notifications: {
+        expirationPeriod: 0,
+        checkInterval: null,
+    }
+}
+```
+
 **Live example**
 
 App will deposit 1 wei to Wrapped Ether contract and display transaction notification.
