@@ -60,6 +60,7 @@ export type FullConfig = {
   autoConnect: boolean
 }
 
+/* eslint-disable @typescript-eslint/ban-types  */
 type RecursivePartial<Object, Keys extends {}> = {
   [P in keyof Object]?: P extends keyof Keys ? RecursivePartial<Object[P], Keys[P]> : Object[P]
 }
