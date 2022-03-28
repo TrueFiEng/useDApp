@@ -5,7 +5,7 @@ import { useInterval } from './useInterval'
 import { useConfig } from '../providers/config/context'
 
 function getExpiredNotifications(notifications: Notification[], expirationPeriod: number) {
-  if(expirationPeriod === 0) {
+  if (expirationPeriod === 0) {
     return []
   }
   const timeFromCreation = (creationTime: number) => Date.now() - creationTime
