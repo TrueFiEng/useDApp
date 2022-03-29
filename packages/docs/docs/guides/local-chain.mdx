@@ -89,13 +89,47 @@ RPC Listening on 127.0.0.1:8545
 
 ## Configuration
 
+Add ganache address to configuration.
+
 ```tsx
   import { Localhost } from '@usedapp/core'
 
   const config = {
     readOnlyChainId: Localhost.chainID,
     readOnlyUrls: {
-      [Localhost.chainID]: '127.0.0.1:8545',//paste ganache address
+      [Localhost.chainID]: 'http://127.0.0.1:8545',//paste ganache address
     },
   }
 ```
+
+## Deploy multicall
+
+Deploy multicall contract to the ganache and paste its address to file local.ts
+
+```tsx
+export const Localhost: Chain = {
+  chainId: 1337,
+  chainName: 'Localhost',
+  isTestChain: true,
+  isLocalChain: true,
+  multicallAddress: '0xmulticallAddress',//paste local multicall address
+  getExplorerAddressLink: () => '',
+  getExplorerTransactionLink: () => '',
+}
+```
+
+## Reading from blockchain
+
+To read from blockchain just add the queryOptions object to specified call.
+
+### Example
+
+```tsx
+const etherBalance = useEtherBalance(account, { chainId: Localhost.chainId })
+const tokenBalance = useTokenBalance(tokenAddress, account, { chainId: Localhost.chainId })
+```
+
+## Summary
+In this tutorial, we went through the steps required for using useDApp with a local chain.
+
+We modify the local chain by adding local multicall address.
