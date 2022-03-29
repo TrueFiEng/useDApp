@@ -50,7 +50,6 @@ export {
   ChainCall,
   SingleChainState,
   Network,
-  NetworkActivator,
   NetworkProvider,
   BlockNumberProvider,
   Action,

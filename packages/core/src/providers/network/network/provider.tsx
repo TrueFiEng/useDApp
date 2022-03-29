@@ -6,9 +6,11 @@ import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethe
 import { subscribeToProviderEvents } from '../../../helpers/eip1193'
 import { getInjectedProvider } from '../../../helpers/injectedProvider'
 import { useConfig } from '../../config'
+import { useLocalStorage } from '../../../hooks'
 
 interface NetworkProviderProps {
   children: ReactNode
+  providerOverride?: JsonRpcProvider
 }
 
 async function tryToGetAccount(provider: JsonRpcProvider) {
@@ -23,11 +25,35 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
   }
 }
 
-export function NetworkProvider({ children }: NetworkProviderProps) {
-  const { pollingInterval } = useConfig()
+export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
+  const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
+  const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+
+  const activateBrowserWallet = useCallback(async () => {
+    if (!injectedProvider) {
+      return
+    }
+    await connect()
+    setShouldConnectMetamask(true)
+    return activate(injectedProvider)
+  }, [injectedProvider])
+
+  useEffect(() => {
+    if (providerOverride) {
+      activate(providerOverride)
+    }
+  }, [providerOverride])
+
+  useEffect(() => {
+    shouldConnectMetamask &&
+      autoConnect &&
+      injectedProvider &&
+      !providerOverride &&
+      activateBrowserWallet()
+  }, [shouldConnectMetamask, autoConnect, injectedProvider, providerOverride])
 
   const update = useCallback(
     (newNetwork: Partial<Network>) => {

@@ -5,7 +5,6 @@ import { BlockNumberProvider } from './blockNumber/blockNumber'
 import { MultiChainStateProvider } from './chainState'
 import { useConfig } from './config/context'
 import { NotificationsProvider } from './notifications/provider'
-import { NetworkActivator } from './NetworkActivator'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, ReadonlyNetworksProvider } from './network'
@@ -64,7 +63,6 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
       <NetworkProvider>
         <BlockNumberProvider>
           <BlockNumbersProvider>
-            <NetworkActivator />
             <LocalMulticallProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
                 <NotificationsProvider>
