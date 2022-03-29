@@ -44,7 +44,6 @@ export {
   multicall2,
   useBlockNumber,
   useConfig,
-  useInjectedNetwork,
   useNetwork,
   useUpdateConfig,
   // To be removed from public API:
@@ -60,7 +59,6 @@ export {
   ChainStateAction,
   ConfigContext,
   ConfigProvider,
-  InjectedNetworkProvider,
   MultiChainState,
   MultiChainStateProvider,
   MultiChainStatesContext,

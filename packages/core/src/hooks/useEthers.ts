@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
-import { useConfig, useInjectedNetwork, useNetwork } from '../providers'
+import { useConfig, useNetwork } from '../providers'
 import { useLocalStorage } from './useLocalStorage'
 
 type MaybePromise<T> = Promise<T> | any
@@ -34,8 +34,9 @@ export function useEthers(): Web3Ethers {
     network: { provider, chainId, accounts, errors },
     deactivate,
     activate,
+    injectedProvider, 
+    connect
   } = useNetwork()
-  const { injectedProvider, connect } = useInjectedNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
   const { networks } = useConfig()

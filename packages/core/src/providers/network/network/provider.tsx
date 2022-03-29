@@ -1,9 +1,11 @@
-import { ReactNode, useCallback, useReducer, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
 import { subscribeToProviderEvents } from '../../../helpers/eip1193'
+import { getInjectedProvider } from '../../../helpers/injectedProvider'
+import { useConfig } from '../../config'
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -22,8 +24,10 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 }
 
 export function NetworkProvider({ children }: NetworkProviderProps) {
+  const { pollingInterval } = useConfig()
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
+  const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
 
   const update = useCallback(
     (newNetwork: Partial<Network>) => {
@@ -48,6 +52,23 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
     reportError(error)
   }, [])
 
+  useEffect(function () {
+    getInjectedProvider(pollingInterval).then(setInjectedProvider)
+  }, [])
+
+  const connect = useCallback(async () => {
+    if (!injectedProvider) {
+      reportError(new Error('No injected provider available'))
+      return
+    }
+    try {
+      await injectedProvider.send('eth_requestAccounts', [])
+      return injectedProvider
+    } catch (err: any) {
+      reportError(err)
+    }
+  }, [injectedProvider])
+
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider) => {
       const wrappedProvider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
@@ -69,5 +90,5 @@ export function NetworkProvider({ children }: NetworkProviderProps) {
     [onUnsubscribe]
   )
 
-  return <NetworkContext.Provider value={{ network, update, activate, deactivate, reportError }} children={children} />
+  return <NetworkContext.Provider value={{ network, update, activate, deactivate, reportError, injectedProvider, connect }} children={children} />
 }
