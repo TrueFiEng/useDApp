@@ -39,6 +39,8 @@ import {
   ThunderCoreTestnet,
   OptimismKovan,
   Optimism,
+  Velas,
+  VelasTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -82,6 +84,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   ThunderCoreTestnet,
   OptimismKovan,
   Optimism,
+  Velas,
+  VelasTestnet,
 ]
 
 export enum ChainId {
@@ -125,4 +129,6 @@ export enum ChainId {
   ArbitrumRinkeby = 421611,
   Aurora = 1313161554,
   AuroraTestnet = 1313161555,
+  Velas = 106,
+  VelasTestnet = 111,
 }
