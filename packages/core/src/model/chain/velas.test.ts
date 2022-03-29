@@ -24,9 +24,7 @@ describe('Velas Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(Velas.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://evmexplorer.velas.com/address/${TEST_ADDRESS}`
-    )
+    expect(Velas.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://evmexplorer.velas.com/address/${TEST_ADDRESS}`)
     expect(VelasTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
       `https://evmexplorer.testnet.velas.com/address/${TEST_ADDRESS}`
     )

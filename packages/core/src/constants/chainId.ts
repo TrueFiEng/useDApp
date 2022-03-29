@@ -41,7 +41,6 @@ import {
   Optimism,
   Velas,
   VelasTestnet,
-
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
