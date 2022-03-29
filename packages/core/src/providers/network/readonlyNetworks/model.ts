@@ -1,6 +1,6 @@
 import { ChainId } from '../../../constants'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 
 export type Providers = {
-  [chainId in ChainId]?: JsonRpcProvider
+  [chainId in ChainId]?: BaseProvider
 }

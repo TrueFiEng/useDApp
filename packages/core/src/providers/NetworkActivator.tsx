@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useEthers, useLocalStorage } from '../hooks'
 import { useConfig } from './config'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, Provider } from '@ethersproject/providers'
 import { useInjectedNetwork } from './network/injectedNetwork'
 
 interface NetworkActivatorProps {
@@ -24,9 +24,12 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
   useEffect(() => {
     if (readOnlyChainId && readOnlyUrls && !providerOverride) {
       if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
-        const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
+        const urlOrProvider = readOnlyUrls[readOnlyChainId]
+        const provider = Provider.isProvider(urlOrProvider) ? urlOrProvider : new JsonRpcProvider(urlOrProvider)
         provider.pollingInterval = pollingInterval
-        activate(provider).then(() => setReadonlyConnected(true))
+        if (provider instanceof JsonRpcProvider) {
+          activate(provider).then(() => setReadonlyConnected(true))
+        }
       }
     }
   }, [readOnlyChainId, readOnlyUrls])

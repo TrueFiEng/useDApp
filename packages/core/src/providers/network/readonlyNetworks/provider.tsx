@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, Provider } from '@ethersproject/providers'
 import { useConfig } from '../../config'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
@@ -12,7 +12,12 @@ interface NetworkProviderProps {
 }
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
-  fromEntries(Object.entries(readOnlyUrls).map(([chainId, url]) => [chainId, new JsonRpcProvider(url)]))
+  fromEntries(
+    Object.entries(readOnlyUrls).map(([chainId, urlOrProvider]) => {
+      const rpcProvider = Provider.isProvider(urlOrProvider) ? urlOrProvider : new JsonRpcProvider(urlOrProvider)
+      return [chainId, rpcProvider]
+    })
+  )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
   const { readOnlyUrls = {} } = useConfig()
