@@ -1,6 +1,4 @@
 ---
-sidebar_position: 2
-id: getting-started
 slug: /
 ---
 
@@ -20,8 +18,8 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-import { ExampleContainer } from '../src/examples/ExampleContainer';
-import GettingStarted from '../example-loader.js!../src/examples/GettingStarted.tsx'
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted.tsx'
 
 <ExampleContainer example={GettingStarted}/>
 
@@ -68,7 +66,7 @@ If you need to use another connector than a browser wallet, use the `activate` m
 Provides a way to fetch the account balance. Takes the account address as an argument and returns ``BigNumber`` or ``undefined`` when data is not available (i.e. not connected). 
 To obtain currently connected ``account`` employ ``useEthers()``.
 
-import EthBalance from '../example-loader.js!../src/examples/EthBalance.tsx'
+import EthBalance from '../../example-loader.js!/src/examples/EthBalance.tsx'
 
 <ExampleContainer example={EthBalance}/>
 
@@ -78,7 +76,7 @@ import EthBalance from '../example-loader.js!../src/examples/EthBalance.tsx'
 
 Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
 
-import TokenBalance from '../example-loader.js!../src/examples/TokenBalance.tsx'
+import TokenBalance from '../../example-loader.js!/src/examples/TokenBalance.tsx'
 
 <ExampleContainer example={TokenBalance}/>
 ```
