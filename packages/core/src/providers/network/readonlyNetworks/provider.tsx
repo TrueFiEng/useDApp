@@ -3,7 +3,7 @@ import { JsonRpcProvider, Provider } from '@ethersproject/providers'
 import { useConfig } from '../../config'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
-import { NodeUrls } from '../../../constants'
+import { BaseProviderFactory, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 
 interface NetworkProviderProps {
@@ -11,14 +11,19 @@ interface NetworkProviderProps {
   children?: ReactNode
 }
 
+const extractFunctionOrString = (urlOrProviderFunction: string | BaseProviderFactory) => {
+  if (typeof urlOrProviderFunction === 'function') {
+    return urlOrProviderFunction()
+  }
+  return new JsonRpcProvider(urlOrProviderFunction)
+}
+
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   fromEntries(
     Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => {
       const rpcProvider = Provider.isProvider(urlOrProviderOrProviderFunction)
         ? urlOrProviderOrProviderFunction
-        : typeof urlOrProviderOrProviderFunction === 'function'
-        ? urlOrProviderOrProviderFunction()
-        : new JsonRpcProvider(urlOrProviderOrProviderFunction)
+        : extractFunctionOrString(urlOrProviderOrProviderFunction)
       return [chainId, rpcProvider]
     })
   )

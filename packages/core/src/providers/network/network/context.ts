@@ -11,6 +11,7 @@ export const NetworkContext = createContext<{
   network: Network
   injectedProvider: Web3Provider | undefined
   connect: () => Promise<Web3Provider | undefined>
+  activateBrowserWallet: () => void
 }>({
   network: {
     provider: undefined,
@@ -24,6 +25,7 @@ export const NetworkContext = createContext<{
   deactivate: () => undefined,
   injectedProvider: undefined,
   connect: async () => undefined,
+  activateBrowserWallet: () => undefined,
 })
 
 /**

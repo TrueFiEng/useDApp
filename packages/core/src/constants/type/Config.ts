@@ -1,10 +1,10 @@
 import { Chain } from '../../constants'
 import { BaseProvider } from '@ethersproject/providers'
 
-type BaseProviderFactory = () => BaseProvider
+export type BaseProviderFactory = () => BaseProvider
 
 export type NodeUrls = {
-  [chainId: number]: string | BaseProvider | BaseProviderFunction
+  [chainId: number]: string | BaseProvider | BaseProviderFactory
 }
 
 export type MulticallAddresses = {
