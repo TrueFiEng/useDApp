@@ -1,14 +1,7 @@
 # Custom Hooks
 
-There is a number of useful hooks that you can use to read blockchain state:
-
-- ``useBlockMeta()`` - return meta information (``timestamp`` and ``difficulty``) about most recent block mined
-- ``useEtherBalance(address)`` - returns ether balance as BigNumber for given address (or ``undefined``)
-- ``useTokenBalance(tokenAddress, address)`` - returns balance of a given token as BigNumber for given address (or undefined)
-- ``useTokenAllowance(tokenAddress, ownerAddress, spenderAddress)`` - returns allowance of a given token as BigNumber for given owner and spender address pair (or undefined)
-
-Sooner or later you will want to make a custom call to a smart contract. Use ``useCall`` and ``useCalls`` for that purpose.
-See section below on creating custom hooks.
+If the built-in hooks to [read blockchain state](/docs/Getting%20Started/Reading) are not enough for your use case, you can create a custom hook to make a custom call to a smart contract.
+Use ``useCall`` and ``useCalls`` for that purpose.
 
 ## Creating custom hook
 
