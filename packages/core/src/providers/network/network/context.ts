@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../../constants'
 import { Network } from './model'
-import { ExternalProvider, JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
@@ -9,7 +9,6 @@ export const NetworkContext = createContext<{
   activate: (provider: JsonRpcProvider | ExternalProvider) => Promise<void>
   deactivate: () => void
   network: Network
-  connect: () => Promise<Web3Provider | undefined>
   activateBrowserWallet: () => void
 }>({
   network: {
@@ -22,7 +21,6 @@ export const NetworkContext = createContext<{
   reportError: () => undefined,
   activate: async () => undefined,
   deactivate: () => undefined,
-  connect: async () => undefined,
   activateBrowserWallet: () => undefined,
 })
 

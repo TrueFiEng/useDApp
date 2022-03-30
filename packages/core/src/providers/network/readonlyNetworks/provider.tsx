@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { JsonRpcProvider, Provider } from '@ethersproject/providers'
+import { JsonRpcProvider, Provider, BaseProvider } from '@ethersproject/providers'
 import { useConfig } from '../../config'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
@@ -11,21 +11,19 @@ interface NetworkProviderProps {
   children?: ReactNode
 }
 
-const extractFunctionOrString = (urlOrProviderFunction: string | BaseProviderFactory) => {
-  if (typeof urlOrProviderFunction === 'function') {
-    return urlOrProviderFunction()
+const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BaseProvider | BaseProviderFactory) => {
+  if (Provider.isProvider(urlOrProviderOrProviderFunction)) {
+    return urlOrProviderOrProviderFunction
   }
-  return new JsonRpcProvider(urlOrProviderFunction)
+  if (typeof urlOrProviderOrProviderFunction === 'function') {
+    return urlOrProviderOrProviderFunction()
+  }
+  return new JsonRpcProvider(urlOrProviderOrProviderFunction)
 }
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   fromEntries(
-    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => {
-      const rpcProvider = Provider.isProvider(urlOrProviderOrProviderFunction)
-        ? urlOrProviderOrProviderFunction
-        : extractFunctionOrString(urlOrProviderOrProviderFunction)
-      return [chainId, rpcProvider]
-    })
+    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => [chainId, getProviderFromConfig(urlOrProviderOrProviderFunction)])
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {

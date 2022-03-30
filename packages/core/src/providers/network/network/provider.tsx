@@ -34,9 +34,14 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   const activateBrowserWallet = useCallback(async () => {
     if (!injectedProvider) {
+      reportError(new Error('No injected provider available'))
       return
     }
-    await connect()
+    try {
+      await injectedProvider.send('eth_requestAccounts', [])
+    } catch (err: any) {
+      reportError(err)
+    }
     setShouldConnectMetamask(true)
     return activate(injectedProvider)
   }, [injectedProvider])
@@ -78,19 +83,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     getInjectedProvider(pollingInterval).then(setInjectedProvider)
   }, [])
 
-  const connect = useCallback(async () => {
-    if (!injectedProvider) {
-      reportError(new Error('No injected provider available'))
-      return
-    }
-    try {
-      await injectedProvider.send('eth_requestAccounts', [])
-      return injectedProvider
-    } catch (err: any) {
-      reportError(err)
-    }
-  }, [injectedProvider])
-
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider) => {
       const wrappedProvider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
@@ -114,7 +106,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   return (
     <NetworkContext.Provider
-      value={{ network, update, activate, deactivate, reportError, connect, activateBrowserWallet }}
+      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet }}
       children={children}
     />
   )
