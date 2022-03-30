@@ -26,7 +26,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 }
 
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
+  const { autoConnect, pollingInterval } = useConfig()
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
@@ -48,11 +48,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   }, [providerOverride])
 
   useEffect(() => {
-    shouldConnectMetamask &&
-      autoConnect &&
-      injectedProvider &&
-      !providerOverride &&
-      activateBrowserWallet()
+    shouldConnectMetamask && autoConnect && injectedProvider && !providerOverride && activateBrowserWallet()
   }, [shouldConnectMetamask, autoConnect, injectedProvider, providerOverride])
 
   const update = useCallback(
@@ -116,5 +112,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     [onUnsubscribe]
   )
 
-  return <NetworkContext.Provider value={{ network, update, activate, deactivate, reportError, injectedProvider, connect }} children={children} />
+  return (
+    <NetworkContext.Provider
+      value={{ network, update, activate, deactivate, reportError, injectedProvider, connect }}
+      children={children}
+    />
+  )
 }

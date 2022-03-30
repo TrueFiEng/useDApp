@@ -34,8 +34,8 @@ export function useEthers(): Web3Ethers {
     network: { provider, chainId, accounts, errors },
     deactivate,
     activate,
-    injectedProvider, 
-    connect
+    injectedProvider,
+    connect,
   } = useNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 

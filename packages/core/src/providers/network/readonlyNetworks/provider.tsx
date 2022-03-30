@@ -13,8 +13,12 @@ interface NetworkProviderProps {
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   fromEntries(
-    Object.entries(readOnlyUrls).map(([chainId, urlOrProvider]) => {
-      const rpcProvider = Provider.isProvider(urlOrProvider) ? urlOrProvider : new JsonRpcProvider(urlOrProvider)
+    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => {
+      const rpcProvider = Provider.isProvider(urlOrProviderOrProviderFunction)
+        ? urlOrProviderOrProviderFunction
+        : typeof urlOrProviderOrProviderFunction === 'function'
+        ? urlOrProviderOrProviderFunction()
+        : new JsonRpcProvider(urlOrProviderOrProviderFunction)
       return [chainId, rpcProvider]
     })
   )
