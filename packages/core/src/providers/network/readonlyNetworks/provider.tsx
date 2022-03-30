@@ -35,7 +35,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
-  }, [JSON.stringify(readOnlyUrls)])
+  }, Object.entries(readOnlyUrls).flat())
 
   return <ReadonlyNetworksContext.Provider value={providers}>{children}</ReadonlyNetworksContext.Provider>
 }
