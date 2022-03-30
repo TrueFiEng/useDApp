@@ -1,7 +1,7 @@
 import { Chain } from '../../constants'
 import { BaseProvider } from '@ethersproject/providers'
 
-type BaseProviderFunction = () => BaseProvider
+type BaseProviderFactory = () => BaseProvider
 
 export type NodeUrls = {
   [chainId: number]: string | BaseProvider | BaseProviderFunction
