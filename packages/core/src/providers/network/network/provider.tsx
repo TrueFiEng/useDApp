@@ -114,7 +114,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   return (
     <NetworkContext.Provider
-      value={{ network, update, activate, deactivate, reportError, injectedProvider, connect, activateBrowserWallet }}
+      value={{ network, update, activate, deactivate, reportError, connect, activateBrowserWallet }}
       children={children}
     />
   )

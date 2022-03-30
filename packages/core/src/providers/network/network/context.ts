@@ -9,7 +9,6 @@ export const NetworkContext = createContext<{
   activate: (provider: JsonRpcProvider | ExternalProvider) => Promise<void>
   deactivate: () => void
   network: Network
-  injectedProvider: Web3Provider | undefined
   connect: () => Promise<Web3Provider | undefined>
   activateBrowserWallet: () => void
 }>({
@@ -23,7 +22,6 @@ export const NetworkContext = createContext<{
   reportError: () => undefined,
   activate: async () => undefined,
   deactivate: () => undefined,
-  injectedProvider: undefined,
   connect: async () => undefined,
   activateBrowserWallet: () => undefined,
 })
