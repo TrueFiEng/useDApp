@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { RawCall } from './callsReducer'
 import { Dispatch } from 'react'
 import { ChainStateAction } from './chainStateReducer'
@@ -6,9 +6,9 @@ import { ChainId } from '../../../constants'
 import { notifyDevtools } from '../../devtools'
 
 export function performMulticall(
-  provider: JsonRpcProvider,
+  provider: BaseProvider,
   multicallExecutor: (
-    provider: JsonRpcProvider,
+    provider: BaseProvider,
     multicallAddress: string,
     blockNumber: number,
     uniqueCalls: RawCall[]

@@ -17,7 +17,7 @@ import { useBlockNumbers } from '../../blockNumber/blockNumbers'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 
 interface Props {
   children: ReactNode
@@ -54,7 +54,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(uniqueCalls)
 
-  function multicallForChain(chainId: ChainId, provider?: JsonRpcProvider) {
+  function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
     const blockNumber = blockNumbers[chainId]
     const multicallAddress = multicallAddresses[chainId]
 
