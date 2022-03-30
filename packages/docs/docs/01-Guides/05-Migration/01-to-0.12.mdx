@@ -1,12 +1,6 @@
----
-sidebar_position: 7
----
+# Migrating to 0.12.*
 
-# Migration guide
-
-## Migrating from 0.11.0 and below
-
-### `useContractCall` is getting replaced by `useCall`
+## `useContractCall` is getting replaced by `useCall`
 
 It is being replaced with `useCall` that supports typed contracts from type-chain.
 
@@ -33,7 +27,7 @@ const { value: tokenBalance } =
   }) ?? {}
 ```
 
-### `useChainCall` is getting replaced by `useRawCall`
+## `useChainCall` is getting replaced by `useRawCall`
 
 `useRawCall` returns an object in the form of `{ value, error }` for each calls.
 This allows to get individual errors for each failing call.
