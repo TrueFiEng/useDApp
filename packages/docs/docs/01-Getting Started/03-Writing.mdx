@@ -1,0 +1,20 @@
+# Writing
+
+To write a state-changing transaction to the blockchain, use the [useSendTransaction](/docs/API%20Reference/Hooks#usesendtransaction) hook.
+
+Simply call a hook in a component:
+
+```tsx
+  const { sendTransaction } = useSendTransaction()
+```
+
+Typically you would use the `sendTransaction` in a click button handler:
+
+```tsx
+  const handleClick = () => {
+    setDisabled(true)
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
+```
+
+See the [Ether Transactions](/docs/Guides/Transactions/Ether%20Transactions) guide for a more in-depth explanation, or take a look at [Contract Functions](/docs/Guides/Transactions/Contract%20Functions) if you are interested in writing transactions to contracts.
