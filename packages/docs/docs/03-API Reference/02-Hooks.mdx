@@ -1,68 +1,12 @@
-# API Reference
+# Hooks
 
-## Providers
+## useBlockMeta
 
-### `<DAppProvider>`
-
-Provides basic services for a DApp. It combines the following components: ``<ConfigProvider>``, ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>`` and ``<ReadOnlyProviderActivator>``
-
-
-*Properties:*
-
-- ``config: Partial<Config>``: configuration of the DApp, see [Config](#config).
-
-*Example:*
-
-```jsc
-  import { Mainnet, DAppProvider } from '@usedapp/core'
-
-  const config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
-    },
-  }
-
-  return (
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-  )
-```
-
-### `<ConfigProvider>`
-
-Stores configurations and makes them available via [useConfig](#useconfig) hook.
-
-
-### `<EthersProvider>`
-
-*Requires:* ``ConfigProvider``
-
-### `<BlockNumberProvider>`
-
-
-### `<LocalMulticallProvider>`
-
-Ensures that a multicall contract address is available when developing on a local chain.
-A multicall contract will be deployed when a multicall address on a local chainID is not defined in the [Config](#config).
-
-While the contract is being deployed, a temporary "Deploying multicall..." message will be rendered instead
-of the user's child components.
-
-### `<ChainStateProvider>`
-
-### `<ReadOnlyProviderActivator>`
-
-## Hooks
-
-### useBlockMeta
-
-### useBlockNumber
+## useBlockNumber
 
 Get the current block number. Will update automatically when the new block is mined.
 
-### useCall
+## useCall
 
 Makes a call to a specific method of a specific contract and returns the value or an error if present. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for [useRawCall](#userawcall) that uses ABI, function name, and arguments instead of raw data.
@@ -97,7 +41,7 @@ The hook returns ``CallResult`` type. That is: `undefined` when call didn't retu
   }
 ```
 
-### useCalls
+## useCalls
 
 Makes calls to specific methods of specific contracts and returns values or an error if present. The hook will cause the component to refresh when a new block is mined and the return values change.
 A syntax sugar for [useRawCalls](#userawcalls) that uses ABI, function name, and arguments instead of raw data.
@@ -129,7 +73,7 @@ A syntax sugar for [useRawCalls](#userawcalls) that uses ABI, function name, and
   }
 ```
 
-### useChainCall (deprecated)
+## useChainCall (deprecated)
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
@@ -146,7 +90,7 @@ It is recommended to use [useCall](#usecall) where applicable instead of this me
 - ``string | Falsy`` - encoded result or Falsy value if call didn't return yet or an error occured
 
 
-### useChainCalls (deprecated)
+## useChainCalls (deprecated)
 
 Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
 
@@ -162,7 +106,7 @@ It is recommended to use [useCalls](#usecalls) where applicable instead of this 
 - ``(string | Falsy)[]`` - encoded results or Falsy values if call didn't return yet or an error occured
 
 
-### useRawCall
+## useRawCall
 
 A low-level function that makes a call to a specific method of a specific contract and returns the value or error if present. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
 
@@ -180,7 +124,7 @@ It is recommended to use [useCall](#usecall) where applicable instead of this me
 The hook returns ``RawCallResult`` type. That is: ``undefined`` when call didn't return yet or object ``{ success: boolean, value: string }`` if it did, ``success`` - boolean indicating whether call was successful or not, ``value`` - encoded result when success is ``true`` or encoded error message when success is ``false``.
 
 
-### useRawCalls
+## useRawCalls
 
 A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present. The hook will cause the component to refresh when values change.
 
@@ -195,7 +139,7 @@ It is recommended to use [useCalls](#usecalls) where applicable instead of this 
 
 - ``RawCallResult[]`` - a list of results (see ``RawCallResult`` in ``useRawCall`` above)
 
-### useContractCall (deprecated)
+## useContractCall (deprecated)
 
 Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
 A syntax sugar for [useChainCall](#usechaincall-deprecated) that uses ABI, function name, and arguments instead of raw data.
@@ -211,7 +155,7 @@ It is recommended to use [useCall](#usecall) where applicable instead of this me
 - ``any[] | undefined`` - the result of a call or undefined if call didn't return yet
 
 
-### useContractCalls (deprecated)
+## useContractCalls (deprecated)
 
 Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
 A syntax sugar for [useChainCalls](#usechaincalls-deprecated) that uses ABI, function name, and arguments instead of raw data.
@@ -226,7 +170,7 @@ It is recommended to use [useCalls](#usecalls) where applicable instead of this 
 
 - ``any[] | undefined`` - array of results. Undefined if call didn't return yet
 
-### useContractFunction
+## useContractFunction
 
 Hook returns an object with four variables: ``state`` , ``send``, ``events`` , and ``resetState``.
 
@@ -272,7 +216,7 @@ More on type checking [here](./guides/typed-contracts).
   }
 ```
 
-### useSendTransaction
+## useSendTransaction
 
 Hook returns an object with three variables: ``state``, ``resetState``, and ``sendTransaction``.
 
@@ -305,13 +249,13 @@ Function accepts a [Transaction Request](https://docs.ethers.io/v5/api/providers
   }
 ```
 
-### useConfig
+## useConfig
 
 Returns singleton instance of [Config](#config).
 
 Function takes no parameters.
 
-### useDebounce
+## useDebounce
 
 Debounce a value of type T.
 It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
@@ -336,7 +280,7 @@ It stores a single value but returns after debounced time unless a new value is 
   const debouncedValue = useDebounce(value, 1000)
 ```
 
-### useDebouncePair
+## useDebouncePair
 
 Debounce a pair of values of types T and U.
 It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
@@ -359,7 +303,7 @@ This function is used for debouncing multicall until enough calls are aggregated
 
 - ``[T, U]`` - debounced values
 
-### useEtherBalance
+## useEtherBalance
 
 Returns ether balance of a given account.
 
@@ -382,7 +326,7 @@ Returns ether balance of a given account.
   )
 ```
 
-### useEthers
+## useEthers
 
 Returns connection state and functions that allow to manipulate the state.
 
@@ -400,7 +344,7 @@ Returns connection state and functions that allow to manipulate the state.
 
 *Requires:* ``<ConfigProvider>``
 
-### useGasPrice
+## useGasPrice
 
 Returns gas price of current network.
 
@@ -408,9 +352,9 @@ Returns gas price of current network.
 
 - ``gasPrice: BigNumber | undefined`` - gas price of current network. Undefined if not initialised
 
-### useMulticallAddress
+## useMulticallAddress
 
-### useNotifications
+## useNotifications
 
 ``useNotifications`` is a hook that is used to access notifications.
 Notifications include information about: new transactions, transaction success or failure, as well as connection to a new wallet.
@@ -468,7 +412,7 @@ Link to: [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#p
 
 Link to: [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
 
-### useToken
+## useToken
 
 Returns name, symbol, decimals and token supply of a given token.
 
@@ -496,7 +440,7 @@ Returns name, symbol, decimals and token supply of a given token.
   ) : null
 ```
 
-### useTokenBalance
+## useTokenBalance
 
 Returns a balance of a given token for a given address.
 
@@ -521,7 +465,7 @@ Returns a balance of a given token for a given address.
   )
 ```
 
-### useTokenAllowance
+## useTokenAllowance
 
 Returns allowance (tokens left to use by spender) for given tokenOwner - spender relationship.
 
@@ -548,7 +492,7 @@ Returns allowance (tokens left to use by spender) for given tokenOwner - spender
   )
 ```
 
-### useTokenList
+## useTokenList
 
 Fetches ERC20 token list under a given address and filters them by chain id. Optionally it can filter also by token tags.
 
@@ -600,7 +544,7 @@ If an error occurs ``undefined`` is returned.
 - Token list json example: https://github.com/Uniswap/token-lists/blob/main/test/schema/example.tokenlist.json
 - ``TokenInfo`` object: https://github.com/Uniswap/token-lists/blob/main/src/types.ts
 
-### useTransactions
+## useTransactions
 
 ``useTransactions`` hook returns a list ``transactions``. This list contains
 all transactions that were sent using ``useContractFunction`` and ``useSendTransaction``.
@@ -623,7 +567,7 @@ Link to: [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#p
 
 Link to: [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
 
-### useLookupAddress
+## useLookupAddress
 
 ``useLookupAddress`` is a hook that is used to retrieve the ENS (e.g. `name.eth`) for the connected wallet.
 
@@ -640,488 +584,4 @@ Link to: [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#pr
   return (
     <p>Account: {ens ?? account}</p>
   )
-```
-
-## Models
-
-### Config
-
-**readOnlyChainId**
-
-``ChainId`` of a chain you want to connect to by default in a read-only mode
-
-**readOnlyUrls**
-
-Mapping of ``ChainId``'s to node URLs to use in read-only mode.
-
-***Example***
-
-```tsx
-  {
-    ...
-    readOnlyUrls: {
-      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
-    }
-  }
-```
-
-**multicallAddresses**
-
-**supportedChains (deprecated)**
-List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
-
-***Default value:***
--``[ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]``
-
-**networks**
-List of intended supported chain configs. If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
-
-***Default value:***
-``[Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]``
-
-Check the full list in https://github.com/EthWorks/useDApp/tree/master/packages/core/src/model/chain
-
-**pollingInterval**
-Polling interval for a new block.
-
-**localStorage**
-Paths to locations in local storage
-
-***Default value:***
-
-```tsx
-  {
-    transactionPath: 'transactions'
-  }
-```
-
-**autoConnect**
-Enables reconnecting to last used provider when user revisits the page.
-
-***Default value:***
-
-```tsx
-  {
-    autoConnect: true
-  }
-```
-
-### Call
-
-Represents a single call to a contract that can be included in multicall.
-
-Fields:
-
-- ``contract: Contract`` - contract instance, see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
-
-- ``method: string`` - function name
-
-- ``args: any[]`` - arguments for the function
-
-Typecheking:
-
-If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
-
-```tsx
-  const typedCall: Call<ERC20> = {contract:ERC20Contract,method:'name',args:[]}
-```
-
-If you also supply a method name in type arguments will also be type checked
-
-```tsx
-  const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
-```
-
-### RawCall
-
-Represents a single call on the blockchain that can be included in multicall.
-
-Fields:
-
-- ``address: string`` - address of a contract to call
-
-- ``data: string`` - calldata of the call that encodes function call
-
-- ``chainId: number`` - chain id of the chain to perform the call on
-
-
-### ChainCall
-
-Represents a single call on the blockchain that can be included in multicall.
-
-Fields:
-
-- ``address: string`` - address of a contract to call
-
-- ``data: string`` - calldata of the call that encodes function call
-
-### ContractCall
-
-Represents a single call to a contract that can be included in multicall.
-
-Fields:
-
-- ``abi: Interface`` - ABI of a contract, see [Interface](https://docs.ethers.io/v5/api/utils/abi/interface/)
-
-- ``address: string`` - address of a contract to call
-
-- ``method: string`` - function name
-
-- ``args: any[]`` - arguments for the function
-
-### Currency
-
-The ``Currency`` class is tasked with representing the individual currencies as well as handling formatting.
-
-The base ``Currency`` class is constructed with the following parameters:
-
-- ``name`` - name of the currency
-- ``ticker`` - e.g. USD, EUR, BTC
-- ``decimals`` - number of decimal places (e.g. 2 for USD, 18 for ETH)
-- ``formattingOptions`` - define how the currency values are formatted
-
-The following formatting options are supported:
-
-- ``decimals`` - Defaults to the decimals of the currency.
-- ``thousandSeparator`` - Defaults to ``','``. Used for separating thousands.
-- ``decimalSeparator`` - Defaults to ``'.'``. Used for separating the integer part from the decimal part.
-- ``significantDigits`` - Defaults to Infinity. Can limit the number of digits on the decimal part, such that either the total number of displayed digits is equal to this parameter or more digits are displayed, but the decimal part is missing.
-- ``useFixedPrecision`` - Defaults to false. Switches from using significant digits to fixed precision digits.
-- ``fixedPrecisionDigits`` - Defaults to 0. Can specify the number of digits on the decimal part.
-- ``prefix`` - Defaults to ``''``. Prepended to the result.
-- ``suffix`` - Defaults to ``''``. Appended to the result.
-
-Other variants of ``Currency`` include ``FiatCurrency``, ``NativeCurrency`` and ``Token``.
-
-``FiatCurrency`` takes the same parameters as ``Currency`` but uses fixed precision digits by default.
-
-``NativeCurrency`` additionally takes a ``chainId`` parameter. The format function is configured with the ticker prefix and 6 significant digits by default.
-
-``Token`` additionally takes a ``chainId`` parameter as well as an ``address`` parameter. The format function is configured with the ticker prefix and 6 significant digits by default.
-
-### CurrencyValue
-
-The ``CurrencyValue`` class represents a value tied to a currency. The methods include:
-
-- ``static fromString(currency, value)`` - creates a new CurrencyValue from string.
-- ``static zero(currency)`` - creates a new CurrencyValue equal to 0.
-- ``toString()`` - returns the value of the CurrencyValue as a decimal string with no formatting.
-- ``format(overrideOptions?)`` - formats the value according to the currency. The caller can override the formatting options.
-- ``map(fn)`` - returns a new CurrencyValue with value transformed by the callback.
-- ``add(other)`` - returns a new CurrencyValue with value being the sum of this value and other value. The argument must be a CurrencyValue with the same Currency.
-- ``sub(other)`` - returns a new CurrencyValue with value being the difference of this value and other value. The argument must be a CurrencyValue with the same Currency.
-- ``mul(value)`` - returns a new CurrencyValue with value multiplied by the argument.
-- ``div(value)`` - returns a new CurrencyValue with value divided by the argument.
-- ``mod(value)`` - returns a new CurrencyValue with value modulo the argument.
-- ``equals(other)`` - performs an equality check on the currencies and the values of both objects.
-- ``lt(other)`` - checks if this value is less than the other value. The argument must be a CurrencyValue with the same Currency.
-- ``lte(other)`` - checks if this value is less than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
-- ``gt(other)`` - checks if this value is greater than the other value. The argument must be a CurrencyValue with the same Currency.
-- ``gte(other)`` - checks if this value is greater than or equal to the other value. The argument must be a CurrencyValue with the same Currency.
-- ``isZero()`` - returns true if the value is zero.
-
-### TokenInfo
-
-Represents general token information.
-
-Fields:
-
-- ``name: string`` - token name or an empty string.
-
-- ``symbol: string`` - token symbol or an empty string.
-
-- ``decimals?: numbers`` - optional field that contains token decimals.
-
-- ``totalSupply?: BigNumberish`` - optional field that contains total supply of the token.
-
-### TransactionOptions
-
-Represents a options for sending transactions.
-All fields are optional.
-
-Fields:
-
-- ``signer?: Signer`` - specifies [signer](https://docs.ethers.io/v5/api/signer/#Signer) for a transaction.
-
-- ``transactionName?: string`` - specifies a transaction name. Used by notifications and history hooks.
-
-### TransactionStatus
-
-Represents a state of a single transaction.
-
-Fields:
-
-- ``status: TransactionState`` - string that can contain one of ``None`` ``PendingSignature`` ``Mining`` ``Success`` ``Fail`` ``Exception``
-
-- ``transaction?: TransactionResponse`` - optional field. See [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse).
-
-- ``originalTransaction?: TransactionResponse`` - optional field that contains the original transaction if it has been dropped and replaced. See [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse).
-
-- ``receipt?: TransactionReceipt`` - optional field. See [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
-
-- ``chainId?: ChainId`` - optional field. See [chainId](#chainid).
-
-- ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
-
-``status`` can be one of the following:
-
-- **None** - before a transaction is created.
-- **PendingSignature** - when a transaction has been initiated, but requires signature.
-- **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
-- **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Fail** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
-
-Additionally all states except ``None``, contain ``chainId: ChainId``.
-
-Change in ``state`` will update the component so you can use it in useEffect.
-
-## Constants
-
-### ChainId
-
-Enum that represents chain ids.
-
-**Values:**
-
-``Mainnet, Goerli, Kovan, Rinkeby, Ropsten, BSC, Cronos, xDai, Polygon, Moonriver, Moonbeam, Mumbai, OasisEmerald, Harmony, Theta, Palm, Fantom, Avalanche, Songbird,Velas``
-
-## Helpers
-
-### getExplorerAddressLink (deprecated)
-
-Returns URL to blockchain explorer for an address on a given chain.
-
-**Parameters**
-
-- ``address: string`` - account address
-- ``chainId: ChainId`` - id of a chain
-
-
-**Example**
-
-```tsx
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
-  // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
-
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
-  // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
-
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
-  // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
-
-    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
-  // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
-```
-
-Can call with Chain directly:
-
-```tsx
-import { Mainnet } from '@usedapp/core'
-Mainnet.getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
-// https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
-```
-
-### getExplorerTransactionLink (deprecated)
-
-Returns URL to blockchain explorer for a transaction hash on a given chain.
-
-**Parameters**
-
-- ``transactionHash: string`` - hash of a transaction
-- ``chainId: ChainId`` - id of a chain
-
-**Example**
-
-```tsx
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
-  // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
-
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
-  // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
-
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
-  // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
-
-   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
-  // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
-```
-
-Can call with Chain directly:
-
-```tsx
-import { Mainnet } from '@usedapp/core'
-Mainnet.getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
-// https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
-```
-
-### getChainName (deprecated)
-
-Returns name of a chain for a given `chainId`.
-
-**Parameters**
-
-- ``chainId: ChainId`` - id of a chain
-
-**Example**
-
-```tsx
-  getChainName(Mainnet.chainID) // Mainnet
-  getChainName(Ropsten.chainID) // Ropsten
-  getChainName(xDai.chainID)    // xDai
-  getChainName(Theta.chainID) // Theta
-  getChainName(Harmony.chainID) // Harmony
-  getChainName(Moonriver.chainID) // Moonriver
-  getChainName(Moonbeam.chainID) // Moonbeam
-  getChainName(OasisEmerald.chainID) //Oasis Emerald Paratime
-  getChainName(Fantom.chainID) // Fantom
-```
-
-Can call with Chain directly:
-
-```tsx
-> import { Mainnet } from '@usedapp/core'
-> Mainnet.chainName
-> // Mainnet
-```
-
-### isTestChain (deprecated)
-
-Returns if a given chain is a testnet.
-
-**Parameters**
-
-- ``chainId: ChainId`` - id of a chain
-
-**Example**
-
-```tsx
-  isTestChain(Mainnet.chainId) // false
-  isTestChain(Ropsten.chainId) // true
-  isTestChain(xDai.chainId)    // false
-```
-
-Can call with Chain directly:
-
-```tsx
-import { Mainnet } from '@usedapp/core'
-Mainnet.isTestChain
-// false
-Ropsten.isTestChain
-// true
-```
-
-### shortenAddress
-
-Returns short representation of address or throws an error if address is incorrect.
-
-**Parameters**
-
-- ``address: string`` - address to shorten
-
-**Example**
-
-```tsx
-  shortenAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
-  // 0x6E9e...D3A0
-
-  shortenAddress('6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
-  // 0x6E9e...D3A0
-
-  shortenAddress("i'm not an address")
-  // TypeError("Invalid input, address can't be parsed")
-```
-
-### shortenIfAddress
-
-Returns short representation of address or throws an error if address is incorrect.
-Returns empty string if no address is provided.
-
-**Parameters**
-
-- ``address: string | 0 | null | undefined | false`` - address to shorten
-
-**Example**
-
-```tsx
-  shortenIfAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
-  // 0x6E9e...D3A0
-
-  shortenIfAddress('')
-  // ''
-
-  shortenIfAddress(undefined)
-  // ''
-
-  shortenIfAddress("i'm not an address")
-  // TypeError("Invalid input, address can't be parsed")
-```
-
-### transactionErrored
-
-Returns true if transaction failed or had an exception
-
-**Parameters**
-
-- ``transaction: TransactionStatus`` - transaction to check.
-
-### compareAddress
-
-Returns 1 if first address is bigger than second address.
-Returns 0 if both addresses are equal.
-Returns -1 if first address is smaller than second address.
-If any address can't be parsed throws an error.
-
-**Parameters**
-
-- ``firstAddress`` - first address to compare
-- ``secondAddress`` - second address to compare
-
-**Example**
-
-```tsx
-  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
-  address2 = '0x24d53843ce280bbae7d47635039a94b471000000'
-  compareAddress(address1, address2)
-  // 1
-
-  address1 = '0x000000440ad484f55997750cfae3e13ca1751283'
-  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
-  compareAddress(address1, address2)
-  // -1
-
-  address1 = 'im not an address'
-  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
-  compareAddress(address1, address2)
-  // TypeError("Invalid input, address can't be parsed")
-```
-
-### addressEqual
-
-Returns true if both addresses are them same.
-Returns false if addresses are different.
-Throws an error if address can't be parsed.
-
-**Parameters**
-
-- ``firstAddress`` - first address to compare
-- ``secondAddress`` - second address to compare
-
-**Example**
-
-```tsx
-  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
-  address2 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
-  addressEqual(address1, address2)
-  // true
-
-  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
-  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
-  addressEqual(address1, address2)
-  // false
-
-  address1 = 'im not an address'
-  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
-  compareAddress(address1, address2)
-  // TypeError("Invalid input, address can't be parsed")
 ```
