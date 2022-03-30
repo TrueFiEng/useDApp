@@ -1,9 +1,4 @@
----
-sidebar_position: 7
-
----
-
-# Using multichain
+# Using Multi Chain
 
 ## Prerequisites
 
@@ -21,7 +16,7 @@ In this tutorial we will create a simple DApp that will display simultaneously b
 
 ## Add Kovan network to the config
 
-As a first step we need to add the Kovan network configuration. As Kovan is a network supported by default in `useDApp`, the only thing we have to do is to specify an endpoint where requests can be sent to. In our case we will use Infura - free Etherum API, that also supports the Kovan testnet. 
+As a first step we need to add the Kovan network configuration. As Kovan is a network supported by default in `useDApp`, the only thing we have to do is to specify an endpoint where requests can be sent to. In our case we will use Infura - free Ethereum API, that also supports the Kovan testnet. 
 Please make the following changes to the app's entrypoint file. 
 ````diff
   import {
@@ -60,8 +55,8 @@ Our app will be based on one described in the [Getting Started](/docs) guide.
 
 Populate the `App.tsx` file with the following code.
 
-import { ExampleContainer } from '../../src/examples/ExampleContainer';
-import Multichain from '../../example-loader.js!../../src/examples/Multichain.tsx'
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import Multichain from '../../../example-loader.js!/src/examples/Multichain.tsx'
 
 <ExampleContainer example={Multichain}/>
 
