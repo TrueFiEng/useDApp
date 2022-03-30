@@ -1,0 +1,68 @@
+# Notifications
+
+See [useSendTransaction](/docs/API%20Reference/Hooks#usesendtransaction).
+
+To use notifications in your app simply call:
+
+```tsx
+  const { notifications } = useNotifications()
+```
+
+After that you can use ``notifications`` as an array.
+Notifications are automatically removed from array after time
+declared in config.notifications.expirationPeriod.
+
+In react you can simply use ``notifications.map(...)`` to display them.
+
+For example :
+
+```tsx
+  {notifications.map((notification) => {
+    if ('transaction' in notification)
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          transaction={notification.transaction}
+          date={Date.now()}
+        />
+      )
+    else
+      return (
+        <NotificationElement
+          key={notification.id}
+          icon={notificationContent[notification.type].icon}
+          title={notificationContent[notification.type].title}
+          date={Date.now()}
+        />
+      )
+  })}
+```
+
+``NotificationElement`` is a react function that renders a single notification.
+``notificationContent`` is an object that holds information about what title and icon to show.
+You have to remember that object in ``notifications`` array may not contain transaction field
+ (that's why there is if statement).
+
+## Configuration
+
+If you want to have notifications that don't disappear, set ``notifications.expirationPeriod`` to `0` in your config.
+
+```tsx
+const config: Config = {
+    notifications: {
+        expirationPeriod: 0,
+    }
+}
+```
+
+**Live example**
+
+App will deposit 1 wei to Wrapped Ether contract and display transaction notification.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+
+import Notifications from '../../../example-loader.js!/src/examples/Notifications.tsx'
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+<ExampleContainer example={Notifications}/>

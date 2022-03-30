@@ -1,0 +1,53 @@
+# Providers
+
+## `<DAppProvider>`
+
+Provides basic services for a DApp. It combines the following components: ``<ConfigProvider>``, ``<EthersProvider>``, ``<BlockNumberProvider>``, ``<ChainStateProvider>`` and ``<ReadOnlyProviderActivator>``
+
+
+*Properties:*
+
+- ``config: Partial<Config>``: configuration of the DApp, see [Config](#config).
+
+*Example:*
+
+```jsc
+  import { Mainnet, DAppProvider } from '@usedapp/core'
+
+  const config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+    },
+  }
+
+  return (
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>
+  )
+```
+
+## `<ConfigProvider>`
+
+Stores configurations and makes them available via [useConfig](#useconfig) hook.
+
+
+## `<EthersProvider>`
+
+*Requires:* ``ConfigProvider``
+
+## `<BlockNumberProvider>`
+
+
+## `<LocalMulticallProvider>`
+
+Ensures that a multicall contract address is available when developing on a local chain.
+A multicall contract will be deployed when a multicall address on a local chainID is not defined in the [Config](#config).
+
+While the contract is being deployed, a temporary "Deploying multicall..." message will be rendered instead
+of the user's child components.
+
+## `<ChainStateProvider>`
+
+## `<ReadOnlyProviderActivator>`

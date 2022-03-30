@@ -61,12 +61,6 @@ const config = {
             label: 'About'
           },
           {
-            type: 'doc',
-            docId: 'getting-started',
-            position: 'left',
-            label: 'Docs',
-          },
-          {
             href: 'https://github.com/TrueFiEng/useDApp/',
             label: 'GitHub',
             position: 'right',
@@ -82,10 +76,6 @@ const config = {
               {
                 label: 'About',
                 to: 'https://usedapp.io/'
-              },
-              {
-                label: 'Docs',
-                to: '/docs/',
               },
             ],
           },

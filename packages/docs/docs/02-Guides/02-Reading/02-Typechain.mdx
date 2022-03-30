@@ -1,8 +1,4 @@
----
-sidebar_position: 4
----
-
-# Using typed contract calls and functions
+# Strong Types With Typescript
 
 `useDapp` by default provides support for [typechain](https://www.npmjs.com/package/typechain). When using typescript, you can generate types for the contracts you use and take advantage of type checking in your code. 
 
@@ -102,4 +98,4 @@ export const DepositWeth = () => {
 }
 ```
 
-Here we get the type checking on contract call parameters when calling the `send` function as well as on the function's return type. Typescript will require you to pass parameters of the same type as declared in contract's ABI definition. In the case of the `deposit` method of the `Weth10` contract there are no parameters, but we provide the optional `override` object to specify how much ether we want to send with the transaction. For more info on the `useContractFunction` hook please refere to the [docs](../core#usecontractfunction).
+Here we get the type checking on contract call parameters when calling the `send` function as well as on the function's return type. Typescript will require you to pass parameters of the same type as declared in contract's ABI definition. In the case of the `deposit` method of the `Weth10` contract there are no parameters, but we provide the optional `override` object to specify how much ether we want to send with the transaction. For more info on the `useContractFunction` hook please refere to the [docs](/docs/API%20Reference/Hooks#usecontractfunction).

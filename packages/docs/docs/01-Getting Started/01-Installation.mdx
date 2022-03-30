@@ -1,12 +1,8 @@
 ---
-sidebar_position: 2
-id: getting-started
 slug: /
 ---
 
-# Getting started
-
-## Installation
+# Installation
 
 To start working with useDapp you need to have a working React environment.
 
@@ -20,8 +16,8 @@ npm install @usedapp/core
 
 Below is a simple example:
 
-import { ExampleContainer } from '../src/examples/ExampleContainer';
-import GettingStarted from '../example-loader.js!../src/examples/GettingStarted.tsx'
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted.tsx'
 
 <ExampleContainer example={GettingStarted}/>
 
@@ -31,7 +27,7 @@ Let's go over it step by step.
 
 ## Setup
 
-The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config [here](./core#config).
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config [here](/docs/API%20Reference/Models#config).
 
 ```jsx
   <DAppProvider>
@@ -60,25 +56,3 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bes
 After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
 
 If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the [web3-react](https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview) doc for that one.
-
-## Ether balance
-
-`useEtherBalance(address: string)`
-
-Provides a way to fetch the account balance. Takes the account address as an argument and returns ``BigNumber`` or ``undefined`` when data is not available (i.e. not connected). 
-To obtain currently connected ``account`` employ ``useEthers()``.
-
-import EthBalance from '../example-loader.js!../src/examples/EthBalance.tsx'
-
-<ExampleContainer example={EthBalance}/>
-
-## Token balance
-
-`useTokenBalance(address: string, tokenAddress: string)`
-
-Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
-
-import TokenBalance from '../example-loader.js!../src/examples/TokenBalance.tsx'
-
-<ExampleContainer example={TokenBalance}/>
-```

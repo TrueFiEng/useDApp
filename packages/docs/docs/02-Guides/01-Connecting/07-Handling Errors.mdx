@@ -1,0 +1,20 @@
+# Handling Errors
+
+## Handling wallet activation errors
+
+It is possible to access wallet activation errors by checking if `const {error} = useEthers()` changes :
+
+```tsx
+  const [activateError, setActivateError] = useState('')
+  const { error } = useEthers()
+  useEffect(() => {
+    if (error) {
+      setActivateError(error.message)
+    }
+  }, [error])
+
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
+```
