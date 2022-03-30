@@ -1,0 +1,55 @@
+# Contract Functions
+
+To send a transaction that executes a function of a contract on a blockchain, you can use a [useContractFunction](../core#usecontractfunction) hook,
+it works similarly to [useSendTransaction](../core#usesendtransaction). It returns a ``send`` function that we can use to call a contract function and ``state`` object.
+
+To use ``useContractFunction`` we need to supply it with a Contract of type [Contract](https://docs.ethers.io/v5/api/contract/contract/).
+And a string ``functionName``.
+
+``send`` function maps arguments 1 to 1 with functions of a contract and also accepts one additional argument of type [TransactionOverrides](https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend).
+
+## Example
+
+Start by declaring a contract variable with address of contract you want to call and ABI interface of a contract.
+
+```tsx
+  import { utils } from 'ethers'
+  import { Contract } from '@ethersproject/contracts'
+
+  ...
+
+  const wethInterface = new utils.Interface(WethAbi)
+  const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
+  const contract = new Contract(wethContractAddress, wethInterface)
+```
+
+After that you can use the hook to create ``send`` function and ``state`` object.
+
+```tsx
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+
+  const depositEther = (etherAmount: string) => {
+    send({ value: utils.parseEther(etherAmount) })
+  }
+```
+
+```tsx
+  const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
+
+  const withdrawEther = (wethAmount: string) => {
+    send(utils.parseEther(wethAmount))
+  }
+```
+
+The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether [contract](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2#code) respectively.
+Deposit function of a contract has no input arguments and instead wraps amount of ether sent to it. To send given amount of ether simply use a ``TransactionOverrides`` object.
+Withdraw function needs amount of ether to withdraw as a input argument.
+
+**Live example**
+
+App will deposit 1 wei to Wrapped Ether contract.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+
+import ContractFunction from '../../../example-loader.js!/src/examples/ContractFunction.tsx'
+
+<ExampleContainer example={ContractFunction}/>
