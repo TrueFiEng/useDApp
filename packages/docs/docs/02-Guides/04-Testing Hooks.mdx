@@ -1,0 +1,89 @@
+# Testing Hooks
+
+Let's take ``useTokenAllowance`` as an example.
+
+To write a test, start with a setup code that will create a mock provider and test wallets.
+
+```tsx
+  const mockProvider = new MockProvider()
+  const [deployer, spender] = mockProvider.getWallets()
+```
+
+Before each test, deploy an ERC20 contract. It's important as otherwise the result of one
+test could break the other one.
+
+```tsx
+  let token: Contract
+
+  beforeEach(async () => {
+    const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
+    token = await deployContract(deployer, ERC20Mock, args)
+  })
+```
+
+After setup, we have to test the hook.
+
+```tsx
+  await token.approve(spender.address, utils.parseEther('1'))
+
+  const { result, waitForCurrent } = await renderWeb3Hook(
+    () => useTokenAllowance(token.address, deployer.address, spender.address),
+    {
+      mockProvider,
+    }
+  )
+  await waitForCurrent((val) => val !== undefined)
+
+  expect(result.error).to.be.undefined
+  expect(result.current).to.eq(utils.parseEther('1'))
+```
+
+To check if the hook reads data correctly, we need to prepare it first. We approve the spender so that we can check if our hook returns the correct value.
+
+To test the hook we need to render it using ``renderWeb3Hook``. It works like ``renderHook`` from the [react-testing-library](https://testing-library.com/docs/react-testing-library/intro/),
+but it wraps the hook into additional providers.
+
+React components are asynchronous. Reading data from the blockchain is also an async operation.
+To get the return value from the hook, wait for the result to be set. You can do it with ``waitForCurrent``.
+
+Then we can check if our result is correct. ``result.current`` is a value returned from our hook. It should be equal to 1 Ether.
+
+## Full example
+
+```tsx
+  import { MockProvider } from '@ethereum-waffle/provider'
+  import { Contract } from '@ethersproject/contracts'
+  import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
+  import { renderWeb3Hook } from '@usedapp/testing'
+  import chai, { expect } from 'chai'
+  import { solidity, deployContract } from 'ethereum-waffle'
+  import { utils } from 'ethers'
+
+  chai.use(solidity)
+
+  describe('useTokenAllowance', () => {
+    const mockProvider = new MockProvider()
+    const [deployer, spender] = mockProvider.getWallets()
+    let token: Contract
+
+    beforeEach(async () => {
+      const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
+      token = await deployContract(deployer, ERC20Mock, args)
+    })
+
+    it('returns current allowance', async () => {
+      await token.approve(spender.address, utils.parseEther('1'))
+
+      const { result, waitForCurrent } = await renderWeb3Hook(
+        () => useTokenAllowance(token.address, deployer.address, spender.address),
+        {
+          mockProvider,
+        }
+      )
+      await waitForCurrent((val) => val !== undefined)
+
+      expect(result.error).to.be.undefined
+      expect(result.current).to.eq(utils.parseEther('1'))
+    })
+  })
+```
