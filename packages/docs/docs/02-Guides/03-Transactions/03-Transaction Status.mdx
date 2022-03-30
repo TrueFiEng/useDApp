@@ -1,0 +1,22 @@
+# Transaction Status
+
+After [sending a transaction](./01-Ether%20Transactions.mdx), you can use `state` to check the state of your transaction.
+State is of type [TransactionStatus](../core#transactionstatus).
+Example below clears inputs and enables all disabled components back:
+
+```tsx
+const { sendTransaction, state } = useSendTransaction()
+
+const handleClick = () => {
+    setDisabled(true)
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
+
+useEffect(() => {
+  if (state.status != 'Mining') {
+    setDisabled(false)
+    setAmount('0')
+    setAddress('')
+  }
+}, [state])
+```
