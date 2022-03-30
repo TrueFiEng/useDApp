@@ -106,25 +106,11 @@ Add ganache address to configuration.
   }
 ```
 
-## Deploy multicall
-
-Deploy multicall contract to the ganache and paste its address to file local.ts
-
-```tsx
-export const Localhost: Chain = {
-  chainId: 1337,
-  chainName: 'Localhost',
-  isTestChain: true,
-  isLocalChain: true,
-  multicallAddress: '0xmulticallAddress',//paste local multicall address
-  getExplorerAddressLink: () => '',
-  getExplorerTransactionLink: () => '',
-}
-```
-
 ## Reading from blockchain
 
 To read from blockchain just add a `queryOptions` object to specified call.
+
+You do not have to deploy multicall, because useDapp do it itself.
 
 ### Example
 
@@ -135,4 +121,3 @@ const tokenBalance = useTokenBalance(tokenAddress, account, { chainId: Localhost
 
 ## Summary
 In this tutorial, we went through the steps required for using useDApp with a local chain using Ganache.
-
