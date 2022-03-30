@@ -23,7 +23,10 @@ const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BasePro
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   fromEntries(
-    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => [chainId, getProviderFromConfig(urlOrProviderOrProviderFunction)])
+    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => [
+      chainId,
+      getProviderFromConfig(urlOrProviderOrProviderFunction),
+    ])
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
