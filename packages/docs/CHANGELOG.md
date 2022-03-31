@@ -1,5 +1,16 @@
 # docs
 
+## 0.1.0
+
+### Minor Changes
+
+- c9df9e0: Add base providers for examples
+
+### Patch Changes
+
+- Updated dependencies [df1adcc]
+  - @usedapp/core@0.12.2
+
 ## 0.0.2
 
 ### Patch Changes
