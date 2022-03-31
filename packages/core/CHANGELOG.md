@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.2
+
+### Patch Changes
+
+- df1adcc: Add support to pass providers in the config
+
 ## 0.12.1
 
 ### Patch Changes
