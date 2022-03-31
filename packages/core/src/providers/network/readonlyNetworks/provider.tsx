@@ -4,7 +4,6 @@ import { useConfig } from '../../config'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, NodeUrls } from '../../../constants'
-import { fromEntries } from '../../../helpers/fromEntries'
 
 interface NetworkProviderProps {
   providerOverrides?: Providers
@@ -21,12 +20,13 @@ const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BasePro
   return new JsonRpcProvider(urlOrProviderOrProviderFunction)
 }
 
-export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
-  fromEntries(
-    Object.entries(readOnlyUrls).map(([chainId, urlOrProviderOrProviderFunction]) => [
-      chainId,
-      getProviderFromConfig(urlOrProviderOrProviderFunction),
-    ])
+export const getProvidersFromConfig = (readOnlyUrls: NodeUrls): NodeUrls =>
+  Object.keys(readOnlyUrls).reduce(
+    (acc, chainId) => ({
+      ...acc,
+      [chainId]: getProviderFromConfig(readOnlyUrls[Number(chainId)]),
+    }),
+    {}
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {

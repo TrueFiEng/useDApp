@@ -14,7 +14,6 @@ import {
 } from '../../..'
 import { useReadonlyNetworks } from '../../network'
 import { useBlockNumbers } from '../../blockNumber/blockNumbers'
-import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { BaseProvider } from '@ethersproject/providers'
@@ -27,14 +26,15 @@ interface Props {
 }
 
 function composeChainState(networks: Providers, state: State, multicallAddresses: Props['multicallAddresses']) {
-  return fromEntries(
-    Object.keys(networks).map((chainId) => [
-      Number(chainId),
-      {
+  return Object.keys(networks).reduce(
+    (acc, chainId) => ({
+      ...acc,
+      [chainId]: {
         value: state[Number(chainId)],
         multicallAddress: multicallAddresses[Number(chainId)],
       },
-    ])
+    }),
+    {}
   )
 }
 
