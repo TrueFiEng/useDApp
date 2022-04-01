@@ -27,7 +27,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   return useMemo(
     () =>
       calls.map((call) => {
-        return call ? extractCallResult(chains, call, chainId) : undefined
+        return call ? extractCallResult(chains, call) : undefined
       }),
     [JSON.stringify(calls), chains]
   )
@@ -49,7 +49,7 @@ export function useRawCall(call: RawCall | Falsy) {
   return useRawCalls([call])[0]
 }
 
-function extractCallResult(chains: MultiChainState, call: RawCall, defaultChainId: number | undefined): RawCallResult {
-  const chainId = call.chainId ?? defaultChainId
+function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
+  const chainId = call.chainId
   return chainId !== undefined ? chains[chainId]?.value?.state?.[call.address]?.[call.data] : undefined
 }
