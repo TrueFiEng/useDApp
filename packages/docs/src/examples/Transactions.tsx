@@ -43,7 +43,7 @@ export function App() {
                 return (
                     <tr>
                         <td>{transaction.transactionName}</td>
-                        <td>{transaction.receipt.blockHash}</td>
+                        <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
                         <td>{new Date(transaction.submittedAt).toDateString()}</td>
                     </tr>
                 )
