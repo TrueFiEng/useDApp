@@ -56,7 +56,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     // If window.ethereum._state.accounts is non null but has no items,
     // it probably means that the user has disconnected Metamask manually.
     if (shouldConnectMetamask && (window.ethereum as any)?._state?.accounts?.length === 0) {
-      return;
+      return
     }
     shouldConnectMetamask && autoConnect && injectedProvider && !providerOverride && activateBrowserWallet()
   }, [shouldConnectMetamask, autoConnect, injectedProvider, providerOverride])
