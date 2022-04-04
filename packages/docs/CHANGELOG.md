@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [30bffcc]
+  - @usedapp/core@0.12.3
+
 ## 0.1.0
 
 ### Minor Changes
