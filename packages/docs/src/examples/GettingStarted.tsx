@@ -14,7 +14,7 @@ import { getDefaultProvider } from 'ethers'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider(),
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
   },
 }
 
