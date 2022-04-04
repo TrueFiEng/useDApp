@@ -34,3 +34,11 @@ import TokenBalance from '../../example-loader.js!/src/examples/TokenBalance.tsx
 ## Custom Hooks
 
 See the [Custom Hooks](/docs/Guides/Reading/Custom%20Hooks) guide if you need to read state not supported by the built-in [hooks](/docs/API%20Reference/Hooks).
+
+## Reading without a browser wallet
+
+In order to interact with the blockchain in a read-only mode without a browser wallet, just specify `readOnlyChainId` and `readOnlyUrls` in your config - no activation required.
+
+import ReadingWithoutWallet from '../../example-loader.js!/src/examples/ReadingWithoutWallet.tsx'
+
+<ExampleContainer example={ReadingWithoutWallet}/>
