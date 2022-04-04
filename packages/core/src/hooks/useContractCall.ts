@@ -56,7 +56,7 @@ export function useContractCalls(
   calls: (ContractCall | Falsy)[],
   queryParams: QueryParams = {}
 ): (any[] | undefined)[] {
-  const chainId = useChainId({queryParams})
+  const chainId = useChainId({ queryParams })
 
   const results = useChainCalls(
     calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))

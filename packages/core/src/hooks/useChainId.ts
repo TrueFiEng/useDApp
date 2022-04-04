@@ -13,5 +13,4 @@ export function useChainId(opts: UseChainIdOptions) {
   const { network } = useNetwork()
   const { readOnlyChainId } = useConfig()
   return opts?.queryParams?.chainId ?? network.chainId ?? readOnlyChainId
-
 }

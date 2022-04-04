@@ -13,7 +13,7 @@ const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCu
  * @public
  */
 export function useBlockMeta(queryParams: QueryParams = {}) {
-  const chainId = useChainId({queryParams})
+  const chainId = useChainId({ queryParams })
 
   const address = useMulticallAddress(queryParams)
   const timestamp = useRawCall(

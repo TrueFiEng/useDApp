@@ -7,7 +7,7 @@ export function useChainState(
   queryParams: QueryParams = {}
 ): (Partial<SingleChainState> & { dispatchCalls: (action: Action) => void }) | undefined {
   const multiChainState = useContext(MultiChainStatesContext)
-  const chainId = useChainId({queryParams})
+  const chainId = useChainId({ queryParams })
 
   if (chainId === undefined) {
     return undefined

@@ -44,7 +44,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * @returns a list of results (see {@link CallResult} in {@link useCall} above).
  */
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
-  const chainId = useChainId({queryParams})
+  const chainId = useChainId({ queryParams })
 
   const rawCalls = calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
   const results = useRawCalls(rawCalls)
