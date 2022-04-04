@@ -1,3 +1,4 @@
+export * from './createMockProvider'
 export * from './deployMulticall'
 export * from './getAdminWallet'
 export * from './IdentityWrapper'

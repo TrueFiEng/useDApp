@@ -1,51 +1,94 @@
-import { MockProvider } from '@ethereum-waffle/provider'
 import { expect } from 'chai'
-import { renderWeb3Hook, SECOND_TEST_CHAIN_ID } from '../testing'
-import { ChainId } from '../constants/chainId'
 import { Wallet } from 'ethers'
+import { useEffect } from 'react'
+import { Config } from '../constants'
+import { Mainnet } from '../model'
+import { createMockProvider, CreateMockProviderResult, renderWeb3Hook } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
-
-const STARTING_ETHER_BALANCE = '9999999981985601489701082000000000'
-const SECOND_STARTING_ETHER_BALANCE = '9999999981985601488884146000000000'
+import { useEthers } from './useEthers'
 
 describe('useEtherBalance', () => {
-  let mockProvider: MockProvider
-  let secondMockProvider: MockProvider
+  let network1: CreateMockProviderResult
+  let network2: CreateMockProviderResult
   let deployer: Wallet
-  let secondDeployer: Wallet
+  let config: Config
+  const receiver = Wallet.createRandom();
 
-  beforeEach(() => {
-    mockProvider = new MockProvider()
-    secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
-    const [first] = mockProvider.getWallets()
-    deployer = first
-    const [second] = secondMockProvider.getWallets()
-    secondDeployer = second
-  })
-
-  it('returns correct starting ether balance', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useEtherBalance(deployer.address), {
-      mockProvider,
-    })
-    await waitForCurrent((val) => val !== undefined)
-    expect(result.error).to.be.undefined
-    expect(result.current).to.eq(STARTING_ETHER_BALANCE)
-  })
-
-  it('multichain calls return correct initial balances', async () => {
-    await testMultiChainUseEtherBalance(deployer.address, ChainId.Localhost, STARTING_ETHER_BALANCE)
-    await testMultiChainUseEtherBalance(secondDeployer.address, SECOND_TEST_CHAIN_ID, SECOND_STARTING_ETHER_BALANCE)
-  })
-
-  const testMultiChainUseEtherBalance = async (user: string, chainId: number, endBalance: string) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useEtherBalance(user, { chainId }), {
-      mockProvider: {
-        [ChainId.Localhost]: mockProvider,
-        [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+  before(async () => {
+    network1 = await createMockProvider({ chainId: Mainnet.chainId })
+    network2 = await createMockProvider({ chainId: 1337 })
+    ;[deployer] = network1.provider.getWallets()
+    config = {
+      readOnlyChainId: Mainnet.chainId,
+      readOnlyUrls: {
+        [Mainnet.chainId]: network1.provider,
+        [1337]: network2.provider,
       },
-    })
+      multicallAddresses: {
+        ...network1.multicallAddresses,
+        ...network2.multicallAddresses,
+      }
+    }
+
+    await deployer.connect(network1.provider).sendTransaction({ to: receiver.address, value: 100 })
+    await deployer.connect(network2.provider).sendTransaction({ to: receiver.address, value: 200 })
+  })
+
+  it('returns 0 for random wallet', async () => {
+    const { address } = Wallet.createRandom()
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useEtherBalance(address),
+      { config },
+    )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(endBalance)
-  }
+    expect(result.current).to.eq(0)
+  })
+
+  it('default readonly chain', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useEtherBalance(receiver.address),
+      { config },
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(100)
+  })
+
+  it('defaults to active read-write provider chain id', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          activate(network2.provider);
+        }, [])
+
+        return useEtherBalance(receiver.address)
+      },
+      { config },
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(200)
+  })
+
+  it('explicitly mainnet', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useEtherBalance(receiver.address, { chainId: Mainnet.chainId }),
+      { config },
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(100)
+  })
+
+  it('explicitly specified chain id', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () => useEtherBalance(receiver.address, { chainId: 1337 }),
+      { config },
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(200)
+  })
 })
