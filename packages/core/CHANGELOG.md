@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.3
+
+### Patch Changes
+
+- 30bffcc: Fix queries not working in readonly mode
+
 ## 0.12.2
 
 ### Patch Changes
