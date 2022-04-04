@@ -2,8 +2,8 @@ import { MultiCallABI } from '../constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useMulticallAddress } from './useMulticallAddress'
 import { QueryParams } from '../constants/type/QueryParams'
-import { useConfig, useNetwork } from '../providers'
 import { useRawCall } from './useRawCalls'
+import { useChainId } from './useChainId'
 
 const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
 const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
@@ -13,9 +13,7 @@ const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCu
  * @public
  */
 export function useBlockMeta(queryParams: QueryParams = {}) {
-  const { network } = useNetwork()
-  const { readOnlyChainId } = useConfig()
-  const chainId = queryParams.chainId ?? network.chainId ?? readOnlyChainId
+  const chainId = useChainId({queryParams})
 
   const address = useMulticallAddress(queryParams)
   const timestamp = useRawCall(
