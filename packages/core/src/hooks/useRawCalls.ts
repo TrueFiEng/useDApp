@@ -3,7 +3,6 @@ import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
-import { useEthers } from './useEthers'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -16,7 +15,6 @@ import { useEthers } from './useEthers'
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
-  const { chainId } = useEthers()
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]

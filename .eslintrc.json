@@ -20,6 +20,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "no-redeclare": "off",
     "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "prefer-const": ["error", {"destructuring": "all"}],
     "semi": ["error", "never"],
     "no-extra-semi": "off",
