@@ -152,6 +152,7 @@ importers:
       '@docusaurus/preset-classic': 2.0.0-beta.17
       '@docusaurus/remark-plugin-npm2yarn': ^2.0.0-beta.17
       '@ethersproject/contracts': 5.6.0
+      '@ethersproject/providers': 5.6.0
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': ^1.6.22
       '@tsconfig/docusaurus': ^1.0.4
@@ -179,6 +180,7 @@ importers:
       '@docusaurus/preset-classic': 2.0.0-beta.17_881404fbc54bd1a20a9902f0565537a5
       '@docusaurus/remark-plugin-npm2yarn': 2.0.0-beta.17
       '@ethersproject/contracts': 5.6.0
+      '@ethersproject/providers': 5.6.0
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@usedapp/coingecko': link:../coingecko
@@ -21397,7 +21399,7 @@ packages:
       lodash: 4.17.21
       opener: 1.5.2
       sirv: 1.0.19
-      ws: 7.4.6
+      ws: 7.5.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
