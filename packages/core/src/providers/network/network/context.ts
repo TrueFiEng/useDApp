@@ -27,7 +27,7 @@ export const NetworkContext = createContext<{
 })
 
 /**
- * @public
+ * @internal
  */
 export function useNetwork() {
   return useContext(NetworkContext)

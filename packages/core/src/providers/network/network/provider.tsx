@@ -35,18 +35,20 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(false)
 
   const activateBrowserWallet = useCallback(async () => {
+    setLoading(true)
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       return
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
-      setLoading(false)
     } catch (err: any) {
       reportError(err)
+    } finally {
+      setLoading(false)
     }
     setShouldConnectMetamask(true)
     return activate(injectedProvider)
