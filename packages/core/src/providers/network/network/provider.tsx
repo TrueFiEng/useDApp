@@ -7,6 +7,8 @@ import { subscribeToProviderEvents } from '../../../helpers/eip1193'
 import { getInjectedProvider } from '../../../helpers/injectedProvider'
 import { useConfig } from '../../config'
 import { useLocalStorage } from '../../../hooks'
+import { useReadonlyNetworks } from '../readonlyNetworks/context'
+import { ChainId } from '../../../constants/chainId'
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -26,11 +28,14 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 }
 
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect, pollingInterval } = useConfig()
+  const { autoConnect, pollingInterval, readOnlyChainId } = useConfig()
+  const readonlyProviders = useReadonlyNetworks()
+
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+  const [isLoading, setLoading] = useState(true)
 
   const activateBrowserWallet = useCallback(async () => {
     if (!injectedProvider) {
@@ -39,6 +44,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
+      setLoading(false)
     } catch (err: any) {
       reportError(err)
     }
@@ -102,6 +108,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
           chainId,
           accounts: account ? [account] : [],
         })
+        setLoading(false)
       } catch (err: any) {
         reportError(err)
       }
@@ -109,9 +116,13 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     [onUnsubscribe]
   )
 
+  const networkWithReadonlyProvider: Network = network.provider === undefined && readOnlyChainId !== undefined && !!readonlyProviders[readOnlyChainId as ChainId]
+    ? { provider: readonlyProviders[readOnlyChainId as ChainId] as JsonRpcProvider, chainId: readOnlyChainId, accounts: [], errors: [] }
+    : network
+
   return (
     <NetworkContext.Provider
-      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet }}
+      value={{ network: networkWithReadonlyProvider, update, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
       children={children}
     />
   )

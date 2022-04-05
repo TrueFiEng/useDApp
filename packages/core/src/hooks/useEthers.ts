@@ -23,6 +23,7 @@ export type Web3Ethers = {
   library?: JsonRpcProvider
   active: boolean
   activateBrowserWallet: () => void
+  isLoading: boolean
 }
 
 /**
@@ -34,6 +35,7 @@ export function useEthers(): Web3Ethers {
     deactivate,
     activate,
     activateBrowserWallet,
+    isLoading,
   } = useNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
@@ -70,6 +72,7 @@ export function useEthers(): Web3Ethers {
     },
 
     error,
+    isLoading
   }
 
   return { ...result, activateBrowserWallet }
