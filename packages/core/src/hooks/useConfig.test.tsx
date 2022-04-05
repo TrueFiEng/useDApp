@@ -1,6 +1,9 @@
 import { expect } from 'chai'
 import { useConfig, ConfigProvider, useUpdateConfig } from '../../src'
-import { renderWeb3Hook } from '../../src/testing'
+import { renderWeb3Hook, setupTestingConfig, renderDAppHook } from '../../src/testing'
+import { Config } from '../constants'
+import { Kovan } from '../model'
+import {} from '../testing/utils/setupTestingConfig'
 
 describe('useConfig', () => {
   it('default', async () => {
@@ -22,7 +25,26 @@ describe('useConfig', () => {
     await waitForCurrent((val) => val != undefined)
     expect(result.current['readOnlyChainId']).to.eq(1)
   })
+
+  it('merged defaults and custom values', async () => {
+    const setup = await setupTestingConfig()
+    const config: Config = {
+      ...setup.config,
+      notifications: {
+        checkInterval: 101,
+        expirationPeriod: undefined, // Expecting to be filled by defaults.
+      },
+      networks: [Kovan], // Expecting NOT to be filled by default networks.
+    }
+    const { result, waitForCurrent } = await renderDAppHook(() => useConfig(), { config })
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current.networks?.length).to.eq(1)
+    expect(result.current.notifications?.checkInterval).to.eq(101)
+    expect(result.current.notifications?.expirationPeriod).to.eq(5000)
+  })
 })
+
 describe('useUpdateConfig', () => {
   it('updates config', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
