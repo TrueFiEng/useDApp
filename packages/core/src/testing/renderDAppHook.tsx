@@ -15,7 +15,6 @@ export interface renderDAppHookOptions<Tprops> {
   }
 }
 
-/
 export const renderDAppHook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
   options?: renderDAppHookOptions<Tprops>

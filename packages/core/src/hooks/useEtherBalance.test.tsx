@@ -3,7 +3,7 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { createMockProvider, CreateMockProviderResult, renderWeb3Hook } from '../testing'
+import { createMockProvider, CreateMockProviderResult, renderDAppHook } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
@@ -36,7 +36,7 @@ describe('useEtherBalance', () => {
 
   it('returns 0 for random wallet', async () => {
     const { address } = Wallet.createRandom()
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(address),
       { config },
     )
@@ -46,7 +46,7 @@ describe('useEtherBalance', () => {
   })
 
   it('default readonly chain', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(receiver.address),
       { config },
     )
@@ -56,7 +56,7 @@ describe('useEtherBalance', () => {
   })
 
   it('defaults to active read-write provider chain id', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const { activate } = useEthers()
         useEffect(() => {
@@ -73,7 +73,7 @@ describe('useEtherBalance', () => {
   })
 
   it('explicitly mainnet', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(receiver.address, { chainId: Mainnet.chainId }),
       { config },
     )
@@ -83,7 +83,7 @@ describe('useEtherBalance', () => {
   })
 
   it('explicitly specified chain id', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(receiver.address, { chainId: 1337 }),
       { config },
     )
