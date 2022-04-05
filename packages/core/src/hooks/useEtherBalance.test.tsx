@@ -12,7 +12,7 @@ describe('useEtherBalance', () => {
   let network2: CreateMockProviderResult
   let deployer: Wallet
   let config: Config
-  const receiver = Wallet.createRandom();
+  const receiver = Wallet.createRandom()
 
   before(async () => {
     network1 = await createMockProvider({ chainId: Mainnet.chainId })
@@ -27,7 +27,7 @@ describe('useEtherBalance', () => {
       multicallAddresses: {
         ...network1.multicallAddresses,
         ...network2.multicallAddresses,
-      }
+      },
     }
 
     await deployer.connect(network1.provider).sendTransaction({ to: receiver.address, value: 100 })
@@ -36,20 +36,14 @@ describe('useEtherBalance', () => {
 
   it('returns 0 for random wallet', async () => {
     const { address } = Wallet.createRandom()
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => useEtherBalance(address),
-      { config },
-    )
+    const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(address), { config })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(0)
   })
 
   it('default readonly chain', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => useEtherBalance(receiver.address),
-      { config },
-    )
+    const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver.address), { config })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
@@ -60,12 +54,12 @@ describe('useEtherBalance', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          activate(network2.provider);
+          activate(network2.provider)
         }, [])
 
         return useEtherBalance(receiver.address)
       },
-      { config },
+      { config }
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -75,7 +69,7 @@ describe('useEtherBalance', () => {
   it('explicitly mainnet', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(receiver.address, { chainId: Mainnet.chainId }),
-      { config },
+      { config }
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -85,7 +79,7 @@ describe('useEtherBalance', () => {
   it('explicitly specified chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useEtherBalance(receiver.address, { chainId: 1337 }),
-      { config },
+      { config }
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined

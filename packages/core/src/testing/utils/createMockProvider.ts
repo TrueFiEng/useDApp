@@ -1,13 +1,13 @@
-import { MockProvider } from "ethereum-waffle"
-import { ChainId, MulticallAddresses } from "../../constants"
-import { deployMulticall } from "./deployMulticall"
+import { MockProvider } from 'ethereum-waffle'
+import { ChainId, MulticallAddresses } from '../../constants'
+import { deployMulticall } from './deployMulticall'
 
 export interface CreateMockProviderOptions {
   chainId?: ChainId
 }
 
 export interface CreateMockProviderResult {
-  provider: MockProvider,
+  provider: MockProvider
   multicallAddresses: MulticallAddresses
 }
 
@@ -21,6 +21,6 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
   const multicallAddresses = await deployMulticall(provider, chainId)
   return {
     provider,
-    multicallAddresses
+    multicallAddresses,
   }
 }

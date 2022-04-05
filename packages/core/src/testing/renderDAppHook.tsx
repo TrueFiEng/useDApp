@@ -14,15 +14,15 @@ export interface renderDAppHookOptions<Tprops> {
 
 /**
  * Next version of {@link renderWeb3Hook}.
- * 
+ *
  * @internal
  * Internal until it's ready and stable.
- * 
+ *
  * Differences from {@link renderWeb3Hook}:
  * The rendering happens at much higher level, closer to reality.
  * It takes a Config object and renders the hook under test in a `DAppProvider`,
  * which mimicks the real useDApp usage.
- * 
+ *
  * @param hook Hook under test
  * @param options Optional options, same as in `renderHook`
  * @returns Same as in `renderHook`, with additions of helper functions.

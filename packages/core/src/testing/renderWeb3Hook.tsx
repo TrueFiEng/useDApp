@@ -19,14 +19,14 @@ export interface renderWeb3HookOptions<Tprops> {
 
 /**
  * A utility function for testing React hooks in useDApp ecosystem.
- * 
+ *
  * It wraps a `renderHook` from `@testing-library/react-hooks`,
  * adding functionality related to:
  * - initializing web3 providers,
  * - auto-deploying multicall,
  * - adding helpers such as `mineBlock`,
  * - adding necessary useDApp context providers.
- * 
+ *
  * @public
  * @param hook Hook under test
  * @param options Optional options, same as in `renderHook`
