@@ -3,7 +3,6 @@ import { useConfig, ConfigProvider, useUpdateConfig } from '../../src'
 import { renderWeb3Hook, setupTestingConfig, renderDAppHook } from '../../src/testing'
 import { Config } from '../constants'
 import { Kovan } from '../model'
-import {} from '../testing/utils/setupTestingConfig'
 
 describe('useConfig', () => {
   it('default', async () => {
