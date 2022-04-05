@@ -6,7 +6,10 @@ import { ChainId } from '../constants/chainId'
 import { encodeCallData } from '../helpers'
 import {
   deployMockToken,
-  MOCK_TOKEN_INITIAL_BALANCE, renderWeb3Hook, SECOND_MOCK_TOKEN_INITIAL_BALANCE, SECOND_TEST_CHAIN_ID
+  MOCK_TOKEN_INITIAL_BALANCE,
+  renderWeb3Hook,
+  SECOND_MOCK_TOKEN_INITIAL_BALANCE,
+  SECOND_TEST_CHAIN_ID,
 } from '../testing'
 import { useRawCall } from './useRawCalls'
 
