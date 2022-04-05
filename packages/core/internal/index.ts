@@ -24,7 +24,6 @@ export {
   useNotificationsContext,
 } from '../src/providers'
 export {
-  useChainState,
   connectContractToSigner,
   useDebounce,
   useLocalStorage,

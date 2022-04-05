@@ -1,12 +1,12 @@
 import type { TransactionResponse } from '@ethersproject/providers'
 import {
+  getExplorerTransactionLink,
   Notification,
   useNotifications,
   useTransactions,
   getStoredTransactionState,
   StoredTransaction,
   shortenTransactionHash,
-  getExplorerTransactionLink,
 } from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'

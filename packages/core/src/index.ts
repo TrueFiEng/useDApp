@@ -60,6 +60,7 @@ export {
   useChainCall,
   useChainCalls,
   useChainMeta,
+  useChainState,
   useContractFunction,
   useEtherBalance,
   useEthers,

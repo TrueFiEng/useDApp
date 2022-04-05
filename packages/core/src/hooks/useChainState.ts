@@ -4,7 +4,7 @@ import { Action, MultiChainStatesContext, SingleChainState } from '../providers'
 import { useChainId } from './useChainId'
 
 /**
- * @internal Intended for internal use - use it on your own risk
+ * @public
  */
 export function useChainState(
   queryParams: QueryParams = {}

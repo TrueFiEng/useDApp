@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useEthers, useEtherBalance, getExplorerAddressLink } from '@usedapp/core'
+import { useEthers, getExplorerAddressLink, useEtherBalance } from '@usedapp/core'
 import { TransactionsList } from '../Transactions/History'
 import { formatEther } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
