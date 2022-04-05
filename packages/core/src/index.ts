@@ -73,7 +73,7 @@ export {
   useTokenBalance,
   useTokenList,
   TokenList,
-  useTransactions
+  useTransactions,
 } from './hooks'
 export {
   Currency,

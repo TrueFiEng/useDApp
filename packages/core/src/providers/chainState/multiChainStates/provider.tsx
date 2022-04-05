@@ -1,14 +1,7 @@
 import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
-import {
-  ChainId,
-  multicall as multicall1,
-  multicall2,
-  State,
-  useConfig,
-  useNetwork,
-} from '../../..'
+import { ChainId, multicall as multicall1, multicall2, State, useConfig, useNetwork } from '../../..'
 import { useReadonlyNetworks } from '../../network'
 import { useBlockNumbers } from '../../blockNumber/blockNumbers'
 import { fromEntries } from '../../../helpers/fromEntries'
