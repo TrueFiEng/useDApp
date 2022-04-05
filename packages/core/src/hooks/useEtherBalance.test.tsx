@@ -10,14 +10,13 @@ import { useEthers } from './useEthers'
 describe('useEtherBalance', () => {
   let network1: CreateMockProviderResult
   let network2: CreateMockProviderResult
-  let deployer: Wallet
   let config: Config
   const receiver = Wallet.createRandom()
 
   before(async () => {
     network1 = await createMockProvider({ chainId: Mainnet.chainId })
     network2 = await createMockProvider({ chainId: 1337 })
-    ;[deployer] = network1.provider.getWallets()
+    const [deployer] = network1.provider.getWallets()
     config = {
       readOnlyChainId: Mainnet.chainId,
       readOnlyUrls: {
