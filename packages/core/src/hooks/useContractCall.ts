@@ -1,10 +1,11 @@
 import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
-import { Falsy } from '../model/types'
-import { useChainCalls } from './useChainCalls'
-import { RawCall, useConfig, useNetwork } from '../providers'
 import { ChainId } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'
+import { Falsy } from '../model/types'
+import { RawCall } from '../providers'
+import { useChainCalls } from './useChainCalls'
+import { useChainId } from './useChainId'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -55,9 +56,7 @@ export function useContractCalls(
   calls: (ContractCall | Falsy)[],
   queryParams: QueryParams = {}
 ): (any[] | undefined)[] {
-  const { network } = useNetwork()
-  const { readOnlyChainId } = useConfig()
-  const chainId = queryParams.chainId ?? network.chainId ?? readOnlyChainId
+  const chainId = useChainId({ queryParams })
 
   const results = useChainCalls(
     calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
