@@ -1,8 +1,9 @@
-import { ERC20Interface, connectContractToSigner, useEthers } from '..'
+import { ERC20Interface, useEthers } from '..'
 import chai, { expect } from 'chai'
 import { MockProvider, solidity } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import { renderWeb3Hook } from '.'
+import { connectContractToSigner } from '../hooks/useContractFunction'
 
 chai.use(solidity)
 

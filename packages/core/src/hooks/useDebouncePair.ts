@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
 // modified from https://usehooks.com/useDebounce/
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function useDebouncePair<T, U>(first: T, second: U, delay: number): [T, U] {
   const [debouncedValue, setDebouncedValue] = useState<[T, U]>([first, second])
 

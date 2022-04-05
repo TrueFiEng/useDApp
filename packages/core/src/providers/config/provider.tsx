@@ -10,6 +10,9 @@ interface ConfigProviderProps {
   config: Config
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function ConfigProvider({ config, children }: ConfigProviderProps) {
   const [reducedConfig, dispatch] = useReducer(configReducer, merge({}, DEFAULT_CONFIG, config))
   return <ConfigContext.Provider value={{ config: reducedConfig, updateConfig: dispatch }} children={children} />

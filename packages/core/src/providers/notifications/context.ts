@@ -11,6 +11,9 @@ export const NotificationsContext = createContext<{
   removeNotification: () => undefined,
 })
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function useNotificationsContext() {
   return useContext(NotificationsContext)
 }
