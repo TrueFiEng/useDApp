@@ -11,6 +11,10 @@ export interface CreateMockProviderResult {
   multicallAddresses: MulticallAddresses
 }
 
+/**
+ * Creates a MockProvider, with an option to override `chainId`.
+ * Automatically deploys multicall.
+ */
 export const createMockProvider = async (opts: CreateMockProviderOptions = {}): Promise<CreateMockProviderResult> => {
   const chainId = opts.chainId ?? ChainId.Mainnet
   const provider = new MockProvider({ ganacheOptions: { _chainIdRpc: chainId } as any })
