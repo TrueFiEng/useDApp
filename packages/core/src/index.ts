@@ -92,6 +92,7 @@ export {
   useTokenList,
   TokenList,
   useTransactions,
+  useReadonlyNetwork,
   // To be removed from public API:
   useContractCall,
   useContractCalls,

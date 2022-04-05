@@ -117,14 +117,9 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     },
     [onUnsubscribe]
   )
-
-  const networkWithReadonlyProvider: Network = network.provider === undefined && readOnlyChainId !== undefined && !!readonlyProviders[readOnlyChainId as ChainId]
-    ? { provider: readonlyProviders[readOnlyChainId as ChainId] as JsonRpcProvider, chainId: readOnlyChainId, accounts: [], errors: [] }
-    : network
-
   return (
     <NetworkContext.Provider
-      value={{ network: networkWithReadonlyProvider, update, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
+      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
       children={children}
     />
   )
