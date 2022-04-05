@@ -1,12 +1,9 @@
-import { Provider } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_ID } from '../testing'
-import { useEtherBalance } from './useEtherBalance'
+import { renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
 describe('useEthers', () => {
@@ -26,6 +23,7 @@ describe('useEthers', () => {
     await waitForCurrent((val) => !val.isLoading)
 
     expect(result.error).to.be.undefined
+    expect(result.current.error).to.be.undefined
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
@@ -38,18 +36,44 @@ describe('useEthers', () => {
     expect(result.current.isLoading).to.be.false
   })
 
-  it('returns correct provider after activation', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(() => {
-      const { activate } = useEthers()
-      useEffect(() => {
-        activate(network2.provider)
-      }, [])
+  it('throws error if trying to use unsupported network', async () => {
+    const configWithUnsupportedNetworks: Config = {
+      ...config,
+      networks: [Mainnet],
+    }
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          activate(network2.provider)
+        }, [])
 
-      return useEthers()
-    }, { config })
+        return useEthers()
+      },
+      { config: configWithUnsupportedNetworks }
+    )
+
+    await waitForCurrent((val) => !!val.error)
+    expect(result.current.error).not.to.be.undefined
+    expect(result.current.error?.toString()).to.include('Unsupported chain id: 1337')
+  })
+
+  it('returns correct provider after activation', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          activate(network2.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
     await waitForCurrent((val) => !val.isLoading && val.chainId === network2.provider.network.chainId)
 
     expect(result.error).to.be.undefined
+    expect(result.current.error).to.be.undefined
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')

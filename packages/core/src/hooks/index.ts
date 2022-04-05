@@ -21,4 +21,4 @@ export * from './useLookupAddress'
 export * from './useTokenList'
 export * from './useChainState'
 export * from './useChainMeta'
-export * from './useReadonlyProvider';
+export * from './useReadonlyProvider'

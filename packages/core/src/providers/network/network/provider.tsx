@@ -3,12 +3,9 @@ import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
-import { subscribeToProviderEvents } from '../../../helpers/eip1193'
-import { getInjectedProvider } from '../../../helpers/injectedProvider'
+import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
 import { useConfig } from '../../config'
 import { useLocalStorage } from '../../../hooks'
-import { useReadonlyNetworks } from '../readonlyNetworks/context'
-import { ChainId } from '../../../constants/chainId'
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -28,8 +25,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 }
 
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect, pollingInterval, readOnlyChainId } = useConfig()
-  const readonlyProviders = useReadonlyNetworks()
+  const { autoConnect, pollingInterval } = useConfig()
 
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)

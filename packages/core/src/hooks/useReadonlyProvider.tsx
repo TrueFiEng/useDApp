@@ -1,6 +1,6 @@
-import { ChainId } from "../constants";
-import { useReadonlyNetworks } from "../providers/network";
-import { useChainId } from "./useChainId";
+import { ChainId } from '../constants'
+import { useReadonlyNetworks } from '../providers/network'
+import { useChainId } from './useChainId'
 import type { BaseProvider } from '@ethersproject/providers'
 
 export interface UseReadonlyProviderOptions {
@@ -20,11 +20,11 @@ export interface ReadonlyNetwork {
  */
 export function useReadonlyNetwork(opts: UseReadonlyProviderOptions = {}): ReadonlyNetwork | undefined {
   const chainId = useChainId({ queryParams: { chainId: opts.chainId } })
-  const providers = useReadonlyNetworks();
+  const providers = useReadonlyNetworks()
   return providers[chainId as ChainId] !== undefined && chainId !== undefined
     ? {
-      provider: providers[chainId as ChainId]!,
-      chainId: chainId,
-    }
+        provider: providers[chainId as ChainId]!,
+        chainId: chainId,
+      }
     : undefined
 }

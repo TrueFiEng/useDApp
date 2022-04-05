@@ -53,12 +53,12 @@ export function useEthers(): Web3Ethers {
   const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
 
   const readonlyNetwork = useReadonlyNetwork()
-  const provider = networkProvider ?? readonlyNetwork?.provider as JsonRpcProvider
+  const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
 
   const result = {
     connector: undefined,
     library: provider,
-    chainId: isUnsupportedChainId ? undefined : (networkProvider !== undefined ? chainId : readonlyNetwork?.chainId),
+    chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
     account: accounts[0],
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -79,7 +79,7 @@ export function useEthers(): Web3Ethers {
     },
 
     error,
-    isLoading
+    isLoading,
   }
 
   return { ...result, activateBrowserWallet }
