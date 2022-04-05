@@ -9,7 +9,7 @@ import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_I
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
-describe.only('useEthers', () => {
+describe('useEthers', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
@@ -24,7 +24,7 @@ describe.only('useEthers', () => {
   it('returns no wallets and readonly provider when not connected', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), { config })
     await waitForCurrent((val) => !val.isLoading)
-    
+
     expect(result.error).to.be.undefined
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
