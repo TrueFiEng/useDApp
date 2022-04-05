@@ -55,9 +55,7 @@ describe('useEthers', () => {
 
     await waitForCurrent((val) => !!val.error)
     expect(result.current.error).not.to.be.undefined
-    expect(result.current.error?.toString()).to.include(
-      `Unsupported chain id: ${SECOND_TEST_CHAIN_ID}`
-    )
+    expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${SECOND_TEST_CHAIN_ID}`)
   })
 
   it('returns correct provider after activation', async () => {
