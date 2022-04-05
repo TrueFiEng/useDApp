@@ -8,6 +8,9 @@ interface Props {
   children: ReactNode
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function BlockNumberProvider({ children }: Props) {
   const { library, chainId } = useEthers()
   const [state, dispatch] = useReducer(blockNumberReducer, {})

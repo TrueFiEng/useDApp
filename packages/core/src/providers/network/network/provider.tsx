@@ -24,6 +24,9 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
   }
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
   const { autoConnect, pollingInterval } = useConfig()
 

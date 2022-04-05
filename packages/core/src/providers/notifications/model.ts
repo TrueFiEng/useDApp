@@ -47,4 +47,7 @@ export type Notifications = {
   [chainID: number]: Notification[]
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export const DEFAULT_NOTIFICATIONS: Notifications = {}

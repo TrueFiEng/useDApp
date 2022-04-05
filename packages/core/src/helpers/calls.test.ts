@@ -1,7 +1,8 @@
 import { expect } from 'chai'
 import { Contract, utils } from 'ethers'
 import { Interface } from 'ethers/lib/utils'
-import { Call, decodeCallResult, RawCallResult } from '../../src'
+import { Call, RawCallResult } from '../../src'
+import { decodeCallResult } from './calls'
 
 describe('decodeCallResult', () => {
   const erc20Abi = ['function name() view returns (string)']

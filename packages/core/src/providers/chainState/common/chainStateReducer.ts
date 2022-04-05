@@ -13,6 +13,9 @@ export interface State {
     | undefined
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export type ChainStateAction = FetchSuccess | FetchError
 
 interface FetchSuccess {
@@ -29,6 +32,9 @@ interface FetchError {
   error: unknown
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function chainStateReducer(state: State = {}, action: ChainStateAction) {
   const current = state[action.chainId]?.blockNumber
   if (!current || action.blockNumber >= current) {
