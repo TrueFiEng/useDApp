@@ -7,7 +7,7 @@ import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_I
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
-describe.only('useEtherBalance', () => {
+describe('useEtherBalance', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config

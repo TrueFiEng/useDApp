@@ -6,7 +6,7 @@ import { Mainnet } from '../model'
 import { deployMockToken, renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
 import { useTokenBalance } from './useTokenBalance'
 
-describe.only('useTokenBalance', () => {
+describe('useTokenBalance', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
