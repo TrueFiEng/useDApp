@@ -6,7 +6,7 @@ import {
   getStoredTransactionState,
   StoredTransaction,
   shortenTransactionHash,
-  getExplorerTransactionLink
+  getExplorerTransactionLink,
 } from '@usedapp/core'
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
