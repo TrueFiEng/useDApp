@@ -3,8 +3,7 @@ import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
-import { subscribeToProviderEvents } from '../../../helpers/eip1193'
-import { getInjectedProvider } from '../../../helpers/injectedProvider'
+import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
 import { useConfig } from '../../config'
 import { useLocalStorage } from '../../../hooks'
 
@@ -30,12 +29,15 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
   const { autoConnect, pollingInterval } = useConfig()
+
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+  const [isLoading, setLoading] = useState(false)
 
   const activateBrowserWallet = useCallback(async () => {
+    setLoading(true)
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       return
@@ -44,6 +46,8 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       await injectedProvider.send('eth_requestAccounts', [])
     } catch (err: any) {
       reportError(err)
+    } finally {
+      setLoading(false)
     }
     setShouldConnectMetamask(true)
     return activate(injectedProvider)
@@ -105,16 +109,16 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
           chainId,
           accounts: account ? [account] : [],
         })
+        setLoading(false)
       } catch (err: any) {
         reportError(err)
       }
     },
     [onUnsubscribe]
   )
-
   return (
     <NetworkContext.Provider
-      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet }}
+      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
       children={children}
     />
   )

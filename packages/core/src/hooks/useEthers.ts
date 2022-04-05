@@ -1,6 +1,7 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { useConfig, useNetwork } from '../providers'
 import { useLocalStorage } from './useLocalStorage'
+import { useReadonlyNetwork } from './useReadonlyProvider'
 
 type MaybePromise<T> = Promise<T> | any
 
@@ -14,6 +15,9 @@ type SupportedProviders =
  */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
+  /**
+   * @deprecated
+   */
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
@@ -23,6 +27,7 @@ export type Web3Ethers = {
   library?: JsonRpcProvider
   active: boolean
   activateBrowserWallet: () => void
+  isLoading: boolean
 }
 
 /**
@@ -30,10 +35,11 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { provider, chainId, accounts, errors },
+    network: { provider: networkProvider, chainId, accounts, errors },
     deactivate,
     activate,
     activateBrowserWallet,
+    isLoading,
   } = useNetwork()
   const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
@@ -46,10 +52,13 @@ export function useEthers(): Web3Ethers {
   unsupportedChainIdError.name = 'UnsupportedChainIdError'
   const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
 
+  const readonlyNetwork = useReadonlyNetwork()
+  const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
+
   const result = {
     connector: undefined,
     library: provider,
-    chainId: isUnsupportedChainId ? undefined : chainId,
+    chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
     account: accounts[0],
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -70,6 +79,7 @@ export function useEthers(): Web3Ethers {
     },
 
     error,
+    isLoading,
   }
 
   return { ...result, activateBrowserWallet }

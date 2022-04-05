@@ -10,6 +10,7 @@ export const NetworkContext = createContext<{
   deactivate: () => void
   network: Network
   activateBrowserWallet: () => void
+  isLoading: boolean
 }>({
   network: {
     provider: undefined,
@@ -22,10 +23,11 @@ export const NetworkContext = createContext<{
   activate: async () => undefined,
   deactivate: () => undefined,
   activateBrowserWallet: () => undefined,
+  isLoading: true,
 })
 
 /**
- * @public
+ * @internal
  */
 export function useNetwork() {
   return useContext(NetworkContext)
