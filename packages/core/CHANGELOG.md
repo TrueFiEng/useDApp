@@ -1,5 +1,14 @@
 # @usedapp/core
 
+## 0.12.4
+
+### Patch Changes
+
+- fcd1642: Correctly read `chainId` in read-only mode without browser wallet
+- 93967af: Move parts that should be private in @usedapp/core to internal submodule
+- fe1e418: Add `isLoading` to `useEthers` and refactor chainId resolution
+- def0d9c: Properly merge default and supplied configs
+
 ## 0.12.3
 
 ### Patch Changes

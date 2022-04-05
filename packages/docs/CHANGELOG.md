@@ -1,5 +1,16 @@
 # docs
 
+## 0.1.2
+
+### Patch Changes
+
+- fcd1642: Correctly read `chainId` in read-only mode without browser wallet
+- Updated dependencies [fcd1642]
+- Updated dependencies [93967af]
+- Updated dependencies [fe1e418]
+- Updated dependencies [def0d9c]
+  - @usedapp/core@0.12.4
+
 ## 0.1.1
 
 ### Patch Changes
