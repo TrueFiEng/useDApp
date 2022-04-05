@@ -1,15 +1,13 @@
 import { useContext } from 'react'
 import { QueryParams } from '../constants/type/QueryParams'
-import { Action, MultiChainStatesContext, SingleChainState, useConfig, useNetwork } from '../providers'
+import { Action, MultiChainStatesContext, SingleChainState } from '../providers'
+import { useChainId } from './useChainId'
 
 export function useChainState(
   queryParams: QueryParams = {}
 ): (Partial<SingleChainState> & { dispatchCalls: (action: Action) => void }) | undefined {
   const multiChainState = useContext(MultiChainStatesContext)
-  const { readOnlyChainId } = useConfig()
-
-  const { network } = useNetwork()
-  const chainId = queryParams.chainId ?? network.chainId ?? readOnlyChainId
+  const chainId = useChainId({ queryParams })
 
   if (chainId === undefined) {
     return undefined

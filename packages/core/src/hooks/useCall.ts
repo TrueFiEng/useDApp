@@ -4,7 +4,7 @@ import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/type
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
-import { useConfig, useNetwork } from '../providers'
+import { useChainId } from './useChainId'
 
 /**
  * @public
@@ -44,9 +44,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * @returns a list of results (see {@link CallResult} in {@link useCall} above).
  */
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
-  const { network } = useNetwork()
-  const { readOnlyChainId } = useConfig()
-  const chainId = queryParams.chainId ?? network.chainId ?? readOnlyChainId
+  const chainId = useChainId({ queryParams })
 
   const rawCalls = calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
   const results = useRawCalls(rawCalls)
