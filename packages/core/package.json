@@ -20,6 +20,12 @@
       "import": "./dist/esm/src/testing/index.js",
       "default": "./dist/esm/src/testing/index.js",
       "types": "./dist/esm/src/testing/index.d.ts"
+    },
+    "./internal": {
+      "require": "./dist/cjs/internal/index.js",
+      "import": "./dist/esm/internal/index.js",
+      "default": "./dist/esm/internal/index.js",
+      "types": "./dist/esm/internal/index.d.ts"
     }
   },
   "dependencies": {

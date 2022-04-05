@@ -1,6 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useChainCall } from '..'
 import { expect } from 'chai'
 import {
   renderWeb3Hook,
@@ -12,6 +11,7 @@ import {
 import { encodeCallData } from '../helpers'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
+import { useChainCall } from './useChainCalls'
 
 describe('useChainCall', () => {
   const mockProvider = new MockProvider()

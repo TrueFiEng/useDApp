@@ -1,5 +1,8 @@
 import { addressEqual, ChainId } from '../../..'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export type Action = AddCall | RemoveCall
 
 /**
@@ -13,6 +16,7 @@ export interface RawCall {
 
 /**
  * @deprecated It's recommended to use RawCall instead
+ * @internal Intended for internal use - use it on your own risk
  */
 export interface ChainCall {
   chainId?: ChainId
@@ -30,6 +34,9 @@ interface RemoveCall {
   calls: RawCall[]
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function callsReducer(state: RawCall[] = [], action: Action) {
   if (action.type === 'ADD_CALLS') {
     return [...state, ...action.calls]

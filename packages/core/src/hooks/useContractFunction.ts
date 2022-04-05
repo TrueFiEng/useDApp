@@ -7,6 +7,9 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Params, TypedContract } from '../model/types'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: JsonRpcProvider) {
   if (contract.signer) {
     return contract

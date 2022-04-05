@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { useConfig, ConfigProvider, useUpdateConfig } from '../../src'
-import { renderWeb3Hook, setupTestingConfig, renderDAppHook } from '../../src/testing'
+import { useConfig, useUpdateConfig } from '../../src'
+import { renderWeb3Hook, renderDAppHook, setupTestingConfig } from '../../src/testing'
 import { Config } from '../constants'
 import { Kovan } from '../model'
+import { ConfigProvider } from '../providers/config/provider'
 
 describe('useConfig', () => {
   it('default', async () => {

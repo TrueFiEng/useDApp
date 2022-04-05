@@ -1,6 +1,7 @@
-import { getUniqueCalls, RawCall } from '../../src'
+import { RawCall } from '../../src'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
+import { getUniqueCalls } from './calls'
 
 describe('getUniqueChainCalls', () => {
   it('returns a list of unique chain calls', () => {
