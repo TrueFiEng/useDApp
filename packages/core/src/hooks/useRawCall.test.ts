@@ -1,17 +1,13 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { RawCall } from '..'
 import { expect } from 'chai'
-import {
-  renderWeb3Hook,
-  deployMockToken,
-  MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
-  SECOND_MOCK_TOKEN_INITIAL_BALANCE,
-} from '../testing'
-import { encodeCallData } from '../helpers'
+import { RawCall } from '..'
 import { ChainId } from '../constants/chainId'
-import { BigNumber } from 'ethers'
+import { encodeCallData } from '../helpers'
+import {
+  deployMockToken,
+  MOCK_TOKEN_INITIAL_BALANCE, renderWeb3Hook, SECOND_MOCK_TOKEN_INITIAL_BALANCE, SECOND_TEST_CHAIN_ID
+} from '../testing'
 import { useRawCall } from './useRawCalls'
 
 describe('useRawCall', () => {
@@ -42,27 +38,17 @@ describe('useRawCall', () => {
     expect(result.current!.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  it('multichain calls return correct initial balances', async () => {
-    await testMultiChainUseRawCall(token, [deployer.address], ChainId.Localhost, MOCK_TOKEN_INITIAL_BALANCE)
-    await testMultiChainUseRawCall(
-      secondToken,
-      [secondDeployer.address],
-      SECOND_TEST_CHAIN_ID,
-      SECOND_MOCK_TOKEN_INITIAL_BALANCE
-    )
-  })
-
-  const testMultiChainUseRawCall = async (contract: Contract, args: string[], chainId: number, endValue: BigNumber) => {
+  it('returns correct initial balance for mainnet', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () =>
         useRawCall(
           encodeCallData(
             {
-              contract,
-              args,
+              contract: token,
+              args: [deployer.address],
               method: 'balanceOf',
             },
-            chainId
+            ChainId.Localhost
           )
         ),
       {
@@ -75,6 +61,32 @@ describe('useRawCall', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current!.success).to.eq(true)
-    expect(result.current!.value).to.eq(endValue)
-  }
+    expect(result.current!.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+  })
+
+  it('returns correct initial balance for other chain', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () =>
+        useRawCall(
+          encodeCallData(
+            {
+              contract: secondToken,
+              args: [secondDeployer.address],
+              method: 'balanceOf',
+            },
+            SECOND_TEST_CHAIN_ID
+          )
+        ),
+      {
+        mockProvider: {
+          [ChainId.Localhost]: mockProvider,
+          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+        },
+      }
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current!.success).to.eq(true)
+    expect(result.current!.value).to.eq(SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+  })
 })
