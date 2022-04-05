@@ -1,6 +1,9 @@
 import { createContext, useContext } from 'react'
 import { Action, ChainState } from '..'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export interface SingleChainState {
   value?: {
     blockNumber: number
@@ -10,10 +13,16 @@ export interface SingleChainState {
   multicallAddress: string | undefined
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export type MultiChainState = {
   [chainId in number]?: SingleChainState
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export const MultiChainStatesContext = createContext<{
   chains: MultiChainState
   dispatchCalls: (action: Action) => void
@@ -22,6 +31,9 @@ export const MultiChainStatesContext = createContext<{
   dispatchCalls: () => undefined,
 })
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function useMultiChainStates() {
   return useContext(MultiChainStatesContext)
 }

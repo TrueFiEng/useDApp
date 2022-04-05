@@ -1,5 +1,6 @@
 import { expect } from 'chai'
-import { chainStateReducer, Mainnet, State } from '../../..'
+import { Mainnet, State } from '../../..'
+import { chainStateReducer } from './chainStateReducer'
 
 describe('chainStateReducer', () => {
   const ADDRESS_A = '0x' + 'a'.repeat(40)

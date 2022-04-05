@@ -4,6 +4,9 @@ import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/typ
 import { RawCall, RawCallResult } from '../providers'
 import { addressEqual } from './address'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function warnOnInvalidCall(call: Call | Falsy) {
   if (!call) {
     return
@@ -12,6 +15,9 @@ export function warnOnInvalidCall(call: Call | Falsy) {
   console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | Falsy {
   if (!call) {
     return undefined
@@ -29,6 +35,9 @@ export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | F
   }
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function getUniqueCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   for (const request of requests) {
@@ -51,6 +60,9 @@ export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T
   | { value: undefined; error: Error }
   | undefined
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function decodeCallResult<T extends TypedContract, MN extends ContractMethodNames<T>>(
   call: Call | Falsy,
   result: RawCallResult

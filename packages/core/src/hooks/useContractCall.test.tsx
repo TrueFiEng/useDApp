@@ -1,6 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { ERC20Interface, useContractCall } from '..'
 import { expect } from 'chai'
 import {
   renderWeb3Hook,
@@ -11,6 +10,8 @@ import {
 } from '../testing'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
+import { ERC20Interface } from '../constants/abi'
+import { useContractCall } from './useContractCall'
 
 describe('useContractCall', () => {
   const mockProvider = new MockProvider()

@@ -1,11 +1,12 @@
 import React from 'react'
 import type { ChainId } from '@usedapp/core'
-import { useBlockMeta, useChainMeta, useChainState, useEtherBalance, useEthers } from '@usedapp/core'
+import { useBlockMeta, useChainMeta, useEtherBalance, useEthers } from '@usedapp/core'
 import { ContentBlock, ContentRow } from '../base/base'
 import { Label } from '../../typography/Label'
 import { TextInline } from '../../typography/Text'
 import { formatEther } from '@ethersproject/units'
 import styled from 'styled-components'
+import { useChainState } from '@usedapp/core/internal'
 
 interface ChainStateProps {
   chainId: ChainId

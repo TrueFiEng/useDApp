@@ -29,4 +29,7 @@ export type StoredTransactions = {
   [chainID: number]: StoredTransaction[]
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export const DEFAULT_STORED_TRANSACTIONS: StoredTransactions = {}

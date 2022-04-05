@@ -2,10 +2,7 @@ import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
 import {
-  callsReducer,
   ChainId,
-  chainStateReducer,
-  getUniqueCalls,
   multicall as multicall1,
   multicall2,
   State,
@@ -18,6 +15,9 @@ import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { BaseProvider } from '@ethersproject/providers'
+import { callsReducer } from '../common/callsReducer'
+import { chainStateReducer } from '../common/chainStateReducer'
+import { getUniqueCalls } from '../../../helpers/calls'
 
 interface Props {
   children: ReactNode
@@ -38,6 +38,9 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
   )
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function MultiChainStateProvider({ children, multicallAddresses }: Props) {
   const { multicallVersion } = useConfig()
   const networks = useReadonlyNetworks()
