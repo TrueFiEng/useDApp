@@ -3,34 +3,20 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { createMockProvider, CreateMockProviderResult, renderDAppHook } from '../testing'
+import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_ID } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
 describe.only('useEtherBalance', () => {
-  let network1: CreateMockProviderResult
-  let network2: CreateMockProviderResult
+  let network1: TestingNetwork
+  let network2: TestingNetwork
   let config: Config
   const receiver = Wallet.createRandom().address
 
   before(async () => {
-    network1 = await createMockProvider({ chainId: Mainnet.chainId })
-    network2 = await createMockProvider({ chainId: 1337 })
-    const [deployer] = network1.provider.getWallets()
-    config = {
-      readOnlyChainId: Mainnet.chainId,
-      readOnlyUrls: {
-        [Mainnet.chainId]: network1.provider,
-        [1337]: network2.provider,
-      },
-      multicallAddresses: {
-        ...network1.multicallAddresses,
-        ...network2.multicallAddresses,
-      },
-    }
-
-    await deployer.connect(network1.provider).sendTransaction({ to: receiver, value: 100 })
-    await deployer.connect(network2.provider).sendTransaction({ to: receiver, value: 200 })
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
+    await network2.wallets[1].sendTransaction({ to: receiver, value: 200 })
   })
 
   it('returns 0 for random wallet', async () => {
@@ -77,7 +63,7 @@ describe.only('useEtherBalance', () => {
 
   it('explicitly specified chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useEtherBalance(receiver, { chainId: 1337 }),
+      () => useEtherBalance(receiver, { chainId: SECOND_TEST_CHAIN_ID }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)

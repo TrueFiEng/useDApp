@@ -1,4 +1,5 @@
 import { MockProvider } from 'ethereum-waffle'
+import { Wallet } from 'ethers'
 import { ChainId, MulticallAddresses } from '../../constants'
 import { deployMulticall } from './deployMulticall'
 
@@ -9,7 +10,9 @@ export interface CreateMockProviderOptions {
 export interface CreateMockProviderResult {
   provider: MockProvider
   multicallAddresses: MulticallAddresses
+  wallets: Wallet[]
 }
+export type TestingNetwork = CreateMockProviderResult
 
 /**
  * Creates a MockProvider, with an option to override `chainId`.
@@ -22,5 +25,6 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
   return {
     provider,
     multicallAddresses,
+    wallets: provider.getWallets(),
   }
 }

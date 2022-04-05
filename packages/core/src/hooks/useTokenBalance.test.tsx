@@ -3,16 +3,12 @@ import { expect } from 'chai'
 import { Wallet } from 'ethers'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import {
-  createMockProvider,
-  CreateMockProviderResult,
-  deployMockToken, renderDAppHook, SECOND_TEST_CHAIN_ID
-} from '../testing'
+import { deployMockToken, renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
 import { useTokenBalance } from './useTokenBalance'
 
 describe.only('useTokenBalance', () => {
-  let network1: CreateMockProviderResult
-  let network2: CreateMockProviderResult
+  let network1: TestingNetwork
+  let network2: TestingNetwork
   let config: Config
 
   let token1: Contract
@@ -21,23 +17,12 @@ describe.only('useTokenBalance', () => {
   const receiver = Wallet.createRandom().address
 
   before(async () => {
-    network1 = await createMockProvider({ chainId: Mainnet.chainId })
-    network2 = await createMockProvider({ chainId: SECOND_TEST_CHAIN_ID })
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
+    await network2.wallets[1].sendTransaction({ to: receiver, value: 200 })
 
-    config = {
-      readOnlyChainId: Mainnet.chainId,
-      readOnlyUrls: {
-        [Mainnet.chainId]: network1.provider,
-        [SECOND_TEST_CHAIN_ID]: network2.provider,
-      },
-      multicallAddresses: {
-        ...network1.multicallAddresses,
-        ...network2.multicallAddresses,
-      },
-    }
-
-    const [deployer] = network1.provider.getWallets()
-    const [secondDeployer] = network2.provider.getWallets()
+    const [deployer] = network1.wallets
+    const [secondDeployer] = network2.wallets
     token1 = await deployMockToken(deployer)
     token2 = await deployMockToken(secondDeployer)
 
