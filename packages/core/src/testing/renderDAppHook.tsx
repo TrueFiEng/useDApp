@@ -4,7 +4,7 @@ import { Config } from '../constants'
 import { DAppProvider } from '../providers'
 import { getWaitUtils, IdentityWrapper } from './utils'
 
-export interface renderDAppHookOptions<Tprops> {
+export interface RenderDAppHookOptions<Tprops> {
   config?: Config
   renderHook?: {
     initialProps?: Tprops
@@ -29,7 +29,7 @@ export interface renderDAppHookOptions<Tprops> {
  */
 export const renderDAppHook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
-  options?: renderDAppHookOptions<Tprops>
+  options?: RenderDAppHookOptions<Tprops>
 ) => {
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
