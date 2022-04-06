@@ -40,6 +40,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     setLoading(true)
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
+      setLoading(false)
       return
     }
     try {
@@ -99,6 +100,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     async (provider: JsonRpcProvider | ExternalProvider) => {
       const wrappedProvider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
       try {
+        setLoading(true)
         const account = await tryToGetAccount(wrappedProvider)
         const chainId = (await wrappedProvider.getNetwork())?.chainId
         onUnsubscribe()
@@ -109,9 +111,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
           chainId,
           accounts: account ? [account] : [],
         })
-        setLoading(false)
       } catch (err: any) {
         reportError(err)
+      } finally {
+        setLoading(false)
       }
     },
     [onUnsubscribe]
