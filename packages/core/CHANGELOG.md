@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.5
+
+### Patch Changes
+
+- 42b1652: Make exports from testing and internal point to compiled code
+
 ## 0.12.4
 
 ### Patch Changes
