@@ -1,4 +1,4 @@
-// NOTE: This file serves as an internal API module. It is exported from the pakcage, but use it on your own risk.
+// NOTE: This file serves as an internal API module. It is exported from the package, but use it on your own risk.
 
 export {
   ChainCall,
@@ -22,19 +22,13 @@ export {
   useMultiChainStates,
   useTransactionsContext,
   useNotificationsContext,
-} from '../src/providers'
-export {
-  connectContractToSigner,
-  useDebounce,
-  useLocalStorage,
-  useDebouncePair,
-  useInterval,
-} from '../src/hooks'
+} from './providers'
+export { connectContractToSigner, useDebounce, useLocalStorage, useDebouncePair, useInterval } from './hooks'
 export {
   warnOnInvalidCall,
   getChainById,
   encodeCallData,
   decodeCallResult,
   getChainMeta,
-  getUniqueCalls
-} from '../src/helpers'
+  getUniqueCalls,
+} from './helpers'
