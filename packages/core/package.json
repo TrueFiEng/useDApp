@@ -30,7 +30,9 @@
   },
   "files": [
     "dist",
+    "internal.js",
     "internal.d.ts",
+    "testing.js",
     "testing.d.ts"
   ],
   "dependencies": {
