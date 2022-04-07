@@ -42,7 +42,7 @@ describe('useRawCall', () => {
     expect(result.current!.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  it.only('Works for a different combinations of address casing', async () => {
+  it('Works for a different combinations of address casing', async () => {
     const calls: RawCall[] = [
       {
         address: token.address.toLowerCase(),
