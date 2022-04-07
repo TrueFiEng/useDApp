@@ -49,5 +49,5 @@ export function useRawCall(call: RawCall | Falsy) {
 
 function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
   const chainId = call.chainId
-  return chainId !== undefined ? chains[chainId]?.value?.state?.[call.address]?.[call.data] : undefined
+  return chainId !== undefined ? chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data] : undefined
 }

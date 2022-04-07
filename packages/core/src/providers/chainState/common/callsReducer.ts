@@ -39,7 +39,7 @@ interface RemoveCall {
  */
 export function callsReducer(state: RawCall[] = [], action: Action) {
   if (action.type === 'ADD_CALLS') {
-    return [...state, ...action.calls]
+    return [...state, ...action.calls.map(call => ({ ...call, address: call.address.toLowerCase() }))]
   } else {
     let finalState = state
     for (const call of action.calls) {
