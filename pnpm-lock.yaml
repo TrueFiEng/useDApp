@@ -30,7 +30,7 @@ importers:
       '@types/react': 17.0.1
       '@typescript-eslint/eslint-plugin': ^4.10.0
       '@typescript-eslint/parser': ^4.10.0
-      '@usedapp/core': ^0.12.0
+      '@usedapp/core': workspace:*
       chai: ^4.2.0
       chai-as-promised: ^7.1.1
       eslint: 7.19.0
@@ -7247,7 +7247,7 @@ packages:
   /axios/0.21.4_debug@4.3.2:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.2
     transitivePeerDependencies:
       - debug
     dev: true
@@ -7255,7 +7255,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -11957,7 +11957,7 @@ packages:
       - encoding
     dev: false
 
-  /follow-redirects/1.14.9:
+  /follow-redirects/1.14.9_debug@4.3.2:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -11965,6 +11965,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 4.3.2
 
   /follow-redirects/1.14.9_debug@4.3.3:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
@@ -13242,7 +13244,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.2
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -19106,7 +19108,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 8.3.0
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.2
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1
