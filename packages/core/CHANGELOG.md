@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.7
+
+### Patch Changes
+
+- 51377cf: Remove `getAddress` calls due to performance issues
+
 ## 0.12.6
 
 ### Patch Changes
