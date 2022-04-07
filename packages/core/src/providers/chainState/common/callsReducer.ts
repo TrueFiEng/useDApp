@@ -1,4 +1,4 @@
-import { addressEqual, ChainId } from '../../..'
+import { ChainId } from '../../..'
 
 /**
  * @internal Intended for internal use - use it on your own risk

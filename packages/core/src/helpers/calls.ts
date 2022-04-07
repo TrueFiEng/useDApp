@@ -2,7 +2,6 @@ import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
-import { addressEqual } from './address'
 
 /**
  * @internal Intended for internal use - use it on your own risk

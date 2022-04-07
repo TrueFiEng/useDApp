@@ -1,4 +1,4 @@
-import { addressEqual, TransactionOptions } from '../../src'
+import { TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
