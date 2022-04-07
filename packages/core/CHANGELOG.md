@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.12.6
+
+### Patch Changes
+
+- 77bb213: Correctly memoize hook results in useContractCalls
+
 ## 0.12.5
 
 ### Patch Changes
