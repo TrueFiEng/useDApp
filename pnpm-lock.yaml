@@ -44,7 +44,7 @@ importers:
     dependencies:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.0
-      '@usedapp/core': 0.12.6_react@17.0.2
+      '@usedapp/core': link:../core
       isomorphic-fetch: 3.0.0
       react: 17.0.2
     devDependencies:
@@ -170,7 +170,7 @@ importers:
       '@types/webpack': ^5.28.0
       '@typescript-eslint/eslint-plugin': ^4.10.0
       '@typescript-eslint/parser': ^4.10.0
-      '@usedapp/coingecko': workspace:^0.4.4
+      '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
@@ -229,7 +229,7 @@ importers:
       '@types/react-dom': ^17.0.0
       '@types/react-router-dom': ^5.1.7
       '@types/styled-components': ^5.1.7
-      '@usedapp/coingecko': ^0.4.4
+      '@usedapp/coingecko': workspace:*
       '@usedapp/core': ^0.12.0
       '@walletconnect/web3-provider': ^1.7.1
       '@web3-react/walletconnect-connector': 6.2.4
@@ -5268,7 +5268,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.17.2
-      '@types/react': 17.0.1
+      '@types/react': 17.0.40
       '@types/react-dom': 17.0.13
       '@types/react-test-renderer': 17.0.1
       filter-console: 0.1.1
@@ -5955,33 +5955,6 @@ packages:
   /@uniswap/token-lists/1.0.0-beta.27:
     resolution: {integrity: sha512-x5hmIniQ9TGqOBCRqfWcmZi/U5kB0qrHMDQ9igs3nMbK0wwmYLraL4owbIwXFGR/co6/lJYJC4K/Gjn4wZY5mQ==}
     engines: {node: '>=10'}
-    dev: false
-
-  /@usedapp/core/0.12.6_react@17.0.2:
-    resolution: {integrity: sha512-UxAWw22ZoSPCgb/zrFDaKA9umR3YK2jernk53t6obv0xGenznEDQubo5odzhoFS+M8C+0Sj/CRcthEUmTuFRUA==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      '@ethersproject/abi': 5.6.0
-      '@ethersproject/abstract-provider': 5.6.0
-      '@ethersproject/bignumber': 5.6.0
-      '@ethersproject/constants': 5.6.0
-      '@ethersproject/contracts': 5.6.0
-      '@ethersproject/providers': 5.6.0
-      '@ethersproject/wallet': 5.6.0
-      '@metamask/detect-provider': 1.2.0
-      '@uniswap/token-lists': 1.0.0-beta.27
-      ethers: 5.6.0
-      fetch-mock: 9.11.0
-      lodash.merge: 4.6.2
-      lodash.pickby: 4.6.0
-      nanoid: 3.1.22
-      react: 17.0.2
-    transitivePeerDependencies:
-      - bufferutil
-      - node-fetch
-      - supports-color
-      - utf-8-validate
     dev: false
 
   /@walletconnect/browser-utils/1.7.4:

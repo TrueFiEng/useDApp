@@ -27,7 +27,7 @@
     "@ethersproject/providers": "5.6.0",
     "@ethersproject/units": "5.6.0",
     "@mdx-js/react": "^1.6.22",
-    "@usedapp/coingecko": "workspace:^0.4.4",
+    "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.5",
     "buffer": "^6.0.3",
