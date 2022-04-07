@@ -43,7 +43,7 @@ export function getUniqueCalls(requests: RawCall[]) {
   for (const request of requests) {
     if (
       !unique.find(
-        (x) => addressEqual(x.address, request.address) && x.data === request.data && x.chainId === request.chainId
+        (x) => x.address.toLowerCase() === request.address.toLowerCase() && x.data === request.data && x.chainId === request.chainId
       )
     ) {
       unique.push(request)
