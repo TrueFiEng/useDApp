@@ -45,7 +45,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
       if (receipt?.logs) {
         const events = receipt.logs.reduce((accumulatedLogs, log) => {
           try {
-            return addressEqual(log.address, contract.address)
+            return log.address.toLowerCase() === contract.address.toLowerCase()
               ? [...accumulatedLogs, contract.interface.parseLog(log)]
               : accumulatedLogs
           } catch (_err) {

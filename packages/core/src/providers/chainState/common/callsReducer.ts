@@ -43,7 +43,9 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
   } else {
     let finalState = state
     for (const call of action.calls) {
-      const index = finalState.findIndex((x) => addressEqual(x.address, call.address) && x.data === call.data)
+      const index = finalState.findIndex(
+        (x) => x.address.toLowerCase() === call.address.toLowerCase() && x.data === call.data
+      )
       if (index !== -1) {
         finalState = finalState.filter((_, i) => i !== index)
       }
