@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [77bb213]
+  - @usedapp/core@0.12.6
+
 ## 0.1.3
 
 ### Patch Changes
