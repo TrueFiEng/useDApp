@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { expect, util } from 'chai'
+import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'
 import { ChainId } from '../constants/chainId'
@@ -69,7 +69,7 @@ describe('useRawCall', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCalls(calls), {
       mockProvider,
     })
-    await waitForCurrent((val) => val !== undefined && val.every(x => x?.success))
+    await waitForCurrent((val) => val !== undefined && val.every((x) => x?.success))
     expect(result.error).to.be.undefined
     expect(result.current!.length).to.eq(4)
     expect(result.current![0]?.success).to.be.true
