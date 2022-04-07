@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useBlockNumber } from '@usedapp/core'
 
-import { getCoingeckoPrice } from './simple_price'
-import { getCoingeckoTokenPrice } from './simple_token_price'
+import { getCoingeckoPrice } from './simplePrice'
+import { getCoingeckoTokenPrice } from './simpleTokenPrice'
 
 export const useCoingeckoPrice = (base: string, quote = 'usd'): string | undefined => {
   const [price, setPrice] = useState<string | undefined>(undefined)

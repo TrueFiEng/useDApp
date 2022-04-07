@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { getCoingeckoSimplePriceUri, fetchCoingeckoPrice } from './simple_price'
+import { getCoingeckoSimplePriceUri, fetchCoingeckoPrice } from './simplePrice'
 
 describe('getCoingeckoSimplePrice', () => {
   it('ethereum in usd price', () => {
