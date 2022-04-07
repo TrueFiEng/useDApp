@@ -1,6 +1,5 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { useConfig, useNetwork } from '../providers'
-import { useLocalStorage } from './useLocalStorage'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 
 type MaybePromise<T> = Promise<T> | any
@@ -41,7 +40,6 @@ export function useEthers(): Web3Ethers {
     activateBrowserWallet,
     isLoading,
   } = useNetwork()
-  const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
   const { networks } = useConfig()
   const supportedChainIds = networks?.map((network) => network.chainId)
@@ -69,10 +67,7 @@ export function useEthers(): Web3Ethers {
       }
       return activate(providerOrConnector)
     },
-    deactivate: () => {
-      deactivate()
-      setShouldConnectMetamask(false)
-    },
+    deactivate,
 
     setError: () => {
       throw new Error('setError is deprecated')
