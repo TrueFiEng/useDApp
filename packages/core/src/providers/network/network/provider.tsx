@@ -82,6 +82,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   }, [])
 
   const deactivate = useCallback(() => {
+    setShouldConnectMetamask(false)
     update({
       accounts: [],
     })
