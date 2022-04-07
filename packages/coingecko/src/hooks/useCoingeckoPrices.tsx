@@ -20,7 +20,11 @@ export function useCoingeckoTokenPrices(contracts: string[], opts: UseCoingeckoT
 
   useEffect(() => {
     async function getPrice() {
-      setPrices(await getCoingeckoTokenPrices(contracts, opts.quote ?? 'usd', opts.platform ?? 'ethereum'))
+      try {
+        setPrices(await getCoingeckoTokenPrices(contracts, opts.quote ?? 'usd', opts.platform ?? 'ethereum'))
+      } catch(err) {
+        console.error(err)
+      }
     }
 
     getPrice()
