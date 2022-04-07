@@ -72,6 +72,6 @@ export function useContractCalls(
         }
         return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
       }),
-    [results]
+    [JSON.stringify(results)]
   )
 }
