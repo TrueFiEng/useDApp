@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { getCoingeckoTokenPrices } from "../api/simpleTokenPrice"
+import { useEffect, useState } from 'react'
+import { getCoingeckoTokenPrices } from '../api/simpleTokenPrice'
 
 export interface UseCoingeckoTokenPricesOptions {
   quote?: string
@@ -8,7 +8,7 @@ export interface UseCoingeckoTokenPricesOptions {
 }
 
 /**
- * 
+ *
  * @param contracts List of contract addresses.
  * @param opts.quote Quote currency. "usd" by default.
  * @param opts.platform Platform. "ethereum" by default.
@@ -22,7 +22,7 @@ export function useCoingeckoTokenPrices(contracts: string[], opts: UseCoingeckoT
     async function getPrice() {
       try {
         setPrices(await getCoingeckoTokenPrices(contracts, opts.quote ?? 'usd', opts.platform ?? 'ethereum'))
-      } catch(err) {
+      } catch (err) {
         console.error(err)
       }
     }

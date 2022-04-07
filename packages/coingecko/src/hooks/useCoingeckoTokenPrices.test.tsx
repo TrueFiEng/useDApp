@@ -5,7 +5,7 @@ import { expect } from 'chai'
 const ADDRESSES = [
   '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
   '0xe41d2489571d322189246dafa5ebde1f4699f498',
-  '0xf5dce57282a584d2746faf1593d3121fcac444dc'
+  '0xf5dce57282a584d2746faf1593d3121fcac444dc',
 ]
 
 describe('useCoingeckoTokenPrices', () => {

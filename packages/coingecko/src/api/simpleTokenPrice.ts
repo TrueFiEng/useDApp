@@ -30,9 +30,9 @@ export const fetchCoingeckoTokenPrice = (fetchFunction: any) => async (
 
 export const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(typeof window !== 'undefined' && window.fetch)
 
-export async function getCoingeckoTokenPrices (contracts: string[], quote: string, platform: string): Promise<number[]> {
+export async function getCoingeckoTokenPrices(contracts: string[], quote: string, platform: string): Promise<number[]> {
   const url = getCoingeckoSimpleTokenPriceUri(contracts.join(','), quote, platform)
   const res = await fetch(url)
   const data = await res.json()
-  return contracts.map(address => data[address][quote])
+  return contracts.map((address) => data[address][quote])
 }
