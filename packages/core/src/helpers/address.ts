@@ -51,9 +51,5 @@ export function compareAddress(firstAddress: string, secondAddress: string): num
  * @public
  */
 export function addressEqual(firstAddress: string, secondAddress: string): boolean {
-  try {
-    return utils.getAddress(firstAddress) === utils.getAddress(secondAddress)
-  } catch {
-    throw new TypeError("Invalid input, address can't be parsed")
-  }
+  return firstAddress.toLowerCase() === secondAddress.toString()
 }
