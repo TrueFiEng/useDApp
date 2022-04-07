@@ -1,6 +1,6 @@
 {
   "spec": "src/**/*.test.{ts,tsx}",
-  "require": "@swc-node/register",
+  "require": ["@swc-node/register", "jsdom-global/register"],
   "watchExtensions": "ts",
   "extension": "ts",
   "timeout": 3000

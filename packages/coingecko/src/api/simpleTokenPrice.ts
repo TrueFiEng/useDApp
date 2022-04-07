@@ -1,6 +1,8 @@
+import fetch from 'isomorphic-fetch'
+
 // get price from token contract
-export const getCoingeckoSimpleTokenPriceUri = (contract: string, quoteId: string, platformId: string) =>
-  `https://api.coingecko.com/api/v3/simple/token_price/${platformId}?contract_addresses=${contract}&vs_currencies=${quoteId}`
+export const getCoingeckoSimpleTokenPriceUri = (contracts: string, quoteId: string, platformId: string) =>
+  `https://api.coingecko.com/api/v3/simple/token_price/${platformId}?contract_addresses=${contracts}&vs_currencies=${quoteId}`
 
 export const fetchCoingeckoTokenPrice = (fetchFunction: any) => async (
   contract: string,
@@ -27,3 +29,10 @@ export const fetchCoingeckoTokenPrice = (fetchFunction: any) => async (
 }
 
 export const getCoingeckoTokenPrice = fetchCoingeckoTokenPrice(typeof window !== 'undefined' && window.fetch)
+
+export async function getCoingeckoTokenPrices(contracts: string[], quote: string, platform: string): Promise<number[]> {
+  const url = getCoingeckoSimpleTokenPriceUri(contracts.join(','), quote, platform)
+  const res = await fetch(url)
+  const data = await res.json()
+  return contracts.map((address) => data[address][quote])
+}

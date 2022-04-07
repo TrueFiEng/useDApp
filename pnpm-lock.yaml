@@ -22,8 +22,10 @@ importers:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.0
       '@swc-node/register': ^1.4.2
+      '@testing-library/react-hooks': ^5.0.3
       '@types/chai': ^4.2.14
       '@types/chai-as-promised': ^7.1.3
+      '@types/isomorphic-fetch': ^0.0.36
       '@types/mocha': ^8.2.0
       '@types/react': 17.0.1
       '@typescript-eslint/eslint-plugin': ^4.10.0
@@ -32,7 +34,8 @@ importers:
       chai: ^4.2.0
       chai-as-promised: ^7.1.1
       eslint: 7.19.0
-      jsdom: ^16.6.0
+      isomorphic-fetch: ^3.0.0
+      jsdom: ^16.7.0
       jsdom-global: ^3.0.2
       mocha: ^8.2.1
       prettier: ^2.1.2
@@ -41,12 +44,15 @@ importers:
     dependencies:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.0
-      '@usedapp/core': link:../core
+      '@usedapp/core': 0.12.6_react@17.0.2
+      isomorphic-fetch: 3.0.0
       react: 17.0.2
     devDependencies:
       '@swc-node/register': 1.4.2
+      '@testing-library/react-hooks': 5.1.3_react@17.0.2
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
+      '@types/isomorphic-fetch': 0.0.36
       '@types/mocha': 8.2.3
       '@types/react': 17.0.1
       '@typescript-eslint/eslint-plugin': 4.33.0_95407711204725ba8d2ef915af8a79e5
@@ -5284,7 +5290,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.17.2
-      '@types/react': 17.0.1
+      '@types/react': 17.0.40
       '@types/react-dom': 17.0.13
       '@types/react-test-renderer': 17.0.1
       filter-console: 0.1.1
@@ -5532,6 +5538,10 @@ packages:
     resolution: {integrity: sha512-A79HEEiwXTFtfY+Bcbo58M2GRYzCr9itHWzbzHVFNEYCcoU/MMGwYYf721gBrnhpj1s6RGVVha/IgNFnR0Iw/Q==}
     dev: true
 
+  /@types/isomorphic-fetch/0.0.36:
+    resolution: {integrity: sha512-ulw4d+vW1HKn4oErSmNN2HYEcHGq0N1C5exlrMM0CRqX1UUpFhGb5lwiom5j9KN3LBJJDLRmYIZz1ghm7FIzZw==}
+    dev: true
+
   /@types/istanbul-lib-coverage/2.0.3:
     resolution: {integrity: sha512-sz7iLqvVUg1gIedBOvlkxPlc8/uVzyS5OwGz1cKjXzkl3FpL3al0crU8YGU1WoHkxn0Wxbw5tyi6hvzJKNzFsw==}
 
@@ -5662,7 +5672,7 @@ packages:
   /@types/react-dom/17.0.13:
     resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
     dependencies:
-      '@types/react': 17.0.1
+      '@types/react': 17.0.40
     dev: true
 
   /@types/react-router-config/5.0.6:
@@ -5694,7 +5704,7 @@ packages:
   /@types/react-test-renderer/17.0.1:
     resolution: {integrity: sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==}
     dependencies:
-      '@types/react': 17.0.1
+      '@types/react': 17.0.40
     dev: true
 
   /@types/react/17.0.1:
@@ -5945,6 +5955,33 @@ packages:
   /@uniswap/token-lists/1.0.0-beta.27:
     resolution: {integrity: sha512-x5hmIniQ9TGqOBCRqfWcmZi/U5kB0qrHMDQ9igs3nMbK0wwmYLraL4owbIwXFGR/co6/lJYJC4K/Gjn4wZY5mQ==}
     engines: {node: '>=10'}
+    dev: false
+
+  /@usedapp/core/0.12.6_react@17.0.2:
+    resolution: {integrity: sha512-UxAWw22ZoSPCgb/zrFDaKA9umR3YK2jernk53t6obv0xGenznEDQubo5odzhoFS+M8C+0Sj/CRcthEUmTuFRUA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@ethersproject/abi': 5.6.0
+      '@ethersproject/abstract-provider': 5.6.0
+      '@ethersproject/bignumber': 5.6.0
+      '@ethersproject/constants': 5.6.0
+      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/providers': 5.6.0
+      '@ethersproject/wallet': 5.6.0
+      '@metamask/detect-provider': 1.2.0
+      '@uniswap/token-lists': 1.0.0-beta.27
+      ethers: 5.6.0
+      fetch-mock: 9.11.0
+      lodash.merge: 4.6.2
+      lodash.pickby: 4.6.0
+      nanoid: 3.1.22
+      react: 17.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - node-fetch
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /@walletconnect/browser-utils/1.7.4:
@@ -14001,6 +14038,15 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /isomorphic-fetch/3.0.0:
+    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
+    dependencies:
+      node-fetch: 2.6.7
+      whatwg-fetch: 3.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /isstream/0.1.2:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
 
@@ -21795,6 +21841,10 @@ packages:
 
   /whatwg-fetch/2.0.4:
     resolution: {integrity: sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==}
+
+  /whatwg-fetch/3.6.2:
+    resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==}
+    dev: false
 
   /whatwg-mimetype/2.3.0:
     resolution: {integrity: sha512-M4yMwr6mAnQz76TbJm914+gPpB/nCwvZbJU28cUD6dR004SAxDLOOSUaB1JDRqLtaOV/vi0IC5lEAGFgrjGv/g==}
