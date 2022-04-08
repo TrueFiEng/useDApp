@@ -58,9 +58,17 @@ export function useContractCalls(
 ): (any[] | undefined)[] {
   const chainId = useChainId({ queryParams })
 
-  const results = useChainCalls(
-    calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
+  const rawCalls = useMemo(
+    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
+    [
+      JSON.stringify(
+        calls.map((call) => call && { address: call.address.toLowerCase(), method: call.method, args: call.args })
+      ),
+      chainId,
+    ]
   )
+
+  const results = useChainCalls(rawCalls)
 
   return useMemo(
     () =>
