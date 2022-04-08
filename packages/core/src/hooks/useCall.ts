@@ -48,7 +48,12 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
 
   const rawCalls = useMemo(
     () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
-    [JSON.stringify(calls.map(call => call && ({ address: call.contract.address, method: call.method, args: call.args }))), chainId],
+    [
+      JSON.stringify(
+        calls.map((call) => call && { address: call.contract.address, method: call.method, args: call.args })
+      ),
+      chainId,
+    ]
   )
   const results = useRawCalls(rawCalls)
   return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
