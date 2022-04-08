@@ -46,7 +46,10 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
   const chainId = useChainId({ queryParams })
 
-  const rawCalls = calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
+  const rawCalls = useMemo(
+    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
+    [JSON.stringify(calls.map(call => call && ({ address: call.contract.address, method: call.method, args: call.args }))), chainId],
+  )
   const results = useRawCalls(rawCalls)
   return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
 }
