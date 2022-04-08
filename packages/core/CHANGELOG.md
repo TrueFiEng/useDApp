@@ -1,5 +1,14 @@
 # @usedapp/core
 
+## 0.12.8
+
+### Patch Changes
+
+- e2d9950: Handle different cases of addresses
+- 2d7b1ec: Memoize calldata encoding
+- 0fd73d1: Export readonly networks provider from internal exports
+- 7d4d28b: Optimize getUniqueCalls usage
+
 ## 0.12.7
 
 ### Patch Changes
