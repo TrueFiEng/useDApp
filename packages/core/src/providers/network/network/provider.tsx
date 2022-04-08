@@ -45,12 +45,13 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
+      setShouldConnectMetamask(true)
     } catch (err: any) {
       reportError(err)
+      setShouldConnectMetamask(false)
     } finally {
       setLoading(false)
     }
-    setShouldConnectMetamask(true)
     return activate(injectedProvider)
   }, [injectedProvider])
 
