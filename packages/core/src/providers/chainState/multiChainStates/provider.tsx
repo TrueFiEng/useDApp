@@ -8,9 +8,8 @@ import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { BaseProvider } from '@ethersproject/providers'
-import { callsReducer } from '../common/callsReducer'
-import { chainStateReducer } from '../common/chainStateReducer'
-import { getUniqueCalls } from '../../../helpers/calls'
+import { callsReducer, chainStateReducer } from '../common'
+import { getUniqueCalls } from '../../../helpers'
 
 interface Props {
   children: ReactNode
@@ -46,9 +45,8 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
-  const uniqueCalls = debouncedNetworks === networks ? getUniqueCalls(debouncedCalls) : []
   // used for deep equality in hook dependencies
-  const uniqueCallsJSON = JSON.stringify(uniqueCalls)
+  const callsJSON = JSON.stringify(debouncedCalls)
 
   function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
     const blockNumber = blockNumbers[chainId]
@@ -61,6 +59,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       reportError(new Error(`Missing multicall address for chain id ${chainId}`))
       return
     }
+    const uniqueCalls = debouncedNetworks === networks ? getUniqueCalls(debouncedCalls) : []
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
     if (callsOnThisChain.length === 0) {
       return
@@ -81,7 +80,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     for (const [_chainId, provider] of Object.entries(networks)) {
       multicallForChain(Number(_chainId), provider)
     }
-  }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
+  }, [blockNumbers, networks, multicallAddresses, callsJSON])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
     state,

@@ -39,16 +39,11 @@ export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | F
  */
 export function getUniqueCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
+  const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (
-      !unique.find(
-        (x) =>
-          x.address.toLowerCase() === request.address.toLowerCase() &&
-          x.data === request.data &&
-          x.chainId === request.chainId
-      )
-    ) {
+    if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
       unique.push(request)
+      used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true
     }
   }
   return unique
