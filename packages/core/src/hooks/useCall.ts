@@ -50,7 +50,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
     () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
     [
       JSON.stringify(
-        calls.map((call) => call && { address: call.contract.address, method: call.method, args: call.args })
+        calls.map((call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args })
       ),
       chainId,
     ]
