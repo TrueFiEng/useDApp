@@ -61,7 +61,9 @@ export function useContractCalls(
   const rawCalls = useMemo(
     () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
     [
-      JSON.stringify(calls.map((call) => call && { address: call.address.toLowerCase(), method: call.method, args: call.args })),
+      JSON.stringify(
+        calls.map((call) => call && { address: call.address.toLowerCase(), method: call.method, args: call.args })
+      ),
       chainId,
     ]
   )
