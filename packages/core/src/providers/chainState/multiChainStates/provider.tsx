@@ -10,6 +10,8 @@ import { Providers } from '../../network/readonlyNetworks/model'
 import { BaseProvider } from '@ethersproject/providers'
 import { callsReducer, chainStateReducer } from '../common'
 import { getUniqueCalls } from '../../../helpers'
+import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
+import { useChainId } from '../../../hooks/useChainId'
 
 interface Props {
   children: ReactNode
@@ -38,15 +40,25 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
-
+  
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
-
+  
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
-
+  
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
+  const uniqueCalls = useMemo(() => getUniqueCalls(debouncedCalls), [debouncedCalls])
+  
   // used for deep equality in hook dependencies
-  const callsJSON = JSON.stringify(debouncedCalls)
+  const uniqueCallsJSON = JSON.stringify(debouncedCalls)
+  
+  const chainId = useChainId()
+  useDevtoolsReporting(
+    uniqueCallsJSON,
+    uniqueCalls,
+    chainId !== undefined ? blockNumbers[chainId as ChainId] : undefined,
+    multicallAddresses,
+  )
 
   function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
     const blockNumber = blockNumbers[chainId]
@@ -59,7 +71,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       reportError(new Error(`Missing multicall address for chain id ${chainId}`))
       return
     }
-    const uniqueCalls = debouncedNetworks === networks ? getUniqueCalls(debouncedCalls) : []
+    if(debouncedNetworks !== networks) { // Wait for debounce to catch up.
+      return
+    }
+
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
     if (callsOnThisChain.length === 0) {
       return
@@ -80,7 +95,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     for (const [_chainId, provider] of Object.entries(networks)) {
       multicallForChain(Number(_chainId), provider)
     }
-  }, [blockNumbers, networks, multicallAddresses, callsJSON])
+  }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
     state,
