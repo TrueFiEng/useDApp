@@ -40,24 +40,24 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
-  
+
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
-  
+
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
-  
+
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
   const uniqueCalls = useMemo(() => getUniqueCalls(debouncedCalls), [debouncedCalls])
-  
+
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(debouncedCalls)
-  
+
   const chainId = useChainId()
   useDevtoolsReporting(
     uniqueCallsJSON,
     uniqueCalls,
     chainId !== undefined ? blockNumbers[chainId as ChainId] : undefined,
-    multicallAddresses,
+    multicallAddresses
   )
 
   function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
@@ -71,7 +71,8 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       reportError(new Error(`Missing multicall address for chain id ${chainId}`))
       return
     }
-    if(debouncedNetworks !== networks) { // Wait for debounce to catch up.
+    if (debouncedNetworks !== networks) {
+      // Wait for debounce to catch up.
       return
     }
 
