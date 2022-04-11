@@ -6,6 +6,7 @@ import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethe
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
 import { useConfig } from '../../config'
 import { useLocalStorage } from '../../../hooks'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -32,12 +33,13 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
-  const [injectedProvider, setInjectedProvider] = useState<Web3Provider | undefined>()
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
   const [isLoading, setLoading] = useState(false)
 
   const activateBrowserWallet = useCallback(async () => {
     setLoading(true)
+    const injectedProvider = await getInjectedProvider(pollingInterval)
+
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       setLoading(false)
@@ -49,27 +51,18 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     } catch (err: any) {
       reportError(err)
       setShouldConnectMetamask(false)
+      throw err
     } finally {
       setLoading(false)
     }
     return activate(injectedProvider)
-  }, [injectedProvider])
+  }, [])
 
   useEffect(() => {
     if (providerOverride) {
       activate(providerOverride)
     }
   }, [providerOverride])
-
-  useEffect(() => {
-    // If window.ethereum._state.accounts is non null but has no items,
-    // it probably means that the user has disconnected Metamask manually.
-    if (shouldConnectMetamask && (window.ethereum as any)?._state?.accounts?.length === 0) {
-      return
-    }
-    shouldConnectMetamask && autoConnect && injectedProvider && !providerOverride && activateBrowserWallet()
-  }, [shouldConnectMetamask, autoConnect, injectedProvider, providerOverride])
-
   const update = useCallback(
     (newNetwork: Partial<Network>) => {
       dispatch({ type: 'UPDATE_NETWORK', network: newNetwork })
@@ -94,9 +87,25 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     reportError(error)
   }, [])
 
-  useEffect(function () {
-    getInjectedProvider(pollingInterval).then(setInjectedProvider)
-  }, [])
+  useEffect(() => {
+    setTimeout(async () => {
+      try {
+        if(shouldConnectMetamask && autoConnect && !providerOverride) {
+          await detectEthereumProvider()
+  
+          // If window.ethereum._state.accounts is non null but has no items,
+          // it probably means that the user has disconnected Metamask manually.
+          if (shouldConnectMetamask && (window.ethereum as any)?._state?.accounts?.length === 0) {
+            return
+          }
+
+          await activateBrowserWallet()
+        }
+      } catch (err) {
+        console.warn(err)
+      }
+    })
+  }, [shouldConnectMetamask, autoConnect, providerOverride])
 
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider) => {
@@ -115,6 +124,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         })
       } catch (err: any) {
         reportError(err)
+        throw err
       } finally {
         setLoading(false)
       }
