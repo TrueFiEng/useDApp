@@ -62,7 +62,7 @@ export function useContractCalls(
     () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
     [
       JSON.stringify(
-        calls.map((call) => call && { address: call.address.toLowerCase(), method: call.method, args: call.args })
+        calls.map((call) => call && { address: call.address?.toLowerCase(), method: call.method, args: call.args })
       ),
       chainId,
     ]

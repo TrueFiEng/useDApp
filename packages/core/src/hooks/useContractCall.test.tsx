@@ -89,4 +89,22 @@ describe('useContractCall', () => {
     expect(result.current?.[0]).not.to.be.undefined
     expect(result.current?.[0]).to.eq(endValue)
   }
+
+  it('is prepared for a case of undefined address', async () => {
+    const callData = {
+      abi: ERC20Interface,
+      address: undefined as any,
+      method: 'balanceOf',
+      args: [deployer.address],
+    }
+    const { result, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractCall(callData, { chainId: ChainId.Localhost }),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
+  })
 })
