@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 0.12.9
+
+### Patch Changes
+
+- 2e4b152: Fix race condition in NetworkProvider & fix devtools integration
+- 3d4cf2c: Fix metamask auto-connect behaviour
+- 28afc72: Properly handle unexpected undefined address in useContractCall.
+
 ## 0.12.8
 
 ### Patch Changes
