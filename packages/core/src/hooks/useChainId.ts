@@ -9,7 +9,7 @@ export interface UseChainIdOptions {
  * Internal hook for reading current chainId for calls.
  * @internal
  */
-export function useChainId(opts: UseChainIdOptions) {
+export function useChainId(opts: UseChainIdOptions = {}) {
   const { network } = useNetwork()
   const { readOnlyChainId } = useConfig()
   return opts?.queryParams?.chainId ?? network.chainId ?? readOnlyChainId
