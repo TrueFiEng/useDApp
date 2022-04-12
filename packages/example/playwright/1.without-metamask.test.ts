@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect'
 import { baseUrl, headless, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 
-describe(`Browser: ${browserType.name()} without Metamask`, () => {
+describe.skip(`Browser: ${browserType.name()} without Metamask`, () => {
   let page: Page
   let browser: Browser
   let context: BrowserContext

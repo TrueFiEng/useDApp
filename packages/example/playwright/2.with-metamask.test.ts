@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs } from './metamask'
-import { baseUrl, sleep, slowMo, XPath } from './utils'
+import { baseUrl, sleep, slowMo, waitUntil, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 import Xvfb from 'xvfb'
 
@@ -32,9 +32,16 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       args: [
         ...metamaskChromeArgs,
         '--no-sandbox',
+        '--disable-setuid-sandbox'
         // '--display='+xvfb._display
       ]
     })
+
+    console.log('Waiting for background pages...')
+    await waitForExpect(async () => {
+      expect(context.backgroundPages().length).to.eq(1)
+    })
+
     await sleep(10000) // wait until metamask installs itself
     metamask = new MetaMask(await context.newPage())
     await metamask.activate()
