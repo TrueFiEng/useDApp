@@ -34,7 +34,6 @@ export class MetaMask {
   // }
 
   async activate() {
-    await this.page.goto(metamaskUrl)
     await this.page.click('xpath=//button[contains(text(), "Get Started")]')
     await this.page.click('xpath=//button[contains(text(), "Create a Wallet")]')
     await this.page.click('xpath=//button[contains(text(), "No Thanks")]') // Telemetry.
@@ -45,8 +44,9 @@ export class MetaMask {
     await this.page.click('xpath=//button[contains(text(), "Next")]')
     await this.page.click('xpath=//button[contains(text(), "Remind me later")]') // Recovery phrase.
     await waitForExpect(async () => {
-      expect(await this.page.isVisible('xpath=//h2[contains(text(), "What\'s new"]')) // Onboarding went through.
+      expect(await this.page.isVisible('xpath=//h2[contains(text(), "What\'s new")]')) // Onboarding went through.
     })
+    await this.page.click('//button[@title="Close"]') // Close "What's new" section.
   }
 
   // async importAccount(user) {

@@ -26,7 +26,12 @@ import { MetaMask } from './metamask/MetaMask';
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`
       ] })
-      page = await context.newPage()
+
+      await waitForExpect(() => {
+        expect(context.pages().length).to.be.equal(2)
+      })
+      page = context.pages()[1] // Metamask opens a new page automatically after installation.
+      metamask = new MetaMask(page)
 
       page.on('console', (msg) => {
         if (msg.type() === 'warning') return
@@ -37,14 +42,11 @@ import { MetaMask } from './metamask/MetaMask';
         // Errors in the browser will error out the playwright tests.
         throw new Error(`Unhandled exception in the page: ${e}`)
       })
-
-      metamask = new MetaMask(page)
     }
 
     before(resetBrowserContext)
 
     it('Opens and activates metamask popup', async () => {
-      // await page.goto(metamaskUrl)
       await metamask.activate()
     })
 
