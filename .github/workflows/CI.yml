@@ -35,6 +35,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Install Playwright dependencies
         run: pnpm playwright install-deps
+        working-directory: packages/example
       - name: Build core
         run: yarn build
         working-directory: packages/core
