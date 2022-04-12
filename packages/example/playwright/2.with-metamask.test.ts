@@ -24,12 +24,7 @@ import { addPageDiagnostics } from './utils/pageDiagnostics'
       if (context) await context.close()
 
       context = await browserType.launchPersistentContext('', { headless, slowMo, args })
-
-      await waitForExpect(() => {
-        expect(context.pages().length).to.be.equal(2)
-      }, 15_000)
-      const metamaskPage = context.pages()[1] // Metamask opens a new page automatically after installation.
-      metamask = new MetaMask(metamaskPage)
+      metamask = new MetaMask(await context.newPage())
       await metamask.activate()
       page = await context.newPage()
       addPageDiagnostics(page)
@@ -41,11 +36,14 @@ import { addPageDiagnostics } from './utils/pageDiagnostics'
     before(async () => {
       // Connect Metamask to the app.
       await page.goto(`${baseUrl}balance`)
+
+      const pages = context.pages().length
       await page.click(XPath.text('button', 'Connect'))
       await waitForExpect(() => {
-        expect(context.pages().length).to.be.equal(4)
+        expect(context.pages().length).to.be.equal(pages + 1)
       })
-      const popupPage = context.pages()[3]
+      const popupPage = context.pages()[context.pages().length - 1]
+
       await popupPage.click(XPath.text('button', 'Next'))
       await popupPage.click(XPath.text('button', 'Connect'))
     })
