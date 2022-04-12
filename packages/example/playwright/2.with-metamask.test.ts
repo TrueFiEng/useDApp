@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
-import { baseUrl, slowMo, XPath } from './utils'
+import { baseUrl, sleep, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 import Xvfb from 'xvfb'
 
@@ -25,6 +25,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       slowMo,
       args
     })
+    await sleep(10000) // wait until metamask installs itself
     metamask = new MetaMask(await context.newPage())
     await metamask.activate()
     page = await context.newPage()
