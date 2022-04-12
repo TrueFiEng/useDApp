@@ -2,14 +2,14 @@
 // Copyright 2021 DXOS.org
 //
 
-import {expect} from 'chai'
+import { expect } from 'chai'
 import waitForExpect from 'wait-for-expect'
 
-import { firefox, chromium, Browser, Page, BrowserContext} from 'playwright';
+import { firefox, chromium, Browser, Page, BrowserContext } from 'playwright'
 
-import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './utils';
+import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './utils'
 
-[chromium].forEach(browserType => {
+;[chromium].forEach((browserType) => {
   describe(`Balance tab in ${browserType.name()}`, () => {
     let page: Page
     let browser: Browser
@@ -27,12 +27,12 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
       })
       page = await context.newPage()
 
-      page.on('console', msg => {
+      page.on('console', (msg) => {
         if (msg.type() === 'warning') return
-        if (ignoredLogs.some(log => msg.text()?.includes(log))) return
+        if (ignoredLogs.some((log) => msg.text()?.includes(log))) return
         console.log(msg.text()) // Logs shown in the browser, will be retransmitted in Node logs as well.
       })
-      page.on('pageerror', e => {
+      page.on('pageerror', (e) => {
         // Errors in the browser will error out the playwright tests.
         throw new Error(`Unhandled exception in the page: ${e}`)
       })
@@ -50,7 +50,6 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
       await waitForExpect(async () => {
         expect(await page.isVisible('xpath=//span[contains(text(), "ETH2 staking contract holds:")]')).to.be.true
       })
-      await sleep(1000)
     })
 
     after(async () => {
