@@ -1,5 +1,13 @@
 import { Page } from "playwright";
-import { ignoredLogs } from "./constants";
+// The logs in the browser that we chose to ignore.
+// They might be valid, but out of scope of the E2E tests.
+const ignoredLogs = [
+  'Download the React DevTools for a better development experience',
+  "Warning: Can't perform a React state update on an unmounted component.",
+  '[HMR] Waiting for update signal from WDS',
+  '[WDS] Hot Module Replacement enabled',
+  '[WDS] Live Reloading enabled'
+]
 
 export const addPageDiagnostics = (page: Page) => {
   page.on('console', (msg) => {
