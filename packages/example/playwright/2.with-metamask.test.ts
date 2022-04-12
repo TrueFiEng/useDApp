@@ -6,15 +6,15 @@ import { baseUrl, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 import Xvfb from 'xvfb'
 
-var xvfb = new Xvfb();
+var xvfb = process.env.CI ? new Xvfb() : undefined;
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
   let context: BrowserContext
   let metamask: MetaMask
 
-  before(() => xvfb.startSync())
-  after(() => xvfb.startSync())
+  before(() => xvfb?.startSync())
+  after(() => xvfb?.startSync())
 
   const resetBrowserContext = async () => {
     if (page) await page.close()
@@ -32,13 +32,13 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   }
 
   before(async () => {
-    xvfb.startSync();
+    xvfb?.startSync();
     await resetBrowserContext()
   })
 
   after(async () => {
     await context?.close()
-    xvfb.stopSync()
+    xvfb?.stopSync()
   })
 
   before(async () => {
