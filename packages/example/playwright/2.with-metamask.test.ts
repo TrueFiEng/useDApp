@@ -11,13 +11,15 @@ var xvfb = process.env.CI ? new Xvfb({
   xvfb_args: ["-screen", "0", '1280x720x24', "-ac"],
 }) : undefined;
 
+if (xvfb) console.log('USING XVFB!')
+
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
   let context: BrowserContext
   let metamask: MetaMask
 
   before(() => xvfb?.startSync())
-  after(() => xvfb?.startSync())
+  after(() => xvfb?.stopSync())
 
   const resetBrowserContext = async () => {
     if (page) await page.close()

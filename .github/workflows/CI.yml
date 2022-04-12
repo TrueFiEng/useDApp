@@ -25,6 +25,7 @@ jobs:
   #   - run: yarn test
   test-example:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
