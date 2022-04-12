@@ -18,6 +18,9 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
     const resetBrowserContext = async () => {
       if (page) await page.close()
       if (context) await context.close()
+      if (browser) await browser.close()
+
+      browser = await browserType.launch({ headless, slowMo })
 
       context = await browser.newContext({
         viewport: {
@@ -37,10 +40,6 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
         throw new Error(`Unhandled exception in the page: ${e}`)
       })
     }
-
-    before(async () => {
-      browser = await browserType.launch({ headless, slowMo })
-    })
 
     before(resetBrowserContext)
 

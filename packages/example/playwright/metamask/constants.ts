@@ -1,3 +1,3 @@
-export const metamaskId = ''
+export const metamaskId = 'ddiefaamkbhpdfbnkcjcliccljncbofo'
 
-export const metamaskUrl = 'chrome-extension://' + metamaskId + '//popup.html'
+export const metamaskUrl = 'chrome-extension://' + metamaskId + '//home.html'

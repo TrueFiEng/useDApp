@@ -13,19 +13,17 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
 [chromium].forEach((browserType) => {
   describe.only(`Metamask in ${browserType.name()}`, () => {
     let page: Page
-    let browser: Browser
     let context: BrowserContext
 
     const resetBrowserContext = async () => {
       if (page) await page.close()
       if (context) await context.close()
 
-      context = await browser.newContext({
-        viewport: {
-          width: 1280,
-          height: 720,
-        },
-      })
+      const pathToExtension = require('path').join(__dirname, 'metamask/metamask-chrome-10.12.4');
+      context = await browserType.launchPersistentContext('', { headless, slowMo, args: [
+        `--disable-extensions-except=${pathToExtension}`,
+        `--load-extension=${pathToExtension}`
+      ] })
       page = await context.newPage()
 
       page.on('console', (msg) => {
@@ -39,18 +37,10 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
       })
     }
 
-    before(async () => {
-      const pathToExtension = require('path').join(__dirname, 'metamask/metamask-chrome-10.12.4.crx');
-      browser = await browserType.launch({ headless, slowMo, args: [
-        `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`
-      ] })
-    })
-
     before(resetBrowserContext)
 
     it('Opens metamask popup', async () => {
-      await page.goto(metamaskUrl)
+      // await page.goto(metamaskUrl)
     })
 
     // after(async () => {
