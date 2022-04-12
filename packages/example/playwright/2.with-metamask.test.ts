@@ -1,12 +1,15 @@
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { MetaMask, metamaskChromeArgs as args } from './metamask'
+import { MetaMask, metamaskChromeArgs } from './metamask'
 import { baseUrl, sleep, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 import Xvfb from 'xvfb'
 
-var xvfb = process.env.CI ? new Xvfb() : undefined;
+var xvfb = process.env.CI ? new Xvfb({
+  silent: true,
+  xvfb_args: ["-screen", "0", '1280x720x24', "-ac"],
+}) : undefined;
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
@@ -23,7 +26,11 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     context = await browserType.launchPersistentContext('', {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
       slowMo,
-      args
+      args: [
+        ...metamaskChromeArgs,
+        '--no-sandbox',
+        '--display='+xvfb._display
+      ]
     })
     await sleep(10000) // wait until metamask installs itself
     metamask = new MetaMask(await context.newPage())
