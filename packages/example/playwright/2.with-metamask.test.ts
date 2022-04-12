@@ -4,6 +4,15 @@ import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
 import { baseUrl, headless, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
+
+/**
+ * Pages:
+ * 0: Initial, empty about:blank page
+ * 1: Automatically opened MetaMask onboarding page
+ * 2: Page under test - example app
+ * 3: Popups from Metamask
+ */
+
 ;[chromium].forEach((browserType) => {
   describe(`Browser: ${browserType.name()} with Metamask`, () => {
     let page: Page
@@ -18,7 +27,7 @@ import { addPageDiagnostics } from './utils/pageDiagnostics'
 
       await waitForExpect(() => {
         expect(context.pages().length).to.be.equal(2)
-      })
+      }, 15_000)
       const metamaskPage = context.pages()[1] // Metamask opens a new page automatically after installation.
       metamask = new MetaMask(metamaskPage)
       await metamask.activate()

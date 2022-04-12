@@ -40,7 +40,7 @@ jobs:
         run: yarn build
         working-directory: packages/coingecko
       - name: Unzip Chrome Metamask extension
-        run: unzip -q metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4
+        run: unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4
         working-directory: packages/example/playwright/metamask
       - name: Run playwright
         run: |
