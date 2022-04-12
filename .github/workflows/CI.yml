@@ -47,4 +47,6 @@ jobs:
           set -e
           yarn start &
           yarn test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
         working-directory: packages/example

@@ -4,7 +4,6 @@ import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
 import { baseUrl, headless, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
-
 ;[chromium].forEach((browserType) => {
   describe(`Browser: ${browserType.name()} with Metamask`, () => {
     let page: Page
