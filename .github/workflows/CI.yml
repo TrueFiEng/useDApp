@@ -39,7 +39,8 @@ jobs:
       - name: Build coingecko
         run: yarn build
         working-directory: packages/coingecko
-      - run: |
+      - name: Run playwright
+        run: |
           set -e
           yarn start &
           yarn test:playwright
