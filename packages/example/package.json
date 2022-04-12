@@ -8,8 +8,8 @@
     "build": "yarn typechain:generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
-    "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src, test}/**/*.{ts,tsx}'",
+    "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
+    "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
     "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 30000"
   },
   "dependencies": {
