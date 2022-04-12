@@ -1,10 +1,10 @@
-import { expect } from 'chai';
-import { Browser, BrowserContext, chromium, Page } from 'playwright';
-import waitForExpect from 'wait-for-expect';
-import { baseUrl, headless, slowMo } from './utils';
-import { addPageDiagnostics } from './utils/pageDiagnostics';
+import { expect } from 'chai'
+import { Browser, BrowserContext, chromium, Page } from 'playwright'
+import waitForExpect from 'wait-for-expect'
+import { baseUrl, headless, slowMo, XPath } from './utils'
+import { addPageDiagnostics } from './utils/pageDiagnostics'
 
-[chromium].forEach((browserType) => {
+;[chromium].forEach((browserType) => {
   describe(`Browser: ${browserType.name()} without Metamask`, () => {
     let page: Page
     let browser: Browser
@@ -22,14 +22,14 @@ import { addPageDiagnostics } from './utils/pageDiagnostics';
     }
 
     before(resetBrowserContext)
-    // after(() => browser?.close())
+    after(() => browser?.close())
 
     describe('Balance', () => {
       it('Reads the ETH2 staking contract', async () => {
         await page.goto(`${baseUrl}balance`)
-  
+
         await waitForExpect(async () => {
-          expect(await page.isVisible('xpath=//span[contains(text(), "ETH2 staking contract holds:")]')).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
         })
       })
     })
