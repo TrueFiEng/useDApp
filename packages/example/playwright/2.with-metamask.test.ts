@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
-import { baseUrl, sleep, slowMo, waitUntil, XPath } from './utils'
+import { baseUrl, sleep, slowMo, waitUntil, XPath, log } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
@@ -20,7 +20,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       args
     })
 
-    // Waiting until Metamask installs itself.
+    log('Waiting until Metamask installs itself...')
     await waitForExpect(async () => {
       expect(context.backgroundPages().length).to.eq(1)
     })
@@ -35,7 +35,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   after(() => context?.close())
 
   before(async () => {
-    // Connect Metamask to the app.
+    log('Connecting Metamask to the app...')
     await page.goto(`${baseUrl}balance`)
 
     const pages = context.pages().length
@@ -47,6 +47,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
     await popupPage.click(XPath.text('button', 'Next'))
     await popupPage.click(XPath.text('button', 'Connect'))
+    log('Metamask connected to the app.')
   })
 
   describe('Balance', () => {

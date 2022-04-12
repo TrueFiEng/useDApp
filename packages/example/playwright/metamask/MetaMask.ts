@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Page } from 'playwright'
-import { XPath } from '../utils'
+import { log, XPath } from '../utils'
 import waitForExpect from 'wait-for-expect'
 
 export class MetaMask {
@@ -13,7 +13,9 @@ export class MetaMask {
     const locator = await this.page.locator('#extension-id')
     const id = await locator.innerText()
     if (!id?.startsWith('ID: ')) throw new Error('Getting Metamask extension ID failed.')
-    return id.slice(4)
+    const extractedId = id.slice(4)
+    log(`Successfully extracted Metamask ID: ${extractedId}`)
+    return extractedId
   }
 
   async gotoMetamask () {
@@ -23,6 +25,7 @@ export class MetaMask {
   }
 
   async activate() {
+    log('Activating Metamask...')
     await this.gotoMetamask()
     await this.page.click(XPath.text('button', 'Get Started'))
     await this.page.click(XPath.text('button', 'Create a Wallet'))
@@ -39,5 +42,6 @@ export class MetaMask {
       expect(await this.page.isVisible('xpath=//h2[contains(text(), "What\'s new")]')) // Onboarding went through.
     })
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
+    log('Metamask activated.')
   }
 }
