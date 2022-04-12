@@ -33,6 +33,8 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
+      - name: Install Playwright dependencies
+        run: pnpm playwright install-deps
       - name: Build core
         run: yarn build
         working-directory: packages/core
