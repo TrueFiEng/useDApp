@@ -1,26 +1,14 @@
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { MetaMask, metamaskChromeArgs } from './metamask'
+import { MetaMask, metamaskChromeArgs as args } from './metamask'
 import { baseUrl, sleep, slowMo, waitUntil, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
-import Xvfb from 'xvfb'
-
-let xvfb = undefined as any
-// var xvfb = process.env.CI ? new Xvfb({
-//   silent: true,
-//   xvfb_args: ["-screen", "0", '1280x720x24', "-ac"],
-// }) : undefined;
-
-if (xvfb) console.log('USING XVFB!')
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
   let context: BrowserContext
   let metamask: MetaMask
-
-  before(() => xvfb?.startSync())
-  after(() => xvfb?.stopSync())
 
   const resetBrowserContext = async () => {
     if (page) await page.close()
@@ -29,35 +17,22 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     context = await browserType.launchPersistentContext('', {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
       slowMo,
-      args: [
-        ...metamaskChromeArgs,
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-        // '--display='+xvfb._display
-      ]
+      args
     })
 
-    console.log('Waiting for background pages...')
+    // Waiting until Metamask installs itself.
     await waitForExpect(async () => {
       expect(context.backgroundPages().length).to.eq(1)
     })
 
-    await sleep(10000) // wait until metamask installs itself
     metamask = new MetaMask(await context.newPage())
     await metamask.activate()
     page = await context.newPage()
     addPageDiagnostics(page)
   }
 
-  before(async () => {
-    xvfb?.startSync();
-    await resetBrowserContext()
-  })
-
-  after(async () => {
-    await context?.close()
-    xvfb?.stopSync()
-  })
+  before(() => resetBrowserContext())
+  after(() => context?.close())
 
   before(async () => {
     // Connect Metamask to the app.

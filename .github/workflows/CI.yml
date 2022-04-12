@@ -53,7 +53,6 @@ jobs:
           set -e
           yarn start &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
-          
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
         working-directory: packages/example
