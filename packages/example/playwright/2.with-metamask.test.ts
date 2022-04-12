@@ -6,10 +6,11 @@ import { baseUrl, sleep, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 import Xvfb from 'xvfb'
 
-var xvfb = process.env.CI ? new Xvfb({
-  silent: true,
-  xvfb_args: ["-screen", "0", '1280x720x24', "-ac"],
-}) : undefined;
+let xvfb = undefined as any
+// var xvfb = process.env.CI ? new Xvfb({
+//   silent: true,
+//   xvfb_args: ["-screen", "0", '1280x720x24', "-ac"],
+// }) : undefined;
 
 if (xvfb) console.log('USING XVFB!')
 
@@ -31,7 +32,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       args: [
         ...metamaskChromeArgs,
         '--no-sandbox',
-        '--display='+xvfb._display
+        // '--display='+xvfb._display
       ]
     })
     await sleep(10000) // wait until metamask installs itself
