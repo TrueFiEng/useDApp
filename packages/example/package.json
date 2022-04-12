@@ -10,7 +10,7 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 30000"
+    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000"
   },
   "dependencies": {
     "@ethersproject/abi": "5.6.0",
