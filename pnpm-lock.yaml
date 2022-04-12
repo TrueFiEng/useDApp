@@ -265,6 +265,7 @@ importers:
       webpack-bundle-analyzer: ^4.4.0
       webpack-cli: ^4.1.0
       webpack-dev-server: ^3.11.0
+      xvfb: ^0.4.0
     dependencies:
       '@ethersproject/abi': 5.6.0
       '@ethersproject/contracts': 5.6.0
@@ -314,6 +315,7 @@ importers:
       webpack-bundle-analyzer: 4.5.0
       webpack-cli: 4.9.2_27c49171c07fef207546213a9aedd6fd
       webpack-dev-server: 3.11.3_webpack-cli@4.9.2+webpack@4.46.0
+      xvfb: 0.4.0
 
   packages/extension:
     specifiers:
@@ -19155,6 +19157,15 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /sleep/6.1.0:
+    resolution: {integrity: sha512-Z1x4JjJxsru75Tqn8F4tnOFeEu3HjtITTsumYUiuz54sGKdISgLCek9AUlXlVVrkhltRFhNUsJDJE76SFHTDIQ==}
+    engines: {node: '>=0.8.0'}
+    requiresBuild: true
+    dependencies:
+      nan: 2.15.0
+    dev: true
+    optional: true
+
   /slice-ansi/4.0.0:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
@@ -22446,6 +22457,12 @@ packages:
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
+
+  /xvfb/0.4.0:
+    resolution: {integrity: sha512-g55AbjcBL4Bztfn7kiUrR0ne8mMUsFODDJ+HFGf5OuHJqKKccpExX2Qgn7VF2eImw1eoh6+riXHser1J4agrFA==}
+    optionalDependencies:
+      sleep: 6.1.0
+    dev: true
 
   /y18n/3.2.2:
     resolution: {integrity: sha512-uGZHXkHnhF0XeeAPgnKfPv1bgKAYyVvmNL1xlKsPYZPaIHxGti2hHqvOCQv71XMsLxu1QjergkqogUnms5D3YQ==}

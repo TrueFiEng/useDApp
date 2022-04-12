@@ -4,11 +4,17 @@ import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
 import { baseUrl, slowMo, XPath } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
+import Xvfb from 'xvfb'
+
+var xvfb = new Xvfb();
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
   let context: BrowserContext
   let metamask: MetaMask
+
+  before(() => xvfb.startSync())
+  after(() => xvfb.startSync())
 
   const resetBrowserContext = async () => {
     if (page) await page.close()
@@ -25,8 +31,15 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     addPageDiagnostics(page)
   }
 
-  before(resetBrowserContext)
-  after(() => context?.close())
+  before(async () => {
+    xvfb.startSync();
+    await resetBrowserContext()
+  })
+
+  after(async () => {
+    await context?.close()
+    xvfb.stopSync()
+  })
 
   before(async () => {
     // Connect Metamask to the app.

@@ -36,8 +36,8 @@ jobs:
       - name: Install Playwright dependencies
         run: pnpm playwright install-deps
         working-directory: packages/example
-      - name: Install xvfb
-        run: sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - name: Install xvfb dependencies
+        run: sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth
       - name: Build core
         run: yarn build
         working-directory: packages/core
@@ -51,7 +51,7 @@ jobs:
         run: |
           set -e
           yarn start &
-          xvfb-run yarn test:playwright
+          yarn test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
         working-directory: packages/example
