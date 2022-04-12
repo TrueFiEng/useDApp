@@ -10,10 +10,12 @@ import { firefox, chromium, Browser, Page, BrowserContext } from 'playwright'
 import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './utils'
 
 ;import { metamaskUrl } from './metamask/constants';
+import { MetaMask } from './metamask/MetaMask';
 [chromium].forEach((browserType) => {
   describe.only(`Metamask in ${browserType.name()}`, () => {
     let page: Page
     let context: BrowserContext
+    let metamask: MetaMask
 
     const resetBrowserContext = async () => {
       if (page) await page.close()
@@ -35,12 +37,15 @@ import { baseUrl, headless, ignoredLogs, sleep, slowMo, waitUntil } from './util
         // Errors in the browser will error out the playwright tests.
         throw new Error(`Unhandled exception in the page: ${e}`)
       })
+
+      metamask = new MetaMask(page)
     }
 
     before(resetBrowserContext)
 
-    it('Opens metamask popup', async () => {
+    it('Opens and activates metamask popup', async () => {
       // await page.goto(metamaskUrl)
+      await metamask.activate()
     })
 
     // after(async () => {
