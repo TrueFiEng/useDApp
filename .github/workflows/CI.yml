@@ -33,8 +33,12 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
-      - run: yarn build
+      - name: Build core
+        run: yarn build
         working-directory: packages/core
+      - name: Build coingecko
+        run: yarn build
+        working-directory: packages/coingecko
       - run: |
           set -e
           yarn start &
