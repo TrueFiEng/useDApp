@@ -1,4 +1,5 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { validateArguments } from '../helpers/validateArgument'
 import { useConfig, useNetwork } from '../providers'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 
@@ -27,6 +28,10 @@ export type Web3Ethers = {
   active: boolean
   activateBrowserWallet: () => void
   isLoading: boolean
+  /**
+   * Switch to a different network.
+   */
+  switchNetwork: (chainId: number) => void
 }
 
 /**
@@ -53,6 +58,16 @@ export function useEthers(): Web3Ethers {
   const readonlyNetwork = useReadonlyNetwork()
   const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
 
+  const switchNetwork = async (chainId: number) => {
+    validateArguments({ chainId }, { chainId: 'number' });
+
+    if(!provider) {
+      throw new Error('Provider not connected.')
+    }
+
+    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }]);
+  }
+
   return {
     connector: undefined,
     library: provider,
@@ -76,5 +91,7 @@ export function useEthers(): Web3Ethers {
 
     error,
     isLoading,
+
+    switchNetwork,
   }
 }
