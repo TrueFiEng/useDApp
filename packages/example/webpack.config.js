@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const { DefinePlugin } = require('webpack')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: './src',
-  devtool: isDevelopment ? 'eval' : 'source-map',
+  devtool: isDevelopment ? 'eval-source-map' : 'source-map',
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -23,6 +24,9 @@ module.exports = {
         },
       ],
     }),
+    new DefinePlugin({
+      'process.env.MAINNET_URL': process.env.MAINNET_URL ? JSON.stringify(process.env.MAINNET_URL) : undefined
+    })
   ].filter(Boolean),
   module: {
     rules: [
