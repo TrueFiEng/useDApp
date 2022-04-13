@@ -34,7 +34,7 @@ interface ExampleRendererProps {
 }
 
 function ExampleRenderer({ example }: ExampleRendererProps) {
-  const [Component] = useState(() => loadExample(example))
+  const [Component = () => <></>] = useState(() => loadExample(example))
 
   return (
     <div style={{borderRadius: 16, border: '1px solid rgb(190, 195, 201)', padding: 32}}>
