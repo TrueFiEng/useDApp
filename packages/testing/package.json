@@ -28,12 +28,12 @@
   "dependencies": {
     "@ethersproject/constants": "5.6.0",
     "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/providers": "5.6.2",
+    "@ethersproject/providers": "^5.6.2",
     "@types/react": "17.0.1",
     "@types/react-dom": "17.0.1",
     "@usedapp/core": "workspace:*",
     "ethereum-waffle": "4.0.0-alpha.0",
-    "ethers": "5.6.2",
+    "ethers": "^5.6.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },

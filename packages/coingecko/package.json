@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/providers": "5.6.2",
+    "@ethersproject/providers": "^5.6.2",
     "@usedapp/core": "workspace:*",
     "isomorphic-fetch": "^3.0.0",
     "react": "^17.0.1"
