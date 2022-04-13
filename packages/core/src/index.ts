@@ -79,6 +79,7 @@ export {
 export {
   Currency,
   CurrencyValue,
+  CurrencyFormatOptions,
   FiatCurrency,
   NativeCurrency,
   Token,

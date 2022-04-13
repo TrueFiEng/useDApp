@@ -7,7 +7,7 @@ import { getDefaultProvider } from 'ethers'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
     [Ropsten.chainId]: getDefaultProvider('ropsten'),
     [Kovan.chainId]: getDefaultProvider('kovan'),
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
