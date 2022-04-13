@@ -59,13 +59,13 @@ export function useEthers(): Web3Ethers {
   const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
 
   const switchNetwork = async (chainId: number) => {
-    validateArguments({ chainId }, { chainId: 'number' });
+    validateArguments({ chainId }, { chainId: 'number' })
 
-    if(!provider) {
+    if (!provider) {
       throw new Error('Provider not connected.')
     }
 
-    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }]);
+    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
   }
 
   return {
