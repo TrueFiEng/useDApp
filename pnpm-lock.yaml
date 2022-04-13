@@ -19,7 +19,7 @@ importers:
 
   packages/coingecko:
     specifiers:
-      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/contracts': ^5.6.0
       '@ethersproject/providers': ^5.6.2
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
@@ -70,12 +70,12 @@ importers:
     specifiers:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
       '@ethersproject/abi': ^5.6.1
-      '@ethersproject/abstract-provider': 5.6.0
-      '@ethersproject/bignumber': 5.6.0
-      '@ethersproject/constants': 5.6.0
-      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/abstract-provider': ^5.6.0
+      '@ethersproject/bignumber': ^5.6.0
+      '@ethersproject/constants': ^5.6.0
+      '@ethersproject/contracts': ^5.6.0
       '@ethersproject/providers': ^5.6.2
-      '@ethersproject/wallet': 5.6.0
+      '@ethersproject/wallet': ^5.6.0
       '@metamask/detect-provider': ^1.2.0
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
@@ -161,9 +161,9 @@ importers:
       '@docusaurus/module-type-aliases': 2.0.0-beta.17
       '@docusaurus/preset-classic': 2.0.0-beta.17
       '@docusaurus/remark-plugin-npm2yarn': ^2.0.0-beta.17
-      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/contracts': ^5.6.0
       '@ethersproject/providers': ^5.6.2
-      '@ethersproject/units': 5.6.0
+      '@ethersproject/units': ^5.6.0
       '@mdx-js/react': ^1.6.22
       '@tsconfig/docusaurus': ^1.0.4
       '@types/react': ^17.0.40
@@ -219,9 +219,9 @@ importers:
   packages/example:
     specifiers:
       '@ethersproject/abi': ^5.6.1
-      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/contracts': ^5.6.0
       '@ethersproject/providers': ^5.6.2
-      '@ethersproject/units': 5.6.0
+      '@ethersproject/units': ^5.6.0
       '@pmmmwh/react-refresh-webpack-plugin': ^0.5.4
       '@testing-library/react': ^11.0.0
       '@typechain/ethers-v5': ^9.0.0
@@ -301,7 +301,7 @@ importers:
     specifiers:
       '@babel/core': ^7.14.0
       '@ethersproject/abi': ^5.6.1
-      '@ethersproject/address': 5.6.0
+      '@ethersproject/address': ^5.6.0
       '@storybook/addon-actions': ^6.2.9
       '@storybook/addon-essentials': ^6.2.9
       '@storybook/addon-links': ^6.2.9
@@ -369,8 +369,8 @@ importers:
   packages/testing:
     specifiers:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
-      '@ethersproject/constants': 5.6.0
-      '@ethersproject/contracts': 5.6.0
+      '@ethersproject/constants': ^5.6.0
+      '@ethersproject/contracts': ^5.6.0
       '@ethersproject/providers': ^5.6.2
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
@@ -3349,7 +3349,7 @@ packages:
       '@ethersproject/abstract-signer': 5.6.0
       '@ethersproject/address': 5.6.0
       '@ethersproject/bignumber': 5.6.0
-      '@ethersproject/bytes': 5.6.0
+      '@ethersproject/bytes': 5.6.1
       '@ethersproject/hash': 5.6.0
       '@ethersproject/hdnode': 5.6.0
       '@ethersproject/json-wallets': 5.6.0
