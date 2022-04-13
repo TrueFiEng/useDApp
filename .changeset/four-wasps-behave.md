@@ -1,5 +1,5 @@
 ---
-"@usedapp/core": feat
+"@usedapp/core": min
 ---
 
 🕸️ Add `switchNetwork` to `useEthers`
