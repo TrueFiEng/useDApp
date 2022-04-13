@@ -1,0 +1,28 @@
+# Switching networks
+
+When building a dApp that works across multiple chains you might want to send a transaction on one chain while the user has a different chain selected in their wallet.
+
+You could prompt the user to switch a network using the `switchNetwork` function:
+
+```typescript
+const { switchNetwork, chainId } = useEthers()
+
+const sendTransaction = async () => {
+  if(chainId !== Mainnet.chainId) {
+    await switchNetwork(Mainnet.chainId)
+  }
+
+  // ...send a transaction on mainnet
+}
+```
+
+If the user has metamask installed they would see the following prompt:
+
+![switch-network](../../images/metamask-switch-network.png)
+
+## Example
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import SwitchingNetworks from '../../../example-loader.js!/src/examples/SwitchingNetworks.tsx'
+
+<ExampleContainer example={SwitchingNetworks}/>
