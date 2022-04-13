@@ -6,23 +6,23 @@ on:
       - master
       - rzadp/playwrights
 jobs:
-  # test:
-  #   strategy:
-  #     matrix:
-  #       node: ['14.x', '16.x']
-  #       os: [ubuntu-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: ${{ matrix.node }}
-  #   - run: npm i -g pnpm@6.20.3
-  #   - run: pnpm install --frozen-lockfile
-  #   - run: yarn lint
-  #   - run: yarn build
-  #   - run: yarn test
+  test:
+    strategy:
+      matrix:
+        node: ['14.x', '16.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm i -g pnpm@6.20.3
+    - run: pnpm install --frozen-lockfile
+    - run: yarn lint
+    - run: yarn build
+    - run: yarn test
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
