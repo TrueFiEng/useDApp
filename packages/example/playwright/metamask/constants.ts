@@ -7,5 +7,5 @@ export const metamaskChromeArgs = [
   `--load-extension=${pathToExtension}`,
   '--disable-gpu',
   '--no-sandbox',
-  '--disable-setuid-sandbox'
+  '--disable-setuid-sandbox',
 ]

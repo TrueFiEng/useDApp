@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { MetaMask, metamaskChromeArgs as args } from './metamask'
-import { baseUrl, sleep, slowMo, waitUntil, XPath, log } from './utils'
+import { baseUrl, slowMo, XPath, log } from './utils'
 import { addPageDiagnostics } from './utils/pageDiagnostics'
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
@@ -17,7 +17,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     context = await browserType.launchPersistentContext('', {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
       slowMo,
-      args
+      args,
     })
 
     log('Waiting until Metamask installs itself...')

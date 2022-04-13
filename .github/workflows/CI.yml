@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - rzadp/playwrights
 jobs:
   test:
     strategy:

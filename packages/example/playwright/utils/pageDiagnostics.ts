@@ -1,6 +1,9 @@
 import { Page } from 'playwright'
-// The logs in the browser that we chose to ignore.
-// They might be valid, but out of scope of the E2E tests.
+
+/**
+ * The logs in the browser that we chose to ignore.
+ * They might be valid, but out of scope of the E2E tests.
+ */
 const ignoredLogs = [
   'Download the React DevTools for a better development experience',
   "Warning: Can't perform a React state update on an unmounted component.",

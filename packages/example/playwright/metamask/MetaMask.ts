@@ -18,7 +18,7 @@ export class MetaMask {
     return extractedId
   }
 
-  async gotoMetamask () {
+  async gotoMetamask() {
     const metamaskId = await this.getExtensionId()
     const metamaskUrl = 'chrome-extension://' + metamaskId + '//home.html'
     await this.page.goto(metamaskUrl)
