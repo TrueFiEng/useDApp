@@ -18,11 +18,11 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "siwe": "^1.1.6"
-  },
   "peerDependencies": {
-    "react": "*",
+    "react": "*"
+  },
+  "dependencies": {
+    "siwe": "^1.1.6",
     "@usedapp/core": "workspace:*"
   },
   "devDependencies": {
@@ -37,14 +37,14 @@
     "typescript": "^4.6.2"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "pnpm run build:esm && pnpm run build:cjs",
     "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
     "test": "true",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
+    "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
+    "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
+    "lint:prettier": "pnpm prettier './{src,test}/**/*.{ts,tsx}'"
   },
   "publishConfig": {
     "access": "public"
