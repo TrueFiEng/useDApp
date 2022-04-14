@@ -1,7 +1,7 @@
 # useDapp/siwe
 
 ### Ethereum 🤝 React 
-Framework for Signing In With Ethereum(verify active user account).
+React framework for Signing In With Ethereum.
 
 More info about SIWE [here](https://login.xyz/)
 

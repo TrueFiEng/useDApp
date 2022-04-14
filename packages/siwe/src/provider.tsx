@@ -20,7 +20,7 @@ export function useSiwe() {
 }
 
 export interface SiweProviderProps {
-  children: ReactNode
+  children?: ReactNode
   backendUrl: string
 }
 
@@ -70,7 +70,7 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
     const message = new SiweMessage({
       domain: window.location.host,
       address: await signer.getAddress(),
-      statement: 'Sign in with Ethereum to the app.',
+      statement: 'Sign in with Ethereum.',
       uri: window.location.origin,
       version: '1',
       chainId: chainId,
