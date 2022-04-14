@@ -26,4 +26,12 @@ describe('useToken', async () => {
       totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
     })
   })
+
+  it('should not throw error when token address is Falsy', async () => {
+    const { result } = await renderWeb3Hook(() => useToken(null), {
+      mockProvider,
+    })
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
+  })
 })

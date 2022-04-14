@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
-import { ContractFunctionNames, Params, TypedContract } from '../model/types'
+import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -30,7 +30,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  * @public
  */
 export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
-  contract: T,
+  contract: T | Falsy,
   functionName: FN,
   options?: TransactionOptions
 ) {
@@ -40,19 +40,21 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<void> => {
-      const contractWithSigner = connectContractToSigner(contract, options, library)
-      const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
-      if (receipt?.logs) {
-        const events = receipt.logs.reduce((accumulatedLogs, log) => {
-          try {
-            return log.address.toLowerCase() === contract.address.toLowerCase()
-              ? [...accumulatedLogs, contract.interface.parseLog(log)]
-              : accumulatedLogs
-          } catch (_err) {
-            return accumulatedLogs
-          }
-        }, [] as LogDescription[])
-        setEvents(events)
+      if (contract) {
+        const contractWithSigner = connectContractToSigner(contract, options, library)
+        const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
+        if (receipt?.logs) {
+          const events = receipt.logs.reduce((accumulatedLogs, log) => {
+            try {
+              return log.address.toLowerCase() === contract.address.toLowerCase()
+                ? [...accumulatedLogs, contract.interface.parseLog(log)]
+                : accumulatedLogs
+            } catch (_err) {
+              return accumulatedLogs
+            }
+          }, [] as LogDescription[])
+          setEvents(events)
+        }
       }
     },
     [contract, functionName, options, library]
