@@ -19,11 +19,11 @@
     "dist"
   ],
   "dependencies": {
-    "siwe": "^1.1.6",
-    "@usedapp/core": "workspace:*"
+    "siwe": "^1.1.6"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "@usedapp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.10",

@@ -2,14 +2,15 @@ import { useEthers } from '@usedapp/core'
 import React, { useEffect, ReactNode, useState } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
+import { getNonce, postLogin, postLogout, getAuth } from './requests'
 
-export interface SiweContextInterface {
+export interface SiweContextValue {
   signIn: () => void
   signOut: () => void
   isLoggedIn: boolean
 }
 
-const SiweContext = createContext<SiweContextInterface>({
+const SiweContext = createContext<SiweContextValue>({
   signIn: () => undefined,
   signOut: () => undefined,
   isLoggedIn: false,
@@ -19,8 +20,13 @@ export function useSiwe() {
   return useContext(SiweContext)
 }
 
+export interface SignInOptions {
+  domain?: string
+  uri?: string
+}
+
 export interface SiweProviderProps {
-  children?: ReactNode
+  children: ReactNode
   backendUrl: string
 }
 
@@ -41,13 +47,9 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
       return
     }
     const checkAuthStatus = async () => {
-      const authRequest = await fetch(`${backendUrl}/auth/me`, {
-        method: 'GET',
-        credentials: 'include',
-      })
-      const authResponse = await authRequest.json()
+      const authResponse = await getAuth(backendUrl)
 
-      if (authRequest.ok && authResponse.address === account) {
+      if (authResponse.ok && authResponse.address === account) {
         setAddress(authResponse.address)
         setLoggedIn(true)
       }
@@ -55,42 +57,27 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
     checkAuthStatus()
   }, [account, chainId])
 
-  const signIn = async () => {
+  const signIn = async (signInOptions?: SignInOptions) => {
     if (!account || !chainId || !library) {
       return
     }
-    const nonceRequest = await fetch(`${backendUrl}/auth/siwe/nonce`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    const nonceResponse = await nonceRequest.json()
-
     const signer = library.getSigner()
+    const { nonce } = await getNonce(backendUrl)
 
     const message = new SiweMessage({
-      domain: window.location.host,
+      domain: signInOptions?.domain ?? window.location.host,
       address: await signer.getAddress(),
       statement: 'Sign in with Ethereum.',
-      uri: window.location.origin,
+      uri: signInOptions?.uri ?? window.location.origin,
       version: '1',
       chainId: chainId,
-      nonce: nonceResponse.nonce,
+      nonce: nonce,
     }).toMessage()
-
     const signature = await signer.signMessage(message)
 
-    const loginRequest = await fetch(`${backendUrl}/auth/siwe/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        signature,
-        message,
-      }),
-    })
-    const loginResponse = await loginRequest.json()
+    const loginResponse = await postLogin(backendUrl, signature, message)
 
-    if (loginRequest.ok) {
+    if (loginResponse.ok) {
       setSessionChainId(chainId)
       setAddress(loginResponse.address)
       setLoggedIn(true)
@@ -98,12 +85,9 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
   }
 
   const signOut = async () => {
-    const logoutRequest = await fetch(`${backendUrl}/logout/me`, {
-      method: 'POST',
-      credentials: 'include',
-    })
+    const logoutResponse = await postLogout(backendUrl)
 
-    if (logoutRequest.ok) {
+    if (logoutResponse.ok) {
       setLoggedIn(false)
       setAddress(undefined)
       setSessionChainId(undefined)
