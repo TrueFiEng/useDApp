@@ -1,5 +1,15 @@
 # @usedapp/extension
 
+## 1.0.0
+
+### Major Changes
+
+- 0d2368a: 1.0.0 release
+
+### Patch Changes
+
+- 28287db: 🔝 Update ethers to 5.6.2
+
 ## 0.3.1
 
 ### Patch Changes
