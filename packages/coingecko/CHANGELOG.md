@@ -1,5 +1,21 @@
 # @usedapp/coingecko
 
+## 1.0.0
+
+### Major Changes
+
+- 0d2368a: 1.0.0 release
+
+### Patch Changes
+
+- 2529256: 🎃 Export useCoingeckoPrices hook
+- 28287db: 🔝 Update ethers to 5.6.2
+- Updated dependencies [c46b2a1]
+- Updated dependencies [669c1fa]
+- Updated dependencies [0d2368a]
+- Updated dependencies [28287db]
+  - @usedapp/core@1.0.0
+
 ## 0.5.1
 
 ### Patch Changes

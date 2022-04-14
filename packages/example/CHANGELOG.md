@@ -1,5 +1,18 @@
 # @usedapp/example
 
+## 0.5.3
+
+### Patch Changes
+
+- 28287db: 🔝 Update ethers to 5.6.2
+- Updated dependencies [c46b2a1]
+- Updated dependencies [669c1fa]
+- Updated dependencies [0d2368a]
+- Updated dependencies [2529256]
+- Updated dependencies [28287db]
+  - @usedapp/core@1.0.0
+  - @usedapp/coingecko@1.0.0
+
 ## 0.5.2
 
 ### Patch Changes
