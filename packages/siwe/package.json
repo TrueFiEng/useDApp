@@ -19,13 +19,14 @@
     "dist"
   ],
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "@usedapp/core": "*"
   },
   "dependencies": {
-    "siwe": "^1.1.6",
-    "@usedapp/core": "workspace:*"
+    "siwe": "^1.1.6"
   },
   "devDependencies": {
+    "@usedapp/core": "workspace:*",
     "@types/node": "^17.0.10",
     "@types/react": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
