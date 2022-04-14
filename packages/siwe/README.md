@@ -26,17 +26,17 @@ pnpm install
 
 To build project:
 ```sh
-yarn build
+pnpm build
 ```
 
 To run tests type:
 ```sh
-yarn test
+pnpm test
 ```
 
 To run linter type:
 ```sh
-yarn lint
+pnpm lint
 ```
 
 ## License
