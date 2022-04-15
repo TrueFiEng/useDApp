@@ -19,9 +19,9 @@ jobs:
         node-version: ${{ matrix.node }}
     - run: npm i -g pnpm@6.20.3
     - run: pnpm install --frozen-lockfile
-    - run: yarn lint
-    - run: yarn build
-    - run: yarn test
+    - run: pnpm lint
+    - run: pnpm build
+    - run: pnpm test
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -34,10 +34,10 @@ jobs:
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile
       - name: Build core
-        run: yarn build
+        run: pnpm build
         working-directory: packages/core
       - name: Build coingecko
-        run: yarn build
+        run: pnpm build
         working-directory: packages/coingecko
       - name: Unzip Chrome Metamask extension
         run: unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4
@@ -45,7 +45,7 @@ jobs:
       - name: Run playwright
         run: |
           set -e
-          yarn start &
+          pnpm start &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
