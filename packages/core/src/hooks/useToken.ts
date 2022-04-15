@@ -8,6 +8,9 @@ import { Contract } from 'ethers'
  * @public
  */
 export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
+  if (!tokenAddress) {
+    return undefined
+  }
   const partialCall = {
     contract: new Contract(tokenAddress || '', ERC20Interface),
     address: tokenAddress || '',
