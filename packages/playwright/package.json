@@ -2,15 +2,21 @@
   "name": "@usedapp/playwright",
   "version": "0.0.1",
   "private": true,
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "prettier --check ."
+    "lint:prettier": "prettier --check .",
+    "postinstall": "unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "debug": "^4.3.4"
+  },
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "eslint": "7.19.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
