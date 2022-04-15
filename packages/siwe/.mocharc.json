@@ -3,6 +3,6 @@
   "require": ["@swc-node/register", "jsdom-global/register", "mock-local-storage"],
   "watchExtensions": "ts",
   "extension": "ts",
-  "timeout": 5000,
+  "timeout": 10000,
   "exit": true
 }

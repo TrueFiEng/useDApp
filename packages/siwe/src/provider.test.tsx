@@ -32,7 +32,7 @@ describe('siwe provider tests', () => {
     let config: Config
     let network1: TestingNetwork
 
-    before(async () => {
+    beforeEach(async () => {
         ({ config, network1 } = await setupTestingConfig())
         account = await network1.wallets[0].getAddress()
     })
@@ -106,6 +106,7 @@ describe('siwe provider tests', () => {
             },
         })
         await waitForCurrent((val) => val !== undefined)
+        expect(result.error).to.be.undefined
         expect(result.current.isLoggedIn).to.be.false
         result.current.signIn()
         expect(result.current.isLoggedIn).to.be.false
