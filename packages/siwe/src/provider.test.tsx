@@ -1,8 +1,8 @@
 import { AuthResponse, NonceResponse, LogoutResponse, SiweFetchers } from './requests'
-import { setupTestingConfig, TestingNetwork } from '@usedapp/core/testing'
-import { useSiwe } from './provider'
+import { setupTestingConfig, TestingNetwork, IdentityWrapper, renderDAppHook, getWaitUtils } from '@usedapp/core/testing'
+import { SiweProvider, useSiwe } from './provider'
 import { Config, useEthers } from '@usedapp/core'
-import { renderSiweHook } from './testing/renderSiweHook'
+import React from 'react'
 import { expect } from 'chai'
 import { useEffect } from 'react'
 
@@ -111,3 +111,39 @@ describe('siwe provider tests', () => {
         expect(result.current.isLoggedIn).to.be.false
     })
 })
+
+interface renderSiweHookOptions<Tprops> {
+    renderHook?: {
+      initialProps?: Tprops
+      wrapper?: React.ComponentClass<Tprops, any> | React.FunctionComponent<Tprops>
+    }
+    siweFetchers: SiweFetchers
+    config: Config
+  }
+
+const renderSiweHook = async <Tprops, TResult>(
+    hook: (props: Tprops) => TResult,
+    options?: renderSiweHookOptions<Tprops>
+  ) => {
+    const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
+  
+    const { result, waitForNextUpdate, rerender, unmount } = await renderDAppHook<Tprops, TResult>(hook, {
+          renderHook: {
+            wrapper: (wrapperProps) => (
+                <SiweProvider backendUrl={''} siweFetchers={options?.siweFetchers}>
+                  <UserWrapper {...wrapperProps} />
+                </SiweProvider>
+            ),
+            initialProps: options?.renderHook?.initialProps,
+          },
+          config: options?.config
+    })
+  
+    return {
+      result,
+      rerender,
+      unmount,
+      waitForNextUpdate,
+      ...getWaitUtils(result),
+    }
+  }
