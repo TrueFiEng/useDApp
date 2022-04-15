@@ -5,10 +5,8 @@
     "module": "commonjs",
     "composite": true,
     "sourceMap": true,
-    "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "preserveSymlinks": true,
     "moduleResolution": "node"
   },
   "include": [

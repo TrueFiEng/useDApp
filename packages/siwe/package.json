@@ -23,7 +23,8 @@
     "react": "*"
   },
   "dependencies": {
-    "siwe": "^1.1.6"
+    "siwe": "^1.1.6",
+    "@usedapp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.10",
@@ -33,7 +34,6 @@
     "@types/chai-as-promised": "^7.1.3",
     "@testing-library/react-hooks": "^5.0.3",
     "@typescript-eslint/parser": "^4.10.0",
-    "@usedapp/core": "workspace:*",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",
