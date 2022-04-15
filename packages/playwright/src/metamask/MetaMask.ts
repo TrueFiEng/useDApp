@@ -39,7 +39,7 @@ export class MetaMask {
     await this.page.click(XPath.text('button', 'Next'))
     await this.page.click(XPath.text('button', 'Remind me later')) // Recovery phrase.
 
-    await this.page.waitForSelector('xpath=//h2[contains(text(), "What\'s new")]', {state: 'visible'})
+    await this.page.waitForSelector('xpath=//h2[contains(text(), "What\'s new")]', { state: 'visible' })
 
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')

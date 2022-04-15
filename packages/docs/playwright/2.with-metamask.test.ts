@@ -2,7 +2,14 @@ import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args } from '@usedapp/playwright'
+import {
+  slowMo,
+  XPath,
+  addPageDiagnostics,
+  MetaMask,
+  metamaskChromeArgs as args,
+  waitForPopup
+} from '@usedapp/playwright'
 import {baseUrl} from './constants'
 
 const log = debug('usedapp:docs:playwright')
@@ -40,12 +47,9 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     log('Connecting Metamask to the app...')
     await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
-    const pages = context.pages().length
+    const popupPromise = waitForPopup(context)
     await page.click(XPath.text('button', 'Connect'))
-    await waitForExpect(() => {
-      expect(context.pages().length).to.be.equal(pages + 1)
-    })
-    const popupPage = context.pages()[context.pages().length - 1]
+    const popupPage = await popupPromise
 
     await popupPage.click(XPath.text('button', 'Next'))
     await popupPage.click(XPath.text('button', 'Connect'))
@@ -58,6 +62,15 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+      })
+
+      const popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Switch to Rinkeby'))
+      const popupPage = await popupPromise
+      await popupPage.click(XPath.text('button', 'Switch network'))
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
       })
     })
   })
