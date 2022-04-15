@@ -10,7 +10,7 @@
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
-    "postinstall": "unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4"
+    "postinstall": "unzip -n metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4"
   },
   "dependencies": {
     "debug": "^4.3.4"
