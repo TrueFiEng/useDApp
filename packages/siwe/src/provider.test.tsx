@@ -33,7 +33,7 @@ describe('siwe provider tests', () => {
     let network1: TestingNetwork
 
     beforeEach(async () => {
-        ({ config, network1 } = await setupTestingConfig())
+        ;({ config, network1 } = await setupTestingConfig())
         account = await network1.wallets[0].getAddress()
     })
 
