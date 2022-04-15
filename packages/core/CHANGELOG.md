@@ -1,5 +1,20 @@
 # @usedapp/core
 
+## 1.0.0
+
+### Major Changes
+
+- 0d2368a: 1.0.0 release
+
+### Minor Changes
+
+- c46b2a1: 🕸️ Add `switchNetwork` to `useEthers`
+
+### Patch Changes
+
+- 669c1fa: 😵‍💫 Export currencyFormattingOptions from model
+- 28287db: 🔝 Update ethers to 5.6.2
+
 ## 0.12.9
 
 ### Patch Changes

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import CodeWrapper from './CodeWrapper'
 import BrowserOnly from '@docusaurus/BrowserOnly'
 import  ReactDOM from 'react-dom'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
 export interface Example {
   source: {
@@ -33,11 +34,13 @@ interface ExampleRendererProps {
 }
 
 function ExampleRenderer({ example }: ExampleRendererProps) {
-  const [Component] = useState(() => loadExample(example))
+  const [Component = () => <></>] = useState(() => loadExample(example))
 
   return (
     <div style={{borderRadius: 16, border: '1px solid rgb(190, 195, 201)', padding: 32}}>
-      <Component/>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Component/>
+      </ErrorBoundary>
     </div>
   )
 }
@@ -73,3 +76,10 @@ function loadExample(example: Example): React.FC {
   exampleCache.set(example.path, component)
   return component
 }
+
+const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => (
+  <div>
+    <pre>{error.stack}</pre>
+    <button onClick={resetErrorBoundary}>Reset</button>
+  </div>
+)
