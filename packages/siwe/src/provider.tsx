@@ -2,7 +2,7 @@ import { useEthers } from '@usedapp/core'
 import React, { useEffect, ReactNode, useState } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
-import { getNonce, postLogin, postLogout, getAuth } from './requests'
+import { SiweFetchers, getFetchers } from './requests'
 
 export interface SiweContextValue {
   signIn: () => void
@@ -26,15 +26,17 @@ export interface SignInOptions {
 }
 
 export interface SiweProviderProps {
-  children: ReactNode
   backendUrl: string
+  children?: ReactNode
+  siweFetchers?: SiweFetchers
 }
 
-export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
+export const SiweProvider = ({ children, backendUrl, siweFetchers }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [address, setAddress] = useState<string | undefined>(undefined)
   const [sessionChainId, setSessionChainId] = useState<number | undefined>(undefined)
+  const { getNonce, login, logout, getAuth } = siweFetchers ?? getFetchers(backendUrl)
 
   useEffect(() => {
     if ((!!account && account !== address) || (!!chainId && chainId !== sessionChainId)) {
@@ -47,7 +49,7 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
       return
     }
     const checkAuthStatus = async () => {
-      const authResponse = await getAuth(backendUrl)
+      const authResponse = await getAuth()
 
       if (authResponse.ok && authResponse.address === account) {
         setAddress(authResponse.address)
@@ -62,7 +64,7 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
       return
     }
     const signer = library.getSigner()
-    const { nonce } = await getNonce(backendUrl)
+    const { nonce } = await getNonce()
 
     const message = new SiweMessage({
       domain: signInOptions?.domain ?? window.location.host,
@@ -75,7 +77,7 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
     }).toMessage()
     const signature = await signer.signMessage(message)
 
-    const loginResponse = await postLogin(backendUrl, signature, message)
+    const loginResponse = await login(signature, message)
 
     if (loginResponse.ok) {
       setSessionChainId(chainId)
@@ -85,7 +87,7 @@ export const SiweProvider = ({ children, backendUrl }: SiweProviderProps) => {
   }
 
   const signOut = async () => {
-    const logoutResponse = await postLogout(backendUrl)
+    const logoutResponse = await logout()
 
     if (logoutResponse.ok) {
       setLoggedIn(false)

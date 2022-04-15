@@ -1,0 +1,8 @@
+{
+  "spec": "src/*.test.{ts,tsx}",
+  "require": ["@swc-node/register", "jsdom-global/register", "mock-local-storage"],
+  "watchExtensions": "ts",
+  "extension": "ts",
+  "timeout": 5000,
+  "exit": true
+}
