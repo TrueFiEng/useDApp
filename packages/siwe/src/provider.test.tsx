@@ -29,8 +29,11 @@ describe('siwe provider tests', async () => {
     let config: Config
     let network1: TestingNetwork
 
-    it('return initialized values', async () => {
+    before(async () => {
         ;({ config, network1 } = await setupTestingConfig())
+    })
+
+    it('return initialized values', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => useSiwe(), { config, siweFetchers: testSiweFetchers(network1.provider.getWallets()[0].address), })
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
@@ -40,7 +43,6 @@ describe('siwe provider tests', async () => {
     })
 
     it('return login session', async () => {
-        ;({ config, network1 } = await setupTestingConfig())
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
@@ -58,7 +60,6 @@ describe('siwe provider tests', async () => {
     })
 
     it('logout correctly', async () => {
-        ;({ config, network1 } = await setupTestingConfig())
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
@@ -79,7 +80,6 @@ describe('siwe provider tests', async () => {
     })
 
     it('do not active session for wrong account', async () => {
-        ;({ config, network1 } = await setupTestingConfig())
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
