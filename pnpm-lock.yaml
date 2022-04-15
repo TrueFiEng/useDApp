@@ -393,6 +393,9 @@ importers:
   packages/siwe:
     specifiers:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
+      '@ethersproject/abi': ^5.0.0
+      '@ethersproject/bytes': ^5.6.1
+      '@ethersproject/providers': ^5.6.2
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
       '@types/chai': ^4.2.14
@@ -420,6 +423,9 @@ importers:
       siwe: ^1.1.6
       typescript: ^4.6.2
     dependencies:
+      '@ethersproject/abi': 5.6.1
+      '@ethersproject/bytes': 5.6.1
+      '@ethersproject/providers': 5.6.3
       siwe: 1.1.6_ethers@5.6.3
     devDependencies:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
@@ -440,7 +446,7 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.19.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.19.0
-      ethereum-waffle: 4.0.0-alpha.0_typescript@4.6.2
+      ethereum-waffle: 4.0.0-alpha.0_c72cc98674a272580b84d20b124598c4
       jsdom: 16.7.0
       jsdom-global: 3.0.2_jsdom@16.7.0
       mocha: 8.4.0
@@ -3056,7 +3062,7 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /@ethereum-waffle/compiler/4.0.0-alpha.0_5c1d04aed660843d6f65693c6d483ea5:
+  /@ethereum-waffle/compiler/4.0.0-alpha.0_47904e6ef1768eb18fa7e20bd63dbf8a:
     resolution: {integrity: sha512-FGnU3eWVODjKncEXJHbaqfnP4GLKEpqlvQ7W3yRE4ovmSWCRjNAjTeeKwFW7zZlDwG8WIRFVvSWlySKeuWc8MQ==}
     engines: {node: '>=10.0'}
     peerDependencies:
@@ -3066,7 +3072,7 @@ packages:
     dependencies:
       '@resolver-engine/imports': 0.3.3
       '@resolver-engine/imports-fs': 0.3.3
-      '@typechain/ethers-v5': 9.0.0_5c1d04aed660843d6f65693c6d483ea5
+      '@typechain/ethers-v5': 9.0.0_47904e6ef1768eb18fa7e20bd63dbf8a
       '@types/mkdirp': 0.5.2
       '@types/node-fetch': 2.6.1
       ethers: 5.6.3
@@ -5524,7 +5530,7 @@ packages:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
     dev: true
 
-  /@typechain/ethers-v5/9.0.0_5c1d04aed660843d6f65693c6d483ea5:
+  /@typechain/ethers-v5/9.0.0_47904e6ef1768eb18fa7e20bd63dbf8a:
     resolution: {integrity: sha512-bAanuPl1L2itaUdMvor/QvwnIH+TM/CmG00q17Ilv3ZZMeJ2j8HcarhgJUZ9pBY1teBb85P8cC03dz3mSSx+tQ==}
     peerDependencies:
       '@ethersproject/abi': ^5.0.0
@@ -5534,6 +5540,9 @@ packages:
       typechain: ^7.0.0
       typescript: '>=4.0.0'
     dependencies:
+      '@ethersproject/abi': 5.6.1
+      '@ethersproject/bytes': 5.6.1
+      '@ethersproject/providers': 5.6.3
       ethers: 5.6.3
       lodash: 4.17.21
       ts-essentials: 7.0.3_typescript@4.6.2
@@ -11435,13 +11444,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /ethereum-waffle/4.0.0-alpha.0_typescript@4.6.2:
+  /ethereum-waffle/4.0.0-alpha.0_c72cc98674a272580b84d20b124598c4:
     resolution: {integrity: sha512-gDNoneCUuaidULiWuEXsygdgnRWHn8TWdg4BchQ/2poxtWomBjsPa4KeX7fmRLCLiklgTx/Lr2AsPv6XCG62uA==}
     engines: {node: '>=10.0'}
     hasBin: true
     dependencies:
       '@ethereum-waffle/chai': 4.0.0-alpha.0
-      '@ethereum-waffle/compiler': 4.0.0-alpha.0_5c1d04aed660843d6f65693c6d483ea5
+      '@ethereum-waffle/compiler': 4.0.0-alpha.0_47904e6ef1768eb18fa7e20bd63dbf8a
       '@ethereum-waffle/mock-contract': 4.0.0-alpha.0
       '@ethereum-waffle/provider': 4.0.0-alpha.0
       ethers: 5.6.3
