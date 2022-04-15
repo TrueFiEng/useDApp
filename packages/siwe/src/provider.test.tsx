@@ -1,5 +1,5 @@
 import { AuthResponse, NonceResponse, LogoutResponse, SiweFetchers } from './requests'
-import { setupTestingConfig, TestingNetwork } from '@useDApp/core/testing'
+import { setupTestingConfig, TestingNetwork } from '@usedapp/core/testing'
 import { useSiwe } from './provider'
 import { Config, useEthers } from '@usedapp/core'
 import { renderSiweHook } from './testing/renderSiweHook'

@@ -1,8 +1,8 @@
-import { Config } from '@useDApp/core'
+import { Config } from '@usedapp/core'
+import { getWaitUtils, renderDAppHook, IdentityWrapper } from '@usedapp/core/testing'
 import React from 'react'
 import { SiweProvider } from '../provider'
 import { SiweFetchers } from '../requests'
-import { getWaitUtils, renderDAppHook, IdentityWrapper } from '@usedapp/core/testing'
 
 
 export interface renderSiweHookOptions<Tprops> {

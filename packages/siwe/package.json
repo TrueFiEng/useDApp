@@ -20,8 +20,7 @@
   ],
   "peerDependencies": {
     "react": "*",
-    "@usedapp/core": "*",
-    "@testing-library/react-hooks": "*"
+    "@usedapp/core": "*"
   },
   "dependencies": {
     "siwe": "^1.1.6"
