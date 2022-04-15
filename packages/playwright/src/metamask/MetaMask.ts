@@ -1,6 +1,8 @@
+import debug from 'debug'
 import { Page } from 'playwright'
-import { log } from '../log'
 import { XPath } from '../xpath'
+
+export const log = debug('usedapp:playwright')
 
 export class MetaMask {
   constructor(private page: Page) {}

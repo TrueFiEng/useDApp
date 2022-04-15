@@ -1,9 +1,11 @@
+import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { MetaMask, metamaskChromeArgs as args } from './metamask'
-import { baseUrl, slowMo, XPath, log } from './utils'
-import { addPageDiagnostics } from './utils/pageDiagnostics'
+import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args } from '@usedapp/playwright'
+import {baseUrl} from './constants'
+
+const log = debug('usedapp:example:playwright')
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
