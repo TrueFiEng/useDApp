@@ -26,6 +26,8 @@
     "siwe": "^1.1.6"
   },
   "devDependencies": {
+    "@ethereum-waffle/provider": "4.0.0-alpha.0",
+    "@swc-node/register": "^1.4.2",
     "@types/lodash": "^4.14.170",
     "@types/lodash.merge": "^4.6.6",
     "@types/lodash.pickby": "^4.6.6",
@@ -41,6 +43,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",
+    "ethereum-waffle": "4.0.0-alpha.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "mocha": "^8.2.1",
     "mock-local-storage": "^1.1.17",
