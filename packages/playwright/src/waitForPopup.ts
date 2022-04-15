@@ -1,4 +1,4 @@
-import type { BrowserContext, Page } from "playwright"
+import type { BrowserContext, Page } from 'playwright'
 
 export const waitForPopup = async (context: BrowserContext): Promise<Page> => {
   const pages = context.pages().length
