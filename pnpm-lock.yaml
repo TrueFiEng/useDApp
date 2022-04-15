@@ -399,7 +399,7 @@ importers:
       '@types/react': 17.0.1
       '@typescript-eslint/eslint-plugin': ^4.10.0
       '@typescript-eslint/parser': ^4.10.0
-      '@usedapp/core': ^1.0.0
+      '@usedapp/core': workspace:*
       chai: ^4.2.0
       chai-as-promised: ^7.1.1
       eslint: 7.19.0
@@ -411,11 +411,9 @@ importers:
       prettier: ^2.1.2
       react: ^17.0.1
       siwe: ^1.1.6
-      testing: link:@useDApp/core/testing
       typescript: ^4.6.2
     dependencies:
       siwe: 1.1.6_ethers@5.6.3
-      testing: link:@useDApp/core/testing
     devDependencies:
       '@testing-library/react-hooks': 5.1.3_react@17.0.2
       '@types/chai': 4.3.0
