@@ -34,7 +34,7 @@ describe('siwe provider tests', () => {
 
     before(async () => {
         ({ config, network1 } = await setupTestingConfig())
-        account = network1.wallets[0].address
+        account = await network1.wallets[0].getAddress()
     })
 
     it('return initialized values', async () => {
