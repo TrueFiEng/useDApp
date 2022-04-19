@@ -5,7 +5,7 @@ import { SiweMessage } from 'siwe'
 import { SiweFetchers, getFetchers } from './requests'
 
 export interface SiweContextValue {
-  signIn: () => void
+  signIn: (signInOptions?: SignInOptions) => void
   signOut: () => void
   isLoggedIn: boolean
 }
