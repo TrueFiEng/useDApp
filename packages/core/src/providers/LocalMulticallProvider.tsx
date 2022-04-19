@@ -20,8 +20,8 @@ enum LocalMulticallState {
 
 export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
-  const { multicallAddresses } = useConfig()
   const { library, chainId } = useEthers()
+  const { multicallAddresses, multicallVersion } = useConfig()
   const [localMulticallState, setLocalMulticallState] = useState(LocalMulticallState.Unknown)
   const [multicallBlockNumber, setMulticallBlockNumber] = useState<number>()
   const blockNumber = useBlockNumber()
@@ -44,7 +44,11 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
 
       const deployMulticall = async () => {
         try {
-          const { contractAddress, blockNumber } = await deployContract(multicallABI, signer)
+          const { contractAddress, blockNumber } =
+            await deployContract(
+              multicallVersion === 1 ? multicallABI : multicall2ABI,
+              signer
+            );
           updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
           setMulticallBlockNumber(blockNumber)
           setLocalMulticallState(LocalMulticallState.Deployed)
