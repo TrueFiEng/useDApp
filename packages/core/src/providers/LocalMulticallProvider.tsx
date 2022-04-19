@@ -4,6 +4,7 @@ import { useEthers } from '../hooks'
 import { useBlockNumber } from './blockNumber/blockNumber'
 import { useConfig, useUpdateConfig } from './config'
 import multicallABI from '../constants/abi/MultiCall.json'
+import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { deployContract } from '../helpers/contract'
 
 interface LocalMulticallProps {
