@@ -26,7 +26,7 @@ export function App() {
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
     const send = () => {
-        sendTransaction({ to: address, value: 1 })
+        void sendTransaction({ to: address, value: 1 })
     }
 
     const WalletContent = () => (

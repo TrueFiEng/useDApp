@@ -89,7 +89,7 @@ export function TransactionProvider({ children }: Props) {
       dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
 
-    updateTransactions()
+    void updateTransactions()
   }, [chainId, library, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />

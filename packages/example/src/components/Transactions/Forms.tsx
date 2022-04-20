@@ -19,7 +19,7 @@ export const DepositEth = () => {
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
   const depositEther = (etherAmount: string) => {
-    send({ value: utils.parseEther(etherAmount) })
+    void send({ value: utils.parseEther(etherAmount) })
   }
 
   return (
@@ -34,7 +34,7 @@ export const WithdrawEth = () => {
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
-    send(utils.parseEther(wethAmount))
+    void send(utils.parseEther(wethAmount))
   }
 
   return (
