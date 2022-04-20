@@ -36,7 +36,7 @@ function App() {
           infuraId: '62687d1a985d4508b2b7a24827551934',
         })
         await provider.enable()
-        activate(provider)
+        await activate(provider)
       } catch (error) {
         console.error(error)
       }

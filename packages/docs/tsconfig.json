@@ -3,5 +3,13 @@
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "references": [
+    {
+      "path": "../coingecko"
+    },
+    {
+      "path": "../core"
+    }
+  ]
 }

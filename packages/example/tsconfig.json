@@ -1,5 +1,9 @@
 {
-  "include": ["src", "types", "playwright"],
+  "include": [
+    "src",
+    "types",
+    "playwright"
+  ],
   "compilerOptions": {
     "types": [
       "mocha"
@@ -14,6 +18,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-  }
+    "allowSyntheticDefaultImports": true
+  },
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../coingecko"
+    }
+  ]
 }
