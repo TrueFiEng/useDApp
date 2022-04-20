@@ -17,7 +17,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | Falsy {
+export function encodeCallData(call: Call | Falsy, chainId: number, isStatic?: boolean): RawCall | Falsy {
   if (!call) {
     return undefined
   }
@@ -27,7 +27,7 @@ export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | F
     return undefined
   }
   try {
-    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId }
+    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId, isStatic }
   } catch {
     warnOnInvalidCall(call)
     return undefined
@@ -37,10 +37,13 @@ export function encodeCallData(call: Call | Falsy, chainId: number): RawCall | F
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function getUniqueCalls(requests: RawCall[]) {
+export function getUniqueActiveCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
+    if (request.isDisable) {
+      continue
+    }
     if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
       unique.push(request)
       used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true

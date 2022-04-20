@@ -10,4 +10,5 @@ export interface QueryParams {
    * @default {} The chainId of the connected wallet.
    */
   chainId?: ChainId
+  isStatic?: boolean
 }

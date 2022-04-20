@@ -1,9 +1,9 @@
-import { RawCall } from '../../src'
+import { RawCall } from '..'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
-import { getUniqueCalls } from './calls'
+import { getUniqueActiveCalls } from './calls'
 
-describe('getUniqueChainCalls', () => {
+describe('getUniqueActiveChainCalls', () => {
   it('returns a list of unique chain calls', () => {
     const addresses = [Wallet.createRandom().address, Wallet.createRandom().address]
     const calls: RawCall[] = [
@@ -34,7 +34,7 @@ describe('getUniqueChainCalls', () => {
       },
     ]
 
-    expect(getUniqueCalls(calls)).to.deep.equal([
+    expect(getUniqueActiveCalls(calls)).to.deep.equal([
       {
         chainId: 1,
         address: addresses[0],
@@ -53,6 +53,37 @@ describe('getUniqueChainCalls', () => {
       {
         chainId: 2,
         address: addresses[1],
+        data: '0x123',
+      },
+    ])
+  })
+
+  it('returns a list of unique and not disabled chain calls', () => {
+    const addresses = [Wallet.createRandom().address, Wallet.createRandom().address]
+    const calls: RawCall[] = [
+      {
+        chainId: 1,
+        address: addresses[0],
+        data: '0x123',
+        isDisable: true,
+      },
+      {
+        chainId: 1,
+        address: addresses[0],
+        data: '0x123',
+      },
+      {
+        chainId: 1,
+        address: addresses[0],
+        data: '0xc0ffee',
+        isDisable: true,
+      },
+    ]
+
+    expect(getUniqueActiveCalls(calls)).to.deep.equal([
+      {
+        chainId: 1,
+        address: addresses[0],
         data: '0x123',
       },
     ])
