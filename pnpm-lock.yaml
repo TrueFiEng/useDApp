@@ -8,6 +8,7 @@ importers:
   .:
     specifiers:
       '@changesets/cli': ^2.14.1
+      eslint-plugin-no-only-tests: ^2.6.0
       ethers: ^5.6.2
       prettier: 2.1.2
       wsrun: ^5.2.1
@@ -16,6 +17,8 @@ importers:
       ethers: 5.6.3
       prettier: 2.1.2
       wsrun: 5.2.4
+    devDependencies:
+      eslint-plugin-no-only-tests: 2.6.0
 
   packages/coingecko:
     specifiers:
@@ -10886,6 +10889,11 @@ packages:
       optionator: 0.8.3
     optionalDependencies:
       source-map: 0.6.1
+    dev: true
+
+  /eslint-plugin-no-only-tests/2.6.0:
+    resolution: {integrity: sha512-T9SmE/g6UV1uZo1oHAqOvL86XWl7Pl2EpRpnLI8g/bkJu+h7XBCB+1LnubRZ2CUQXj805vh4/CYZdnqtVaEo2Q==}
+    engines: {node: '>=4.0.0'}
     dev: true
 
   /eslint-plugin-react-hooks/4.3.0_eslint@7.19.0:

@@ -9,6 +9,9 @@
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended"
   ],
+  "plugins": [
+    "no-only-tests"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -25,6 +28,7 @@
     "prefer-const": ["error", {"destructuring": "all"}],
     "semi": ["error", "never"],
     "no-extra-semi": "off",
+    "no-only-tests/no-only-tests": "error",
     "@typescript-eslint/no-extra-semi": "off"
   },
   "overrides": [
