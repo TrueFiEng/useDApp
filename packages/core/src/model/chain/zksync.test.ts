@@ -21,7 +21,9 @@ describe('zkSync Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(ZkSyncTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://zksync2-testnet.zkscan.io/address/${TEST_ADDRESS}`)
+    expect(ZkSyncTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://zksync2-testnet.zkscan.io/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {
