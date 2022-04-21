@@ -1,4 +1,5 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { getAddress } from 'ethers/lib/utils'
 import { validateArguments } from '../helpers/validateArgument'
 import { useConfig, useNetwork } from '../providers'
 import { useReadonlyNetwork } from './useReadonlyProvider'
@@ -68,11 +69,13 @@ export function useEthers(): Web3Ethers {
     await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
   }
 
+  const account = accounts[0] ? getAddress(accounts[0]) : undefined
+
   return {
     connector: undefined,
     library: provider,
     chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
-    account: accounts[0],
+    account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
       if ('getProvider' in providerOrConnector) {
