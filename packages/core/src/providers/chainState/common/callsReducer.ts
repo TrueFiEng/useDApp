@@ -13,7 +13,7 @@ export interface RawCall {
   address: string
   data: string
   isStatic?: boolean
-  isDisable?: boolean
+  isDisabled?: boolean
 }
 
 /**
@@ -52,7 +52,7 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
       call.isStatic
         ? {
             ...call,
-            isDisable: true,
+            isDisabled: true,
           }
         : call
     )

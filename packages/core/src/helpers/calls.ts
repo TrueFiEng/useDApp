@@ -41,7 +41,7 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (request.isDisable) {
+    if (request.isDisabled) {
       continue
     }
     if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {

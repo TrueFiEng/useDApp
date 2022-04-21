@@ -65,7 +65,7 @@ describe('getUniqueActiveChainCalls', () => {
         chainId: 1,
         address: addresses[0],
         data: '0x123',
-        isDisable: true,
+        isDisabled: true,
       },
       {
         chainId: 1,
@@ -76,7 +76,7 @@ describe('getUniqueActiveChainCalls', () => {
         chainId: 1,
         address: addresses[0],
         data: '0xc0ffee',
-        isDisable: true,
+        isDisabled: true,
       },
     ]
 
