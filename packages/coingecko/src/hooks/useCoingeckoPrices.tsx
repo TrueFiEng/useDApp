@@ -27,7 +27,7 @@ export function useCoingeckoTokenPrices(contracts: string[], opts: UseCoingeckoT
       }
     }
 
-    getPrice()
+    void getPrice()
 
     const intervalId = setInterval(getPrice, opts.interval ?? 60_000)
 

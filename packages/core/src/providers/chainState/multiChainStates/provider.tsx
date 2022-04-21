@@ -9,7 +9,7 @@ import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { BaseProvider } from '@ethersproject/providers'
 import { callsReducer, chainStateReducer } from '../common'
-import { getUniqueCalls } from '../../../helpers'
+import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 
@@ -47,7 +47,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
-  const uniqueCalls = useMemo(() => getUniqueCalls(debouncedCalls), [debouncedCalls])
+  const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
 
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(debouncedCalls)
@@ -90,6 +90,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       chainId,
       reportError
     )
+    dispatchCalls({ type: 'UPDATE_CALLS', calls })
   }
 
   useEffect(() => {

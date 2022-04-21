@@ -21,7 +21,7 @@ export function WalletConnect() {
         infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
       })
       await provider.enable()
-      activate(provider)
+      await activate(provider)
     } catch (error) {
       console.error(error)
     }

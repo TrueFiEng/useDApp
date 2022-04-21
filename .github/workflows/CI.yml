@@ -18,10 +18,10 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm i -g pnpm@6.20.3
-    - run: pnpm install --frozen-lockfile
-    - run: pnpm lint
-    - run: pnpm build
-    - run: pnpm test
+    - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+    - run: pnpm run lint
+    - run: pnpm run build
+    - run: pnpm run test
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build core
         run: pnpm build
         working-directory: packages/core
