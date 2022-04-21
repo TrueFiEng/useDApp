@@ -45,11 +45,10 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
 
       const deployMulticall = async () => {
         try {
-          const { contractAddress, blockNumber } =
-            await deployContract(
-              multicallVersion === 1 ? multicallABI : multicall2ABI,
-              signer
-            );
+          const { contractAddress, blockNumber } = await deployContract(
+            multicallVersion === 1 ? multicallABI : multicall2ABI,
+            signer
+          )
           updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
           setMulticallBlockNumber(blockNumber)
           setLocalMulticallState(LocalMulticallState.Deployed)
