@@ -13,5 +13,10 @@
   "include": [
     "src",
     "examples"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    }
   ]
 }

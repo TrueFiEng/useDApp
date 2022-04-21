@@ -57,7 +57,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           setLocalMulticallState(LocalMulticallState.Error)
         }
       }
-      deployMulticall()
+      void deployMulticall()
     }
   }, [library, chainId])
 

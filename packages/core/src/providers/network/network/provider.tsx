@@ -60,7 +60,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   useEffect(() => {
     if (providerOverride) {
-      activate(providerOverride)
+      void activate(providerOverride)
     }
   }, [providerOverride])
   const update = useCallback(

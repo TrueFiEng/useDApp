@@ -32,5 +32,5 @@ export {
   encodeCallData,
   decodeCallResult,
   getChainMeta,
-  getUniqueCalls,
+  getUniqueActiveCalls,
 } from './helpers'
