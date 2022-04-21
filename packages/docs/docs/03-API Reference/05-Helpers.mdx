@@ -1,0 +1,239 @@
+## Helpers
+
+## getExplorerAddressLink (deprecated)
+
+Returns URL to blockchain explorer for an address on a given chain.
+
+**Parameters**
+
+- ``address: string`` - account address
+- ``chainId: ChainId`` - id of a chain
+
+
+**Example**
+
+```tsx
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
+  // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
+  // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
+  // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
+
+    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
+  // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
+```
+
+Can call with Chain directly:
+
+```tsx
+import { Mainnet } from '@usedapp/core'
+Mainnet.getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
+// https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
+```
+
+## getExplorerTransactionLink (deprecated)
+
+Returns URL to blockchain explorer for a transaction hash on a given chain.
+
+**Parameters**
+
+- ``transactionHash: string`` - hash of a transaction
+- ``chainId: ChainId`` - id of a chain
+
+**Example**
+
+```tsx
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
+  // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
+  // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
+  // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
+
+   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
+  // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+```
+
+Can call with Chain directly:
+
+```tsx
+import { Mainnet } from '@usedapp/core'
+Mainnet.getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
+// https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
+```
+
+## getChainName (deprecated)
+
+Returns name of a chain for a given `chainId`.
+
+**Parameters**
+
+- ``chainId: ChainId`` - id of a chain
+
+**Example**
+
+```tsx
+  getChainName(Mainnet.chainID) // Mainnet
+  getChainName(Ropsten.chainID) // Ropsten
+  getChainName(xDai.chainID)    // xDai
+  getChainName(Theta.chainID) // Theta
+  getChainName(Harmony.chainID) // Harmony
+  getChainName(Moonriver.chainID) // Moonriver
+  getChainName(Moonbeam.chainID) // Moonbeam
+  getChainName(OasisEmerald.chainID) //Oasis Emerald Paratime
+  getChainName(Fantom.chainID) // Fantom
+```
+
+Can call with Chain directly:
+
+```tsx
+> import { Mainnet } from '@usedapp/core'
+> Mainnet.chainName
+> // Mainnet
+```
+
+## isTestChain (deprecated)
+
+Returns if a given chain is a testnet.
+
+**Parameters**
+
+- ``chainId: ChainId`` - id of a chain
+
+**Example**
+
+```tsx
+  isTestChain(Mainnet.chainId) // false
+  isTestChain(Ropsten.chainId) // true
+  isTestChain(xDai.chainId)    // false
+```
+
+Can call with Chain directly:
+
+```tsx
+import { Mainnet } from '@usedapp/core'
+Mainnet.isTestChain
+// false
+Ropsten.isTestChain
+// true
+```
+
+## shortenAddress
+
+Returns short representation of address or throws an error if address is incorrect.
+
+**Parameters**
+
+- ``address: string`` - address to shorten
+
+**Example**
+
+```tsx
+  shortenAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress('6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenAddress("i'm not an address")
+  // TypeError("Invalid input, address can't be parsed")
+```
+
+## shortenIfAddress
+
+Returns short representation of address or throws an error if address is incorrect.
+Returns empty string if no address is provided.
+
+**Parameters**
+
+- ``address: string | 0 | null | undefined | false`` - address to shorten
+
+**Example**
+
+```tsx
+  shortenIfAddress('0x6E9e7A8Fb61b0e1Bc3cB30e6c8E335046267D3A0')
+  // 0x6E9e...D3A0
+
+  shortenIfAddress('')
+  // ''
+
+  shortenIfAddress(undefined)
+  // ''
+
+  shortenIfAddress("i'm not an address")
+  // TypeError("Invalid input, address can't be parsed")
+```
+
+## transactionErrored
+
+Returns true if transaction failed or had an exception
+
+**Parameters**
+
+- ``transaction: TransactionStatus`` - transaction to check.
+
+## compareAddress
+
+Returns 1 if first address is bigger than second address.
+Returns 0 if both addresses are equal.
+Returns -1 if first address is smaller than second address.
+If any address can't be parsed throws an error.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+```tsx
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471000000'
+  compareAddress(address1, address2)
+  // 1
+
+  address1 = '0x000000440ad484f55997750cfae3e13ca1751283'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  compareAddress(address1, address2)
+  // -1
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+```
+
+## addressEqual
+
+Returns true if both addresses are them same.
+Returns false if addresses are different.
+Throws an error if address can't be parsed.
+
+**Parameters**
+
+- ``firstAddress`` - first address to compare
+- ``secondAddress`` - second address to compare
+
+**Example**
+
+```tsx
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  addressEqual(address1, address2)
+  // true
+
+  address1 = '0x24d53843ce280bbae7d47635039a94b471547fd5'
+  address2 = '0xe24212440ad484f55997750cfae3e13ca1751283'
+  addressEqual(address1, address2)
+  // false
+
+  address1 = 'im not an address'
+  address2 = '0xb293c3b2b4596824c57ad642ea2da4e146cca4cf'
+  compareAddress(address1, address2)
+  // TypeError("Invalid input, address can't be parsed")
+```

@@ -1,6 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { ERC20Interface, useContractCall } from '..'
 import { expect } from 'chai'
 import {
   renderWeb3Hook,
@@ -11,6 +10,8 @@ import {
 } from '../testing'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
+import { ERC20Interface } from '../constants/abi'
+import { useContractCall } from './useContractCall'
 
 describe('useContractCall', () => {
   const mockProvider = new MockProvider()
@@ -88,4 +89,22 @@ describe('useContractCall', () => {
     expect(result.current?.[0]).not.to.be.undefined
     expect(result.current?.[0]).to.eq(endValue)
   }
+
+  it('is prepared for a case of undefined address', async () => {
+    const callData = {
+      abi: ERC20Interface,
+      address: undefined as any,
+      method: 'balanceOf',
+      args: [deployer.address],
+    }
+    const { result, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractCall(callData, { chainId: ChainId.Localhost }),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
+  })
 })

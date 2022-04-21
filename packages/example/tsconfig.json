@@ -1,6 +1,13 @@
 {
-  "include": ["src", "types"],
+  "include": [
+    "src",
+    "types",
+    "playwright"
+  ],
   "compilerOptions": {
+    "types": [
+      "mocha"
+    ],
     "module": "commonjs",
     "target": "ES2018",
     "moduleResolution": "node",
@@ -11,6 +18,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-  }
+    "allowSyntheticDefaultImports": true
+  },
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../coingecko"
+    }
+  ]
 }

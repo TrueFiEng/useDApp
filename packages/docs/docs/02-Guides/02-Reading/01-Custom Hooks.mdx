@@ -1,0 +1,77 @@
+# Custom Hooks
+
+If the built-in hooks to [read blockchain state](/docs/Getting%20Started/Reading) are not enough for your use case, you can create a custom hook to make a custom call to a smart contract.
+Use ``useCall`` and ``useCalls`` for that purpose.
+
+## Creating custom hook
+
+Creating a custom hook with the use of our core hooks is straightforward, for example let’s examine the *useTokenBalance* hook.
+
+The hook will retrieve a balance of an ERC20 token of the provided address.
+
+```tsx
+  function useTokenBalance(
+    tokenAddress: string | Falsy,
+    address: string | Falsy
+  ) {
+    const { value, error } =
+      useCall(
+        address &&
+          tokenAddress && {
+            contract: new Contract(tokenAddress, ERC20Interface), // instance of called contract
+            method: "balanceOf", // Method to be called
+            args: [address], // Method arguments - address to be checked for balance
+          }
+      ) ?? {};
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
+  }
+```
+
+Another example is useTokenAllowance hook. Instead of balanceOf, we use allowance on ERC20 interface.
+
+```tsx
+  function useTokenAllowance(
+    tokenAddress: string | Falsy,
+    ownerAddress: string | Falsy,
+    spenderAddress: string | Falsy
+  ) {
+    const { value, error } =
+      useCall(
+        ownerAddress &&
+          spenderAddress &&
+          tokenAddress && {
+            contract: new Contract(tokenAddress, ERC20Interface),
+            method: 'allowance',
+            args: [ownerAddress, spenderAddress],
+          }
+      ) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
+  }
+```
+
+The *useCall* hook will take care of updating the balance of new blocks.
+The results are deferred so that the hook does not update too frequently.
+
+In our custom hooks we can use any standard react hooks, custom react hooks and useDapp hooks.
+Rules of hooks apply.
+
+Documentation for hooks is available [here](/docs/API%20Reference/Hooks).
+
+## Using hooks considerations
+
+There are some important considerations when using hooks based on `useRawCall`, `useRawCalls`, `useCall` and `useCalls`.
+
+Avoid using the result of one hook in another.
+This will break single multicall into multiple multicalls.
+It will reduce performance, generate delays, and flickering for the user.
+Instead, try to retrieve needed information in a single call or multiple parallel calls.
+That might require modification of smart contracts.
+If that is too complex consider using a custom backend or [The Graph](https://thegraph.com/).

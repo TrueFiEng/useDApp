@@ -1,18 +1,18 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { RawCall } from '..'
 import { expect } from 'chai'
+import { utils } from 'ethers'
+import { RawCall } from '..'
+import { ChainId } from '../constants/chainId'
+import { encodeCallData } from '../helpers'
 import {
-  renderWeb3Hook,
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
+  renderWeb3Hook,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
+  SECOND_TEST_CHAIN_ID,
 } from '../testing'
-import { encodeCallData } from '../helpers'
-import { ChainId } from '../constants/chainId'
-import { BigNumber } from 'ethers'
-import { useRawCall } from './useRawCalls'
+import { useRawCall, useRawCalls } from './useRawCalls'
 
 describe('useRawCall', () => {
   const mockProvider = new MockProvider()
@@ -42,27 +42,57 @@ describe('useRawCall', () => {
     expect(result.current!.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  it('multichain calls return correct initial balances', async () => {
-    await testMultiChainUseRawCall(token, [deployer.address], ChainId.Localhost, MOCK_TOKEN_INITIAL_BALANCE)
-    await testMultiChainUseRawCall(
-      secondToken,
-      [secondDeployer.address],
-      SECOND_TEST_CHAIN_ID,
-      SECOND_MOCK_TOKEN_INITIAL_BALANCE
-    )
+  it('Works for a different combinations of address casing', async () => {
+    const calls: RawCall[] = [
+      {
+        address: token.address.toLowerCase(),
+        data: token.interface.encodeFunctionData('balanceOf', [deployer.address.toLowerCase()]),
+        chainId: mockProvider.network.chainId,
+      },
+      {
+        address: token.address.toLowerCase(),
+        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(deployer.address)]),
+        chainId: mockProvider.network.chainId,
+      },
+      {
+        address: utils.getAddress(token.address),
+        data: token.interface.encodeFunctionData('balanceOf', [deployer.address.toLowerCase()]),
+        chainId: mockProvider.network.chainId,
+      },
+      {
+        address: utils.getAddress(token.address),
+        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(deployer.address)]),
+        chainId: mockProvider.network.chainId,
+      },
+    ]
+
+    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCalls(calls), {
+      mockProvider,
+    })
+    await waitForCurrent((val) => val !== undefined && val.every((x) => x?.success))
+    expect(result.error).to.be.undefined
+    expect(result.current!.length).to.eq(4)
+    expect(result.current![0]?.success).to.be.true
+    expect(result.current![0]?.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+    expect(result.current![1]?.success).to.be.true
+    expect(result.current![1]?.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+    expect(result.current![2]?.success).to.be.true
+    expect(result.current![2]?.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+    expect(result.current![3]?.success).to.be.true
+    expect(result.current![3]?.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  const testMultiChainUseRawCall = async (contract: Contract, args: string[], chainId: number, endValue: BigNumber) => {
+  it('returns correct initial balance for mainnet', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () =>
         useRawCall(
           encodeCallData(
             {
-              contract,
-              args,
+              contract: token,
+              args: [deployer.address],
               method: 'balanceOf',
             },
-            chainId
+            ChainId.Localhost
           )
         ),
       {
@@ -75,6 +105,32 @@ describe('useRawCall', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current!.success).to.eq(true)
-    expect(result.current!.value).to.eq(endValue)
-  }
+    expect(result.current!.value).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+  })
+
+  it('returns correct initial balance for other chain', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () =>
+        useRawCall(
+          encodeCallData(
+            {
+              contract: secondToken,
+              args: [secondDeployer.address],
+              method: 'balanceOf',
+            },
+            SECOND_TEST_CHAIN_ID
+          )
+        ),
+      {
+        mockProvider: {
+          [ChainId.Localhost]: mockProvider,
+          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
+        },
+      }
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current!.success).to.eq(true)
+    expect(result.current!.value).to.eq(SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+  })
 })

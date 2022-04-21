@@ -29,7 +29,7 @@ export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefine
   }
 
   useEffect(() => {
-    updateGasPrice()
+    void updateGasPrice()
   }, [provider, blockNumber])
 
   return gasPrice

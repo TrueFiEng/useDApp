@@ -1,5 +1,39 @@
 # @usedapp/testing
 
+## 1.0.0
+
+### Major Changes
+
+- 0d2368a: 1.0.0 release
+
+### Patch Changes
+
+- 28287db: 🔝 Update ethers to 5.6.2
+- Updated dependencies [c46b2a1]
+- Updated dependencies [669c1fa]
+- Updated dependencies [0d2368a]
+- Updated dependencies [28287db]
+  - @usedapp/core@1.0.0
+
+## 0.4.3
+
+### Patch Changes
+
+- Updated dependencies [2e4b152]
+- Updated dependencies [3d4cf2c]
+- Updated dependencies [28afc72]
+  - @usedapp/core@0.12.9
+
+## 0.4.2
+
+### Patch Changes
+
+- Updated dependencies [e2d9950]
+- Updated dependencies [2d7b1ec]
+- Updated dependencies [0fd73d1]
+- Updated dependencies [7d4d28b]
+  - @usedapp/core@0.12.8
+
 ## 0.4.1
 
 ### Patch Changes

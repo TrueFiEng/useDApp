@@ -9,6 +9,9 @@
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended"
   ],
+  "plugins": [
+    "no-only-tests"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -18,11 +21,14 @@
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-floating-promises": "error",
     "no-redeclare": "off",
     "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "prefer-const": ["error", {"destructuring": "all"}],
     "semi": ["error", "never"],
     "no-extra-semi": "off",
+    "no-only-tests/no-only-tests": "error",
     "@typescript-eslint/no-extra-semi": "off"
   },
   "overrides": [

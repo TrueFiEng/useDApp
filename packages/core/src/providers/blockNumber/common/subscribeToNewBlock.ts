@@ -1,10 +1,10 @@
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
 
 export function subscribeToNewBlock(
-  provider: JsonRpcProvider | undefined,
+  provider: BaseProvider | undefined,
   chainId: ChainId | undefined,
   dispatch: Dispatch<BlockNumberChanged>
 ) {

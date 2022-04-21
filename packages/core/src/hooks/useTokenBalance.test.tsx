@@ -1,63 +1,61 @@
-import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
 import { expect } from 'chai'
-import {
-  renderWeb3Hook,
-  deployMockToken,
-  MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
-  SECOND_MOCK_TOKEN_INITIAL_BALANCE,
-} from '../testing'
-import { ChainId } from '../constants/chainId'
+import { Wallet } from 'ethers'
+import { Config } from '../constants'
+import { Mainnet } from '../model'
+import { deployMockToken, renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
 import { useTokenBalance } from './useTokenBalance'
-import { BigNumber } from 'ethers'
 
 describe('useTokenBalance', () => {
-  const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
-  const [deployer] = mockProvider.getWallets()
-  const [secondDeployer] = secondMockProvider.getWallets()
-  let token: Contract
-  let secondToken: Contract
+  let network1: TestingNetwork
+  let network2: TestingNetwork
+  let config: Config
 
-  beforeEach(async () => {
-    token = await deployMockToken(deployer)
-    secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+  let token1: Contract
+  let token2: Contract
+
+  const receiver = Wallet.createRandom().address
+
+  before(async () => {
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
+    await network2.wallets[1].sendTransaction({ to: receiver, value: 200 })
+
+    const [deployer] = network1.wallets
+    const [secondDeployer] = network2.wallets
+    token1 = await deployMockToken(deployer)
+    token2 = await deployMockToken(secondDeployer)
+
+    await token1.transfer(receiver, 100)
+    await token2.transfer(receiver, 200)
   })
 
-  it('returns balance', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenBalance(token.address, deployer.address), {
-      mockProvider,
+  it('returns balance for default readonly chain', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(() => useTokenBalance(token1.address, receiver), {
+      config,
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+    expect(result.current).to.eq(100)
   })
 
-  it('multichain calls return correct initial balances', async () => {
-    await testMultiChainUseTokenBalance(deployer.address, token.address, ChainId.Localhost, MOCK_TOKEN_INITIAL_BALANCE)
-    await testMultiChainUseTokenBalance(
-      secondDeployer.address,
-      secondToken.address,
-      SECOND_TEST_CHAIN_ID,
-      SECOND_MOCK_TOKEN_INITIAL_BALANCE
+  it('returns balance for explicitly mainnet', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => useTokenBalance(token1.address, receiver, { chainId: Mainnet.chainId }),
+      { config }
     )
-  })
-
-  const testMultiChainUseTokenBalance = async (
-    user: string,
-    tokenAddress: string,
-    chainId: number,
-    initialBalance: BigNumber
-  ) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useTokenBalance(tokenAddress, user, { chainId }), {
-      mockProvider: {
-        [ChainId.Localhost]: mockProvider,
-        [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-      },
-    })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(initialBalance)
-  }
+    expect(result.current).to.eq(100)
+  })
+
+  it('returns balance for explicitly another chain', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => useTokenBalance(token2.address, receiver, { chainId: SECOND_TEST_CHAIN_ID }),
+      { config }
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(200)
+  })
 })

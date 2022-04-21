@@ -1,5 +1,76 @@
 # @usedapp/core
 
+## 1.0.0
+
+### Major Changes
+
+- 0d2368a: 1.0.0 release
+
+### Minor Changes
+
+- c46b2a1: 🕸️ Add `switchNetwork` to `useEthers`
+
+### Patch Changes
+
+- 669c1fa: 😵‍💫 Export currencyFormattingOptions from model
+- 28287db: 🔝 Update ethers to 5.6.2
+
+## 0.12.9
+
+### Patch Changes
+
+- 2e4b152: Fix race condition in NetworkProvider & fix devtools integration
+- 3d4cf2c: Fix metamask auto-connect behaviour
+- 28afc72: Properly handle unexpected undefined address in useContractCall.
+
+## 0.12.8
+
+### Patch Changes
+
+- e2d9950: Handle different cases of addresses
+- 2d7b1ec: Memoize calldata encoding
+- 0fd73d1: Export readonly networks provider from internal exports
+- 7d4d28b: Optimize getUniqueCalls usage
+
+## 0.12.7
+
+### Patch Changes
+
+- 51377cf: Remove `getAddress` calls due to performance issues
+
+## 0.12.6
+
+### Patch Changes
+
+- 77bb213: Correctly memoize hook results in useContractCalls
+
+## 0.12.5
+
+### Patch Changes
+
+- 42b1652: Make exports from testing and internal point to compiled code
+
+## 0.12.4
+
+### Patch Changes
+
+- fcd1642: Correctly read `chainId` in read-only mode without browser wallet
+- 93967af: Move parts that should be private in @usedapp/core to internal submodule
+- fe1e418: Add `isLoading` to `useEthers` and refactor chainId resolution
+- def0d9c: Properly merge default and supplied configs
+
+## 0.12.3
+
+### Patch Changes
+
+- 30bffcc: Fix queries not working in readonly mode
+
+## 0.12.2
+
+### Patch Changes
+
+- df1adcc: Add support to pass providers in the config
+
 ## 0.12.1
 
 ### Patch Changes

@@ -1,0 +1,101 @@
+# Strong Types With Typescript
+
+`useDapp` by default provides support for [typechain](https://www.npmjs.com/package/typechain). When using typescript, you can generate types for the contracts you use and take advantage of type checking in your code. 
+
+## Typechain usage
+
+To use typechain packages `typechain` and `@typechain/ethers-v5` need to be added to the repository.
+
+```bash npm2yarn
+npm install typechain @typechain/ethers-v5
+```
+
+After that typechain contracts can be generated from the contracts' json ABI with the following command:
+
+```bash npm2yarn
+npm run typechain --target=ethers-v5 [path to json files] --out-dir=[output directory]
+```
+
+The common pattern in this case is to include type generation script into your `package.json` file and invoke it before `build` command.
+```json title="package.json"
+{
+  "scripts": {
+    "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
+    "build": "yarn typechain:generate && <your build script>"
+  }
+}
+```
+In the example above we assume that all of the contracts' ABI definitions are under `src/abi` directory. The generated typescript files will be placed in `gen/types` directory - you'll be able to import them in your code.
+
+## useCall hook
+
+In this section we'll show how to use the `useCall` hook with the generated types. We'll use `Weth10` contract as an example. We'll assume that the `package.json` file contains type generating commands as described in the previous section - that's the `Weth10` contract's ABI is placed in the `src/abi` directory, the generated types are saved to `gen/types`. Let's create a simple component that displays the current `Weth10` balance of the current user.
+
+```tsx title="src/Weth10Balance.tsx"
+import React from 'react'
+
+import { utils } from 'ethers'
+import { Contract } from '@ethersproject/contracts'
+
+import { useCall, useEthers } from '@usedapp/core'
+
+import { Weth10 } from '../../gen/types'
+import WethAbi from '../abi/Weth10.json'
+
+
+const wethInterface = new utils.Interface(WethAbi)
+const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+
+export const Weth10Balance = () => {
+  const { account } = useEthers()
+  const { value, error } = useCall({ contract, method: 'balanceOf', args: [account ?? ''] }) ?? {}
+
+  if (error) {
+    return <div> {error.message} </div>
+  }
+
+  if (!value) {
+    return <div> Loading... </div>
+  }
+  
+  return <div> Balance: {value[0]} </div>
+}
+```
+
+In the code above the variable `value` is of the type `[BigNumber] | undefined`. This is because of the contract type support provided by the `useCall` hook. The `balanceOf` method of the `Weth10` contract returns a single number, but because other smart contracts methods can return tuples of values, it has to be wrapped in a list. The type checking is also performed on the parameters passed to the contract call (`args` prop in the `useCall` hook). You have to pass a list of parameters as specified in contract method declaration with optional last parameter being the `overrides` object (see [the docs](https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend)).
+
+## useContractFunction hook
+
+The `useContractFunction` hook supports type checking as well. Let's create a similar example as in case of `useCall` hook, but this time we'll use the `deposit` method of the `Weth10` contract.
+
+```tsx title="src/DepositWeth.tsx"
+import React from 'react'
+
+import { utils } from 'ethers'
+import { Contract } from '@ethersproject/contracts'
+
+import { useContractFunction } from '@usedapp/core'
+
+import { Weth10 } from '../../gen/types'
+import WethAbi from '../abi/Weth10.json'
+
+
+const wethInterface = new utils.Interface(WethAbi)
+const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+
+export const DepositWeth = () => {
+  const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+  
+  const onDeposit = async () => {
+    await send({ value: utils.parseEther('1') })
+  }
+
+  return (
+    <button onClick={onDeposit}>
+      Deposit 1 ETH
+    </button>
+  );
+}
+```
+
+Here we get the type checking on contract call parameters when calling the `send` function as well as on the function's return type. Typescript will require you to pass parameters of the same type as declared in contract's ABI definition. In the case of the `deposit` method of the `Weth10` contract there are no parameters, but we provide the optional `override` object to specify how much ether we want to send with the transaction. For more info on the `useContractFunction` hook please refere to the [docs](/docs/API%20Reference/Hooks#usecontractfunction).

@@ -9,6 +9,9 @@ export const TransactionsContext = createContext<{
   addTransaction: () => undefined,
 })
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function useTransactionsContext() {
   return useContext(TransactionsContext)
 }

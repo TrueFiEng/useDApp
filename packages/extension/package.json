@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/extension",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "webpack serve --mode development",
@@ -8,16 +8,16 @@
     "build": "tsc --noEmit && rimraf build && webpack --mode production --progress",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "prettier --write . && yarn lint:eslint --fix",
-    "lint:eslint": "eslint './{src, test}/**/*.{ts,tsx}'",
+    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
     "test": "mocha",
     "storybook": "start-storybook -s ./static -p 6006",
     "build-storybook": "build-storybook -s ./static"
   },
   "dependencies": {
-    "@ethersproject/abi": "5.6.0",
-    "@ethersproject/address": "5.6.0",
-    "ethers": "^5.5.4",
+    "@ethersproject/abi": "^5.6.1",
+    "@ethersproject/address": "^5.6.0",
+    "ethers": "^5.6.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "styled-components": "^5.2.1"

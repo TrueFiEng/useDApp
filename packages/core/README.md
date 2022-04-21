@@ -1,5 +1,9 @@
 # useDapp
 
+[![CI](https://github.com/TrueFiEng/useDApp/actions/workflows/CI.yml/badge.svg)](https://github.com/TrueFiEng/useDApp/actions/workflows/CI.yml)
+[![Npm package version](https://badgen.net/npm/v/@usedapp/core)](https://npmjs.com/package/@usedapp/core)
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/ppFxC3E44X)
+
 ### Ethereum 🤝 React 
 Framework for rapid Dapp development.  
 Simple. Robust. Extendable. Testable.

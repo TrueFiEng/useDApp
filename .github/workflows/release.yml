@@ -15,6 +15,9 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+          # This allows the changesets/action step to override the default actions user,
+          # and allow CI jobs on commits coming from that step.
+          persist-credentials: false
 
       - name: Setup Node.js 16.x
         uses: actions/setup-node@master
@@ -45,3 +48,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish dev version to npm
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          pnpm -r --filter "@usedapp/*" exec ${PWD}/scripts/dev-version.sh
+          pnpm run build
+          pnpm -r publish --no-git-checks

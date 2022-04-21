@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "0.0.2",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -23,22 +23,24 @@
     "@docusaurus/core": "2.0.0-beta.17",
     "@docusaurus/preset-classic": "2.0.0-beta.17",
     "@docusaurus/remark-plugin-npm2yarn": "^2.0.0-beta.17",
-    "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/units": "5.6.0",
+    "@ethersproject/contracts": "^5.6.0",
+    "@ethersproject/providers": "^5.6.2",
+    "@ethersproject/units": "^5.6.0",
     "@mdx-js/react": "^1.6.22",
-    "@usedapp/coingecko": "workspace:^0.4.4",
+    "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.5",
     "buffer": "^6.0.3",
     "clsx": "^1.1.1",
     "eslint": "7.19.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "ethers": "^5.5.4",
+    "ethers": "^5.6.2",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "^2.1.2",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-error-boundary": "^3.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",

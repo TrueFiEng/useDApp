@@ -1,4 +1,4 @@
-import { addressEqual, TransactionOptions } from '../../src'
+import { TransactionOptions } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
@@ -7,6 +7,9 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Params, TypedContract } from '../model/types'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: JsonRpcProvider) {
   if (contract.signer) {
     return contract
@@ -42,7 +45,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
       if (receipt?.logs) {
         const events = receipt.logs.reduce((accumulatedLogs, log) => {
           try {
-            return addressEqual(log.address, contract.address)
+            return log.address.toLowerCase() === contract.address.toLowerCase()
               ? [...accumulatedLogs, contract.interface.parseLog(log)]
               : accumulatedLogs
           } catch (_err) {

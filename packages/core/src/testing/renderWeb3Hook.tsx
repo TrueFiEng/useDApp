@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, NetworkProvider, NetworkActivator, MultiChainStateProvider } from '../providers'
+import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider } from '../providers'
 import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
@@ -17,6 +17,21 @@ export interface renderWeb3HookOptions<Tprops> {
   }
 }
 
+/**
+ * A utility function for testing React hooks in useDApp ecosystem.
+ *
+ * It wraps a `renderHook` from `@testing-library/react-hooks`,
+ * adding functionality related to:
+ * - initializing web3 providers,
+ * - auto-deploying multicall,
+ * - adding helpers such as `mineBlock`,
+ * - adding necessary useDApp context providers.
+ *
+ * @public
+ * @param hook Hook under test
+ * @param options Optional options, same as in `renderHook`
+ * @returns Same as in `renderHook`, with additions of helper functions.
+ */
 export const renderWeb3Hook = async <Tprops, TResult>(
   hook: (props: Tprops) => TResult,
   options?: renderWeb3HookOptions<Tprops>
@@ -54,9 +69,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <NetworkProvider>
+      <NetworkProvider providerOverride={defaultProvider}>
         <ReadonlyNetworksProvider providerOverrides={providers}>
-          <NetworkActivator providerOverride={defaultProvider} />
           <BlockNumberProvider>
             <BlockNumbersProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddresses}>

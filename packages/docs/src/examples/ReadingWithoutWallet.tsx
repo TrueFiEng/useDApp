@@ -1,0 +1,31 @@
+import { formatEther } from '@ethersproject/units'
+import { Config, DAppProvider, Mainnet, useEtherBalance } from '@usedapp/core'
+import { getDefaultProvider } from 'ethers'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+
+const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    },
+}
+
+ReactDOM.render(
+    <DAppProvider config={config}>
+      <App />
+    </DAppProvider>,
+    document.getElementById('root')
+)
+
+export function App() {
+  const etherBalance = useEtherBalance(STAKING_CONTRACT)
+
+  return (
+    <div>
+      {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
+    </div>
+  )
+}

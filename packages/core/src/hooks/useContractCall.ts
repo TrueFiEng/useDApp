@@ -1,11 +1,11 @@
 import { Interface } from '@ethersproject/abi'
 import { useMemo } from 'react'
-import { Falsy } from '../model/types'
-import { useChainCalls } from './useChainCalls'
-import { RawCall, useNetwork } from '../providers'
 import { ChainId } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'
-import type { useCall, useCalls } from './useCall'
+import { Falsy } from '../model/types'
+import { RawCall } from '../providers'
+import { useChainCalls } from './useChainCalls'
+import { useChainId } from './useChainId'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -56,12 +56,19 @@ export function useContractCalls(
   calls: (ContractCall | Falsy)[],
   queryParams: QueryParams = {}
 ): (any[] | undefined)[] {
-  const { network } = useNetwork()
-  const chainId = queryParams.chainId ?? network.chainId
+  const chainId = useChainId({ queryParams })
 
-  const results = useChainCalls(
-    calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined))
+  const rawCalls = useMemo(
+    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId) : undefined)),
+    [
+      JSON.stringify(
+        calls.map((call) => call && { address: call.address?.toLowerCase(), method: call.method, args: call.args })
+      ),
+      chainId,
+    ]
   )
+
+  const results = useChainCalls(rawCalls)
 
   return useMemo(
     () =>
@@ -73,6 +80,6 @@ export function useContractCalls(
         }
         return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
       }),
-    [results]
+    [JSON.stringify(results)]
   )
 }

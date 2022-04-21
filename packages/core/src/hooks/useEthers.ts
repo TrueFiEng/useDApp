@@ -1,7 +1,8 @@
-import { useCallback } from 'react'
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
-import { useConfig, useInjectedNetwork, useNetwork } from '../providers'
-import { useLocalStorage } from './useLocalStorage'
+import { getAddress } from 'ethers/lib/utils'
+import { validateArguments } from '../helpers/validateArgument'
+import { useConfig, useNetwork } from '../providers'
+import { useReadonlyNetwork } from './useReadonlyProvider'
 
 type MaybePromise<T> = Promise<T> | any
 
@@ -15,6 +16,9 @@ type SupportedProviders =
  */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
+  /**
+   * @deprecated
+   */
   setError: (error: Error) => void
   deactivate: () => void
   connector: undefined
@@ -24,6 +28,11 @@ export type Web3Ethers = {
   library?: JsonRpcProvider
   active: boolean
   activateBrowserWallet: () => void
+  isLoading: boolean
+  /**
+   * Switch to a different network.
+   */
+  switchNetwork: (chainId: number) => void
 }
 
 /**
@@ -31,12 +40,12 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { provider, chainId, accounts, errors },
+    network: { provider: networkProvider, chainId, accounts, errors },
     deactivate,
     activate,
+    activateBrowserWallet,
+    isLoading,
   } = useNetwork()
-  const { injectedProvider, connect } = useInjectedNetwork()
-  const [, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
 
   const { networks } = useConfig()
   const supportedChainIds = networks?.map((network) => network.chainId)
@@ -47,11 +56,26 @@ export function useEthers(): Web3Ethers {
   unsupportedChainIdError.name = 'UnsupportedChainIdError'
   const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
 
-  const result = {
+  const readonlyNetwork = useReadonlyNetwork()
+  const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
+
+  const switchNetwork = async (chainId: number) => {
+    validateArguments({ chainId }, { chainId: 'number' })
+
+    if (!provider) {
+      throw new Error('Provider not connected.')
+    }
+
+    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+  }
+
+  const account = accounts[0] ? getAddress(accounts[0]) : undefined
+
+  return {
     connector: undefined,
     library: provider,
-    chainId: isUnsupportedChainId ? undefined : chainId,
-    account: accounts[0],
+    chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
+    account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
       if ('getProvider' in providerOrConnector) {
@@ -61,26 +85,16 @@ export function useEthers(): Web3Ethers {
       }
       return activate(providerOrConnector)
     },
-    deactivate: () => {
-      deactivate()
-      setShouldConnectMetamask(false)
-    },
+    activateBrowserWallet,
+    deactivate,
 
     setError: () => {
       throw new Error('setError is deprecated')
     },
 
     error,
+    isLoading,
+
+    switchNetwork,
   }
-
-  const activateBrowserWallet = useCallback(async () => {
-    if (!injectedProvider) {
-      return
-    }
-    await connect()
-    await result.activate(injectedProvider)
-    setShouldConnectMetamask(true)
-  }, [injectedProvider])
-
-  return { ...result, activateBrowserWallet }
 }

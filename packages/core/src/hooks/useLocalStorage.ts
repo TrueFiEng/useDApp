@@ -25,6 +25,9 @@ function setItem(key: string, value: any) {
   }
 }
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export function useLocalStorage(key: string) {
   const [value, setValue] = useState(() => getItem(key))
 

@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/coingecko",
-  "version": "0.4.4",
+  "version": "1.0.0",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -13,8 +13,10 @@
   },
   "devDependencies": {
     "@swc-node/register": "^1.4.2",
+    "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
+    "@types/isomorphic-fetch": "^0.0.36",
     "@types/mocha": "^8.2.0",
     "@types/react": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
@@ -22,16 +24,17 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",
-    "jsdom": "^16.6.0",
+    "jsdom": "^16.7.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
     "prettier": "^2.1.2",
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/providers": "5.6.0",
-    "@usedapp/core": "^0.12.0",
+    "@ethersproject/contracts": "^5.6.0",
+    "@ethersproject/providers": "^5.6.2",
+    "@usedapp/core": "workspace:*",
+    "isomorphic-fetch": "^3.0.0",
     "react": "^17.0.1"
   },
   "scripts": {

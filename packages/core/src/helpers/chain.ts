@@ -1,5 +1,8 @@
 import { DEFAULT_SUPPORTED_CHAINS, ChainId } from '../constants'
 
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
 export const getChainById = (chainId: ChainId) =>
   DEFAULT_SUPPORTED_CHAINS.find((network) => network.chainId === chainId)
 
