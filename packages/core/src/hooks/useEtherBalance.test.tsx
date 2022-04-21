@@ -13,7 +13,7 @@ describe('useEtherBalance', () => {
   let config: Config
   const receiver = Wallet.createRandom().address
 
-  before(async () => {
+  beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
     await network2.wallets[1].sendTransaction({ to: receiver, value: 200 })
@@ -30,6 +30,18 @@ describe('useEtherBalance', () => {
   it('default readonly chain', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver), { config })
     await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(100)
+  })
+
+  it('do not change static value when changing ether value', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver, { isStatic: true }), {
+      config,
+    })
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(100)
+    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
   })
