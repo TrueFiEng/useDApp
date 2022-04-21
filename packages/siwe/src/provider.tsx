@@ -56,7 +56,7 @@ export const SiweProvider = ({ children, backendUrl, siweFetchers }: SiweProvide
         setLoggedIn(true)
       }
     }
-    checkAuthStatus()
+    void checkAuthStatus()
   }, [account, chainId])
 
   const signIn = async (signInOptions?: SignInOptions) => {

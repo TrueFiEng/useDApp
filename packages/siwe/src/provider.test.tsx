@@ -46,7 +46,7 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            activate(network1.provider)
+            void activate(network1.provider)
             }, [])        
             return useSiwe()
         },
@@ -63,7 +63,7 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            activate(network1.provider)
+            void activate(network1.provider)
             }, [])        
             return useSiwe()
         },
@@ -83,7 +83,7 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            activate(network1.provider)
+            void activate(network1.provider)
             }, [])        
             return useSiwe()
         },
