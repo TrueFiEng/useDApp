@@ -17,7 +17,8 @@ export const BobaRinkeby: Chain = {
   isLocalChain: false,
   multicallAddress: '0xC8Ad85fF276fbC1aDF627D9dff0AfD8bdc4C3492',
   getExplorerAddressLink: (address: string) => `https://blockexplorer.rinkeby.boba.network/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://blockexplorer.rinkeby.boba.network/tx/${transactionHash}`,
+  getExplorerTransactionLink: (transactionHash: string) =>
+    `https://blockexplorer.rinkeby.boba.network/tx/${transactionHash}`,
 }
 
 export default {
