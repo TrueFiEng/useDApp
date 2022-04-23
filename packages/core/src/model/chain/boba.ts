@@ -10,6 +10,17 @@ export const Boba: Chain = {
   getExplorerTransactionLink: (transactionHash: string) => `https://blockexplorer.boba.network/tx/${transactionHash}`,
 }
 
+export const BobaRinkeby: Chain = {
+  chainId: 28,
+  chainName: 'BobaRinkeby',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xC8Ad85fF276fbC1aDF627D9dff0AfD8bdc4C3492',
+  getExplorerAddressLink: (address: string) => `https://blockexplorer.rinkeby.boba.network/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://blockexplorer.rinkeby.boba.network/tx/${transactionHash}`,
+}
+
 export default {
   Boba,
+  BobaRinkeby,
 }
