@@ -20,7 +20,9 @@ describe('Boba Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(Boba.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://blockexplorer.boba.network/address/${TEST_ADDRESS}`)
+    expect(Boba.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://blockexplorer.boba.network/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {

@@ -11,5 +11,5 @@ export const Boba: Chain = {
 }
 
 export default {
-  Boba
+  Boba,
 }
