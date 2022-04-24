@@ -1,6 +1,7 @@
 export * from './local'
 // organize imports in alphabet order to sparse the conflict when adding a new chain
 export * from './arbitrum'
+export * from './astar'
 export * from './avalanche'
 export * from './bsc'
 export * from './boba'
