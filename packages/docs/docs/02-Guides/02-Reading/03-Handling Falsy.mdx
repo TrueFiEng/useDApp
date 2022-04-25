@@ -1,0 +1,9 @@
+# Handling Falsy types
+
+`useDapp` supports handling `False`
+
+```tsx
+export type Falsy = false | 0 | '' | null | undefined
+```
+
+If you pass one of these types to call, it will return undefined.
