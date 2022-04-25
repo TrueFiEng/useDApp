@@ -18,3 +18,9 @@ It is possible to access wallet activation errors by checking if `const {error} 
     activateBrowserWallet()
   }
 ```
+
+## Connect to unsupported chain
+
+If supported chains are set, you will get `unsupported chain error` or `missing multichain error` from `const {error} = useEthers()`.
+
+If chainId of custom chain is not added to all chains you will get undefined for all calls and no error will be shown.
