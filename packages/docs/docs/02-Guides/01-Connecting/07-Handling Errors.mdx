@@ -23,4 +23,68 @@ It is possible to access wallet activation errors by checking if `const {error} 
 
 If supported chains are set, you will get `unsupported chain error` or `missing multichain error` from `const {error} = useEthers()`.
 
-If chainId of custom chain is not added to all chains you will get undefined for all calls and no error will be shown.
+**Example**
+
+Setting supported chains:
+
+```tsx
+const config: Config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+  },
+  networks: [Mainnet],
+  multicallVersion: 2 as const,
+}
+```
+
+If chainId of custom chain is not supported by useDapp you will get undefined for all calls and no error will be shown.
+
+The list of default supported useDapp's chains:
+
+```tsx
+export const DEFAULT_SUPPORTED_CHAINS = [
+  Localhost,
+  Hardhat,
+  Avalanche,
+  AvalancheTestnet,
+  Arbitrum,
+  ArbitrumRinkeby,
+  Aurora,
+  AuroraTestnet,
+  Mainnet,
+  Ropsten,
+  Rinkeby,
+  Goerli,
+  Kovan,
+  BSC,
+  BSCTestnet,
+  Cronos,
+  CronosTestnet,
+  Fantom,
+  FantomTestnet,
+  Gnosis,
+  Harmony,
+  Andromeda,
+  Stardust,
+  Moonriver,
+  MoonbaseAlpha,
+  Moonbeam,
+  Palm,
+  PalmTestnet,
+  Polygon,
+  Mumbai,
+  OasisEmerald,
+  OasisEmeraldTestnet,
+  Songbird,
+  Theta,
+  ThetaTestnet,
+  ThunderCore,
+  ThunderCoreTestnet,
+  OptimismKovan,
+  Optimism,
+  Velas,
+  VelasTestnet,
+  ZkSyncTestnet,
+]
+```
