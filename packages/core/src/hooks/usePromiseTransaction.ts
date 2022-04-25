@@ -9,12 +9,12 @@ const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
-  const [state, setState] = useState<TransactionStatus>({ status: 'None' })
+  const [state, setState] = useState<TransactionStatus>({ status: 'None', transactionName: options?.transactionName })
   const { addTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
 
   const resetState = useCallback(() => {
-    setState({ status: 'None' })
+    setState(({ transactionName }) => ({ status: 'None', transactionName }))
   }, [setState])
 
   const promiseTransaction = useCallback(
@@ -22,21 +22,21 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
-        setState({ status: 'PendingSignature', chainId })
+        setState((prevState) => ({ ...prevState, status: 'PendingSignature' }))
 
         transaction = await transactionPromise
 
-        setState({ transaction, status: 'Mining', chainId })
+        setState((prevState) => ({ ...prevState, transaction, status: 'Mining' }))
         addTransaction({
           transaction: {
             ...transaction,
-            chainId: chainId,
+            chainId,
           },
           submittedAt: Date.now(),
           transactionName: options?.transactionName,
         })
         const receipt = await transaction.wait()
-        setState({ receipt, transaction, status: 'Success', chainId })
+        setState((prevState) => ({ ...prevState, status: 'Success' }))
         return receipt
       } catch (e: any) {
         const errorMessage = e.error?.message ?? e.reason ?? e.data?.message ?? e.message
@@ -59,19 +59,20 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
               chainId,
             })
 
-            setState({
+            setState((prevState) => ({
+              ...prevState,
               status,
               transaction: e.replacement,
               originalTransaction: transaction,
               receipt: e.receipt,
+              transactionName: e.replacement?.transactionName,
               errorMessage,
-              chainId,
-            })
+            }))
           } else {
-            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
+            setState((prevState) => ({ ...prevState, status: 'Fail', transaction, receipt: e.receipt, errorMessage }))
           }
         } else {
-          setState({ status: 'Exception', errorMessage, chainId })
+          setState((prevState) => ({ ...prevState, status: 'Exception', errorMessage }))
         }
         return undefined
       }

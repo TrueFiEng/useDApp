@@ -15,7 +15,7 @@ describe('useContractFunction', () => {
 
   it('success', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         mockProvider,
       }
@@ -26,11 +26,12 @@ describe('useContractFunction', () => {
 
     expect(result.current.state.status).to.eq('Success')
     expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+    expect(result.current.state.transactionName).to.eq('Approve')
   })
 
   it('events', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         mockProvider,
       }
@@ -47,11 +48,12 @@ describe('useContractFunction', () => {
     expect(event?.args['owner']).to.eq(deployer.address)
     expect(event?.args['spender']).to.eq(spender.address)
     expect(event?.args['value']).to.eq(BigNumber.from(200))
+    expect(result.current?.state.transactionName).to.eq('Approve')
   })
 
   it('exception (bad arguments)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         mockProvider,
       }
@@ -62,6 +64,7 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Exception')
+    expect(result.current.state.transactionName).to.eq('Approve')
     if (result.current.state.status === 'Exception') {
       expect(result.current.state.errorMessage).to.eq('missing argument: passed to contract')
     }

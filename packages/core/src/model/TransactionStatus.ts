@@ -15,6 +15,7 @@ export interface TransactionStatus {
   chainId?: number
   errorMessage?: string
   originalTransaction?: TransactionResponse
+  transactionName?: string
 }
 
 /**
