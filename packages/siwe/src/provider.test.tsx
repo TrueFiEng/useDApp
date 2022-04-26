@@ -13,10 +13,10 @@ import { expect } from 'chai'
 import { SiweMessage } from 'siwe'
 import 'mock-local-storage'
 
-let store: any = {}
+let store: Record<string, string> = {}
 
 const mockLocalStorage = {
-  getItem: (key: string): string => {
+  getItem: (key: string): string | null => {
     return key in store ? store[key] : null
   },
   setItem: (key: string, value: string) => {
