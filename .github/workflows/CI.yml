@@ -33,9 +33,6 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-      - name: Unzip Chrome Metamask extension
-        run: unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4
-        working-directory: packages/example/playwright/metamask
       - name: Build dependencies
         run: |
           set -e
