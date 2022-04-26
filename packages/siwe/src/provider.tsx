@@ -33,31 +33,12 @@ export interface SiweProviderProps {
 
 export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
-  const [isLoggedIn, setLoggedIn] = useState(false)
-  const [address, setAddress] = useState<string | undefined>(undefined)
-  const [sessionChainId, setSessionChainId] = useState<number | undefined>(undefined)
-  const { getNonce, login, logout, getAuth } = api ?? getFetchers(backendUrl ?? '')
+  const [isLoggedIn, setLoggedIn] = useState(false)  
+  const { getNonce, getAuth } = api ?? getFetchers(backendUrl ?? '')
 
   useEffect(() => {
-    if ((!!account && account !== address) || (!!chainId && chainId !== sessionChainId)) {
-      setLoggedIn(false)
-    }
-  }, [account, chainId])
-
-  useEffect(() => {
-    if (!account) {
-      return
-    }
-    const checkAuthStatus = async () => {
-      const authResponse = await getAuth()
-
-      if (authResponse.ok && authResponse.address === account) {
-        setAddress(authResponse.address)
-        setLoggedIn(true)
-      }
-    }
-    void checkAuthStatus()
-  }, [account, chainId])
+    void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
+  }, [])
 
   const signIn = async (signInOptions?: SignInOptions) => {
     if (!account || !chainId || !library) {
@@ -73,27 +54,18 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       uri: signInOptions?.uri ?? window.location.origin,
       version: '1',
       chainId: chainId,
-      nonce: nonce,
+      nonce,
     }).toMessage()
     const signature = await signer.signMessage(message)
 
-    const loginResponse = await login(signature, message)
+    localStorage.setItem('authToken', JSON.stringify({ signature, message }))
 
-    if (loginResponse.ok) {
-      setSessionChainId(chainId)
-      setAddress(loginResponse.address)
-      setLoggedIn(true)
-    }
+    void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
   }
 
   const signOut = async () => {
-    const logoutResponse = await logout()
-
-    if (logoutResponse.ok) {
-      setLoggedIn(false)
-      setAddress(undefined)
-      setSessionChainId(undefined)
-    }
+    localStorage.removeItem('authToken')
+    setLoggedIn(false)
   }
 
   const value = {

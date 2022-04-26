@@ -23,6 +23,8 @@
     "react": "*"
   },
   "dependencies": {
+    "@types/jsdom-global": "^3.0.2",
+    "mock-local-storage": "^1.1.20",
     "siwe": "^1.1.6"
   },
   "devDependencies": {
