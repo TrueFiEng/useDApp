@@ -37,14 +37,15 @@ jobs:
         run: |
           set -e
           cd core && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
         working-directory: packages
       - name: Run playwright
         run: |
           set -e
-          pnpm run start &
-          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
+          pnpm start &
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
@@ -64,6 +65,7 @@ jobs:
         run: |
           set -e
           cd core && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
         working-directory: packages
