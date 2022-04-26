@@ -169,25 +169,31 @@ importers:
       '@ethersproject/units': ^5.6.0
       '@mdx-js/react': ^1.6.22
       '@tsconfig/docusaurus': ^1.0.4
+      '@types/mocha': ^8.2.0
       '@types/react': ^17.0.40
       '@types/webpack': ^5.28.0
       '@typescript-eslint/eslint-plugin': ^4.10.0
       '@typescript-eslint/parser': ^4.10.0
       '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
+      '@usedapp/playwright': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
       clsx: ^1.1.1
       eslint: 7.19.0
       eslint-plugin-react-hooks: ^4.3.0
       ethers: ^5.6.2
+      mocha: ^8.2.1
       node-polyfill-webpack-plugin: ^1.1.4
+      playwright: ^1.20.2
       prettier: ^2.1.2
       prism-react-renderer: ^1.2.1
       react: ^17.0.1
       react-dom: ^17.0.1
       react-error-boundary: ^3.1.4
+      ts-node: ^10.7.0
       typescript: ^4.6.2
+      wait-for-expect: ^3.0.2
     dependencies:
       '@algolia/client-search': 4.12.2
       '@docusaurus/core': 2.0.0-beta.17_72930604384df1a714c28d463cf7f2a1
@@ -215,11 +221,17 @@ importers:
       '@babel/core': 7.17.5
       '@docusaurus/module-type-aliases': 2.0.0-beta.17_react-dom@17.0.2+react@17.0.2
       '@tsconfig/docusaurus': 1.0.4
+      '@types/mocha': 8.2.3
       '@types/react': 17.0.40
       '@types/webpack': 5.28.0
       '@typescript-eslint/eslint-plugin': 4.33.0_95407711204725ba8d2ef915af8a79e5
       '@typescript-eslint/parser': 4.33.0_eslint@7.19.0+typescript@4.6.2
+      '@usedapp/playwright': link:../playwright
+      mocha: 8.4.0
+      playwright: 1.20.2
+      ts-node: 10.7.0_typescript@4.6.2
       typescript: 4.6.2
+      wait-for-expect: 3.0.2
 
   packages/example:
     specifiers:
@@ -240,6 +252,7 @@ importers:
       '@types/styled-components': ^5.1.7
       '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
+      '@usedapp/playwright': workspace:*
       '@walletconnect/web3-provider': ^1.7.1
       '@web3-react/walletconnect-connector': 6.2.4
       chai: ^4.2.0
@@ -303,6 +316,7 @@ importers:
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.13
       '@types/react-router-dom': 5.3.3
+      '@usedapp/playwright': link:../playwright
       chai: 4.3.6
       copy-webpack-plugin: 6.4.1_webpack@4.46.0
       esbuild-loader: 2.18.0_webpack@4.46.0
@@ -392,6 +406,25 @@ importers:
       webpack: 4.46.0_webpack-cli@4.9.2
       webpack-cli: 4.9.2_9c6227b1f4ab411ec71902ed1b15f9d5
       webpack-dev-server: 3.11.3_webpack-cli@4.9.2+webpack@4.46.0
+
+  packages/playwright:
+    specifiers:
+      '@types/debug': ^4.1.7
+      debug: ^4.3.4
+      eslint: 7.19.0
+      playwright: ^1.20.2
+      prettier: ^2.0.5
+      rimraf: ^3.0.2
+      typescript: ^4.6.2
+    dependencies:
+      debug: 4.3.4
+    devDependencies:
+      '@types/debug': 4.1.7
+      eslint: 7.19.0
+      playwright: 1.20.2
+      prettier: 2.3.0
+      rimraf: 3.0.2
+      typescript: 4.6.2
 
   packages/testing:
     specifiers:
@@ -739,7 +772,7 @@ packages:
       '@babel/helper-module-imports': 7.16.7
       '@babel/helper-plugin-utils': 7.16.7
       '@babel/traverse': 7.17.3
-      debug: 4.3.3
+      debug: 4.3.4
       lodash.debounce: 4.0.8
       resolve: 1.22.0
       semver: 6.3.0
@@ -757,7 +790,7 @@ packages:
       '@babel/helper-module-imports': 7.16.7
       '@babel/helper-plugin-utils': 7.16.7
       '@babel/traverse': 7.17.3
-      debug: 4.3.3
+      debug: 4.3.4
       lodash.debounce: 4.0.8
       resolve: 1.22.0
       semver: 6.3.0
@@ -10034,7 +10067,7 @@ packages:
     dependencies:
       globby: 11.0.4
       graceful-fs: 4.2.9
-      is-glob: 4.0.1
+      is-glob: 4.0.3
       is-path-cwd: 2.2.0
       is-path-inside: 3.0.3
       p-map: 4.0.0
@@ -12595,7 +12628,7 @@ packages:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
     dependencies:
-      is-glob: 4.0.1
+      is-glob: 4.0.3
 
   /glob-parent/6.0.2:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
@@ -13859,6 +13892,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       is-extglob: 2.1.1
+    dev: true
 
   /is-glob/4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
@@ -20558,6 +20592,36 @@ packages:
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
       '@types/node': 17.0.21
+      acorn: 8.7.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.6.2
+      v8-compile-cache-lib: 3.0.0
+      yn: 3.1.1
+    dev: true
+
+  /ts-node/10.7.0_typescript@4.6.2:
+    resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
       acorn: 8.7.0
       acorn-walk: 8.2.0
       arg: 4.1.3

@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import { Browser, BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { baseUrl, headless, slowMo, XPath } from './utils'
-import { addPageDiagnostics } from './utils/pageDiagnostics'
+import { headless, slowMo, XPath, addPageDiagnostics } from '@usedapp/playwright'
+import { baseUrl } from './constants'
 
 describe(`Browser: ${browserType.name()} without Metamask`, () => {
   let page: Page

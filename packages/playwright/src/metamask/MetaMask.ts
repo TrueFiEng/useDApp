@@ -1,7 +1,8 @@
-import { expect } from 'chai'
+import debug from 'debug'
 import { Page } from 'playwright'
-import { log, XPath } from '../utils'
-import waitForExpect from 'wait-for-expect'
+import { XPath } from '../xpath'
+
+export const log = debug('usedapp:playwright')
 
 export class MetaMask {
   constructor(private page: Page) {}
@@ -38,9 +39,8 @@ export class MetaMask {
     await this.page.click(XPath.text('button', 'Next'))
     await this.page.click(XPath.text('button', 'Remind me later')) // Recovery phrase.
 
-    await waitForExpect(async () => {
-      expect(await this.page.isVisible('xpath=//h2[contains(text(), "What\'s new")]')) // Onboarding went through.
-    })
+    await this.page.waitForSelector('xpath=//h2[contains(text(), "What\'s new")]', { state: 'visible' })
+
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
   }

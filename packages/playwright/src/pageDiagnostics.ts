@@ -1,4 +1,4 @@
-import { Page } from 'playwright'
+import type { Page } from 'playwright'
 
 /**
  * The logs in the browser that we chose to ignore.
