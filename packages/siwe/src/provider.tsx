@@ -26,17 +26,17 @@ export interface SignInOptions {
 }
 
 export interface SiweProviderProps {
-  backendUrl: string
+  backendUrl?: string
   children?: ReactNode
-  siweFetchers?: SiweFetchers
+  api?: SiweFetchers
 }
 
-export const SiweProvider = ({ children, backendUrl, siweFetchers }: SiweProviderProps) => {
+export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [address, setAddress] = useState<string | undefined>(undefined)
   const [sessionChainId, setSessionChainId] = useState<number | undefined>(undefined)
-  const { getNonce, login, logout, getAuth } = siweFetchers ?? getFetchers(backendUrl)
+  const { getNonce, login, logout, getAuth } = api ?? getFetchers(backendUrl ?? '')
 
   useEffect(() => {
     if ((!!account && account !== address) || (!!chainId && chainId !== sessionChainId)) {

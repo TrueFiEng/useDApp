@@ -27,14 +27,14 @@ const testSiweFetchers = (account: string): SiweFetchers => {
 
 describe('siwe provider tests', async () => {
     let config: Config
-    let network1: TestingNetwork
+    let network: TestingNetwork
 
     before(async () => {
-        ;({ config, network1 } = await setupTestingConfig())
+        ;({ config, network1: network } = await setupTestingConfig())
     })
 
     it('return initialized values', async () => {
-        const { result, waitForCurrent } = await renderSiweHook(() => useSiwe(), { config, siweFetchers: testSiweFetchers(network1.provider.getWallets()[0].address), })
+        const { result, waitForCurrent } = await renderSiweHook(() => useSiwe(), { config, siweFetchers: testSiweFetchers(network.provider.getWallets()[0].address), })
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
         expect(result.current.isLoggedIn).to.be.false
@@ -46,13 +46,13 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            void activate(network1.provider)
+            void activate(network.provider)
             }, [])        
             return useSiwe()
         },
         {
             config, 
-            siweFetchers: testSiweFetchers(network1.provider.getWallets()[0].address),
+            siweFetchers: testSiweFetchers(network.provider.getWallets()[0].address),
         })
         await waitForCurrent((val) => val.isLoggedIn)
         expect(result.error).to.be.undefined
@@ -63,13 +63,13 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            void activate(network1.provider)
+            void activate(network.provider)
             }, [])        
             return useSiwe()
         },
         {
             config, 
-            siweFetchers: testSiweFetchers(network1.provider.getWallets()[0].address),
+            siweFetchers: testSiweFetchers(network.provider.getWallets()[0].address),
         })
         await waitForCurrent((val) => val.isLoggedIn)
         expect(result.error).to.be.undefined
@@ -83,20 +83,20 @@ describe('siwe provider tests', async () => {
         const { result, waitForCurrent } = await renderSiweHook(() => {
             const { activate } = useEthers()
             useEffect(() => {
-            void activate(network1.provider)
+            void activate(network.provider)
             }, [])        
             return useSiwe()
         },
         {
             config, 
             siweFetchers: {
-                ...testSiweFetchers(network1.provider.getWallets()[0].address),
+                ...testSiweFetchers(network.provider.getWallets()[0].address),
                 getAuth: async (): Promise<AuthResponse> => ({
-                    address: network1.wallets[1].address,
+                    address: network.wallets[1].address,
                     ok: true,
                 }),
                 login: async (): Promise<AuthResponse> => ({
-                    address: network1.provider.getWallets()[0].address,
+                    address: network.provider.getWallets()[0].address,
                     ok: true,
                 }),
             },
@@ -127,7 +127,7 @@ const renderSiweHook = async <Tprops, TResult>(
     const { result, waitForNextUpdate, rerender, unmount } = await renderDAppHook<Tprops, TResult>(hook, {
           renderHook: {
             wrapper: (wrapperProps) => (
-                <SiweProvider backendUrl={''} siweFetchers={options?.siweFetchers}>
+                <SiweProvider backendUrl={''} api={options?.siweFetchers}>
                   <UserWrapper {...wrapperProps} />
                 </SiweProvider>
             ),
@@ -143,4 +143,4 @@ const renderSiweHook = async <Tprops, TResult>(
       waitForNextUpdate,
       ...getWaitUtils(result),
     }
-  }
+}
