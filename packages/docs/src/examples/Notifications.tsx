@@ -32,7 +32,7 @@ export function App() {
         const { status } = state
 
         const wrapEther = () => {
-            send({ value: 1 })
+            void send({ value: 1 })
         }
 
         return (        

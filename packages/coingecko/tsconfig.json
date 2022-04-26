@@ -14,5 +14,10 @@
   "include": [
     "src",
     "src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    }
   ]
 }

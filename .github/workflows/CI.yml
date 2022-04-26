@@ -18,10 +18,10 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm i -g pnpm@6.20.3
-    - run: pnpm install --frozen-lockfile
-    - run: yarn lint
-    - run: yarn build
-    - run: yarn test
+    - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+    - run: pnpm run lint
+    - run: pnpm run build
+    - run: pnpm run test
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
         run: |
           set -e
@@ -43,7 +43,7 @@ jobs:
       - name: Run playwright
         run: |
           set -e
-          yarn start &
+          pnpm run start &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
         run: |
           set -e

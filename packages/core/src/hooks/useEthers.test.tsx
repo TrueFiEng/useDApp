@@ -45,7 +45,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          activate(network2.provider)
+          void activate(network2.provider)
         }, [])
 
         return useEthers()
@@ -63,7 +63,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          activate(network2.provider)
+          void activate(network2.provider)
         }, [])
 
         return useEthers()
