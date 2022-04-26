@@ -52,7 +52,11 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     const popupPage = await popupPromise
 
     await popupPage.click(XPath.text('button', 'Next'))
+    const pages = context.pages().length
     await popupPage.click(XPath.text('button', 'Connect'))
+    await waitForExpect(() => {
+      expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
+    })
     log('Metamask connected to the app.')
   })
 
