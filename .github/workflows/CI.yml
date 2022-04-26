@@ -33,15 +33,17 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@6.20.3
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-      - name: Build core
-        run: pnpm build
-        working-directory: packages/core
-      - name: Build coingecko
-        run: pnpm build
-        working-directory: packages/coingecko
       - name: Unzip Chrome Metamask extension
         run: unzip metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4
         working-directory: packages/example/playwright/metamask
+      - name: Build dependencies
+        run: |
+          set -e
+          cd core && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
+          cd coingecko && pnpm run build && cd -
+          cd playwright && pnpm run build && cd -
+        working-directory: packages
       - name: Run playwright
         run: |
           set -e
@@ -51,3 +53,32 @@ jobs:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/example
+  test-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@6.20.3
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Build dependencies
+        run: |
+          set -e
+          cd core && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
+          cd coingecko && pnpm run build && cd -
+          cd playwright && pnpm run build && cd -
+        working-directory: packages
+      - name: Run playwright
+        run: |
+          set -e
+          yarn start &
+          sleep 15
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DEBUG: usedapp*
+        working-directory: packages/docs

@@ -41,6 +41,7 @@ import {
   Optimism,
   Velas,
   VelasTestnet,
+  ZkSyncTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -86,6 +87,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Optimism,
   Velas,
   VelasTestnet,
+  ZkSyncTestnet,
 ]
 
 export enum ChainId {
@@ -131,4 +133,5 @@ export enum ChainId {
   AuroraTestnet = 1313161555,
   Velas = 106,
   VelasTestnet = 111,
+  ZkSyncTestnet = 280,
 }

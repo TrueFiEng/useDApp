@@ -1,9 +1,18 @@
+import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { MetaMask, metamaskChromeArgs as args } from './metamask'
-import { baseUrl, slowMo, XPath, log } from './utils'
-import { addPageDiagnostics } from './utils/pageDiagnostics'
+import {
+  slowMo,
+  XPath,
+  addPageDiagnostics,
+  MetaMask,
+  metamaskChromeArgs as args,
+  waitForPopup
+} from '@usedapp/playwright'
+import {baseUrl} from './constants'
+
+const log = debug('usedapp:docs:playwright')
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
   let page: Page
@@ -36,31 +45,36 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
   before(async () => {
     log('Connecting Metamask to the app...')
-    await page.goto(`${baseUrl}balance`)
+    await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
-    const pages = context.pages().length
+    const popupPromise = waitForPopup(context)
     await page.click(XPath.text('button', 'Connect'))
-    await waitForExpect(() => {
-      expect(context.pages().length).to.be.equal(pages + 1)
-    })
-    const popupPage = context.pages()[context.pages().length - 1]
+    const popupPage = await popupPromise
 
     await popupPage.click(XPath.text('button', 'Next'))
+    const pages = context.pages().length
     await popupPage.click(XPath.text('button', 'Connect'))
+    await waitForExpect(() => {
+      expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
+    })
     log('Metamask connected to the app.')
   })
 
-  describe('Balance', () => {
-    it('Reads the ETH2 staking contract and account balance', async () => {
-      await page.goto(`${baseUrl}balance`)
+  describe('Guides/Transactions', () => {
+    it('Switches networks', async () => {
+      await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
 
+      const popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Switch to Rinkeby'))
+      const popupPage = await popupPromise
+      await popupPage.click(XPath.text('button', 'Switch network'))
+
       await waitForExpect(async () => {
-        expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
-        expect(await page.isVisible(XPath.text('span', 'Ether balance:'))).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
       })
     })
   })
