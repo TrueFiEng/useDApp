@@ -7,5 +7,5 @@ cd $(dirname "$0")/..
 jsdoc2md -c jsdoc.config.json \
   --no-cache --no-gfm \
   --partial generate/description.hbs \
-  --files ../core/src/**/*useCall.ts \
+  --files ../core/src/**/*.{ts,tsx} \
   > docs/04-api.mdx
