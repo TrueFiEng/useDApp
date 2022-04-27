@@ -1,0 +1,7 @@
+{{!--
+The override adds `Summary` markdown because otherwise,
+description is wrapped in <p></p> and markdown links are not properly recognized inside.
+ --}}
+{{#if description}}**Summary**: {{{inlineLinks description}}}
+
+{{/if}}
