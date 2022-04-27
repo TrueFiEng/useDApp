@@ -15,6 +15,11 @@
     "ignore": ["**/*.(test|spec).ts"],
     "babelrc": false,
 	"presets": [["@babel/preset-env", { "targets": { "node": true } }], "@babel/preset-typescript"],
-    "plugins": ["@babel/proposal-class-properties", "@babel/proposal-object-rest-spread"]
+    "plugins": [
+      "@babel/proposal-class-properties",
+      "@babel/proposal-object-rest-spread",
+      ["@babel/plugin-proposal-private-property-in-object", { "loose": false }],
+      ["@babel/plugin-proposal-private-methods", { "loose": false }]
+    ]
   }
 }
