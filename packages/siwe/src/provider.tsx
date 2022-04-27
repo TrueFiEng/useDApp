@@ -8,14 +8,14 @@ export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
   signOut: () => void
   isLoggedIn: boolean
-  token: string | undefined
+  authToken: string | undefined
 }
 
 const SiweContext = createContext<SiweContextValue>({
   signIn: () => undefined,
   signOut: () => undefined,
   isLoggedIn: false,
-  token: undefined,
+  authToken: undefined,
 })
 
 export function useSiwe() {
@@ -37,7 +37,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)  
   const { getNonce, getAuth } = api ?? getFetchers(backendUrl ?? '')
-  const [token, setToken] = useState<string | undefined>(undefined)
+  const [authToken, setAuthToken] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
@@ -62,7 +62,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     const signature = await signer.signMessage(message)
 
     localStorage.setItem('authToken', JSON.stringify({ signature, message }))
-    setToken(JSON.stringify({ signature, message }))
+    setAuthToken(JSON.stringify({ signature, message }))
 
     void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
   }
@@ -70,14 +70,14 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const signOut = async () => {
     localStorage.removeItem('authToken')
     setLoggedIn(false)
-    setToken(undefined)
+    setAuthToken(undefined)
   }
 
   const value = {
     signIn,
     signOut,
     isLoggedIn,
-    token,
+    authToken,
   }
 
   return <SiweContext.Provider value={value} children={children} />
