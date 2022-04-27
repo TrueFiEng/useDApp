@@ -11,7 +11,7 @@ import { MultiChainState } from '../providers/chainState/multiChainStates/contex
  * Calls will be combined into a single multicall across all uses of useChainCall, useChainCalls, useRawCall and useRawCalls.
  * It is recommended to use useCalls where applicable instead of this method.
  * @param calls List of calls, also see {@link ChainCall}. Calls need to be in the same order across component renders.
- * @returns
+ * @returns results of multicall calls.
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
