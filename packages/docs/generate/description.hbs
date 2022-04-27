@@ -1,7 +1,8 @@
 {{!--
-The override adds `Summary` markdown because otherwise,
-description is wrapped in <p></p> and markdown links are not properly recognized inside.
+Inline links is removed here.
+Links are handled automatically by docusaurus so no need to
+try and transform them using jsdoc2md.
  --}}
-{{#if description}}**Summary**: {{{inlineLinks description}}}
+{{#if description}}{{{description}}}
 
 {{/if}}
