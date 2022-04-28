@@ -43,9 +43,7 @@ export {
   getStoredTransactionState,
   multicall,
   multicall2,
-  useConfig,
   useNetwork,
-  useUpdateConfig,
 } from './providers'
 export {
   Call,
@@ -56,6 +54,8 @@ export {
   useBlockNumbers,
   useCall,
   useCalls,
+  useConfig,
+  useUpdateConfig,
   useContractCall,
   useContractCalls,
   useChainCall,
