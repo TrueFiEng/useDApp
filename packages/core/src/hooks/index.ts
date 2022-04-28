@@ -1,4 +1,6 @@
 export * from './useBlockMeta'
+export * from './useBlockNumber'
+export * from './useBlockNumbers'
 export * from './useChainCalls'
 export * from './useDebounce'
 export * from './useDebouncePair'

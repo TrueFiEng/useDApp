@@ -1,5 +1,6 @@
 export * from './DAppProvider'
 export * from './blockNumber/blockNumber'
+export * from './blockNumber/blockNumbers'
 export * from './chainState'
 export * from './config'
 export * from './network/network'
