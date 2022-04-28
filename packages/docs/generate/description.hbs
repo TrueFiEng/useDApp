@@ -1,7 +1,10 @@
 {{!--
-The override adds `Summary` markdown because otherwise,
+The override adds a markdown text prefix because otherwise,
 description is wrapped in <p></p> and markdown links are not properly recognized inside.
+
+Additionaly, @link links are NOT processed,
+because it does not work properly for cross-page links
  --}}
-{{#if description}}**Summary**: {{{inlineLinks description}}}
+{{#if description}}**Description**: {{{description}}}
 
 {{/if}}
