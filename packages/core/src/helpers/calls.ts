@@ -54,6 +54,7 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
 
 /**
  * @public
+ * Result of a multicall call.
  */
 export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
   | { value: Awaited<ReturnType<T['functions'][MN]>>; error: undefined }
