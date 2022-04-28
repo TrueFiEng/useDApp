@@ -46,7 +46,7 @@ const testSiweFetchers = (address: string): SiweFetchers => {
         chainId: 1,
         nonce: '4ipxY6MVdjy6mbNm8',
       }),
-      ok: true,
+      loggedIn: true,
     }),
   }
 }
@@ -80,7 +80,7 @@ describe('siwe provider tests', async () => {
         const { activate } = useEthers()
         useEffect(() => {
           void activate(network.provider)
-        }, [])
+        }, [activate])
         return useSiwe()
       },
       {
@@ -99,7 +99,7 @@ describe('siwe provider tests', async () => {
         const { activate } = useEthers()
         useEffect(() => {
           void activate(network.provider)
-        }, [])
+        }, [activate])
         return useSiwe()
       },
       {
