@@ -10,7 +10,7 @@ jsdoc2md -c jsdoc.config.json \
   --partial "generate/*.hbs" \
   --files '../core/src/**/hooks/**/*.{ts,tsx}' \
   --global-index-format none \
-  --param-list-format list \
+  --param-list-format table \
   > "docs/03-API Reference/08-Hooks-generated.mdx"
 
 ts-node -r ts-node/register/transpile-only \

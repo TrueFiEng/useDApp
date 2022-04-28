@@ -23,8 +23,8 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * Result will be typed as well.
  *
  * @param call a single call to a contract , also see {@link Call}
- * @returns The hook returns {@link CallResult} type.
- *          That is: undefined when call didn't return yet or a object { value | error } if it did,
+ * @returns {CallResult} The hook returns {@link CallResult} type.
+ *          That is: undefined when call didn't return yet or a object { value, error } if it did,
  *          value: any[] | undefined - array of results or undefined if error occurred,
  *          error: Error | undefined - encountered error or undefined if call was successful.
  */
@@ -41,7 +41,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * A syntax sugar for useRawCalls that uses ABI, function name, and arguments instead of raw data.
  * @param calls a list of contract calls , also see {@link Call}.
  * @param queryParams see {@link QueryParams}.
- * @returns a list of results (see {@link CallResult} in {@link useCall} above).
+ * @returns {CallResult[]} a list of results (see {@link CallResult} in {@link useCall} above).
  */
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
   const chainId = useChainId({ queryParams })

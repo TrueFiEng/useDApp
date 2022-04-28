@@ -9,9 +9,11 @@ const map = {
 }
 
 const replaced = hooks
-  .replaceAll('{@link Call}', `[Call](${map['Call']})`)
-  .replaceAll('{@link QueryParams', '`QueryParams`')
-  .replaceAll('{@link ChainCall', '`ChainCall`')
-  .replaceAll('{@link RawCall', '`RawCall`')
+  .replaceAll('{@link Call}', `<a href="${map['Call']}">Call</a>`)
+  .replaceAll('{@link QueryParams}', '<code>QueryParams</code>')
+  .replaceAll('{@link ChainCall}', '`ChainCall`')
+  .replaceAll('{@link RawCall}', '`RawCall`')
+  .replaceAll('{@link CallResult}', '`CallResult`')
+  .replaceAll('{@link useCall}', '`useCall`')
 
 fs.writeFileSync(filename, replaced)
