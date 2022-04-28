@@ -5,7 +5,7 @@ export const BobaRinkeby: Chain = {
   chainName: 'BobaRinkeby',
   isTestChain: true,
   isLocalChain: false,
-  multicallAddress: '0xf2804f75a87306F1e874C131eB9abC904615ef9F',
+  multicallAddress: '0x5884497d4fB74CD2D787bD0B4d02D326D6fD925E',
   getExplorerAddressLink: (address: string) => `https://blockexplorer.rinkeby.boba.network/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) =>
     `https://blockexplorer.rinkeby.boba.network/tx/${transactionHash}`,
@@ -16,7 +16,7 @@ export const Boba: Chain = {
   chainName: 'Boba',
   isTestChain: false,
   isLocalChain: false,
-  multicallAddress: '0x344696b815742A3E31181207e027e5110e2A0f74',
+  multicallAddress: '0xfff0fAf13fA05B55c996821d4cA9E0541C8fa365',
   getExplorerAddressLink: (address: string) => `https://blockexplorer.boba.network/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://blockexplorer.boba.network/tx/${transactionHash}`,
 }
