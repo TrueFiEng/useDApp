@@ -7,7 +7,7 @@ export interface NonceResponse {
 
 export interface AuthResponse {
   message: SiweMessage
-  ok: boolean
+  loggedIn: boolean
 }
 
 export interface SiweFetchers {
@@ -21,7 +21,6 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
       const token = localStorage.getItem('authToken')
 
       const authRequest = await fetch(`${backendUrl}/siwe/me`, {
-        method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -39,7 +38,6 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
     
       return {
         ...nonceResponse,
-        ...nonceRequest,
       } as NonceResponse
     }
   }

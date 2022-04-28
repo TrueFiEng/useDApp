@@ -35,13 +35,14 @@ export interface SiweProviderProps {
 
 export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
-  const [isLoggedIn, setLoggedIn] = useState(false)  
+  const [isLoggedIn, setLoggedIn] = useState(false)
   const { getNonce, getAuth } = api ?? getFetchers(backendUrl ?? '')
   const [authToken, setAuthToken] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
-  }, [])
+    setAuthToken(localStorage.getItem('authToken') ?? undefined)
+    void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
+  }, [getAuth])
 
   const signIn = async (signInOptions?: SignInOptions) => {
     if (!account || !chainId || !library) {
@@ -56,15 +57,17 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       statement: 'Sign in with Ethereum.',
       uri: signInOptions?.uri ?? window.location.origin,
       version: '1',
-      chainId: chainId,
+      chainId,
       nonce,
-    }).toMessage()
-    const signature = await signer.signMessage(message)
+    })
+    const signature = await signer.signMessage(message.prepareMessage())
+  
+    const session = JSON.stringify({ signature, message })
 
-    localStorage.setItem('authToken', JSON.stringify({ signature, message }))
-    setAuthToken(JSON.stringify({ signature, message }))
+    localStorage.setItem('authToken', session)
+    setAuthToken(session)
 
-    void getAuth().then((res) => res.ok ? setLoggedIn(true) : undefined)
+    void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
   }
 
   const signOut = async () => {
