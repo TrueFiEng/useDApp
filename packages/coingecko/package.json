@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/coingecko",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
