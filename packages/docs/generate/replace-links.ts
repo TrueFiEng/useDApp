@@ -11,7 +11,7 @@ const map = {
 const link = (value: string) => `{@link ${value}}`
 const code = (value: string) => `<code>${value}</code>`
 
-const replaced = hooks
+let replaced = hooks
   .replaceAll(link('Call'), `<a href="${map['Call']}">Call</a>`)
   .replaceAll(link('QueryParams'), code('QueryParams'))
   .replaceAll(link('ChainCall'), code('ChainCall'))
@@ -27,5 +27,10 @@ const replaced = hooks
   .replaceAll(link('RawCallResult'), code('RawCallResult'))
   .replaceAll(link('useContractFunction'), code('useContractFunction'))
   .replaceAll(link('useSendTransaction'), code('useSendTransaction'))
+
+replaced = replaced
+  .replaceAll('<pre class="prettyprint source"><code>', "\n```\n")
+  .replaceAll('<pre class="prettyprint source lang-ts"><code>', "\n```tsx\n")
+  .replaceAll('</code></pre>', '```')
 
 fs.writeFileSync(filename, replaced)
