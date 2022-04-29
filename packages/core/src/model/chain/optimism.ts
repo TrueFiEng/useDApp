@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const testnetExplorerUrl = 'https://kovan-optimistic.etherscan.io'
 
 export const OptimismKovan: Chain = {
   chainId: 69,
@@ -6,10 +9,13 @@ export const OptimismKovan: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xE71bf4622578c7d1526A88CD3060f03030E99a04',
-  getExplorerAddressLink: (address: string) => `https://kovan-optimistic.etherscan.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://kovan-optimistic.etherscan.io/tx/${transactionHash}`,
+  rpcProviderUrl: 'https://kovan.optimism.io',
+  blockExplorerUrl: testnetExplorerUrl,
+  getExplorerAddressLink: getAddressLink(testnetExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(testnetExplorerUrl),
 }
+
+const optimismExplorerUrl = 'https://optimistic.etherscan.io'
 
 export const Optimism: Chain = {
   chainId: 10,
@@ -17,8 +23,10 @@ export const Optimism: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7',
-  getExplorerAddressLink: (address: string) => `https://optimistic.etherscan.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://optimistic.etherscan.io/tx/${transactionHash}`,
+  rpcProviderUrl: 'https://mainnet.optimism.io',
+  blockExplorerUrl: optimismExplorerUrl,
+  getExplorerAddressLink: getAddressLink(optimismExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(optimismExplorerUrl),
 }
 
 export default {
