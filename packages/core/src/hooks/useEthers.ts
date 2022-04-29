@@ -1,5 +1,6 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { getAddress } from 'ethers/lib/utils'
+import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { useConfig, useNetwork } from '../providers'
 import { useReadonlyNetwork } from './useReadonlyProvider'
@@ -73,14 +74,7 @@ export function useEthers(): Web3Ethers {
       if (error.code === errChainNotAddedYet) {
         const chain = networks?.find((chain) => chain.chainId === chainId)
         if (chain?.rpcUrl && chain.blockExplorerUrl) {
-          await provider.send('wallet_addEthereumChain', [
-            {
-              chainId: `0x${chainId.toString(16)}`,
-              chainName: chain.chainName,
-              rpcUrls: [chain.rpcUrl],
-              blockExplorerUrls: [chain.blockExplorerUrl],
-            },
-          ])
+          await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
         }
       }
     }
