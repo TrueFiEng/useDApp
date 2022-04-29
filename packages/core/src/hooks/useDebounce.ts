@@ -2,7 +2,16 @@ import { useEffect, useState } from 'react'
 
 // modified from https://usehooks.com/useDebounce/
 /**
+ * Debounce a value of type T.
+ * It stores a single value but returns after debounced time unless a new value is assigned before the debounce time elapses, in which case the process restarts.
+ * @param {T} value variable to be debounced
+ * @param {number} delay debounce time - amount of time in ms.
  * @internal Intended for internal use - use it on your own risk
+ * @returns {T} debounced value
+ * 
+ * @example
+ * const [someValue, setValue] = useState(...)
+ * const debouncedValue = useDebounce(value, 1000)
  */
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
