@@ -73,7 +73,7 @@ export function useEthers(): Web3Ethers {
       const errChainNotAddedYet = 4902 // Metamask error code
       if (error.code === errChainNotAddedYet) {
         const chain = networks?.find((chain) => chain.chainId === chainId)
-        if (chain?.rpcUrl && chain.blockExplorerUrl) {
+        if (chain?.rpcUrl) {
           await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
         }
       }
