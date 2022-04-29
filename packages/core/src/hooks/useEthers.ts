@@ -66,7 +66,24 @@ export function useEthers(): Web3Ethers {
       throw new Error('Provider not connected.')
     }
 
-    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    try {
+      await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    } catch (error: any) {
+      const errChainNotAddedYet = 4902 // Metamask error code
+      if (error.code === errChainNotAddedYet) {
+        const chain = networks?.find((chain) => chain.chainId === chainId)
+        if (chain?.rpcUrl && chain.blockExplorerUrl) {
+          await provider.send('wallet_addEthereumChain', [
+            {
+              chainId: `0x${chainId.toString(16)}`,
+              chainName: chain.chainName,
+              rpcUrls: [chain.rpcUrl],
+              blockExplorerUrls: [chain.blockExplorerUrl],
+            },
+          ])
+        }
+      }
+    }
   }
 
   const account = accounts[0] ? getAddress(accounts[0]) : undefined

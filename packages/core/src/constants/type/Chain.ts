@@ -33,7 +33,7 @@ export type Chain = {
   /**
    * The URL of the network's RPC provider, used for adding the network to Metamask
    */
-  rpcProviderUrl?: string
+  rpcUrl?: string
   /**
    * A function to construct a link to a blockchain explorer, based on an ethereum address.
    */

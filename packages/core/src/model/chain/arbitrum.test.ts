@@ -23,9 +23,9 @@ describe('Arbitrum Chain', () => {
     expect(ArbitrumRinkeby.isLocalChain).to.be.false
   })
 
-  it('rpcProviderUrl', () => {
-    expect(Arbitrum.rpcProviderUrl).to.eq('https://arb1.arbitrum.io/rpc')
-    expect(ArbitrumRinkeby.rpcProviderUrl).to.eq('https://rinkeby.arbitrum.io/rpc')
+  it('rpcUrl', () => {
+    expect(Arbitrum.rpcUrl).to.eq('https://arb1.arbitrum.io/rpc')
+    expect(ArbitrumRinkeby.rpcUrl).to.eq('https://rinkeby.arbitrum.io/rpc')
   })
 
   it('getExplorerAddressLink', () => {
