@@ -25,5 +25,7 @@ const replaced = hooks
   .replaceAll(link('useChainCalls'), code('useChainCalls'))
   .replaceAll(link('ContractCall'), code('ContractCall'))
   .replaceAll(link('RawCallResult'), code('RawCallResult'))
+  .replaceAll(link('useContractFunction'), code('useContractFunction'))
+  .replaceAll(link('useSendTransaction'), code('useSendTransaction'))
 
 fs.writeFileSync(filename, replaced)

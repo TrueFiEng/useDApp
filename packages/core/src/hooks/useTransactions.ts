@@ -4,13 +4,14 @@ import { useTransactionsContext } from '../providers'
 import { useEthers } from './useEthers'
 
 /**
- * @public
- * `useTransactions``hook returns a list `transactions`. This list contains
+ * @description
+ * `useTransactions` hook returns a list `transactions`. This list contains
  * all transactions that were sent using {@link useContractFunction} and {@link useSendTransaction}.
  * Transactions are stored in local storage and the status is rechecked on every new block.
  * 
  * Each transaction has following type:
  * 
+ * ```ts
  * export interface StoredTransaction {
  *   transaction: TransactionResponse
  *   submittedAt: number
@@ -19,9 +20,11 @@ import { useEthers } from './useEthers'
  *   transactionName?: string
  *   originalTransaction?: TransactionResponse
  * }
+ * ```
  * 
  * Link to: [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse).
  * Link to: [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
+ * @public
  */
 export function useTransactions(queryParams: QueryParams = {}) {
   const { chainId: defaultChainId, account } = useEthers()
