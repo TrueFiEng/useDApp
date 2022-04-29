@@ -11,6 +11,8 @@ const validConfigs = (configs: FullConfig): FullConfig | Record<string, never> =
 }
 
 /**
+ * Returns singleton instance of {@link Config}.
+ * Takes no parameters.
  * @public
  */
  export function useConfig() {

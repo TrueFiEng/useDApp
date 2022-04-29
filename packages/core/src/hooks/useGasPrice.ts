@@ -7,7 +7,9 @@ import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
 import { QueryParams } from '../constants/type/QueryParams'
 
 /**
+ * Returns gas price of current network.
  * @public
+ * @returns {BigNumber | undefined} gas price of current network. `undefined` if not initialised.
  */
 export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefined {
   const { library } = useEthers()
