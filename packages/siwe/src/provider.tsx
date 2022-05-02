@@ -41,8 +41,11 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
 
   useEffect(() => {
     setAuthToken(localStorage.getItem('authToken') ?? undefined)
+    if (!authToken) {
+      return
+    }
     void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
-  }, [getAuth])
+  }, [authToken, getAuth])
 
   const signIn = async (signInOptions?: SignInOptions) => {
     if (!account || !chainId || !library) {
