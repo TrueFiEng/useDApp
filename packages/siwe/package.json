@@ -56,8 +56,8 @@
     "test": "mocha",
     "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
     "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
-    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "pnpm prettier './{src,test}/**/*.{ts,tsx}'"
+    "lint:eslint": "eslint './src/*.{ts,tsx}'",
+    "lint:prettier": "pnpm prettier './src/*.{ts,tsx}'"
   },
   "publishConfig": {
     "access": "public"
