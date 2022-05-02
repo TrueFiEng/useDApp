@@ -24,6 +24,7 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
+  useBlockNumbers,
 } from './providers'
 export { connectContractToSigner, useDebounce, useLocalStorage, useDebouncePair, useInterval } from './hooks'
 export {
