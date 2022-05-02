@@ -41,7 +41,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
 
   useEffect(() => {
     setAuthToken(localStorage.getItem('authToken') ?? undefined)
-    if (!authToken) {
+    if (authToken === null) {
       return
     }
     void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
