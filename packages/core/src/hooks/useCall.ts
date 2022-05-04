@@ -21,16 +21,16 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * A syntax sugar for {@link useRawCall} that uses ABI, function name, and arguments instead of raw data.
  * If typechain contract is used in `call` parameter then method name and arguments will be type checked.
  * Result will be typed as well.
- * 
+ *
  * More on type checking [here](https://usedapp-docs.netlify.app/docs/Guides/Reading/Typechain).
- * 
+ *
  *
  * @param {Call | Falsy} call a single call to a contract , also see {@link Call}
  * @returns {CallResult} The hook returns {@link CallResult} type.
  *          That is: undefined when call didn't return yet or a object { value, error } if it did,
  *          value: any[] | undefined - array of results or undefined if error occurred,
  *          error: Error | undefined - encountered error or undefined if call was successful.
- * 
+ *
  * @example
  * function useTotalSupply(tokenAddress: string | undefined): BigNumber | undefined {
  *    const { value, error } = useCall(tokenAddress && {
@@ -59,7 +59,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * @param {Array<Call>} calls a list of contract calls, also see {@link Call}.
  * @param queryParams see {@link QueryParams}.
  * @returns {CallResult[]} a list of results (see {@link CallResult} in {@link useCall}).
- * 
+ *
  * @example
  * function useTotalSupplies(tokenAddresses: string[] | undefined): (BigNumber | undefined)[] {
  *   const calls = tokenAddresses?.map(address => ({

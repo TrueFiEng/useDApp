@@ -1,9 +1,8 @@
-import { useBlockNumber } from '../providers/blockNumber/blockNumber/context'
 import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
-import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
+import { useBlockNumber, useBlockNumbers } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
 
 /**

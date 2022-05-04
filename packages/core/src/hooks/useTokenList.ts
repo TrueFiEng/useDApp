@@ -22,7 +22,7 @@ export interface TokenList {
  *   `logoURI`: `string` - URI to get token list logo from.
  *   `tokens`: `TokenInfo[]` - list of `TokenInfo` objects.
  *   If an error occurs `undefined` is returned.
- * 
+ *
  * @example
  * const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI) || {}
  * const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI

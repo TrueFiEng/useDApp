@@ -1,7 +1,6 @@
-import { createContext, useContext } from 'react'
-import { FullConfig, Config, Chain } from '../../constants'
+import { createContext } from 'react'
+import { FullConfig, Config } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
-import { getChainById } from '../../helpers/chain'
 
 /**
  * @internal Intended for internal use - use it on your own risk

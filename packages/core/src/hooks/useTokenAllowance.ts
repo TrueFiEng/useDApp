@@ -18,7 +18,7 @@ import { useCall } from './useCall'
  * const SPENDER_ADDRESS = '0xA193E42526F1FEA8C99AF609dcEabf30C1c29fAA'
  * const { account, chainId } = useEthers()
  * const allowance = useTokenAllowance(TOKEN_ADDRESS, account, SPENDER_ADDRESS)
- * 
+ *
  * return (
  *   {allowance && <p>Remaining allowance: {formatUnits(allowance, 18)} tokens</p>}
  * )

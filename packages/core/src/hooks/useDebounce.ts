@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
  * @param {number} delay debounce time - amount of time in ms.
  * @internal Intended for internal use - use it on your own risk
  * @returns {T} debounced value
- * 
+ *
  * @example
  * const [someValue, setValue] = useState(...)
  * const debouncedValue = useDebounce(value, 1000)

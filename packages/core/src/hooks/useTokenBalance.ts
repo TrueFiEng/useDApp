@@ -16,7 +16,7 @@ import { useCall } from './useCall'
  * const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
  * const { account } = useEthers()
  * const daiBalance = useTokenBalance(DAI_ADDRESS, account)
- * 
+ *
  * return (
  *   {daiBalance && <p>Dai balance: {formatUnits(daiBalance, 18)} DAI</p>}
  * )

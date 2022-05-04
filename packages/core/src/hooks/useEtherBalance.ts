@@ -11,11 +11,11 @@ import { Contract } from 'ethers'
  * @param {string | Falsy} address address of an account
  * @returns {BigNumber | undefined} a balance of the account which is BigNumber or `undefined` if not connected to network or address is a falsy value
  * @public
- * 
+ *
  * @example
  * const { account } = useEthers()
  * const etherBalance = useEtherBalance(account)
- * 
+ *
  * return (
  *   {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
  * )

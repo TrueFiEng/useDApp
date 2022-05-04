@@ -7,9 +7,9 @@ import { useEthers } from './useEthers'
  * `useTransactions` hook returns a list `transactions`. This list contains
  * all transactions that were sent using {@link useContractFunction} and {@link useSendTransaction}.
  * Transactions are stored in local storage and the status is rechecked on every new block.
- * 
+ *
  * Each transaction has following type:
- * 
+ *
  * ```
  * export interface StoredTransaction {
  *   transaction: TransactionResponse
@@ -20,7 +20,7 @@ import { useEthers } from './useEthers'
  *   originalTransaction?: TransactionResponse
  * }
  * ```
- * 
+ *
  * @see [Transaction Response](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionResponse)
  * @see [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt)
  * @public

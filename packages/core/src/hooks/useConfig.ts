@@ -1,7 +1,7 @@
-import { useContext } from "react"
-import { Chain, FullConfig } from "../constants"
-import { getChainById } from "../helpers"
-import { ConfigContext } from "../providers"
+import { useContext } from 'react'
+import { Chain, FullConfig } from '../constants'
+import { getChainById } from '../helpers'
+import { ConfigContext } from '../providers'
 
 const validConfigs = (configs: FullConfig): FullConfig | Record<string, never> => {
   if (!configs?.networks || configs?.networks.length === 0) {
@@ -15,7 +15,7 @@ const validConfigs = (configs: FullConfig): FullConfig | Record<string, never> =
  * Takes no parameters.
  * @public
  */
- export function useConfig() {
+export function useConfig() {
   const { config } = useContext(ConfigContext)
 
   // backward compatible with supportedChains

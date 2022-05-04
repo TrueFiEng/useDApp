@@ -4,8 +4,7 @@ import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
-import { useConfig } from '../../config'
-import { useLocalStorage } from '../../../hooks'
+import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 interface NetworkProviderProps {
