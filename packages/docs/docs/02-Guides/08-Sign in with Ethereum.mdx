@@ -41,16 +41,9 @@ interface SiweContextValue {
 
 `isLoggedIn` - Boolean value that informs you if you are logged in.
 
-## Example
+## Live example
 
-```tsx
-export const SignInButton = () => {
-  const { signIn, signOut, isLoggedIn } = useSiwe()
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import Siwe from '../../example-loader.js!/src/examples/Siwe.tsx'
 
-  return (
-    <button onClick={isLoggedIn ? signOut : signIn}>
-      {isLoggedIn ? 'Sign Out' : 'Sign In'}
-    </button>
-  )
-}
-```
+<ExampleContainer example={Siwe}/>

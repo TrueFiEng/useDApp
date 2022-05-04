@@ -184,6 +184,7 @@ importers:
       '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
       '@usedapp/playwright': workspace:*
+      '@usedapp/siwe': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       better-docs: ^2.7.2
       buffer: ^6.0.3
@@ -215,6 +216,7 @@ importers:
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
+      '@usedapp/siwe': link:../siwe
       '@walletconnect/web3-provider': 1.7.5_@babel+core@7.17.5
       buffer: 6.0.3
       clsx: 1.1.1

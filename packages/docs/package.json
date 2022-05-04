@@ -31,6 +31,7 @@
     "@mdx-js/react": "^1.6.22",
     "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
+    "@usedapp/siwe": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.5",
     "buffer": "^6.0.3",
     "clsx": "^1.1.1",
