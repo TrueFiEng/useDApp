@@ -12,9 +12,9 @@ export function App()  {
     const wethPrice = useCoingeckoTokenPrice(WETH_CONTRACT, 'usd')
 
     return (
-        <div id="Balance_src-examples-styles-styles-module">
+        <div id="Balance_DvYH">
             Wrapped ether price: 
-            <p id="Bold_src-examples-styles-styles-module">{wethPrice} $</p>
+            <p id="Bold_yXij">{wethPrice} $</p>
         </div>
     )
 }

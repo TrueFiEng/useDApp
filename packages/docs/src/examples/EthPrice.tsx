@@ -11,9 +11,9 @@ export function App()  {
     const etherPrice = useCoingeckoPrice('ethereum', 'usd')
 
     return (
-        <div id="Balance_src-examples-styles-styles-module">
+        <div id="Balance_DvYH">
             Ether price: 
-            <p id="Bold_src-examples-styles-styles-module">{etherPrice} $</p>
+            <p id="Bold_yXij">{etherPrice} $</p>
         </div>
     )
 }

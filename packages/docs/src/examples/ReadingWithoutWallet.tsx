@@ -27,9 +27,9 @@ export function App() {
     <div>
       {etherBalance && 
         (
-          <div id="Balance_src-examples-styles-styles-module">
+          <div id="Balance_DvYH">
             Staking contract balance: 
-            <p id="Bold_src-examples-styles-styles-module">{formatEther(etherBalance)} ETH</p>
+            <p id="Bold_yXij">{formatEther(etherBalance)} ETH</p>
           </div>
         )
       }

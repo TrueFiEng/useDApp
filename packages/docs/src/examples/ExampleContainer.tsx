@@ -3,6 +3,7 @@ import CodeWrapper from './CodeWrapper'
 import BrowserOnly from '@docusaurus/BrowserOnly'
 import  ReactDOM from 'react-dom'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import './styles/styles.module.css'
 
 export interface Example {
   source: {

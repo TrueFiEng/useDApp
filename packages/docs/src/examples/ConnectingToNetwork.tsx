@@ -37,10 +37,10 @@ export function App() {
     <div>
       {account && (
       <div>
-          <div id="Inline_src-examples-styles-styles-module">
+          <div id="Inline_TYMo">
               <AccountIcon account={account}/>
               &nbsp;
-              <div id="Account_src-examples-styles-styles-module">{account}</div>
+              <div id="Account_Zr2j">{account}</div>
           </div>
           <br/>
       </div>)}
@@ -55,18 +55,18 @@ export function App() {
       <MetamaskConnect />
       {userBalance && 
         (
-          <div id="Balance_src-examples-styles-styles-module">
+          <div id="Balance_DvYH">
             <br/>
             Ether balance: 
-            <p id="Bold_src-examples-styles-styles-module">{formatEther(userBalance)} ETH</p>
+            <p id="Bold_yXij">{formatEther(userBalance)} ETH</p>
           </div>
         )
       }
       {stakingBalance && 
         (
-          <div id="Balance_src-examples-styles-styles-module">
+          <div id="Balance_DvYH">
             ETH2 staking balance:
-            <p id="Bold_src-examples-styles-styles-module">{formatEther(stakingBalance)} ETH</p>
+            <p id="Bold_yXij">{formatEther(stakingBalance)} ETH</p>
           </div>
         )
       }
