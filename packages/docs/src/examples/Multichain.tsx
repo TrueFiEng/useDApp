@@ -27,8 +27,6 @@ export function App() {
   const arbitrumBalance = useEtherBalance(address, { chainId: Arbitrum.chainId })
   const zkSyncBalance = useEtherBalance(address, { chainId: ZkSyncTestnet.chainId })
 
-  console.log(styles)
-
   return (
     <>
       <div id="Balance_DvYH"> Account:</div>
