@@ -42,7 +42,7 @@ export type Web3Ethers = {
  * **Requires**: `<ConfigProvider>`
  * 
  * @public
- * @returns
+ * @returns {} Object with the following:
     - `account: null | string` - current user account (or *null* if not connected or connected in read-only mode)
     - `chainId: ChainId` - current chainId (or *undefined* if not connected)
     - `library: Web3Provider` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
