@@ -2,9 +2,9 @@
 
 ## 1.0.2
 
-- 37c3b9d: 🪱 Attempt adding network if it isn't added to wallet
-
 ### Patch Changes
+
+- 37c3b9d: 🪱 Attempt adding network if it isn't added to wallet
 
 ## 1.0.1
 
