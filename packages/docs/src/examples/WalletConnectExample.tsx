@@ -11,7 +11,6 @@ import {
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
-import styles from './styles/styles.module.css'
 import { AccountIcon } from './components/AccountIcon'
 
 const config: Config = {
@@ -54,10 +53,10 @@ function App() {
       <div>
         {account && (
         <div>
-            <div className={styles.Inline}>
+            <div id="Inline_src-examples-styles-styles-module">
                 <AccountIcon account={account}/>
                 {' '}
-                <div className={styles.Account}>{account}</div>
+                <div id="Account_src-examples-styles-styles-module">{account}</div>
             </div>
             <br/>
         </div>)}
@@ -72,10 +71,10 @@ function App() {
       <WalletConnectConnect />
         {etherBalance && 
         (
-          <div className={styles.Balance}>
+          <div id="Balance_src-examples-styles-styles-module">
             <br/>
             Balance: 
-            <p className={styles.Bold}>{formatEther(etherBalance)} ETH</p>
+            <p id="Bold_src-examples-styles-styles-module">{formatEther(etherBalance)} ETH</p>
           </div>
         )
         }

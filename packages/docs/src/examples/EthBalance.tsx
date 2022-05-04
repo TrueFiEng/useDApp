@@ -4,7 +4,6 @@ import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
-import styles from './styles/styles.module.css'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -29,9 +28,9 @@ export function App() {
       <MetamaskConnect />
       {etherBalance && 
         (
-          <div className={styles.Balance}>
+          <div id="Balance_src-examples-styles-styles-module">
             Ether balance: 
-            <p className={styles.Bold}>{formatEther(etherBalance)} ETH</p>
+            <p id="Bold_src-examples-styles-styles-module">{formatEther(etherBalance)} ETH</p>
           </div>
         )
       }

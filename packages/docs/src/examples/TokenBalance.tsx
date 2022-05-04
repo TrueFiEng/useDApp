@@ -4,7 +4,6 @@ import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useTokenBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
-import styles from './styles/styles.module.css'
 
 const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
 
@@ -31,9 +30,9 @@ export function TokenBalance() {
       <MetamaskConnect />
       {daiBalance && 
         (
-          <div className={styles.Balance}>
+          <div id="Balance_src-examples-styles-styles-module">
             Dai balance: 
-            <p className={styles.Bold}>{formatEther(daiBalance)}</p>
+            <p id="Bold_src-examples-styles-styles-module">{formatEther(daiBalance)}</p>
           </div>
         )
       }

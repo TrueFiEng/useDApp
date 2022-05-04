@@ -4,7 +4,6 @@ import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { AccountIcon } from './components/AccountIcon'
-import styles from './styles/styles.module.css'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -38,10 +37,10 @@ export function App() {
     <div>
       {account && (
       <div>
-          <div className={styles.Inline}>
+          <div id="Inline_src-examples-styles-styles-module">
               <AccountIcon account={account}/>
-              {' '}
-              <div className={styles.Account}>{account}</div>
+              &nbsp;
+              <div id="Account_src-examples-styles-styles-module">{account}</div>
           </div>
           <br/>
       </div>)}
@@ -56,18 +55,18 @@ export function App() {
       <MetamaskConnect />
       {userBalance && 
         (
-          <div className={styles.Balance}>
+          <div id="Balance_src-examples-styles-styles-module">
             <br/>
             Ether balance: 
-            <p className={styles.Bold}>{formatEther(userBalance)} ETH</p>
+            <p id="Bold_src-examples-styles-styles-module">{formatEther(userBalance)} ETH</p>
           </div>
         )
       }
       {stakingBalance && 
         (
-          <div className={styles.Balance}>
+          <div id="Balance_src-examples-styles-styles-module">
             ETH2 staking balance:
-            <p className={styles.Bold}>{formatEther(stakingBalance)} ETH</p>
+            <p id="Bold_src-examples-styles-styles-module">{formatEther(stakingBalance)} ETH</p>
           </div>
         )
       }

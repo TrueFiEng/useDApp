@@ -30,16 +30,25 @@ export function App() {
 
   return (
     <>
-      <div className={styles.Balance}> Account:</div>
-      <div className={styles.Inline}>
+      <div id="Balance_src-examples-styles-styles-module"> Account:</div>
+      <div id="Inline_src-examples-styles-styles-module">
         <AccountIcon account={address}/>
           &nbsp;
         <div className={styles.Account}>{address}</div>
       </div>
       <br/>
-      <div className={styles.Balance}> Balance on Mainnet: <p className={styles.Bold}>{mainnetBalance && formatEther(mainnetBalance)} Eth </p></div>
-      <div className={styles.Balance}> Balance on Arbitrum: <p className={styles.Bold}>{arbitrumBalance && formatEther(arbitrumBalance)} AEth </p></div>
-      <div className={styles.Balance}> Balance on ZkSync Testnet: <p className={styles.Bold}>{zkSyncBalance && formatEther(zkSyncBalance)} ZKEth </p></div>
+      <div id="Balance_src-examples-styles-styles-module"> 
+        Balance on Mainnet: 
+        <p id="Bold_src-examples-styles-styles-module">{mainnetBalance && formatEther(mainnetBalance)} Eth </p>
+      </div>
+      <div id="Balance_src-examples-styles-styles-module"> 
+        Balance on Arbitrum: 
+        <p id="Bold_src-examples-styles-styles-module">{arbitrumBalance && formatEther(arbitrumBalance)} AEth 
+      </p></div>
+      <div id="Balance_src-examples-styles-styles-module"> 
+        Balance on ZkSync Testnet: 
+        <p id="Bold_src-examples-styles-styles-module">{zkSyncBalance && formatEther(zkSyncBalance)} ZKEth 
+      </p></div>
     </>
   )
 }

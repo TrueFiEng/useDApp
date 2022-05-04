@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEthers } from '@usedapp/core'
-import styles from '../styles/styles.module.css'
 import { AccountIcon } from './AccountIcon'
 
 export const MetamaskConnect = () => {
@@ -16,10 +15,10 @@ export const MetamaskConnect = () => {
         <div>
         {account && (
         <div>
-            <div className={styles.Inline}>
+            <div id="Inline_src-examples-styles-styles-module">
                 <AccountIcon account={account}/>
                 {' '}
-                <div className={styles.Account}>{account}</div>
+                <div id="Account_src-examples-styles-styles-module">{account}</div>
             </div>
             <br/>
         </div>)}
