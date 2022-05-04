@@ -63,6 +63,10 @@ Enables reconnecting to last used provider when user revisits the page.
   }
 ```
 
+## ChainId
+
+A number describing the ID of the chain. See [ChainList](https://chainlist.org/) for a list of known chains and their IDs.
+
 ## Call
 
 Represents a single call to a contract that can be included in multicall.
@@ -231,7 +235,7 @@ Fields:
 
 - ``receipt?: TransactionReceipt`` - optional field. See [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
 
-- ``chainId?: ChainId`` - optional field. See [chainId](#chainid).
+- ``chainId?: ChainId`` - optional field. See [ChainID](#chainid).
 
 - ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
 
@@ -254,5 +258,5 @@ Optional overrides for hooks querying the state of the blockchain.
 
 An object consisting of:
 
-- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [chainId](#chainid).
+- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [ChainID](#chainid).
 - ``isStatic?: boolean`` - Whether the query is static (not expected to change between calls). Used for optimizations.
