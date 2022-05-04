@@ -1,5 +1,18 @@
 # @usedapp/core
 
+## 1.0.2
+
+### Patch Changes
+
+- 37c3b9d: 🪱 Attempt adding network if it isn't added to wallet
+- 083e9b1: Export useBlockNumbers hook as part of internal API
+
+## 1.0.2
+
+### Patch Changes
+
+- 37c3b9d: 🪱 Attempt adding network if it isn't added to wallet
+
 ## 1.0.1
 
 ### Patch Changes
