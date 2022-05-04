@@ -4,11 +4,12 @@ const filename = 'docs/03-API Reference/08-Hooks-generated.mdx'
 
 const hooks = fs.readFileSync(filename, {encoding: 'utf-8'})
 
-const map = {
+const linkMap = {
   'Call': '/docs/API%20Reference/Models#call'
 }
 
 const link = (value: string) => `{@link ${value}}`
+const ahref = (value: string) => `<a href="${linkMap[value]}">${value}</a>`
 const code = (value: string) => `<code>${value}</code>`
 
 /**
@@ -16,7 +17,7 @@ const code = (value: string) => `<code>${value}</code>`
  * We need to point to a documentation link where the linked entity lives.
  */
 let replaced = hooks
-  .replaceAll(link('Call'), `<a href="${map['Call']}">Call</a>`)
+  .replaceAll(link('Call'), ahref('Call'))
   .replaceAll(link('QueryParams'), code('QueryParams'))
   .replaceAll(link('ChainCall'), code('ChainCall'))
   .replaceAll(link('RawCall'), code('RawCall'))
