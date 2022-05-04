@@ -4,6 +4,7 @@ import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
+import styles from './styles/styles.module.css'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -20,15 +21,20 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { account, deactivate } = useEthers()
+  const { account } = useEthers()
   const etherBalance = useEtherBalance(account)
 
   return (
     <div>
       <MetamaskConnect />
-      {account && <button onClick={() => deactivate()}>Disconnect</button>}
-      <br/>
-      {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
+      {etherBalance && 
+        (
+          <div className={styles.Balance}>
+            Ether balance: 
+            <p className={styles.Bold}>{formatEther(etherBalance)} ETH</p>
+          </div>
+        )
+      }
     </div>
   )
 }

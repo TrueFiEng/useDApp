@@ -11,6 +11,7 @@ import {
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
+import styles from './styles/styles.module.css'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -34,7 +35,15 @@ function App() {
       <div>
       <MetamaskConnect />
       {account && <button onClick={() => deactivate()}>Disconnect</button>}
-      {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
+      {etherBalance && 
+        (
+          <div className={styles.Balance}>
+            <br/>
+            Balance: 
+            <p className={styles.Bold}>{formatEther(etherBalance)}</p>
+          </div>
+        )
+      }
     </div>
   )
 }

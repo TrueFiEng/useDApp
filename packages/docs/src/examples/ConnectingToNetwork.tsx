@@ -54,8 +54,23 @@ export function App() {
   return (
     <div>
       <MetamaskConnect />
-      {userBalance && <p>Ether balance: {formatEther(userBalance)} ETH </p>}
-      {stakingBalance && <p>ETH2 staking balance: {formatEther(stakingBalance)} ETH </p>}
+      {userBalance && 
+        (
+          <div className={styles.Balance}>
+            <br/>
+            Ether balance: 
+            <p className={styles.Bold}>{formatEther(userBalance)} ETH</p>
+          </div>
+        )
+      }
+      {stakingBalance && 
+        (
+          <div className={styles.Balance}>
+            ETH2 staking balance:
+            <p className={styles.Bold}>{formatEther(stakingBalance)} ETH</p>
+          </div>
+        )
+      }
     </div>
   )
 }

@@ -70,7 +70,15 @@ function App() {
   return (
     <div>
       <WalletConnectConnect />
-      {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
+        {etherBalance && 
+        (
+          <div className={styles.Balance}>
+            <br/>
+            Balance: 
+            <p className={styles.Bold}>{formatEther(etherBalance)} ETH</p>
+          </div>
+        )
+        }
     </div>
   )
 }
