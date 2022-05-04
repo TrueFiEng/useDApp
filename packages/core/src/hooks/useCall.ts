@@ -27,9 +27,6 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  *
  * @param {Call | Falsy} call a single call to a contract , also see {@link Call}
  * @returns {CallResult} The hook returns {@link CallResult} type.
- *          That is: undefined when call didn't return yet or a object { value, error } if it did,
- *          value: any[] | undefined - array of results or undefined if error occurred,
- *          error: Error | undefined - encountered error or undefined if call was successful.
  *
  * @example
  * function useTotalSupply(tokenAddress: string | undefined): BigNumber | undefined {
@@ -58,7 +55,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * A syntax sugar for {@link useRawCalls} that uses ABI, function name, and arguments instead of raw data.
  * @param {Array<Call>} calls a list of contract calls, also see {@link Call}.
  * @param queryParams see {@link QueryParams}.
- * @returns {CallResult[]} a list of results (see {@link CallResult} in {@link useCall}).
+ * @returns {CallResult[]} a list of results (see {@link CallResult}).
  *
  * @example
  * function useTotalSupplies(tokenAddresses: string[] | undefined): (BigNumber | undefined)[] {
