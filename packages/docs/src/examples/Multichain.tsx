@@ -33,7 +33,7 @@ export function App() {
       <div className={styles.Balance}> Account:</div>
       <div className={styles.Inline}>
         <AccountIcon account={address}/>
-        {' '}
+          &nbsp;
         <div className={styles.Account}>{address}</div>
       </div>
       <br/>
