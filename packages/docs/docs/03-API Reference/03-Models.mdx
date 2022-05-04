@@ -89,6 +89,15 @@ If you also supply a method name in type arguments will also be type checked
   const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 ```
 
+## CallResult
+
+Result of a [useCall](./02-Hooks.mdx#usecall) query.
+
+It is `undefined` when call didn't return yet or a object `{ value, error }` if it did.
+
+- `value:` `any[] | undefined` - array of results or undefined if error occurred,
+- `error`: `Error | undefined` - encountered error or undefined if call was successful.
+
 ## RawCall
 
 Represents a single call on the blockchain that can be included in multicall.
@@ -101,6 +110,12 @@ Fields:
 
 - ``chainId: number`` - chain id of the chain to perform the call on
 
+## RawCallResult
+
+Result of a [useRawCall](./02-Hooks.mdx#userawcall) query.
+
+- `success` - boolean indicating whether call was successful or not,
+- `value` - encoded result when success is `true` or encoded error message when success is `false`.
 
 ## ChainCall
 

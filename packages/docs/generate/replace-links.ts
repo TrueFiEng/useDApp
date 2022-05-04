@@ -5,7 +5,7 @@ const filename = 'docs/03-API Reference/02-Hooks.mdx'
 const hooks = fs.readFileSync(filename, {encoding: 'utf-8'})
 
 const modelsLink = (value: string) => `/docs/API%20Reference/Models#${value.toLowerCase()}`
-const hooksLink = (value: string) => `/docs/API%20Reference/Models#${value.toLowerCase()}`
+const hooksLink = (value: string) => `/docs/API%20Reference/Hooks#${value.toLowerCase()}`
 
 const linkMap = {
   'Call': modelsLink('Call'),
