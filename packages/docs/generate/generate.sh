@@ -15,4 +15,4 @@ jsdoc2md -c jsdoc.config.json \
 
 ts-node -r ts-node/register/transpile-only \
   --project ./tsconfig.node.json \
-  ./generate/replace-links.ts
+  ./generate/replace-content.ts

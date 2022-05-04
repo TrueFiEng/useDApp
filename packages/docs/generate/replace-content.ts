@@ -7,20 +7,6 @@ const hooks = fs.readFileSync(filename, {encoding: 'utf-8'})
 const modelsLink = (value: string) => `/docs/API%20Reference/Models#${value.toLowerCase()}`
 const hooksLink = (value: string) => `/docs/API%20Reference/Hooks#${value.toLowerCase()}`
 
-const linkMap = {
-  'Call': modelsLink('Call'),
-  'QueryParams': modelsLink('QueryParams'),
-  'ChainCall': modelsLink('ChainCall'),
-  'RawCall': modelsLink('RawCall'),
-  'CallResult': modelsLink('CallResult'),
-  'ContractCall': modelsLink('ContractCall'),
-  'RawCallResult': modelsLink('RawCallResult'),
-  'Config': modelsLink('Config'),
-  'TransactionStatus': modelsLink('TransactionStatus'),
-  'TransactionOptions': modelsLink('TransactionOptions'),
-  'TokenInfo': modelsLink('TokenInfo'),
-}
-
 /**
  * Can be linked to under API Reference / Models page.
  */

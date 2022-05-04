@@ -18,6 +18,8 @@ cd packages/docs
 pnpm generate
 ```
 
+More information about auto generated docs [here](./generate/README.md).
+
 ### Local Development
 
 ```
