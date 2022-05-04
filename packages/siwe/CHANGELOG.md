@@ -1,5 +1,14 @@
 # @usedapp/siwe
 
+## 0.1.2
+
+### Patch Changes
+
+- 06d873d: ❌ Disallow sending auth request when session not defined
+- Updated dependencies [37c3b9d]
+- Updated dependencies [083e9b1]
+  - @usedapp/core@1.0.2
+
 ## 0.1.1
 
 ### Patch Changes
