@@ -27,7 +27,6 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
 }
 
 /**
- * @public
  * Hook returns an object with four variables: ``state`` , ``send``, ``events`` , and ``resetState``.
  *
  * The `state` represents the status of transaction. See {@link TransactionStatus}.
@@ -42,10 +41,13 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  *
  * If typechain contract is supplied as contract parameter then function name and send arguments will be type checked.
  * More on type checking [here](https://usedapp-docs.netlify.app/docs/Guides/Reading/Typechain).
+ * @public
  * @param {Contract} contract contract which function is to be called , also see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
  * @param functionName name of function to call
  * @param {TransactionOptions} options additional options of type {@link TransactionOptions}
- * @returns {{ send: (...args: any[]) => void, state: TransactionStatus, events: LogDescription[] }} object with variables: `send` , `state` , `events`.
+ * @returns {} object with variables: `send` , `state` , `events`.
+ * 
+ * `{ send: (...args: any[]) => void, state: TransactionStatus, events: LogDescription[] }`
  *
  * @example
  * const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })

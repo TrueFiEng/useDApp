@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
  * @param {T} second second variable to be debounced
  * @param {number} delay debounce time - amount of time in ms.
  * @internal Intended for internal use - use it on your own risk
- * @returns {[T, U]} debounced values
+ * @returns {} debounced values `[T, U]`
  */
 export function useDebouncePair<T, U>(first: T, second: U, delay: number): [T, U] {
   const [debouncedValue, setDebouncedValue] = useState<[T, U]>([first, second])
