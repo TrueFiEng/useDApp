@@ -232,3 +232,12 @@ Fields:
 Additionally all states except ``None``, contain ``chainId: ChainId``.
 
 Change in ``state`` will update the component so you can use it in useEffect.
+
+## QueryParams
+
+Optional overrides for hooks querying the state of the blockchain.
+
+An object consisting of:
+
+- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [chainId](#chainid).
+- ``isStatic?: boolean`` - Whether the query is static (not expected to change between calls). Used for optimizations.
