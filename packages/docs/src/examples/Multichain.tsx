@@ -4,7 +4,6 @@ import { formatEther } from '@ethersproject/units'
 import ReactDOM from 'react-dom'
 import { getDefaultProvider } from 'ethers'
 import { AccountIcon } from './components/AccountIcon'
-import styles from './styles/styles.module.css'
 
 const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
@@ -34,7 +33,7 @@ export function App() {
       <div id="Inline_src-examples-styles-styles-module">
         <AccountIcon account={address}/>
           &nbsp;
-        <div className={styles.Account}>{address}</div>
+        <div id="Account_src-examples-styles-styles-module">{address}</div>
       </div>
       <br/>
       <div id="Balance_src-examples-styles-styles-module"> 
