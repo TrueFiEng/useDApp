@@ -28,6 +28,7 @@ export function App() {
       return (
         <div>
             <button onClick={() => signIn()}>{!isLoggedIn ? 'Sign in' : 'Sign in again'}</button>
+            {' '}
             <button disabled={!isLoggedIn} onClick={signOut}>Sign out</button>
             {isLoggedIn ? (
                 <p>Logged in with {account}</p>

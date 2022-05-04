@@ -3,6 +3,7 @@ import { Config, DAppProvider, Mainnet, useEtherBalance } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import styles from './styles/styles.module.css'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
@@ -25,7 +26,8 @@ export function App() {
 
   return (
     <div>
-      {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
+      {etherBalance && <div className={styles.Balance}>Staking contract balance: <p className={styles.Bold}>{formatEther(etherBalance)}</p></div>}
     </div>
   )
+
 }

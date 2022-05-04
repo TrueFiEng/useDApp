@@ -1,5 +1,7 @@
 import React from 'react'
 import CodeBlock from '@theme/CodeBlock'
+import './styles/button.module.css'
+import './styles/text.module.css'
 
 export interface CodeWrapperProps {
   title: string

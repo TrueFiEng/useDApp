@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
+import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -19,12 +20,14 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { account, activateBrowserWallet } = useEthers()
+  const { account, deactivate } = useEthers()
   const etherBalance = useEtherBalance(account)
 
   return (
     <div>
-      {!account && <button onClick={activateBrowserWallet}> Connect </button>}
+      <MetamaskConnect />
+      {account && <button onClick={() => deactivate()}>Disconnect</button>}
+      <br/>
       {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
     </div>
   )
