@@ -15,9 +15,7 @@ import { usePromiseTransaction } from './usePromiseTransaction'
  * Function accepts a [Transaction Request](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest) object as a parameter.
  * @public
  * @param {TransactionOptions} options additional options of type {@link TransactionOptions}
- * @returns {} object with two variables: `sendTransaction` and `state`
- * 
- * `{ sendTransaction: (...args: any[]) => void, state: TransactionStatus }`
+ * @returns {} object with two variables: `sendTransaction` and `state`: `{ sendTransaction: (...args: any[]) => void, state: TransactionStatus }`.
  *
  * @example
  * const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })

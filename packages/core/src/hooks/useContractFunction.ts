@@ -45,9 +45,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  * @param {Contract} contract contract which function is to be called , also see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
  * @param functionName name of function to call
  * @param {TransactionOptions} options additional options of type {@link TransactionOptions}
- * @returns {} object with variables: `send` , `state` , `events`.
- * 
- * `{ send: (...args: any[]) => void, state: TransactionStatus, events: LogDescription[] }`
+ * @returns {} object with variables: `send` , `state` , `events`: `{ send: (...args: any[]) => void, state: TransactionStatus, events: LogDescription[] }`.
  *
  * @example
  * const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
