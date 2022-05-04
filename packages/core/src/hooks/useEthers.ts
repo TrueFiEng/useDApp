@@ -1,5 +1,6 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { getAddress } from 'ethers/lib/utils'
+import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { useConfig, useNetwork } from '../providers'
 import { useReadonlyNetwork } from './useReadonlyProvider'
@@ -78,7 +79,17 @@ export function useEthers(): Web3Ethers {
       throw new Error('Provider not connected.')
     }
 
-    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    try {
+      await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    } catch (error: any) {
+      const errChainNotAddedYet = 4902 // Metamask error code
+      if (error.code === errChainNotAddedYet) {
+        const chain = networks?.find((chain) => chain.chainId === chainId)
+        if (chain?.rpcUrl) {
+          await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
+        }
+      }
+    }
   }
 
   const account = accounts[0] ? getAddress(accounts[0]) : undefined
