@@ -6,7 +6,7 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
  * 
- * ``tate` represents the status of transaction. See {@link TransactionStatus}.
+ * ``state` represents the status of transaction. See {@link TransactionStatus}.
  * 
  * `resetState` can be used to reset the state to `None` after a transaction attempt has either succeeded or failed.
  * 
