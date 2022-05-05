@@ -30,9 +30,9 @@ export function TokenBalance() {
       <MetamaskConnect />
       {daiBalance && 
         (
-          <div id="Balance_DvYH">
+          <div className="balance">
             Dai balance: 
-            <p id="Bold_yXij">{formatEther(daiBalance)}</p>
+            <p className="bold">{formatEther(daiBalance)}</p>
           </div>
         )
       }

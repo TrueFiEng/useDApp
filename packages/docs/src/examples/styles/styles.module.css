@@ -1,19 +1,19 @@
-#Account {
+:global(.account) {
   margin-left: 5px;
   font-weight: 450;
 }
 
-#Balance {
+:global(.balance) {
   font-size: 16px;
   color: grey;
   display: inline-flexbox;
 }
 
-#Bold {
+:global(.bold) {
   color: black;
   font-size: 20px;
 }
 
-#Inline {
+:global(inline) {
   display: flex;
 }

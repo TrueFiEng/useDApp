@@ -53,10 +53,10 @@ function App() {
       <div>
         {account && (
         <div>
-            <div id="Inline_TYMo">
+            <div className="inline">
                 <AccountIcon account={account}/>
                 &nbsp;
-                <div id="Account_Zr2j">{account}</div>
+                <div className="account">{account}</div>
             </div>
             <br/>
         </div>)}
@@ -71,10 +71,10 @@ function App() {
       <WalletConnectConnect />
         {etherBalance && 
         (
-          <div id="Balance_DvYH">
+          <div className="balance">
             <br/>
             Balance: 
-            <p id="Bold_yXij">{formatEther(etherBalance)} ETH</p>
+            <p className="bold">{formatEther(etherBalance)} ETH</p>
           </div>
         )
         }

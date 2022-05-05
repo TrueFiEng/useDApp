@@ -28,9 +28,9 @@ export function App() {
       <MetamaskConnect />
       {etherBalance && 
         (
-          <div id="Balance_DvYH">
+          <div className="balance">
             Ether balance: 
-            <p id="Bold_yXij">{formatEther(etherBalance)} ETH</p>
+            <p className="bold">{formatEther(etherBalance)} ETH</p>
           </div>
         )
       }
