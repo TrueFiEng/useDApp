@@ -6,7 +6,7 @@ const hooksLink = (value: string) => `/docs/API%20Reference/Hooks#${value.toLowe
 let fileContent = fs.readFileSync(filename, {encoding: 'utf-8'})
 
 ;(String.prototype as any).replaceAll = (String.prototype as any).replaceAll ?? function(subStr, newSubStr) {
-  this.replace(new RegExp(subStr, 'g'), newSubStr);
+  return this.replace(new RegExp(subStr, 'g'), newSubStr);
 }
 
 /**
