@@ -48,7 +48,7 @@ button:disabled {
 }
 
 @media (min-width: 768px) {
-  .button-37 {
+  .button {
     padding: 10px 30px;
   }
 }
