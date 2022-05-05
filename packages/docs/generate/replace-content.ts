@@ -5,6 +5,10 @@ const modelsLink = (value: string) => `/docs/API%20Reference/Models#${value.toLo
 const hooksLink = (value: string) => `/docs/API%20Reference/Hooks#${value.toLowerCase()}`
 let fileContent = fs.readFileSync(filename, {encoding: 'utf-8'})
 
+;(String.prototype as any).replaceAll = (String.prototype as any).replaceAll ?? function(subStr, newSubStr) {
+  this.replace(new RegExp(subStr, 'g'), newSubStr);
+}
+
 /**
  * Can be linked to under API Reference / Models page.
  */
