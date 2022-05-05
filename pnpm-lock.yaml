@@ -174,6 +174,7 @@ importers:
       '@ethersproject/providers': ^5.6.2
       '@ethersproject/units': ^5.6.0
       '@mdx-js/react': ^1.6.22
+      '@metamask/jazzicon': ^2.0.0
       '@tsconfig/docusaurus': ^1.0.4
       '@types/mocha': ^8.2.0
       '@types/node': ^17.0.10
@@ -214,6 +215,7 @@ importers:
       '@ethersproject/providers': 5.6.2
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': 1.6.22_react@17.0.2
+      '@metamask/jazzicon': 2.0.0
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
       '@usedapp/siwe': link:../siwe
@@ -3698,6 +3700,13 @@ packages:
   /@metamask/detect-provider/1.2.0:
     resolution: {integrity: sha512-ocA76vt+8D0thgXZ7LxFPyqw3H7988qblgzddTDA6B8a/yU0uKV42QR/DhA+Jh11rJjxW0jKvwb5htA6krNZDQ==}
     engines: {node: '>= 10'}
+    dev: false
+
+  /@metamask/jazzicon/2.0.0:
+    resolution: {integrity: sha512-7M+WSZWKcQAo0LEhErKf1z+D3YX0tEDAcGvcKbDyvDg34uvgeKR00mFNIYwAhdAS9t8YXxhxZgsrRBBg6X8UQg==}
+    dependencies:
+      color: 0.11.4
+      mersenne-twister: 1.1.0
     dev: false
 
   /@metamask/safe-event-emitter/2.0.0:
@@ -9403,10 +9412,24 @@ packages:
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
+  /color-string/0.3.0:
+    resolution: {integrity: sha1-J9RvtnAlxcL6JZk7+/V55HhBuZE=}
+    dependencies:
+      color-name: 1.1.4
+    dev: false
+
   /color-support/1.1.3:
     resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
     hasBin: true
     dev: true
+
+  /color/0.11.4:
+    resolution: {integrity: sha1-bXtcdPtl6EHNSHkq0e1eB7kE12Q=}
+    dependencies:
+      clone: 1.0.4
+      color-convert: 1.9.3
+      color-string: 0.3.0
+    dev: false
 
   /colord/2.9.2:
     resolution: {integrity: sha512-Uqbg+J445nc1TKn4FoDPS6ZZqAvEDnwrH42yo8B40JSOgSLxMZ/gt3h4nmCtPLQeXhjJJkqBx7SCY35WnIixaQ==}
@@ -15937,6 +15960,10 @@ packages:
       readable-stream: 3.6.0
       rlp: 2.2.7
       semaphore: 1.1.0
+
+  /mersenne-twister/1.1.0:
+    resolution: {integrity: sha1-+RZhjuQ9cXnvz2Qb7EUx65Zwl4o=}
+    dev: false
 
   /methods/1.1.2:
     resolution: {integrity: sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=}

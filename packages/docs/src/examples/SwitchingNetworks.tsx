@@ -34,6 +34,7 @@ export function App() {
             <div>Current chain: {chainId}</div>
             <div>
                 {<button onClick={() => switchNetwork(Mainnet.chainId)} disabled={chainId === Mainnet.chainId}>Switch to Mainnet</button>}
+                {' '}
                 {<button onClick={() => switchNetwork(Rinkeby.chainId)} disabled={chainId === Rinkeby.chainId}>Switch to Rinkeby</button>}
             </div>
             <hr/>

@@ -3,6 +3,7 @@ import { Config, DAppProvider, ZkSyncTestnet, Arbitrum, useEtherBalance, Mainnet
 import { formatEther } from '@ethersproject/units'
 import ReactDOM from 'react-dom'
 import { getDefaultProvider } from 'ethers'
+import { AccountIcon } from './components/AccountIcon'
 
 const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
@@ -28,10 +29,25 @@ export function App() {
 
   return (
     <>
-      <div> Account address: {address}</div>
-      <div> Balance on Mainnet: {mainnetBalance && formatEther(mainnetBalance)} Eth </div>
-      <div> Balance on Arbitrum: {arbitrumBalance && formatEther(arbitrumBalance)} AEth </div>
-      <div> Balance on ZkSync Testnet: {zkSyncBalance && formatEther(zkSyncBalance)} ZKEth </div>
+      <div className="balance"> Account:</div>
+      <div className="inline">
+        <AccountIcon account={address}/>
+          &nbsp;
+        <div className="account">{address}</div>
+      </div>
+      <br/>
+      <div className="balance"> 
+        Balance on Mainnet: 
+        <p className="bold">{mainnetBalance && formatEther(mainnetBalance)} Eth </p>
+      </div>
+      <div className="balance"> 
+        Balance on Arbitrum: 
+        <p className="bold">{arbitrumBalance && formatEther(arbitrumBalance)} AEth 
+      </p></div>
+      <div className="balance"> 
+        Balance on ZkSync Testnet: 
+        <p className="bold">{zkSyncBalance && formatEther(zkSyncBalance)} ZKEth 
+      </p></div>
     </>
   )
 }
