@@ -10,5 +10,10 @@ ReactDOM.render(
 export function App()  {
     const etherPrice = useCoingeckoPrice('ethereum', 'usd')
 
-    return (<p>Ether price: {etherPrice} $</p>)
+    return (
+        <div className="balance">
+            Ether price: 
+            <p className="bold">{etherPrice} $</p>
+        </div>
+    )
 }

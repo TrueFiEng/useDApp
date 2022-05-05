@@ -25,7 +25,14 @@ export function App() {
 
   return (
     <div>
-      {etherBalance && <p>Ether balance: {formatEther(etherBalance)}</p>}
+      {etherBalance && 
+        (
+          <div className="balance">
+            Staking contract balance: 
+            <p className="bold">{formatEther(etherBalance)} ETH</p>
+          </div>
+        )
+      }
     </div>
   )
 }
