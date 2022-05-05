@@ -29,24 +29,24 @@ export function App() {
 
   return (
     <>
-      <div id="Balance_DvYH"> Account:</div>
-      <div id="Inline_TYMo">
+      <div className="balance"> Account:</div>
+      <div className="inline">
         <AccountIcon account={address}/>
           &nbsp;
-        <div id="Account_Zr2j">{address}</div>
+        <div className="account">{address}</div>
       </div>
       <br/>
-      <div id="Balance_DvYH"> 
+      <div className="balance"> 
         Balance on Mainnet: 
-        <p id="Bold_yXij">{mainnetBalance && formatEther(mainnetBalance)} Eth </p>
+        <p className="bold">{mainnetBalance && formatEther(mainnetBalance)} Eth </p>
       </div>
-      <div id="Balance_DvYH"> 
+      <div className="balance"> 
         Balance on Arbitrum: 
-        <p id="Bold_yXij">{arbitrumBalance && formatEther(arbitrumBalance)} AEth 
+        <p className="bold">{arbitrumBalance && formatEther(arbitrumBalance)} AEth 
       </p></div>
-      <div id="Balance_DvYH"> 
+      <div className="balance"> 
         Balance on ZkSync Testnet: 
-        <p id="Bold_yXij">{zkSyncBalance && formatEther(zkSyncBalance)} ZKEth 
+        <p className="bold">{zkSyncBalance && formatEther(zkSyncBalance)} ZKEth 
       </p></div>
     </>
   )

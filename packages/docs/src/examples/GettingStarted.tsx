@@ -36,10 +36,10 @@ function App() {
       {account && <button onClick={() => deactivate()}>Disconnect</button>}
       {etherBalance && 
         (
-          <div id="Balance_DvYH">
+          <div className="balance">
             <br/>
             Balance: 
-            <p id="Bold_yXij">{formatEther(etherBalance)}</p>
+            <p className="bold">{formatEther(etherBalance)}</p>
           </div>
         )
       }

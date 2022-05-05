@@ -15,10 +15,10 @@ export const MetamaskConnect = () => {
         <div>
         {account && (
         <div>
-            <div id="Inline_TYMo">
+            <div className="inline">
                 <AccountIcon account={account}/>
                 {' '}
-                <div id="Account_Zr2j">{account}</div>
+                <div className="account">{account}</div>
             </div>
             <br/>
         </div>)}
