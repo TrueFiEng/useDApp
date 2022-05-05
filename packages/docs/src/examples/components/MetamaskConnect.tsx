@@ -17,7 +17,7 @@ export const MetamaskConnect = () => {
         <div>
             <div id="Inline_TYMo">
                 <AccountIcon account={account}/>
-                {' '}
+                &nbsp;
                 <div id="Account_Zr2j">{account}</div>
             </div>
             <br/>
