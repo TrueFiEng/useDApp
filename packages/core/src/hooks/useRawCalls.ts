@@ -43,7 +43,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
  *             A call can be Falsy, as it is important to keep the same ordering of hooks even if in a given render cycle
  *             and there might be not enough information to perform a call.
  * @public
- * @returns {{success: boolean, value: string} | undefined} result of multicall call.
+ * @returns result of multicall call.
  *   The hook returns {@link RawCallResult} type.
  *   That is: `undefined` when call didn't return yet or object `{ success: boolean, value: string }` if it did,
  *   `success` - boolean indicating whether call was successful or not,

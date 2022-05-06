@@ -25,8 +25,8 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * More on type checking [here](https://usedapp-docs.netlify.app/docs/Guides/Reading/Typechain).
  *
  * @public
- * @param {Call | Falsy} call a single call to a contract, also see {@link Call}
- * @returns {CallResult} The hook returns {@link CallResult} type.
+ * @param call a single call to a contract, also see {@link Call}
+ * @returns The hook returns {@link CallResult} type.
  *
  * @example
  * function useTotalSupply(tokenAddress: string | undefined): BigNumber | undefined {
@@ -54,9 +54,9 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  * The hook will cause the component to refresh when a new block is mined and the return values change.
  * A syntax sugar for {@link useRawCalls} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @param {Array<Call>} calls a list of contract calls, also see {@link Call}.
+ * @param calls a list of contract calls, also see {@link Call}.
  * @param queryParams see {@link QueryParams}.
- * @returns {CallResult[]} a list of results (see {@link CallResult}).
+ * @returns a list of results (see {@link CallResult}).
  *
  * @example
  * function useTotalSupplies(tokenAddresses: string[] | undefined): (BigNumber | undefined)[] {

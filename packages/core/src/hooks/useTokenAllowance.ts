@@ -7,11 +7,11 @@ import { useCall } from './useCall'
 
 /**
  * Returns allowance (tokens left to use by spender) for given token owner - spender relationship.
- * @param {string | Falsy} tokenAddress address of a token contract
- * @param {string | Falsy} ownerAddress address of an account to which tokens are linked
- * @param {string | Falsy} spenderAddress address of an account allowed to spend tokens
+ * @param tokenAddress address of a token contract
+ * @param ownerAddress address of an account to which tokens are linked
+ * @param spenderAddress address of an account allowed to spend tokens
  * @param queryParams see {@link QueryParams}.
- * @returns {BigNumber | undefined} an allowance which is `BigNumber`, or `undefined` if any address or token is `Falsy` or not connected.
+ * @returns an allowance which is `BigNumber`, or `undefined` if any address or token is `Falsy` or not connected.
  * @public
  * @example
  * const TOKEN_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'

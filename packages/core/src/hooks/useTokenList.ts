@@ -14,10 +14,10 @@ export interface TokenList {
 /**
  * Fetches ERC20 token list under a given address and filters them by chain id. Optionally it can filter also by token tags.
  * @public
- * @param {string} tokenListURI URI to fetch token list from
- * @param {ChainId} overrideChainId chain id to filter tokens by (if not specified then current network is used)
- * @param {Array<string>} tags list of tags to filter tokens by (token is included if it contains any of given tags)
- * @returns {TokenList | undefined}
+ * @param tokenListURI URI to fetch token list from
+ * @param overrideChainId chain id to filter tokens by (if not specified then current network is used)
+ * @param tags list of tags to filter tokens by (token is included if it contains any of given tags)
+ * @returns
  *   `name`: `string` - token list name.
  *   `logoURI`: `string` - URI to get token list logo from.
  *   `tokens`: `TokenInfo[]` - list of `TokenInfo` objects.

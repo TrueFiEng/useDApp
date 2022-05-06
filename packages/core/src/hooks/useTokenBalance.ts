@@ -7,11 +7,11 @@ import { useCall } from './useCall'
 
 /**
  * Returns a balance of a given token for a given address.
- * @param {string | False} tokenAddress address of a token contract.
- * @param {string | False} address address of an account.
+ * @param tokenAddress address of a token contract.
+ * @param address address of an account.
  * @param queryParams see {@link QueryParams}.
  * @public
- * @returns {BigNumber | undefined} a balance which is `BigNumber`, or `undefined` if address or token is `Falsy` or not connected.
+ * @returns a balance which is `BigNumber`, or `undefined` if address or token is `Falsy` or not connected.
  * @example
  * const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
  * const { account } = useEthers()

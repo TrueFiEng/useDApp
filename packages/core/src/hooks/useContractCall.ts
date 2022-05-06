@@ -44,9 +44,9 @@ export interface ContractCall {
  * Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
  * A syntax sugar for {@link useChainCall} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @param {ContractCall | Falsy} call a single call to a contract, also see {@link ContractCall}.
+ * @param call a single call to a contract, also see {@link ContractCall}.
  * @deprecated It is recommended to use {@link useCall} instead of this method as it is deprecated.
- * @returns {any[] | undefined} the result of a call or undefined if call didn't return yet.
+ * @returns the result of a call or undefined if call didn't return yet.
  */
 export function useContractCall(call: ContractCall | Falsy, queryParams: QueryParams = {}): any[] | undefined {
   return useContractCalls([call], queryParams)[0]
@@ -56,9 +56,9 @@ export function useContractCall(call: ContractCall | Falsy, queryParams: QueryPa
  * Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
  * A syntax sugar for {@link useChainCalls} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @param {Array<ContractCall | Falsy>} calls a list of contract calls , also see {@link ContractCall}.
+ * @param calls a list of contract calls , also see {@link ContractCall}.
  * @deprecated It is recommended to use {@link useCalls} instead of this method as it is deprecated.
- * @returns {any[] | undefined} array of results. Undefined if call didn't return yet.
+ * @returns array of results. Undefined if call didn't return yet.
  */
 export function useContractCalls(
   calls: (ContractCall | Falsy)[],

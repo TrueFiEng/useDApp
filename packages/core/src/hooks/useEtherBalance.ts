@@ -8,8 +8,8 @@ import { Contract } from 'ethers'
 
 /**
  * Returns ether balance of a given account.
- * @param {string | Falsy} address address of an account
- * @returns {BigNumber | undefined} a balance of the account which is BigNumber or `undefined` if not connected to network or address is a falsy value
+ * @param address address of an account
+ * @returns a balance of the account which is BigNumber or `undefined` if not connected to network or address is a falsy value
  * @public
  *
  * @example

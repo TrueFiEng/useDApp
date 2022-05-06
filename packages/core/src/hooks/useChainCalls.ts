@@ -7,8 +7,8 @@ import { useRawCalls } from './useRawCalls'
  * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
  * @public
  * @deprecated It's recommended to use {@link useCalls} or {@link useRawCalls} instead.
- * @param {Array<RawCall | Falsy>} calls list of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
- * @returns {Array<string | Falsy>} encoded result or Falsy value if call didn't return yet or an error occurred.
+ * @param calls list of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
+ * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
  */
 export function useChainCalls(calls: (RawCall | Falsy)[]) {
   const results = useRawCalls(calls)
@@ -20,8 +20,8 @@ export function useChainCalls(calls: (RawCall | Falsy)[]) {
  * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
  * @public
  * @deprecated It's recommended to use {@link useCall} or {@link useRawCall} instead.
- * @param {RawCall | Falsy} call a single call, also see {@link RawCall}. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
- * @returns {string | Falsy} encoded result or Falsy value if call didn't return yet or an error occurred.
+ * @param call a single call, also see {@link RawCall}. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
+ * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
  */
 export function useChainCall(call: RawCall | Falsy) {
   return useChainCalls([call])[0]
