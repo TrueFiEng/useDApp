@@ -4,7 +4,6 @@ import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
 import { TransactionState } from '../model'
 import { errors } from 'ethers'
-import { useConfig } from '../providers/config/context'
 
 const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
@@ -13,7 +12,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
   const { addTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
-  const { percentageGasLimit } = useConfig()
 
   const resetState = useCallback(() => {
     setState({ status: 'None' })
@@ -27,9 +25,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         setState({ status: 'PendingSignature', chainId })
 
         transaction = await transactionPromise
-        if (percentageGasLimit) {
-          transaction.gasLimit = transaction.gasLimit.mul(percentageGasLimit).div(100)
-        }
 
         setState({ transaction, status: 'Mining', chainId })
         addTransaction({

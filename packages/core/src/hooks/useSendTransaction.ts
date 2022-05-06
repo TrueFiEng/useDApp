@@ -1,7 +1,9 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
+import { Zero } from '@ethersproject/constants'
 import { TransactionOptions } from '../../src'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
+import { useConfig } from '../providers/config/context'
 
 /**
  * @public
@@ -9,11 +11,17 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const { percentageGasLimit } = useConfig()
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      await promiseTransaction(signer.sendTransaction(transactionRequest))
+      const estimateGas = await signer.estimateGas(transactionRequest)
+      const gasLimit = percentageGasLimit ? estimateGas.mul(percentageGasLimit + 100).div(100) : undefined
+      await promiseTransaction(signer.sendTransaction({
+        ...transactionRequest,
+        gasLimit,
+      }))
     }
   }
 
