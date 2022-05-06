@@ -10,6 +10,7 @@ import { MultiChainState } from '../providers/chainState/multiChainStates/contex
  *
  * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
  * It is recommended to use {@link useCalls} where applicable instead of this method.
+ * @public
  * @param calls List of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
  * @returns list of multicall calls. See {@link RawCallResult} and {@link useRawCall}.
  */
@@ -41,6 +42,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
  * @param call a single call, also see {@link RawCall}.
  *             A call can be Falsy, as it is important to keep the same ordering of hooks even if in a given render cycle
  *             and there might be not enough information to perform a call.
+ * @public
  * @returns {{success: boolean, value: string} | undefined} result of multicall call.
  *   The hook returns {@link RawCallResult} type.
  *   That is: `undefined` when call didn't return yet or object `{ success: boolean, value: string }` if it did,
