@@ -22,3 +22,4 @@ yarn-error.log*
 
 # Auto generated docs
 02-Hooks.mdx
+generate/*.gen.json
