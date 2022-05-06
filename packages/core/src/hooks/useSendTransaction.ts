@@ -1,5 +1,4 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { Zero } from '@ethersproject/constants'
 import { TransactionOptions } from '../../src'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
@@ -18,10 +17,12 @@ export function useSendTransaction(options?: TransactionOptions) {
     if (signer) {
       const estimateGas = await signer.estimateGas(transactionRequest)
       const gasLimit = percentageGasLimit ? estimateGas.mul(percentageGasLimit + 100).div(100) : undefined
-      await promiseTransaction(signer.sendTransaction({
-        ...transactionRequest,
-        gasLimit,
-      }))
+      await promiseTransaction(
+        signer.sendTransaction({
+          ...transactionRequest,
+          gasLimit,
+        })
+      )
     }
   }
 
