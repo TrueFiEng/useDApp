@@ -8,7 +8,10 @@ let content = hooks.children
   .filter(child => child.flags.isPublic)
   .filter(child => child.kindString === 'Function')
   .map(child => {
-    if (child.comment?.hasTag('deprecated')) {
+    if (child.name === 'useChainCalls') {
+      console.log(child.signatures[0]?.comment)
+    }
+    if (child.signatures[0]?.comment?.tags?.some(tag => (tag as any).tag === 'deprecated')) {
       return `## <del>${child.name}</del>`
     }
     return `## ${child.name}`
