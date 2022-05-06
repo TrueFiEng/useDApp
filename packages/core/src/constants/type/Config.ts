@@ -58,6 +58,10 @@ export type FullConfig = {
     transactionPath: string
   }
   /**
+   * Gas limit percentage number.
+   */
+  percentageGasLimit?: number
+  /**
    * Enables reconnecting to last used provider when user revisits the page.
    */
   autoConnect: boolean
