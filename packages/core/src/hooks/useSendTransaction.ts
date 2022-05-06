@@ -3,7 +3,17 @@ import { TransactionOptions } from '../../src'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 import { useConfig } from '../providers/config/context'
-import { BigNumber } from 'ethers'
+import { BigNumber, Signer } from 'ethers'
+
+async function estimateGas(signer: Signer, transactionRequest: TransactionRequest) {
+  let estimatedGas: BigNumber | undefined = undefined
+  try {
+    estimatedGas = await signer.estimateGas(transactionRequest)
+  } catch (err) {
+    console.error('Invalid sender address')
+  }
+  return estimatedGas
+}
 
 /**
  * @public
@@ -11,22 +21,17 @@ import { BigNumber } from 'ethers'
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
-  const { percentageGasLimit } = useConfig()
+  const { bufferGasLimitPercentage } = useConfig()
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      let estimateGas: BigNumber | undefined = undefined
-      try {
-        estimateGas = await signer.estimateGas(transactionRequest)
-      } catch (err) {
-        console.error('Invalid sender address')
-      }
-      const gasLimit = percentageGasLimit ? estimateGas?.mul(percentageGasLimit + 100).div(100) : undefined
+      const estimatedGas = await estimateGas(signer, transactionRequest)
+      const gasLimit = bufferGasLimitPercentage ? estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100) : undefined
       await promiseTransaction(
         signer.sendTransaction({
           ...transactionRequest,
-          gasLimit,
+          gasLimit: transactionRequest.gasLimit ?? gasLimit,
         })
       )
     }

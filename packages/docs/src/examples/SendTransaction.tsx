@@ -9,7 +9,7 @@ const config: Config = {
     readOnlyUrls: {
       [Mainnet.chainId]: getDefaultProvider('mainnet'),
     },
-    percentageGasLimit: 10, // The percentage by which the transaction may exceed the gas limit.
+    percentageGasLimit: 10, // The percentage by which the transaction may exceed the estimated gas limit.
 }
 
 ReactDOM.render(
@@ -29,7 +29,7 @@ export function App() {
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
     const send = () => {
-        void sendTransaction({ to: address, value: 1, gasLimit: 0 })
+        void sendTransaction({ to: address, value: 1 })
     }
 
     const { account } = useEthers()
