@@ -44,7 +44,7 @@ export interface ContractCall {
  * Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
  * A syntax sugar for {@link useChainCall} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @param {ContractCall | Falsy} call a single call to a contract , also see {@link ContractCall}.
+ * @param {ContractCall | Falsy} call a single call to a contract, also see {@link ContractCall}.
  * @deprecated It is recommended to use {@link useCall} instead of this method as it is deprecated.
  * @returns {any[] | undefined} the result of a call or undefined if call didn't return yet.
  */

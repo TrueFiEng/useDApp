@@ -25,7 +25,7 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * More on type checking [here](https://usedapp-docs.netlify.app/docs/Guides/Reading/Typechain).
  *
  * @public
- * @param {Call | Falsy} call a single call to a contract , also see {@link Call}
+ * @param {Call | Falsy} call a single call to a contract, also see {@link Call}
  * @returns {CallResult} The hook returns {@link CallResult} type.
  *
  * @example
