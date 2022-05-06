@@ -13,7 +13,9 @@ const isDeprecated = (child: Child) =>
 const newLine = (value: string | undefined) => value ? `${value}\n` : ''
 
 const title = (child: Child) => {
-  const value = isDeprecated(child) ? `## <del>${child.name}</del>` : `## ${child.name}`
+  const value = isDeprecated(child) ?
+    `## <del>${child.name}</del>\n**Deprecated**: ${child.signatures[0]?.comment?.tags?.find(tag => (tag as any).tag === 'deprecated').text}`
+    : `## ${child.name}`
   return newLine(value)
 }
 
