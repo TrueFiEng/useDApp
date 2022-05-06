@@ -40,15 +40,4 @@ describe('useSendTransaction', () => {
     expect(await secondReceiver.getBalance()).to.eq(secondReceiverBalance.add(10))
     expect(await receiver.getBalance()).to.not.eq(receiverBalance)
   })
-
-  it('Exception(invalid sender)', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(useSendTransaction, { mockProvider })
-    await waitForNextUpdate()
-
-    await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
-    await waitForCurrent((val) => val.state !== undefined)
-
-    expect(result.current.state.status).to.eq('Exception')
-    if (result.current.state.status === 'Exception') expect(result.current.state?.errorMessage).to.eq('invalid address')
-  })
 })
