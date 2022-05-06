@@ -1,10 +1,24 @@
 import * as fs from 'fs';
-import type {CommentTag, ContainerReflection, DeclarationReflection, ParameterReflection} from 'typedoc'
+import {CommentTag, ContainerReflection, DeclarationReflection, ParameterReflection, Application, TypeDocReader, TSConfigReader, ArgumentsReader} from 'typedoc'
 import { replaceLinks } from './replace-content';
 
+const app = new Application()
+app.options.addReader(new TypeDocReader());
+app.options.addReader(new TSConfigReader());
+
+app.bootstrap({
+  entryPoints: ['../core/src/hooks'],
+  tsconfig: '../core/tsconfig.json',
+  emit: false,
+});
+
+const hooks = app.convert()
+
+// console.log({project})
+
 const outFilename = 'docs/03-API Reference/07-Hooks-JSON.mdx'
-const json = fs.readFileSync('generate/hooks.gen.json', {encoding: 'utf-8'})
-const hooks = JSON.parse(json) as ContainerReflection
+// const json = fs.readFileSync('generate/hooks.gen.json', {encoding: 'utf-8'})
+// const hooks = JSON.parse(json) as ContainerReflection
 type Child = DeclarationReflection
 
 const isDeprecated = (child: Child) =>
@@ -26,10 +40,11 @@ const description = (child: Child) => {
 }
 
 const parameter = (value: ParameterReflection) => {
-  let content = `- \`${value.name}\``
-  let description = value.comment?.shortText
-  content = content + ` - ${description}`
-  return content
+  let type = value.type?.toString()
+  if (type === 'undefined | null | string | false | 0') type = 'string | Falsy' // Unwanted expansion on typedoc side.
+  const typeString = type ? `: ${type}` : ''
+  const description = value.comment?.shortText
+  return `- \`${value.name}${typeString}\` - ${description}`
 }
 
 const parameters = (child: Child) => {
