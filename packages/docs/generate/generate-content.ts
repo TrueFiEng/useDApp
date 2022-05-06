@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import type {ContainerReflection, DeclarationReflection, ParameterReflection} from 'typedoc'
+import type {CommentTag, ContainerReflection, DeclarationReflection, ParameterReflection} from 'typedoc'
 import { replaceLinks } from './replace-content';
 
 const outFilename = 'docs/03-API Reference/07-Hooks-JSON.mdx'
@@ -26,17 +26,27 @@ const description = (child: Child) => {
 const parameter = (value: ParameterReflection) => {
   let content = `- \`${value.name}\``
   let description = value.comment?.shortText
-  if (description) {
-    content = content + ` - ${description}`
-  }
+  content = content + ` - ${description}`
   return content
 }
 
 const parameters = (child: Child) => {
-  const values = child.signatures[0]?.parameters ?? []
+  const values = (child.signatures[0]?.parameters ?? [])
+    .filter(value => !!value.comment?.shortText) // Do not list parameters without any description.
   if (values.length === 0) return undefined
   return `**Parameters**\n` +
     values.map(parameter).join('\n') + '\n'
+}
+
+const example = (value: CommentTag) => {
+  return '```tsx\n' + value.text + '\n```\n'
+}
+
+const examples = (child: Child) => {
+  const examples = child.signatures[0]?.comment?.tags?.filter(tag => (tag as any).tag === 'example') ?? []
+  if (examples.length === 0) return undefined
+  return `**Example**\n` +
+    examples.map(example).join('\n') + '\n'
 }
 
 const returns = (child: Child) => {
@@ -50,6 +60,7 @@ const entry = (child: Child): string => {
     description(child),
     parameters(child),
     returns(child),
+    examples(child),
   ].map(newLine).join('')
 }
 

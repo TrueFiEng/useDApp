@@ -40,7 +40,7 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  *      return undefined
  *    }
  *    return value?.[0]
- *  }
+ * }
  */
 export function useCall<T extends TypedContract, MN extends ContractMethodNames<T>>(
   call: Call<T, MN> | Falsy,
