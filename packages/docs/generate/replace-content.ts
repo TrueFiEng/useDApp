@@ -1,9 +1,5 @@
-import * as fs from 'fs';
-
-const filename = 'docs/03-API Reference/02-Hooks.mdx'
 const modelsLink = (value: string) => `/docs/API%20Reference/Models#${value.toLowerCase()}`
 const hooksLink = (value: string) => `/docs/API%20Reference/Hooks#${value.toLowerCase()}`
-let fileContent = fs.readFileSync(filename, {encoding: 'utf-8'})
 
 ;(String.prototype as any).replaceAll = (String.prototype as any).replaceAll ?? function(subStr, newSubStr) {
   return this.replace(new RegExp(subStr, 'g'), newSubStr);
@@ -54,30 +50,16 @@ const createLink = (value: string) => {
  * Replace the {@link xxx} documentation that works in IDEs.
  * We need to point to a documentation link where the linked entity lives.
  */
-[
-  ...models,
-  ...hooks
-].forEach(linked => {
-  fileContent = fileContent.replaceAll(
-    `{@link ${linked}}`,
-    createLink(linked)
-  )
-})
-
-/**
- * Those paragraphs are generated all over the place but they only cause trouble.
- */
- fileContent = fileContent
-  .replaceAll('<p>', '')
-  .replaceAll('</p>', '')
-
-/**
- * HTML code tags also cause trouble sometimes, we can use markdown format.
- */
- fileContent = fileContent
-  .replaceAll('<pre class="prettyprint source"><code>', "\n```\n")
-  .replaceAll('<pre class="prettyprint source lang-ts"><code>', "\n```tsx\n")
-  .replaceAll('<pre class="prettyprint source lang-tsx"><code>', "\n```tsx\n")
-  .replaceAll('</code></pre>', '```')
-
-fs.writeFileSync(filename, fileContent)
+export const replaceLinks = (content: string) => {
+  let newContent = content;
+  [
+    ...models,
+    ...hooks
+  ].forEach(linked => {
+    newContent = newContent.replaceAll(
+      `{@link ${linked}}`,
+      createLink(linked)
+    )
+  })
+  return newContent
+}

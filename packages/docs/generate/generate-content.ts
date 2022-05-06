@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import type {ContainerReflection, DeclarationReflection} from 'typedoc'
+import type {ContainerReflection, DeclarationReflection, ParameterReflection} from 'typedoc'
+import { replaceLinks } from './replace-content';
 
 const outFilename = 'docs/03-API Reference/07-Hooks-JSON.mdx'
 const json = fs.readFileSync('generate/hooks.gen.json', {encoding: 'utf-8'})
@@ -13,7 +14,7 @@ const newLine = (value: string | undefined) => value ? `${value}\n` : ''
 
 const title = (child: Child) => {
   const value = isDeprecated(child) ? `## <del>${child.name}</del>` : `## ${child.name}`
-  return value
+  return newLine(value)
 }
 
 const description = (child: Child) => {
@@ -22,12 +23,34 @@ const description = (child: Child) => {
   return `${newLine(shortText)}${text}`
 }
 
+const parameter = (value: ParameterReflection) => {
+  let content = `- \`${value.name}\``
+  let description = value.comment?.shortText
+  if (description) {
+    content = content + ` - ${description}`
+  }
+  return content
+}
+
+const parameters = (child: Child) => {
+  const values = child.signatures[0]?.parameters ?? []
+  if (values.length === 0) return undefined
+  return `**Parameters**\n` +
+    values.map(parameter).join('\n') + '\n'
+}
+
+const returns = (child: Child) => {
+  const value = child.signatures[0]?.comment?.returns
+  return value ? `**Returns**: ${value}` : undefined
+}
+
 const entry = (child: Child): string => {
   return [
     title(child),
-    description(child)
+    description(child),
+    parameters(child),
+    returns(child),
   ].map(newLine).join('')
-  // return title(child) + description(child)
 }
 
 let content = hooks.children
@@ -36,4 +59,5 @@ let content = hooks.children
   .map(child => entry(child)).join('')
 
 
+content = replaceLinks(content)
 fs.writeFileSync(outFilename, content)
