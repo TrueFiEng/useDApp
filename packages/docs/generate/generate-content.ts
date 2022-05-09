@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import {CommentTag, ContainerReflection, DeclarationReflection, ParameterReflection, Application, TypeDocReader, TSConfigReader, ArgumentsReader} from 'typedoc'
-import { replaceLinks } from './replace-content';
+import {CommentTag, DeclarationReflection, ParameterReflection, Application, TypeDocReader, TSConfigReader} from 'typedoc'
+import { replaceLinks } from './replace-links';
 
 const app = new Application()
 app.options.addReader(new TypeDocReader());
@@ -13,12 +13,7 @@ app.bootstrap({
 });
 
 const hooks = app.convert()
-
-// console.log({project})
-
-const outFilename = 'docs/03-API Reference/07-Hooks-JSON.mdx'
-// const json = fs.readFileSync('generate/hooks.gen.json', {encoding: 'utf-8'})
-// const hooks = JSON.parse(json) as ContainerReflection
+const outFilename = 'docs/03-API Reference/02-Hooks.mdx'
 type Child = DeclarationReflection
 
 const isDeprecated = (child: Child) =>
