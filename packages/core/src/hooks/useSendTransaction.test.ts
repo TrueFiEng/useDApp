@@ -1,7 +1,7 @@
 import { useSendTransaction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { renderWeb3Hook } from '../../src/testing'
 
 describe('useSendTransaction', () => {
@@ -39,5 +39,15 @@ describe('useSendTransaction', () => {
     expect(result.current.state.status).to.eq('Success')
     expect(await secondReceiver.getBalance()).to.eq(secondReceiverBalance.add(10))
     expect(await receiver.getBalance()).to.not.eq(receiverBalance)
+  })
+
+  it('Exception(invalid sender)', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    await waitForNextUpdate()
+
+    await expect(result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })).to.be.rejectedWith(
+      'invalid address (argument="address", value="0x1", code=INVALID_ARGUMENT, version=address/5.6.0)'
+    )
+    await waitForCurrent((val) => val.state !== undefined)
   })
 })
