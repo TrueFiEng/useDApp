@@ -6,7 +6,3 @@ export const BlockNumbersContext = createContext<
     [chainId in ChainId]?: number
   }
 >({})
-
-export function useBlockNumbers() {
-  return useContext(BlockNumbersContext)
-}
