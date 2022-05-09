@@ -22,13 +22,13 @@ const outFilename = 'docs/03-API Reference/07-Hooks-JSON.mdx'
 type Child = DeclarationReflection
 
 const isDeprecated = (child: Child) =>
-  child.signatures[0]?.comment?.tags?.some(tag => (tag as any).tag === 'deprecated')
+  child.signatures[0]?.comment?.tags?.some(tag => tag.tagName === 'deprecated')
 
 const newLine = (value: string | undefined) => value ? `${value}\n` : ''
 
 const title = (child: Child) => {
   const value = isDeprecated(child) ?
-    `## <del>${child.name}</del>\n**Deprecated**: ${child.signatures[0]?.comment?.tags?.find(tag => (tag as any).tag === 'deprecated').text}`
+    `## <del>${child.name}</del>\n**Deprecated**: ${child.signatures[0]?.comment?.tags?.find(tag => tag.tagName === 'deprecated').text}`
     : `## ${child.name}`
   return newLine(value)
 }
@@ -60,7 +60,7 @@ const example = (value: CommentTag) => {
 }
 
 const examples = (child: Child) => {
-  const examples = child.signatures[0]?.comment?.tags?.filter(tag => (tag as any).tag === 'example') ?? []
+  const examples = child.signatures[0]?.comment?.tags?.filter(tag => tag.tagName === 'example') ?? []
   if (examples.length === 0) return undefined
   return `**Example**\n` +
     examples.map(example).join('\n') + '\n'
