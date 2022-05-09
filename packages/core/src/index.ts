@@ -77,7 +77,7 @@ export {
   TokenList,
   useTransactions,
   useRawCall,
-  useRawCalls
+  useRawCalls,
 } from './hooks'
 export {
   Currency,

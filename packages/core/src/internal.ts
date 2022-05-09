@@ -31,7 +31,7 @@ export {
   useLocalStorage,
   useDebouncePair,
   useInterval,
-  useBlockNumbers
+  useBlockNumbers,
 } from './hooks'
 export {
   warnOnInvalidCall,
