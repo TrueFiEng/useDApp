@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-		del =	require('del'),
 		browserSync =	require('browser-sync'),
 		autoprefixer =	require('gulp-autoprefixer'),
 		sass = require('gulp-sass')(require('sass'))
@@ -30,10 +29,6 @@ gulp.task('img', function() {
 	.pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('clean', async function() {
-	return del.sync('dist');
-});
-
 gulp.task('watch', function() {
 	gulp.watch('src/sass/**/*.sass', gulp.parallel('sass'));
 	gulp.watch('src/js/**/*.js').on('change', browserSync.reload);
@@ -56,7 +51,7 @@ gulp.task('prebuild', async function() {
 
 });
 
-gulp.task('build', gulp.parallel('prebuild', 'clean', 'img', 'sass'));
+gulp.task('build', gulp.parallel('prebuild', 'img', 'sass'));
 
 gulp.task('default', gulp.parallel('watch', 'browser-sync', 'sass'));
 
