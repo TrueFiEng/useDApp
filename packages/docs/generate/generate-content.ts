@@ -46,7 +46,7 @@ const parameters = (child: Child) => {
   const values = (child.signatures[0]?.parameters ?? [])
     .filter(value => !!value.comment?.shortText) // Do not list parameters without any description.
   if (values.length === 0) return undefined
-  return `**Parameters**\n` +
+  return `\n**Parameters**\n` +
     values.map(parameter).join('\n') + '\n'
 }
 
@@ -57,13 +57,13 @@ const example = (value: CommentTag) => {
 const examples = (child: Child) => {
   const examples = child.signatures[0]?.comment?.tags?.filter(tag => tag.tagName === 'example') ?? []
   if (examples.length === 0) return undefined
-  return `**Example**\n` +
+  return `\n**Example**\n` +
     examples.map(example).join('\n') + '\n'
 }
 
 const returns = (child: Child) => {
   const value = child.signatures[0]?.comment?.returns
-  return value ? `**Returns**: ${value}` : undefined
+  return value ? `\n**Returns**: ${value}` : undefined
 }
 
 const entry = (child: Child): string => {
