@@ -3,7 +3,7 @@ import { Contract } from 'ethers'
 import { ContractEventNames, Falsy, EventParams, TypedContract } from '../model/types'
 import { useRawLogs } from './useRawLogs'
 import { LogsResult, decodeLogs, encodeFilterData } from '../helpers'
-import { QueryParams } from '../constants/type/QueryParams'
+import { LogQueryParams } from '../constants/type/QueryParams'
 
 /**
  * @public
@@ -22,10 +22,10 @@ export interface TypedFilter<
  * The hook will cause the component to refresh when a new block is mined and the returned logs change.
  * A syntax sugar for useRawLogs that uses ABI, event name, and arguments instead of raw data.
  * @param filter an event filter (see {@link TypedFilter})
- * @param queryParams allows for additional configuration of the query (see {@link QueryParams})
+ * @param queryParams allows for additional configuration of the query (see {@link LogQueryParams})
  * @returns an array of decoded logs (see {@link LogsResult})
  */
-export function useLogs(filter: TypedFilter | Falsy, queryParams: QueryParams = {}): LogsResult<Contract, string> {
+export function useLogs(filter: TypedFilter | Falsy, queryParams: LogQueryParams = {}): LogsResult<Contract, string> {
   const { fromBlock, toBlock, blockHash } = queryParams
 
   const rawFilter = useMemo(() => encodeFilterData(filter, fromBlock, toBlock, blockHash), [

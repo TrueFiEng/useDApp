@@ -99,7 +99,7 @@ describe('useLogs', () => {
     expect(log.data['value']).to.equal(amount, 'Amount')
   })
 
-  it('Can get all token transfer logs', async () => {
+  it('Can get all token transfer logs using the default log query parameters', async () => {
     const from = deployer
     const to = receiver
 
@@ -111,17 +111,11 @@ describe('useLogs', () => {
 
     const { result, waitForCurrent } = await renderWeb3Hook(
       () =>
-        useLogs(
-          {
-            contract: token,
-            event: 'Transfer',
-            args: [],
-          },
-          {
-            fromBlock: 0,
-            toBlock: 'latest',
-          }
-        ),
+        useLogs({
+          contract: token,
+          event: 'Transfer',
+          args: [],
+        }),
       { mockProvider }
     )
 

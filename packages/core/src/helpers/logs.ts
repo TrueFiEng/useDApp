@@ -44,8 +44,8 @@ export function encodeFilterData(
       return {
         address: contract.address,
         topics: encodedTopics,
-        fromBlock: fromBlock,
-        toBlock: toBlock,
+        fromBlock: fromBlock ?? 0,
+        toBlock: toBlock ?? 'latest',
       } as Filter
     }
   } catch (e) {
