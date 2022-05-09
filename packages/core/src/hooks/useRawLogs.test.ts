@@ -75,7 +75,7 @@ describe('useRawLogs', () => {
     const toAddress = to.address
     const amount = BigNumber.from(1)
 
-    await sendToken(deployer, toAddress, BigNumber.from(1))
+    await sendToken(from, toAddress, amount)
 
     const filter: Filter = {
       address: token.address,
@@ -110,7 +110,7 @@ describe('useRawLogs', () => {
     const toAddress = to.address
     const amount = BigNumber.from(1)
 
-    await sendToken(deployer, toAddress, BigNumber.from(1))
+    await sendToken(from, toAddress, amount)
 
     const filter: Filter = {
       address: token.address,

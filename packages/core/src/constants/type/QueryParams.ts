@@ -1,3 +1,4 @@
+import { BlockTag } from '@ethersproject/abstract-provider'
 import { ChainId } from '../chainId'
 
 /**
@@ -11,4 +12,7 @@ export interface QueryParams {
    */
   chainId?: ChainId
   isStatic?: boolean
+  fromBlock?: BlockTag
+  toBlock?: BlockTag
+  blockHash?: string
 }

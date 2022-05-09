@@ -5,12 +5,13 @@ import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers } from '../providers/blockNumber/blockNumbers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
+import { Falsy } from '../model/types'
 
 /**
  * @public
  */
 export function useRawLogs(
-  filter: Filter | FilterByBlockHash | Promise<Filter | FilterByBlockHash>,
+  filter: Filter | FilterByBlockHash | Promise<Filter | FilterByBlockHash> | Falsy,
   queryParams: QueryParams = {}
 ): Log[] | undefined {
   const { library } = useEthers()
@@ -24,11 +25,11 @@ export function useRawLogs(
 
   const [provider, blockNumber] = useMemo(
     () => (chainId ? [providers[chainId], blockNumbers[chainId]] : [library, _blockNumber]),
-    [providers, library, blockNumbers, _blockNumber]
+    [providers, library, blockNumbers, _blockNumber, chainId]
   )
 
   async function updateLogs() {
-    setLogs(await provider?.getLogs(filter))
+    setLogs(!filter ? undefined : await provider?.getLogs(filter))
   }
 
   useEffect(() => {

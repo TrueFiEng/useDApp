@@ -49,10 +49,12 @@ export {
   useUpdateConfig,
 } from './providers'
 export {
+  TypedFilter,
   Call,
   ContractCall,
   Web3Ethers,
   useBlockMeta,
+  useLogs,
   useCall,
   useCalls,
   useContractCall,
@@ -90,6 +92,7 @@ export {
 } from './model'
 export * from './model/chain'
 export {
+  LogsResult,
   CallResult,
   isLocalChain,
   isTestChain,
