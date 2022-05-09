@@ -16,8 +16,7 @@ export function useSendTransaction(options?: TransactionOptions) {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
       const estimatedGas = !transactionRequest.gasLimit ? await signer.estimateGas(transactionRequest) : undefined
-      const gasLimit =
-        bufferGasLimitPercentage ? estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100) : undefined
+      const gasLimit = bufferGasLimitPercentage ? estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100) : undefined
 
       await promiseTransaction(
         signer.sendTransaction({
