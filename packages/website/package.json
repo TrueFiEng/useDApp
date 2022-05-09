@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "build": "gulp build",
+    "build": "rm -rf dist && gulp build",
     "lint": "true",
     "test": "true",
     "compile:sass": "node-sass sass/main.scss css/main.css -w",
