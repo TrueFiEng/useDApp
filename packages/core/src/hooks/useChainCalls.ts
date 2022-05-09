@@ -3,7 +3,7 @@ import { Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 
 /**
- * Makes multiple calls to specific contracts and returns values. The hook will cause the component to refresh when values change.
+ * Makes multiple calls to specific contracts and returns corresponding values. The hook will cause the component to refresh when values change.
  * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
  * @public
  * @deprecated It's recommended to use {@link useCalls} or {@link useRawCalls} instead.
