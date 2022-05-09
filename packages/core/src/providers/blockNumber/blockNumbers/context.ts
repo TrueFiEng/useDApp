@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 import { ChainId } from '../../../constants'
 
 export const BlockNumbersContext = createContext<
