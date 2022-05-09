@@ -16,7 +16,7 @@ export function useChainCalls(calls: (RawCall | Falsy)[]) {
 }
 
 /**
- * Makes a call to a specific contract and returns the value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+ * Makes a call to a specific contract and returns its value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
  * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
  * @public
  * @deprecated It's recommended to use {@link useCall} or {@link useRawCall} instead.
