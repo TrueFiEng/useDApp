@@ -72,6 +72,7 @@ jobs:
       - name: Run playwright
         run: |
           set -e
+          pnpm run generate
           yarn start &
           sleep 15
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
