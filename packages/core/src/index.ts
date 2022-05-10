@@ -25,6 +25,8 @@ export {
   NodeUrls,
   TestBNB,
   TestBUSD,
+  QueryParams,
+  LogQueryParams,
 } from './constants'
 export {
   DAppProvider,
@@ -46,10 +48,12 @@ export {
   useNetwork,
 } from './providers'
 export {
+  TypedFilter,
   Call,
   ContractCall,
   Web3Ethers,
   useBlockMeta,
+  useLogs,
   useBlockNumber,
   useBlockNumbers,
   useCall,
@@ -93,6 +97,7 @@ export {
 } from './model'
 export * from './model/chain'
 export {
+  LogsResult,
   CallResult,
   isLocalChain,
   isTestChain,
