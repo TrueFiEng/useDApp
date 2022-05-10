@@ -45,10 +45,7 @@ export {
   getStoredTransactionState,
   multicall,
   multicall2,
-  useBlockNumber,
-  useConfig,
   useNetwork,
-  useUpdateConfig,
 } from './providers'
 export {
   TypedFilter,
@@ -57,8 +54,12 @@ export {
   Web3Ethers,
   useBlockMeta,
   useLogs,
+  useBlockNumber,
+  useBlockNumbers,
   useCall,
   useCalls,
+  useConfig,
+  useUpdateConfig,
   useContractCall,
   useContractCalls,
   useChainCall,
@@ -79,6 +80,8 @@ export {
   useTokenList,
   TokenList,
   useTransactions,
+  useRawCall,
+  useRawCalls,
 } from './hooks'
 export {
   Currency,

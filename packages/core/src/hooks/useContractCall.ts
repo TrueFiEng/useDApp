@@ -41,16 +41,24 @@ export interface ContractCall {
 }
 
 /**
+ * Makes a call to a specific contract and returns the value. The hook will cause the component to refresh when a new block is mined and the return value changes.
+ * A syntax sugar for {@link useChainCall} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @deprecated Use {@link useCalls} instead.
+ * @param call a single call to a contract, also see {@link ContractCall}.
+ * @deprecated It is recommended to use {@link useCall} instead of this method as it is deprecated.
+ * @returns the result of a call or undefined if call didn't return yet.
  */
 export function useContractCall(call: ContractCall | Falsy, queryParams: QueryParams = {}): any[] | undefined {
   return useContractCalls([call], queryParams)[0]
 }
 
 /**
+ * Makes calls to specific contracts and returns values. The hook will cause the component to refresh when a new block is mined and the return values change.
+ * A syntax sugar for {@link useChainCalls} that uses ABI, function name, and arguments instead of raw data.
  * @public
- * @deprecated Use {@link useCall} instead.
+ * @param calls a list of contract calls , also see {@link ContractCall}.
+ * @deprecated It is recommended to use {@link useCalls} instead of this method as it is deprecated.
+ * @returns array of results. Undefined if call didn't return yet.
  */
 export function useContractCalls(
   calls: (ContractCall | Falsy)[],

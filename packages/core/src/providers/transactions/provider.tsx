@@ -1,11 +1,9 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
-import { useBlockNumber } from '../blockNumber/blockNumber'
+import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hooks'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
 import { transactionReducer } from './reducer'
-import { useConfig } from '../config'
 
 interface Props {
   children: ReactNode

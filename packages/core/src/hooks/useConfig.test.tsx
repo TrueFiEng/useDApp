@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { useConfig, useUpdateConfig } from '../../src'
+import { useConfig, useUpdateConfig } from './useConfig'
 import { renderWeb3Hook, renderDAppHook, setupTestingConfig } from '../../src/testing'
 import { Config } from '../constants'
 import { Kovan } from '../model'
