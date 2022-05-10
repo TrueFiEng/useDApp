@@ -25,6 +25,8 @@ export {
   NodeUrls,
   TestBNB,
   TestBUSD,
+  QueryParams,
+  LogQueryParams,
 } from './constants'
 export {
   DAppProvider,
@@ -43,18 +45,21 @@ export {
   getStoredTransactionState,
   multicall,
   multicall2,
-  useBlockNumber,
-  useConfig,
   useNetwork,
-  useUpdateConfig,
 } from './providers'
 export {
+  TypedFilter,
   Call,
   ContractCall,
   Web3Ethers,
   useBlockMeta,
+  useLogs,
+  useBlockNumber,
+  useBlockNumbers,
   useCall,
   useCalls,
+  useConfig,
+  useUpdateConfig,
   useContractCall,
   useContractCalls,
   useChainCall,
@@ -75,6 +80,8 @@ export {
   useTokenList,
   TokenList,
   useTransactions,
+  useRawCall,
+  useRawCalls,
 } from './hooks'
 export {
   Currency,
@@ -90,6 +97,7 @@ export {
 } from './model'
 export * from './model/chain'
 export {
+  LogsResult,
   CallResult,
   isLocalChain,
   isTestChain,

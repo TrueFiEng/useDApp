@@ -1,6 +1,9 @@
 import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { getAddress } from 'ethers/lib/utils'
+import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
-import { useConfig, useNetwork } from '../providers'
+import { useNetwork } from '../providers'
+import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 
 type MaybePromise<T> = Promise<T> | any
@@ -35,7 +38,19 @@ export type Web3Ethers = {
 }
 
 /**
+ * Returns connection state and functions that allow to manipulate the state.
+ * **Requires**: `<ConfigProvider>`
+ * 
  * @public
+ * @returns {} Object with the following:
+    - `account: null | string` - current user account (or *null* if not connected or connected in read-only mode)
+    - `chainId: ChainId` - current chainId (or *undefined* if not connected)
+    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/EthWorks/useDapp/tree/master/packages/example) (or `undefined` if not connected)
+    - `active: boolean` - returns if provider is connected (read or write mode)
+    - `activateBrowserWallet()` - function that will initiate connection to browser web3 extension (e.g. Metamask)
+    - `async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)` - function that allows to connect to a wallet
+    - `async deactivate()` - function that disconnects wallet
+    - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
 export function useEthers(): Web3Ethers {
   const {
@@ -65,14 +80,26 @@ export function useEthers(): Web3Ethers {
       throw new Error('Provider not connected.')
     }
 
-    await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    try {
+      await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
+    } catch (error: any) {
+      const errChainNotAddedYet = 4902 // Metamask error code
+      if (error.code === errChainNotAddedYet) {
+        const chain = networks?.find((chain) => chain.chainId === chainId)
+        if (chain?.rpcUrl) {
+          await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
+        }
+      }
+    }
   }
+
+  const account = accounts[0] ? getAddress(accounts[0]) : undefined
 
   return {
     connector: undefined,
     library: provider,
     chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
-    account: accounts[0],
+    account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
       if ('getProvider' in providerOrConnector) {

@@ -4,8 +4,7 @@ import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
 import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
-import { useConfig } from '../../config'
-import { useLocalStorage } from '../../../hooks'
+import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 interface NetworkProviderProps {
@@ -43,7 +42,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       setLoading(false)
-      return
+      throw new Error('No injected provider available')
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
@@ -60,7 +59,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   useEffect(() => {
     if (providerOverride) {
-      activate(providerOverride)
+      void activate(providerOverride)
     }
   }, [providerOverride])
   const update = useCallback(

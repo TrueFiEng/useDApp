@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { useConfig, useUpdateConfig } from '../../src'
+import { useConfig, useUpdateConfig } from './useConfig'
 import { renderWeb3Hook, renderDAppHook, setupTestingConfig } from '../../src/testing'
 import { Config } from '../constants'
 import { Kovan } from '../model'
@@ -31,7 +31,7 @@ describe('useConfig', () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useConfig(), { config: setup.config })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current.networks?.length).to.eq(41)
+    expect(result.current.networks?.length).to.eq(42)
     expect(result.current.notifications?.checkInterval).to.eq(500)
     expect(result.current.notifications?.expirationPeriod).to.eq(5000)
   })

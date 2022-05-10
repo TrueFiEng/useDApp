@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, ChainId } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
+import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
     readOnlyChainId: Mainnet.chainId,
@@ -27,10 +28,10 @@ export function App() {
     const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
     const send = () => {
-        sendTransaction({ to: address, value: 1 })
+        void sendTransaction({ to: address, value: 1 })
     }
 
-    const { activateBrowserWallet, account } = useEthers()
+    const { account } = useEthers()
 
     const WalletContent = () => {
         return disabled
@@ -45,11 +46,8 @@ export function App() {
 
     return (
     <div>
-        {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
-        {account 
-        ? <WalletContent />
-        : <p>Connect to wallet to interact with the example.</p>
-        }
+      <MetamaskConnect />
+      {account && <WalletContent />}
     </div>
     )
 }

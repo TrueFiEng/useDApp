@@ -1,11 +1,9 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
-import { useBlockNumber } from '../blockNumber/blockNumber'
+import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hooks'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
 import { transactionReducer } from './reducer'
-import { useConfig } from '../config'
 
 interface Props {
   children: ReactNode
@@ -89,7 +87,7 @@ export function TransactionProvider({ children }: Props) {
       dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
 
-    updateTransactions()
+    void updateTransactions()
   }, [chainId, library, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />

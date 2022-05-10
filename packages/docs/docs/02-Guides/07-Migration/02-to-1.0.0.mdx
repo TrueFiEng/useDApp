@@ -1,0 +1,30 @@
+# Migrating to 1.0.*
+
+## No longer support for web3-react
+
+`web3-react` connectors are removed from useEthers hook and `useDapp` does not support them.
+
+If you want to integrate wallet with useDapp you should use specific wallet provider like [here](/docs/Guides/Connecting/Wallet%20Connect).
+
+## Multichain support
+
+UseDapp supports multichain queries, tutorial is available [here](/docs/Guides/Connecting/Multi%20Chain).
+
+## Custom provider support
+
+Now you can inject custom provider instead of passing an RPC link like link to Infura.
+
+**Example**
+
+```tsx
+const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    },
+}
+```
+
+## Other
+
+Improved performance and loading speed compared to the previous versions.

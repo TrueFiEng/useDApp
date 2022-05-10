@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/coingecko",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -11,6 +11,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",

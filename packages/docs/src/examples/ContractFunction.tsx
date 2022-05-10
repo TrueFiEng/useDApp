@@ -4,7 +4,7 @@ import { DAppProvider, useEthers, useContractFunction } from '@usedapp/core'
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
 import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
-
+import { MetamaskConnect } from './components/MetamaskConnect'
 
 ReactDOM.render(
     <DAppProvider config={{}}>
@@ -14,7 +14,7 @@ ReactDOM.render(
 )
 
 export function App() {
-    const { account, chainId, activateBrowserWallet } = useEthers()
+    const { account, chainId } = useEthers()
     const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
 
     const WrapEtherComponent = () => {
@@ -26,7 +26,7 @@ export function App() {
         const { status } = state
 
         const wrapEther = () => {
-            send({ value: 1 })
+            void send({ value: 1 })
         }
 
         return (        
@@ -41,15 +41,6 @@ export function App() {
         return isSupportedChain
         ? <WrapEtherComponent />
         : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
-    }
-
-    const MetamaskConnect = () => {
-        return (
-        <div>
-            <button onClick={() => activateBrowserWallet()}>Connect</button>
-            <p>Connect to wallet to interact with the example.</p>
-        </div>
-        )
     }
 
     return (

@@ -22,7 +22,9 @@ interface ConfigProviderProps {
  * const suppliedConf: PartConf = { something: undefined }
  * const conf: FullConf = {...defaultConf, ...suppliedConf}
  * conf.something.toString() // OK according to TS, breaks on runtime.
- *
+ */
+
+/**
  * @internal Intended for internal use - use it on your own risk
  */
 const noUndefined = (x: any) => x !== undefined

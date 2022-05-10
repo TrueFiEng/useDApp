@@ -30,7 +30,7 @@ const InputComponent = () => {
 
   const handleClick = () => {
     setDisabled(true)
-    sendTransaction({ to: address, value: utils.parseEther(amount) })
+    void sendTransaction({ to: address, value: utils.parseEther(amount) })
   }
 
   useEffect(() => {

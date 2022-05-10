@@ -14,7 +14,7 @@ export const useCoingeckoPrice = (base: string, quote = 'usd'): string | undefin
       setPrice(tokenPrice)
     }
 
-    getPrice()
+    void getPrice()
   }, [base, quote, blockNo])
 
   return price
@@ -30,7 +30,7 @@ export const useCoingeckoTokenPrice = (contract: string, quote = 'usd', platform
       setPrice(tokenPrice)
     }
 
-    getPrice()
+    void getPrice()
   }, [contract, quote, platform, blockNo])
 
   return price
