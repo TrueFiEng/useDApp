@@ -63,6 +63,11 @@ Enables reconnecting to last used provider when user revisits the page.
   }
 ```
 
+## ChainId
+
+A number describing the ID of the chain. See [ChainList](https://chainlist.org/) for a list of known chains and their IDs.
+The list of built-in chain IDs in useDapp can be found [here](https://github.com/TrueFiEng/useDApp/blob/master/packages/core/src/constants/chainId.ts).
+
 ## Call
 
 Represents a single call to a contract that can be included in multicall.
@@ -89,6 +94,15 @@ If you also supply a method name in type arguments will also be type checked
   const typedCall: Call<ERC20,'name'> = {contract:ERC20Contract,method:'name',args:[]}
 ```
 
+## CallResult
+
+Result of a [useCall](./02-Hooks.mdx#usecall) query.
+
+It is `undefined` when call didn't return yet or a object `{ value, error }` if it did.
+
+- `value:` `any[] | undefined` - array of results or undefined if error occurred,
+- `error`: `Error | undefined` - encountered error or undefined if call was successful.
+
 ## RawCall
 
 Represents a single call on the blockchain that can be included in multicall.
@@ -101,6 +115,14 @@ Fields:
 
 - ``chainId: number`` - chain id of the chain to perform the call on
 
+## RawCallResult
+
+Result of a [useRawCall](./02-Hooks.mdx#userawcall) query.
+
+It is `undefined` when call didn't return yet or object `{ success: boolean, value: string }` if it did.
+
+- `success` - boolean indicating whether call was successful or not,
+- `value` - encoded result when success is `true` or encoded error message when success is `false`.
 
 ## ChainCall
 
@@ -216,7 +238,7 @@ Fields:
 
 - ``receipt?: TransactionReceipt`` - optional field. See [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
 
-- ``chainId?: ChainId`` - optional field. See [chainId](#chainid).
+- ``chainId?: ChainId`` - optional field. See [ChainID](#chainid).
 
 - ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
 
@@ -232,3 +254,12 @@ Fields:
 Additionally all states except ``None``, contain ``chainId: ChainId``.
 
 Change in ``state`` will update the component so you can use it in useEffect.
+
+## QueryParams
+
+Optional overrides for hooks querying the state of the blockchain.
+
+An object consisting of:
+
+- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [ChainID](#chainid).
+- ``isStatic?: boolean`` - Whether the query is static (not expected to change between calls). Used for optimizations.
