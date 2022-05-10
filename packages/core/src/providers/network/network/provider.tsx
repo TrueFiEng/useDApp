@@ -42,7 +42,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       setLoading(false)
-      return
+      throw new Error('No injected provider available')
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
