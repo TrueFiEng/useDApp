@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { JsonRpcProvider, Provider, BaseProvider } from '@ethersproject/providers'
-import { useConfig } from '../../config'
+import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, NodeUrls } from '../../../constants'
