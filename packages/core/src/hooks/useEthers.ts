@@ -25,7 +25,7 @@ export type Web3Ethers = {
   deactivate: () => void
   connector: undefined
   chainId?: number
-  account?: null | string
+  account?: string
   error?: Error
   library?: JsonRpcProvider
   active: boolean
@@ -43,7 +43,7 @@ export type Web3Ethers = {
  * 
  * @public
  * @returns {} Object with the following:
-    - `account: null | string` - current user account (or *null* if not connected or connected in read-only mode)
+    - `account: string` - current user account (or *undefined* if not connected)
     - `chainId: ChainId` - current chainId (or *undefined* if not connected)
     - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/EthWorks/useDapp/tree/master/packages/example) (or `undefined` if not connected)
     - `active: boolean` - returns if provider is connected (read or write mode)
