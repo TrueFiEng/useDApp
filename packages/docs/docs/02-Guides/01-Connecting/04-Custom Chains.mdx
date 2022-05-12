@@ -33,6 +33,14 @@ export const TutorialChain: Chain = {
   multicallAddress: '0x0000000000000000000000000000000000000000',
   getExplorerAddressLink: (address: string) => `https://tutorialchain.etherscan.io/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://tutorialchain.etherscan.io/tx/${transactionHash}`,
+  // Optional parameters:
+  rpcUrl: 'https://rpc.tutorialchain.io',
+  blockExplorerUrl: 'https://tutorialchain.etherscan.io',
+  nativeCurrency: {
+    name: 'TutorialCoin',
+    symbol: 'TUT',
+    decimals: 18,
+  }
 }
 // IMPORTANT: Fill that object with your own data.
 ```
@@ -48,6 +56,9 @@ Field | Meaning
 `multicallAddress` | An address of the [Multicall](https://github.com/makerdao/multicall) contract on the chain
 `getExplorerAddressLink` | A function to construct a link to a blockchain explorer, based on an ethereum address
 `getExplorerTransactionLink` | A function to construct a link to a blockchain explorer, based on a transaction hash
+`rpcUrl` | (Optional) an RPC url. At least one is required if you want your app to be able to add new networks to Metamask
+`blockExplorerUrl` | (Optional) a block explorer address, optional for adding the network to Metamask
+`nativeCurrency` | (Optional) native currency, optional for adding the network to Metamask (otherwise it will refault to ETH). Please refer to [Metamask docs](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain) or the example above
 
 ### multicallAddress
 

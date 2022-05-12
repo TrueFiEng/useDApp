@@ -11,6 +11,7 @@ import {
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
+import { AccountIcon } from './components/AccountIcon'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -41,13 +42,42 @@ function App() {
         console.error(error)
       }
     }
+
+    const ConnectButton = () => (
+      <div>
+          <button onClick={onConnect}>Connect</button>
+      </div>
+    )
+  
+    const WalletConnectConnect = () => (
+      <div>
+        {account && (
+        <div>
+            <div className="inline">
+                <AccountIcon account={account}/>
+                &nbsp;
+                <div className="account">{account}</div>
+            </div>
+            <br/>
+        </div>)}
+        {!account && <ConnectButton />}
+        {account && <button onClick={deactivate}>Disconnect</button>}
+        <br/>
+      </div>
+    )
     
   return (
     <div>
-      {!account && <button onClick={() => onConnect()}>Connect</button>}
-      {account && <button onClick={deactivate}>Disconnect</button>}
-      {account && <p>Account: {account}</p>}
-      {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
+      <WalletConnectConnect />
+        {etherBalance && 
+        (
+          <div className="balance">
+            <br/>
+            Balance: 
+            <p className="bold">{formatEther(etherBalance)} ETH</p>
+          </div>
+        )
+        }
     </div>
   )
 }

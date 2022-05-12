@@ -53,6 +53,7 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
 }
 
 /**
+ * Result of a multicall call.
  * @public
  */
 export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =

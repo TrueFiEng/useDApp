@@ -27,6 +27,22 @@ export type Chain = {
    */
   multicall2Address?: string
   /**
+   * The URL of the network's RPC provider, used (required) for adding the network to Metamask
+   */
+  rpcUrl?: string
+  /**
+   * The URL of the network's block explorer, used for adding the network to Metamask
+   */
+  blockExplorerUrl?: string
+  /**
+   * The network's currency, used for adding the network to Metamask
+   */
+  nativeCurrency?: {
+    name: string
+    symbol: string
+    decimals: number
+  }
+  /**
    * A function to construct a link to a blockchain explorer, based on an ethereum address.
    */
   getExplorerAddressLink: (address: string) => string

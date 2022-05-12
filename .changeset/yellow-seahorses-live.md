@@ -2,4 +2,4 @@
 "@usedapp/core": patch
 ---
 
-🥌 Add static calls
+🪵 Add useRawLogs hook

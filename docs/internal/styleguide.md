@@ -61,7 +61,7 @@ Example:
  * Result will be typed as well.
  *
  * @public
- * @param call a single call to a contract , also see {@link Call}
+ * @param call a single call to a contract, also see {@link Call}
  * @returns The hook returns {@link CallResult} type.
  *          That is: undefined when call didn't return yet or a object { value | error } if it did,
  *          value: any[] | undefined - array of results or undefined if error occurred,

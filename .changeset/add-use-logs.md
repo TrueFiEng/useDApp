@@ -2,4 +2,4 @@
 "@usedapp/core": patch
 ---
 
-💤 Add zkSync to known chains
+🧻 Add useLogs hook
