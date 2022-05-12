@@ -97,6 +97,14 @@ Can call with Chain directly:
 > // Mainnet
 ```
 
+In order to retrieve the chain name given just a `chainId`, in can be done like so:
+
+```tsx
+const name = DEFAULT_SUPPORTED_CHAINS
+  .find((network) => network.chainId === chainId)
+  ?.chainName
+```
+
 ## isTestChain (deprecated)
 
 Returns if a given chain is a testnet.

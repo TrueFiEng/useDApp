@@ -2,7 +2,8 @@ import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { getAddress } from 'ethers/lib/utils'
 import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
-import { useConfig, useNetwork } from '../providers'
+import { useNetwork } from '../providers'
+import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 
 type MaybePromise<T> = Promise<T> | any
@@ -24,7 +25,7 @@ export type Web3Ethers = {
   deactivate: () => void
   connector: undefined
   chainId?: number
-  account?: null | string
+  account?: string
   error?: Error
   library?: JsonRpcProvider
   active: boolean
@@ -37,7 +38,19 @@ export type Web3Ethers = {
 }
 
 /**
+ * Returns connection state and functions that allow to manipulate the state.
+ * **Requires**: `<ConfigProvider>`
+ * 
  * @public
+ * @returns {} Object with the following:
+    - `account: string` - current user account (or *undefined* if not connected)
+    - `chainId: ChainId` - current chainId (or *undefined* if not connected)
+    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/EthWorks/useDapp/tree/master/packages/example) (or `undefined` if not connected)
+    - `active: boolean` - returns if provider is connected (read or write mode)
+    - `activateBrowserWallet()` - function that will initiate connection to browser web3 extension (e.g. Metamask)
+    - `async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)` - function that allows to connect to a wallet
+    - `async deactivate()` - function that disconnects wallet
+    - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
 export function useEthers(): Web3Ethers {
   const {

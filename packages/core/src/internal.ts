@@ -24,9 +24,15 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
-  useBlockNumbers,
 } from './providers'
-export { connectContractToSigner, useDebounce, useLocalStorage, useDebouncePair, useInterval } from './hooks'
+export {
+  connectContractToSigner,
+  useDebounce,
+  useLocalStorage,
+  useDebouncePair,
+  useInterval,
+  useBlockNumbers,
+} from './hooks'
 export {
   warnOnInvalidCall,
   getChainById,
