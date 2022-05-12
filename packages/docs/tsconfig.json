@@ -5,8 +5,12 @@
     "types": [
       "mocha"
     ],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "skipLibCheck": true
   },
+  "include": [
+    "src"
+  ],
   "references": [
     {
       "path": "../coingecko"
