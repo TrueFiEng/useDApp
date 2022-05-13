@@ -1,4 +1,4 @@
-import { TransactionOptions } from '../../src'
+import { TransactionOptions, useConfig } from '../../src'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
@@ -6,6 +6,7 @@ import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Params, TypedContract } from '../model/types'
+import { estimateGasLimit } from './useSendTransaction'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -37,10 +38,13 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
+  const { bufferGasLimitPercentage = 0 } = useConfig()
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<void> => {
       const contractWithSigner = connectContractToSigner(contract, options, library)
+      const gasLimit = await estimateGasLimit(args[0], library?.getSigner(), bufferGasLimitPercentage)
+
       const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
       if (receipt?.logs) {
         const events = receipt.logs.reduce((accumulatedLogs, log) => {
