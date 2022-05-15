@@ -1,37 +1,39 @@
-import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
-import { useBlockNumber, useBlockNumbers } from '../hooks'
+import { useBlockNumbers, useBlockNumber } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
+import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
+import { Falsy } from '../model/types'
 
 /**
- * Returns gas price of current network.
  * @public
- * @returns gas price of current network. `undefined` if not initialised.
  */
-export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefined {
+export function useRawLogs(
+  filter: Filter | FilterByBlockHash | Promise<Filter | FilterByBlockHash> | Falsy,
+  queryParams: QueryParams = {}
+): Log[] | undefined {
   const { library } = useEthers()
   const providers = useReadonlyNetworks()
   const _blockNumber = useBlockNumber()
   const blockNumbers = useBlockNumbers()
 
-  const [gasPrice, setGasPrice] = useState<BigNumber | undefined>()
+  const [logs, setLogs] = useState<Log[] | undefined>()
 
   const { chainId } = queryParams
 
   const [provider, blockNumber] = useMemo(
     () => (chainId ? [providers[chainId], blockNumbers[chainId]] : [library, _blockNumber]),
-    [providers, library, blockNumbers, _blockNumber]
+    [providers, library, blockNumbers, _blockNumber, chainId]
   )
 
-  async function updateGasPrice() {
-    setGasPrice(await provider?.getGasPrice())
+  async function updateLogs() {
+    setLogs(!filter ? undefined : await provider?.getLogs(filter))
   }
 
   useEffect(() => {
-    void updateGasPrice()
+    void updateLogs()
   }, [provider, blockNumber])
 
-  return gasPrice
+  return logs
 }
