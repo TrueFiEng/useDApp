@@ -72,7 +72,6 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<void> => {
-
       const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
 
       const contractWithSigner = connectContractToSigner(contract, options, library)
