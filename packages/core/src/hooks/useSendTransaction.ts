@@ -1,8 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { TransactionOptions } from '../../src'
+import { TransactionOptions, useConfig } from '../../src'
 import { useEthers } from './useEthers'
 import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction'
-import { useConfig } from '../providers/config/context'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
