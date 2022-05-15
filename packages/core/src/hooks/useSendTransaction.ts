@@ -1,20 +1,8 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
 import { TransactionOptions } from '../../src'
 import { useEthers } from './useEthers'
-import { usePromiseTransaction } from './usePromiseTransaction'
+import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { useConfig } from '../providers/config/context'
-import { Signer } from 'ethers'
-
-/**
- * @internal
- */
-export async function estimateGasLimit(transactionRequest: TransactionRequest, signer: Signer | undefined, bufferGasLimitPercentage: number) {      
-  if (!signer) {
-    return undefined
-  }
-  const estimatedGas = !transactionRequest.gasLimit ? await signer.estimateGas(transactionRequest) : undefined
-  return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
-}
 
 /**
  * @public
@@ -27,7 +15,7 @@ export function useSendTransaction(options?: TransactionOptions) {
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      const gasLimit = estimateGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
+      const gasLimit = await estimateGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
 
       await promiseTransaction(
         signer.sendTransaction({
