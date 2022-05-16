@@ -1,11 +1,10 @@
 // NOTE: We explicitly export the symbols in the root index.ts file to have better control over package's public API.
 
+export type { Chain, Config, FullConfig, MulticallAddresses, NodeUrls, QueryParams, LogQueryParams } from './constants'
 export {
   ChainId,
   BNB,
   BUSD,
-  Chain,
-  Config,
   DEFAULT_SUPPORTED_CHAINS,
   Dai,
   ERC20,
@@ -13,23 +12,17 @@ export {
   ERC20Mock,
   ERC20MockInterface,
   Ether,
-  FullConfig,
   KovanDai,
   KovanEther,
   MultiCall,
   MultiCall2,
   MultiCall2ABI,
   MultiCallABI,
-  MulticallAddresses,
   NATIVE_CURRENCY,
-  NodeUrls,
   TestBNB,
   TestBUSD,
-  QueryParams,
-  LogQueryParams,
 } from './constants'
-export {
-  DAppProvider,
+export type {
   DAppProviderProps,
   AddNotificationPayload,
   RemoveNotificationPayload,
@@ -42,16 +35,10 @@ export {
   StoredTransaction,
   StoredTransactions,
   Network,
-  getStoredTransactionState,
-  multicall,
-  multicall2,
-  useNetwork,
 } from './providers'
+export { DAppProvider, getStoredTransactionState, multicall, multicall2, useNetwork } from './providers'
+export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
-  TypedFilter,
-  Call,
-  ContractCall,
-  Web3Ethers,
   useBlockMeta,
   useLogs,
   useBlockNumber,
@@ -78,27 +65,15 @@ export {
   useTokenAllowance,
   useTokenBalance,
   useTokenList,
-  TokenList,
   useTransactions,
   useRawCall,
   useRawCalls,
 } from './hooks'
-export {
-  Currency,
-  CurrencyValue,
-  CurrencyFormatOptions,
-  FiatCurrency,
-  NativeCurrency,
-  Token,
-  TransactionOptions,
-  TransactionState,
-  TransactionStatus,
-  transactionErrored,
-} from './model'
+export type { CurrencyFormatOptions, TransactionOptions, TransactionState, TransactionStatus } from './model'
+export { Currency, CurrencyValue, FiatCurrency, NativeCurrency, Token, transactionErrored } from './model'
+export type { LogsResult, CallResult } from './helpers'
 export * from './model/chain'
 export {
-  LogsResult,
-  CallResult,
   isLocalChain,
   isTestChain,
   addressEqual,
