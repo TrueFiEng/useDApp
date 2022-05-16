@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
 import { TransactionState } from '../model'
-import { errors, Signer } from 'ethers'
+import { BigNumber, errors, Signer } from 'ethers'
 
 /**
  * @internal
@@ -16,7 +16,9 @@ export async function estimateGasLimit(
   if (!signer || !transactionRequest) {
     return undefined
   }
-  const estimatedGas = transactionRequest.gasLimit ? await signer.estimateGas(transactionRequest) : undefined
+  const estimatedGas = transactionRequest.gasLimit
+    ? BigNumber.from(transactionRequest.gasLimit)
+    : await signer.estimateGas(transactionRequest)
   return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
 }
 

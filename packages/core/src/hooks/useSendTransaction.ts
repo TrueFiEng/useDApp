@@ -38,7 +38,7 @@ export function useSendTransaction(options?: TransactionOptions) {
       await promiseTransaction(
         signer.sendTransaction({
           ...transactionRequest,
-          gasLimit: transactionRequest.gasLimit ?? gasLimit,
+          gasLimit,
         })
       )
     }
