@@ -23,12 +23,14 @@ import { Contract } from 'ethers'
  * ) : null
  */
 export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
-  const partialCall = {
-    contract: new Contract(tokenAddress || '', ERC20Interface),
-    address: tokenAddress || '',
+  const partialCall = tokenAddress && {
+    contract: new Contract(tokenAddress, ERC20Interface),
+    address: tokenAddress,
     args: [],
   }
-  const args = ['name', 'symbol', 'decimals', 'totalSupply'].map((method): Call => ({ ...partialCall, method }))
+  const args = ['name', 'symbol', 'decimals', 'totalSupply'].map(
+    (method): Call | Falsy => partialCall && { ...partialCall, method }
+  )
   const [name, symbol, decimals, totalSupply] = useCalls(args)
 
   if (!name && !symbol && !decimals && !totalSupply) {
