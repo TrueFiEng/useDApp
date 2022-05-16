@@ -1,14 +1,6 @@
 // NOTE: We explicitly export the symbols in the root index.ts file to have better control over package's public API.
 
-export type {
-  Chain,
-  Config,
-  FullConfig,
-  MulticallAddresses,
-  NodeUrls,
-  QueryParams,
-  LogQueryParams,
-} from './constants'
+export type { Chain, Config, FullConfig, MulticallAddresses, NodeUrls, QueryParams, LogQueryParams } from './constants'
 export {
   ChainId,
   BNB,
@@ -44,20 +36,8 @@ export type {
   StoredTransactions,
   Network,
 } from './providers'
-export {
-  DAppProvider,
-  getStoredTransactionState,
-  multicall,
-  multicall2,
-  useNetwork,
-} from './providers'
-export type {
-  TypedFilter,
-  Call,
-  ContractCall,
-  Web3Ethers,
-  TokenList,
-} from './hooks'
+export { DAppProvider, getStoredTransactionState, multicall, multicall2, useNetwork } from './providers'
+export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
   useBlockMeta,
   useLogs,
@@ -89,24 +69,9 @@ export {
   useRawCall,
   useRawCalls,
 } from './hooks'
-export type {
-  CurrencyFormatOptions,
-  TransactionOptions,
-  TransactionState,
-  TransactionStatus,
-} from './model'
-export {
-  Currency,
-  CurrencyValue,
-  FiatCurrency,
-  NativeCurrency,
-  Token,
-  transactionErrored,
-} from './model'
-export type {
-  LogsResult,
-  CallResult,
-} from './helpers'
+export type { CurrencyFormatOptions, TransactionOptions, TransactionState, TransactionStatus } from './model'
+export { Currency, CurrencyValue, FiatCurrency, NativeCurrency, Token, transactionErrored } from './model'
+export type { LogsResult, CallResult } from './helpers'
 export * from './model/chain'
 export {
   isLocalChain,
