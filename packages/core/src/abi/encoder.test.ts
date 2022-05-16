@@ -27,9 +27,9 @@ function split(calldata: string) {
 
 describe.only('Fast ABI encoder', () => {
   describe('Encoder', () => {
-    it.only('can encode multicall v2', () => {
+    it('can manually encode multicall v2', () => {
       const calldata = ethersAbi.encodeFunctionData('tryAggregate', [true, calls.map(calldata => [address, calldata])])
-      // console.log(calldata.length)
+      console.log(calldata.length)
       
       
       const manual = encodeTryAggregate(true, calls.map(calldata => [address, calldata]))
@@ -38,6 +38,21 @@ describe.only('Fast ABI encoder', () => {
       writeFileSync('actual.txt', split(manual))
 
       expect(manual).to.eq(calldata)
+    })
+
+    it.only('can encode multicall v2 using codegen', () => {
+      const calldata = ethersAbi.encodeFunctionData('tryAggregate', [true, calls.map(calldata => [address, calldata])])
+      console.log(calldata.length)
+      
+      
+      const encoder = createEncoder(MultiCall2.abi.find(f => f.name === 'tryAggregate')!)
+
+      const encoded = encoder(true, calls.map(calldata => [address, calldata]))
+      
+      writeFileSync('expected.txt', split(calldata))
+      writeFileSync('actual.txt', split(encoded))
+
+      expect(encoded).to.eq(calldata)
     })
 
     it.only('bench ethers', () => {
@@ -52,6 +67,43 @@ describe.only('Fast ABI encoder', () => {
       formatBench(bench(() => {
         encodeTryAggregate(true, callsLong.map(calldata => [address, calldata]))
       }))
+    })
+
+
+    it.only('bench codegen', () => {
+      const callsLong = [...Array(20)].flatMap(() => calls)
+      const encoder = createEncoder(MultiCall2.abi.find(f => f.name === 'tryAggregate')!)
+      formatBench(bench(() => {
+        encoder(true, callsLong.map(calldata => [address, calldata]))
+      }))
+    })
+
+
+    it('string concat', () => {
+      formatBench(bench(() => {
+        let res = ''
+        for(let i = 0; i < 10000; i++) {
+          res += 'foo'
+        }
+      }), 'append')
+
+      formatBench(bench(() => {
+        let res = ''
+        for(let i = 0; i < 10000; i++) {
+          res = 'foo' + res
+        }
+      }), 'prepend')
+
+      formatBench(bench(() => {
+        let res = ''
+        for(let i = 0; i < 100; i++) {
+          let res2 = ''
+          for(let j = 0; j < 100; j++) {
+            res2 += 'foo'
+          }
+          res += res2
+        }
+      }), 'nested')
     })
   })
 })
