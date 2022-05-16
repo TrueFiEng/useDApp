@@ -6,4 +6,24 @@
 export type Falsy = false | 0 | '' | null | undefined
 ```
 
-If you pass one of these types to call, it will return undefined.
+If you pass one of these types to call, it will return undefined without making blockchain query.
+
+```tsx
+export function useTokenBalance(
+  tokenAddress: string | Falsy,
+  address: string | Falsy,
+  queryParams: QueryParams = {}
+): BigNumber | undefined {
+  const { value: tokenBalance } =
+    useCall(
+      address &&
+        tokenAddress && {
+          contract: new Contract(tokenAddress, ERC20Interface),
+          method: 'balanceOf',
+          args: [address],
+        },
+      queryParams
+    ) ?? {}
+  return tokenBalance?.[0]
+}
+```
