@@ -62,23 +62,32 @@ const selector = ethersAbi.getSighash('tryAggregate')
 function encodeTryAggregate(b: boolean, calls: [string, string][]) {
   const buffLength = (buf: string) => (buf.length - 2) / 2
   const bufPaddedLength = (buf: string) => Math.ceil(buffLength(buf) / 32) * 32
+  const encodeUint = (uint: number) => uint.toString(16).padStart(64, '0')
 
   let res = selector;
+  let dynamicOffset;
 
   // head params
+  dynamicOffset = 0x40;
   res += b ? '0000000000000000000000000000000000000000000000000000000000000001' : '0000000000000000000000000000000000000000000000000000000000000000';
-  res += '0000000000000000000000000000000000000000000000000000000000000040'
+  res += encodeUint(dynamicOffset)
 
-  res += calls.length.toString(16).padStart(64, '0')
-  let offset = calls.length * 0x20
+  // array
+  dynamicOffset = calls.length * 0x20
+  res += encodeUint(calls.length)
   for(const call of calls) {
-    res += offset.toString(16).padStart(64, '0')
-    offset += 3 * 0x20 + bufPaddedLength(call[1])
+    res += encodeUint(dynamicOffset)
+    dynamicOffset += 3 * 0x20 + bufPaddedLength(call[1])
   }
 
+  // tuples
   for(const call of calls) {
+    // address + calldata ptr
+    dynamicOffset = 0x40;
     res += '000000000000000000000000' + call[0].slice(2).toLowerCase()
-    res += '0000000000000000000000000000000000000000000000000000000000000040'
+    res += encodeUint(dynamicOffset)
+
+    // calldata
     res += buffLength(call[1]).toString(16).padStart(64, '0')
     res += call[1].slice(2).padEnd(bufPaddedLength(call[1]) * 2, '0')
   }
