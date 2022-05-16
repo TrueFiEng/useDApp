@@ -18,7 +18,7 @@ export type Params<T extends TypedContract, FN extends ContractFunctionNames<T> 
 
 export type EventParams<T extends TypedContract, EN extends ContractEventNames<T>> = Parameters<T['filters'][EN]>
 
-export type EventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = { [P in keyof EventParams<T, EN> as string]: string }
+export type EventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = { [P in keyof EventParams<T, EN> as string]: any }
 
 export type DetailedEventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = {
     data: EventRecord<T, EN>,
