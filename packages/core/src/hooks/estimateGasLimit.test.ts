@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { estimateGasLimit } from './usePromiseTransaction'
 
-const SENDING_ETHER_COST = 21000
+const BASE_TX_COST = 21000
 
 describe('estimateGasLimit', () => {
   const mockProvider = new MockProvider()
@@ -18,7 +18,7 @@ describe('estimateGasLimit', () => {
       0
     )
 
-    expect(gasLimit).to.equal(SENDING_ETHER_COST)
+    expect(gasLimit).to.equal(BASE_TX_COST)
   })
 
   it('sending ether transaction with limit', async () => {
@@ -31,6 +31,6 @@ describe('estimateGasLimit', () => {
       10
     )
 
-    expect(gasLimit).to.equal((SENDING_ETHER_COST * 110) / 100)
+    expect(gasLimit).to.equal(BASE_TX_COST * 1.1)
   })
 })
