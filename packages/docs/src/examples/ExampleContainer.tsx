@@ -71,7 +71,7 @@ function loadExample(example: Example): React.FC {
   }
   const exports = example.load()
   const component = renderJsx ? () => renderJsx : exports.default
-  ReactDOM.render = originalRender
+  ;(ReactDOM as any).render = originalRender
   
   exampleCache.set(example.path, component)
   return component

@@ -35,6 +35,8 @@ See example below:
 
 - ``error`` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
 
+- ``switchNetwork`` - a function which, given a chainId, will ask the browser wallet to switch the network, and if the network hasn't been added yet, will make an attempt to add the network to the wallet. Only compatible with Metamask.
+
 ## Example
 
 Example below demonstrates how to manage and use connection.

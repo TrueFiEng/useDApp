@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useTokenBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
+import { MetamaskConnect } from './components/MetamaskConnect'
 
 const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
 
@@ -21,13 +22,20 @@ ReactDOM.render(
 )
 
 export function TokenBalance() {
-  const { account, activateBrowserWallet } = useEthers()
+  const { account } = useEthers()
   const daiBalance = useTokenBalance(DAI, account)
 
   return (
     <div>
-      {!account && <button onClick={activateBrowserWallet}> Connect </button>}
-      {daiBalance && <p>Dai balance: {formatEther(daiBalance)}</p>}
+      <MetamaskConnect />
+      {daiBalance && 
+        (
+          <div className="balance">
+            Dai balance: 
+            <p className="bold">{formatEther(daiBalance)}</p>
+          </div>
+        )
+      }
     </div>
   )
 }
