@@ -1,12 +1,12 @@
 # @useDapp/siwe
 
-### Ethereum 🤝 React 
-React framework for Signing In With Ethereum.
+Usedapp's framework to Signing-in with Ethereum.
 
-More info about SIWE can be found [here](https://login.xyz/)
+More info about Sign-in with Ethereum can be found [here](https://login.xyz/)
 
 ## Documentation
-For detailed feature walkthrough checkout [documentation](https://usedapp-docs.netlify.app/docs).
+
+For detailed feature walkthrough checkout [documentation](https://usedapp-docs.netlify.app/docs/Guides/Sign%20in%20with%20Ethereum).
 
 ## Contributing
 
