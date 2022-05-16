@@ -2,7 +2,7 @@
 
 ### UseDapp 🤝 SIWE
 
-Usedapp's framework to Signing-in with Ethereum.
+Usedapp's plugin to Signing-in with Ethereum.
 
 More info about Sign-in with Ethereum can be found [here](https://login.xyz/)
 
