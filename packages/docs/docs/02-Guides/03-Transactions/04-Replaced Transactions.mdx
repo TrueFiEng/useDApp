@@ -1,2 +1,28 @@
 # Replaced Transactions
 
+UseDapp supports replaced transactions.
+After replacing transaction on wallet, you will see it as a prevoius transaction(one you replaced) and it will be treated as a previous transaction.
+
+Here is code snippet from source code:
+```tsx
+const isDroppedAndReplaced = (e: any) =>
+  e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+
+const droppedAndReplaced = isDroppedAndReplaced(e)
+
+if (droppedAndReplaced) {
+const status: TransactionState = e.receipt.status === 0 ? 'Fail' : 'Success'
+const type = status === 'Fail' ? 'transactionFailed' : 'transactionSucceed'
+
+addNotification({
+    notification: {
+    type,
+    submittedAt: Date.now(),
+    transaction: e.replacement,
+    receipt: e.receipt,
+    transactionName: e.replacement?.transactionName,
+    originalTransaction: transaction,
+    },
+    chainId,
+})
+```
