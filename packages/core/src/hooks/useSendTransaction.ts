@@ -1,7 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { TransactionOptions } from '../../src'
+import { TransactionOptions, useConfig } from '../../src'
 import { useEthers } from './useEthers'
-import { usePromiseTransaction } from './usePromiseTransaction'
+import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -28,11 +28,19 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const { bufferGasLimitPercentage = 0 } = useConfig()
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      await promiseTransaction(signer.sendTransaction(transactionRequest))
+      const gasLimit = await estimateGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
+
+      await promiseTransaction(
+        signer.sendTransaction({
+          ...transactionRequest,
+          gasLimit,
+        })
+      )
     }
   }
 
