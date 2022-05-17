@@ -45,10 +45,9 @@ describe('useSendTransaction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(useSendTransaction, { mockProvider })
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
+    await expect(result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })).to.be.rejectedWith(
+      'invalid address (argument="address", value="0x1", code=INVALID_ARGUMENT, version=address/5.6.0)'
+    )
     await waitForCurrent((val) => val.state !== undefined)
-
-    expect(result.current.state.status).to.eq('Exception')
-    if (result.current.state.status === 'Exception') expect(result.current.state?.errorMessage).to.eq('invalid address')
   })
 })

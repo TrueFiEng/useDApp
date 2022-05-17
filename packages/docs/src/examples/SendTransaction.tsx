@@ -8,7 +8,8 @@ const config: Config = {
     readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
       [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    }
+    },
+    bufferGasLimitPercentage: 10, // The percentage by which the transaction may exceed the estimated gas limit.
 }
 
 ReactDOM.render(

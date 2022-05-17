@@ -1,9 +1,26 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions } from '../../src'
 import { TransactionState } from '../model'
-import { errors } from 'ethers'
+import { BigNumber, errors, Signer } from 'ethers'
+
+/**
+ * @internal
+ */
+export async function estimateGasLimit(
+  transactionRequest: TransactionRequest | undefined,
+  signer: Signer | undefined,
+  bufferGasLimitPercentage: number
+) {
+  if (!signer || !transactionRequest) {
+    return undefined
+  }
+  const estimatedGas = transactionRequest.gasLimit
+    ? BigNumber.from(transactionRequest.gasLimit)
+    : await signer.estimateGas(transactionRequest)
+  return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+}
 
 const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
