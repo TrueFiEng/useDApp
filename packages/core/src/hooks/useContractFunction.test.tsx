@@ -86,4 +86,12 @@ describe('useContractFunction', () => {
       expect(result.current.state.errorMessage).to.eq('out of gas')
     }
   })
+
+  it('should not throw error when contract is Falsy', async () => {
+    const { result, waitForNextUpdate } = await renderWeb3Hook(() => useContractFunction(null, 'approve'), {
+      mockProvider,
+    })
+    await waitForNextUpdate()
+    await result.current.send(spender.address, 200)
+  })
 })

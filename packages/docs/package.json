@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
-    "@docusaurus/module-type-aliases": "2.0.0-beta.17",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.20",
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/mocha": "^8.2.0",
     "@types/node": "^17.0.10",
