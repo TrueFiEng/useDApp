@@ -1,28 +1,10 @@
 # Replaced Transactions
 
-UseDapp supports replaced transactions.
-After replacing transaction on wallet, you will see it as a prevoius transaction(one you replaced) and it will be treated as a previous transaction.
+If the status is pending you can replace transaction with increased gas limit to have it mined quicker. To do it in just send another transactions with the same nonce as previous. This transaction is called `replaced transaction`.
+After replacing transaction on wallet, you will see it as a previous transaction(one you replaced) and it will be treated as a previous transaction.
 
-Here is code snippet from source code:
-```tsx
-const isDroppedAndReplaced = (e: any) =>
-  e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+<img src="https://lh3.googleusercontent.com/FtUnvBTcWuTDZauj0IXI4uY9kB3gxkVHJFsuu5SlTzs0zRt8RNV3GAup9WGrKfw1AoALuoFYM5ZjT320wR2mS3UOozJl8bhisQ2d5Bh0aDqe58x9rzvEYbZbG1OtJm7_HdyBBXs7" alt="replace_metamask"/>
 
-const droppedAndReplaced = isDroppedAndReplaced(e)
+## UseDapp behaviour
 
-if (droppedAndReplaced) {
-const status: TransactionState = e.receipt.status === 0 ? 'Fail' : 'Success'
-const type = status === 'Fail' ? 'transactionFailed' : 'transactionSucceed'
-
-addNotification({
-    notification: {
-    type,
-    submittedAt: Date.now(),
-    transaction: e.replacement,
-    receipt: e.receipt,
-    transactionName: e.replacement?.transactionName,
-    originalTransaction: transaction,
-    },
-    chainId,
-})
-```
+UseDapp supports replaced transactions. After replacing the useDapp's transaction status will be shown as `Exception`, but after it is mined the status will be `Success`.
