@@ -14,7 +14,9 @@ export class WalletConnectConnector implements Connector {
 
   private async init() {
     if (this.provider) return
-    this.provider = new Web3Provider(new WalletConnectProvider(this.opts))
+    const walletConnectProvider = new WalletConnectProvider(this.opts)
+    await walletConnectProvider.enable()
+    this.provider = new Web3Provider(walletConnectProvider)
   }
 
   async connectEagerly(): Promise<void> {

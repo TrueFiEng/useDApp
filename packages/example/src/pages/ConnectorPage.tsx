@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { MetamaskConnector, RpcConnector, useEtherBalance, useEthers } from '@usedapp/core'
+import { MetamaskConnector, RpcConnector, WalletConnectConnector, useEtherBalance, useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
 import { Title } from '../typography/Title'
@@ -13,6 +13,7 @@ import { Web3Provider } from '@ethersproject/providers'
 export const ConnectorPage = () => {
   const { account, activate, deactivate } = useEthers()
   const metamaskConnector = new MetamaskConnector()
+  const walletConnectConnector = new WalletConnectConnector({infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',})
   const rpcConnector = new RpcConnector('https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd')
   const ethBalance = useEtherBalance(account)
 
@@ -36,22 +37,34 @@ export const ConnectorPage = () => {
                     <LoginButton onClick={deactivate}>Disconnect</LoginButton>
                   </>
                 ) : (
-                  <LoginButton onClick={() => {void activate(metamaskConnector.provider as Web3Provider)}}>Connect</LoginButton>
+                  <LoginButton onClick={async () => {await metamaskConnector.activate();void activate(metamaskConnector.provider as Web3Provider)}}>Connect</LoginButton>
                 )}
               </Account>
             </SectionRow>
-            {/* <SectionRow>
+            <SectionRow>
               <Title>Rpc Connector</Title>
               <Account>
                 {account ? (
                   <>
-                    <LoginButton onClick={() => rpcConnector.deactivate()}>Disconnect</LoginButton>
+                    <LoginButton onClick={deactivate}>Disconnect</LoginButton>
                   </>
                 ) : (
-                  <LoginButton onClick={() => rpcConnector.activate()}>Connect</LoginButton>
+                  <LoginButton onClick={async () => {await rpcConnector.activate();void activate(rpcConnector.provider as Web3Provider)}}>Connect</LoginButton>
                 )}
               </Account>
-            </SectionRow> */}
+            </SectionRow>
+            <SectionRow>
+              <Title>WalletConnect Connector</Title>
+              <Account>
+                {account ? (
+                  <>
+                    <LoginButton onClick={deactivate}>Disconnect</LoginButton>
+                  </>
+                ) : (
+                  <LoginButton onClick={async () => {await walletConnectConnector.activate();void activate(walletConnectConnector.provider)}}>Connect</LoginButton>
+                )}
+              </Account>
+            </SectionRow>
             <ContentBlock>
             {account && (
             <ContentRow>
