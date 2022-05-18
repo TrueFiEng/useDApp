@@ -1,12 +1,12 @@
 # Handling Falsy types
 
-`useDapp` supports handling `False`
+Hooks in `useDapp` support handling "falsy" values in most parameters.
 
 ```tsx
 export type Falsy = false | 0 | '' | null | undefined
 ```
 
-If you pass one of these types to call, it will return undefined without making blockchain query.
+If you pass one of these types to a call, it will return `undefined` without making blockchain query. This allows us to conditionally make a call if a parameter is not known ahead of time, without breaking the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html).
 
 ## Example
 
