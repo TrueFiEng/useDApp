@@ -1,6 +1,8 @@
 name: Deploy
 on:
   pull_request:
+    branches-ignore:
+      - 'changeset-release/*'
   push:
     branches:
       - master
