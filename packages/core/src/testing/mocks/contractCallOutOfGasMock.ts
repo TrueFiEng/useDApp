@@ -9,7 +9,7 @@ const transferOutOfGasMock = (): TransactionResponse => {
   } as TransactionResponse
 }
 
-export const contractCallOutOfGasMock = {
+export const contractCallOutOfGasMock = ({
   transfer: transferOutOfGasMock,
   signer: true,
-} as unknown as Contract
+} as unknown) as Contract

@@ -32,7 +32,7 @@ export function encodeFilterData(
     return undefined
   }
   try {
-    const encodedTopics = contract.interface.encodeFilterTopics(event as unknown as EventFragment, args)
+    const encodedTopics = contract.interface.encodeFilterTopics((event as unknown) as EventFragment, args)
 
     if (blockHash) {
       return {

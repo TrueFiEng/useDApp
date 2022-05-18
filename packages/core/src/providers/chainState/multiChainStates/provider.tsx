@@ -98,10 +98,11 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     }
   }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
 
-  const chains = useMemo(
-    () => composeChainState(networks, state, multicallAddresses),
-    [state, multicallAddresses, networks]
-  )
+  const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
+    state,
+    multicallAddresses,
+    networks,
+  ])
 
   const provided = { chains, dispatchCalls }
 
