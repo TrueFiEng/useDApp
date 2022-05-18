@@ -11,23 +11,6 @@ If you pass one of these types to a call, it will return `undefined` without mak
 ## Example
 
 ```tsx
-export function useTokenBalance(
-  tokenAddress: string | Falsy,
-  address: string | Falsy,
-  queryParams: QueryParams = {}
-): BigNumber | undefined {
-  const { value: tokenBalance } =
-    useCall(
-      address &&
-        tokenAddress && {
-          contract: new Contract(tokenAddress, ERC20Interface),
-          method: 'balanceOf',
-          args: [address],
-        },
-      queryParams
-    ) ?? {}
-  return tokenBalance?.[0]
-}
+const {account} = useEthers() // account is of type "string | undefined"
+const balance = useEtherBalance(account) // Will start making queries once account is defined
 ```
-
-This function for undefined `tokenAddress` or `address` returns undefined.
