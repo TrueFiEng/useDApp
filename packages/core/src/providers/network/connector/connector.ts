@@ -1,4 +1,4 @@
-import { BaseProvider, Web3Provider } from '@ethersproject/providers';
+import { BaseProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
 
 export enum ConnectorPriority {
   ApiNode = 1,
@@ -13,12 +13,12 @@ export interface Update {
 export type UpdateFn = (data: Update) => void
 
 export interface Connector {
-  name: string;
-  priority: ConnectorPriority;
+  name: string
+  priority: ConnectorPriority
 
-  provider?: BaseProvider;
+  provider?: BaseProvider | ExternalProvider | Web3Provider
 
-  onUpdate?: UpdateFn;
+  onUpdate?: UpdateFn
 
   connectEagerly(): Promise<void>
 

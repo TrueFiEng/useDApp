@@ -1,32 +1,30 @@
-import { Connector } from "./connector";
+import { Connector } from './connector'
 
 export class ConnectorController {
-  constructor(
-    public readonly connector: Connector,
-  ) {
+  constructor(public readonly connector: Connector) {
     connector.onUpdate = ({ chainId, accounts }) => {
-      this.chainId = chainId;
-      this.accounts = accounts;
+      this.chainId = chainId
+      this.accounts = accounts
     }
 
-    void this.connector.connectEagerly();
+    void this.connector.connectEagerly()
   }
 
-  public active = false;
+  public active = false
   public accounts: string[] = []
-  public chainId: number = 0
+  public chainId = 0
 
   getProvider() {
-    return this.connector.provider;
+    return this.connector.provider
   }
 
   async activate() {
-    await this.connector.activate();
-    this.active = true;
+    await this.connector.activate()
+    this.active = true
   }
 
   async deactivate() {
-    this.active = false;
-    await this.connector.deactivate();
+    this.active = false
+    await this.connector.deactivate()
   }
 }

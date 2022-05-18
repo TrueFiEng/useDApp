@@ -1,27 +1,25 @@
-import { BaseProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { Connector, ConnectorPriority, UpdateFn } from "../connector";
+import { BaseProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 
 export class RpcConnector implements Connector {
-  public provider: BaseProvider;
-  public priority = ConnectorPriority.ApiNode;
-  public name = 'RPC';
+  public provider: BaseProvider
+  public priority = ConnectorPriority.ApiNode
+  public name = 'RPC'
 
-  public onUpdate?: UpdateFn;
+  public onUpdate?: UpdateFn
 
-  constructor(
-    public url: string,
-  ) {
-    this.provider = new JsonRpcProvider(url);
+  constructor(public url: string) {
+    this.provider = new JsonRpcProvider(url)
   }
 
   async connectEagerly(): Promise<void> {
-    const { chainId } = await this.provider!.getNetwork();
-    this.onUpdate?.({ chainId, accounts: [] });
+    return await this.activate()
   }
   async activate(): Promise<void> {
-    const { chainId } = await this.provider!.getNetwork();
-    this.onUpdate?.({ chainId, accounts: [] });
+    const { chainId } = await this.provider!.getNetwork()
+    this.onUpdate?.({ chainId, accounts: [] })
   }
   async deactivate(): Promise<void> {
+    return
   }
 }

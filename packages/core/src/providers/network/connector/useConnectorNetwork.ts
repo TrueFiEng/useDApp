@@ -1,25 +1,25 @@
-import { BaseProvider } from "@ethersproject/providers";
-import { useContext } from "react";
-import { ConnectorController } from "./connectorController";
-import { ConnectorContext } from "./context";
+import { BaseProvider, ExternalProvider, Web3Provider } from '@ethersproject/providers'
+import { useContext } from 'react'
+import { ConnectorController } from './connectorController'
+import { ConnectorContext } from './context'
 
 export interface UseProviderOptions {
-  chainId?: number;
-  account?: boolean | string;
+  chainId?: number
+  account?: boolean | string
 }
 
 export interface ConnectorNetwork {
-  chainId: number;
-  accounts: string[];
-  provider: BaseProvider;
+  chainId: number
+  accounts: string[]
+  provider: BaseProvider | ExternalProvider | Web3Provider
 }
 
 export function useConnectorNetwork(opts: UseProviderOptions = {}): ConnectorNetwork | undefined {
-  const { connectors } = useContext(ConnectorContext)!;
-  const connector = connectors.find(c => matchConnector(opts, c));
+  const { connectors } = useContext(ConnectorContext)!
+  const connector = connectors.find((c) => matchConnector(opts, c))
 
-  if(!connector || !connector.getProvider()) {
-    return undefined;
+  if (!connector || !connector.getProvider()) {
+    return undefined
   }
 
   return {
@@ -30,21 +30,21 @@ export function useConnectorNetwork(opts: UseProviderOptions = {}): ConnectorNet
 }
 
 function matchConnector(opts: UseProviderOptions, connector: ConnectorController) {
-  if(opts.chainId) {
-    if(connector.chainId !== opts.chainId) {
-      return false;
+  if (opts.chainId) {
+    if (connector.chainId !== opts.chainId) {
+      return false
     }
   }
 
-  if(opts.account === true) {
-    if(!connector.accounts.length) {
-      return false;
+  if (opts.account === true) {
+    if (!connector.accounts.length) {
+      return false
     }
-  } else if(opts.account) {
-    if(!connector.accounts.includes(opts.account)) {
-      return false;
+  } else if (opts.account) {
+    if (!connector.accounts.includes(opts.account)) {
+      return false
     }
   }
 
-  return true;
+  return true
 }
