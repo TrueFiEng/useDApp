@@ -28,12 +28,10 @@ export interface TypedFilter<
 export function useLogs(filter: TypedFilter | Falsy, queryParams: LogQueryParams = {}): LogsResult<Contract, string> {
   const { fromBlock, toBlock, blockHash } = queryParams
 
-  const rawFilter = useMemo(() => encodeFilterData(filter, fromBlock, toBlock, blockHash), [
-    filter,
-    fromBlock,
-    toBlock,
-    blockHash,
-  ])
+  const rawFilter = useMemo(
+    () => encodeFilterData(filter, fromBlock, toBlock, blockHash),
+    [filter, fromBlock, toBlock, blockHash]
+  )
   const result = useRawLogs(rawFilter instanceof Error ? undefined : rawFilter, queryParams)
   return useMemo(() => decodeLogs(filter, rawFilter instanceof Error ? rawFilter : result), [result, filter, rawFilter])
 }

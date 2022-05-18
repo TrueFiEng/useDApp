@@ -6,17 +6,17 @@ import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    },
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+  },
 }
 
 ReactDOM.render(
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>,
-    document.getElementById('root')
+  <DAppProvider config={config}>
+    <App />
+  </DAppProvider>,
+  document.getElementById('root')
 )
 
 export function App() {
@@ -26,14 +26,12 @@ export function App() {
   return (
     <div>
       <MetamaskConnect />
-      {etherBalance && 
-        (
-          <div className="balance">
-            Ether balance: 
-            <p className="bold">{formatEther(etherBalance)} ETH</p>
-          </div>
-        )
-      }
+      {etherBalance && (
+        <div className="balance">
+          Ether balance:
+          <p className="bold">{formatEther(etherBalance)} ETH</p>
+        </div>
+      )}
     </div>
   )
 }

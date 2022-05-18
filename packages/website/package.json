@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rm -rf dist && gulp build",
     "lint": "true",
+    "lint:fix": "true",
     "test": "true",
     "compile:sass": "node-sass sass/main.scss css/main.css -w",
     "gulp": "gulp"

@@ -8,17 +8,17 @@ import { MetamaskConnect } from './components/MetamaskConnect'
 const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
 
 const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    },
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+  },
 }
 
 ReactDOM.render(
-    <DAppProvider config={config}>
-      <TokenBalance />
-    </DAppProvider>,
-    document.getElementById('root')
+  <DAppProvider config={config}>
+    <TokenBalance />
+  </DAppProvider>,
+  document.getElementById('root')
 )
 
 export function TokenBalance() {
@@ -28,14 +28,12 @@ export function TokenBalance() {
   return (
     <div>
       <MetamaskConnect />
-      {daiBalance && 
-        (
-          <div className="balance">
-            Dai balance: 
-            <p className="bold">{formatEther(daiBalance)}</p>
-          </div>
-        )
-      }
+      {daiBalance && (
+        <div className="balance">
+          Dai balance:
+          <p className="bold">{formatEther(daiBalance)}</p>
+        </div>
+      )}
     </div>
   )
 }
