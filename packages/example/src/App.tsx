@@ -15,6 +15,7 @@ import { Web3Modal } from './pages/Web3Modal'
 import { Web3ReactConnector } from './pages/Web3ReactConnector'
 import { Multichain } from './pages/Multichain'
 import { WalletConnect } from './pages/WalletConnect'
+import { ENSExample } from './components/ENS/ENSExample'
 
 export function App() {
   return (
@@ -25,6 +26,7 @@ export function App() {
         <Switch>
           <Route exact path="/balance" component={Balance} />
           <Route exact path="/prices" component={Prices} />
+          <Route exact path="/ens" component={ENSExample} />
           <Route exact path="/block" component={Block} />
           <Route exact path="/tokens" component={Tokens} />
           <Route exact path="/send" component={SendEtherPage} />

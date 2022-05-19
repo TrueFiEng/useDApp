@@ -2,39 +2,45 @@ import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
 
 /**
- * `useLookupAddress` is a hook that is used to retrieve the ENS (e.g. `name.eth`) for the connected wallet.
- * @returns a string if the connected account has an ENS attached.
+ * `useLookupAddress` is a hook that is used to retrieve the ENS (e.g. `name.eth`) for a specific address.
+ * @returns a string if the address has an ENS attached.
  * @public
  * @example
  * const { account } = useEthers()
- * const ens = useLookupAddress()
+ * const ens = useLookupAddress(account)
  *
  * return (
  *   <p>Account: {ens ?? account}</p>
  * )
  */
-export function useLookupAddress() {
-  const { account, library } = useEthers()
-  const [ens, setEns] = useState<string | null>()
+export function useLookupAddress(address: string | undefined) {
+  const { library } = useEthers()
+  const [ens, setENS] = useState<string | null>()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     let mounted = true
 
-    if (account && library) {
-      library
-        ?.lookupAddress(account)
-        .then((name) => {
-          if (mounted) {
-            setEns(name)
-          }
-        })
-        .catch(() => setEns(null))
-    }
+    void (async () => {
+      if (!library || !address) return
+      try {
+        setIsLoading(true)
+        const resolved = await library.lookupAddress(address)
+        if (!mounted) return
+        setENS(resolved)
+      } catch (e: any) {
+        if (!mounted) return
+        setError(e)
+      } finally {
+        setIsLoading(false)
+      }
+    })()
 
     return () => {
       mounted = false
     }
-  }, [account, library])
+  }, [address, library])
 
-  return ens
+  return { ens, isLoading, error }
 }
