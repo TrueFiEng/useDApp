@@ -9,7 +9,7 @@ export interface CodeWrapperProps {
   children?: string
 }
 
-export const CodeWrapper = ({title, children}: CodeWrapperProps) => {
+export const CodeWrapper = ({ title, children }: CodeWrapperProps) => {
   return (
     <CodeBlock language="tsx" title={title}>
       {children}

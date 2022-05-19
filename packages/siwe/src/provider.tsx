@@ -44,7 +44,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     if (authToken === null) {
       return
     }
-    void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
+    void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
   }, [authToken, getAuth])
 
   const signIn = async (signInOptions?: SignInOptions) => {
@@ -64,13 +64,13 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       nonce,
     })
     const signature = await signer.signMessage(message.prepareMessage())
-  
+
     const session = JSON.stringify({ signature, message })
 
     localStorage.setItem('authToken', session)
     setAuthToken(session)
 
-    void getAuth().then((res) => res.loggedIn ? setLoggedIn(true) : undefined)
+    void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
   }
 
   const signOut = async () => {

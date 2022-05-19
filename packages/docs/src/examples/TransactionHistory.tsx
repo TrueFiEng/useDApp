@@ -7,65 +7,57 @@ import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth
 import { MetamaskConnect } from './components/MetamaskConnect'
 
 ReactDOM.render(
-    <DAppProvider config={{}}>
-      <App />
-    </DAppProvider>,
-    document.getElementById('root')
+  <DAppProvider config={{}}>
+    <App />
+  </DAppProvider>,
+  document.getElementById('root')
 )
 
 export function App() {
-    const { transactions } = useTransactions()
-    const { account, chainId } = useEthers()
-    const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
+  const { transactions } = useTransactions()
+  const { account, chainId } = useEthers()
+  const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
 
-    const WrapEtherComponent = () => {
-        const wethAddress = WETH_ADDRESSES[chainId]
-        const wethInterface = new utils.Interface(WethAbi)
-        const contract = new Contract(wethAddress, wethInterface) as any
-    
-        const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
-        const { status } = state
+  const WrapEtherComponent = () => {
+    const wethAddress = WETH_ADDRESSES[chainId]
+    const wethInterface = new utils.Interface(WethAbi)
+    const contract = new Contract(wethAddress, wethInterface) as any
 
-        const wrapEther = () => {
-            void send({ value: 1 })
-        }
+    const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+    const { status } = state
 
-        return (        
-        <div>
-            <button onClick={() => wrapEther()}>Wrap ether</button>
-            <p>Status: {status}</p>
-            <p>Transactions</p>
-            {transactions.length !== 0 && 
-            (<table>
-                <th>Name</th>
-                <th>Block hash</th>
-                <th>Date</th>
-            {transactions.map((transaction) => {
-                return (
-                    <tr>
-                        <td>{transaction.transactionName}</td>
-                        <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
-                        <td>{new Date(transaction.submittedAt).toDateString()}</td>
-                    </tr>
-                )
-            })}
-            </table>)}
-        </div>
-        )
-    }
-
-    const ChainFilter = () => {
-        return isSupportedChain
-        ? <WrapEtherComponent />
-        : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
+    const wrapEther = () => {
+      void send({ value: 1 })
     }
 
     return (
-    <div>
-        {!account 
-        ? <MetamaskConnect /> 
-        : <ChainFilter />
-        }
-    </div>
+      <div>
+        <button onClick={() => wrapEther()}>Wrap ether</button>
+        <p>Status: {status}</p>
+        <p>Transactions</p>
+        {transactions.length !== 0 && (
+          <table>
+            <th>Name</th>
+            <th>Block hash</th>
+            <th>Date</th>
+            {transactions.map((transaction) => {
+              return (
+                <tr>
+                  <td>{transaction.transactionName}</td>
+                  <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
+                  <td>{new Date(transaction.submittedAt).toDateString()}</td>
+                </tr>
+              )
+            })}
+          </table>
+        )}
+      </div>
     )
+  }
+
+  const ChainFilter = () => {
+    return isSupportedChain ? <WrapEtherComponent /> : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
+  }
+
+  return <div>{!account ? <MetamaskConnect /> : <ChainFilter />}</div>
 }

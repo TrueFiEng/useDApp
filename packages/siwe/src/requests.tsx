@@ -22,11 +22,11 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
 
       const authRequest = await fetch(`${backendUrl}/siwe/me`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       const authResponse = await authRequest.json()
-    
+
       return {
         ...authRequest,
         ...authResponse,
@@ -35,10 +35,10 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
     getNonce: async () => {
       const nonceRequest = await fetch(`${backendUrl}/siwe/init`, { method: 'POST' })
       const nonceResponse = await nonceRequest.json()
-    
+
       return {
         ...nonceResponse,
       } as NonceResponse
-    }
+    },
   }
 }
