@@ -15,7 +15,7 @@ const NETWORK_CONNECTIONS = {
 
 export const Web3ReactConnectorButton = () => {
   const { account, activate, deactivate } = useEthers()
-  const ens = useLookupAddress()
+  const { ens } = useLookupAddress(account)
   const [showModal, setShowModal] = useState(false)
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()

@@ -2,37 +2,30 @@ import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
 
 /**
- * `useLookupAddress` is a hook that is used to retrieve the ENS (e.g. `name.eth`) for a specific address.
- * @param address address to lookup 
+ * `useLookupAddress` is a hook that is used to resolve an ENS name (e.g. `name.eth`) to a specific address.
+ * @param name ENS name to be resolved
  * @returns {} Object with the following:
-  - `ens: string | null | undefined` - ENS name of the account or null if not found.
+  - `address: string | null | undefined` - resolved address for the given ENS name or null if not found.
   - `isLoading: boolean` - indicates whether the lookup is in progress.
   - `error: Error | null` - error that occurred during the lookup or null if no error occurred.
  * @public
- * @example
- * const { account } = useEthers()
- * const { ens } = useLookupAddress(account)
- *
- * return (
- *   <p>Account: {ens ?? account}</p>
- * )
  */
-export function useLookupAddress(address: string | undefined) {
+export const useResolveName = (name: string | undefined) => {
   const { library } = useEthers()
-  const [ens, setENS] = useState<string | null>()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const [address, setAddress] = useState<string | null>()
 
   useEffect(() => {
     let mounted = true
 
     void (async () => {
-      if (!library || !address) return
+      if (!library || !name) return
       try {
         setIsLoading(true)
-        const resolved = await library.lookupAddress(address)
+        const resolved = await library.resolveName(name)
         if (!mounted) return
-        setENS(resolved)
+        setAddress(resolved)
       } catch (e: any) {
         if (!mounted) return
         setError(e)
@@ -44,7 +37,7 @@ export function useLookupAddress(address: string | undefined) {
     return () => {
       mounted = false
     }
-  }, [address, library])
+  }, [library, name])
 
-  return { ens, isLoading, error }
+  return { address, isLoading, error }
 }

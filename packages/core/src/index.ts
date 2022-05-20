@@ -68,6 +68,7 @@ export {
   useTransactions,
   useRawCall,
   useRawCalls,
+  useResolveName,
 } from './hooks'
 export type { CurrencyFormatOptions, TransactionOptions, TransactionState, TransactionStatus } from './model'
 export { Currency, CurrencyValue, FiatCurrency, NativeCurrency, Token, transactionErrored } from './model'
