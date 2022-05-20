@@ -8,7 +8,7 @@ export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
   signOut: () => void
   isLoggedIn: boolean
-  authToken: string | undefined
+  authToken: string | undefined | null
 }
 
 const SiweContext = createContext<SiweContextValue>({
@@ -37,10 +37,10 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)
   const { getNonce, getAuth } = api ?? getFetchers(backendUrl ?? '')
-  const [authToken, setAuthToken] = useState<string | undefined>(undefined)
+  const [authToken, setAuthToken] = useState<string | undefined | null>(undefined)
 
   useEffect(() => {
-    setAuthToken(localStorage.getItem('authToken') ?? undefined)
+    setAuthToken(localStorage.getItem('authToken'))
     if (authToken === null) {
       return
     }
@@ -53,6 +53,10 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     }
     const signer = library.getSigner()
     const { nonce } = await getNonce()
+
+    if (!nonce) {
+      return
+    }
 
     const message = new SiweMessage({
       domain: signInOptions?.domain ?? window.location.host,
