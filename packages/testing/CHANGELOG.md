@@ -1,5 +1,19 @@
 # @usedapp/testing
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [4e8025b]
+- Updated dependencies [ad8b91a]
+- Updated dependencies [17b8021]
+- Updated dependencies [d9e2ff3]
+- Updated dependencies [3904895]
+- Updated dependencies [bd27e6b]
+- Updated dependencies [5229eea]
+- Updated dependencies [8701d7d]
+  - @usedapp/core@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes
