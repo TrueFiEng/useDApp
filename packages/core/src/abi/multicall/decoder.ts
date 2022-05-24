@@ -9,6 +9,7 @@ export function decodeAggregate(calldata: string) {
   const getNumber = (offset: number) => decodeUint(calldata.slice(offset * wordLength, (offset + 1) * wordLength))
 
   const blockNumber = getNumber(0)
+  // The array offset must be 0x40 - blockNumber + array offset
   if (getNumber(1) !== 0x40) {
     fail()
   }
@@ -16,11 +17,14 @@ export function decodeAggregate(calldata: string) {
   const calls: string[] = []
 
   for (let i = 0; i < arraySize; i++) {
-    const callOffset = 2 * getNumber(i + 3) + 3 * wordLength
+    // offset of the call number i
+    const callOffset = 2 * getNumber(i + 3) + 3 * wordLength // * 2 because 1 byte = 2 chars
+    // position of the call if we split calldata in chunks of 32 bytes
     const pos = callOffset / wordLength
+    // returnData is encoded as its length and the data itself
     const returnDataOffset = (pos + 1) * wordLength
     const returnDataLength = getNumber(pos)
-    const returnData = calldata.slice(returnDataOffset, returnDataOffset + 2 * returnDataLength)
+    const returnData = calldata.slice(returnDataOffset, returnDataOffset + 2 * returnDataLength) // * 2 because 1 byte = 2 chars
     calls.push('0x' + returnData)
   }
   return [blockNumber, calls]

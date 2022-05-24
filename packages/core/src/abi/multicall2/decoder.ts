@@ -8,6 +8,7 @@ export function decodeTryAggregate(calldata: string) {
   calldata = calldata.slice(2) // 'remove 0x prefix'
   const getNumber = (offset: number) => decodeUint(calldata.slice(offset * wordLength, (offset + 1) * wordLength))
 
+  // The array offset must be 0x20 - nothing is before the array
   if (getNumber(0) !== 0x20) {
     fail()
   }
@@ -15,8 +16,12 @@ export function decodeTryAggregate(calldata: string) {
   const calls: [boolean, string][] = []
 
   for (let i = 0; i < arraySize; i++) {
+    // offset of the call number i
     const callOffset = 2 * getNumber(i + 2) + 2 * wordLength
+    // position of the call if we split calldata in chunks of 32 bytes
     const pos = callOffset / wordLength
+    // returnData is encoded as a flag showing if the call was successful,
+    // data offste, which sould be equal to 0x40, data length and the data itself
     const successEncoded = getNumber(pos)
     if (successEncoded !== 1 && successEncoded !== 0) {
       fail()
