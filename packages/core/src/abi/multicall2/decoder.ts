@@ -1,20 +1,19 @@
+import { decodeUint, wordLength, fail } from "../common";
+
 export function decodeTryAggregate(calldata: string) {
   const errorMethodId = '0x08c379a0';
   if (calldata.startsWith(errorMethodId)) {
     throw new Error('Multicall2 aggregate: call failed');
   }
   calldata = calldata.slice(2); // 'remove 0x prefix'
-  const decodeUint = (buf: string) => parseInt(buf, 16)
-  const wordLength = 64;
   const getNumber = (offset: number) =>  decodeUint(calldata.slice(offset * wordLength, (offset + 1) * wordLength))
-  const fail = () => { throw new Error('Invalid calldata') };
 
-  let dynamicOffset = getNumber(0);
-  if (dynamicOffset !== 0x20) {
+  if (getNumber(0) !== 0x20) {
     fail();
   }
   const arraySize = getNumber(1);
   const calls: [boolean, string][] = []
+
   for(let i = 0; i < arraySize; i++) {
     const callOffset = 2 * getNumber(i + 2) + 2 * wordLength;
     const pos = callOffset / wordLength;

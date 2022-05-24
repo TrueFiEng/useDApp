@@ -4,7 +4,7 @@ import { formatBench, bench } from "../benchmark";
 import { ethersAbi } from "./constants";
 import { decodeTryAggregate } from "./decoder";
 
-describe.only('Multicall v2 decoder', () => {
+describe('Multicall v2 decoder', () => {
   const testData: [boolean, string][] = Array.from(Array(20).keys()).map(i => 
     [
       Math.random() < 0.5,
