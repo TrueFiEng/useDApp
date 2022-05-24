@@ -33,6 +33,10 @@ export type FullConfig = {
    */
   multicallVersion: 1 | 2
   /**
+   * @experimental
+   */
+  fastMulticallEncoding: boolean
+  /**
    * @deprecated
    */
   supportedChains?: number[]

@@ -1,6 +1,6 @@
 import { decodeUint, fail, wordLength } from '../common'
 
-export function decodeAggregate(calldata: string) {
+export function decodeAggregate(calldata: string): [number, string[]] {
   const errorMethodId = '0x08c379a0'
   if (calldata.startsWith(errorMethodId)) {
     throw new Error('Multicall aggregate: call failed')

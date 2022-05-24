@@ -35,7 +35,7 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
  * @internal Intended for internal use - use it on your own risk
  */
 export function MultiChainStateProvider({ children, multicallAddresses }: Props) {
-  const { multicallVersion } = useConfig()
+  const { multicallVersion, fastMulticallEncoding } = useConfig()
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
@@ -43,7 +43,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
-  const multicall = multicallVersion === 1 ? multicall1 : multicall2
+  const multicall = (multicallVersion === 1 ? multicall1 : multicall2)(fastMulticallEncoding)
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
   const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
