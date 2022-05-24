@@ -1,22 +1,22 @@
-import { encodeUint, bufPaddedLength, buffLength } from "../common";
-import { ethersAbi, falseEncoded, trueEncoded } from "./constants";
+import { encodeUint, bufPaddedLength, buffLength } from '../common'
+import { ethersAbi, falseEncoded, trueEncoded } from './constants'
 
 const selector = ethersAbi.getSighash('tryAggregate')
 
 export function encodeCalls(start: string, calls: [string, string][]) {
-  let res = start;
+  let res = start
   // array
   let dynamicOffset = calls.length * 0x20
   res += encodeUint(calls.length)
-  for(const call of calls) {
+  for (const call of calls) {
     res += encodeUint(dynamicOffset)
     dynamicOffset += 3 * 0x20 + bufPaddedLength(call[1])
   }
 
   // tuples
-  for(const call of calls) {
+  for (const call of calls) {
     // address + calldata ptr
-    dynamicOffset = 0x40;
+    dynamicOffset = 0x40
     res += '000000000000000000000000' + call[0].slice(2).toLowerCase()
     res += encodeUint(dynamicOffset)
 
@@ -29,12 +29,12 @@ export function encodeCalls(start: string, calls: [string, string][]) {
 }
 
 export function encodeTryAggregate(b: boolean, calls: [string, string][]) {
-  let res = selector;
+  let res = selector
 
   // head params
-  const dynamicOffset = 0x40;
-  res += b ? trueEncoded : falseEncoded;
+  const dynamicOffset = 0x40
+  res += b ? trueEncoded : falseEncoded
   res += encodeUint(dynamicOffset)
 
-  return encodeCalls(res, calls);
+  return encodeCalls(res, calls)
 }
