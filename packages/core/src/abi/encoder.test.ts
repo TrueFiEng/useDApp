@@ -2,6 +2,7 @@ import { Interface } from "@ethersproject/abi"
 import { expect } from "chai"
 import { Wallet } from "ethers"
 import { writeFileSync } from "fs"
+import { randomBytes } from "crypto"
 import MultiCall2 from "../constants/abi/MultiCall2.json"
 import { createEncoder } from "./encoder"
 
@@ -12,12 +13,12 @@ const calls = [
   ...[...Array(10)].map((_, i) => ethersAbi.encodeFunctionData('getBlockHash', [i])),
 ]
 
-
 const address = Wallet.createRandom().address;
 
 function split(calldata: string) {
-  let res = calldata.slice(0, 10) + '\n'
-  let ptr = 10
+  // let res = calldata.slice(0, 10) + '\n'
+  let res = '';
+  let ptr = 0
   while(ptr < calldata.length) {
     res += calldata.slice(ptr, ptr + 64) + '\n'
     ptr += 64
@@ -29,8 +30,6 @@ describe.only('Fast ABI encoder', () => {
   describe('Encoder', () => {
     it('can manually encode multicall v2', () => {
       const calldata = ethersAbi.encodeFunctionData('tryAggregate', [true, calls.map(calldata => [address, calldata])])
-      console.log(calldata.length)
-      
       
       const manual = encodeTryAggregate(true, calls.map(calldata => [address, calldata]))
       
@@ -40,10 +39,8 @@ describe.only('Fast ABI encoder', () => {
       expect(manual).to.eq(calldata)
     })
 
-    it.only('can encode multicall v2 using codegen', () => {
+    it('can encode multicall v2 using codegen', () => {
       const calldata = ethersAbi.encodeFunctionData('tryAggregate', [true, calls.map(calldata => [address, calldata])])
-      console.log(calldata.length)
-      
       
       const encoder = createEncoder(MultiCall2.abi.find(f => f.name === 'tryAggregate')!)
 
@@ -55,14 +52,14 @@ describe.only('Fast ABI encoder', () => {
       expect(encoded).to.eq(calldata)
     })
 
-    it.only('bench ethers', () => {
+    it('bench ethers', () => {
       const callsLong = [...Array(20)].flatMap(() => calls)
       formatBench(bench(() => {
         ethersAbi.encodeFunctionData('tryAggregate', [true, callsLong.map(calldata => [address, calldata])])
       }))
     })
 
-    it.only('bench manual', () => {
+    it('bench manual', () => {
       const callsLong = [...Array(20)].flatMap(() => calls)
       formatBench(bench(() => {
         encodeTryAggregate(true, callsLong.map(calldata => [address, calldata]))
@@ -70,7 +67,7 @@ describe.only('Fast ABI encoder', () => {
     })
 
 
-    it.only('bench codegen', () => {
+    it('bench codegen', () => {
       const callsLong = [...Array(20)].flatMap(() => calls)
       const encoder = createEncoder(MultiCall2.abi.find(f => f.name === 'tryAggregate')!)
       formatBench(bench(() => {
@@ -106,7 +103,37 @@ describe.only('Fast ABI encoder', () => {
       }), 'nested')
     })
   })
+
+  describe.only('Decoder', () => {
+    const testData: [boolean, string][] = Array.from(Array(20).keys()).map(i => 
+      [
+        Math.random() < 0.5,
+        '0x' + randomBytes((i + 1) * 8).toString('hex')
+      ]
+    );
+    const encoded = ethersAbi.encodeFunctionResult('tryAggregate', [testData]);
+
+    it('Can manually decode multicall v2', () => {
+      const manual = decodeTryAggregate(encoded);
+      expect(manual).to.deep.eq([testData]);
+    });
+
+    it('bench ethers', () => {
+      formatBench(bench(() => {
+        ethersAbi.decodeFunctionResult('tryAggregate', encoded);
+      }))
+    })
+
+    it('bench manual', () => {
+      formatBench(bench(() => {
+        decodeTryAggregate(encoded);
+      }))
+    })
+  });
 })
+
+const trueEncoded = '0'.repeat(63) + '1';
+const falseEncoded = '0'.repeat(63) + '0';
 
 const selector = ethersAbi.getSighash('tryAggregate') 
 
@@ -121,7 +148,7 @@ function encodeTryAggregate(b: boolean, calls: [string, string][]) {
 
   // head params
   dynamicOffset = 0x40;
-  res += b ? '0000000000000000000000000000000000000000000000000000000000000001' : '0000000000000000000000000000000000000000000000000000000000000000';
+  res += b ? trueEncoded : falseEncoded;
   res += encodeUint(dynamicOffset)
 
   // array
@@ -147,6 +174,45 @@ function encodeTryAggregate(b: boolean, calls: [string, string][]) {
   return res
 }
 
+function decodeTryAggregate(calldata: string) {
+  const errorMethodId = '0x08c379a0';
+  if (calldata.startsWith(errorMethodId)) {
+    throw new Error('Multicall2 aggregate: call failed');
+  }
+  calldata = calldata.slice(2); // 'remove 0x prefix'
+  const decodeUint = (buf: string) => parseInt(buf, 16)
+  const wordLength = 64;
+  const getNumber = (offset: number) =>  decodeUint(calldata.slice(offset * wordLength, (offset + 1) * wordLength))
+  const fail = () => { throw new Error('Invalid calldata') };
+
+  let dynamicOffset = getNumber(0);
+  if (dynamicOffset !== 0x20) {
+    fail();
+  }
+  const arraySize = getNumber(1);
+  const calls: [boolean, string][] = []
+  for(let i = 0; i < arraySize; i++) {
+    const callOffset = 2 * getNumber(i + 2) + 2 * wordLength;
+    const pos = callOffset / wordLength;
+    const successEncoded = getNumber(pos);
+    if (successEncoded !== 1 && successEncoded !== 0) { 
+      fail();
+    }
+    const success = successEncoded === 1;
+    if (getNumber(pos + 1) !== 0x40) {
+      fail();
+    }
+    const returnDataOffset = (pos + 3) * wordLength;
+    const returnDataLength = getNumber(pos + 2);
+    const returnData = calldata.slice(returnDataOffset, returnDataOffset + 2 * returnDataLength);
+    const call: [boolean, string] = [
+      success,
+      '0x' + returnData
+    ];
+    calls.push(call);
+  }
+  return [calls]
+}
 
 interface BenchResult {
   iterations: number
@@ -155,20 +221,20 @@ interface BenchResult {
 }
 
 function bench(func: () => void): BenchResult {
-  let totalElapsed = 0n;
+  let totalElapsed = BigInt(0);
   let iterations = 0;
   while(iterations++ < 10_000) {
     const before = process.hrtime.bigint();
     func();
     const after = process.hrtime.bigint();
     totalElapsed += after - before;
-    if(totalElapsed > 1_000_000_000n) {
+    if(totalElapsed > BigInt(1_000_000_000)) {
       break;
     }
   }
 
   const timePerIter = totalElapsed / BigInt(iterations);
-  const iterPerSec = 1_000_000_000n * BigInt(iterations) / totalElapsed;
+  const iterPerSec = BigInt(1_000_000_000) * BigInt(iterations) / totalElapsed;
   return { iterations, timePerIter, iterPerSec };
 }
 
