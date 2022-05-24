@@ -56,7 +56,7 @@ export async function fastEncodingMulticall2(
     },
     blockNumber
   )
-  const [, results] = decodeTryAggregate(response)
+  const [results] = decodeTryAggregate(response)
   return decodeResult(results, requests)
 }
 

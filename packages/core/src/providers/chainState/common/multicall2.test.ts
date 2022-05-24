@@ -31,7 +31,7 @@ describe('Multicall2', () => {
     describe(fastEncoding ? 'Fast encoding' : 'Ethers encoding', () => {
       const multicall2 = multicall2Factory(fastEncoding)
 
-      it.only('Retrieves token balance using tryAggregate', async () => {
+      it('Retrieves token balance using tryAggregate', async () => {
         const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
         const call: RawCall = {
           address: tokenContract.address,
