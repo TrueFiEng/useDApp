@@ -11,13 +11,12 @@ const ABI = [
 /**
  * @public
  */
-export const multicall2 = (fastEncoding: boolean) =>
-  fastEncoding ? ethersEncodingMulticall2 : manualEncodingMulticall2
+export const multicall2Factory = (fastEncoding: boolean) => (fastEncoding ? multicall2 : fastEncodingMulticall2)
 
 /**
  * @public
  */
-export async function ethersEncodingMulticall2(
+export async function multicall2(
   provider: Provider,
   address: string,
   blockNumber: number,
@@ -38,7 +37,7 @@ export async function ethersEncodingMulticall2(
 /**
  * @public
  */
-export async function manualEncodingMulticall2(
+export async function fastEncodingMulticall2(
   provider: Provider,
   address: string,
   blockNumber: number,
@@ -51,7 +50,7 @@ export async function manualEncodingMulticall2(
     {
       to: address,
       data: encodeTryAggregate(
-        true,
+        false,
         requests.map(({ address, data }) => [address, data])
       ),
     },
