@@ -150,6 +150,6 @@ describe('Multicall2', () => {
         expect(value).to.equal(BigNumber.from(0))
         expect(success).to.be.true
       })
-    });
+    })
   }
 })
