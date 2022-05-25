@@ -35,7 +35,7 @@ export type FullConfig = {
   /**
    * @experimental
    */
-  fastMulticallEncoding: boolean
+  fastMulticallEncoding?: boolean
   /**
    * @deprecated
    */

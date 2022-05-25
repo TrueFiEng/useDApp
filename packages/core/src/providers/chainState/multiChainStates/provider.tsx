@@ -43,7 +43,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
-  const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding)
+  const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding ?? false)
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
   const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
