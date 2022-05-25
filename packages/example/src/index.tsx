@@ -13,6 +13,7 @@ const config: Config = {
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
   },
   multicallVersion: 2 as const,
+  fastMulticallEncoding: true,
 }
 
 ReactDOM.render(
