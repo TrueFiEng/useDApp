@@ -63,6 +63,19 @@ Enables reconnecting to last used provider when user revisits the page.
   }
 ```
 
+**fastMulticallEncoding**
+When set to `true` improves performance by using own written encoders and decoders for multicall data. 
+
+***Default value:***
+
+`false`
+
+:::note
+
+The flag is experimental and is not fully tested yet.
+
+:::
+
 ## ChainId
 
 A number describing the ID of the chain. See [ChainList](https://chainlist.org/) for a list of known chains and their IDs.
@@ -249,7 +262,7 @@ Fields:
 - **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
 - **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
 - **Fail** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
 
 Additionally all states except ``None``, contain ``chainId: ChainId``.
 
