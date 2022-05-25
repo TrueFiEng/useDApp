@@ -12,7 +12,7 @@ const ABI = [
 /**
  * @public
  */
-export const multicall1Factory = (fastEncoding: boolean) => (fastEncoding ? multicall : fastEncodingMulticall)
+export const multicall1Factory = (fastEncoding: boolean) => (fastEncoding ? fastEncodingMulticall: multicall)
 
 /**
  * @public
