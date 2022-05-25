@@ -1,6 +1,7 @@
 import { decodeUint, wordLength, fail } from '../common'
 
 export function decodeTryAggregate(calldata: string) {
+  // function tryAggregate(bool requireSuccess, tuple(address target, bytes callData)[] calls) public returns (tuple(bool success, bytes returnData)[])
   const errorMethodId = '0x08c379a0'
   if (calldata.startsWith(errorMethodId)) {
     throw new Error('Multicall2 aggregate: call failed')
@@ -21,7 +22,7 @@ export function decodeTryAggregate(calldata: string) {
     // position of the call if we split calldata in chunks of 32 bytes
     const pos = callOffset / wordLength
     // returnData is encoded as a flag showing if the call was successful,
-    // data offste, which sould be equal to 0x40, data length and the data itself
+    // data offset, which should be equal to 0x40, data length and the data itself
     const successEncoded = getNumber(pos)
     if (successEncoded !== 1 && successEncoded !== 0) {
       fail()

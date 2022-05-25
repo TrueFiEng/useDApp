@@ -1,6 +1,7 @@
 import { decodeUint, fail, wordLength } from '../common'
 
 export function decodeAggregate(calldata: string): [number, string[]] {
+  // function aggregate(tuple(address target, bytes callData)[] calls) public returns (tuple(uint256 blockNumber, bytes returnData)[])
   const errorMethodId = '0x08c379a0'
   if (calldata.startsWith(errorMethodId)) {
     throw new Error('Multicall aggregate: call failed')
