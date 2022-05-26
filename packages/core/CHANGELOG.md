@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.0.4
+
+### Patch Changes
+
+- fe52f50: Add fast encoding options
+
 ## 1.0.3
 
 ### Patch Changes
