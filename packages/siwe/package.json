@@ -37,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@usedapp/core": "workspace:*",
+    "@usedapp/testing": "workspace:*",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",

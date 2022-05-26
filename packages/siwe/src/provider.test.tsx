@@ -6,7 +6,7 @@ import {
   IdentityWrapper,
   renderDAppHook,
   getWaitUtils,
-} from '@usedapp/core/testing'
+} from '@usedapp/testing'
 import { SiweProvider, useSiwe } from './provider'
 import React, { useEffect } from 'react'
 import { expect } from 'chai'
