@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.0.5
+
+### Patch Changes
+
+- bcff959: Fix ethers version
+- a0ab27f: Remove testing submodule
+
 ## 1.0.4
 
 ### Patch Changes
