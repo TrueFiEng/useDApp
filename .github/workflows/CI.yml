@@ -37,6 +37,7 @@ jobs:
         run: |
           set -e
           cd core && pnpm run build && cd -
+          cd testing && pnpm run build && cd -
           cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
@@ -65,6 +66,7 @@ jobs:
         run: |
           set -e
           cd core && pnpm run build && cd -
+          cd testing && pnpm run build && cd -
           cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
