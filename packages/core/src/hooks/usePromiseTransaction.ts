@@ -16,10 +16,14 @@ export async function estimateGasLimit(
   if (!signer || !transactionRequest) {
     return undefined
   }
-  const estimatedGas = transactionRequest.gasLimit
-    ? BigNumber.from(transactionRequest.gasLimit)
-    : await signer.estimateGas(transactionRequest)
-  return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+  try {
+    const estimatedGas = transactionRequest.gasLimit
+      ? BigNumber.from(transactionRequest.gasLimit)
+      : await signer.estimateGas(transactionRequest)
+    return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+  } catch (err: any) {
+    return undefined
+  }
 }
 
 const isDroppedAndReplaced = (e: any) =>
