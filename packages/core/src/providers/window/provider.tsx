@@ -24,5 +24,5 @@ export function WindowProvider({ children }: Props) {
     })
   }, [])
 
-  return <WindowContext.Provider value={{isActive: isActiveWindow}} children={children} />
+  return <WindowContext.Provider value={{ isActive: isActiveWindow }} children={children} />
 }

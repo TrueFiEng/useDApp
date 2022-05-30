@@ -61,21 +61,21 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
 
   return (
     <WindowProvider>
-    <ReadonlyNetworksProvider>
-      <NetworkProvider>
-        <BlockNumberProvider>
-          <BlockNumbersProvider>
-            <LocalMulticallProvider>
-              <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
-                <NotificationsProvider>
-                  <TransactionProvider>{children}</TransactionProvider>
-                </NotificationsProvider>
-              </MultiChainStateProvider>
-            </LocalMulticallProvider>
-          </BlockNumbersProvider>
-        </BlockNumberProvider>
-      </NetworkProvider>
-    </ReadonlyNetworksProvider>
+      <ReadonlyNetworksProvider>
+        <NetworkProvider>
+          <BlockNumberProvider>
+            <BlockNumbersProvider>
+              <LocalMulticallProvider>
+                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                  <NotificationsProvider>
+                    <TransactionProvider>{children}</TransactionProvider>
+                  </NotificationsProvider>
+                </MultiChainStateProvider>
+              </LocalMulticallProvider>
+            </BlockNumbersProvider>
+          </BlockNumberProvider>
+        </NetworkProvider>
+      </ReadonlyNetworksProvider>
     </WindowProvider>
   )
 }
