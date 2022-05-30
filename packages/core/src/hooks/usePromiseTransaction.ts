@@ -22,6 +22,7 @@ export async function estimateGasLimit(
       : await signer.estimateGas(transactionRequest)
     return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
   } catch (err: any) {
+    console.error(err)
     return undefined
   }
 }
