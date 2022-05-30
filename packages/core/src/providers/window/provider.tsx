@@ -22,6 +22,7 @@ export function WindowProvider({ children }: Props) {
           break
       }
     })
+    return () => document.removeEventListener('visibilitychange', () => undefined)
   }, [])
 
   return <WindowContext.Provider value={{ isActive: isActiveWindow }} children={children} />
