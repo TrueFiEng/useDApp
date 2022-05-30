@@ -26,6 +26,9 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
+  useWindow,
+  WindowProvider,
+  WindowContext,
 } from './providers'
 export {
   connectContractToSigner,

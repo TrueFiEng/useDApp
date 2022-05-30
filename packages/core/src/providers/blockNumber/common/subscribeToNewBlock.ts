@@ -6,9 +6,10 @@ import { BlockNumberChanged } from './reducer'
 export function subscribeToNewBlock(
   provider: BaseProvider | undefined,
   chainId: ChainId | undefined,
-  dispatch: Dispatch<BlockNumberChanged>
+  dispatch: Dispatch<BlockNumberChanged>,
+  isActive: boolean
 ) {
-  if (provider && chainId !== undefined) {
+  if (provider && chainId !== undefined && isActive) {
     const update = (blockNumber: number) => dispatch({ chainId, blockNumber })
     provider.on('block', update)
 

@@ -11,6 +11,7 @@ import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory }
 import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
+import { useWindow } from '../../window/context'
 
 interface Props {
   children: ReactNode
@@ -39,6 +40,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
+  const { isActive } = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
@@ -60,6 +62,9 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   )
 
   function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
+    if (!isActive) {
+      return
+    }
     const blockNumber = blockNumbers[chainId]
     const multicallAddress = multicallAddresses[chainId]
 
