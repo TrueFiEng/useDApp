@@ -12,7 +12,7 @@ export function WindowProvider({ children }: Props) {
   const [isActiveWindow, setActiveWindow] = useState(true)
 
   useEffect(() => {
-    document.addEventListener('visibilitychange', () => {
+    const visibilityChangeListener = () => {
       switch (document.visibilityState) {
         case 'hidden':
           setActiveWindow(false)
@@ -21,8 +21,9 @@ export function WindowProvider({ children }: Props) {
           setActiveWindow(true)
           break
       }
-    })
-    return () => document.removeEventListener('visibilitychange', () => undefined)
+    }
+    document.addEventListener('visibilitychange', visibilityChangeListener)
+    return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
   }, [])
 
   return <WindowContext.Provider value={{ isActive: isActiveWindow }} children={children} />
