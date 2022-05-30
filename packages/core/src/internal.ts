@@ -1,3 +1,4 @@
+import { WindowContext } from './providers/window/context';
 // NOTE: This file serves as an internal API module. It is exported from the package, but use it on your own risk.
 
 export type {
@@ -26,6 +27,9 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
+  useWindow,
+  WindowProvider,
+  WindowContext,
 } from './providers'
 export {
   connectContractToSigner,
