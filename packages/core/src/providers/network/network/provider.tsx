@@ -81,13 +81,16 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     })
   }, [])
 
-  const onDisconnect = useCallback((provider: JsonRpcProvider) => (error: any) => {
-    const isMetaMask = (provider as any).provider.isMetaMask;
-    if (!noMetamaskDeactivate || !isMetaMask) {
-      reportError(error)
-      deactivate()
-    }
-  }, [])
+  const onDisconnect = useCallback(
+    (provider: JsonRpcProvider) => (error: any) => {
+      const isMetaMask = (provider as any).provider.isMetaMask
+      if (!noMetamaskDeactivate || !isMetaMask) {
+        reportError(error)
+        deactivate()
+      }
+    },
+    []
+  )
 
   useEffect(() => {
     setTimeout(async () => {
@@ -117,7 +120,11 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         const account = await tryToGetAccount(wrappedProvider)
         const chainId = (await wrappedProvider.getNetwork())?.chainId
         onUnsubscribe()
-        const clearSubscriptions = subscribeToProviderEvents((wrappedProvider as any).provider, update, onDisconnect(wrappedProvider))
+        const clearSubscriptions = subscribeToProviderEvents(
+          (wrappedProvider as any).provider,
+          update,
+          onDisconnect(wrappedProvider)
+        )
         setOnUnsubscribe(() => clearSubscriptions)
         update({
           provider: wrappedProvider,
