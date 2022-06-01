@@ -37,6 +37,10 @@ export type FullConfig = {
    */
   fastMulticallEncoding?: boolean
   /**
+   * @experimental
+   */
+  noMetamaskDeactivate?: boolean
+  /**
    * @deprecated
    */
   supportedChains?: number[]
