@@ -7,6 +7,7 @@ import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider
 import { Falsy } from '../model/types'
 
 /**
+ * Returns all blockchain logs given a block filter.
  * @public
  */
 export function useRawLogs(

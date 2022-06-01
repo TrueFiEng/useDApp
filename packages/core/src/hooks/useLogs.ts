@@ -24,6 +24,7 @@ export interface TypedFilter<
  * @param filter an event filter (see {@link TypedFilter})
  * @param queryParams allows for additional configuration of the query (see {@link LogQueryParams})
  * @returns an array of decoded logs (see {@link LogsResult})
+ * @public
  */
 export function useLogs(filter: TypedFilter | Falsy, queryParams: LogQueryParams = {}): LogsResult<Contract, string> {
   const { fromBlock, toBlock, blockHash } = queryParams

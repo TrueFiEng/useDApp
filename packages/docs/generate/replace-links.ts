@@ -61,5 +61,12 @@ export const replaceLinks = (content: string) => {
       createLink(linked)
     )
   })
+
+  const linksLeft = newContent.match(/{@link (.*)}/g)
+  if (linksLeft.length > 0) {
+    console.log('Not replaced links:')
+    linksLeft.forEach(link => console.log(link))
+    throw new Error('Links left not replaced.')
+  }
   return newContent
 }
