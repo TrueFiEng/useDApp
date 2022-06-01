@@ -28,7 +28,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
  * @internal Intended for internal use - use it on your own risk
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect, pollingInterval } = useConfig()
+  const { autoConnect, pollingInterval, noMetamaskDeactivate } = useConfig()
 
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
@@ -81,9 +81,12 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     })
   }, [])
 
-  const onDisconnect = useCallback((error) => {
-    deactivate()
-    reportError(error)
+  const onDisconnect = useCallback((provider: JsonRpcProvider) => (error: any) => {
+    const isMetaMask = (provider as any).provider.isMetaMask;
+    if (!noMetamaskDeactivate || !isMetaMask) {
+      reportError(error)
+      deactivate()
+    }
   }, [])
 
   useEffect(() => {
@@ -114,7 +117,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         const account = await tryToGetAccount(wrappedProvider)
         const chainId = (await wrappedProvider.getNetwork())?.chainId
         onUnsubscribe()
-        const clearSubscriptions = subscribeToProviderEvents((wrappedProvider as any).provider, update, onDisconnect)
+        const clearSubscriptions = subscribeToProviderEvents((wrappedProvider as any).provider, update, onDisconnect(wrappedProvider))
         setOnUnsubscribe(() => clearSubscriptions)
         update({
           provider: wrappedProvider,
