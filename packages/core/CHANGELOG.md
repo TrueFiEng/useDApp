@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.0.6
+
+### Patch Changes
+
+- 6348832: ❗️ Fix exception during estimating gas price
+- 1ce58ad: Add no metamask deactivate option
+
 ## 1.0.5
 
 ### Patch Changes

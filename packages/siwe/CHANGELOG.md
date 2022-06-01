@@ -1,5 +1,14 @@
 # @usedapp/siwe
 
+## 0.1.3
+
+### Patch Changes
+
+- 2972e56: 🥳 Remove unnecessary requests
+- Updated dependencies [6348832]
+- Updated dependencies [1ce58ad]
+  - @usedapp/core@1.0.6
+
 ## 0.1.2
 
 ### Patch Changes
