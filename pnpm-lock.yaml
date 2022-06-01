@@ -109,6 +109,7 @@ importers:
       nanoid: 3.1.22
       prettier: ^2.1.2
       react: ^17.0.1
+      react-flat-providers: ^2.1.0
       solc: ^0.8.12
       typechain: ^7.0.0
       typescript: ^4.6.2
@@ -127,6 +128,7 @@ importers:
       lodash.merge: 4.6.2
       lodash.pickby: 4.6.0
       nanoid: 3.1.22
+      react-flat-providers: 2.1.0_react@17.0.2
     devDependencies:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
       '@swc-node/register': 1.4.2
@@ -18124,6 +18126,15 @@ packages:
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+
+  /react-flat-providers/2.1.0_react@17.0.2:
+    resolution: {integrity: sha512-kYbIB5TmNkgf79Nbv2lb5bj3T2spLSZ6BLwLS3mgN61WPsYUeviuKV+FyfLbQDU1rFV1Z1tDvNLaS8cFKucEeQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      react: '>= 17.0.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /react-helmet-async/1.2.3_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-mCk2silF53Tq/YaYdkl2sB+/tDoPnaxN7dFS/6ZLJb/rhUY2EWGI5Xj2b4jHppScMqY45MbgPSwTxDchKpZ5Kw==}
