@@ -11,6 +11,11 @@ export type MulticallAddresses = {
   [chainId: number]: string
 }
 
+export enum Refresh {
+  Never = -1,
+  EveryBlock = -2,
+}
+
 /**
  * useDapp configuration.
  * @public
@@ -71,6 +76,10 @@ export type FullConfig = {
    * Enables reconnecting to last used provider when user revisits the page.
    */
   autoConnect: boolean
+  /**
+   * Refresh standard calls each time the n-th block is mined.
+   */
+  refresh?: number | Refresh
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

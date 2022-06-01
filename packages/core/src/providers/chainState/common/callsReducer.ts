@@ -14,6 +14,8 @@ export interface RawCall {
   data: string
   isStatic?: boolean
   isDisabled?: boolean
+  blocksLeft?: number // lastUpdateBlockNumber: number
+  refreshPerBlocks?: number
 }
 
 /**
@@ -46,15 +48,24 @@ interface RemoveCall {
  */
 export function callsReducer(state: RawCall[] = [], action: Action) {
   if (action.type === 'ADD_CALLS') {
-    return [...state, ...action.calls.map((call) => ({ ...call, address: call.address.toLowerCase() }))]
+    return [...state, ...action.calls.map((call) => ({ ...call, address: call.address.toLowerCase(), blocksLeft: 0 }))]
   } else if (action.type === 'UPDATE_CALLS') {
-    return state.map((call) =>
-      call.isStatic
+    return state.map((call) => {
+      if (call.blocksLeft && call.refreshPerBlocks) {
+        const blocksLeft = (call.blocksLeft - 1 + call.refreshPerBlocks) % call.refreshPerBlocks
+        return { 
+          ...call, 
+          blocksLeft
+        }
+      }
+
+      return call.isStatic
         ? {
             ...call,
             isDisabled: true,
           }
         : call
+    }
     )
   } else {
     let finalState = state

@@ -5,6 +5,7 @@ import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useChainId } from './useChainId'
+import { useConfig } from './useConfig'
 
 /**
  * @public
@@ -76,10 +77,10 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  */
 export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
   const chainId = useChainId({ queryParams })
-  const { isStatic } = queryParams
+  const { refresh } = useConfig()
 
   const rawCalls = useMemo(
-    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId, isStatic) : undefined)),
+    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId, {...queryParams, refreshPerBlocks: queryParams.refreshPerBlocks ?? refresh}) : undefined)),
     [
       JSON.stringify(
         calls.map(

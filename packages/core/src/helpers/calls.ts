@@ -2,6 +2,8 @@ import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
+import { QueryParams } from '../constants/type/QueryParams';
+import { Refresh } from '../constants'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -17,7 +19,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function encodeCallData(call: Call | Falsy, chainId: number, isStatic?: boolean): RawCall | Falsy {
+export function encodeCallData(call: Call | Falsy, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
   if (!call) {
     return undefined
   }
@@ -27,7 +29,13 @@ export function encodeCallData(call: Call | Falsy, chainId: number, isStatic?: b
     return undefined
   }
   try {
-    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId, isStatic }
+    const isStatic = queryParams.isStatic ?? queryParams.refreshPerBlocks === Refresh.Never
+    const refreshPerBlocks = queryParams.refreshPerBlocks !== Refresh.EveryBlock && queryParams.refreshPerBlocks !== Refresh.Never ? queryParams.refreshPerBlocks : undefined
+    console.log({
+      isStatic,
+      refreshPerBlocks
+    })
+    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId, isStatic, refreshPerBlocks }
   } catch {
     warnOnInvalidCall(call)
     return undefined
