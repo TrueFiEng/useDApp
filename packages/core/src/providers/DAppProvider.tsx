@@ -10,6 +10,7 @@ import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 import { WindowProvider } from './window'
+import { FlatProviders } from 'react-flat-providers'
 
 export interface DAppProviderProps {
   children?: ReactNode
@@ -60,22 +61,20 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-    <WindowProvider>
-      <ReadonlyNetworksProvider>
-        <NetworkProvider>
-          <BlockNumberProvider>
-            <BlockNumbersProvider>
-              <LocalMulticallProvider>
-                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
-                  <NotificationsProvider>
-                    <TransactionProvider>{children}</TransactionProvider>
-                  </NotificationsProvider>
-                </MultiChainStateProvider>
-              </LocalMulticallProvider>
-            </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </NetworkProvider>
-      </ReadonlyNetworksProvider>
-    </WindowProvider>
+    <FlatProviders
+      providers={[
+        WindowProvider,
+        ReadonlyNetworksProvider,
+        NetworkProvider,
+        BlockNumberProvider,
+        BlockNumbersProvider,
+        LocalMulticallProvider,
+        [MultiChainStateProvider, { multicallAddresses: multicallAddressesMerged }],
+        NotificationsProvider,
+        TransactionProvider,
+      ]}
+    >
+      {children}
+    </FlatProviders>
   )
 }
