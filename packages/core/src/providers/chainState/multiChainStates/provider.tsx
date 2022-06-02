@@ -82,6 +82,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
 
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
     if (callsOnThisChain.length === 0) {
+      dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
       return
     }
     performMulticall(
@@ -94,7 +95,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       chainId,
       reportError
     )
-    dispatchCalls({ type: 'UPDATE_CALLS', calls })
+    dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
   }
 
   useEffect(() => {

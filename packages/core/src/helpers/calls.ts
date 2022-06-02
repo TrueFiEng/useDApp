@@ -31,10 +31,7 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
   try {
     const isStatic = queryParams.isStatic ?? queryParams.refreshPerBlocks === Refresh.Never
     const refreshPerBlocks = queryParams.refreshPerBlocks !== Refresh.EveryBlock && queryParams.refreshPerBlocks !== Refresh.Never ? queryParams.refreshPerBlocks : undefined
-    console.log({
-      isStatic,
-      refreshPerBlocks
-    })
+    
     return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId, isStatic, refreshPerBlocks }
   } catch {
     warnOnInvalidCall(call)
