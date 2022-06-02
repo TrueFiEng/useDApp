@@ -59,15 +59,15 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
       const blockNumber = action.blockNumber
       if (call.refreshPerBlocks && call.lastUpdatedBlockNumber) {
         return call.lastUpdatedBlockNumber + call.refreshPerBlocks === blockNumber
-        ? {
-            ...call,
-            lastUpdatedBlockNumber: blockNumber,
-            isDisabled: false,
-          }
-        : {
-          ...call,
-          isDisabled: true,
-        }
+          ? {
+              ...call,
+              lastUpdatedBlockNumber: blockNumber,
+              isDisabled: false,
+            }
+          : {
+              ...call,
+              isDisabled: true,
+            }
       }
 
       return call.isStatic
@@ -76,12 +76,11 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
             isDisabled: true,
           }
         : {
-          ...call,
-          lastUpdatedBlockNumber: blockNumber,
-          isDisabled: call.refreshPerBlocks !== undefined ? true : false
+            ...call,
+            lastUpdatedBlockNumber: blockNumber,
+            isDisabled: call.refreshPerBlocks !== undefined ? true : false,
           }
-    }
-    )
+    })
   } else {
     let finalState = state
     for (const call of action.calls) {

@@ -2,8 +2,7 @@ import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
-import { QueryParams } from '../constants/type/QueryParams';
-import { Refresh } from '../constants'
+import { QueryParams } from '../constants/type/QueryParams'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -29,10 +28,16 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
     return undefined
   }
   try {
-    const isStatic = queryParams.isStatic ?? queryParams.refreshPerBlocks === Refresh.Never
-    const refreshPerBlocks = queryParams.refreshPerBlocks !== Refresh.EveryBlock && queryParams.refreshPerBlocks !== Refresh.Never ? queryParams.refreshPerBlocks : undefined
-    
-    return { address: contract.address, data: contract.interface.encodeFunctionData(method, args), chainId, isStatic, refreshPerBlocks }
+    const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
+    const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
+
+    return {
+      address: contract.address,
+      data: contract.interface.encodeFunctionData(method, args),
+      chainId,
+      isStatic,
+      refreshPerBlocks,
+    }
   } catch {
     warnOnInvalidCall(call)
     return undefined

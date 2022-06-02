@@ -11,11 +11,6 @@ export type MulticallAddresses = {
   [chainId: number]: string
 }
 
-export enum Refresh {
-  Never = -1,
-  EveryBlock = -2,
-}
-
 /**
  * useDapp configuration.
  * @public
@@ -79,7 +74,7 @@ export type FullConfig = {
   /**
    * Refresh standard calls each time the n-th block is mined.
    */
-  refresh?: number | Refresh
+  refresh?: number | string
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

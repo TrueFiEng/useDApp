@@ -1,6 +1,6 @@
 // NOTE: We explicitly export the symbols in the root index.ts file to have better control over package's public API.
 
-export type { Chain, Config, FullConfig, MulticallAddresses, NodeUrls, QueryParams, LogQueryParams, Refresh } from './constants'
+export type { Chain, Config, FullConfig, MulticallAddresses, NodeUrls, QueryParams, LogQueryParams } from './constants'
 export {
   ChainId,
   BNB,

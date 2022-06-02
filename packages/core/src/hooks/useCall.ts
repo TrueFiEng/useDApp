@@ -80,7 +80,12 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const { refresh } = useConfig()
 
   const rawCalls = useMemo(
-    () => calls.map((call) => (chainId !== undefined ? encodeCallData(call, chainId, {...queryParams, refreshPerBlocks: queryParams.refreshPerBlocks ?? refresh}) : undefined)),
+    () =>
+      calls.map((call) =>
+        chainId !== undefined
+          ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
+          : undefined
+      ),
     [
       JSON.stringify(
         calls.map(
