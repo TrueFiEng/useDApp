@@ -1,8 +1,7 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
-import { TransactionStatus, TransactionOptions } from '../../src'
-import { TransactionState } from '../model'
+import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
 import { BigNumber, errors, Signer } from 'ethers'
 
 /**
