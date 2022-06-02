@@ -81,11 +81,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     }
 
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
-    if (callsOnThisChain.length === 0) {
-      // there is an option that there is call which is disable, but it will be active after few blocks, so we need to update it anywhere
-      dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
-      return
-    }
+
     performMulticall(
       provider,
       multicall,
