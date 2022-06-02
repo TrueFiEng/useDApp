@@ -74,7 +74,7 @@ export type FullConfig = {
   /**
    * Refresh standard calls each time the n-th block is mined.
    */
-  refresh?: number | string
+  refresh?: number | 'never' | 'everyBlock'
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

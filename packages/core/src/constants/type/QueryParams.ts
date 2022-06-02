@@ -12,7 +12,8 @@ export interface QueryParams {
    */
   chainId?: ChainId
   isStatic?: boolean
-  refresh?: number | string
+  refresh?: number | 'never' | 'everyBlock'
+
 }
 
 /**
