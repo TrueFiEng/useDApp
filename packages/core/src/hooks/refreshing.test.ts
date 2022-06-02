@@ -12,6 +12,7 @@ describe('useEtherBalance with refreshing', () => {
 
   const mineBlock = async () => {
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
+    await sleep(1000) // block needs time to be mined
   }
 
   beforeEach(async () => {
@@ -29,15 +30,11 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
@@ -56,15 +53,11 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
@@ -80,9 +73,7 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val?.toString() === '200')
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(200)
@@ -101,9 +92,7 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val?.toString() === '200')
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(200)
@@ -119,14 +108,10 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val?.toString() === '300')
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(300)
@@ -145,14 +130,10 @@ describe('useEtherBalance with refreshing', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    await sleep(1000)
     await mineBlock()
-    await sleep(1000)
     await waitForCurrent((val) => val?.toString() === '300')
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(300)

@@ -1,4 +1,5 @@
 import { BlockTag } from '@ethersproject/abstract-provider'
+import { Config } from '..'
 import { ChainId } from '../chainId'
 
 /**
@@ -12,7 +13,7 @@ export interface QueryParams {
    */
   chainId?: ChainId
   isStatic?: boolean
-  refresh?: number | 'never' | 'everyBlock'
+  refresh?: Config['refresh']
 }
 
 /**
