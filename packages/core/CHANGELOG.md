@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.0.7
+
+### Patch Changes
+
+- 2a65bfb: Use more specific imports
+
 ## 1.0.6
 
 ### Patch Changes
