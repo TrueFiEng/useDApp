@@ -13,7 +13,6 @@ export interface QueryParams {
   chainId?: ChainId
   isStatic?: boolean
   refresh?: number | 'never' | 'everyBlock'
-
 }
 
 /**
