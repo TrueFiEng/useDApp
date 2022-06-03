@@ -1,8 +1,7 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
-import { TransactionStatus, TransactionOptions } from '../../src'
-import { TransactionState } from '../model'
+import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
 import { BigNumber, errors, Signer } from 'ethers'
 
 /**
@@ -61,7 +60,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         setState({ receipt, transaction, status: 'Success', chainId })
         return receipt
       } catch (e: any) {
-        const errorMessage = e.error?.message ?? e.reason ?? e.data?.message ?? e.message
+        const errorMessage = e.error?.data?.message ?? e.error?.message ?? e.reason ?? e.data?.message ?? e.message
         if (transaction) {
           const droppedAndReplaced = isDroppedAndReplaced(e)
 

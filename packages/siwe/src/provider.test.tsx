@@ -57,7 +57,7 @@ describe('siwe provider tests', async () => {
   let address: string
 
   before(async () => {
-    ;({ config, network1: network } = await setupTestingConfig())
+    ({ config, network1: network } = await setupTestingConfig())
     address = network.provider.getWallets()[0].address
     global.localStorage = mockLocalStorage as any
   })

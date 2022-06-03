@@ -1,5 +1,6 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { TransactionOptions, useConfig } from '../../src'
+import { TransactionOptions } from '../model/TransactionOptions'
+import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
 import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 

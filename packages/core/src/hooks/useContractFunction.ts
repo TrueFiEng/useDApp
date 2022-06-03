@@ -1,4 +1,5 @@
-import { TransactionOptions, useConfig } from '../../src'
+import { TransactionOptions } from '../model/TransactionOptions'
+import { useConfig } from './useConfig'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
