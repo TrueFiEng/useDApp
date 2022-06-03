@@ -1,11 +1,10 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { Interface } from 'ethers'
+import { utils } from 'ethers'
 import { Contract } from 'ethers'
 import chai, { expect } from 'chai'
 import { deployContract, solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
 import { BigNumber } from 'ethers'
-import { utils } from 'ethers'
 import { ERC20Mock, MultiCall2 } from '../../../constants'
 import { RawCall } from './callsReducer'
 import { multicall2Factory } from './multicall2'
@@ -13,6 +12,8 @@ import { sendEmptyTx } from '../../../testing/utils/sendEmptyTx'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
+
+const Interface = utils.Interface;
 
 describe('Multicall2', () => {
   const mockProvider = new MockProvider()

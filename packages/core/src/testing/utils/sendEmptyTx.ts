@@ -1,6 +1,6 @@
 import { Wallet } from 'ethers'
-import { AddressZero } from 'ethers'
+import { constants } from 'ethers'
 
 export async function sendEmptyTx(wallet: Wallet) {
-  return wallet.sendTransaction({ to: AddressZero })
+  return wallet.sendTransaction({ to: constants.AddressZero })
 }

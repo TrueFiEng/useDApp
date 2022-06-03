@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { getProvidersFromConfig } from './provider'
 import { Kovan, Mainnet, Rinkeby } from '../../..'
-import { JsonRpcProvider } from 'ethers'
+import { providers } from 'ethers'
 import { MockProvider } from 'ethereum-waffle'
 import { Localhost } from '../../../model/chain/local'
 
@@ -18,7 +18,7 @@ describe('ReadonlyNetworksProvider', () => {
       Rinkeby.chainId.toString(),
       Kovan.chainId.toString(),
     ])
-    expect(providers[Mainnet.chainId]).to.be.instanceOf(JsonRpcProvider)
+    expect(providers[Mainnet.chainId]).to.be.instanceOf(providers.JsonRpcProvider)
   })
 
   it('getProvidersFromConfig fetches provider object', async () => {

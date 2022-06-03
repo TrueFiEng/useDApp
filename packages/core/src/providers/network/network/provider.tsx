@@ -2,10 +2,15 @@ import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { Network } from './model'
-import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from 'ethers'
+import { providers } from 'ethers'
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
+
+type JsonRpcProvider = providers.JsonRpcProvider;
+type ExternalProvider = providers.ExternalProvider;
+const Provider = providers.Provider;
+const Web3Provider = providers.Web3Provider;
 
 interface NetworkProviderProps {
   children: ReactNode

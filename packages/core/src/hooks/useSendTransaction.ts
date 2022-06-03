@@ -1,4 +1,4 @@
-import { TransactionRequest } from 'ethers'
+import type { TransactionRequest } from '@ethersproject/abstract-provider'
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'

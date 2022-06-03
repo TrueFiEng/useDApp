@@ -1,5 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { Interface } from 'ethers'
+import { utils } from 'ethers'
 import { Contract } from 'ethers'
 import chai, { expect } from 'chai'
 import { deployContract, solidity } from 'ethereum-waffle'
@@ -11,6 +11,8 @@ import { multicall1Factory } from './multicall'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
+
+const Interface = utils.Interface;
 
 describe('Multicall', () => {
   const mockProvider = new MockProvider()

@@ -1,6 +1,6 @@
 import { ChainId } from '../../../constants'
-import { BaseProvider } from 'ethers'
+import type { providers } from 'ethers'
 
 export type Providers = {
-  [chainId in ChainId]?: BaseProvider
+  [chainId in ChainId]?: providers.BaseProvider
 }

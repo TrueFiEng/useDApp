@@ -1,10 +1,10 @@
-import { JsonRpcProvider } from 'ethers'
+import type { providers } from 'ethers'
 
 /**
  * @public
  */
 export interface Network {
-  provider?: JsonRpcProvider
+  provider?: providers.JsonRpcProvider
   chainId?: number
   accounts: string[]
   errors: Error[]

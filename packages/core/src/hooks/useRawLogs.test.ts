@@ -1,11 +1,7 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { defaultAbiCoder } from 'ethers'
-import { Filter, TransactionRequest } from 'ethers'
-import { AddressZero } from 'ethers'
-import { Contract } from 'ethers'
+import type { Filter, TransactionRequest } from '@ethersproject/abstract-provider'
+import { Contract, constants, BigNumber, ethers, utils } from 'ethers'
 import { expect } from 'chai'
-import { BigNumber, ethers } from 'ethers'
-import { getAddress, hexStripZeros } from 'ethers/lib/utils'
 import { ERC20MockInterface } from '../constants'
 import {
   deployMockToken,
@@ -16,6 +12,9 @@ import {
 } from '../testing'
 import { useRawLogs } from './useRawLogs'
 import { useSendTransaction } from './useSendTransaction'
+
+const AddressZero = constants.AddressZero;
+const { defaultAbiCoder, getAddress, hexStripZeros } = utils;
 
 describe('useRawLogs', () => {
   const mockProvider = new MockProvider()

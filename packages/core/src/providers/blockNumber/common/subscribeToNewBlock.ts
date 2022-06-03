@@ -1,10 +1,10 @@
-import { BaseProvider } from 'ethers'
+import { providers } from 'ethers'
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
 
 export function subscribeToNewBlock(
-  provider: BaseProvider | undefined,
+  provider: providers.BaseProvider | undefined,
   chainId: ChainId | undefined,
   dispatch: Dispatch<BlockNumberChanged>,
   isActive: boolean
