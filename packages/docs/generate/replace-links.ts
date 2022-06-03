@@ -19,7 +19,10 @@ const models = [
   'Config',
   'TransactionStatus',
   'TransactionOptions',
-  'TokenInfo'
+  'TokenInfo',
+  'TypedFilter',
+  'LogQueryParams',
+  'LogsResult',
 ]
 
 /**
@@ -63,7 +66,7 @@ export const replaceLinks = (content: string) => {
   })
 
   const linksLeft = newContent.match(/{@link (.*)}/g)
-  if (linksLeft.length > 0) {
+  if (linksLeft?.length > 0) {
     console.log('Not replaced links:')
     linksLeft.forEach(link => console.log(link))
     throw new Error('Links left not replaced.')

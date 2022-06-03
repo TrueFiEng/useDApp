@@ -41,6 +41,7 @@ export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './h
 export {
   useBlockMeta,
   useLogs,
+  useRawLogs,
   useBlockNumber,
   useBlockNumbers,
   useCall,
