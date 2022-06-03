@@ -10,16 +10,11 @@
   "types": "dist/esm/src/index.d.ts",
   "files": [
     "dist",
-    "internal.js",
-    "internal.d.ts",
-    "testing.js",
-    "testing.d.ts",
     "src"
   ],
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
     "@uniswap/token-lists": "^1.0.0-beta.27",
-    "ethers": "5.6.2",
     "fetch-mock": "^9.11.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
@@ -27,7 +22,8 @@
     "react-flat-providers": "^2.1.0"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "ethers": "*"
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
@@ -49,6 +45,7 @@
     "eslint": "7.19.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "ethereum-waffle": "4.0.0-alpha.0",
+    "ethers": "^5.6.8",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
