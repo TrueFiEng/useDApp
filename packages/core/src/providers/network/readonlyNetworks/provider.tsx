@@ -6,9 +6,8 @@ import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 
-const JsonRpcProvider = providers.JsonRpcProvider
+const { Provider, StaticJsonRpcProvider } = providers
 type BaseProvider = providers.BaseProvider
-const Provider = providers.Provider
 
 interface NetworkProviderProps {
   providerOverrides?: Providers
@@ -22,7 +21,7 @@ const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BasePro
   if (typeof urlOrProviderOrProviderFunction === 'function') {
     return urlOrProviderOrProviderFunction()
   }
-  return new JsonRpcProvider(urlOrProviderOrProviderFunction)
+  return new StaticJsonRpcProvider(urlOrProviderOrProviderFunction)
 }
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>

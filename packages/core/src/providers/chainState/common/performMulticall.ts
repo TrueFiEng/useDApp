@@ -20,6 +20,10 @@ export function performMulticall(
   chainId: ChainId,
   reportError: (error: Error) => void
 ) {
+  if (uniqueCalls.length === 0) {
+    return
+  }
+
   const start = Date.now()
   multicallExecutor(provider, multicallAddress, blockNumber, uniqueCalls)
     .then((state) => {
