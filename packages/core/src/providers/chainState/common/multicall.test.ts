@@ -12,7 +12,7 @@ import { multicall1Factory } from './multicall'
 chai.use(solidity)
 chai.use(chaiAsPromised)
 
-const Interface = utils.Interface;
+const Interface = utils.Interface
 
 describe('Multicall', () => {
   const mockProvider = new MockProvider()

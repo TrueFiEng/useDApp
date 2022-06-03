@@ -13,7 +13,7 @@ import { sendEmptyTx } from '../../../testing/utils/sendEmptyTx'
 chai.use(solidity)
 chai.use(chaiAsPromised)
 
-const Interface = utils.Interface;
+const Interface = utils.Interface
 
 describe('Multicall2', () => {
   const mockProvider = new MockProvider()

@@ -16,7 +16,7 @@ import {
 import { useLogs } from './useLogs'
 import { useSendTransaction } from './useSendTransaction'
 
-const AddressZero = constants.AddressZero;
+const AddressZero = constants.AddressZero
 
 describe('useLogs', () => {
   const mockProvider = new MockProvider()

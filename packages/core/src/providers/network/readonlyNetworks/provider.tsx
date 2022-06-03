@@ -6,9 +6,9 @@ import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 
-const JsonRpcProvider = providers.JsonRpcProvider;
-type BaseProvider = providers.BaseProvider;
-const Provider = providers.Provider;
+const JsonRpcProvider = providers.JsonRpcProvider
+type BaseProvider = providers.BaseProvider
+const Provider = providers.Provider
 
 interface NetworkProviderProps {
   providerOverrides?: Providers

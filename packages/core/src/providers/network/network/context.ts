@@ -3,8 +3,8 @@ import { ChainId } from '../../../constants'
 import { Network } from './model'
 import type { providers } from 'ethers'
 
-type JsonRpcProvider = providers.JsonRpcProvider;
-type ExternalProvider = providers.ExternalProvider;
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void

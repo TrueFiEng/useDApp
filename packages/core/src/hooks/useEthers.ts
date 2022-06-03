@@ -6,8 +6,8 @@ import { useNetwork } from '../providers'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 
-type JsonRpcProvider = providers.JsonRpcProvider;
-type ExternalProvider = providers.ExternalProvider;
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
 
 type MaybePromise<T> = Promise<T> | any
 

@@ -1,9 +1,7 @@
 import { expect } from 'chai'
 import { getProvidersFromConfig } from './provider'
-import { Kovan, Mainnet, Rinkeby } from '../../..'
-import { providers } from 'ethers'
+import { Kovan, Mainnet, Rinkeby, Localhost } from '../../../model/chain'
 import { MockProvider } from 'ethereum-waffle'
-import { Localhost } from '../../../model/chain/local'
 
 describe('ReadonlyNetworksProvider', () => {
   it('getProvidersFromConfig creates provider for each network that has URL', async () => {

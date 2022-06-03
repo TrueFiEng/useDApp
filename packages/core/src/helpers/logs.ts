@@ -1,5 +1,5 @@
 import { utils } from 'ethers'
-import type { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider';
+import type { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { TypedFilter } from '../hooks/useLogs'
 import { Awaited, ContractEventNames, DetailedEventRecord, EventRecord, Falsy, TypedContract } from '../model/types'
 

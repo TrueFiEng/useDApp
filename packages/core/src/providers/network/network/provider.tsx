@@ -7,10 +7,10 @@ import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers
 import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
 
-type JsonRpcProvider = providers.JsonRpcProvider;
-type ExternalProvider = providers.ExternalProvider;
-const Provider = providers.Provider;
-const Web3Provider = providers.Web3Provider;
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
+const Provider = providers.Provider
+const Web3Provider = providers.Web3Provider
 
 interface NetworkProviderProps {
   children: ReactNode

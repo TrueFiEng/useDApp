@@ -13,8 +13,8 @@ import {
 import { useRawLogs } from './useRawLogs'
 import { useSendTransaction } from './useSendTransaction'
 
-const AddressZero = constants.AddressZero;
-const { defaultAbiCoder, getAddress, hexStripZeros } = utils;
+const AddressZero = constants.AddressZero
+const { defaultAbiCoder, getAddress, hexStripZeros } = utils
 
 describe('useRawLogs', () => {
   const mockProvider = new MockProvider()

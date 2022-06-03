@@ -7,7 +7,7 @@ import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
 
-type JsonRpcProvider = providers.JsonRpcProvider;
+type JsonRpcProvider = providers.JsonRpcProvider
 
 /**
  * @internal Intended for internal use - use it on your own risk
