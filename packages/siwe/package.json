@@ -20,7 +20,8 @@
   ],
   "peerDependencies": {
     "@usedapp/core": "*",
-    "react": "*"
+    "react": "*",
+    "ethers": "*"
   },
   "dependencies": {
     "siwe": "^1.1.6"

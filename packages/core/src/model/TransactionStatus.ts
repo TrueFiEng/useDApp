@@ -1,4 +1,4 @@
-import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
+import type { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
 
 /**
  * @public

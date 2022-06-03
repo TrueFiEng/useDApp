@@ -6,7 +6,7 @@ import { useReadonlyNetworks } from '../../network'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
-import { BaseProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory } from '../common'
 import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
@@ -61,7 +61,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
+  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider) {
     if (!isActive) {
       return
     }

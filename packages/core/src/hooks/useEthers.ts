@@ -1,10 +1,13 @@
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
 import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { useNetwork } from '../providers'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
 
 type MaybePromise<T> = Promise<T> | any
 

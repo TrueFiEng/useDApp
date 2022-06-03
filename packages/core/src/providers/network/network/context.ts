@@ -1,7 +1,10 @@
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../../constants'
 import { Network } from './model'
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import type { providers } from 'ethers'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void

@@ -1,6 +1,8 @@
 import { expect } from 'chai'
-import { AddressZero } from '@ethersproject/constants'
+import { constants } from 'ethers'
 import { Mainnet, Currency, FiatCurrency, NativeCurrency, Token } from '..'
+
+const AddressZero = constants.AddressZero
 
 describe('Currency', () => {
   it('can be constructed', () => {

@@ -1,7 +1,7 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { AddressZero } from '@ethersproject/constants'
-import { Contract } from '@ethersproject/contracts'
+import type { TransactionRequest } from '@ethersproject/abstract-provider'
+import { constants } from 'ethers'
+import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
@@ -15,6 +15,8 @@ import {
 } from '../testing'
 import { useLogs } from './useLogs'
 import { useSendTransaction } from './useSendTransaction'
+
+const AddressZero = constants.AddressZero
 
 describe('useLogs', () => {
   const mockProvider = new MockProvider()

@@ -3,7 +3,7 @@ import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers, useBlockNumber } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
-import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
+import type { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { Falsy } from '../model/types'
 
 /**

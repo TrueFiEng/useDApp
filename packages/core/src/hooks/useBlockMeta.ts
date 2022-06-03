@@ -1,5 +1,5 @@
 import { MultiCallABI } from '../constants'
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from 'ethers'
 import { useMulticallAddress } from './useMulticallAddress'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useRawCall } from './useRawCalls'

@@ -1,10 +1,13 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { Provider, BaseProvider, StaticJsonRpcProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
+
+const { Provider, StaticJsonRpcProvider } = providers
+type BaseProvider = providers.BaseProvider
 
 interface NetworkProviderProps {
   providerOverrides?: Providers

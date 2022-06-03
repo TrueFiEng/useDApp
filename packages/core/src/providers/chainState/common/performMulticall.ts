@@ -1,4 +1,4 @@
-import { BaseProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { RawCall } from './callsReducer'
 import { Dispatch } from 'react'
 import { ChainStateAction } from './chainStateReducer'
@@ -6,9 +6,9 @@ import { ChainId } from '../../../constants'
 import { notifyDevtools } from '../../devtools'
 
 export function performMulticall(
-  provider: BaseProvider,
+  provider: providers.BaseProvider,
   multicallExecutor: (
-    provider: BaseProvider,
+    provider: providers.BaseProvider,
     multicallAddress: string,
     blockNumber: number,
     uniqueCalls: RawCall[]
