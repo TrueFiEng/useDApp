@@ -72,7 +72,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const { bufferGasLimitPercentage = 0 } = useConfig()
 
   const send = useCallback(
-    async (...args: Params<T, FN>): Promise<void> => {
+    async (...args: Params<T, FN>): Promise<TransactionResponse> => {
       if (contract) {
         const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
 
@@ -100,6 +100,8 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           }, [] as LogDescription[])
           setEvents(events)
         }
+
+        return receipt;
       }
     },
     [contract, functionName, options, library]
