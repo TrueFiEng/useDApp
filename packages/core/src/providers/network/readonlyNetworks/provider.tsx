@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { JsonRpcProvider, Provider, BaseProvider } from '@ethersproject/providers'
+import { Provider, BaseProvider, StaticJsonRpcProvider } from '@ethersproject/providers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
@@ -18,7 +18,7 @@ const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BasePro
   if (typeof urlOrProviderOrProviderFunction === 'function') {
     return urlOrProviderOrProviderFunction()
   }
-  return new JsonRpcProvider(urlOrProviderOrProviderFunction)
+  return new StaticJsonRpcProvider(urlOrProviderOrProviderFunction)
 }
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
