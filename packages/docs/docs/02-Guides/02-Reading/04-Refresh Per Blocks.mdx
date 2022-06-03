@@ -2,7 +2,7 @@
 
 ### Never
 
-To disable refreshing calls per block, just pass `refresh` parameter as `never` to config, example configuration below:
+To disable refreshing calls per block, just pass `refresh` parameter as `never` to config, it will fetch data only once, example configuration below:
 
 ```tsx
   import { Mainnet } from '@usedapp/core'
@@ -18,7 +18,7 @@ To disable refreshing calls per block, just pass `refresh` parameter as `never` 
 
 ### Specified number of blocks
 
-To enable refreshing calls per specified number of blocks, just pass `refresh` parameter as specified number to config, example configuration below will refresh each 10 mined blocks:
+To enable refreshing calls per specified number of blocks, just pass `refresh` parameter as specified number to config, it will refresh each 10 mined blocks, example configuration below:
 
 ```tsx
   import { Mainnet } from '@usedapp/core'
@@ -34,7 +34,7 @@ To enable refreshing calls per specified number of blocks, just pass `refresh` p
 
 ### Every block
 
-If you want to have your calls refreshed per single mined block just pass `refresh` parameter as `everyBlock` to config or just do not fill it.
+If you want to have your calls refreshed per single, mined block just pass `refresh` parameter as `everyBlock` to config or just do not fill it.
 
 ```tsx
   import { Mainnet } from '@usedapp/core'
