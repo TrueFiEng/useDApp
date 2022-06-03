@@ -22,8 +22,6 @@ importers:
 
   packages/coingecko:
     specifiers:
-      '@ethersproject/contracts': 5.6.0
-      '@ethersproject/providers': 5.6.2
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
       '@types/chai': ^4.2.14
@@ -45,8 +43,6 @@ importers:
       react: ^17.0.1
       typescript: ^4.6.2
     dependencies:
-      '@ethersproject/contracts': 5.6.0
-      '@ethersproject/providers': 5.6.2
       '@usedapp/core': link:../core
       isomorphic-fetch: 3.0.0
     devDependencies:
