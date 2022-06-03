@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber, BigNumberish } from 'ethers'
 import { Currency } from './Currency'
 import { CurrencyFormatOptions } from './formatting'
 

@@ -1,4 +1,4 @@
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { Wallet } from 'ethers'
 import { Config } from '../constants'

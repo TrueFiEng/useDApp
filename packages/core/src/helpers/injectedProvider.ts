@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 export async function getInjectedProvider(pollingInterval: number) {
@@ -7,7 +7,7 @@ export async function getInjectedProvider(pollingInterval: number) {
     return undefined
   }
 
-  const provider = new Web3Provider(injectedProvider, 'any')
+  const provider = new providers.Web3Provider(injectedProvider, 'any')
   provider.pollingInterval = pollingInterval
   return provider
 }

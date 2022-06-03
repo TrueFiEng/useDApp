@@ -1,4 +1,4 @@
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { ExternalProvider, JsonRpcProvider } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
 import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'

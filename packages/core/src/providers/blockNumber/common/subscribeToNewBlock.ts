@@ -1,4 +1,4 @@
-import { BaseProvider } from '@ethersproject/providers'
+import { BaseProvider } from 'ethers'
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'

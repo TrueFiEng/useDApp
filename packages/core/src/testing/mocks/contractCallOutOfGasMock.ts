@@ -1,4 +1,4 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
+import { TransactionReceipt, TransactionResponse } from 'ethers'
 import { Contract } from 'ethers'
 
 const transferOutOfGasMock = (): TransactionResponse => {

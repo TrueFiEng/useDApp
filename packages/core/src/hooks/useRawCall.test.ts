@@ -1,5 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'

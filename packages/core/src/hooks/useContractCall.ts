@@ -1,4 +1,4 @@
-import { Interface } from '@ethersproject/abi'
+import { utils } from 'ethers'
 import { useMemo } from 'react'
 import { ChainId } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'
@@ -34,7 +34,7 @@ function encodeCallData(call: ContractCall | Falsy, chainId: ChainId): RawCall |
  * @deprecated Use {@link useCall} instead.
  */
 export interface ContractCall {
-  abi: Interface
+  abi: utils.Interface
   address: string
   method: string
   args: any[]

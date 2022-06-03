@@ -1,5 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { AddressZero } from '@ethersproject/constants'
+import { AddressZero } from 'ethers'
 import { getAdminWallet } from './getAdminWallet'
 
 export const mineBlock = async (provider: MockProvider) => {

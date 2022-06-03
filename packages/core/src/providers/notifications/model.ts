@@ -1,4 +1,4 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
+import { TransactionReceipt, TransactionResponse } from 'ethers'
 
 type NotificationPayload = { submittedAt: number } & (
   | { type: 'transactionStarted'; transaction: TransactionResponse; transactionName?: string }

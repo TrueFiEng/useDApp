@@ -1,5 +1,5 @@
-import { Contract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { Contract } from 'ethers'
+import { Provider } from 'ethers'
 import { decodeTryAggregate, encodeTryAggregate } from '../../../abi/multicall2'
 import { RawCall } from './callsReducer'
 import { ChainState } from './model'

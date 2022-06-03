@@ -1,4 +1,4 @@
-import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
+import { TransactionRequest, TransactionResponse } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'

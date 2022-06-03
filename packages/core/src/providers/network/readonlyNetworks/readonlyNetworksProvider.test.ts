@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { getProvidersFromConfig } from './provider'
 import { Kovan, Mainnet, Rinkeby } from '../../..'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider } from 'ethers'
 import { MockProvider } from 'ethereum-waffle'
 import { Localhost } from '../../../model/chain/local'
 

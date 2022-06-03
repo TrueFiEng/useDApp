@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { AddressZero } from '@ethersproject/constants'
+import { AddressZero } from 'ethers'
 import { Mainnet, Currency, FiatCurrency, NativeCurrency, Token } from '..'
 
 describe('Currency', () => {
