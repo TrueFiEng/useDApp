@@ -37,7 +37,9 @@ const hooks = [
   'useChainCalls',
   'ContractCall',
   'useContractFunction',
-  'useSendTransaction'
+  'useSendTransaction',
+  'useLogs',
+  'useRawLogs',
 ]
 
 const ahref = (title: string, link: string) => `<a href="${link}">${title}</a>`
