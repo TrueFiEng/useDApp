@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { estimateGasLimit } from './usePromiseTransaction'
+import { estimateTransactionGasLimit } from './usePromiseTransaction'
 
 const BASE_TX_COST = 21000
 const LIMITED_TX_COST = 23100 // 21000 * 1.1
@@ -10,7 +10,7 @@ describe('estimateGasLimit', () => {
   const [signer, receiver] = mockProvider.getWallets()
 
   it('sending ether transaction', async () => {
-    const gasLimit = await estimateGasLimit(
+    const gasLimit = await estimateTransactionGasLimit(
       {
         value: 1,
         to: receiver.address,
@@ -23,7 +23,7 @@ describe('estimateGasLimit', () => {
   })
 
   it('sending ether transaction with limit', async () => {
-    const gasLimit = await estimateGasLimit(
+    const gasLimit = await estimateTransactionGasLimit(
       {
         value: 1,
         to: receiver.address,
@@ -36,7 +36,7 @@ describe('estimateGasLimit', () => {
   })
 
   it('sending ether transaction with gasLimit', async () => {
-    const gasLimit = await estimateGasLimit(
+    const gasLimit = await estimateTransactionGasLimit(
       {
         value: 1,
         to: receiver.address,
@@ -50,7 +50,7 @@ describe('estimateGasLimit', () => {
   })
 
   it('sending ether transaction with limit with gasLimit', async () => {
-    const gasLimit = await estimateGasLimit(
+    const gasLimit = await estimateTransactionGasLimit(
       {
         value: 1,
         to: receiver.address,

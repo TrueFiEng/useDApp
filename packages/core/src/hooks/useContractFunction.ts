@@ -3,7 +3,7 @@ import { useConfig } from './useConfig'
 import { Contract, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
-import { estimateGasLimit, usePromiseTransaction } from './usePromiseTransaction'
+import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
 
@@ -79,7 +79,13 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
 
         const contractWithSigner = connectContractToSigner(contract, options, library)
         const opts = hasOpts ? args[args.length - 1] : undefined
-        const gasLimit = await estimateGasLimit(opts, library?.getSigner(), bufferGasLimitPercentage)
+
+        const gasLimit = await estimateContractFunctionGasLimit(
+          contractWithSigner,
+          functionName,
+          args,
+          bufferGasLimitPercentage
+        )
 
         const modifiedOpts = {
           ...opts,
