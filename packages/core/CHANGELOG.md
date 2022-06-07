@@ -1,5 +1,15 @@
 # @usedapp/core
 
+## 1.0.8
+
+### Patch Changes
+
+- 24e9668: ⚡️ Add block refresher
+- edfd60b: 😶‍🌫️ Add receipt for executing contract functions and sending transactions
+- a3b1340: 🕸 Change swithNetwork to promise
+- 3d815ab: Ethers as peer deps
+- 4afd9b5: 🎗 Remove chainId requests
+
 ## 1.0.7
 
 ### Patch Changes
