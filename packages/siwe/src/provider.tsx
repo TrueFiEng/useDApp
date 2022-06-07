@@ -1,5 +1,5 @@
 import { useEthers } from '@usedapp/core'
-import React, { useEffect, ReactNode, useState } from 'react'
+import React, { useEffect, ReactNode, useState, useCallback } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
 import { SiweFetchers, getFetchers } from './requests'
@@ -40,14 +40,17 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const [authToken, setAuthToken] = useState<string | undefined | null>(undefined)
 
   useEffect(() => {
-    setAuthToken(localStorage.getItem('authToken'))
+    if (!account || !chainId) {
+      return
+    }
+    setAuthToken(localStorage.getItem('authToken' + account + chainId))
     if (authToken === null) {
       return
     }
-    void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
-  }, [authToken, getAuth])
+    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
+  }, [authToken, getAuth, account, chainId])
 
-  const signIn = async (signInOptions?: SignInOptions) => {
+  const signIn = useCallback(async(signInOptions?: SignInOptions) => {
     if (!account || !chainId || !library) {
       return
     }
@@ -71,17 +74,20 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
 
     const session = JSON.stringify({ signature, message })
 
-    localStorage.setItem('authToken', session)
+    localStorage.setItem('authToken' + account + chainId, session)
     setAuthToken(session)
 
-    void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
-  }
+    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
+  }, [account, chainId, library, getAuth, setAuthToken, getNonce])
 
-  const signOut = async () => {
-    localStorage.removeItem('authToken')
+  const signOut = useCallback(async () => {
+    if (!account || !chainId) {
+      return
+    }
+    localStorage.removeItem('authToken' + account + chainId)
     setLoggedIn(false)
     setAuthToken(undefined)
-  }
+  }, [setLoggedIn, setAuthToken, account, chainId])
 
   const value = {
     signIn,
