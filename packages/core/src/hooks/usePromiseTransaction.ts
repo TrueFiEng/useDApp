@@ -2,12 +2,12 @@ import type { TransactionRequest, TransactionResponse } from '@ethersproject/abs
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { BigNumber, errors, Signer } from 'ethers'
+import { BigNumber, Contract, errors, Signer } from 'ethers'
 
 /**
  * @internal
  */
-export async function estimateGasLimit(
+export async function estimateTransactionGasLimit(
   transactionRequest: TransactionRequest | undefined,
   signer: Signer | undefined,
   bufferGasLimitPercentage: number
@@ -20,6 +20,25 @@ export async function estimateGasLimit(
       ? BigNumber.from(transactionRequest.gasLimit)
       : await signer.estimateGas(transactionRequest)
     return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+  } catch (err: any) {
+    console.error(err)
+    return undefined
+  }
+}
+
+/**
+ * @internal
+ */
+export async function estimateContractFunctionGasLimit(
+  contractWithSigner: Contract,
+  functionName: string,
+  args: any[],
+  bufferGasLimitPercentage: number
+): Promise<BigNumber | undefined> {
+  try {
+    const estimatedGas = await contractWithSigner.estimateGas[functionName](...args)
+    const gasLimit = estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+    return gasLimit
   } catch (err: any) {
     console.error(err)
     return undefined
