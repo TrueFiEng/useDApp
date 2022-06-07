@@ -37,7 +37,7 @@ export type Web3Ethers = {
   /**
    * Switch to a different network.
    */
-  switchNetwork: (chainId: number) => void
+  switchNetwork: (chainId: number) => Promise<void>
 }
 
 /**
@@ -121,7 +121,6 @@ export function useEthers(): Web3Ethers {
 
     error,
     isLoading,
-
     switchNetwork,
   }
 }
