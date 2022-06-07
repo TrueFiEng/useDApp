@@ -119,6 +119,6 @@ describe('useContractFunction', () => {
     expect(result.current.state.status).to.eq('Success')
     const finalBalance = await deployer.getBalance()
     const txCost = finalBalance.sub(startedBalance)
-    expect(txCost.lte(2 * CONTRACT_FUNCTION_COST)).to.be.true
+    expect(txCost).to.be.at.most(2 * CONTRACT_FUNCTION_COST)
   })
 })
