@@ -121,4 +121,28 @@ describe('useContractFunction', () => {
     const txCost = finalBalance.sub(startingBalance)
     expect(txCost).to.be.at.most(2 * CONTRACT_FUNCTION_COST)
   })
+
+  it('success with correct receipt', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(token, 'approve'),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
+    await result.current.send(spender.address, 200)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+
+    expect(result.current.state.receipt).to.not.be.undefined
+    expect(result.current.state.receipt?.to).to.eq(token.address)
+    expect(result.current.state.receipt?.from).to.eq(deployer.address)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+    expect(result.current.state.receipt?.status).to.eq(1)
+    expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+  })
 })
