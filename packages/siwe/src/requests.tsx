@@ -12,7 +12,7 @@ export interface AuthResponse {
 
 export interface SiweFetchers {
   getNonce: () => Promise<NonceResponse>
-  getAuth: () => Promise<AuthResponse>
+  getAuth: (account: string, chainId: number) => Promise<AuthResponse>
 }
 
 const failedAuthResponse = {
@@ -27,8 +27,8 @@ const failedNonceResponse = {
 
 export const getFetchers = (backendUrl: string): SiweFetchers => {
   return {
-    getAuth: async () => {
-      const token = localStorage.getItem('authToken')
+    getAuth: async (account: string, chainId: number) => {
+      const token = localStorage.getItem('authToken' + account + chainId)
 
       if (token === undefined || token === null) {
         return failedAuthResponse
