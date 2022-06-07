@@ -112,13 +112,13 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    const startedBalance = await deployer.getBalance()
+    const startingBalance = await deployer.getBalance()
     await result.current.send(spender.address, 200)
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
     const finalBalance = await deployer.getBalance()
-    const txCost = finalBalance.sub(startedBalance)
+    const txCost = finalBalance.sub(startingBalance)
     expect(txCost).to.be.at.most(2 * CONTRACT_FUNCTION_COST)
   })
 })
