@@ -61,6 +61,14 @@ const examples = (child: Child) => {
     examples.map(example).join('\n') + '\n'
 }
 
+const see = (child: Child) => {
+  const seeRecords = child.signatures[0]?.comment?.tags?.filter(tag => tag.tagName === 'see') ?? []
+  if (seeRecords.length === 0) return undefined
+  return seeRecords.map(seeRecord => (
+    `\n**See:** ${seeRecord.text}`
+  )).join('\n') + '\n'
+}
+
 const returns = (child: Child) => {
   const value = child.signatures[0]?.comment?.returns
   return value ? `\n**Returns**: ${value}` : undefined
@@ -73,6 +81,7 @@ const entry = (child: Child): string => {
     parameters(child),
     returns(child),
     examples(child),
+    see(child),
   ].map(newLine).join('')
 }
 
