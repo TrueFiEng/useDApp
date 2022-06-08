@@ -1,12 +1,6 @@
 import { AuthResponse, NonceResponse, SiweFetchers } from './requests'
 import { Config, useEthers } from '@usedapp/core'
-import {
-  setupTestingConfig,
-  TestingNetwork,
-  IdentityWrapper,
-  renderDAppHook,
-  getWaitUtils,
-} from '@usedapp/testing'
+import { setupTestingConfig, TestingNetwork, IdentityWrapper, renderDAppHook, getWaitUtils } from '@usedapp/testing'
 import { SiweProvider, useSiwe } from './provider'
 import React, { useEffect } from 'react'
 import { expect } from 'chai'
@@ -57,7 +51,7 @@ describe('siwe provider tests', async () => {
   let address: string
 
   before(async () => {
-    ({ config, network1: network } = await setupTestingConfig())
+    ;({ config, network1: network } = await setupTestingConfig())
     address = network.provider.getWallets()[0].address
     global.localStorage = mockLocalStorage as any
   })
