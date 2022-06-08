@@ -3,13 +3,13 @@ import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerL
 
 const testnetRedditscanUrl = 'https://testnet.redditspace.com'
 
-export const RedditTestnet: Chain = {
+export const ArbitrumRedditTestnet: Chain = {
   chainId: 5391184,
   chainName: 'RedditTestnet',
   isTestChain: true,
   isLocalChain: false,
-  multicallAddress: '0xFf79F208541DdF9dA6632dD851a269BbfA97d9aD',
-  multicall2Address: '',
+  multicallAddress: '0x722db82dea58c880d03b87885053f206f1b37136',
+  multicall2Address: '0xd4d664d419a6a845c98cc366ae1c4b24592bd5ce',
   rpcUrl: 'https://testnet.redditspace.com/rpc',
   blockExplorerUrl: testnetRedditscanUrl,
   getExplorerAddressLink: getAddressLink(testnetRedditscanUrl),
@@ -17,5 +17,5 @@ export const RedditTestnet: Chain = {
 }
 
 export default {
-    RedditTestnet
+  ArbitrumRedditTestnet,
 }

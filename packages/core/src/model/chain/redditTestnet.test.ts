@@ -1,33 +1,33 @@
 import { expect } from 'chai'
 import { TEST_ADDRESS, TEST_TX } from './test-defaults'
-import { RedditTestnet } from '../../'
+import { ArbitrumRedditTestnet } from '../../'
 
 describe('RedditTestnet Chain', () => {
   it('getChainId', () => {
-    expect(RedditTestnet.chainId).to.equal(5391184)
+    expect(ArbitrumRedditTestnet.chainId).to.equal(5391184)
   })
 
   it('getChainName', () => {
-    expect(RedditTestnet.chainName).to.eq('RedditTestnet')
+    expect(ArbitrumRedditTestnet.chainName).to.eq('RedditTestnet')
   })
 
   it('isTestChain', () => {
-    expect(RedditTestnet.isTestChain).to.be.true
+    expect(ArbitrumRedditTestnet.isTestChain).to.be.true
   })
 
   it('isLocalChain', () => {
-    expect(RedditTestnet.isLocalChain).to.be.false
+    expect(ArbitrumRedditTestnet.isLocalChain).to.be.false
   })
 
   it('rpcUrl', () => {
-    expect(RedditTestnet.rpcUrl).to.eq('https://testnet.redditspace.com/rpc')
+    expect(ArbitrumRedditTestnet.rpcUrl).to.eq('https://testnet.redditspace.com/rpc')
   })
 
   it('getExplorerAddressLink', () => {
-    expect(RedditTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://testnet.redditspace.com/address/${TEST_ADDRESS}`)
+    expect(ArbitrumRedditTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://testnet.redditspace.com/address/${TEST_ADDRESS}`)
   })
 
   it('getExplorerTransactionLink', () => {
-    expect(RedditTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(`https://testnet.redditspace.com/tx/${TEST_TX}`)
+    expect(ArbitrumRedditTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(`https://testnet.redditspace.com/tx/${TEST_TX}`)
   })
 })
