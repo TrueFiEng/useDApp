@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
-    - run: npm i -g pnpm@6.20.3
+    - run: npm i -g pnpm@7.1.9
     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
     - run: pnpm run lint
     - run: pnpm run build
@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - run: npm i -g pnpm@6.20.3
+      - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
         run: |
@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - run: npm i -g pnpm@6.20.3
+      - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
         run: |

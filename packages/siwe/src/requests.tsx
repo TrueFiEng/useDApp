@@ -17,10 +17,10 @@ export interface SiweFetchers {
 
 const failedAuthResponse = {
   loggedIn: false,
-  message: undefined
+  message: undefined,
 }
 
-const failedNonceResponse = { 
+const failedNonceResponse = {
   nonce: undefined,
   ok: false,
 }

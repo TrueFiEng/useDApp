@@ -50,35 +50,38 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
   }, [authToken, getAuth, account, chainId])
 
-  const signIn = useCallback(async(signInOptions?: SignInOptions) => {
-    if (!account || !chainId || !library) {
-      return
-    }
-    const signer = library.getSigner()
-    const { nonce } = await getNonce()
+  const signIn = useCallback(
+    async (signInOptions?: SignInOptions) => {
+      if (!account || !chainId || !library) {
+        return
+      }
+      const signer = library.getSigner()
+      const { nonce } = await getNonce()
 
-    if (!nonce) {
-      return
-    }
+      if (!nonce) {
+        return
+      }
 
-    const message = new SiweMessage({
-      domain: signInOptions?.domain ?? window.location.host,
-      address: await signer.getAddress(),
-      statement: 'Sign in with Ethereum.',
-      uri: signInOptions?.uri ?? window.location.origin,
-      version: '1',
-      chainId,
-      nonce,
-    })
-    const signature = await signer.signMessage(message.prepareMessage())
+      const message = new SiweMessage({
+        domain: signInOptions?.domain ?? window.location.host,
+        address: await signer.getAddress(),
+        statement: 'Sign in with Ethereum.',
+        uri: signInOptions?.uri ?? window.location.origin,
+        version: '1',
+        chainId,
+        nonce,
+      })
+      const signature = await signer.signMessage(message.prepareMessage())
 
-    const session = JSON.stringify({ signature, message })
+      const session = JSON.stringify({ signature, message })
 
-    localStorage.setItem('authToken' + account + chainId, session)
-    setAuthToken(session)
+      localStorage.setItem('authToken' + account + chainId, session)
+      setAuthToken(session)
 
-    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
-  }, [account, chainId, library, getAuth, setAuthToken, getNonce])
+      void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
+    },
+    [account, chainId, library, getAuth, setAuthToken, getNonce]
+  )
 
   const signOut = useCallback(async () => {
     if (!account || !chainId) {
