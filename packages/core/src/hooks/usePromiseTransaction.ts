@@ -79,6 +79,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         setState({ receipt, transaction, status: 'Success', chainId })
         return receipt
       } catch (e: any) {
+        const parsedErrorCode = parseInt(e.error?.data?.code ?? e.error?.code ?? e.data?.code ?? e.code)
+        const errorCode = isNaN(parsedErrorCode) ? undefined : parsedErrorCode
         const errorMessage = e.error?.data?.message ?? e.error?.message ?? e.reason ?? e.data?.message ?? e.message
         if (transaction) {
           const droppedAndReplaced = isDroppedAndReplaced(e)
@@ -105,13 +107,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
               originalTransaction: transaction,
               receipt: e.receipt,
               errorMessage,
+              errorCode,
               chainId,
             })
           } else {
-            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
+            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, errorCode, chainId })
           }
         } else {
-          setState({ status: 'Exception', errorMessage, chainId })
+          setState({ status: 'Exception', errorMessage, errorCode, chainId })
         }
         return undefined
       }

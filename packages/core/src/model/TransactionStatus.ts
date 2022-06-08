@@ -14,6 +14,7 @@ export interface TransactionStatus {
   receipt?: TransactionReceipt
   chainId?: number
   errorMessage?: string
+  errorCode?: number
   originalTransaction?: TransactionResponse
 }
 
