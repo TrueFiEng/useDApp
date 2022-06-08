@@ -8,7 +8,7 @@ describe('RedditTestnet Chain', () => {
   })
 
   it('getChainName', () => {
-    expect(ArbitrumRedditTestnet.chainName).to.eq('RedditTestnet')
+    expect(ArbitrumRedditTestnet.chainName).to.eq('ArbitrumRedditTestnet')
   })
 
   it('isTestChain', () => {
