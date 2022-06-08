@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { TEST_ADDRESS, TEST_TX } from './test-defaults'
 import { ArbitrumRedditTestnet } from '../..'
 
-describe('RedditTestnet Chain', () => {
+describe('ArbitrumRedditTestnet Chain', () => {
   it('getChainId', () => {
     expect(ArbitrumRedditTestnet.chainId).to.equal(5391184)
   })
