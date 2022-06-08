@@ -47,7 +47,8 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
       setLoading(false)
-      throw new Error('No injected provider available')
+      console.error('No injected provider available') // we do not want to crash the app when there is no metamask
+      return
     }
     try {
       await injectedProvider.send('eth_requestAccounts', [])
