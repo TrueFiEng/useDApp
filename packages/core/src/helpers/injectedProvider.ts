@@ -10,9 +10,10 @@ export async function getInjectedProvider(pollingInterval: number) {
   }
 
   const injectedProviders: any[] = (window?.ethereum as any).providers || []
-  const injectedProvider: any = injectedProviders.find((provider) => {
-    return provider.isMetaMask ?? false
-  }) ?? await detectEthereumProvider()
+  const injectedProvider: any =
+    injectedProviders.find((provider) => {
+      return provider.isMetaMask ?? false
+    }) ?? (await detectEthereumProvider())
 
   if (!injectedProvider) {
     window.open(GET_METAMASK_LINK)
