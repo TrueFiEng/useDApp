@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { TEST_ADDRESS, TEST_TX } from './test-defaults'
-import { ArbitrumRedditTestnet } from '../../'
+import { ArbitrumRedditTestnet } from '../..'
 
 describe('RedditTestnet Chain', () => {
   it('getChainId', () => {
