@@ -21,7 +21,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
 
-    setShouldRefresh(filteredCalls.some((call) => call.refreshPerBlocks))
+    setShouldRefresh?.(filteredCalls.some((call) => call.refreshPerBlocks))
 
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
