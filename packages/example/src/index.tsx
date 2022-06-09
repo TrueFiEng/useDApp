@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum, Hardhat } from '@usedapp/core'
+import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
 
