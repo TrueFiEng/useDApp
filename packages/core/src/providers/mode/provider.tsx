@@ -15,7 +15,7 @@ export function ModeProvider({ children }: Props) {
   const { refresh } = useConfig()
 
   useEffect(() => {
-    setShouldRefresh?.(refresh !== 'never')
+    setShouldRefresh(refresh !== 'never')
     const visibilityChangeListener = () => {
       switch (document.visibilityState) {
         case 'hidden':

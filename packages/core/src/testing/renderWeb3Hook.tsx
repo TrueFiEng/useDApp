@@ -5,6 +5,7 @@ import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ReadonlyNetworksProvider } from '../providers/network'
+import { ModeProvider } from '../providers/mode/provider'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: MockProvider | Record<number /* ChainId */, MockProvider>
@@ -69,17 +70,19 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <NetworkProvider providerOverride={defaultProvider}>
-        <ReadonlyNetworksProvider providerOverrides={providers}>
-          <BlockNumberProvider>
-            <BlockNumbersProvider>
-              <MultiChainStateProvider multicallAddresses={multicallAddresses}>
-                <UserWrapper {...wrapperProps} />
-              </MultiChainStateProvider>
-            </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </ReadonlyNetworksProvider>
-      </NetworkProvider>
+      <ModeProvider>
+        <NetworkProvider providerOverride={defaultProvider}>
+          <ReadonlyNetworksProvider providerOverrides={providers}>
+            <BlockNumberProvider>
+              <BlockNumbersProvider>
+                <MultiChainStateProvider multicallAddresses={multicallAddresses}>
+                  <UserWrapper {...wrapperProps} />
+                </MultiChainStateProvider>
+              </BlockNumbersProvider>
+            </BlockNumberProvider>
+          </ReadonlyNetworksProvider>
+        </NetworkProvider>
+      </ModeProvider>
     ),
     initialProps: options?.renderHook?.initialProps,
   })
