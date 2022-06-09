@@ -1,5 +1,6 @@
 import { ReactNode, useState, useEffect } from 'react'
-import { WindowContext } from './context'
+import { useConfig } from '../../hooks'
+import { ModeContext } from './context'
 
 interface Props {
   children: ReactNode
@@ -8,10 +9,13 @@ interface Props {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function WindowProvider({ children }: Props) {
+export function ModeProvider({ children }: Props) {
   const [isActiveWindow, setActiveWindow] = useState(true)
+  const [shouldRefresh, setShouldRefresh] = useState(true)
+  const { refresh } = useConfig();
 
   useEffect(() => {
+    setShouldRefresh(refresh !== 'never')
     const visibilityChangeListener = () => {
       switch (document.visibilityState) {
         case 'hidden':
@@ -26,5 +30,9 @@ export function WindowProvider({ children }: Props) {
     return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
   }, [])
 
-  return <WindowContext.Provider value={{ isActive: isActiveWindow }} children={children} />
+  return <ModeContext.Provider value={{
+    isActiveWindow,
+    isActive: isActiveWindow && shouldRefresh,
+    setShouldRefresh
+  }} children={children} />
 }

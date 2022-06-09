@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo } from 'react'
-import { MultiChainStatesContext, RawCallResult } from '../providers'
+import { MultiChainStatesContext, RawCallResult, useMode } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
@@ -16,9 +16,13 @@ import { MultiChainState } from '../providers/chainState/multiChainStates/contex
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
+  const { setShouldRefresh } = useMode()
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
+
+    setShouldRefresh(filteredCalls.some((call) => call.refreshPerBlocks))
+
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])

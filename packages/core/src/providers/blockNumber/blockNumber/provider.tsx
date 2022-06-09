@@ -3,8 +3,7 @@ import { BlockNumberContext } from './context'
 import { blockNumberReducer } from '../common/reducer'
 import { useDebounce, useEthers } from '../../../hooks'
 import { subscribeToNewBlock } from '../common/subscribeToNewBlock'
-import { useWindow } from '../../window'
-import { useConfig } from '../../../hooks/useConfig'
+import { useMode } from '../../mode'
 
 interface Props {
   children: ReactNode
@@ -16,28 +15,12 @@ interface Props {
 export function BlockNumberProvider({ children }: Props) {
   const { library, chainId } = useEthers()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
-  const { isActive } = useWindow()
-  const { mode } = useConfig()
+  const { isActiveWindow } = useMode()
 
-  useEffect(() => {
-    if (!library || !chainId) {
-      return
-    }
-    const update = (blockNumber: number) => dispatch({ chainId, blockNumber })
-
-    library.getBlockNumber().then(
-      (blockNumber) => update(blockNumber),
-      (err) => {
-        console.error(err)
-      }
-    )
-  }, [mode, library, chainId])
-
-  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, mode === 'dynamic' && isActive), [
+  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, isActiveWindow), [
     library,
     chainId,
-    isActive,
-    mode,
+    isActiveWindow,
   ])
 
   const debouncedState = useDebounce(state, 100)

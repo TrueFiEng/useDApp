@@ -9,7 +9,7 @@ import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
-import { WindowProvider } from './window'
+import { ModeProvider } from './mode'
 import { FlatProviders } from 'react-flat-providers'
 
 export interface DAppProviderProps {
@@ -63,7 +63,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   return (
     <FlatProviders
       providers={[
-        WindowProvider,
+        ModeProvider,
         ReadonlyNetworksProvider,
         NetworkProvider,
         BlockNumberProvider,

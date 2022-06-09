@@ -13,6 +13,5 @@ export const DEFAULT_CONFIG: FullConfig = {
   },
   autoConnect: true,
   multicallVersion: 1,
-  refresh: 'everyBlock',
-  mode: 'dynamic',
+  refresh: 1,
 }

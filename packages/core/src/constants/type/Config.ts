@@ -78,11 +78,7 @@ export type FullConfig = {
   /**
    * Refresh standard calls each time the n-th block is mined.
    */
-  refresh: number | 'never' | 'everyBlock'
-  /**
-   * Tells if all data should be fetched only once or reloaded, contains block numbers.
-   */
-  mode: 'static' | 'dynamic'
+  refresh: number | 'never'
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

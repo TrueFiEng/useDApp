@@ -67,7 +67,7 @@ describe('useEtherBalance with refreshing', () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver), {
       config: {
         ...config,
-        refresh: 'everyBlock',
+        refresh: 1,
       },
     })
     await waitForCurrent((val) => val !== undefined)
@@ -83,7 +83,7 @@ describe('useEtherBalance with refreshing', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useEtherBalance(receiver, {
-          refresh: 'everyBlock',
+          refresh: 1,
         }),
       {
         config,
