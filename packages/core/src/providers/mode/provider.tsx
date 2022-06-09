@@ -12,10 +12,10 @@ interface Props {
 export function ModeProvider({ children }: Props) {
   const [isActiveWindow, setActiveWindow] = useState(true)
   const [shouldRefresh, setShouldRefresh] = useState(true)
-  const { refresh } = useConfig();
+  const { refresh } = useConfig()
 
   useEffect(() => {
-    setShouldRefresh(refresh !== 'never')
+    setShouldRefresh?.(refresh !== 'never')
     const visibilityChangeListener = () => {
       switch (document.visibilityState) {
         case 'hidden':
@@ -30,9 +30,14 @@ export function ModeProvider({ children }: Props) {
     return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
   }, [])
 
-  return <ModeContext.Provider value={{
-    isActiveWindow,
-    isActive: isActiveWindow && shouldRefresh,
-    setShouldRefresh
-  }} children={children} />
+  return (
+    <ModeContext.Provider
+      value={{
+        isActiveWindow,
+        isActive: isActiveWindow && shouldRefresh,
+        setShouldRefresh,
+      }}
+      children={children}
+    />
+  )
 }

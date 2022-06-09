@@ -16,7 +16,7 @@ const config: Config = {
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
-  refresh: 'never'
+  refresh: 'never',
 }
 
 ReactDOM.render(

@@ -17,11 +17,7 @@ export function BlockNumberProvider({ children }: Props) {
   const [state, dispatch] = useReducer(blockNumberReducer, {})
   const { isActiveWindow } = useMode()
 
-  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, isActiveWindow), [
-    library,
-    chainId,
-    isActiveWindow,
-  ])
+  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, isActiveWindow), [library, chainId, isActiveWindow])
 
   const debouncedState = useDebounce(state, 100)
   const blockNumber = chainId !== undefined ? debouncedState[chainId] : undefined
