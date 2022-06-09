@@ -33,7 +33,12 @@ export function BlockNumberProvider({ children }: Props) {
     )
   }, [mode, library, chainId])
 
-  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, mode === 'dynamic' && isActive), [library, chainId, isActive, mode])
+  useEffect(() => subscribeToNewBlock(library, chainId, dispatch, mode === 'dynamic' && isActive), [
+    library,
+    chainId,
+    isActive,
+    mode,
+  ])
 
   const debouncedState = useDebounce(state, 100)
   const blockNumber = chainId !== undefined ? debouncedState[chainId] : undefined

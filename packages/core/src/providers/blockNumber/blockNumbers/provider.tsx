@@ -23,7 +23,7 @@ export function BlockNumbersProvider({ children }: Props) {
     }
 
     Object.entries(networks).map(([chainId, provider]) => {
-    const update = (blockNumber: number) => dispatch({ chainId: parseInt(chainId), blockNumber })
+      const update = (blockNumber: number) => dispatch({ chainId: parseInt(chainId), blockNumber })
       return provider.getBlockNumber().then(
         (blockNumber) => update(blockNumber),
         (err) => {
