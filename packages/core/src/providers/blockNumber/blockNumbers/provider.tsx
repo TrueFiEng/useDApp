@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useReducer } from 'react'
-import { useDebounce, useRawCalls } from '../../../hooks'
+import { useDebounce } from '../../../hooks'
 import { useReadonlyNetworks } from '../../network'
 import { BlockNumbersContext } from './context'
 import { blockNumberReducer } from '../common/reducer'
