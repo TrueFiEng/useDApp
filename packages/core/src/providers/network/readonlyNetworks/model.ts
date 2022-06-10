@@ -13,13 +13,13 @@ export type NetworkStates = {
   [chainId in ChainId]?: NetworkState
 }
 
-export interface ReadonlyNetworksModel{
-  providers: Providers,
+export interface ReadonlyNetworksModel {
+  providers: Providers
   updateNetworkState: (payload: Actions) => void
 }
 
 export interface UpdateNonStaticCallsCount {
-  type: 'UPDATE_NON_STATIC_CALLS_COUNT',
+  type: 'UPDATE_NON_STATIC_CALLS_COUNT'
   count: {
     [chainId: number]: number
   }

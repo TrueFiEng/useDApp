@@ -4,8 +4,6 @@ import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
 import { useUpdateNetworksState } from '../providers/network/readonlyNetworks/context'
-import { ChainId } from '../constants'
-import { fromEntries } from '../helpers/fromEntries'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -19,7 +17,7 @@ import { fromEntries } from '../helpers/fromEntries'
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
-  const updateNetworkState = useUpdateNetworksState();
+  const updateNetworkState = useUpdateNetworksState()
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
@@ -32,7 +30,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
     updateNetworkState({
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
       count: nonStaticCalls,
-    });
+    })
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
