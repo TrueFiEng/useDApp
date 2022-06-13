@@ -26,6 +26,7 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
+  useMode,
   ModeProvider,
   ModeContext,
 } from './providers'
