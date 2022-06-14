@@ -136,5 +136,5 @@ export enum ChainId {
   Velas = 106,
   VelasTestnet = 111,
   ZkSyncTestnet = 280,
-  ArbitrumRedditTestnet = 5391184
+  ArbitrumRedditTestnet = 5391184,
 }

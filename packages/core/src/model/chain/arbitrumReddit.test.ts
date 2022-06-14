@@ -24,10 +24,14 @@ describe('ArbitrumRedditTestnet Chain', () => {
   })
 
   it('getExplorerAddressLink', () => {
-    expect(ArbitrumRedditTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://testnet.redditspace.com/address/${TEST_ADDRESS}`)
+    expect(ArbitrumRedditTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://testnet.redditspace.com/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {
-    expect(ArbitrumRedditTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(`https://testnet.redditspace.com/tx/${TEST_TX}`)
+    expect(ArbitrumRedditTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(
+      `https://testnet.redditspace.com/tx/${TEST_TX}`
+    )
   })
 })
