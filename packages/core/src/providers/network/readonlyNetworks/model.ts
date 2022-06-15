@@ -19,10 +19,9 @@ export interface ReadonlyNetworksModel {
 }
 
 export interface UpdateNonStaticCallsCount {
-  type: 'UPDATE_NON_STATIC_CALLS_COUNT'
-  count: {
-    [chainId: number]: number
-  }
+  type: 'UPDATE_NON_STATIC_CALLS_COUNT',
+  chainId: ChainId,
+  count: number
 }
 
 export type Actions = UpdateNonStaticCallsCount

@@ -3,7 +3,7 @@ import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
-import { useUpdateNetworksState } from '../providers/network/readonlyNetworks/context'
+import { useConfig } from './useConfig'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -17,22 +17,14 @@ import { useUpdateNetworksState } from '../providers/network/readonlyNetworks/co
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
-  const updateNetworkState = useUpdateNetworksState()
+  const { refresh } = useConfig();
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
-    const nonStaticCalls: Record<number, number> = {}
-    for (const call of filteredCalls) {
-      if (!call.refreshPerBlocks && !call.isStatic) {
-        nonStaticCalls[call.chainId] = (nonStaticCalls[call.chainId] || 0) + 1
-      }
-    }
-    updateNetworkState({
-      type: 'UPDATE_NON_STATIC_CALLS_COUNT',
-      count: nonStaticCalls,
-    })
-    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
-    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
+    const extendedCalls = filteredCalls.map(call => ({ ...call, isStatic: call.isStatic ?? refresh === 'never' }))
+    
+    dispatchCalls({ type: 'ADD_CALLS', calls: extendedCalls })
+    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: extendedCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
   return useMemo(

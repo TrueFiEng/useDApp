@@ -12,6 +12,7 @@ import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
+import { useUpdateNetworksState } from '../../network/readonlyNetworks/context'
 
 interface Props {
   children: ReactNode
@@ -44,6 +45,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
+  const updateNetworks = useUpdateNetworksState()
 
   const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding ?? false)
 
@@ -81,6 +83,11 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     }
 
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
+    updateNetworks({
+      type: 'UPDATE_NON_STATIC_CALLS_COUNT',
+      chainId,
+      count: callsOnThisChain.filter((call) => !call.isStatic).length,
+    });
 
     performMulticall(
       provider,
