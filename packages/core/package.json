@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "repository": "git@github.com:EthWorks/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
@@ -18,8 +18,7 @@
     "fetch-mock": "^9.11.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
-    "nanoid": "3.1.22",
-    "react-flat-providers": "^2.1.0"
+    "nanoid": "3.1.22"
   },
   "peerDependencies": {
     "react": "*",

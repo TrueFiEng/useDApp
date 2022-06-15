@@ -32,8 +32,8 @@ jobs:
 
       - name: Set git user
         run: |
-          git config user.name truefi-bot
-          git config user.email truefi-bot@trusttoken.com
+          git config user.name truefibot
+          git config user.email truebot.github@trusttoken.com
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
