@@ -1,5 +1,15 @@
 # @usedapp/testing
 
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [2888a3e]
+- Updated dependencies [c4b8ae0]
+- Updated dependencies [fcb6f41]
+- Updated dependencies [5877e2d]
+  - @usedapp/core@1.0.9
+
 ## 1.0.8
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @usedapp/core
 
+## 1.0.9
+
+### Patch Changes
+
+- 2888a3e: 🥗 Fix multiple deploying multicall during localhost connection
+- c4b8ae0: Add error code to transaction status
+- fcb6f41: 🦊 Add metamask filtering logic after activate browser wallet
+- 5877e2d: Fix race condition between chain id and provider
+
 ## 1.0.8
 
 ### Patch Changes
