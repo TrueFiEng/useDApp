@@ -1,6 +1,27 @@
 # Next.js integration
 
 UseDapp is compatible with Next.js.
+The only thing to set up is to add provider that wraps your app.
+
+```tsx
+import { DAppProvider, Mainnet } from '@usedapp/core'
+
+const config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/acf40056939949ef8c218d3cab625a7b',
+  },
+}
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <DAppProvider config={config}>
+      <Component {...pageProps} />
+    </DAppProvider>)
+}
+
+export default MyApp
+```
 
 **Example**
 
