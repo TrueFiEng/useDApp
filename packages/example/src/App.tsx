@@ -20,7 +20,7 @@ import { ENSExample } from './components/ENS/ENSExample'
 export function App() {
   return (
     <Page>
-      <GlobalStyle>
+      <GlobalStyle />
       <BrowserRouter>
         <NavBar />
         <Switch>
