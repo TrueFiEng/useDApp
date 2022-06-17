@@ -3,7 +3,6 @@ import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
-import { useConfig } from './useConfig'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -17,14 +16,11 @@ import { useConfig } from './useConfig'
  */
 export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
-  const { refresh } = useConfig();
 
   useEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
-    const extendedCalls = filteredCalls.map(call => ({ ...call, isStatic: call.isStatic ?? refresh === 'never' }))
-    
-    dispatchCalls({ type: 'ADD_CALLS', calls: extendedCalls })
-    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: extendedCalls })
+    dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
+    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
   return useMemo(
