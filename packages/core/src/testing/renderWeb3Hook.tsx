@@ -7,7 +7,8 @@ import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ReadonlyNetworksProvider } from '../providers/network'
 
 export interface renderWeb3HookOptions<Tprops> {
-  mockProvider?: MockProvider | Record<number /* ChainId */, MockProvider>
+  mockProvider?: MockProvider
+  readonlyMockProviders?: Record<number /* ChainId */, MockProvider>
   mockProviderOptions?: {
     pollingInterval?: number
   }
@@ -38,7 +39,6 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 ) => {
   const providers: Record<number, MockProvider> = {}
   const multicallAddresses: Record<number, string> = {}
-  let defaultProvider = new MockProvider()
 
   const addSingleProvider = async (currentProvider: MockProvider) => {
     const { chainId } = await currentProvider.getNetwork()
@@ -54,15 +54,20 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     await currentProvider.getBlockNumber()
   }
 
-  const providerObject = options?.mockProvider || new MockProvider()
-  if (providerObject instanceof MockProvider) {
-    defaultProvider = providerObject
-    await addSingleProvider(providerObject)
-  } else {
-    for (const chainIdString in providerObject) {
-      const chainId = Number(chainIdString)
-      await addSingleProvider(providerObject[chainId])
-    }
+  const defaultProvider = options?.mockProvider || new MockProvider()
+  await addSingleProvider(defaultProvider)
+
+  const readOnlyProviders = options?.readonlyMockProviders ?? {}
+  for (const chainIdString in readOnlyProviders) {
+    const chainId = Number(chainIdString)
+    await addSingleProvider(readOnlyProviders[chainId])
+  }
+
+  if (Object.keys(readOnlyProviders).length === 0) {
+    const defaultReadOnltProvider = new MockProvider()
+    await addSingleProvider(defaultReadOnltProvider)
+    const { chainId } = await defaultReadOnltProvider.getNetwork()
+    readOnlyProviders[chainId] = defaultReadOnltProvider
   }
 
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
@@ -70,7 +75,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
       <NetworkProvider providerOverride={defaultProvider}>
-        <ReadonlyNetworksProvider providerOverrides={providers}>
+        <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
           <BlockNumberProvider>
             <BlockNumbersProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddresses}>
@@ -87,7 +92,12 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   return {
     result,
     defaultProvider,
-    mineBlock: async () => mineBlock(defaultProvider),
+    mineBlock: async () => { 
+      Promise.all(
+        [defaultProvider, ...Object.values(readOnlyProviders)]
+        .map(provider => mineBlock(provider))
+      )
+    },
     rerender,
     unmount,
     // do not return the waitFor* functions from `renderHook` - they are not usable after using waitForNextUpdate().

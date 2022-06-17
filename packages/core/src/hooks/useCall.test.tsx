@@ -19,8 +19,10 @@ describe('useCall', () => {
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
+  let chainId: number
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
@@ -34,7 +36,9 @@ describe('useCall', () => {
           args: [deployer.address],
         }),
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -64,7 +68,7 @@ describe('useCall', () => {
           { chainId }
         ),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },
