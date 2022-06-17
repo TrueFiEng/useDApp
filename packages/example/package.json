@@ -1,17 +1,28 @@
 {
   "name": "@usedapp/example",
   "version": "0.5.3",
-  "private": true,
+  "main": "build/cjs/src/index.js",
+  "module": "build/esm/src/index.js",
+  "types": "build/esm/src/index.d.ts",
+  "private": "true",
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
     "start": "webpack serve --mode development",
-    "build": "yarn typechain:generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
+    "build": "yarn build:app && yarn build:package",
+    "build:app": "yarn typechain:generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
+    "build:package": "yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
     "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/contracts": "5.6.0",
