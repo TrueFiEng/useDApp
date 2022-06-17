@@ -34,7 +34,7 @@
     "@usedapp/core": "workspace:*",
     "ethereum-waffle": "4.0.0-alpha.0",
     "ethers": "5.6.2",
-    "react": "17.0.1",
+    "react": "^17.0.1",
     "react-dom": "17.0.1"
   },
   "scripts": {

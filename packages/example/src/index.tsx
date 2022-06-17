@@ -25,3 +25,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 )
+
+export const DummyComponent = () => <p>Testing the export</p>

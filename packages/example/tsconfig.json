@@ -5,6 +5,7 @@
     "playwright"
   ],
   "compilerOptions": {
+    "outDir": "dist",
     "types": [
       "mocha"
     ],

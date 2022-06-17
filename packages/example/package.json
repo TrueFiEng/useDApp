@@ -1,10 +1,12 @@
 {
   "name": "@usedapp/example",
   "version": "0.5.3",
-  "main": "build/cjs/src/index.js",
-  "module": "build/esm/src/index.js",
-  "types": "build/esm/src/index.d.ts",
-  "private": "true",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
     "start": "webpack serve --mode development",
@@ -55,7 +57,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router": "^5.1.18",
-    "@types/react-router-dom": "^5.1.7",
+    "@types/react-router-dom": "4.2.6",
     "@usedapp/playwright": "workspace:*",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^6.2.1",
