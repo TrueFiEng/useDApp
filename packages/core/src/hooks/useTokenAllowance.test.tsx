@@ -33,7 +33,7 @@ describe('useTokenAllowance', () => {
       {
         readonlyMockProviders: {
           [chainId]: mockProvider,
-        }
+        },
       }
     )
 
@@ -51,7 +51,7 @@ describe('useTokenAllowance', () => {
       {
         readonlyMockProviders: {
           [chainId]: mockProvider,
-        }
+        },
       }
     )
 

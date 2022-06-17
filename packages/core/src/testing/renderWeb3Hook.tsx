@@ -92,11 +92,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   return {
     result,
     defaultProvider,
-    mineBlock: async () => { 
-      Promise.all(
-        [defaultProvider, ...Object.values(readOnlyProviders)]
-        .map(provider => mineBlock(provider))
-      )
+    mineBlock: async () => {
+      await Promise.all([defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider)))
     },
     rerender,
     unmount,
