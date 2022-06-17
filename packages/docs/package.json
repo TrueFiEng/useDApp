@@ -43,7 +43,7 @@
     "prettier": "^2.1.2",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react-dom": "17.0.1",
     "react-error-boundary": "^3.1.4"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/mocha": "^8.2.0",
     "@types/node": "^17.0.10",
-    "@types/react": "^17.0.40",
+    "@types/react": "17.0.1",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
