@@ -87,7 +87,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
       chainId,
       count: callsOnThisChain.filter((call) => !call.isStatic).length,
-    });
+    })
 
     performMulticall(
       provider,

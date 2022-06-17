@@ -6,7 +6,7 @@ export function networkStatesReducer(prevState: NetworkStates, actions: Actions)
       const newState = { ...prevState }
       newState[actions.chainId] = {
         ...newState[actions.chainId],
-        nonStaticCalls: actions.count
+        nonStaticCalls: actions.count,
       }
       return newState
     }
