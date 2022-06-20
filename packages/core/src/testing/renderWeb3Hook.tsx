@@ -5,6 +5,7 @@ import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ReadonlyNetworksProvider } from '../providers/network'
+import { providers as ethersProviders } from 'ethers'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: MockProvider | Record<number /* ChainId */, MockProvider>
@@ -55,9 +56,17 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   }
 
   const providerObject = options?.mockProvider || new MockProvider()
-  if (providerObject instanceof MockProvider) {
-    defaultProvider = providerObject
-    await addSingleProvider(providerObject)
+  if (
+    providerObject instanceof MockProvider ||
+    /**
+     * We still expect this to be a MockProvider,
+     * but this is an override in case a different instance of the provider package is used
+     * and the TS types are not matching.
+     */
+    ethersProviders.Web3Provider.isProvider(providerObject)
+  ) {
+    defaultProvider = providerObject as MockProvider
+    await addSingleProvider(providerObject as MockProvider)
   } else {
     for (const chainIdString in providerObject) {
       const chainId = Number(chainIdString)
