@@ -55,7 +55,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   }
 
   const providerObject = options?.mockProvider || new MockProvider()
-  if (providerObject instanceof MockProvider) {
+  if (providerObject instanceof MockProvider || Provider.isProvider(providerObject) || 'getNetwork' in providerObject) {
     defaultProvider = providerObject
     await addSingleProvider(providerObject)
   } else {
