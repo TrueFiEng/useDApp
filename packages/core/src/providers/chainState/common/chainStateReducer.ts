@@ -40,18 +40,15 @@ export function chainStateReducer(state: State = {}, action: ChainStateAction) {
   if (!current || action.blockNumber >= current) {
     if (action.type === 'FETCH_SUCCESS') {
       let newState = action.state
-      if (action.blockNumber === current) {
-        // merge with existing state to prevent requests coming out of order
-        // from overwriting the data
-        const oldState = state[action.chainId]?.state ?? {}
-        for (const [address, entries] of Object.entries(oldState)) {
-          newState = {
-            ...newState,
-            [address]: {
-              ...entries,
-              ...newState[address],
-            },
-          }
+      // merge with existing state
+      const oldState = state[action.chainId]?.state ?? {}
+      for (const [address, entries] of Object.entries(oldState)) {
+        newState = {
+          ...newState,
+          [address]: {
+            ...entries,
+            ...newState[address],
+          },
         }
       }
       return {
