@@ -125,7 +125,7 @@ describe('useCall', () => {
     })
   })
 
-  it.only('Properly handles refresh per block', async () => {
+  it('Properly handles refresh per block', async () => {
     const { result, waitForCurrent, mineBlock } = await renderWeb3Hook(
       () => {
         const block1 = useCall({
