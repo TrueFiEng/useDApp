@@ -104,7 +104,9 @@ describe('useCall', () => {
         return { balance, block }
       },
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
@@ -146,7 +148,9 @@ describe('useCall', () => {
         return { block1, block2 }
       },
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
