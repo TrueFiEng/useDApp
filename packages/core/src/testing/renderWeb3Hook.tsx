@@ -5,6 +5,7 @@ import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ReadonlyNetworksProvider } from '../providers/network'
+import { providers as ethersProviders } from 'ethers'
 
 export interface renderWeb3HookOptions<Tprops> {
   mockProvider?: MockProvider
