@@ -58,7 +58,7 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
       }
       const blockNumber = action.blockNumber
       if (call.refreshPerBlocks && call.lastUpdatedBlockNumber) {
-        return call.lastUpdatedBlockNumber + call.refreshPerBlocks >= blockNumber
+        return call.lastUpdatedBlockNumber + call.refreshPerBlocks === blockNumber
           ? {
               ...call,
               lastUpdatedBlockNumber: blockNumber,

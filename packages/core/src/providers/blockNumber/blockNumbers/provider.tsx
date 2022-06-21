@@ -16,20 +16,6 @@ export function BlockNumbersProvider({ children }: Props) {
   const { isActive } = useWindow()
 
   useEffect(() => {
-    if (!networks) {
-      return
-    }
-
-    Object.entries(networks).map(([chainId, provider]) => {
-      const update = (blockNumber: number) => dispatch({ chainId: parseInt(chainId), blockNumber })
-      return provider.getBlockNumber().then(
-        (blockNumber) => update(blockNumber),
-        (err) => {
-          console.error(err)
-        }
-      )
-    })
-
     const onUnmount = Object.entries(networks).map(([chainId, provider]) =>
       subscribeToNewBlock(provider, Number(chainId), dispatch, isActive)
     )
