@@ -182,7 +182,7 @@ describe('useCall', () => {
       expect(getResultPropery(result, 'block1')).to.eq(blockNumber + 5)
       const block2 = getResultPropery(result, 'block2').toNumber()
       // we don't actually know when the update is gonna happen - both possibilities are possible
-      expect(block2 === blockNumber + 4 || block2 === blockNumber + 5 ).to.be.true
+      expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
     })
   })
 })
