@@ -64,10 +64,10 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   }
 
   if (Object.keys(readOnlyProviders).length === 0) {
-    const defaultReadOnltProvider = new MockProvider()
-    await addSingleProvider(defaultReadOnltProvider)
-    const { chainId } = await defaultReadOnltProvider.getNetwork()
-    readOnlyProviders[chainId] = defaultReadOnltProvider
+    const defaultReadOnlyProvider = new MockProvider()
+    await addSingleProvider(defaultReadOnlyProvider)
+    const { chainId } = await defaultReadOnlyProvider.getNetwork()
+    readOnlyProviders[chainId] = defaultReadOnlyProvider
   }
 
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
