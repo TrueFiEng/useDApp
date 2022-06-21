@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.0.11
+
+### Patch Changes
+
+- 453b489: Don't poll readonly chains when unused
+
 ## 1.0.10
 
 ### Patch Changes
