@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 1.0.10
+
+### Patch Changes
+
+- d835054: ⛓ Add arbitrum reddit test chain
+- 2909416: Fix refresh field in QueryOptions
+- 55a28a2: 🐺 More extensive check for provider object in `renderWeb3Hook`
+
 ## 1.0.9
 
 ### Patch Changes
