@@ -14,6 +14,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "react-jsx",
+    "declaration": true,
     "baseUrl": "./",
     "strict": true,
     "skipLibCheck": true,
