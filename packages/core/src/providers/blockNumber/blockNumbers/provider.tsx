@@ -23,7 +23,7 @@ export function BlockNumbersProvider({ children }: Props) {
     return () => {
       onUnmount.forEach((fn) => fn())
     }
-  }, [networks, isActive])
+  }, [networks])
 
   const debouncedState = useDebounce(state, 100)
 

@@ -19,8 +19,10 @@ describe('useTokenAllowance', () => {
   const [secondDeployer, secondSpender] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
+  let chainId: number
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
@@ -29,7 +31,9 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
@@ -45,7 +49,9 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
@@ -84,7 +90,7 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useTokenAllowance(contract.address, user, spenderUser, { chainId }),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },

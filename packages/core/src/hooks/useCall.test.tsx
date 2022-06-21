@@ -23,10 +23,12 @@ describe('useCall', () => {
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
+  let chainId: number
   let blockNumberContract: Contract
   let secondBlockNumberContract: Contract
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
     blockNumberContract = await deployContract(deployer, BlockNumberContract)
@@ -42,7 +44,9 @@ describe('useCall', () => {
           args: [deployer.address],
         }),
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -72,7 +76,7 @@ describe('useCall', () => {
           { chainId }
         ),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },
@@ -100,7 +104,9 @@ describe('useCall', () => {
         return { balance, block }
       },
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
@@ -142,7 +148,9 @@ describe('useCall', () => {
         return { block1, block2 }
       },
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
 
@@ -172,7 +180,9 @@ describe('useCall', () => {
 
     await waitForExpect(() => {
       expect(getResultPropery(result, 'block1')).to.eq(blockNumber + 5)
-      expect(getResultPropery(result, 'block2')).to.eq(blockNumber + 5)
+      const block2 = getResultPropery(result, 'block2').toNumber()
+      // we don't actually know when the update is gonna happen - both possibilities are possible
+      expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
     })
   })
 })

@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
-import { defaultNetworkState, networksReducer } from './reducer'
+import { defaultNetworkState, networkReducer } from './reducer'
 import { Network } from './model'
 import { providers } from 'ethers'
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
@@ -35,7 +35,7 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
   const { autoConnect, pollingInterval, noMetamaskDeactivate } = useConfig()
 
-  const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
+  const [network, dispatch] = useReducer(networkReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
   const [isLoading, setLoading] = useState(false)
