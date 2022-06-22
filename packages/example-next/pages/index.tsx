@@ -6,6 +6,9 @@ import { DummyComponent } from '@usedapp/example'
 
 const Home: NextPage = () => {
   return (<DummyComponent />)
+  // return (
+  //   <p>bleee</p>
+  // )
 }
 
 export default Home
