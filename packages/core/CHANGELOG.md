@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.0.12
+
+### Patch Changes
+
+- 5776ed9: Add option to config to specify different polling intervals for different chains
+
 ## 1.0.11
 
 ### Patch Changes

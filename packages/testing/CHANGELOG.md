@@ -1,5 +1,12 @@
 # @usedapp/testing
 
+## 1.0.12
+
+### Patch Changes
+
+- Updated dependencies [5776ed9]
+  - @usedapp/core@1.0.12
+
 ## 1.0.11
 
 ### Patch Changes
