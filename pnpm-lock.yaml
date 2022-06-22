@@ -507,8 +507,6 @@ importers:
       '@ethersproject/constants': 5.6.0
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.2
-      '@types/react': 17.0.1
-      '@types/react-dom': 17.0.1
       '@usedapp/core': link:../core
       ethereum-waffle: 4.0.0-alpha.0_npo4ep7cyc426pha7ww6vnkdsi
       ethers: 5.6.2
@@ -520,6 +518,8 @@ importers:
       '@testing-library/react-hooks': 5.1.3_w7o5yyljkiidx2s2nzb26ottzu
       '@types/chai': 4.3.0
       '@types/mocha': 8.2.3
+      '@types/react': 17.0.1
+      '@types/react-dom': 17.0.1
       '@typescript-eslint/eslint-plugin': 4.33.0_svahoejai4s3vdjo7ek27ctz4u
       '@typescript-eslint/parser': 4.33.0_bpt3vuhlsupxpqo5l4aahunrmm
       chai: 4.3.6
@@ -6055,7 +6055,7 @@ packages:
     resolution: {integrity: sha512-yIVyopxQb8IDZ7SOHeTovurFq+fXiPICa+GV3gp0Xedsl+MwQlMLKmvrnEjFbQxjliH5YVAEWFh975eVNmKj7Q==}
     dependencies:
       '@types/react': 17.0.40
-    dev: false
+    dev: true
 
   /@types/react-dom/17.0.13:
     resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
