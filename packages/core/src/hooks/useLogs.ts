@@ -26,7 +26,10 @@ export interface TypedFilter<
  * @returns an array of decoded logs (see {@link LogsResult})
  * @public
  */
-export function useLogs(filter: TypedFilter | Falsy, queryParams: LogQueryParams = {}): LogsResult<Contract, string> {
+export function useLogs<T extends TypedContract = Contract, EN extends ContractEventNames<T> = ContractEventNames<T>>(
+  filter: TypedFilter<T, EN> | Falsy,
+  queryParams: LogQueryParams = {}
+): LogsResult<T, EN> {
   const { fromBlock, toBlock, blockHash } = queryParams
 
   const rawFilter = useMemo(() => encodeFilterData(filter, fromBlock, toBlock, blockHash), [
