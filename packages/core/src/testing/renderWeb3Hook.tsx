@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider } from '../providers'
+import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
@@ -42,7 +42,6 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const addSingleProvider = async (currentProvider: MockProvider) => {
     const { chainId } = await currentProvider.getNetwork()
-    currentProvider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
     providers[chainId] = currentProvider
 
     const mockMulticallAddresses = await deployMulticall(currentProvider, chainId)
@@ -74,17 +73,19 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <NetworkProvider providerOverride={defaultProvider}>
-        <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
-          <BlockNumberProvider>
-            <BlockNumbersProvider>
-              <MultiChainStateProvider multicallAddresses={multicallAddresses}>
-                <UserWrapper {...wrapperProps} />
-              </MultiChainStateProvider>
-            </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </ReadonlyNetworksProvider>
-      </NetworkProvider>
+      <ConfigProvider config={{ pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200 }}>
+        <NetworkProvider providerOverride={defaultProvider}>
+          <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
+            <BlockNumberProvider>
+              <BlockNumbersProvider>
+                <MultiChainStateProvider multicallAddresses={multicallAddresses}>
+                  <UserWrapper {...wrapperProps} />
+                </MultiChainStateProvider>
+              </BlockNumbersProvider>
+            </BlockNumberProvider>
+          </ReadonlyNetworksProvider>
+        </NetworkProvider>
+      </ConfigProvider>
     ),
     initialProps: options?.renderHook?.initialProps,
   })
