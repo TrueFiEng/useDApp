@@ -11,6 +11,10 @@ export type MulticallAddresses = {
   [chainId: number]: string
 }
 
+export type PollingIntervals = {
+  [chaindId: number]: number
+}
+
 /**
  * useDapp configuration.
  * @public
@@ -51,9 +55,14 @@ export type FullConfig = {
    */
   networks?: Chain[]
   /**
-   * Polling interval for a new block.
+   * Default polling interval for a new block.
    */
   pollingInterval: number
+
+  /**
+   * Polling intervals for new blocks on specific chains.
+   */
+  pollingIntervals?: PollingIntervals
 
   notifications: {
     checkInterval: number
