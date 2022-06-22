@@ -1,10 +1,12 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useReducer, useState } from 'react'
 import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
-import { BaseProviderFactory, NodeUrls } from '../../../constants'
+import { BaseProviderFactory, ChainId, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
+import { networkStatesReducer } from './reducer'
+import { useWindow } from '../../window'
 
 const { Provider, StaticJsonRpcProvider } = providers
 type BaseProvider = providers.BaseProvider
@@ -34,14 +36,38 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
   const { readOnlyUrls = {} } = useConfig()
+  const { isActive } = useWindow()
   const [providers, setProviders] = useState<Providers>(() => ({
     ...getProvidersFromConfig(readOnlyUrls),
     ...providerOverrides,
   }))
+  const [networkStates, dispatchNetworkState] = useReducer(networkStatesReducer, {
+    ...fromEntries(
+      Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { nonStaticCalls: 0 }])
+    ),
+  })
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
   }, Object.entries(readOnlyUrls).flat())
 
-  return <ReadonlyNetworksContext.Provider value={providers}>{children}</ReadonlyNetworksContext.Provider>
+  useEffect(() => {
+    for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
+      const provider = providers[(chainId as unknown) as ChainId]
+      if (provider) {
+        provider.polling = isActive && nonStaticCalls > 0
+      }
+    }
+  }, [networkStates, isActive])
+
+  return (
+    <ReadonlyNetworksContext.Provider
+      value={{
+        providers,
+        updateNetworkState: dispatchNetworkState,
+      }}
+    >
+      {children}
+    </ReadonlyNetworksContext.Provider>
+  )
 }
