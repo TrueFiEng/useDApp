@@ -1,5 +1,12 @@
 # @usedapp/coingecko
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [453b489]
+  - @usedapp/core@1.0.11
+
 ## 1.0.10
 
 ### Patch Changes
