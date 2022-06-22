@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useReducer, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
 import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
@@ -35,7 +35,7 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
-  const { readOnlyUrls = {} } = useConfig()
+  const { readOnlyUrls = {}, pollingInterval, pollingIntervals } = useConfig()
   const { isActive } = useWindow()
   const [providers, setProviders] = useState<Providers>(() => ({
     ...getProvidersFromConfig(readOnlyUrls),
@@ -46,6 +46,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
       Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { nonStaticCalls: 0 }])
     ),
   })
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [pollingInterval, pollingIntervals])
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
@@ -59,6 +60,12 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
       }
     }
   }, [networkStates, isActive])
+
+  useEffect(() => {
+    for (const [chainId, provider] of Object.entries(providers)) {
+      provider.pollingInterval = getPollingInterval(Number(chainId))
+    }
+  }, [providers, getPollingInterval])
 
   return (
     <ReadonlyNetworksContext.Provider

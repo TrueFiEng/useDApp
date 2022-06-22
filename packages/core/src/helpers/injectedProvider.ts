@@ -3,7 +3,7 @@ import { providers } from 'ethers'
 
 const GET_METAMASK_LINK = 'https://metamask.io/download.html'
 
-export async function getInjectedProvider(pollingInterval: number) {
+export async function getInjectedProvider(getPollingInterval: (chaindId: number) => number) {
   if (!window.ethereum) {
     window.open(GET_METAMASK_LINK)
     return undefined
@@ -21,6 +21,7 @@ export async function getInjectedProvider(pollingInterval: number) {
   }
 
   const provider = new providers.Web3Provider(injectedProvider, 'any')
-  provider.pollingInterval = pollingInterval
+  const chainId = await provider.send('eth_chainId', [])
+  provider.pollingInterval = getPollingInterval(chainId)
   return provider
 }
