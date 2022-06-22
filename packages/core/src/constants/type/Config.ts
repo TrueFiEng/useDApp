@@ -62,7 +62,7 @@ export type FullConfig = {
   /**
    * Polling intervals for new blocks on specific chains.
    */
-   pollingIntervals?: PollingIntervals
+  pollingIntervals?: PollingIntervals
 
   notifications: {
     checkInterval: number

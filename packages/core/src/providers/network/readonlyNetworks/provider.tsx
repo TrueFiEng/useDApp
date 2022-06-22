@@ -46,7 +46,10 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
       Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { nonStaticCalls: 0 }])
     ),
   })
-  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [pollingInterval, pollingIntervals])
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+    pollingInterval,
+    pollingIntervals,
+  ])
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })

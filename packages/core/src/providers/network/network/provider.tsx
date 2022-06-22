@@ -39,7 +39,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
   const [isLoading, setLoading] = useState(false)
-  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [pollingInterval, pollingIntervals])
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+    pollingInterval,
+    pollingIntervals,
+  ])
 
   const activateBrowserWallet = useCallback(async () => {
     setLoading(true)
@@ -131,7 +134,9 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
           (wrappedProvider as any).provider,
           update,
           onDisconnect(wrappedProvider),
-          (chainId) => { wrappedProvider.pollingInterval = getPollingInterval(chainId) }
+          (chainId) => {
+            wrappedProvider.pollingInterval = getPollingInterval(chainId)
+          }
         )
         setOnUnsubscribe(() => clearSubscriptions)
         update({

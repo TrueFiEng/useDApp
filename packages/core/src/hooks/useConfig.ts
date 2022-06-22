@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import { useContext } from 'react'
 import { Chain, FullConfig } from '../constants'
 import { getChainById } from '../helpers'
 import { ConfigContext } from '../providers'
