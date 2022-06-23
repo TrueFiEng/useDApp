@@ -4,7 +4,8 @@ import { Network } from '../providers'
 export function subscribeToProviderEvents(
   provider: EventEmitter | undefined,
   onUpdate: (updatedNetwork: Partial<Network>) => void,
-  onDisconnect: (error: Error) => void
+  onDisconnect: (error: Error) => void,
+  onChainChanged?: (newChainId: number) => void
 ) {
   if (provider?.on) {
     const onConnectListener = (info: { chainId: string } | undefined): void => {
@@ -20,6 +21,7 @@ export function subscribeToProviderEvents(
     provider.on('disconnect', onDisconnectListener)
 
     const onChainChangedListener = (chainId: string): void => {
+      onChainChanged?.(Number(chainId))
       onUpdate({ chainId: Number(chainId) })
     }
     provider.on('chainChanged', onChainChangedListener)

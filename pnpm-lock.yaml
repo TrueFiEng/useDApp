@@ -96,19 +96,20 @@ importers:
       lodash.pickby: ^4.6.0
       mocha: ^8.2.1
       mock-local-storage: ^1.1.17
-      nanoid: 3.1.22
+      nanoid: 3.3.4
       prettier: ^2.1.2
       react: 17.0.1
       solc: ^0.8.12
       typechain: ^7.0.0
       typescript: ^4.6.2
+      wait-for-expect: ^3.0.2
     dependencies:
       '@metamask/detect-provider': 1.2.0
       '@uniswap/token-lists': 1.0.0-beta.27
       fetch-mock: 9.11.0
       lodash.merge: 4.6.2
       lodash.pickby: 4.6.0
-      nanoid: 3.1.22
+      nanoid: 3.3.4
     devDependencies:
       '@ethereum-waffle/provider': 4.0.0-alpha.0
       '@ethersproject/abstract-provider': 5.6.1
@@ -139,6 +140,7 @@ importers:
       solc: 0.8.12
       typechain: 7.0.1_typescript@4.6.2
       typescript: 4.6.2
+      wait-for-expect: 3.0.2
 
   packages/docs:
     specifiers:
@@ -532,8 +534,6 @@ importers:
       '@ethersproject/constants': 5.6.0
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.2
-      '@types/react': 17.0.1
-      '@types/react-dom': 17.0.1
       '@usedapp/core': link:../core
       ethereum-waffle: 4.0.0-alpha.0_npo4ep7cyc426pha7ww6vnkdsi
       ethers: 5.6.2
@@ -545,6 +545,8 @@ importers:
       '@testing-library/react-hooks': 5.1.3_w7o5yyljkiidx2s2nzb26ottzu
       '@types/chai': 4.3.0
       '@types/mocha': 8.2.3
+      '@types/react': 17.0.1
+      '@types/react-dom': 17.0.1
       '@typescript-eslint/eslint-plugin': 4.33.0_glyobjt4c3l2spbcp255qgbvye
       '@typescript-eslint/parser': 4.33.0_5gpqlwp5hzjrncnuiiolpsczg4
       chai: 4.3.6
@@ -6206,6 +6208,7 @@ packages:
     resolution: {integrity: sha512-yIVyopxQb8IDZ7SOHeTovurFq+fXiPICa+GV3gp0Xedsl+MwQlMLKmvrnEjFbQxjliH5YVAEWFh975eVNmKj7Q==}
     dependencies:
       '@types/react': 17.0.40
+    dev: true
 
   /@types/react-dom/17.0.13:
     resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
@@ -16897,16 +16900,16 @@ packages:
     hasBin: true
     dev: true
 
-  /nanoid/3.1.22:
-    resolution: {integrity: sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-    dev: false
-
   /nanoid/3.3.1:
     resolution: {integrity: sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid/3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}

@@ -8,14 +8,18 @@ describe('useToken', async () => {
   const mockProvider = new MockProvider()
   const [deployer] = mockProvider.getWallets()
   let token: Contract
+  let chainId: number
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
   })
 
   it('returns correct token constants', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useToken(token.address), {
-      mockProvider,
+      readonlyMockProviders: {
+        [chainId]: mockProvider,
+      },
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined

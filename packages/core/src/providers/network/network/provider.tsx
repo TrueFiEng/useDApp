@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
-import { defaultNetworkState, networksReducer } from './reducer'
+import { defaultNetworkState, networkReducer } from './reducer'
 import { Network } from './model'
 import { providers } from 'ethers'
 import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
@@ -33,16 +33,20 @@ async function tryToGetAccount(provider: JsonRpcProvider) {
  * @internal Intended for internal use - use it on your own risk
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect, pollingInterval, noMetamaskDeactivate } = useConfig()
+  const { autoConnect, pollingInterval, noMetamaskDeactivate, pollingIntervals } = useConfig()
 
-  const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
+  const [network, dispatch] = useReducer(networkReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
   const [isLoading, setLoading] = useState(false)
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+    pollingInterval,
+    pollingIntervals,
+  ])
 
   const activateBrowserWallet = useCallback(async () => {
     setLoading(true)
-    const injectedProvider = await getInjectedProvider(pollingInterval)
+    const injectedProvider = await getInjectedProvider(getPollingInterval)
 
     if (!injectedProvider) {
       reportError(new Error('No injected provider available'))
@@ -129,7 +133,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         const clearSubscriptions = subscribeToProviderEvents(
           (wrappedProvider as any).provider,
           update,
-          onDisconnect(wrappedProvider)
+          onDisconnect(wrappedProvider),
+          (chainId) => {
+            wrappedProvider.pollingInterval = getPollingInterval(chainId)
+          }
         )
         setOnUnsubscribe(() => clearSubscriptions)
         update({

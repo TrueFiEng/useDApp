@@ -1,5 +1,25 @@
 # @usedapp/core
 
+## 1.0.12
+
+### Patch Changes
+
+- 5776ed9: Add option to config to specify different polling intervals for different chains
+
+## 1.0.11
+
+### Patch Changes
+
+- 453b489: Don't poll readonly chains when unused
+
+## 1.0.10
+
+### Patch Changes
+
+- d835054: ⛓ Add arbitrum reddit test chain
+- 2909416: Fix refresh field in QueryOptions
+- 55a28a2: 🐺 More extensive check for provider object in `renderWeb3Hook`
+
 ## 1.0.9
 
 ### Patch Changes
