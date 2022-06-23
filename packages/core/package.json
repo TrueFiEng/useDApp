@@ -41,7 +41,7 @@
     "@typescript-eslint/parser": "^4.10.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "7.19.0",
+    "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "ethereum-waffle": "4.0.0-alpha.0",
     "ethers": "^5.6.8",

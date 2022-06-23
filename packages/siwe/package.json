@@ -41,7 +41,7 @@
     "@usedapp/testing": "workspace:*",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "7.19.0",
+    "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",

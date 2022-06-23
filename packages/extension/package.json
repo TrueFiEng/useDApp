@@ -39,7 +39,7 @@
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^6.2.1",
     "esbuild-loader": "^2.11.0",
-    "eslint": "7.19.0",
+    "eslint": "7.22.0",
     "mocha": "^8.2.1",
     "prettier": "^2.0.5",
     "react-refresh": "^0.10.0",

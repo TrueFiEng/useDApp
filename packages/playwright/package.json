@@ -18,7 +18,7 @@
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@types/node": "^17.0.10",
-    "eslint": "7.19.0",
+    "eslint": "7.22.0",
     "playwright": "^1.20.2",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
