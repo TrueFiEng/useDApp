@@ -1,5 +1,3 @@
-import '../styles/globals.css'
-
 import type { NextPage } from 'next'
 
 import React from 'react'
