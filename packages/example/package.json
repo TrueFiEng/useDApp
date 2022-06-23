@@ -1,12 +1,10 @@
 {
   "name": "@usedapp/example",
   "version": "0.5.3",
+  "private": true,
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
     "start": "webpack serve --mode development",
