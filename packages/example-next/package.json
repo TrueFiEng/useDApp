@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@usedapp/core": "workspace:*",
     "@usedapp/example": "workspace:*",
     "next": "12.1.2",
     "react": "17.0.1",

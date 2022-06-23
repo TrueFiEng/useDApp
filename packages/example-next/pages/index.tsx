@@ -1,11 +1,29 @@
 import type { NextPage } from 'next'
-// import Head from 'next/head'
-// import Image from 'next/image'
-// import styles from '../styles/Home.module.css'
-import { DummyComponent } from '@usedapp/example'
+
+import React from 'react'
+import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum } from '@usedapp/core'
+import { Balance } from '@usedapp/example'
+import { getDefaultProvider } from 'ethers'
+
+const config: Config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+    [Ropsten.chainId]: getDefaultProvider('ropsten'),
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+  },
+  multicallVersion: 2 as const,
+  fastMulticallEncoding: true,
+  noMetamaskDeactivate: true,
+}
 
 const Home: NextPage = () => {
-  return (<DummyComponent />)
+  return (
+    <DAppProvider config={config}>
+      <Balance />
+    </DAppProvider>
+  )
 }
 
 export default Home
