@@ -1,1 +1,2 @@
-export { Balance } from './pages/Balance'
+export { App } from './App'
+export * from './pages'
