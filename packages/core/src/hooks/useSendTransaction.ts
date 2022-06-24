@@ -3,6 +3,9 @@ import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
 import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
+import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/context'
+import { ChainId } from '../constants'
+import { ethers, providers } from 'ethers';
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -26,13 +29,23 @@ import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromise
  *   sendTransaction({ to: address, value: utils.parseEther(amount) })
  * }
  */
-export function useSendTransaction(options?: TransactionOptions) {
+export function useSendTransaction(options: TransactionOptions = {}) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const transactionChainId = options?.chainId ?? chainId
+  const providers = useReadonlyNetworks()
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const { bufferGasLimitPercentage = 0 } = useConfig()
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    const signer = options?.signer || library?.getSigner()
+    const { privateKey, mnemonicPhrase, encryptedJson, password } = options
+
+    const provider = (transactionChainId && providers[transactionChainId as ChainId])!
+    const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
+    const mnemonicPhraseSigner = mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
+    const encryptedJsonSigner = encryptedJson && password && provider && ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
+
+    const signer = privateKeySigner ??  mnemonicPhraseSigner ?? encryptedJsonSigner ?? options?.signer ?? library?.getSigner()
+    
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
 
