@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.0.14
+
+### Patch Changes
+
+- d07e0df: Fix refreshing cycle in ReadonlyNetworksProvider
+
 ## 1.0.13
 
 ### Patch Changes
