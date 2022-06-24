@@ -5,7 +5,7 @@ import { useEthers } from './useEthers'
 import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/context'
 import { ChainId } from '../constants'
-import { ethers, providers } from 'ethers';
+import { ethers } from 'ethers'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -32,19 +32,20 @@ import { ethers, providers } from 'ethers';
 export function useSendTransaction(options: TransactionOptions = {}) {
   const { library, chainId } = useEthers()
   const transactionChainId = options?.chainId ?? chainId
-  const providers = useReadonlyNetworks()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const { bufferGasLimitPercentage = 0 } = useConfig()
+
+  const providers = useReadonlyNetworks()
+  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
     const { privateKey, mnemonicPhrase, encryptedJson, password } = options
 
-    const provider = (transactionChainId && providers[transactionChainId as ChainId])!
     const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
     const mnemonicPhraseSigner = mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
     const encryptedJsonSigner = encryptedJson && password && provider && ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
 
-    const signer = privateKeySigner ??  mnemonicPhraseSigner ?? encryptedJsonSigner ?? options?.signer ?? library?.getSigner()
+    const signer = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || options?.signer || library?.getSigner()
     
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)

@@ -1,7 +1,7 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { BigNumber, utils, Wallet } from 'ethers'
+import { BigNumber, utils, Wallet, ethers } from 'ethers';
 import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 
 describe('useSendTransaction', () => {
@@ -14,8 +14,9 @@ describe('useSendTransaction', () => {
 
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
-    wallet1 = network1.wallets[0]
-    wallet2 = network1.wallets[1]
+    wallet2 = network1.wallets[0]
+    wallet1 = ethers.Wallet.fromMnemonic('radar blur cabbage chef fix engine embark joy scheme fiction master release').connect(network1.provider)
+    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
   })
 
   it('success', async () => {
@@ -88,7 +89,7 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   })
 
-  it('Can send transaction with mnemonic phrase', async () => { // TODO
+  it('Can send transaction with mnemonic phrase', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useSendTransaction({ chainId: 1, mnemonicPhrase: wallet1.mnemonic.phrase }),
       { config }
