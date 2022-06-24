@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.0.13
+
+### Patch Changes
+
+- d596405: ➕ Add stricter contract type check on the useLogs hook
+- 57e7582: 🔝 Update Nanoid version
+
 ## 1.0.12
 
 ### Patch Changes

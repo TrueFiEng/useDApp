@@ -1,5 +1,14 @@
 # @usedapp/siwe
 
+## 0.1.5
+
+### Patch Changes
+
+- 06cac78: ⛓ Add log out after changing chain
+- Updated dependencies [d596405]
+- Updated dependencies [57e7582]
+  - @usedapp/core@1.0.13
+
 ## 0.1.4
 
 ### Patch Changes
