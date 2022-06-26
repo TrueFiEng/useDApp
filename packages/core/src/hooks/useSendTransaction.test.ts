@@ -1,7 +1,7 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { BigNumber, utils, Wallet, ethers } from 'ethers';
+import { BigNumber, utils, Wallet, ethers } from 'ethers'
 import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 
 describe('useSendTransaction', () => {
@@ -15,7 +15,9 @@ describe('useSendTransaction', () => {
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
     wallet2 = network1.wallets[0]
-    wallet1 = ethers.Wallet.fromMnemonic('radar blur cabbage chef fix engine embark joy scheme fiction master release').connect(network1.provider)
+    wallet1 = ethers.Wallet.fromMnemonic(
+      'radar blur cabbage chef fix engine embark joy scheme fiction master release'
+    ).connect(network1.provider)
     await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
   })
 

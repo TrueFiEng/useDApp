@@ -42,11 +42,17 @@ export function useSendTransaction(options: TransactionOptions = {}) {
     const { privateKey, mnemonicPhrase, encryptedJson, password } = options
 
     const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
-    const mnemonicPhraseSigner = mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
-    const encryptedJsonSigner = encryptedJson && password && provider && ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
+    const mnemonicPhraseSigner =
+      mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
+    const encryptedJsonSigner =
+      encryptedJson &&
+      password &&
+      provider &&
+      ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
 
-    const signer = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || options?.signer || library?.getSigner()
-    
+    const signer =
+      privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || options?.signer || library?.getSigner()
+
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
 

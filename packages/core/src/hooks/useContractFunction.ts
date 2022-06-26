@@ -73,7 +73,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
   const { bufferGasLimitPercentage = 0 } = useConfig()
-  
+
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
@@ -85,8 +85,13 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const { privateKey, mnemonicPhrase, encryptedJson, password } = options
 
         const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
-        const mnemonicPhraseSigner = mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
-        const encryptedJsonSigner = encryptedJson && password && provider && ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
+        const mnemonicPhraseSigner =
+          mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
+        const encryptedJsonSigner =
+          encryptedJson &&
+          password &&
+          provider &&
+          ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
 
         const signer = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || library?.getSigner()
 

@@ -7,7 +7,7 @@ import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 51941 // mock transfer transaction cost
 
-describe.only('useContractFunction', () => {
+describe('useContractFunction', () => {
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
   let token: Contract
@@ -19,8 +19,11 @@ describe.only('useContractFunction', () => {
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
     token = await deployMockToken(deployer)
-    wallet2 = network1.wallets[0]
-    wallet1 = ethers.Wallet.fromMnemonic('radar blur cabbage chef fix engine embark joy scheme fiction master release').connect(network1.provider)
+    wallet2 = network1.wallets[1]
+    wallet1 = ethers.Wallet.fromMnemonic(
+      'radar blur cabbage chef fix engine embark joy scheme fiction master release'
+    ).connect(network1.provider)
+    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
     await token.transfer(wallet1.address, 1000)
   })
 
@@ -156,7 +159,7 @@ describe.only('useContractFunction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'transfer', { chainId: 1, privateKey: wallet1.privateKey }),
       {
-        config
+        config,
       }
     )
     await waitForNextUpdate()
@@ -174,7 +177,7 @@ describe.only('useContractFunction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'transfer', { chainId: 1, mnemonicPhrase: wallet1.mnemonic.phrase }),
       {
-        config
+        config,
       }
     )
     await waitForNextUpdate()
@@ -193,7 +196,7 @@ describe.only('useContractFunction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'transfer', { chainId: 1, encryptedJson, password: 'test' }),
       {
-        config
+        config,
       }
     )
     await waitForNextUpdate()
