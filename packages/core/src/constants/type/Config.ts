@@ -15,6 +15,11 @@ export type PollingIntervals = {
   [chaindId: number]: number
 }
 
+export type LocalStorageFunctions = {
+  getItem: (key: string) => any
+  setItem: (key: string, val: any) => void
+}
+
 /**
  * useDapp configuration.
  * @public
@@ -88,6 +93,10 @@ export type FullConfig = {
    * Refresh standard calls each time the n-th block is mined.
    */
   refresh?: number | 'never' | 'everyBlock'
+  /**
+   * Local storage overriding purposes
+   */
+  localStorageFunctions: LocalStorageFunctions
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
