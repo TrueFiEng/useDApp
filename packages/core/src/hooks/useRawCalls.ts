@@ -57,17 +57,17 @@ export function useRawCall(call: RawCall | Falsy) {
 function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
   const chainId = call.chainId
   if (chainId !== undefined) {
-    const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data];
+    const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
     if (rawCallResult) {
       return rawCallResult
     }
-    const error = (chains[chainId]?.value?.error as any)
-    const errorMessage = error?.error?.message ?? error?.message;
+    const error = chains[chainId]?.value?.error as any
+    const errorMessage = error?.error?.message ?? error?.message
     if (typeof errorMessage === 'string') {
       const value = new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage])
       return {
         success: false,
-        value
+        value,
       }
     }
   }

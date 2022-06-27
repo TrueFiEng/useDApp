@@ -11,8 +11,8 @@ export interface renderWeb3HookOptions<Tprops> {
   readonlyMockProviders?: Record<number /* ChainId */, MockProvider>
   mockProviderOptions?: {
     pollingInterval?: number
-  },
-  multicallVersion?: 1 | 2,
+  }
+  multicallVersion?: 1 | 2
   renderHook?: {
     initialProps?: Tprops
     wrapper?: React.ComponentClass<Tprops, any> | React.FunctionComponent<Tprops>
@@ -75,10 +75,12 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <ConfigProvider config={{
-        pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
-        multicallVersion: options?.multicallVersion
-      }}>
+      <ConfigProvider
+        config={{
+          pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
+          multicallVersion: options?.multicallVersion,
+        }}
+      >
         <NetworkProvider providerOverride={defaultProvider}>
           <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
             <BlockNumberProvider>

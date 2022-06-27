@@ -16,7 +16,7 @@ import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, RevertContract } from '../constants'
 import waitForExpect from 'wait-for-expect'
 
-describe.only('useCall', () => {
+describe('useCall', () => {
   const mockProvider = new MockProvider()
   const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
   const [deployer] = mockProvider.getWallets()
@@ -37,7 +37,7 @@ describe.only('useCall', () => {
     revertContract = await deployContract(deployer, RevertContract)
   })
 
-  for(const multicallVersion of [1, 2] as const) {
+  for (const multicallVersion of [1, 2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { result, waitForCurrent } = await renderWeb3Hook(
@@ -51,7 +51,7 @@ describe.only('useCall', () => {
             readonlyMockProviders: {
               [chainId]: mockProvider,
             },
-            multicallVersion
+            multicallVersion,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -71,7 +71,7 @@ describe.only('useCall', () => {
             readonlyMockProviders: {
               [chainId]: mockProvider,
             },
-            multicallVersion
+            multicallVersion,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -89,7 +89,12 @@ describe.only('useCall', () => {
         )
       })
 
-      const testMultiChainUseCall = async (contract: Contract, args: string[], chainId: number, endValue: BigNumber) => {
+      const testMultiChainUseCall = async (
+        contract: Contract,
+        args: string[],
+        chainId: number,
+        endValue: BigNumber
+      ) => {
         const { result, waitForCurrent } = await renderWeb3Hook(
           () =>
             useCall(
@@ -105,7 +110,7 @@ describe.only('useCall', () => {
               [ChainId.Localhost]: mockProvider,
               [SECOND_TEST_CHAIN_ID]: secondMockProvider,
             },
-            multicallVersion
+            multicallVersion,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -133,7 +138,7 @@ describe.only('useCall', () => {
             readonlyMockProviders: {
               [chainId]: mockProvider,
             },
-            multicallVersion
+            multicallVersion,
           }
         )
 
@@ -178,7 +183,7 @@ describe.only('useCall', () => {
             readonlyMockProviders: {
               [chainId]: mockProvider,
             },
-            multicallVersion
+            multicallVersion,
           }
         )
 
