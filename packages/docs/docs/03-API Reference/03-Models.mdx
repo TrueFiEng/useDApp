@@ -63,6 +63,32 @@ Enables reconnecting to last used provider when user revisits the page.
   }
 ```
 
+**fastMulticallEncoding**
+When set to `true` improves performance by using own written encoders and decoders for multicall data. 
+
+***Default value:***
+
+`false`
+
+:::note
+
+The flag is experimental and is not fully tested yet.
+
+:::
+
+**noMetamaskDeactivate**
+Don't listen on `disconnect` event from Metamask. Might be useful in dealing with [this Metamask bug](https://github.com/MetaMask/metamask-extension/issues/13375).
+
+***Default value:***
+
+`false`
+
+:::note
+
+The flag is experimental and is not fully tested yet.
+
+:::
+
 ## ChainId
 
 A number describing the ID of the chain. See [ChainList](https://chainlist.org/) for a list of known chains and their IDs.
@@ -80,7 +106,7 @@ Fields:
 
 - ``args: any[]`` - arguments for the function
 
-Typecheking:
+Typechecking:
 
 If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
 
@@ -123,6 +149,30 @@ It is `undefined` when call didn't return yet or object `{ success: boolean, val
 
 - `success` - boolean indicating whether call was successful or not,
 - `value` - encoded result when success is `true` or encoded error message when success is `false`.
+
+## LogsResult
+
+Result of a [useLogs](./02-Hooks.mdx#uselogs) query.
+
+It is `undefined` when the query didn't return yet or one of the following objects:
+
+- `{ value: DetailedEventRecord[], error: undefined }`, if the query succeeded,
+- `{ value: undefined, error: Error }`, if the query failed.
+
+Type `DetailedEventRecord` represents a single event (log) on a typed contract:
+
+```typescript
+type DetailedEventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = {
+  data: EventRecord<T, EN>,
+  blockNumber: number,
+  blockHash: string,
+  transactionIndex: number,
+  transactionHash: string,
+  removed: boolean,
+}
+```
+
+Additional resources related to events can be found [here](https://docs.soliditylang.org/en/latest/abi-spec.html#events).
 
 ## ChainCall
 
@@ -249,11 +299,27 @@ Fields:
 - **Mining** - when a transaction is sent to the network, but not yet mined. In this state ``transaction: TransactionResponse`` is available.
 - **Success** - when a transaction has been mined successfully. In this state ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
 - **Fail** - when a transaction has been mined, but ended up reverted. Again ``transaction: TransactionResponse`` and ``receipt: TransactionReceipt`` are available.
-- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
+- **Exception** - when a transaction hasn't started, due to the exception that was thrown before the transaction was propagated to the network. The exception can come from application/library code (e.g. unexpected exception like malformed arguments) or externally (e.g user discarded transaction in Metamask). In this state the ``errorMessage: string`` is available (as well as exception object).
 
 Additionally all states except ``None``, contain ``chainId: ChainId``.
 
 Change in ``state`` will update the component so you can use it in useEffect.
+
+## TypedFilter
+
+Represents a filter of logs emitted on a typed contract.
+
+**Example**
+
+```typescript
+const filter: TypedFilter = {
+  contract: token,
+  event: 'Transfer',
+  args: [null, deployer.address],
+}
+```
+
+To be used with the [useLogs](./02-Hooks.mdx#uselogs) hook.
 
 ## QueryParams
 
@@ -263,3 +329,13 @@ An object consisting of:
 
 - ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [ChainID](#chainid).
 - ``isStatic?: boolean`` - Whether the query is static (not expected to change between calls). Used for optimizations.
+
+## LogQueryParams
+
+Extends the [QueryParams](#queryparams) object with parameters related to querying logs (blockchain events).
+
+Adds fields:
+
+- `fromBlock?: BlockTag` - The starting block (inclusive) to search for logs matching the filter criteria.
+- `toBlock?: BlockTag` - The end block (inclusive) to search for logs matching the filter criteria.
+- `blockHash?: string` - The specific block (by its block hash) to search for logs matching the filter criteria.

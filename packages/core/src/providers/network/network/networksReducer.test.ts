@@ -1,4 +1,4 @@
-import { networksReducer } from './reducer'
+import { networkReducer } from './reducer'
 import { Wallet } from 'ethers'
 import { expect } from 'chai'
 
@@ -18,7 +18,7 @@ describe('ActiveNetworkReducer', () => {
         accounts: [Wallet.createRandom().address],
       }
       expect(
-        networksReducer(initialState, {
+        networkReducer(initialState, {
           type: 'UPDATE_NETWORK',
           network: newNetwork,
         })
@@ -34,7 +34,7 @@ describe('ActiveNetworkReducer', () => {
         accounts: [Wallet.createRandom().address],
       }
       expect(
-        networksReducer(initialState, {
+        networkReducer(initialState, {
           type: 'UPDATE_NETWORK',
           network: newNetwork,
         })
@@ -49,7 +49,7 @@ describe('ActiveNetworkReducer', () => {
   describe('Errors', () => {
     it('adds first error', async () => {
       expect(
-        networksReducer(initialState, {
+        networkReducer(initialState, {
           type: 'ADD_ERROR',
           error: ('new error' as unknown) as Error,
         })
@@ -60,13 +60,13 @@ describe('ActiveNetworkReducer', () => {
     })
 
     it('adds more errors', async () => {
-      const intermediateState = networksReducer(initialState, {
+      const intermediateState = networkReducer(initialState, {
         type: 'ADD_ERROR',
         error: ('new error' as unknown) as Error,
       })
       const anotherError = new Error('another error')
       expect(
-        networksReducer(intermediateState, {
+        networkReducer(intermediateState, {
           type: 'ADD_ERROR',
           error: anotherError,
         })

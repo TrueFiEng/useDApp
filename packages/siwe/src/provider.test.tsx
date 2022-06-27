@@ -1,12 +1,6 @@
 import { AuthResponse, NonceResponse, SiweFetchers } from './requests'
 import { Config, useEthers } from '@usedapp/core'
-import {
-  setupTestingConfig,
-  TestingNetwork,
-  IdentityWrapper,
-  renderDAppHook,
-  getWaitUtils,
-} from '@usedapp/core/testing'
+import { setupTestingConfig, TestingNetwork, IdentityWrapper, renderDAppHook, getWaitUtils } from '@usedapp/testing'
 import { SiweProvider, useSiwe } from './provider'
 import React, { useEffect } from 'react'
 import { expect } from 'chai'

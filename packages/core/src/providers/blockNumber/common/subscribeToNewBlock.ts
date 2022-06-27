@@ -1,14 +1,18 @@
-import { BaseProvider, Web3Provider } from '@ethersproject/providers';
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
+import { providers } from 'ethers'
+
+type Web3Provider = providers.Web3Provider
+type BaseProvider = providers.BaseProvider
 
 export function subscribeToNewBlock(
   provider: BaseProvider | Web3Provider | undefined,
   chainId: ChainId | undefined,
-  dispatch: Dispatch<BlockNumberChanged>
+  dispatch: Dispatch<BlockNumberChanged>,
+  isActive: boolean
 ) {
-  if (provider && chainId !== undefined) {
+  if (provider && chainId !== undefined && isActive) {
     const update = (blockNumber: number) => dispatch({ chainId, blockNumber })
     provider.on('block', update)
 

@@ -37,7 +37,9 @@ export function useLocalStorage(key: string) {
 
   useEffect(() => {
     setItem(key, value)
-  }, [value, key])
+  }, [value])
 
-  return [value, setValue] as const
+  // As value updating relies on useEffect, it takes mutliple rerenders to fully update the value.
+  // The third elemnt in the return array allows to get the immediate value stored in the localStorage.
+  return [value, setValue, () => getItem(key)] as const
 }

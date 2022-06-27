@@ -50,6 +50,7 @@ export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './h
 export {
   useBlockMeta,
   useLogs,
+  useRawLogs,
   useBlockNumber,
   useBlockNumbers,
   useCall,
@@ -77,6 +78,7 @@ export {
   useTransactions,
   useRawCall,
   useRawCalls,
+  useResolveName,
 } from './hooks'
 export type { CurrencyFormatOptions, TransactionOptions, TransactionState, TransactionStatus } from './model'
 export { Currency, CurrencyValue, FiatCurrency, NativeCurrency, Token, transactionErrored } from './model'

@@ -24,6 +24,10 @@ export function NavBar() {
               {' '}
               Prices{' '}
             </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/ens">
+              {' '}
+              ENS{' '}
+            </SidebarLink>
             <SidebarLink activeClassName="active-page" to="/block">
               {' '}
               Block{' '}

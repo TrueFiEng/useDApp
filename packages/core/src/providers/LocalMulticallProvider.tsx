@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react'
+import { utils, providers } from 'ethers';
 import { getChainById } from '../helpers'
-import { useEthers, useBlockNumber, useConfig, useUpdateConfig } from '../hooks'
+import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'
 import multicallABI from '../constants/abi/MultiCall.json'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { deployContract } from '../helpers/contract'
-import { JsonRpcProvider } from '@ethersproject/providers'
 
 interface LocalMulticallProps {
   children: ReactNode
@@ -21,6 +21,8 @@ enum LocalMulticallState {
 export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
   const { library, chainId } = useEthers()
+  const [, setMulticallAddress, getCurrent] = useLocalStorage('local_multicall_address' + chainId)
+
   const { multicallAddresses, multicallVersion } = useConfig()
   const [localMulticallState, setLocalMulticallState] = useState(LocalMulticallState.Unknown)
   const [multicallBlockNumber, setMulticallBlockNumber] = useState<number>()
@@ -34,7 +36,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
     } else if (multicallAddresses && multicallAddresses[chainId]) {
       setLocalMulticallState(LocalMulticallState.Deployed)
     } else if (localMulticallState !== LocalMulticallState.Deploying) {
-      if (!(library instanceof JsonRpcProvider)) {
+      if (!(library instanceof providers.JsonRpcProvider)) {
         throw new Error('You cannot send transaction without wallet')
       }
       const signer = library.getSigner()
@@ -42,23 +44,42 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
         setLocalMulticallState(LocalMulticallState.Error)
         return
       }
+      const checkDeployed = async () => {
+        const multicallAddress = getCurrent()
 
-      setLocalMulticallState(LocalMulticallState.Deploying)
-
-      const deployMulticall = async () => {
-        try {
-          const { contractAddress, blockNumber } = await deployContract(
-            multicallVersion === 1 ? multicallABI : multicall2ABI,
-            signer
-          )
-          updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
-          setMulticallBlockNumber(blockNumber)
-          setLocalMulticallState(LocalMulticallState.Deployed)
-        } catch {
-          setLocalMulticallState(LocalMulticallState.Error)
+        if (typeof multicallAddress === 'string' && utils.isAddress(multicallAddress)) {
+          const multicallCode = await library.getCode(multicallAddress)
+          if (multicallCode !== '0x') {
+            updateConfig({ multicallAddresses: { [chainId]: multicallAddress } })
+            return
+          }
         }
+
+        const signer = library.getSigner()
+        if (!signer) {
+          setLocalMulticallState(LocalMulticallState.Error)
+          return
+        }
+
+        setLocalMulticallState(LocalMulticallState.Deploying)
+
+        const deployMulticall = async () => {
+          try {
+            const { contractAddress, blockNumber } = await deployContract(
+              multicallVersion === 1 ? multicallABI : multicall2ABI,
+              signer
+            )
+            updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
+            setMulticallAddress(contractAddress)
+            setMulticallBlockNumber(blockNumber)
+            setLocalMulticallState(LocalMulticallState.Deployed)
+          } catch {
+            setLocalMulticallState(LocalMulticallState.Error)
+          }
+        }
+        void deployMulticall()
       }
-      void deployMulticall()
+      void checkDeployed()
     }
   }, [library, chainId])
 

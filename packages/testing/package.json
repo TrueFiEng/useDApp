@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/testing",
-  "version": "1.0.2",
+  "version": "1.0.14",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "git@github.com:EthWorks/useDApp.git",
@@ -15,6 +15,8 @@
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
+    "@types/react": "17.0.1",
+    "@types/react-dom": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "chai": "^4.2.0",
@@ -26,14 +28,12 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "@ethersproject/constants": "^5.6.0",
-    "@ethersproject/contracts": "^5.6.0",
-    "@ethersproject/providers": "^5.6.2",
-    "@types/react": "17.0.1",
-    "@types/react-dom": "17.0.1",
+    "@ethersproject/constants": "5.6.0",
+    "@ethersproject/contracts": "5.6.0",
+    "@ethersproject/providers": "5.6.2",
     "@usedapp/core": "workspace:*",
     "ethereum-waffle": "4.0.0-alpha.0",
-    "ethers": "^5.6.2",
+    "ethers": "5.6.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },

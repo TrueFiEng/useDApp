@@ -1,5 +1,96 @@
 # @usedapp/core
 
+## 1.0.14
+
+### Patch Changes
+
+- d07e0df: Fix refreshing cycle in ReadonlyNetworksProvider
+
+## 1.0.13
+
+### Patch Changes
+
+- d596405: ➕ Add stricter contract type check on the useLogs hook
+- 57e7582: 🔝 Update Nanoid version
+
+## 1.0.12
+
+### Patch Changes
+
+- 5776ed9: Add option to config to specify different polling intervals for different chains
+
+## 1.0.11
+
+### Patch Changes
+
+- 453b489: Don't poll readonly chains when unused
+
+## 1.0.10
+
+### Patch Changes
+
+- d835054: ⛓ Add arbitrum reddit test chain
+- 2909416: Fix refresh field in QueryOptions
+- 55a28a2: 🐺 More extensive check for provider object in `renderWeb3Hook`
+
+## 1.0.9
+
+### Patch Changes
+
+- 2888a3e: 🥗 Fix multiple deploying multicall during localhost connection
+- c4b8ae0: Add error code to transaction status
+- fcb6f41: 🦊 Add metamask filtering logic after activate browser wallet
+- 5877e2d: Fix race condition between chain id and provider
+
+## 1.0.8
+
+### Patch Changes
+
+- 24e9668: ⚡️ Add block refresher
+- edfd60b: 😶‍🌫️ Add receipt for executing contract functions and sending transactions
+- a3b1340: 🕸 Change swithNetwork to promise
+- 3d815ab: Ethers as peer deps
+- 4afd9b5: 🎗 Remove chainId requests
+
+## 1.0.7
+
+### Patch Changes
+
+- 2a65bfb: Use more specific imports
+
+## 1.0.6
+
+### Patch Changes
+
+- 6348832: ❗️ Fix exception during estimating gas price
+- 1ce58ad: Add no metamask deactivate option
+
+## 1.0.5
+
+### Patch Changes
+
+- bcff959: Fix ethers version
+- a0ab27f: Remove testing submodule
+
+## 1.0.4
+
+### Patch Changes
+
+- fe52f50: Add fast encoding options
+
+## 1.0.3
+
+### Patch Changes
+
+- 4e8025b: ✖️ Add percentage margin for useTransaction
+- ad8b91a: 🧻 Add useLogs hook
+- 17b8021: 🐛 Fix EventRecord type issue
+- d9e2ff3: Add error throwing to browser wallet activation
+- 3904895: ⚗️ Support `isolatedModules`
+- bd27e6b: Improved handling of Falsy parameters in hooks
+- 5229eea: Update ENS hooks
+- 8701d7d: 🪵 Add useRawLogs hook
+
 ## 1.0.2
 
 ### Patch Changes

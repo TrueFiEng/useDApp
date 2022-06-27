@@ -1,4 +1,4 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from 'ethers'
 import { Contract } from 'ethers'
 import { ERC20Interface } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'

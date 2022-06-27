@@ -1,16 +1,18 @@
 import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
-import { ChainId, multicall as multicall1, multicall2, State, useConfig, useNetwork } from '../../..'
+import { ChainId, State, useConfig, useNetwork } from '../../..'
 import { useReadonlyNetworks } from '../../network'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
-import { BaseProvider } from '@ethersproject/providers'
-import { callsReducer, chainStateReducer } from '../common'
+import { providers } from 'ethers'
+import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory } from '../common'
 import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
+import { useWindow } from '../../window/context'
+import { useUpdateNetworksState } from '../../network/readonlyNetworks/context'
 
 interface Props {
   children: ReactNode
@@ -35,15 +37,17 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
  * @internal Intended for internal use - use it on your own risk
  */
 export function MultiChainStateProvider({ children, multicallAddresses }: Props) {
-  const { multicallVersion } = useConfig()
+  const { multicallVersion, fastMulticallEncoding } = useConfig()
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const { reportError } = useNetwork()
+  const { isActive } = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
+  const updateNetworks = useUpdateNetworksState()
 
-  const multicall = multicallVersion === 1 ? multicall1 : multicall2
+  const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding ?? false)
 
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
   const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
@@ -59,7 +63,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider?: BaseProvider) {
+  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider) {
+    if (!isActive) {
+      return
+    }
     const blockNumber = blockNumbers[chainId]
     const multicallAddress = multicallAddresses[chainId]
 
@@ -76,9 +83,12 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     }
 
     const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
-    if (callsOnThisChain.length === 0) {
-      return
-    }
+    updateNetworks({
+      type: 'UPDATE_NON_STATIC_CALLS_COUNT',
+      chainId,
+      count: calls.filter((call) => !call.isStatic && call.chainId === chainId).length,
+    })
+
     performMulticall(
       provider,
       multicall,
@@ -89,12 +99,16 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       chainId,
       reportError
     )
-    dispatchCalls({ type: 'UPDATE_CALLS', calls })
+    dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
   }
 
   useEffect(() => {
     for (const [_chainId, provider] of Object.entries(networks)) {
-      multicallForChain(Number(_chainId), provider)
+      const chainId = Number(_chainId)
+      // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
+      if (chainId === provider.network?.chainId || chainId === provider._network?.chainId) {
+        multicallForChain(chainId, provider)
+      }
     }
   }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
 

@@ -1,5 +1,5 @@
-import { EventFragment } from '@ethersproject/abi'
-import { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
+import { utils } from 'ethers'
+import type { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { TypedFilter } from '../hooks/useLogs'
 import { Awaited, ContractEventNames, DetailedEventRecord, EventRecord, Falsy, TypedContract } from '../model/types'
 
@@ -32,7 +32,7 @@ export function encodeFilterData(
     return undefined
   }
   try {
-    const encodedTopics = contract.interface.encodeFilterTopics((event as unknown) as EventFragment, args)
+    const encodedTopics = contract.interface.encodeFilterTopics((event as unknown) as utils.EventFragment, args)
 
     if (blockHash) {
       return {

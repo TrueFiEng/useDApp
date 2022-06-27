@@ -25,15 +25,15 @@ jobs:
           node-version: 16.x
           
       - name: Install package manager
-        run: npm i -g pnpm@6.20.3
+        run: npm i -g pnpm@7.1.9
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Set git user
         run: |
-          git config user.name truefi-bot
-          git config user.email truefi-bot@trusttoken.com
+          git config user.name truefibot
+          git config user.email truebot.github@trusttoken.com
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets

@@ -1,5 +1,36 @@
 # @usedapp/siwe
 
+## 0.1.5
+
+### Patch Changes
+
+- 06cac78: ⛓ Add log out after changing chain
+- Updated dependencies [d596405]
+- Updated dependencies [57e7582]
+  - @usedapp/core@1.0.13
+
+## 0.1.4
+
+### Patch Changes
+
+- 3d815ab: Ethers as peer deps
+- 1c987ba: 🐭 Add better siwe account holders and useCallbacks for functions
+- Updated dependencies [24e9668]
+- Updated dependencies [edfd60b]
+- Updated dependencies [a3b1340]
+- Updated dependencies [3d815ab]
+- Updated dependencies [4afd9b5]
+  - @usedapp/core@1.0.8
+
+## 0.1.3
+
+### Patch Changes
+
+- 2972e56: 🥳 Remove unnecessary requests
+- Updated dependencies [6348832]
+- Updated dependencies [1ce58ad]
+  - @usedapp/core@1.0.6
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,13 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {
-  Mainnet,
-  DAppProvider,
-  useEtherBalance,
-  useEthers,
-  Config,
-} from '@usedapp/core'
+import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
@@ -31,18 +25,16 @@ function App() {
   const etherBalance = useEtherBalance(account)
 
   return (
-      <div>
+    <div>
       <MetamaskConnect />
       {account && <button onClick={() => deactivate()}>Disconnect</button>}
-      {etherBalance && 
-        (
-          <div className="balance">
-            <br/>
-            Balance: 
-            <p className="bold">{formatEther(etherBalance)}</p>
-          </div>
-        )
-      }
+      {etherBalance && (
+        <div className="balance">
+          <br />
+          Balance:
+          <p className="bold">{formatEther(etherBalance)}</p>
+        </div>
+      )}
     </div>
   )
 }

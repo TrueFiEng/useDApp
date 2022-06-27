@@ -22,6 +22,8 @@ const config: Config = {
     new WalletConnectConnector({infuraId: 'd8df2cb7844e4a54ab0a782f608749dd'}),
   ],
   autoConnect: true,
+  fastMulticallEncoding: true,
+  noMetamaskDeactivate: true,
 }
 
 ReactDOM.render(

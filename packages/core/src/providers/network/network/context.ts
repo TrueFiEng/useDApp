@@ -1,7 +1,10 @@
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
 import { createContext, useContext } from 'react'
 import { ChainId } from '../../../constants'
 import { Network } from './model'
+import type { providers } from 'ethers'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
 
 export const NetworkContext = createContext<{
   reportError: (error: Error) => void

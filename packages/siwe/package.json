@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/siwe",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "repository": "git@github.com:TrueFiEng/useDApp.git",
   "author": "TrueFiEng",
   "license": "MIT",
@@ -20,7 +20,8 @@
   ],
   "peerDependencies": {
     "@usedapp/core": "*",
-    "react": "*"
+    "react": "*",
+    "ethers": "*"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.6.2",
@@ -38,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@usedapp/core": "workspace:*",
+    "@usedapp/testing": "workspace:*",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "7.19.0",

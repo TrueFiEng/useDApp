@@ -1,5 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 import { expect } from 'chai'
 import {
   renderWeb3Hook,
@@ -20,8 +20,10 @@ describe('useChainCall', () => {
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
+  let chainId: number
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
@@ -35,7 +37,9 @@ describe('useChainCall', () => {
     const { result, waitForCurrent } = await renderWeb3Hook(
       () => useChainCall(encodeCallData(callData, ChainId.Localhost)),
       {
-        mockProvider,
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -72,7 +76,7 @@ describe('useChainCall', () => {
           )
         ),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },

@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "1.0.2",
+  "version": "1.0.14",
   "repository": "git@github.com:EthWorks/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
@@ -8,58 +8,28 @@
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/cjs/src/index.js",
-      "import": "./dist/esm/src/index.js",
-      "default": "./dist/esm/src/index.js",
-      "types": "./dist/esm/src/index.d.ts"
-    },
-    "./testing": {
-      "require": "./dist/cjs/src/testing/index.js",
-      "import": "./dist/esm/src/testing/index.js",
-      "default": "./dist/esm/src/testing/index.js",
-      "types": "./dist/esm/src/testing/index.d.ts"
-    },
-    "./internal": {
-      "require": "./dist/cjs/src/internal.js",
-      "import": "./dist/esm/src/internal.js",
-      "default": "./dist/esm/src/internal.js",
-      "types": "./dist/esm/src/internal.d.ts"
-    }
-  },
   "files": [
     "dist",
-    "internal.js",
-    "internal.d.ts",
-    "testing.js",
-    "testing.d.ts",
     "src"
   ],
   "dependencies": {
-    "@ethersproject/abi": "^5.6.1",
-    "@ethersproject/abstract-provider": "^5.6.0",
-    "@ethersproject/bignumber": "^5.6.0",
-    "@ethersproject/constants": "^5.6.0",
-    "@ethersproject/contracts": "^5.6.0",
-    "@ethersproject/providers": "^5.6.2",
-    "@ethersproject/wallet": "^5.6.0",
     "@metamask/detect-provider": "^1.2.0",
     "@portis/web3": "^4.0.7",
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "@walletconnect/types": "^1.7.8",
     "@walletconnect/web3-provider": "^1.7.8",
-    "ethers": "^5.6.2",
     "fetch-mock": "^9.11.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
-    "nanoid": "3.1.22"
+    "nanoid": "3.3.4"
   },
   "peerDependencies": {
+    "ethers": "*",
     "react": "*"
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
+    "@ethersproject/abstract-provider": "^5.6.1",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
@@ -77,6 +47,7 @@
     "eslint": "7.19.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "ethereum-waffle": "4.0.0-alpha.0",
+    "ethers": "^5.6.8",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
@@ -85,7 +56,8 @@
     "react": "^17.0.1",
     "solc": "^0.8.12",
     "typechain": "^7.0.0",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.2",
+    "wait-for-expect": "^3.0.2"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs",

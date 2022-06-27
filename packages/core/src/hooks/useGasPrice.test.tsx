@@ -23,7 +23,7 @@ describe('useGasPrice', () => {
 
   const testMultiChainUseGasPrice = async (chainId: number) => {
     const { result, waitForCurrent } = await renderWeb3Hook(() => useGasPrice({ chainId }), {
-      mockProvider: {
+      readonlyMockProviders: {
         [ChainId.Localhost]: mockProvider,
         [SECOND_TEST_CHAIN_ID]: secondMockProvider,
       },

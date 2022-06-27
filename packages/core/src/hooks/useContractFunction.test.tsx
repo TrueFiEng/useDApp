@@ -1,15 +1,20 @@
-import { useContractFunction } from '../../src'
+import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, Contract } from 'ethers'
-import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken } from '../../src/testing'
+import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken, setupTestingConfig } from '../../src/testing'
+import { renderDAppHook } from '../testing/renderDAppHook'
+
+const CONTRACT_FUNCTION_COST = 51941 // mock transfer transaction cost
 
 describe('useContractFunction', () => {
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
   let token: Contract
+  let config: Config
 
   beforeEach(async () => {
+    ;({ config } = await setupTestingConfig())
     token = await deployMockToken(deployer)
   })
 
@@ -93,5 +98,51 @@ describe('useContractFunction', () => {
     })
     await waitForNextUpdate()
     await result.current.send(spender.address, 200)
+  })
+
+  it('transfer amount with limit', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'transfer'),
+      {
+        config: {
+          ...config,
+          bufferGasLimitPercentage: 100,
+        },
+      }
+    )
+
+    await waitForNextUpdate()
+    const startingBalance = await deployer.getBalance()
+    await result.current.send(spender.address, 200)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    const finalBalance = await deployer.getBalance()
+    const txCost = finalBalance.sub(startingBalance)
+    expect(txCost).to.be.at.most(2 * CONTRACT_FUNCTION_COST)
+  })
+
+  it('success with correct receipt', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+      () => useContractFunction(token, 'approve'),
+      {
+        mockProvider,
+      }
+    )
+    await waitForNextUpdate()
+    await result.current.send(spender.address, 200)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+
+    expect(result.current.state.receipt).to.not.be.undefined
+    expect(result.current.state.receipt?.to).to.eq(token.address)
+    expect(result.current.state.receipt?.from).to.eq(deployer.address)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+    expect(result.current.state.receipt?.status).to.eq(1)
+    expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   })
 })

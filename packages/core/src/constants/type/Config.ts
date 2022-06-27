@@ -1,15 +1,19 @@
 import { Chain } from '../../constants'
-import { BaseProvider } from '@ethersproject/providers'
 import { Connector } from '../../providers/network/connector/connector'
+import { providers } from 'ethers'
 
-export type BaseProviderFactory = () => BaseProvider
+export type BaseProviderFactory = () => providers.BaseProvider
 
 export type NodeUrls = {
-  [chainId: number]: string | BaseProvider | BaseProviderFactory
+  [chainId: number]: string | providers.BaseProvider | BaseProviderFactory
 }
 
 export type MulticallAddresses = {
   [chainId: number]: string
+}
+
+export type PollingIntervals = {
+  [chaindId: number]: number
 }
 
 /**
@@ -34,6 +38,14 @@ export type FullConfig = {
    */
   multicallVersion: 1 | 2
   /**
+   * @experimental
+   */
+  fastMulticallEncoding?: boolean
+  /**
+   * @experimental
+   */
+  noMetamaskDeactivate?: boolean
+  /**
    * @deprecated
    */
   supportedChains?: number[]
@@ -44,9 +56,14 @@ export type FullConfig = {
    */
   networks?: Chain[]
   /**
-   * Polling interval for a new block.
+   * Default polling interval for a new block.
    */
   pollingInterval: number
+
+  /**
+   * Polling intervals for new blocks on specific chains.
+   */
+  pollingIntervals?: PollingIntervals
 
   notifications: {
     checkInterval: number
@@ -59,10 +76,20 @@ export type FullConfig = {
     transactionPath: string
   }
   /**
+   * If set, adds an additional buffer of gas limit to estimated gas limit before sending a transaction.
+   * Useful if a gas limit of a transaction can be different depending on the state of the blockchain.
+   * Gas estimation can be not accurate because the state of the blockchain can change between the time of estimation and the time of transaction mining.
+   */
+  bufferGasLimitPercentage?: number
+  /**
    * Enables reconnecting to last used provider when user revisits the page.
    */
   autoConnect: boolean,
   connectors: Connector[],
+  /**
+   * Refresh standard calls each time the n-th block is mined.
+   */
+  refresh?: number | 'never' | 'everyBlock'
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

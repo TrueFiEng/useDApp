@@ -1,5 +1,108 @@
 # @usedapp/testing
 
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [d07e0df]
+  - @usedapp/core@1.0.14
+
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [d596405]
+- Updated dependencies [57e7582]
+  - @usedapp/core@1.0.13
+
+## 1.0.12
+
+### Patch Changes
+
+- Updated dependencies [5776ed9]
+  - @usedapp/core@1.0.12
+
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [453b489]
+  - @usedapp/core@1.0.11
+
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [d835054]
+- Updated dependencies [2909416]
+- Updated dependencies [55a28a2]
+  - @usedapp/core@1.0.10
+
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [2888a3e]
+- Updated dependencies [c4b8ae0]
+- Updated dependencies [fcb6f41]
+- Updated dependencies [5877e2d]
+  - @usedapp/core@1.0.9
+
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [24e9668]
+- Updated dependencies [edfd60b]
+- Updated dependencies [a3b1340]
+- Updated dependencies [3d815ab]
+- Updated dependencies [4afd9b5]
+  - @usedapp/core@1.0.8
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [2a65bfb]
+  - @usedapp/core@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [6348832]
+- Updated dependencies [1ce58ad]
+  - @usedapp/core@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [bcff959]
+- Updated dependencies [a0ab27f]
+  - @usedapp/core@1.0.5
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [fe52f50]
+  - @usedapp/core@1.0.4
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [4e8025b]
+- Updated dependencies [ad8b91a]
+- Updated dependencies [17b8021]
+- Updated dependencies [d9e2ff3]
+- Updated dependencies [3904895]
+- Updated dependencies [bd27e6b]
+- Updated dependencies [5229eea]
+- Updated dependencies [8701d7d]
+  - @usedapp/core@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 import { MockProvider } from '@ethereum-waffle/provider'
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'
@@ -21,8 +21,10 @@ describe('useRawCall', () => {
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
+  let chainId: number
 
   beforeEach(async () => {
+    chainId = (await mockProvider.getNetwork()).chainId
     token = await deployMockToken(deployer)
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
@@ -34,7 +36,9 @@ describe('useRawCall', () => {
       chainId: mockProvider.network.chainId,
     }
     const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCall(call), {
-      mockProvider,
+      readonlyMockProviders: {
+        [chainId]: mockProvider,
+      },
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -67,7 +71,9 @@ describe('useRawCall', () => {
     ]
 
     const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCalls(calls), {
-      mockProvider,
+      readonlyMockProviders: {
+        [chainId]: mockProvider,
+      },
     })
     await waitForCurrent((val) => val !== undefined && val.every((x) => x?.success))
     expect(result.error).to.be.undefined
@@ -96,7 +102,7 @@ describe('useRawCall', () => {
           )
         ),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },
@@ -122,7 +128,7 @@ describe('useRawCall', () => {
           )
         ),
       {
-        mockProvider: {
+        readonlyMockProviders: {
           [ChainId.Localhost]: mockProvider,
           [SECOND_TEST_CHAIN_ID]: secondMockProvider,
         },

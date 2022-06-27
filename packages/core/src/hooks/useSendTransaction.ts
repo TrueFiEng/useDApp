@@ -1,8 +1,9 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { JsonRpcProvider } from '@ethersproject/providers'
 import { TransactionOptions } from '../../src'
+import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
-import { usePromiseTransaction } from './usePromiseTransaction'
+import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
+import { providers } from 'ethers'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -29,14 +30,22 @@ import { usePromiseTransaction } from './usePromiseTransaction'
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const { bufferGasLimitPercentage = 0 } = useConfig()
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    if (!(library instanceof JsonRpcProvider)) {
+    if (!(library instanceof providers.JsonRpcProvider)) {
       throw new Error('You cannot send transaction without wallet')
     }
     const signer = options?.signer || library?.getSigner()
     if (signer) {
-      await promiseTransaction(signer.sendTransaction(transactionRequest))
+      const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
+
+      return promiseTransaction(
+        signer.sendTransaction({
+          ...transactionRequest,
+          gasLimit,
+        })
+      )
     }
   }
 

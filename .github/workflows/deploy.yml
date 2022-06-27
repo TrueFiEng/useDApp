@@ -1,6 +1,8 @@
 name: Deploy
 on:
   pull_request:
+    branches-ignore:
+      - 'changeset-release/*'
   push:
     branches:
       - master
@@ -13,7 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.14'
-      - run: npm i -g pnpm@6.20.3
+      - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Deploy usedapp-docs.netlify.app

@@ -1,4 +1,4 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import type { TransactionResponse } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
 import { Notification } from './model'
 import { notificationReducer } from './reducer'

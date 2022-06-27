@@ -1,9 +1,49 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import type { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
-import { TransactionStatus, TransactionOptions } from '../../src'
-import { TransactionState } from '../model'
-import { errors } from 'ethers'
+import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
+import { BigNumber, Contract, errors, Signer } from 'ethers'
+
+/**
+ * @internal
+ */
+export async function estimateTransactionGasLimit(
+  transactionRequest: TransactionRequest | undefined,
+  signer: Signer | undefined,
+  bufferGasLimitPercentage: number
+) {
+  if (!signer || !transactionRequest) {
+    return undefined
+  }
+  try {
+    const estimatedGas = transactionRequest.gasLimit
+      ? BigNumber.from(transactionRequest.gasLimit)
+      : await signer.estimateGas(transactionRequest)
+    return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+  } catch (err: any) {
+    console.error(err)
+    return undefined
+  }
+}
+
+/**
+ * @internal
+ */
+export async function estimateContractFunctionGasLimit(
+  contractWithSigner: Contract,
+  functionName: string,
+  args: any[],
+  bufferGasLimitPercentage: number
+): Promise<BigNumber | undefined> {
+  try {
+    const estimatedGas = await contractWithSigner.estimateGas[functionName](...args)
+    const gasLimit = estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+    return gasLimit
+  } catch (err: any) {
+    console.error(err)
+    return undefined
+  }
+}
 
 const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
@@ -39,7 +79,9 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         setState({ receipt, transaction, status: 'Success', chainId })
         return receipt
       } catch (e: any) {
-        const errorMessage = e.error?.message ?? e.reason ?? e.data?.message ?? e.message
+        const parsedErrorCode = parseInt(e.error?.data?.code ?? e.error?.code ?? e.data?.code ?? e.code)
+        const errorCode = isNaN(parsedErrorCode) ? undefined : parsedErrorCode
+        const errorMessage = e.error?.data?.message ?? e.error?.message ?? e.reason ?? e.data?.message ?? e.message
         if (transaction) {
           const droppedAndReplaced = isDroppedAndReplaced(e)
 
@@ -65,13 +107,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
               originalTransaction: transaction,
               receipt: e.receipt,
               errorMessage,
+              errorCode,
               chainId,
             })
           } else {
-            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, chainId })
+            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, errorCode, chainId })
           }
         } else {
-          setState({ status: 'Exception', errorMessage, chainId })
+          setState({ status: 'Exception', errorMessage, errorCode, chainId })
         }
         return undefined
       }

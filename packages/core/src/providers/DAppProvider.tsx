@@ -10,6 +10,7 @@ import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 import { ConnectorContextProvider } from './network/connector/context'
+import { WindowProvider } from './window'
 
 export interface DAppProviderProps {
   children?: ReactNode
@@ -61,6 +62,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
 
   return (
   <ConnectorContextProvider>
+    <WindowProvider>
       <ReadonlyNetworksProvider>
         <NetworkProvider>
           <BlockNumberProvider>
@@ -76,6 +78,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
           </BlockNumberProvider>
         </NetworkProvider>
       </ReadonlyNetworksProvider>
+    </WindowProvider>
     </ConnectorContextProvider>
   )
 }

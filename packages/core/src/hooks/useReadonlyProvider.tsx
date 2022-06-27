@@ -1,14 +1,14 @@
 import { ChainId } from '../constants'
 import { useReadonlyNetworks } from '../providers/network'
 import { useChainId } from './useChainId'
-import type { BaseProvider } from '@ethersproject/providers'
+import type { providers } from 'ethers'
 
 export interface UseReadonlyProviderOptions {
   chainId?: number
 }
 
 export interface ReadonlyNetwork {
-  provider: BaseProvider
+  provider: providers.BaseProvider
   chainId: number
 }
 

@@ -1,13 +1,19 @@
 import { ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
-import { defaultNetworkState, networksReducer } from './reducer'
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
-import { subscribeToProviderEvents } from '../../../helpers'
+import { defaultNetworkState, networkReducer } from './reducer'
+import { Network } from './model'
+import { providers } from 'ethers'
+import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { ConnectorContext, MetamaskConnector } from '../connector'
 import { DefaultWalletConnector } from '../connector/impls/defaultWallet'
 import { ConnectorController } from '../connector/connectorController'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
+const Provider = providers.Provider
+const Web3Provider = providers.Web3Provider
 
 interface NetworkProviderProps {
   children: ReactNode
@@ -18,9 +24,9 @@ interface NetworkProviderProps {
  * @internal Intended for internal use - use it on your own risk
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect } = useConfig()
+  const { autoConnect, pollingInterval, noMetamaskDeactivate, pollingIntervals } = useConfig()
 
-  const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
+  const [network, dispatch] = useReducer(networkReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)

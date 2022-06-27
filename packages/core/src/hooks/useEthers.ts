@@ -1,10 +1,14 @@
-import { ExternalProvider, JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
 import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { ConnectorContext, ConnectorController, useNetwork } from '../providers'
 import { useConfig } from '../hooks'
 import { useContext } from 'react'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
+type Web3Provider = providers.Web3Provider
 
 type MaybePromise<T> = Promise<T> | any
 
@@ -39,7 +43,7 @@ export type Web3Ethers = {
   /**
    * Switch to a different network.
    */
-  switchNetwork: (chainId: number) => void
+  switchNetwork: (chainId: number) => Promise<void>
 }
 
 /**
