@@ -13,7 +13,7 @@ import {
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract } from '../constants'
+import { BlockNumberContract, RevertContract } from '../constants'
 import waitForExpect from 'wait-for-expect'
 
 describe('useCall', () => {
@@ -26,6 +26,7 @@ describe('useCall', () => {
   let chainId: number
   let blockNumberContract: Contract
   let secondBlockNumberContract: Contract
+  let revertContract: Contract
 
   beforeEach(async () => {
     chainId = (await mockProvider.getNetwork()).chainId
@@ -33,6 +34,7 @@ describe('useCall', () => {
     secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
     blockNumberContract = await deployContract(deployer, BlockNumberContract)
     secondBlockNumberContract = await deployContract(deployer, BlockNumberContract)
+    revertContract = await deployContract(deployer, RevertContract)
   })
 
   it('initial test balance to be correct', async () => {
@@ -52,6 +54,25 @@ describe('useCall', () => {
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current?.value[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+  })
+
+  it('initial test balance to be correct', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(
+      () =>
+        useCall({
+          contract: revertContract,
+          method: 'doRevert',
+          args: [],
+        }),
+      {
+        readonlyMockProviders: {
+          [chainId]: mockProvider,
+        },
+      }
+    )
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.current?.value).to.be.undefined
+    expect(result.current?.error).to.not.be.undefined
   })
 
   it('multichain calls return correct initial balances', async () => {
