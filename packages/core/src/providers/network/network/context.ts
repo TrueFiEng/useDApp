@@ -7,9 +7,8 @@ type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
 
 export const NetworkContext = createContext<{
-  update: (network: Partial<Network>) => void
   reportError: (error: Error) => void
-  activate: (provider: JsonRpcProvider | ExternalProvider) => Promise<void>
+  activate: (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => Promise<void>
   deactivate: () => void
   network: Network
   activateBrowserWallet: () => void
@@ -21,7 +20,6 @@ export const NetworkContext = createContext<{
     accounts: [],
     errors: [],
   },
-  update: () => undefined,
   reportError: () => undefined,
   activate: async () => undefined,
   deactivate: () => undefined,

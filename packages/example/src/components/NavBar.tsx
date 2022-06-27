@@ -63,6 +63,10 @@ export function NavBar() {
               {' '}
               WalletConnect example{' '}
             </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/connector">
+              {' '}
+              Connector{' '}
+            </SidebarLink>
           </SidebarNavLinks>
         </SidebarNav>
       </SidebarContainer>

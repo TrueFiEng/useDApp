@@ -33,8 +33,8 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     addPageDiagnostics(page)
   }
 
-  before(() => resetBrowserContext())
-  after(() => context?.close())
+  before(async() => await resetBrowserContext())
+  after(async() => await context?.close())
 
   before(async () => {
     log('Connecting Metamask to the app...')
@@ -63,6 +63,112 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await waitForExpect(async () => {
         expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
         expect(await page.isVisible(XPath.text('span', 'Ether balance:'))).to.be.true
+      })
+    })
+  })
+
+  describe('Mulltichain', () => {
+
+    it('Reads the chain names', async () => {
+      await page.goto(`${baseUrl}multichain`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+      })
+    })
+
+    it('Check if all chains were loaded', async () => {
+      await page.goto(`${baseUrl}multichain`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 4))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Current block:', 4))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Ether balance:', 4))).to.be.true
+      })
+    })
+  })
+
+  describe('Connectors', () => {
+    it('Can connect with a Metamask connector', async () => {
+      await page.goto(`${baseUrl}connector`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Eth balance:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Chain Id:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
+      })
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
+      })
+
+    })
+
+    it('Holds MetaMask in session', async () => {
+      await page.reload()
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Eth balance:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Chain Id:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
+      })
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
+      })
+    })
+
+    it('Can connect to connect wallet', async () => {
+      await page.goto(`${baseUrl}connector`)
+
+      await page.click(XPath.text('button', 'Disconnect'))
+      await page.click(XPath.id('button', 'walletConnectButton'))
+      await page.click(XPath.text('a', 'Desktop'))
+      await page.click(XPath.text('div', 'Ambire'))
+
+      const ambirePage = context.pages()[context.pages().length - 1]
+      await ambirePage.click(XPath.text('button', 'Metamask'))
+
+      const metamaskPage = context.pages()[context.pages().length - 1]
+
+      await metamaskPage.click(XPath.text('button', 'Next'))
+      await metamaskPage.click(XPath.text('button', 'Connect'))
+      log('Metamask connected to the app.')
+
+      await ambirePage.click(XPath.class('div', 'checkbox-mark'))
+      await ambirePage.click(XPath.text('button', 'Done'))
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Eth balance:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Chain Id:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
+      })
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
+      })
+    })
+
+    it('Holds WalletConnect session', async () => {
+      await page.reload()
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Eth balance:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'Chain Id:'))).to.be.true
+        expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
+      })
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
       })
     })
   })

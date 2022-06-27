@@ -1,10 +1,11 @@
-import { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { ReactNode, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
 import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
 import { BaseProviderFactory, ChainId, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
+import { ConnectorContext } from '../connector/context'
 import { networkStatesReducer } from './reducer'
 import { useWindow } from '../../window'
 
@@ -35,6 +36,7 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
+  const activeConnector = useContext(ConnectorContext)?.activeConnector
   const { readOnlyUrls = {}, pollingInterval, pollingIntervals } = useConfig()
   const { isActive } = useWindow()
   const [providers, setProviders] = useState<Providers>(() => ({
@@ -51,9 +53,13 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
     pollingIntervals,
   ])
 
+  const walletProvider = activeConnector?.getProvider()
+  const chainId = activeConnector?.chainId
+  const walletProviderItem = activeConnector && chainId ? {[chainId]: walletProvider} : {}
+
   useEffect(() => {
-    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
-  }, Object.entries(readOnlyUrls).flat())
+    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides, ...walletProviderItem})
+  }, [...Object.entries(readOnlyUrls).flat(), walletProvider])
 
   useEffect(() => {
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {

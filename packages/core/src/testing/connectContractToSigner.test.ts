@@ -43,4 +43,5 @@ describe('connectContractToSigner', () => {
 
     expect(connectedContract.signer).to.be.deep.eq(library?.getSigner())
   })
+  
 })

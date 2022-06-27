@@ -9,6 +9,7 @@ import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
 import { NetworkProvider, ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
+import { ConnectorContextProvider } from './network/connector/context'
 import { WindowProvider } from './window'
 
 export interface DAppProviderProps {
@@ -60,6 +61,7 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
+  <ConnectorContextProvider>
     <WindowProvider>
       <ReadonlyNetworksProvider>
         <NetworkProvider>
@@ -77,5 +79,6 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         </NetworkProvider>
       </ReadonlyNetworksProvider>
     </WindowProvider>
+    </ConnectorContextProvider>
   )
 }

@@ -1,4 +1,5 @@
 import { Chain } from '../../constants'
+import { Connector } from '../../providers/network/connector/connector'
 import { providers } from 'ethers'
 
 export type BaseProviderFactory = () => providers.BaseProvider
@@ -83,7 +84,8 @@ export type FullConfig = {
   /**
    * Enables reconnecting to last used provider when user revisits the page.
    */
-  autoConnect: boolean
+  autoConnect: boolean,
+  connectors: Connector[],
   /**
    * Refresh standard calls each time the n-th block is mined.
    */

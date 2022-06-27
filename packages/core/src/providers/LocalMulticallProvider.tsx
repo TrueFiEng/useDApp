@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { utils } from 'ethers'
+import { utils, providers } from 'ethers';
 import { getChainById } from '../helpers'
 import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'
 import multicallABI from '../constants/abi/MultiCall.json'
@@ -36,6 +36,14 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
     } else if (multicallAddresses && multicallAddresses[chainId]) {
       setLocalMulticallState(LocalMulticallState.Deployed)
     } else if (localMulticallState !== LocalMulticallState.Deploying) {
+      if (!(library instanceof providers.JsonRpcProvider)) {
+        throw new Error('You cannot send transaction without wallet')
+      }
+      const signer = library.getSigner()
+      if (!signer) {
+        setLocalMulticallState(LocalMulticallState.Error)
+        return
+      }
       const checkDeployed = async () => {
         const multicallAddress = getCurrent()
 

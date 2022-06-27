@@ -25,6 +25,8 @@
     "src"
   ],
   "dependencies": {
+    "@portis/web3": "^4.0.7",
+    "@types/react-router": "^5.1.18",
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/contracts": "5.6.0",
     "@ethersproject/units": "5.6.0",
