@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
@@ -70,14 +70,13 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
     }
   }, [providers, getPollingInterval])
 
-  return (
-    <ReadonlyNetworksContext.Provider
-      value={{
-        providers,
-        updateNetworkState: dispatchNetworkState,
-      }}
-    >
-      {children}
-    </ReadonlyNetworksContext.Provider>
+  const networks = useMemo(
+    () => ({
+      providers,
+      updateNetworkState: dispatchNetworkState,
+    }),
+    [providers, dispatchNetworkState]
   )
+
+  return <ReadonlyNetworksContext.Provider value={networks}>{children}</ReadonlyNetworksContext.Provider>
 }

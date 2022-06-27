@@ -47,7 +47,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     if (authToken === null) {
       return
     }
-    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
+    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : setLoggedIn(false)))
   }, [authToken, getAuth, account, chainId])
 
   const signIn = useCallback(
