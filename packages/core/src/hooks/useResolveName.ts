@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
 
 /**
- * `useLookupAddress` is a hook that is used to resolve an ENS name (e.g. `name.eth`) to a specific address.
+ * `useResolveName` is a hook that is used to resolve an ENS name (e.g. `name.eth`) to a specific address.
  * @param name ENS name to be resolved
  * @returns {} Object with the following:
   - `address: string | null | undefined` - resolved address for the given ENS name or null if not found.
