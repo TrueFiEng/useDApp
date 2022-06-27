@@ -9,6 +9,6 @@ export interface TransactionOptions {
   privateKey?: string
   mnemonicPhrase?: string
   encryptedJson?: string
-  chainId?: number // privateKey, mnemonicPhrase and encryptedJso
+  chainId?: number // privateKey, mnemonicPhrase and encryptedJson purposes
   password?: string // for encryptedJson purposes
 }
