@@ -192,9 +192,16 @@ describe('useContractFunction', () => {
   })
 
   it('transfer amount with just encrypted json', async () => {
-    const encryptedJson = await wallet1.encrypt('test')
+    const json = await wallet1.encrypt('test')
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'transfer', { chainId: 1, encryptedJson, password: 'test' }),
+      () =>
+        useContractFunction(token, 'transfer', {
+          chainId: 1,
+          encryptedJson: {
+            json,
+            password: 'test',
+          },
+        }),
       {
         config,
       }

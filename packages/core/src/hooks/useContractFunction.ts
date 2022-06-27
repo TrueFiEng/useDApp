@@ -82,16 +82,15 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
       if (contract) {
         const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
 
-        const { privateKey, mnemonicPhrase, encryptedJson, password } = options
+        const { privateKey, mnemonicPhrase, encryptedJson } = options
+        const json = encryptedJson?.json
+        const password = encryptedJson?.password
 
         const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
         const mnemonicPhraseSigner =
           mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
         const encryptedJsonSigner =
-          encryptedJson &&
-          password &&
-          provider &&
-          ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
+          json && password && provider && ethers.Wallet.fromEncryptedJsonSync(json, password).connect(provider)
 
         const signer = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || library?.getSigner()
 

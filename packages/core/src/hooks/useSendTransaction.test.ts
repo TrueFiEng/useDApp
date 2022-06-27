@@ -64,6 +64,29 @@ describe('useSendTransaction', () => {
     expect(result.current.state.errorMessage).to.eq('invalid address')
   })
 
+  it('Returns receipt after correct transaction', async () => {
+    const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+
+    const spenderBalance = await spender.getBalance()
+    const receiverBalance = await receiver.getBalance()
+
+    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
+
+    await waitForCurrent((val) => val.state !== undefined)
+    expect(result.current.state.status).to.eq('Success')
+    expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
+    expect(await spender.getBalance()).to.eq(spenderBalance.sub(10))
+
+    expect(result.current.state.receipt).to.not.be.undefined
+    expect(result.current.state.receipt?.to).to.eq(receiver.address)
+    expect(result.current.state.receipt?.from).to.eq(spender.address)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+    expect(result.current.state.receipt?.status).to.eq(1)
+    expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+  })
+
   it('Can send transaction with private key', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useSendTransaction({ chainId: 1, privateKey: wallet1.privateKey }),
@@ -119,9 +142,16 @@ describe('useSendTransaction', () => {
   })
 
   it('Can send transaction with encrypted json', async () => {
-    const encryptedJson = await wallet1.encrypt('test')
+    const json = await wallet1.encrypt('test')
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useSendTransaction({ chainId: 1, encryptedJson, password: 'test' }),
+      () =>
+        useSendTransaction({
+          chainId: 1,
+          encryptedJson: {
+            password: 'test',
+            json,
+          },
+        }),
       { config }
     )
     await waitForNextUpdate()

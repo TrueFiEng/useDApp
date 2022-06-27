@@ -39,16 +39,15 @@ export function useSendTransaction(options: TransactionOptions = {}) {
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    const { privateKey, mnemonicPhrase, encryptedJson, password } = options
+    const { privateKey, mnemonicPhrase, encryptedJson } = options
+    const json = encryptedJson?.json
+    const password = encryptedJson?.password
 
     const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
     const mnemonicPhraseSigner =
       mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
     const encryptedJsonSigner =
-      encryptedJson &&
-      password &&
-      provider &&
-      ethers.Wallet.fromEncryptedJsonSync(encryptedJson, password).connect(provider)
+      json && password && provider && ethers.Wallet.fromEncryptedJsonSync(json, password).connect(provider)
 
     const signer =
       privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || options?.signer || library?.getSigner()
