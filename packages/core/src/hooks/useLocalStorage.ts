@@ -5,7 +5,9 @@ import { useConfig } from './useConfig'
  * @internal Intended for internal use - use it on your own risk
  */
 export function useLocalStorage(key: string) {
-  const { localStorageFunctions: { getItem, setItem } } = useConfig()
+  const {
+    localStorageFunctions: { getItem, setItem },
+  } = useConfig()
   const [value, setValue] = useState(() => getItem(key))
 
   useEffect(() => {
