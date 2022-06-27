@@ -8,7 +8,7 @@ const { DefinePlugin } = require('webpack')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
-  entry: './src',
+  entry: './src/entrypoint.tsx',
   devtool: isDevelopment ? 'eval-source-map' : 'source-map',
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),

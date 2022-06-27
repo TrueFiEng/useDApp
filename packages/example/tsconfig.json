@@ -5,6 +5,7 @@
     "playwright"
   ],
   "compilerOptions": {
+    "outDir": "dist",
     "types": [
       "mocha"
     ],
@@ -13,6 +14,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "react-jsx",
+    "declaration": true,
     "baseUrl": "./",
     "strict": true,
     "skipLibCheck": true,
