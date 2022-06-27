@@ -18,7 +18,7 @@ export const DEFAULT_CONFIG: FullConfig = {
       if (typeof window === 'undefined') {
         return null
       }
-    
+
       const item = window.localStorage.getItem(key)
       if (item !== null) {
         try {
@@ -36,6 +36,6 @@ export const DEFAULT_CONFIG: FullConfig = {
         window.localStorage.setItem(key, toStore)
         return JSON.parse(toStore)
       }
-    }
-  }
+    },
+  },
 }
