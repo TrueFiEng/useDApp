@@ -1,3 +1,4 @@
+import { providers } from 'ethers'
 import { Connector } from './connector'
 
 export class ConnectorController {
@@ -14,7 +15,7 @@ export class ConnectorController {
   public accounts: string[] = []
   public chainId = 0
 
-  getProvider() {
+  getProvider(): providers.Web3Provider | providers.JsonRpcProvider | undefined {
     return this.connector.provider
   }
 

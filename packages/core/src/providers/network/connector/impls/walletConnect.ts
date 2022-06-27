@@ -1,11 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers'
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { IWalletConnectProviderOptions } from '@walletconnect/types'
+import { providers } from 'ethers'
 
 export class WalletConnectConnector implements Connector {
   static tag = 'waletconnect'
-  public provider?: Web3Provider
+  public provider?: providers.Web3Provider
   public priority = ConnectorPriority.Wallet
   public name = 'WalletConnect'
 
@@ -17,7 +17,7 @@ export class WalletConnectConnector implements Connector {
     if (this.provider) return
     try {
       const walletConnectProvider = new WalletConnectProvider(this.opts)
-      this.provider = new Web3Provider(walletConnectProvider)
+      this.provider = new providers.Web3Provider(walletConnectProvider)
     } catch (e) {
       console.log(e)
     }

@@ -1,17 +1,17 @@
-import { Web3Provider, ExternalProvider, Provider, JsonRpcProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 
 export class DefaultWalletConnector implements Connector {
   static tag = 'defaultWallet'
 
-  public provider?: Web3Provider | JsonRpcProvider
+  public provider?: providers.Web3Provider | providers.JsonRpcProvider
   public priority = ConnectorPriority.Wallet
   public name = 'DefaultWallet'
 
   onUpdate?: UpdateFn
 
-  constructor(provider:  ExternalProvider | Web3Provider | JsonRpcProvider) {
-    this.provider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
+  constructor(provider:  providers.ExternalProvider | providers.Web3Provider | providers.JsonRpcProvider) {
+    this.provider = providers.Provider.isProvider(provider) ? provider : new providers.Web3Provider(provider)
   }
 
   public getTag(): string {

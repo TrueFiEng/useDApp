@@ -1,4 +1,4 @@
-import { Web3Provider, JsonRpcProvider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 
 export enum ConnectorPriority {
   ApiNode = 1,
@@ -16,7 +16,7 @@ export interface Connector {
   name: string
   priority: ConnectorPriority
 
-  provider?: Web3Provider | JsonRpcProvider
+  provider?: providers.Web3Provider | providers.JsonRpcProvider
 
   getTag(): string
 

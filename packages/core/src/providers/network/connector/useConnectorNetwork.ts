@@ -1,4 +1,4 @@
-import { BaseProvider, ExternalProvider, Web3Provider } from '@ethersproject/providers'
+import { providers } from 'ethers'
 import { useContext } from 'react'
 import { ConnectorController } from './connectorController'
 import { ConnectorContext } from './context'
@@ -20,7 +20,7 @@ export interface UseProviderOptions {
 export interface ConnectorNetwork {
   chainId: number
   accounts: string[]
-  provider: BaseProvider | ExternalProvider | Web3Provider
+  provider: providers.BaseProvider | providers.ExternalProvider | providers.Web3Provider
 }
 
 export function useConnectorNetwork(opts: UseProviderOptions = {}): ConnectorNetwork | undefined {

@@ -1,11 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers'
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 import Portis, { INetwork, IOptions } from '@portis/web3'
+import { providers } from 'ethers'
 
 export class PortisConnector implements Connector {
   static tag = 'portis'
 
-  public provider?: Web3Provider
+  public provider?: providers.Web3Provider
   public priority = ConnectorPriority.Wallet
   public name = 'Portis'
 
