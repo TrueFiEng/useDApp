@@ -84,8 +84,8 @@ export type FullConfig = {
   /**
    * Enables reconnecting to last used provider when user revisits the page.
    */
-  autoConnect: boolean,
-  connectors: Connector[],
+  autoConnect: boolean
+  connectors: Connector[]
   /**
    * Refresh standard calls each time the n-th block is mined.
    */

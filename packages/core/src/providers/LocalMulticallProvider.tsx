@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { utils, providers } from 'ethers';
+import { utils, providers } from 'ethers'
 import { getChainById } from '../helpers'
 import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'
 import multicallABI from '../constants/abi/MultiCall.json'

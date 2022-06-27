@@ -11,7 +11,11 @@ import { TransactionReceipt } from '@ethersproject/abstract-provider'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: providers.JsonRpcProvider) {
+export function connectContractToSigner(
+  contract: Contract,
+  options?: TransactionOptions,
+  library?: providers.JsonRpcProvider
+) {
   if (contract.signer) {
     return contract
   }

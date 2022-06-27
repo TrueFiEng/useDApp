@@ -41,6 +41,10 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   }
 
   return (
-    <ConnectorContext.Provider value={{ connectors: controllers, addConnector, activeConnector, selectedConnector, setSelectedConnector }}>{children}</ConnectorContext.Provider>
+    <ConnectorContext.Provider
+      value={{ connectors: controllers, addConnector, activeConnector, selectedConnector, setSelectedConnector }}
+    >
+      {children}
+    </ConnectorContext.Provider>
   )
 }

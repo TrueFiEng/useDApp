@@ -61,24 +61,24 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
 
   return (
-  <ConnectorContextProvider>
-    <WindowProvider>
-      <ReadonlyNetworksProvider>
-        <NetworkProvider>
-          <BlockNumberProvider>
-            <BlockNumbersProvider>
-              <LocalMulticallProvider>
-                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
-                  <NotificationsProvider>
-                    <TransactionProvider>{children}</TransactionProvider>
-                  </NotificationsProvider>
-                </MultiChainStateProvider>
-              </LocalMulticallProvider>
-            </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </NetworkProvider>
-      </ReadonlyNetworksProvider>
-    </WindowProvider>
+    <ConnectorContextProvider>
+      <WindowProvider>
+        <ReadonlyNetworksProvider>
+          <NetworkProvider>
+            <BlockNumberProvider>
+              <BlockNumbersProvider>
+                <LocalMulticallProvider>
+                  <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                    <NotificationsProvider>
+                      <TransactionProvider>{children}</TransactionProvider>
+                    </NotificationsProvider>
+                  </MultiChainStateProvider>
+                </LocalMulticallProvider>
+              </BlockNumbersProvider>
+            </BlockNumberProvider>
+          </NetworkProvider>
+        </ReadonlyNetworksProvider>
+      </WindowProvider>
     </ConnectorContextProvider>
   )
 }

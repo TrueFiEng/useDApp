@@ -26,22 +26,22 @@ export class PortisConnector implements Connector {
   async connectEagerly(): Promise<void> {
     // await this.init()
     try {
-        const chainId: string = await this.provider!.send('eth_chainId', [])
-        const accounts: string[] = await this.provider!.send('eth_accounts', [])
-        this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
+      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
     } catch (e) {
-        console.log(e)
+      console.log(e)
     }
   }
 
   async activate(): Promise<void> {
     await this.init()
     try {
-        const chainId: string = await this.provider!.send('eth_chainId', [])
-        const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
-        this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
+      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
     } catch (e) {
-        console.log(e)
+      console.log(e)
     }
   }
 

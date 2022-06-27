@@ -12,7 +12,7 @@ export interface UseProviderOptions {
    * Selects account
    * '0xabc...' - account address.
    * true - any connector with address
-   * 
+   *
    */
   account?: boolean | string
 }

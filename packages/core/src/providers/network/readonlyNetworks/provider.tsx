@@ -55,10 +55,10 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
 
   const walletProvider = activeConnector?.getProvider()
   const chainId = activeConnector?.chainId
-  const walletProviderItem = activeConnector && chainId ? {[chainId]: walletProvider} : {}
+  const walletProviderItem = activeConnector && chainId ? { [chainId]: walletProvider } : {}
 
   useEffect(() => {
-    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides, ...walletProviderItem})
+    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides, ...walletProviderItem })
   }, [...Object.entries(readOnlyUrls).flat(), walletProvider])
 
   useEffect(() => {

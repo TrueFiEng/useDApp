@@ -1,9 +1,7 @@
 import { EventEmitter } from 'events'
 import { ConnectorController } from '../providers/network/connector/connectorController'
 
-export function subscribeToProviderEvents(
-  connector: ConnectorController,
-) {
+export function subscribeToProviderEvents(connector: ConnectorController) {
   const provider: EventEmitter | undefined = (connector.getProvider() as any).provider
   if (provider?.on) {
     const onConnectListener = (): void => {

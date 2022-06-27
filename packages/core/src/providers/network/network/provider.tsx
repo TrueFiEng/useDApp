@@ -30,14 +30,16 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
-  const { connectors, setSelectedConnector, selectedConnector, activeConnector, addConnector } = useContext(ConnectorContext)!
+  const { connectors, setSelectedConnector, selectedConnector, activeConnector, addConnector } = useContext(
+    ConnectorContext
+  )!
 
   const reportError = useCallback((error: Error) => {
     console.error(error)
     dispatch({ type: 'ADD_ERROR', error })
   }, [])
 
-  const deactivate = useCallback(async() => {
+  const deactivate = useCallback(async () => {
     setAutoConnectTag(undefined)
     setLoading(true)
     await activeConnector?.deactivate()
@@ -52,7 +54,8 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   }, [providerOverride, connectors])
 
   const activate = useCallback(
-    async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {// TODO add previous version compatibility
+    async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {
+      // TODO add previous version compatibility
 
       const tag = 'tag' in provider ? provider.tag : undefined
 
@@ -61,8 +64,8 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       const newConnector = !tag ? new DefaultWalletConnector(provider as JsonRpcProvider | ExternalProvider) : undefined
 
       const connector = tag
-      ? connectors.find(c => c.connector.getTag() === tag)
-      : new ConnectorController(newConnector!)
+        ? connectors.find((c) => c.connector.getTag() === tag)
+        : new ConnectorController(newConnector!)
 
       if (!connector) {
         setLoading(false)
@@ -105,7 +108,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
             return
           }
 
-          await activate({tag: autoConnectTag})
+          await activate({ tag: autoConnectTag })
         }
       } catch (err) {
         console.warn(err)
@@ -115,7 +118,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   useEffect(() => {
     if (selectedConnector) {
-      void activate({tag: selectedConnector})
+      void activate({ tag: selectedConnector })
     }
   }, [selectedConnector])
 

@@ -10,7 +10,7 @@ export class DefaultWalletConnector implements Connector {
 
   onUpdate?: UpdateFn
 
-  constructor(provider:  providers.ExternalProvider | providers.Web3Provider | providers.JsonRpcProvider) {
+  constructor(provider: providers.ExternalProvider | providers.Web3Provider | providers.JsonRpcProvider) {
     this.provider = providers.Provider.isProvider(provider) ? provider : new providers.Web3Provider(provider)
   }
 

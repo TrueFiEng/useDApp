@@ -30,7 +30,7 @@ export class MetamaskConnector implements Connector {
     if (!this.provider) {
       return
     }
-    
+
     const chainId: string = await this.provider!.send('eth_chainId', [])
     const accounts: string[] = await this.provider!.send('eth_accounts', [])
     this.onUpdate?.({ chainId: parseInt(chainId), accounts })

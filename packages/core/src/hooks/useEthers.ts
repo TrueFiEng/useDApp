@@ -17,7 +17,6 @@ type SupportedProviders =
   | ExternalProvider
   | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
 
-
 interface ConnectorTag {
   tag: string
 }
@@ -74,7 +73,8 @@ export function useEthers(): Web3Ethers {
 
   const { networks } = useConfig()
   const supportedChainIds = networks?.map((network) => network.chainId)
-  const isUnsupportedChainId = activeConnector?.chainId && supportedChainIds && supportedChainIds.indexOf(activeConnector?.chainId) < 0
+  const isUnsupportedChainId =
+    activeConnector?.chainId && supportedChainIds && supportedChainIds.indexOf(activeConnector?.chainId) < 0
   const unsupportedChainIdError = new Error(
     `Unsupported chain id: ${activeConnector?.chainId}. Supported chain ids are: ${supportedChainIds}.`
   )
@@ -111,7 +111,7 @@ export function useEthers(): Web3Ethers {
     chainId: activeConnector?.chainId,
     account,
     active: !!activeConnector,
-    activate: async (providerOrConnector: SupportedProviders | { tag: string } ) => {
+    activate: async (providerOrConnector: SupportedProviders | { tag: string }) => {
       if ('getProvider' in providerOrConnector) {
         console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
         await providerOrConnector.activate()
