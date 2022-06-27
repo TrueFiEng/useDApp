@@ -3,6 +3,7 @@ import React, { useEffect, ReactNode, useState } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
 import { SiweFetchers, getFetchers } from './requests'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
@@ -51,6 +52,11 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     if (!account || !chainId || !library) {
       return
     }
+
+    if (!(library instanceof JsonRpcProvider)) {
+      throw new Error('You cannot sign message without wallet connected')
+    }
+    
     const signer = library.getSigner()
     const { nonce } = await getNonce()
 

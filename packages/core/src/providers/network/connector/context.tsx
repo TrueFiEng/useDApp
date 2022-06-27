@@ -1,21 +1,28 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { useConfig } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
 
 interface ConnectorContextValue {
   connectors: ConnectorController[]
   addConnector(connector: Connector): void
+  selectedConnector: string | undefined
+  setSelectedConnector(tag: string | undefined): void
+  activeConnector: ConnectorController | undefined
 }
 
 export const ConnectorContext = createContext<ConnectorContextValue | undefined>(undefined)
 
 export interface ConnectorContextProviderProps {
-  connectors: Connector[]
   children?: ReactNode
 }
 
-export function ConnectorContextProvider({ connectors, children }: ConnectorContextProviderProps) {
+export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controllers, setControllers] = useState<ConnectorController[]>([])
+  const [selectedConnector, setSelectedConnector] = useState<string | undefined>()
+  const { connectors } = useConfig()
+
+  const activeConnector = controllers.find((c) => c.connector.getTag() === selectedConnector)
 
   useEffect(() => {
     const newControllers = connectors.map((connector) => {
@@ -34,6 +41,6 @@ export function ConnectorContextProvider({ connectors, children }: ConnectorCont
   }
 
   return (
-    <ConnectorContext.Provider value={{ connectors: controllers, addConnector }}>{children}</ConnectorContext.Provider>
+    <ConnectorContext.Provider value={{ connectors: controllers, addConnector, activeConnector, selectedConnector, setSelectedConnector }}>{children}</ConnectorContext.Provider>
   )
 }

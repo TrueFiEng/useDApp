@@ -4,7 +4,16 @@ import { ConnectorController } from './connectorController'
 import { ConnectorContext } from './context'
 
 export interface UseProviderOptions {
+  /**
+   * Selects chain id.
+   */
   chainId?: number
+  /**
+   * Selects account
+   * '0xabc...' - account address.
+   * true - any connector with address
+   * 
+   */
   account?: boolean | string
 }
 
@@ -16,6 +25,7 @@ export interface ConnectorNetwork {
 
 export function useConnectorNetwork(opts: UseProviderOptions = {}): ConnectorNetwork | undefined {
   const { connectors } = useContext(ConnectorContext)!
+
   const connector = connectors.find((c) => matchConnector(opts, c))
 
   if (!connector || !connector.getProvider()) {

@@ -14,8 +14,9 @@ import { NotificationsList } from './components/Transactions/History'
 import { Web3Modal } from './pages/Web3Modal'
 import { Web3ReactConnector } from './pages/Web3ReactConnector'
 import { Multichain } from './pages/Multichain'
-import { WalletConnect } from './pages/WalletConnect'
+// import { WalletConnect } from './pages/WalletConnect'
 import { ConnectorPage } from './pages/ConnectorPage'
+import { WalletConnect } from './pages/WalletConnect'
 
 export function App() {
   return (

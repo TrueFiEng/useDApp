@@ -1,10 +1,10 @@
-import { BaseProvider } from '@ethersproject/providers'
+import { BaseProvider, Web3Provider } from '@ethersproject/providers';
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
 
 export function subscribeToNewBlock(
-  provider: BaseProvider | undefined,
+  provider: BaseProvider | Web3Provider | undefined,
   chainId: ChainId | undefined,
   dispatch: Dispatch<BlockNumberChanged>
 ) {

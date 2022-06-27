@@ -1,138 +1,121 @@
-import { ReactNode, useCallback, useEffect, useReducer, useState } from 'react'
+import { ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { NetworkContext } from './context'
 import { defaultNetworkState, networksReducer } from './reducer'
-import { Network } from './model'
-import { JsonRpcProvider, Web3Provider, ExternalProvider, Provider } from '@ethersproject/providers'
-import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { subscribeToProviderEvents } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
+import { ConnectorContext, MetamaskConnector } from '../connector'
+import { DefaultWalletConnector } from '../connector/impls/defaultWallet'
+import { ConnectorController } from '../connector/connectorController'
 
 interface NetworkProviderProps {
   children: ReactNode
   providerOverride?: JsonRpcProvider
 }
 
-async function tryToGetAccount(provider: JsonRpcProvider) {
-  try {
-    return await provider.getSigner().getAddress()
-  } catch (err: any) {
-    if (err.code === 'UNSUPPORTED_OPERATION') {
-      // readonly provider
-      return undefined
-    }
-    throw err
-  }
-}
-
 /**
  * @internal Intended for internal use - use it on your own risk
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect, pollingInterval } = useConfig()
+  const { autoConnect } = useConfig()
 
   const [network, dispatch] = useReducer(networksReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
-  const [shouldConnectMetamask, setShouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+  const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
-
-  const activateBrowserWallet = useCallback(async () => {
-    setLoading(true)
-    const injectedProvider = await getInjectedProvider(pollingInterval)
-
-    if (!injectedProvider) {
-      reportError(new Error('No injected provider available'))
-      setLoading(false)
-      throw new Error('No injected provider available')
-    }
-    try {
-      await injectedProvider.send('eth_requestAccounts', [])
-      setShouldConnectMetamask(true)
-    } catch (err: any) {
-      reportError(err)
-      setShouldConnectMetamask(false)
-      throw err
-    } finally {
-      setLoading(false)
-    }
-    return activate(injectedProvider)
-  }, [])
-
-  useEffect(() => {
-    if (providerOverride) {
-      void activate(providerOverride)
-    }
-  }, [providerOverride])
-  const update = useCallback(
-    (newNetwork: Partial<Network>) => {
-      dispatch({ type: 'UPDATE_NETWORK', network: newNetwork })
-    },
-    [network]
-  )
+  const { connectors, setSelectedConnector, selectedConnector, activeConnector, addConnector } = useContext(ConnectorContext)!
 
   const reportError = useCallback((error: Error) => {
     console.error(error)
     dispatch({ type: 'ADD_ERROR', error })
   }, [])
 
-  const deactivate = useCallback(() => {
-    setShouldConnectMetamask(false)
-    update({
-      accounts: [],
-    })
-  }, [])
+  const deactivate = useCallback(async() => {
+    setAutoConnectTag(undefined)
+    setLoading(true)
+    await activeConnector?.deactivate()
+    setSelectedConnector(undefined)
+    setLoading(false)
+  }, [activeConnector, connectors])
 
-  const onDisconnect = useCallback((error) => {
-    deactivate()
-    reportError(error)
-  }, [])
+  useEffect(() => {
+    if (providerOverride) {
+      void activate(providerOverride)
+    }
+  }, [providerOverride, connectors])
+
+  const activate = useCallback(
+    async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {// TODO add previous version compatibility
+
+      const tag = 'tag' in provider ? provider.tag : undefined
+
+      setLoading(true)
+
+      const newConnector = !tag ? new DefaultWalletConnector(provider as JsonRpcProvider | ExternalProvider) : undefined
+
+      const connector = tag
+      ? connectors.find(c => c.connector.getTag() === tag)
+      : new ConnectorController(newConnector!)
+
+      if (!connector) {
+        setLoading(false)
+        throw new Error('Connector not defined')
+      }
+
+      if (!connector.active) {
+        await connector.activate()
+      }
+
+      onUnsubscribe()
+      const clearSubscriptions = subscribeToProviderEvents(connector)
+      setOnUnsubscribe(() => clearSubscriptions)
+
+      if (!tag) {
+        addConnector(newConnector!)
+      }
+
+      setSelectedConnector(tag ? tag : newConnector?.getTag())
+      setAutoConnectTag(tag ? tag : newConnector?.getTag())
+      setLoading(false)
+    },
+    [connectors, onUnsubscribe]
+  )
+
+  const activateBrowserWallet = useCallback(async () => {
+    await activate(MetamaskConnector)
+    setAutoConnectTag(MetamaskConnector.tag)
+  }, [connectors])
 
   useEffect(() => {
     setTimeout(async () => {
       try {
-        if (shouldConnectMetamask && autoConnect && !providerOverride) {
+        if (autoConnectTag && autoConnect) {
           await detectEthereumProvider()
 
           // If window.ethereum._state.accounts is non null but has no items,
           // it probably means that the user has disconnected Metamask manually.
-          if (shouldConnectMetamask && (window.ethereum as any)?._state?.accounts?.length === 0) {
+          if (autoConnectTag === MetamaskConnector.tag && (window.ethereum as any)?._state?.accounts?.length === 0) {
             return
           }
 
-          await activateBrowserWallet()
+          await activate({tag: autoConnectTag})
         }
       } catch (err) {
         console.warn(err)
       }
     })
-  }, [shouldConnectMetamask, autoConnect, providerOverride])
+  }, [autoConnectTag, autoConnect, connectors])
 
-  const activate = useCallback(
-    async (provider: JsonRpcProvider | ExternalProvider) => {
-      const wrappedProvider = Provider.isProvider(provider) ? provider : new Web3Provider(provider)
-      try {
-        setLoading(true)
-        const account = await tryToGetAccount(wrappedProvider)
-        const chainId = (await wrappedProvider.getNetwork())?.chainId
-        onUnsubscribe()
-        const clearSubscriptions = subscribeToProviderEvents((wrappedProvider as any).provider, update, onDisconnect)
-        setOnUnsubscribe(() => clearSubscriptions)
-        update({
-          provider: wrappedProvider,
-          chainId,
-          accounts: account ? [account] : [],
-        })
-      } catch (err: any) {
-        reportError(err)
-        throw err
-      } finally {
-        setLoading(false)
-      }
-    },
-    [onUnsubscribe]
-  )
+  useEffect(() => {
+    if (selectedConnector) {
+      void activate({tag: selectedConnector})
+    }
+  }, [selectedConnector])
+
   return (
     <NetworkContext.Provider
-      value={{ network, update, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
+      value={{ network, activate, deactivate, reportError, activateBrowserWallet, isLoading }}
       children={children}
     />
   )

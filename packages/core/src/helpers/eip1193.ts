@@ -1,31 +1,28 @@
 import { EventEmitter } from 'events'
-import { Network } from '../providers'
+import { ConnectorController } from '../providers/network/connector/connectorController'
 
 export function subscribeToProviderEvents(
-  provider: EventEmitter | undefined,
-  onUpdate: (updatedNetwork: Partial<Network>) => void,
-  onDisconnect: (error: Error) => void
+  connector: ConnectorController,
 ) {
+  const provider: EventEmitter | undefined = (connector.getProvider() as any).provider
   if (provider?.on) {
-    const onConnectListener = (info: { chainId: string } | undefined): void => {
-      if (info?.chainId) {
-        onUpdate({ chainId: Number(info.chainId) })
-      }
+    const onConnectListener = (): void => {
+      void connector.connector.activate()
     }
     provider.on('connect', onConnectListener)
 
-    const onDisconnectListener = (error: any): void => {
-      onDisconnect(new Error(error))
+    const onDisconnectListener = (): void => {
+      void connector.connector.deactivate()
     }
     provider.on('disconnect', onDisconnectListener)
 
     const onChainChangedListener = (chainId: string): void => {
-      onUpdate({ chainId: Number(chainId) })
+      void connector.connector.onUpdate?.({ chainId: parseInt(chainId), accounts: connector.accounts })
     }
     provider.on('chainChanged', onChainChangedListener)
 
     const onAccountsChangedListener = (accounts: string[]): void => {
-      onUpdate({ accounts })
+      void connector.connector.onUpdate?.({ chainId: connector.chainId, accounts })
     }
     provider.on('accountsChanged', onAccountsChangedListener)
 

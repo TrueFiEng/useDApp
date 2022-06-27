@@ -72,6 +72,9 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<void> => {
       if (contract) {
+        if (!(library instanceof JsonRpcProvider)) {
+          throw new Error('You cannot send transaction without wallet')
+        }
         const contractWithSigner = connectContractToSigner(contract, options, library)
         const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
         if (receipt?.logs) {

@@ -13,4 +13,5 @@ export const DEFAULT_CONFIG: FullConfig = {
   },
   autoConnect: true,
   multicallVersion: 1,
+  connectors: [],
 }

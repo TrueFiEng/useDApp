@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { MetamaskConnector, RpcConnector, WalletConnectConnector, useEtherBalance, useEthers } from '@usedapp/core'
+import React from 'react'
+import { MetamaskConnector, WalletConnectConnector, useEtherBalance, useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Button } from '../components/base/Button'
 import { Title } from '../typography/Title'
@@ -8,21 +8,14 @@ import { Colors } from '../global/styles'
 import { formatEther } from '@ethersproject/units'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
-import { Web3Provider } from '@ethersproject/providers'
+import { SendEthForm } from '../components/SendEthForm/SendEthForm'
+
+const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 export const ConnectorPage = () => {
-  const { account, activate, deactivate } = useEthers()
-  const metamaskConnector = new MetamaskConnector()
-  const walletConnectConnector = new WalletConnectConnector({infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',})
-  const rpcConnector = new RpcConnector('https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd')
-  const ethBalance = useEtherBalance(account)
-
-  useEffect(() => {
-    const connectEagerly = async () => {
-        await metamaskConnector.connectEagerly()
-    }
-    void connectEagerly()
-  }, [])
+  const { account, activate, deactivate, chainId, connector } = useEthers()
+  const ethBalance = useEtherBalance(account, {chainId})
+  const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
 
   return (
     <>
@@ -32,41 +25,31 @@ export const ConnectorPage = () => {
             <SectionRow>
               <Title>Metamask Connector</Title>
               <Account>
-                {account ? (
+                {connector?.connector.name === 'Metamask' ? (
                   <>
                     <LoginButton onClick={deactivate}>Disconnect</LoginButton>
                   </>
                 ) : (
-                  <LoginButton onClick={async () => {await metamaskConnector.activate();void activate(metamaskConnector.provider as Web3Provider)}}>Connect</LoginButton>
-                )}
-              </Account>
-            </SectionRow>
-            <SectionRow>
-              <Title>Rpc Connector</Title>
-              <Account>
-                {account ? (
-                  <>
-                    <LoginButton onClick={deactivate}>Disconnect</LoginButton>
-                  </>
-                ) : (
-                  <LoginButton onClick={async () => {await rpcConnector.activate();void activate(rpcConnector.provider as Web3Provider)}}>Connect</LoginButton>
+                  <LoginButton id='metamaskButton' onClick={async () => activate(MetamaskConnector)}>Connect</LoginButton>
                 )}
               </Account>
             </SectionRow>
             <SectionRow>
               <Title>WalletConnect Connector</Title>
               <Account>
-                {account ? (
+                {connector?.connector.name === 'WalletConnect' ? (
                   <>
                     <LoginButton onClick={deactivate}>Disconnect</LoginButton>
                   </>
                 ) : (
-                  <LoginButton onClick={async () => {await walletConnectConnector.activate();void activate(walletConnectConnector.provider)}}>Connect</LoginButton>
+                  <LoginButton id='walletConnectButton' onClick={() => activate(WalletConnectConnector)}>Connect</LoginButton>
                 )}
               </Account>
             </SectionRow>
             <ContentBlock>
-            {account && (
+            {(connector?.connector.name === 'Metamask' || connector?.connector.name === 'WalletConnect') &&
+            
+            account && (
             <ContentRow>
                 <Label>Account:</Label> <TextInline>{account}</TextInline>{' '}
             </ContentRow>
@@ -77,7 +60,20 @@ export const ConnectorPage = () => {
                 <Label>ETH</Label>
             </ContentRow>
             )}
+            {chainId && (          
+            <ContentRow>
+                <Label>Chain Id:</Label> <TextInline>{chainId}</TextInline>{' '}
+            </ContentRow>
+            )}
+            {stakingBalance && (
+              <ContentRow>
+                <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
+                <Label>ETH</Label>
+              </ContentRow>
+            )}
             </ContentBlock>
+            <br />
+            {account && <SendEthForm />}
           </Section>
         </Container>
       </MainContent>

@@ -1,5 +1,6 @@
 import { Chain } from '../../constants'
 import { BaseProvider } from '@ethersproject/providers'
+import { Connector } from '../../providers/network/connector/connector'
 
 export type BaseProviderFactory = () => BaseProvider
 
@@ -60,7 +61,8 @@ export type FullConfig = {
   /**
    * Enables reconnecting to last used provider when user revisits the page.
    */
-  autoConnect: boolean
+  autoConnect: boolean,
+  connectors: Connector[],
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */

@@ -1,4 +1,5 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { TransactionOptions } from '../../src'
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
@@ -30,6 +31,9 @@ export function useSendTransaction(options?: TransactionOptions) {
   const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
+    if (!(library instanceof JsonRpcProvider)) {
+      throw new Error('You cannot send transaction without wallet')
+    }
     const signer = options?.signer || library?.getSigner()
     if (signer) {
       await promiseTransaction(signer.sendTransaction(transactionRequest))
