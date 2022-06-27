@@ -13,4 +13,29 @@ export const DEFAULT_CONFIG: FullConfig = {
   },
   autoConnect: true,
   multicallVersion: 1,
+  localStorageFunctions: {
+    getItem: (key: string) => {
+      if (typeof window === 'undefined') {
+        return null
+      }
+    
+      const item = window.localStorage.getItem(key)
+      if (item !== null) {
+        try {
+          return JSON.parse(item)
+        } catch {
+          // ignore error
+        }
+      }
+    },
+    setItem: (key: string, value: any) => {
+      if (value === undefined) {
+        window.localStorage.removeItem(key)
+      } else {
+        const toStore = JSON.stringify(value)
+        window.localStorage.setItem(key, toStore)
+        return JSON.parse(toStore)
+      }
+    }
+  }
 }
