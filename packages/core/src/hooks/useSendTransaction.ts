@@ -3,6 +3,10 @@ import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
 import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
+import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/context'
+import { ChainId } from '../constants'
+import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
+import { providers } from 'ethers'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -28,11 +32,16 @@ import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromise
  */
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const { bufferGasLimitPercentage = 0 } = useConfig()
 
+  const providers = useReadonlyNetworks()
+  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
+
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    const signer = options?.signer || library?.getSigner()
+    const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
 
