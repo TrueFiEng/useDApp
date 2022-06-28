@@ -94,7 +94,7 @@ export type FullConfig = {
    */
   refresh?: number | 'never' | 'everyBlock'
   /**
-   * Local storage overriding purposes
+   * Optional Local storage override for use in environments like React Native
    */
   localStorageFunctions: LocalStorageFunctions
 }
