@@ -91,7 +91,7 @@ export type FullConfig = {
   /**
    * Optional Local storage override for use in environments like React Native
    */
-  localStorageOverride: WindowLocalStorage['localStorage']
+  localStorageOverride?: WindowLocalStorage['localStorage']
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
