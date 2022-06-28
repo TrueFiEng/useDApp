@@ -6,15 +6,18 @@ import { useConfig } from './useConfig'
  */
 export function useLocalStorage(key: string) {
   const {
-    localStorageFunctions: { getItem, setItem },
+    localStorageOverride: { getItem, setItem },
   } = useConfig()
-  const [value, setValue] = useState(() => getItem(key))
+  const [value, setValue] = useState<any>(() => getItem(key))
 
   useEffect(() => {
     setValue(getItem(key))
   }, [key])
 
   useEffect(() => {
+    if (!value) {
+      return
+    }
     setItem(key, value)
   }, [value])
 

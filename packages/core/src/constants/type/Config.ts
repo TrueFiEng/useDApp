@@ -15,11 +15,6 @@ export type PollingIntervals = {
   [chaindId: number]: number
 }
 
-export type LocalStorageFunctions = {
-  getItem: (key: string) => any
-  setItem: (key: string, val: any) => void
-}
-
 /**
  * useDapp configuration.
  * @public
@@ -96,7 +91,7 @@ export type FullConfig = {
   /**
    * Optional Local storage override for use in environments like React Native
    */
-  localStorageFunctions: LocalStorageFunctions
+  localStorageOverride: WindowLocalStorage['localStorage']
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
