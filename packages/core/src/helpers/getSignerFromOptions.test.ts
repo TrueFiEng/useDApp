@@ -3,15 +3,13 @@ import { setupTestingConfig, TestingNetwork } from '../testing'
 import { getSignerFromOptions } from './getSignerFromOptions'
 import { expect } from 'chai'
 
-describe.only('getSignerFromOptions', () => {
+describe('getSignerFromOptions', () => {
   let network1: TestingNetwork
   let wallet1: Wallet
 
   beforeEach(async () => {
     ;({ network1 } = await setupTestingConfig())
-    wallet1 = ethers.Wallet.fromMnemonic(
-      'radar blur cabbage chef fix engine embark joy scheme fiction master release'
-    )
+    wallet1 = ethers.Wallet.fromMnemonic('radar blur cabbage chef fix engine embark joy scheme fiction master release')
   })
 
   it('returns signer for private key', () => {
@@ -32,7 +30,7 @@ describe.only('getSignerFromOptions', () => {
     expect(signer).not.to.be.undefined
   })
 
-  it('returns signer for encrypted json', async() => {
+  it('returns signer for encrypted json', async () => {
     const json = await wallet1.encrypt('test')
 
     const signer = getSignerFromOptions(network1.provider, {
@@ -46,7 +44,7 @@ describe.only('getSignerFromOptions', () => {
 
   it('returns signer for signer', () => {
     const signer = getSignerFromOptions(network1.provider, {
-        signer: wallet1
+      signer: wallet1,
     })
 
     expect(signer).not.to.be.undefined
