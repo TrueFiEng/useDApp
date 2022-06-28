@@ -42,10 +42,12 @@ export interface TransactionOptionsWithEncryptedJson {
 /**
  * @public
  */
-export type TransactionOptions = TransactionOptionsBase &
-  (
-    | TransactionOptionsWithSigner
-    | TransactionOptionsWithPrivateKey
-    | TransactionOptionsWithMnemonicPhrase
-    | TransactionOptionsWithEncryptedJson
-  )
+export type TransactionOptions =
+  | TransactionOptionsBase
+  | (TransactionOptionsBase &
+      (
+        | TransactionOptionsWithSigner
+        | TransactionOptionsWithPrivateKey
+        | TransactionOptionsWithMnemonicPhrase
+        | TransactionOptionsWithEncryptedJson
+      ))
