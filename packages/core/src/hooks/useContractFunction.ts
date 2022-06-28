@@ -1,31 +1,30 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, providers } from 'ethers'
+import { Contract, Signer, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
 import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
 import { TransactionReceipt } from '@ethersproject/abstract-provider'
+import { useReadonlyNetworks } from '../providers'
+import { ChainId } from '../constants'
+import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function connectContractToSigner(
-  contract: Contract,
-  options?: TransactionOptions,
-  library?: providers.JsonRpcProvider
-) {
+export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
   if (contract.signer) {
     return contract
   }
 
-  if (options?.signer) {
+  if (options && 'signer' in options) {
     return contract.connect(options.signer)
   }
 
-  if (library?.getSigner()) {
-    return contract.connect(library.getSigner())
+  if (librarySigner) {
+    return contract.connect(librarySigner)
   }
 
   throw new TypeError('No signer available in contract, options or library')
@@ -71,19 +70,22 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   options?: TransactionOptions
 ) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
   const { bufferGasLimitPercentage = 0 } = useConfig()
+
+  const providers = useReadonlyNetworks()
+  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
-        if (!(library instanceof providers.JsonRpcProvider)) {
-          throw new Error('You cannot send transaction without wallet')
-        }
         const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
 
-        const contractWithSigner = connectContractToSigner(contract, options, library)
+        const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+
+        const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
 
         const gasLimit = await estimateContractFunctionGasLimit(
@@ -116,7 +118,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         return receipt
       }
     },
-    [contract, functionName, options, library]
+    [contract, functionName, options, provider, library, bufferGasLimitPercentage, promiseTransaction]
   )
 
   return { send, state, events, resetState }

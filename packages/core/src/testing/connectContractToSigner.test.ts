@@ -39,7 +39,7 @@ describe('connectContractToSigner', () => {
     await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 
-    const connectedContract = connectContractToSigner(token, undefined, library)
+    const connectedContract = connectContractToSigner(token, undefined, library?.getSigner())
 
     expect(connectedContract.signer).to.be.deep.eq(library?.getSigner())
   })
