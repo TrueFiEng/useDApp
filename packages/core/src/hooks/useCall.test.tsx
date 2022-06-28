@@ -59,7 +59,7 @@ describe('useCall', () => {
         expect(result.current?.value[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
       })
 
-      it('initial test balance to be correct', async () => {
+      it.only('returns error on revert', async () => {
         const { result, waitForCurrent } = await renderWeb3Hook(
           () =>
             useCall({
@@ -76,7 +76,7 @@ describe('useCall', () => {
         )
         await waitForCurrent((val) => val !== undefined)
         expect(result.current?.value).to.be.undefined
-        expect(result.current?.error).to.not.be.undefined
+        expect(typeof result.current?.error?.message).to.eq('string')
       })
 
       it('multichain calls return correct initial balances', async () => {

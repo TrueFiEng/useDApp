@@ -62,8 +62,9 @@ function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResul
       return rawCallResult
     }
     const error = chains[chainId]?.value?.error as any
-    const errorMessage = error?.error?.message ?? error?.message
-    if (typeof errorMessage === 'string') {
+    if (error) {
+      const defaultErrorMessage = 'An error occurred'
+      const errorMessage = error.error?.data?.message ?? error.error?.message ?? error.reason ?? error.data?.message ?? error.message ?? defaultErrorMessage
       const value = new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage])
       return {
         success: false,
