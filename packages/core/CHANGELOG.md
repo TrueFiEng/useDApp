@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.0.15
+
+### Patch Changes
+
+- 31c4833: 👨🏻‍💼 Add private key sending transactions
+- 31e0475: Return error in useCall when multicall fails
+
 ## 1.0.14
 
 ### Patch Changes

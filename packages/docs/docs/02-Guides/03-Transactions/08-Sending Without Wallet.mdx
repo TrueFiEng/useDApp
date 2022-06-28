@@ -1,0 +1,49 @@
+# Sending without Wallet
+
+To send transaction or use contract function you can use private key, mnemonic phrase or encrypted json.
+
+To do that just pass extra parameters into `TransactionOptions` object and be sure that you have configured provider of chain you'd like to send transaction to.
+
+## Private key
+
+Just add `privateKey` and `chainId` into `TransactionOptions` object.
+
+**Example**
+
+```tsx
+useSendTransaction({ chainId: 1, privateKey: 'privateKey' })
+useContractFunction(token, 'transfer', { chainId: 1, privateKey: 'privateKey' })
+```
+
+## Mnemonic phrase
+
+Just add `mnemonicPhrase` and `chainId` into `TransactionOptions` object.
+
+**Example**
+
+```tsx
+useSendTransaction({ chainId: 1, mnemonicPhrase: 'radar blur cabbage chef fix engine embark joy scheme fiction master release' })
+useContractFunction(token, 'transfer', { chainId: 1, mnemonicPhrase: 'radar blur cabbage chef fix engine embark joy scheme fiction master release' })
+```
+
+## Encrypted json
+
+Just add `encryptedJson`, `password` and `chainId` into `TransactionOptions` object.
+
+**Example**
+
+```tsx
+useSendTransaction({ chainId: 1, encryptedJsonString, password: 'test' })
+useContractFunction(token, 'transfer', { chainId: 1, encryptedJsonString, password: 'test' })
+```
+
+## Overriding
+
+If you provide more than one option or you have connected wallet, the sequence will be:
+
+<ol>
+    <li>Private key</li>
+    <li>Mnemonic phrase</li>
+    <li>Encrypted json</li>
+    <li>Wallet</li>
+</ol>

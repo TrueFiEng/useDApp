@@ -1,7 +1,7 @@
 import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { BigNumber, Contract } from 'ethers'
+import { BigNumber, Contract, ethers, Wallet } from 'ethers'
 import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken, setupTestingConfig } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
@@ -12,10 +12,19 @@ describe('useContractFunction', () => {
   const [deployer, spender] = mockProvider.getWallets()
   let token: Contract
   let config: Config
+  let network1
+  let wallet1: Wallet
+  let wallet2: Wallet
 
   beforeEach(async () => {
-    ;({ config } = await setupTestingConfig())
+    ;({ config, network1 } = await setupTestingConfig())
     token = await deployMockToken(deployer)
+    wallet2 = network1.wallets[1]
+    wallet1 = ethers.Wallet.fromMnemonic(
+      'radar blur cabbage chef fix engine embark joy scheme fiction master release'
+    ).connect(network1.provider)
+    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
+    await token.transfer(wallet1.address, 1000)
   })
 
   it('success', async () => {
@@ -144,5 +153,65 @@ describe('useContractFunction', () => {
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
     expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
+  })
+
+  it('transfer amount with just private key', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'transfer', { chainId: 1, privateKey: wallet1.privateKey }),
+      {
+        config,
+      }
+    )
+    await waitForNextUpdate()
+
+    const startingBalance = await token.balanceOf(wallet2.address)
+    await result.current.send(wallet2.address, 100)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    const finalBalance = await token.balanceOf(wallet2.address)
+    expect(finalBalance).to.equal(startingBalance.add(100))
+  })
+
+  it('transfer amount with just mnemonic phrase', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'transfer', { chainId: 1, mnemonicPhrase: wallet1.mnemonic.phrase }),
+      {
+        config,
+      }
+    )
+    await waitForNextUpdate()
+
+    const startingBalance = await token.balanceOf(wallet2.address)
+    await result.current.send(wallet2.address, 100)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    const finalBalance = await token.balanceOf(wallet2.address)
+    expect(finalBalance).to.equal(startingBalance.add(100))
+  })
+
+  it('transfer amount with just encrypted json', async () => {
+    const json = await wallet1.encrypt('test')
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () =>
+        useContractFunction(token, 'transfer', {
+          chainId: 1,
+          json,
+          password: 'test',
+        }),
+      {
+        config,
+      }
+    )
+    await waitForNextUpdate()
+
+    const startingBalance = await token.balanceOf(wallet2.address)
+    await result.current.send(wallet2.address, 100)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    const finalBalance = await token.balanceOf(wallet2.address)
+    expect(finalBalance).to.equal(startingBalance.add(100))
   })
 })
