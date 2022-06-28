@@ -2,7 +2,7 @@ import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'
-import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
+import { deployMulticall, deployMulticall2, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ReadonlyNetworksProvider } from '../providers/network'
 
@@ -12,6 +12,7 @@ export interface renderWeb3HookOptions<Tprops> {
   mockProviderOptions?: {
     pollingInterval?: number
   }
+  multicallVersion?: 1 | 2
   renderHook?: {
     initialProps?: Tprops
     wrapper?: React.ComponentClass<Tprops, any> | React.FunctionComponent<Tprops>
@@ -44,7 +45,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     const { chainId } = await currentProvider.getNetwork()
     providers[chainId] = currentProvider
 
-    const mockMulticallAddresses = await deployMulticall(currentProvider, chainId)
+    const multicallDeployer = options?.multicallVersion === 2 ? deployMulticall2 : deployMulticall
+    const mockMulticallAddresses = await multicallDeployer(currentProvider, chainId)
     multicallAddresses[chainId] = mockMulticallAddresses[chainId]
     // In some occasions the block number lags behind.
     // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
@@ -73,7 +75,12 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <ConfigProvider config={{ pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200 }}>
+      <ConfigProvider
+        config={{
+          pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
+          multicallVersion: options?.multicallVersion,
+        }}
+      >
         <NetworkProvider providerOverride={defaultProvider}>
           <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
             <BlockNumberProvider>
