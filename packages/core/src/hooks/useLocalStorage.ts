@@ -30,7 +30,7 @@ function setItem(key: string, value: any, localStorage: WindowLocalStorage['loca
  * @internal Intended for internal use - use it on your own risk
  */
 export function useLocalStorage(key: string) {
-  const { localStorageOverride } = useConfig()
+  const { localStorageOverride = window.localStorage } = useConfig()
   const [value, setValue] = useState(() => getItem(key, localStorageOverride))
 
   useEffect(() => {
