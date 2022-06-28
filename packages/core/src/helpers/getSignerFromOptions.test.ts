@@ -55,4 +55,10 @@ describe('getSignerFromOptions', () => {
 
     expect(signer).not.to.be.undefined
   })
+
+  it('returns undefined for almost empty key arguments', () => {
+    const signer = getSignerFromOptions(network1.provider)
+
+    expect(signer).to.be.undefined
+  })
 })
