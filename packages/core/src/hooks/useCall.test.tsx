@@ -59,7 +59,7 @@ describe('useCall', () => {
         expect(result.current?.value[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
       })
 
-      it.only('returns error on revert', async () => {
+      it('returns error on revert', async () => {
         const { result, waitForCurrent } = await renderWeb3Hook(
           () =>
             useCall({
