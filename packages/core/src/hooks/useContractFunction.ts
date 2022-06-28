@@ -1,6 +1,6 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, ethers, Signer } from 'ethers'
+import { Contract, Signer, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
@@ -9,6 +9,7 @@ import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/ty
 import { TransactionReceipt } from '@ethersproject/abstract-provider'
 import { useReadonlyNetworks } from '../providers'
 import { ChainId } from '../constants'
+import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -18,7 +19,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
     return contract
   }
 
-  if (options?.signer) {
+  if (options && 'signer' in options) {
     return contract.connect(options.signer)
   }
 
@@ -66,10 +67,10 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
 export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
   contract: T | Falsy,
   functionName: FN,
-  options: TransactionOptions = {}
+  options?: TransactionOptions
 ) {
   const { library, chainId } = useEthers()
-  const transactionChainId = options?.chainId ?? chainId
+  const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
   const { bufferGasLimitPercentage = 0 } = useConfig()
@@ -82,17 +83,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
       if (contract) {
         const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
 
-        const { privateKey, mnemonicPhrase, encryptedJson } = options
-        const json = encryptedJson?.json
-        const password = encryptedJson?.password
-
-        const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
-        const mnemonicPhraseSigner =
-          mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
-        const encryptedJsonSigner =
-          json && password && provider && ethers.Wallet.fromEncryptedJsonSync(json, password).connect(provider)
-
-        const signer = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || library?.getSigner()
+        const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined

@@ -147,10 +147,8 @@ describe('useSendTransaction', () => {
       () =>
         useSendTransaction({
           chainId: 1,
-          encryptedJson: {
-            password: 'test',
-            json,
-          },
+          password: 'test',
+          json,
         }),
       { config }
     )

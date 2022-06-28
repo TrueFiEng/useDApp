@@ -197,10 +197,8 @@ describe('useContractFunction', () => {
       () =>
         useContractFunction(token, 'transfer', {
           chainId: 1,
-          encryptedJson: {
-            json,
-            password: 'test',
-          },
+          json,
+          password: 'test',
         }),
       {
         config,

@@ -3,14 +3,49 @@ import { Signer } from 'ethers'
 /**
  * @public
  */
-export interface TransactionOptions {
-  signer?: Signer
+export interface TransactionOptionsBase {
   transactionName?: string
-  privateKey?: string
-  mnemonicPhrase?: string
-  encryptedJson?: {
-    json: string
-    password: string
-  }
-  chainId?: number // privateKey, mnemonicPhrase and encryptedJson purposes
 }
+
+/**
+ * @public
+ */
+export interface TransactionOptionsWithSigner {
+  signer: Signer
+}
+
+/**
+ * @public
+ */
+export interface TransactionOptionsWithPrivateKey {
+  privateKey: string
+  chainId: number
+}
+
+/**
+ * @public
+ */
+export interface TransactionOptionsWithMnemonicPhrase {
+  mnemonicPhrase: string
+  chainId: number
+}
+
+/**
+ * @public
+ */
+export interface TransactionOptionsWithEncryptedJson {
+  json: string
+  password: string
+  chainId: number
+}
+
+/**
+ * @public
+ */
+export type TransactionOptions = TransactionOptionsBase &
+  (
+    | TransactionOptionsWithSigner
+    | TransactionOptionsWithPrivateKey
+    | TransactionOptionsWithMnemonicPhrase
+    | TransactionOptionsWithEncryptedJson
+  )
