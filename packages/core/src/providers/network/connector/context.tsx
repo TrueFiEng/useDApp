@@ -20,7 +20,7 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controllers, setControllers] = useState<ConnectorController[]>([])
   const [selectedConnector, setSelectedConnector] = useState<string | undefined>()
-  const { connectors } = useConfig()
+  const { connectors = [] } = useConfig()
 
   const activeConnector = controllers.find((c) => c.connector.getTag() === selectedConnector)
 

@@ -1,6 +1,6 @@
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
-import detectMetamask from '@metamask/detect-provider'
 import { providers } from 'ethers'
+import { getInjectedProvider } from '../../../../helpers'
 
 export class MetamaskConnector implements Connector {
   static tag = 'metamask'
@@ -17,11 +17,11 @@ export class MetamaskConnector implements Connector {
 
   private async init() {
     if (this.provider) return
-    const metamask = await detectMetamask()
+    const metamask = await getInjectedProvider()
     if (!metamask) {
       return
     }
-    this.provider = new providers.Web3Provider(metamask as any)
+    this.provider = metamask
   }
 
   async connectEagerly(): Promise<void> {

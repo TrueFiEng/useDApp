@@ -9,7 +9,7 @@ import { ConnectorContext } from '../connector/context'
 import { networkStatesReducer } from './reducer'
 import { useWindow } from '../../window'
 
-const { Provider, StaticJsonRpcProvider } = providers
+const { Provider, StaticJsonRpcProvider, JsonRpcProvider } = providers
 type BaseProvider = providers.BaseProvider
 
 interface NetworkProviderProps {
@@ -65,14 +65,16 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
       const provider = providers[(chainId as unknown) as ChainId]
       if (provider) {
-        provider.polling = isActive && nonStaticCalls > 0
+        provider.polling = provider instanceof JsonRpcProvider || (isActive && nonStaticCalls > 0)
       }
     }
   }, [networkStates, isActive])
 
   useEffect(() => {
     for (const [chainId, provider] of Object.entries(providers)) {
-      provider.pollingInterval = getPollingInterval(Number(chainId))
+      if (provider instanceof JsonRpcProvider) {
+        provider.pollingInterval = getPollingInterval(Number(chainId))
+      }
     }
   }, [providers, getPollingInterval])
 

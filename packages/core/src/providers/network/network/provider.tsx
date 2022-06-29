@@ -4,7 +4,6 @@ import { defaultNetworkState, networkReducer } from './reducer'
 import { providers } from 'ethers'
 import { subscribeToProviderEvents } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
-import detectEthereumProvider from '@metamask/detect-provider'
 import { ConnectorContext, MetamaskConnector } from '../connector'
 import { DefaultWalletConnector } from '../connector/impls/defaultWallet'
 import { ConnectorController } from '../connector/connectorController'
@@ -48,11 +47,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     if (providerOverride) {
       void activate(providerOverride)
     }
-  }, [providerOverride, connectors])
+  }, [providerOverride])
 
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {
-      // TODO add previous version compatibility
 
       const tag = 'tag' in provider ? provider.tag : undefined
 
@@ -85,7 +83,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       setAutoConnectTag(tag ? tag : newConnector?.getTag())
       setLoading(false)
     },
-    [connectors, onUnsubscribe]
+    [connectors, onUnsubscribe, subscribeToProviderEvents]
   )
 
   const activateBrowserWallet = useCallback(async () => {
@@ -97,13 +95,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     setTimeout(async () => {
       try {
         if (autoConnectTag && autoConnect) {
-          await detectEthereumProvider()
-
-          // If window.ethereum._state.accounts is non null but has no items,
-          // it probably means that the user has disconnected Metamask manually.
-          if (autoConnectTag === MetamaskConnector.tag && (window.ethereum as any)?._state?.accounts?.length === 0) {
-            return
-          }
 
           await activate({ tag: autoConnectTag })
         }
@@ -113,11 +104,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     })
   }, [autoConnectTag, autoConnect, connectors])
 
-  useEffect(() => {
-    if (selectedConnector) {
-      void activate({ tag: selectedConnector })
-    }
-  }, [selectedConnector])
 
   return (
     <NetworkContext.Provider

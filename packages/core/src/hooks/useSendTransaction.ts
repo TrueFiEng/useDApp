@@ -7,6 +7,7 @@ import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/conte
 import { ChainId } from '../constants'
 import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 import { providers } from 'ethers'
+import { useCallback } from 'react'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -39,7 +40,7 @@ export function useSendTransaction(options?: TransactionOptions) {
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
-  const sendTransaction = async (transactionRequest: TransactionRequest) => {
+  const sendTransaction = useCallback(async (transactionRequest: TransactionRequest) => {
     const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 
     if (signer) {
@@ -52,7 +53,7 @@ export function useSendTransaction(options?: TransactionOptions) {
         })
       )
     }
-  }
+  }, [transactionChainId, provider, promiseTransaction, bufferGasLimitPercentage])
 
   return { sendTransaction, state, resetState }
 }

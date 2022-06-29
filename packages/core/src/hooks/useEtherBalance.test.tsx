@@ -75,7 +75,7 @@ describe('useEtherBalance', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(200)
+    expect(result.current).to.eq(100)
   })
 
   it('explicitly mainnet', async () => {

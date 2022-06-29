@@ -48,7 +48,6 @@ export const ConnectorPage = () => {
             </SectionRow>
             <ContentBlock>
             {(connector?.connector.name === 'Metamask' || connector?.connector.name === 'WalletConnect') &&
-            
             account && (
             <ContentRow>
                 <Label>Account:</Label> <TextInline>{account}</TextInline>{' '}
