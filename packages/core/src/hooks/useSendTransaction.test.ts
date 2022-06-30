@@ -4,6 +4,8 @@ import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils, Wallet, ethers } from 'ethers'
 import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 
+const BASE_TX_COST = 21000
+
 describe('useSendTransaction', () => {
   const mockProvider = new MockProvider()
   const [spender, receiver, secondReceiver] = mockProvider.getWallets()
@@ -76,15 +78,11 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    const spenderBalance = await wallet1.getBalance()
-    const receiverBalance = await wallet2.getBalance()
-
     await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
   })
 
   it('transfer ether with limit in args', async () => {
@@ -100,15 +98,12 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    const spenderBalance = await wallet1.getBalance()
-    const receiverBalance = await wallet2.getBalance()
-
     await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    expect(result.current.state.status).to.eq('Success')
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
   })
 
   it('Returns receipt after correct transaction', async () => {
