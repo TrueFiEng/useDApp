@@ -24,9 +24,5 @@ export const getSignerFromOptions = (
 
   const overriddenSigner = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || optionsSigner
 
-  if (!overriddenSigner && !(library instanceof providers.JsonRpcProvider)) {
-    throw new Error('You cannot send transaction without wallet')
-  }
-
   return overriddenSigner || library?.getSigner()
 }

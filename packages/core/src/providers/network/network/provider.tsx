@@ -26,7 +26,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
-  const { connectors, setSelectedConnector, selectedConnector, activeConnector, addConnector } = useContext(
+  const { connectors, setSelectedConnector, activeConnector, addConnector } = useContext(
     ConnectorContext
   )!
 
@@ -94,8 +94,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   useEffect(() => {
     setTimeout(async () => {
       try {
-        if (autoConnectTag && autoConnect) {
-
+        if (autoConnectTag && autoConnect && connectors.length > 0) {
           await activate({ tag: autoConnectTag })
         }
       } catch (err) {

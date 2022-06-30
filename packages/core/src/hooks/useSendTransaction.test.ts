@@ -62,7 +62,7 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Exception')
     expect(result.current.state.errorMessage).to.eq('invalid address')
-  })
+  }) 
 
   it('Returns receipt after correct transaction', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
