@@ -64,6 +64,52 @@ describe('useSendTransaction', () => {
     expect(result.current.state.errorMessage).to.eq('invalid address')
   })
 
+  it('transfer ether with limit', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useSendTransaction({ signer: wallet1 }),
+      {
+        config: {
+          ...config,
+          bufferGasLimitPercentage: 100,
+        },
+      }
+    )
+    await waitForNextUpdate()
+
+    const spenderBalance = await wallet1.getBalance()
+    const receiverBalance = await wallet2.getBalance()
+
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+
+    await waitForCurrent((val) => val.state !== undefined)
+    expect(result.current.state.status).to.eq('Success')
+    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
+    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+  })
+
+  it('transfer ether with limit in args', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useSendTransaction({ 
+        signer: wallet1, 
+        bufferGasLimitPercentage: 100
+      }),
+      {
+        config
+      }
+    )
+    await waitForNextUpdate()
+
+    const spenderBalance = await wallet1.getBalance()
+    const receiverBalance = await wallet2.getBalance()
+
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+
+    await waitForCurrent((val) => val.state !== undefined)
+    expect(result.current.state.status).to.eq('Success')
+    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
+    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+  })
+
   it('Returns receipt after correct transaction', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
 
