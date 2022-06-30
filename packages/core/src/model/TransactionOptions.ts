@@ -5,6 +5,7 @@ import { Signer } from 'ethers'
  */
 export interface TransactionOptionsBase {
   transactionName?: string
+  bufferGasLimitPercentage?: number
 }
 
 /**

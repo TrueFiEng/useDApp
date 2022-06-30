@@ -4,6 +4,8 @@ import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils, Wallet, ethers } from 'ethers'
 import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 
+const BASE_TX_COST = 21000
+
 describe('useSendTransaction', () => {
   const mockProvider = new MockProvider()
   const [spender, receiver, secondReceiver] = mockProvider.getWallets()
@@ -62,6 +64,46 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Exception')
     expect(result.current.state.errorMessage).to.eq('invalid address')
+  })
+
+  it('transfer ether with limit', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useSendTransaction({ signer: wallet1 }),
+      {
+        config: {
+          ...config,
+          bufferGasLimitPercentage: 100,
+        },
+      }
+    )
+    await waitForNextUpdate()
+
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+
+    await waitForCurrent((val) => val.state !== undefined)
+    expect(result.current.state.status).to.eq('Success')
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
+  })
+
+  it('transfer ether with limit in args', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () =>
+        useSendTransaction({
+          signer: wallet1,
+          bufferGasLimitPercentage: 100,
+        }),
+      {
+        config,
+      }
+    )
+    await waitForNextUpdate()
+
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+
+    await waitForCurrent((val) => val.state !== undefined)
+    expect(result.current.state.status).to.eq('Success')
+    expect(result.current.state.status).to.eq('Success')
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
   })
 
   it('Returns receipt after correct transaction', async () => {
