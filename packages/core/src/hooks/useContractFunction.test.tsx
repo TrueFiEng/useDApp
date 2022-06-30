@@ -135,7 +135,7 @@ describe('useContractFunction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'transfer', { bufferGasLimitPercentage: 100 }),
       {
-        config
+        config,
       }
     )
 

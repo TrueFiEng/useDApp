@@ -89,12 +89,13 @@ describe('useSendTransaction', () => {
 
   it('transfer ether with limit in args', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useSendTransaction({ 
-        signer: wallet1, 
-        bufferGasLimitPercentage: 100
-      }),
+      () =>
+        useSendTransaction({
+          signer: wallet1,
+          bufferGasLimitPercentage: 100,
+        }),
       {
-        config
+        config,
       }
     )
     await waitForNextUpdate()
