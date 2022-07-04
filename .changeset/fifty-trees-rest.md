@@ -23,7 +23,7 @@ The efforts were focused a lot on existing issues in the repository, regarding b
 - Static calls.
 - Limit refreshing when the window is not active.
 - Ability to refresh every N blocks (or never).
-- Do not query continuously for `eth_chainId` if not necessary.
+- Do not query continuously for `eth_chainId` or `eth_blockNumber` if not necessary.
 
 ## Bug fixes
 
