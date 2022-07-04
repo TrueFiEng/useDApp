@@ -73,7 +73,9 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
-  const { bufferGasLimitPercentage = 0 } = useConfig()
+
+  const config = useConfig()
+  const bufferGasLimitPercentage = options?.bufferGasLimitPercentage || config?.bufferGasLimitPercentage || 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!

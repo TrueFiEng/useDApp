@@ -45,6 +45,9 @@ The code snippets above will wrap and unwrap Ether into WETH using Wrapped Ether
 Deposit function of a contract has no input arguments and instead wraps amount of ether sent to it. To send given amount of ether simply use a ``TransactionOverrides`` object.
 Withdraw function needs amount of ether to withdraw as a input argument.
 
+You can add additional buffer of gas limit by setting `bufferGasLimitPercentage ` in config or directly in transaction options, see live example below.
+It adds 10% of gas limit more to what is estimated by the Ethers library.
+
 **Live example**
 
 App will deposit 1 wei to Wrapped Ether contract.
