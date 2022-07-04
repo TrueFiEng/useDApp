@@ -34,7 +34,9 @@ export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
   const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
-  const { bufferGasLimitPercentage = 0 } = useConfig()
+
+  const config = useConfig()
+  const bufferGasLimitPercentage = options?.bufferGasLimitPercentage || config?.bufferGasLimitPercentage || 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!

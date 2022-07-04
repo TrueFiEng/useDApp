@@ -121,14 +121,27 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    const startingBalance = await deployer.getBalance()
     await result.current.send(spender.address, 200)
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
-    const finalBalance = await deployer.getBalance()
-    const txCost = finalBalance.sub(startingBalance)
-    expect(txCost).to.be.at.most(2 * CONTRACT_FUNCTION_COST)
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * CONTRACT_FUNCTION_COST)
+  })
+
+  it('transfer amount with limit in args', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'transfer', { bufferGasLimitPercentage: 100 }),
+      {
+        config,
+      }
+    )
+
+    await waitForNextUpdate()
+    await result.current.send(spender.address, 200)
+    await waitForCurrent((val) => val.state !== undefined)
+
+    expect(result.current.state.status).to.eq('Success')
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * CONTRACT_FUNCTION_COST)
   })
 
   it('success with correct receipt', async () => {

@@ -22,7 +22,10 @@ export function App() {
     const wethInterface = new utils.Interface(WethAbi)
     const contract = new Contract(wethAddress, wethInterface) as any
 
-    const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
+    const { state, send } = useContractFunction(contract, 'deposit', {
+      transactionName: 'Wrap',
+      bufferGasLimitPercentage: 10,
+    })
     const { status } = state
 
     const wrapEther = () => {
