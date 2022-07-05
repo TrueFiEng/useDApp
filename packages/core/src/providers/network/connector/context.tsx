@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useConfig } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
+import { MetamaskConnector } from '@usedapp/core';
 
 interface ConnectorContextValue {
   connectors: ConnectorController[]
@@ -20,7 +21,7 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controllers, setControllers] = useState<ConnectorController[]>([])
   const [selectedConnector, setSelectedConnector] = useState<string | undefined>()
-  const { connectors = [] } = useConfig()
+  const { connectors = [new MetamaskConnector()] } = useConfig()
 
   const activeConnector = controllers.find((c) => c.connector.getTag() === selectedConnector)
 
