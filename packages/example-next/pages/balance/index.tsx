@@ -1,14 +1,11 @@
-import type { NextPage } from 'next'
 import React from 'react'
-import { Providers } from '../providers'
 import { Balance } from '@usedapp/example'
+import { Providers } from '../../providers'
 
-const Home: NextPage = () => {
+export default function Index() {
   return (
     <Providers>
       <Balance />
     </Providers>
   )
 }
-
-export default Home

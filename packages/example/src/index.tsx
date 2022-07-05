@@ -1,4 +1,18 @@
 export { App } from './App'
 export * from './pages'
-// export { withMetamaskTest } from '../playwright/with-metamask.test'
-// export { withoutMetamaskTest } from '../playwright/without-metamask.test'
+export {
+  Sidebar,
+  SidebarLinkDescription,
+  SidebarlinkFactory,
+  SidebarNav,
+  SidebarNavLinks,
+  ToMain,
+  ToMainBottom,
+  Handshaking,
+  Page,
+  SidebarContainer,
+} from './components/base/base'
+export { ENSExample } from './components/ENS/ENSExample'
+export { GlobalStyle } from './global/GlobalStyle'
+export * from './global/styles'
+export { NotificationsList } from './components/Transactions/History'
