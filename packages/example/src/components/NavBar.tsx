@@ -125,49 +125,53 @@ const SidebarNavLinks = styled.div`
   flex-direction: column;
 `
 
-const SidebarLink = styled(NavLink)`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: 16px;
-  text-transform: uppercase;
-  transition: ${Transitions.all};
-  white-space: nowrap;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: calc(100% - 20px);
-    height: 2px;
-    background-color: ${Colors.Yellow[500]};
-    transform: scaleX(0);
-    transform-origin: 50% 50%;
+export const SideberLinkFactory = (link: any) => {
+  return styled(link)`
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 16px;
+    text-transform: uppercase;
     transition: ${Transitions.all};
-  }
-
-  &:hover {
-    color: ${Colors.Yellow[500]};
+    white-space: nowrap;
 
     &:after {
-      transform: scaleX(1);
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: calc(100% - 20px);
+      height: 2px;
+      background-color: ${Colors.Yellow[500]};
+      transform: scaleX(0);
+      transform-origin: 50% 50%;
+      transition: ${Transitions.all};
     }
-  }
-  &.active-page {
-    background: ${Colors.Yellow[200]};
-    border-radius: ${BorderRad.s};
 
-    &:after {
-      transform: scaleX(1);
+    &:hover {
+      color: ${Colors.Yellow[500]};
+
+      &:after {
+        transform: scaleX(1);
+      }
     }
-  }
-`
+    &.active-page {
+      background: ${Colors.Yellow[200]};
+      border-radius: ${BorderRad.s};
+
+      &:after {
+        transform: scaleX(1);
+      }
+    }
+  `
+}
+
+const SidebarLink = SideberLinkFactory(NavLink)
 
 const SidebarLinkDescription = styled.span`
   display: contents;

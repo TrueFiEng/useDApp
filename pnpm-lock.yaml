@@ -343,6 +343,7 @@ importers:
       '@usedapp/example': workspace:*
       eslint: 7.22.0
       eslint-config-next: 12.1.6
+      mocha: ^8.2.1
       next: 12.1.2
       react: 17.0.1
       react-dom: 17.0.1
@@ -359,6 +360,7 @@ importers:
       '@types/react-dom': 17.0.1
       eslint: 7.22.0
       eslint-config-next: 12.1.6_rotnogawkvvli5ftcowmvhugxu
+      mocha: 8.4.0
       typescript: 4.6.2
 
   packages/extension:
@@ -9052,7 +9054,7 @@ packages:
     dev: false
 
   /buffer-crc32/0.2.13:
-    resolution: {integrity: sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=}
+    resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
     dev: true
 
   /buffer-equal/1.0.0:
@@ -12864,7 +12866,7 @@ packages:
     dev: false
 
   /fd-slicer/1.1.0:
-    resolution: {integrity: sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=}
+    resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
     dependencies:
       pend: 1.2.0
     dev: true
@@ -14728,7 +14730,7 @@ packages:
     engines: {node: '>=4'}
 
   /ip/1.1.5:
-    resolution: {integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=}
+    resolution: {integrity: sha512-rBtCAQAJm8A110nbwn6YdveUnuZH3WrC36IwkRXxDnq53JvXA2NVQvB7IHyKomxK1MJ4VDNw3UtFDdXQ+AvLYA==}
 
   /ipaddr.js/1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
@@ -17861,7 +17863,7 @@ packages:
       sha.js: 2.4.11
 
   /pend/1.2.0:
-    resolution: {integrity: sha1-elfrVQpng/kRUzH89GY9XI4AelA=}
+    resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: true
 
   /performance-now/2.1.0:
@@ -19822,7 +19824,7 @@ packages:
       uuid: 3.4.0
 
   /require-directory/2.1.1:
-    resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
+    resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
 
   /require-from-string/1.2.1:
@@ -19932,7 +19934,7 @@ packages:
     engines: {node: '>=0.12'}
 
   /retry/0.12.0:
-    resolution: {integrity: sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=}
+    resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
 
   /retry/0.13.1:
@@ -24214,7 +24216,7 @@ packages:
     dev: true
 
   /yauzl/2.10.0:
-    resolution: {integrity: sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=}
+    resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
