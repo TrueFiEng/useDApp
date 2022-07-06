@@ -2,7 +2,7 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract, providers, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
-import { SECOND_TEST_CHAIN_ID, renderDAppHook } from '../testing'
+import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
 import { BigNumber, constants } from 'ethers'
 import { deployContract, solidity } from 'ethereum-waffle'
 import { doublerContractABI, MultiCall, timestampContractABI } from '../constants/abi'
@@ -61,21 +61,28 @@ describe('useCall - three chains', () => {
   }
 
   beforeEach(async () => {
-    for (const [, chainData] of Object.entries(chains)) {
-      chainData.timestampContract = await deployContract(chainData.deployer, timestampContractABI)
-      chainData.doublerContract = await deployContract(chainData.deployer, doublerContractABI)
-      chainData.multicallAddress = (await deployContract(chainData.deployer, MultiCall)).address
-      if (chainData.mineBlock) {
-        chainData.mineBlockTimerId = +setInterval(chainData.mineBlock, (randomInt(10) + 1) * 10)
+    for (const [, chain] of Object.entries(chains)) {
+      chain.timestampContract = await deployContract(chain.deployer, timestampContractABI)
+      chain.doublerContract = await deployContract(chain.deployer, doublerContractABI)
+      chain.multicallAddress = (await deployContract(chain.deployer, MultiCall)).address
+      if (chain.mineBlock) {
+        chain.mineBlockTimerId = +setInterval(chain.mineBlock, (randomInt(10) + 1) * 10)
       }
     }
   })
 
   afterEach(async () => {
-    for (const chainId of chainIds) {
-      clearInterval(chains[chainId].mineBlockTimerId)
+    for (const [,chain] of Object.entries(chains)) {
+      clearInterval(chain.mineBlockTimerId)
     }
-    await new Promise<void>((resolve) => setTimeout(resolve, 100))
+    await waitUntil(() => {
+      for (const [,chain] of Object.entries(chains)) {
+        if (chain.isBlockMining) {
+          return false;
+        }
+      }
+      return true
+    })
   })
 
   const numberOfCalls = 100
@@ -102,8 +109,8 @@ describe('useCall - three chains', () => {
       { chainId }
     )
 
-  for (let num = 0; num < 20; num++) {
-    it('Test #' + num, async () => {
+  for (let num = 0; num < 5; num++) {
+    it.only('Test #' + num, async () => {
       const { result, waitForCurrent } = await renderDAppHook(
         () => {
           const timestampsFirstChain = useTimestamps(FIRST_TEST_CHAIN_ID)
