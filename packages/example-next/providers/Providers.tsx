@@ -1,8 +1,6 @@
-import type { NextPage } from 'next'
-
-import React from 'react'
-import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum } from '@usedapp/core'
-import { Balance } from '@usedapp/example'
+import { ReactNode } from 'react'
+import { Layout } from './Layout'
+import { Arbitrum, Config, DAppProvider, Kovan, Mainnet, Ropsten } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
@@ -18,12 +16,14 @@ const config: Config = {
   noMetamaskDeactivate: true,
 }
 
-const Home: NextPage = () => {
+interface Props {
+  children: ReactNode
+}
+
+export function Providers(props: Props) {
   return (
     <DAppProvider config={config}>
-      <Balance />
+      <Layout>{props.children}</Layout>
     </DAppProvider>
   )
 }
-
-export default Home
