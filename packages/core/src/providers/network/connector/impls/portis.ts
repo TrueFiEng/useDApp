@@ -9,7 +9,7 @@ export class PortisConnector implements Connector {
   public priority = ConnectorPriority.Wallet
   public name = 'Portis'
 
-  constructor(private dappId: string, private network: string | INetwork, private options?: IOptions) {}
+  constructor(private dappId: string, private network: string | INetwork, private chainId: number, private options?: IOptions) {}
 
   public getTag(): string {
     return PortisConnector.tag
@@ -20,26 +20,25 @@ export class PortisConnector implements Connector {
   private async init() {
     if (this.provider) return
     const portis = new Portis(this.dappId, this.network, this.options)
-    this.provider = portis.web3Provider
+    await portis.provider.enable()
+    this.provider = new providers.Web3Provider(portis.provider)
   }
 
   async connectEagerly(): Promise<void> {
-    // await this.init()
     try {
-      const chainId: string = await this.provider!.send('eth_chainId', [])
+      await this.init()
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
-      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+      this.onUpdate?.({ chainId: this.chainId, accounts })
     } catch (e) {
       console.log(e)
     }
   }
 
   async activate(): Promise<void> {
-    await this.init()
     try {
-      const chainId: string = await this.provider!.send('eth_chainId', [])
+      await this.init()
       const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
-      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+      this.onUpdate?.({ chainId: this.chainId, accounts })
     } catch (e) {
       console.log(e)
     }

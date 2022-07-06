@@ -33,8 +33,8 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     addPageDiagnostics(page)
   }
 
-  before(async() => await resetBrowserContext())
-  after(async() => await context?.close())
+  before(async () => await resetBrowserContext())
+  after(async () => await context?.close())
 
   before(async () => {
     log('Connecting Metamask to the app...')
@@ -68,7 +68,6 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   })
 
   describe('Mulltichain', () => {
-
     it('Reads the chain names', async () => {
       await page.goto(`${baseUrl}multichain`)
 
@@ -107,7 +106,6 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await waitForExpect(async () => {
         expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
       })
-
     })
 
     it('Holds MetaMask in session', async () => {

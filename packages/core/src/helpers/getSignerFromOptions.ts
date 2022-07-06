@@ -22,7 +22,5 @@ export const getSignerFromOptions = (
 
   const optionsSigner = options && 'signer' in options && options.signer
 
-  const overriddenSigner = privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || optionsSigner
-
-  return overriddenSigner || library?.getSigner()
+  return privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || optionsSigner || library?.getSigner()
 }

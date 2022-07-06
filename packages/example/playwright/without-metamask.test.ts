@@ -20,8 +20,8 @@ describe(`Browser: ${browserType.name()} without Metamask`, () => {
     addPageDiagnostics(page)
   }
 
-  before(async() => await resetBrowserContext())
-  after(async() => await browser?.close())
+  before(async () => await resetBrowserContext())
+  after(async () => await browser?.close())
 
   describe('Balance', () => {
     it('Reads the ETH2 staking contract', async () => {
@@ -46,7 +46,6 @@ describe(`Browser: ${browserType.name()} without Metamask`, () => {
   })
 
   describe('Block info', () => {
-
     it('Reads the block info', async () => {
       await page.goto(`${baseUrl}block`)
 
@@ -60,7 +59,6 @@ describe(`Browser: ${browserType.name()} without Metamask`, () => {
   })
 
   describe('Tokens', () => {
-
     it('Reads the tokens info', async () => {
       await page.goto(`${baseUrl}tokens`)
 
@@ -81,7 +79,6 @@ describe(`Browser: ${browserType.name()} without Metamask`, () => {
   })
 
   describe('Mulltichain', () => {
-
     it('Reads the chain names', async () => {
       await page.goto(`${baseUrl}multichain`)
 

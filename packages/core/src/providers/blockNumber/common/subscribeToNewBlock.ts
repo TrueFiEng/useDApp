@@ -3,11 +3,8 @@ import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
 import { providers } from 'ethers'
 
-type Web3Provider = providers.Web3Provider
-type BaseProvider = providers.BaseProvider
-
 export function subscribeToNewBlock(
-  provider: BaseProvider | Web3Provider | undefined,
+  provider: providers.BaseProvider | providers.Web3Provider | undefined,
   chainId: ChainId | undefined,
   dispatch: Dispatch<BlockNumberChanged>,
   isActive: boolean

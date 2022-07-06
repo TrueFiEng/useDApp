@@ -35,6 +35,7 @@ export type {
   StoredTransaction,
   StoredTransactions,
   Network,
+  Connector
 } from './providers'
 export {
   DAppProvider,
@@ -45,6 +46,7 @@ export {
   MetamaskConnector,
   PortisConnector,
   WalletConnectConnector,
+  CoinbaseWalletConnector
 } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
