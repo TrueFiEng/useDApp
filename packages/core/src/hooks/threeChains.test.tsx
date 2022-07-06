@@ -31,7 +31,7 @@ type Chains = {
 
 const chainIds = [FIRST_TEST_CHAIN_ID, SECOND_TEST_CHAIN_ID, THIRD_TEST_CHAIN_ID] as const
 
-describe('useCall - three chains', () => {
+describe.skip('useCall - three chains', () => {
   const chains: Chains = {}
 
   function extractFromChains<T extends keyof ChainData>(
@@ -72,13 +72,13 @@ describe('useCall - three chains', () => {
   })
 
   afterEach(async () => {
-    for (const [,chain] of Object.entries(chains)) {
+    for (const [, chain] of Object.entries(chains)) {
       clearInterval(chain.mineBlockTimerId)
     }
     await waitUntil(() => {
-      for (const [,chain] of Object.entries(chains)) {
+      for (const [, chain] of Object.entries(chains)) {
         if (chain.isBlockMining) {
-          return false;
+          return false
         }
       }
       return true
@@ -110,7 +110,7 @@ describe('useCall - three chains', () => {
     )
 
   for (let num = 0; num < 5; num++) {
-    it.only('Test #' + num, async () => {
+    it('Test #' + num, async () => {
       const { result, waitForCurrent } = await renderDAppHook(
         () => {
           const timestampsFirstChain = useTimestamps(FIRST_TEST_CHAIN_ID)
