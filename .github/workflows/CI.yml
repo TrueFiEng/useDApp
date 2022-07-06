@@ -8,20 +8,20 @@ jobs:
   test:
     strategy:
       matrix:
-        node: ['14.x', '16.x']
+        node: ["14.x", "16.x"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
-    - run: npm i -g pnpm@7.1.9
-    - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-    - run: pnpm run lint
-    - run: pnpm run build
-    - run: pnpm run test -- --timeout 0
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - run: pnpm run lint
+      - run: pnpm run build
+      - run: pnpm run test -- --timeout 0
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -30,7 +30,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
@@ -54,7 +54,7 @@ jobs:
       - name: Run playwright example-next
         run: |
           set -e
-          pnpm start &
+          pnpm dev &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
@@ -68,7 +68,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
