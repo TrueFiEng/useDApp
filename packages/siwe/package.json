@@ -24,7 +24,6 @@
     "ethers": "*"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.2",
     "siwe": "^1.1.6"
   },
   "devDependencies": {

@@ -1,3 +1,5 @@
+export { CoinbaseWalletConnector } from './coinbaseWallet'
 export { WalletConnectConnector } from './walletConnect'
 export { MetamaskConnector } from './metamask'
 export { PortisConnector } from './portis'
+export { DefaultWalletConnector } from './defaultWallet'

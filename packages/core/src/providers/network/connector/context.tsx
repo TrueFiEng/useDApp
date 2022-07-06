@@ -2,13 +2,14 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useConfig } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
-import { MetamaskConnector } from '@usedapp/core';
+import { MetamaskConnector } from './impls'
+
 
 interface ConnectorContextValue {
   connectors: ConnectorController[]
   addConnector(connector: Connector): void
-  selectedConnector: string | undefined
-  setSelectedConnector(tag: string | undefined): void
+  activeConnectorTag: string | undefined
+  setActiveConnectorTag(tag: string | undefined): void
   activeConnector: ConnectorController | undefined
 }
 
@@ -20,10 +21,10 @@ export interface ConnectorContextProviderProps {
 
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controllers, setControllers] = useState<ConnectorController[]>([])
-  const [selectedConnector, setSelectedConnector] = useState<string | undefined>()
+  const [activeConnectorTag, setActiveConnectorTag] = useState<string | undefined>()
   const { connectors = [new MetamaskConnector()] } = useConfig()
 
-  const activeConnector = controllers.find((c) => c.connector.getTag() === selectedConnector)
+  const activeConnector = controllers.find((c) => c.connector.getTag() === activeConnectorTag)
 
   useEffect(() => {
     const newControllers = connectors.map((connector) => {
@@ -35,7 +36,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
     })
     const otherControllers = controllers.filter((c) => !newControllers.some((c2) => c2.connector === c.connector))
     setControllers([...newControllers, ...otherControllers].sort((a, b) => a.connector.priority - b.connector.priority))
-  }, connectors)
+  }, [...connectors])
 
   function addConnector(connector: Connector) {
     setControllers(controllers.concat(new ConnectorController(connector)))
@@ -43,7 +44,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   return (
     <ConnectorContext.Provider
-      value={{ connectors: controllers, addConnector, activeConnector, selectedConnector, setSelectedConnector }}
+      value={{ connectors: controllers, addConnector, activeConnector, activeConnectorTag, setActiveConnectorTag }}
     >
       {children}
     </ConnectorContext.Provider>

@@ -7,6 +7,7 @@ import { useLocalStorage, useConfig } from '../../../hooks'
 import { ConnectorContext, MetamaskConnector } from '../connector'
 import { DefaultWalletConnector } from '../connector/impls/defaultWallet'
 import { ConnectorController } from '../connector/connectorController'
+import { TestingWalletConnector } from '../connector/impls/testingWallet'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -26,7 +27,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
-  const { connectors, setSelectedConnector, activeConnector, addConnector } = useContext(
+  const { connectors, setActiveConnectorTag, activeConnector, addConnector } = useContext(
     ConnectorContext
   )!
 
@@ -39,13 +40,14 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     setAutoConnectTag(undefined)
     setLoading(true)
     await activeConnector?.deactivate()
-    setSelectedConnector(undefined)
+    setActiveConnectorTag(undefined)
     setLoading(false)
   }, [activeConnector, connectors])
 
   useEffect(() => {
     if (providerOverride) {
-      void activate(providerOverride)
+      addConnector(new TestingWalletConnector(providerOverride))
+      void activate(TestingWalletConnector)
     }
   }, [providerOverride])
 
@@ -55,7 +57,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       const tag = 'tag' in provider ? provider.tag : undefined
 
       setLoading(true)
-
       const newConnector = !tag ? new DefaultWalletConnector(provider as JsonRpcProvider | ExternalProvider) : undefined
 
       const connector = tag
@@ -79,7 +80,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         addConnector(newConnector!)
       }
 
-      setSelectedConnector(tag ? tag : newConnector?.getTag())
+      setActiveConnectorTag(tag ? tag : newConnector?.getTag())
       setAutoConnectTag(tag ? tag : newConnector?.getTag())
       setLoading(false)
     },

@@ -13,6 +13,7 @@
     "src"
   ],
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.3.0",
     "@metamask/detect-provider": "^1.2.0",
     "@portis/web3": "^4.0.7",
     "@uniswap/token-lists": "^1.0.0-beta.27",

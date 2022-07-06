@@ -1,5 +1,4 @@
 import { DEFAULT_SUPPORTED_CHAINS, FullConfig } from '../../constants'
-import { MetamaskConnector } from '../../providers'
 
 export const DEFAULT_CONFIG: FullConfig = {
   pollingInterval: 15000,
@@ -13,6 +12,5 @@ export const DEFAULT_CONFIG: FullConfig = {
     transactionPath: 'transactions',
   },
   autoConnect: true,
-  multicallVersion: 1,
-  connectors: [new MetamaskConnector()],
+  multicallVersion: 1
 }
