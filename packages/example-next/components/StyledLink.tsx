@@ -53,7 +53,7 @@ export default function StyledLink({ href, children }: { href: string; children:
   const router = useRouter()
 
   return (
-    <Link prefetch href={href} passHref>
+    <Link href={href} passHref>
       <Styled className={router.pathname === href ? 'active-page' : ''}>{children}</Styled>
     </Link>
   )
