@@ -222,31 +222,34 @@ describe('useCall', () => {
       })
 
       it('Refreshes static call on parameter change', async () => {
-        const { config, network1 } = await setupTestingConfig();
+        const { config, network1 } = await setupTestingConfig()
         const [deployer] = network1.provider.getWallets()
         const doublerContract = await deployContract(deployer, doublerContractABI)
         const { waitForCurrent, rerender } = await renderDAppHook(
-          ({ num }: { num: number }) => useCall({
-            contract: doublerContract,
-            method: 'double',
-            args: [num]
-          }), {
-          config: {
-            ...config,
-            refresh: 'never'
-          },
-          renderHook: {
-            initialProps: {
-              num: 1
-            }
+          ({ num }: { num: number }) =>
+            useCall({
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
+            }),
+          {
+            config: {
+              ...config,
+              refresh: 'never',
+            },
+            renderHook: {
+              initialProps: {
+                num: 1,
+              },
+            },
           }
-        })
+        )
 
-        await waitForCurrent(val => val?.value?.[0]?.eq(2))
+        await waitForCurrent((val) => val?.value?.[0]?.eq(2))
 
         rerender({ num: 2 })
 
-        await waitForCurrent(val => val?.value?.[0]?.eq(4))
+        await waitForCurrent((val) => val?.value?.[0]?.eq(4))
       })
     })
   }
