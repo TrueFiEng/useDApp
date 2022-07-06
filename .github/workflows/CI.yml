@@ -41,6 +41,7 @@ jobs:
           cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
+          cd example && pnpm run build && cd -
         working-directory: packages
       - name: Run playwright example
         run: |
