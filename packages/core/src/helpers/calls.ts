@@ -47,11 +47,11 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function getUniqueActiveCalls(requests: RawCall[]) {
+export function getUniqueActiveCalls(requests: RawCall[], includeDisabled = false) {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (request.isDisabled) {
+    if (request.isDisabled && !includeDisabled) {
       continue
     }
     if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {

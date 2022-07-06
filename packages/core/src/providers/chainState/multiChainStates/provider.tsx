@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useReducer } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
 import { ChainId, State, useConfig, useNetwork } from '../../..'
@@ -7,7 +7,7 @@ import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { providers } from 'ethers'
-import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory } from '../common'
+import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory, RawCall } from '../common'
 import { getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
@@ -63,7 +63,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider) {
+  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider, fullRefresh?: boolean) {
     if (!isActive) {
       return
     }
@@ -82,7 +82,14 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       return
     }
 
-    const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
+    let callsOnThisChain: RawCall[] = []
+    if (fullRefresh) {
+      callsOnThisChain = getUniqueActiveCalls(debouncedCalls, true)
+    } else {
+      callsOnThisChain = uniqueCalls
+    }
+    callsOnThisChain = callsOnThisChain.filter((call) => call.chainId === chainId)
+
     updateNetworks({
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
       chainId,
@@ -102,15 +109,23 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
   }
 
-  useEffect(() => {
+  const refresh = (fullRefresh = false) => {
     for (const [_chainId, provider] of Object.entries(networks)) {
       const chainId = Number(_chainId)
       // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
       if (chainId === provider.network?.chainId || chainId === provider._network?.chainId) {
-        multicallForChain(chainId, provider)
+        multicallForChain(chainId, provider, fullRefresh)
       }
     }
-  }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
+  }
+
+  useEffect(() => {
+    refresh(true)
+  }, [networks, multicallAddresses, uniqueCallsJSON])
+
+  useEffect(() => {
+    refresh()
+  }, [blockNumbers])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
     state,
