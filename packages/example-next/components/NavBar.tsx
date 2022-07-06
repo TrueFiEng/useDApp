@@ -1,16 +1,15 @@
 import React from 'react'
-import Link from 'next/link'
 import { SidebarContainer } from '@usedapp/example'
 import {
   Sidebar,
-  // SidebarLinkDescription,
-  SidebarlinkFactory,
+  SidebarLinkDescription,
   SidebarNav,
   SidebarNavLinks,
   ToMain,
   ToMainBottom,
   Handshaking,
 } from '@usedapp/example'
+import StyledLink from './StyledLink'
 
 export function NavBar() {
   return (
@@ -24,37 +23,33 @@ export function NavBar() {
             </ToMainBottom>
           </ToMain>
           <SidebarNavLinks>
-            <SidebarLink href="/balance"> Balance </SidebarLink>
-            <SidebarLink href="/prices"> Prices </SidebarLink>
-            <SidebarLink href="/ens"> ENS </SidebarLink>
-            <SidebarLink href="/block"> Block </SidebarLink>
-            <SidebarLink href="/tokens"> Tokens </SidebarLink>
-            <SidebarLink href="/send"> Send Ether </SidebarLink>
-            <SidebarLink href="/transactions"> Transactions </SidebarLink>
-            <SidebarLink href="/web3modal"> Web3 Modal </SidebarLink>
-            <SidebarLink href="/web3react">
-              {/* <>
+            <StyledLink href="/balance"> Balance </StyledLink>
+            <StyledLink href="/prices"> Prices </StyledLink>
+            <StyledLink href="/ens"> ENS </StyledLink>
+            <StyledLink href="/block"> Block </StyledLink>
+            <StyledLink href="/tokens"> Tokens </StyledLink>
+            <StyledLink href="/send"> Send Ether </StyledLink>
+            <StyledLink href="/transactions"> Transactions </StyledLink>
+            <StyledLink href="/web3modal"> Web3 Modal </StyledLink>
+            <StyledLink href="/web3react">
+              <>
                 {' '}
                 Web3 React
                 <br />
                 Connector{' '}
-              </> */}
-              Web 3 React Connector
-            </SidebarLink>
-            <SidebarLink href="/multichain">
-              {/* <>
+              </>
+            </StyledLink>
+            <StyledLink href="/multichain">
+              <>
                 {' '}
                 Multichain
                 <br /> <SidebarLinkDescription>&nbsp;experimental</SidebarLinkDescription>
-              </> */}
-              Multichain
-            </SidebarLink>
-            <SidebarLink href="/wallet-connect"> WalletConnect example </SidebarLink>
+              </>
+            </StyledLink>
+            <StyledLink href="/wallet-connect"> WalletConnect example </StyledLink>
           </SidebarNavLinks>
         </SidebarNav>
       </SidebarContainer>
     </Sidebar>
   )
 }
-
-const SidebarLink = SidebarlinkFactory(Link)

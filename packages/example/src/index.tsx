@@ -3,7 +3,6 @@ export * from './pages'
 export {
   Sidebar,
   SidebarLinkDescription,
-  SidebarlinkFactory,
   SidebarNav,
   SidebarNavLinks,
   ToMain,

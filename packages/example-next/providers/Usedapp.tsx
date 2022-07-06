@@ -15,6 +15,6 @@ const config: Config = {
   noMetamaskDeactivate: true,
 }
 
-export function UsedappProvider({ children }: { children: ReactNode }) {
+export function Usedapp({ children }: { children: ReactNode }) {
   return <DAppProvider config={config}>{children}</DAppProvider>
 }

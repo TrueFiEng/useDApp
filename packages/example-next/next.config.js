@@ -12,6 +12,9 @@ const webpack = (config, options) => {
 const nextConfig = {
   reactStrictMode: true,
   webpack,
+  compiler: {
+    styledComponents: true,
+  },
 }
 
 module.exports = nextConfig

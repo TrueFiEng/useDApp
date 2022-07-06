@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { UsedappProvider } from './UsedappProvider'
+import { Usedapp } from './Usedapp'
 
 interface Props {
   children: ReactNode
@@ -8,8 +8,8 @@ interface Props {
 
 export function Providers(props: Props) {
   return (
-    <UsedappProvider>
+    <Usedapp>
       <Layout>{props.children}</Layout>
-    </UsedappProvider>
+    </Usedapp>
   )
 }

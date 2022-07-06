@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { BorderRad, Colors, Gradients, Shadows, Transitions } from '../../global/styles'
 import { Title } from '../../typography/Title'
@@ -142,51 +143,49 @@ export const SidebarNavLinks = styled.div`
   display: flex;
   flex-direction: column;
 `
-export function SidebarlinkFactory(link: any) {
-  return styled(link)`
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    line-height: 16px;
-    text-transform: uppercase;
+export const SidebarLink = styled(NavLink)`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 16px;
+  text-transform: uppercase;
+  transition: ${Transitions.all};
+  white-space: nowrap;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 20px);
+    height: 2px;
+    background-color: ${Colors.Yellow[500]};
+    transform: scaleX(0);
+    transform-origin: 50% 50%;
     transition: ${Transitions.all};
-    white-space: nowrap;
+  }
+
+  &:hover {
+    color: ${Colors.Yellow[500]};
 
     &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      width: calc(100% - 20px);
-      height: 2px;
-      background-color: ${Colors.Yellow[500]};
-      transform: scaleX(0);
-      transform-origin: 50% 50%;
-      transition: ${Transitions.all};
+      transform: scaleX(1);
     }
+  }
+  &.active-page {
+    background: ${Colors.Yellow[200]};
+    border-radius: ${BorderRad.s};
 
-    &:hover {
-      color: ${Colors.Yellow[500]};
-
-      &:after {
-        transform: scaleX(1);
-      }
+    &:after {
+      transform: scaleX(1);
     }
-    &.active-page {
-      background: ${Colors.Yellow[200]};
-      border-radius: ${BorderRad.s};
-
-      &:after {
-        transform: scaleX(1);
-      }
-    }
-  `
-}
+  }
+`
 
 export const SidebarLinkDescription = styled.span`
   display: contents;

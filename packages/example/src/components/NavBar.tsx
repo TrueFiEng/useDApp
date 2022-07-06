@@ -1,11 +1,10 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import {
   Handshaking,
   Sidebar,
   SidebarContainer,
   SidebarLinkDescription,
-  SidebarlinkFactory,
+  SidebarLink,
   SidebarNav,
   SidebarNavLinks,
   ToMain,
@@ -77,5 +76,3 @@ export function NavBar() {
     </Sidebar>
   )
 }
-
-const SidebarLink = SidebarlinkFactory(NavLink)
