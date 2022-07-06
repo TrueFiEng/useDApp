@@ -31,7 +31,7 @@ type Chains = {
 
 const chainIds = [FIRST_TEST_CHAIN_ID, SECOND_TEST_CHAIN_ID, THIRD_TEST_CHAIN_ID] as const
 
-describe.skip('useCall - three chains', () => {
+describe('useCall - three chains', () => {
   const chains: Chains = {}
 
   function extractFromChains<T extends keyof ChainData>(
