@@ -27,9 +27,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
-  const { connectors, setActiveConnectorTag, activeConnector, addConnector } = useContext(
-    ConnectorContext
-  )!
+  const { connectors, setActiveConnectorTag, activeConnector, addConnector } = useContext(ConnectorContext)!
 
   const reportError = useCallback((error: Error) => {
     console.error(error)
@@ -53,7 +51,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {
-
       const tag = 'tag' in provider ? provider.tag : undefined
 
       setLoading(true)
@@ -103,7 +100,6 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       }
     })
   }, [autoConnectTag, autoConnect, connectors])
-
 
   return (
     <NetworkContext.Provider

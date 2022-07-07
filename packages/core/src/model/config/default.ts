@@ -12,5 +12,5 @@ export const DEFAULT_CONFIG: FullConfig = {
     transactionPath: 'transactions',
   },
   autoConnect: true,
-  multicallVersion: 1
+  multicallVersion: 1,
 }

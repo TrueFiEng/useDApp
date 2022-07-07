@@ -20,6 +20,7 @@
     "@walletconnect/types": "^1.7.8",
     "@walletconnect/web3-provider": "^1.7.8",
     "fetch-mock": "^9.11.0",
+    "fortmatic": "^2.4.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
     "nanoid": "3.3.4"

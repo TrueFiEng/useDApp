@@ -24,11 +24,9 @@ describe('useSendTransaction', () => {
   })
 
   it('success', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(useSendTransaction,
-      {
-        config,
-      }
-    )
+    const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, {
+      config,
+    })
     const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
@@ -78,18 +76,15 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Exception')
     expect(result.current.state.errorMessage).to.eq('invalid address')
-  }) 
+  })
 
   it('transfer ether with limit', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => useSendTransaction({ signer: wallet1 }),
-      {
-        config: {
-          ...config,
-          bufferGasLimitPercentage: 100,
-        },
-      }
-    )
+    const { result, waitForCurrent } = await renderDAppHook(() => useSendTransaction({ signer: wallet1 }), {
+      config: {
+        ...config,
+        bufferGasLimitPercentage: 100,
+      },
+    })
 
     await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
 

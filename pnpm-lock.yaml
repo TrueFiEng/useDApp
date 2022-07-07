@@ -94,6 +94,7 @@ importers:
       ethereum-waffle: 4.0.0-alpha.0
       ethers: 5.6.2
       fetch-mock: ^9.11.0
+      fortmatic: ^2.4.0
       jsdom: ^16.4.0
       jsdom-global: ^3.0.2
       lodash.merge: ^4.6.2
@@ -115,6 +116,7 @@ importers:
       '@walletconnect/types': 1.7.8
       '@walletconnect/web3-provider': 1.7.8
       fetch-mock: 9.11.0
+      fortmatic: 2.4.0
       lodash.merge: 4.6.2
       lodash.pickby: 4.6.0
       nanoid: 3.3.4
@@ -13553,6 +13555,10 @@ packages:
     resolution: {integrity: sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=}
     engines: {node: '>=0.4.x'}
     dev: true
+
+  /fortmatic/2.4.0:
+    resolution: {integrity: sha512-4LVxybyWcz8eFkTjIW12JRyRCUV9/qih435l0+5ncTVIb+zzXjvjQ5dZU0eBAXXyAgmV9BIRYkQL9H/lc76w/w==}
+    dev: false
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}

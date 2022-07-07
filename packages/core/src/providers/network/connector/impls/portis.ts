@@ -9,7 +9,12 @@ export class PortisConnector implements Connector {
   public priority = ConnectorPriority.Wallet
   public name = 'Portis'
 
-  constructor(private dappId: string, private network: string | INetwork, private chainId: number, private options?: IOptions) {}
+  constructor(
+    private dappId: string,
+    private network: string | INetwork,
+    private chainId: number,
+    private options?: IOptions
+  ) {}
 
   public getTag(): string {
     return PortisConnector.tag

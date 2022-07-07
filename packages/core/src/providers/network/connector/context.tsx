@@ -4,7 +4,6 @@ import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
 import { MetamaskConnector } from './impls'
 
-
 interface ConnectorContextValue {
   connectors: ConnectorController[]
   addConnector(connector: Connector): void

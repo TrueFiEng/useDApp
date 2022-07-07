@@ -12,7 +12,6 @@ export class CoinbaseWalletConnector implements Connector {
 
   constructor(private appName: string, private infuraKey: string) {}
 
-
   onUpdate?: UpdateFn
 
   public getTag(): string {
@@ -22,8 +21,8 @@ export class CoinbaseWalletConnector implements Connector {
   private async init() {
     if (this.provider) return
     const coinbaseWallet = new CoinbaseWalletSDK({
-        appName: this.appName,
-        darkMode: false
+      appName: this.appName,
+      darkMode: false,
     })
 
     const coinbaseProvider = coinbaseWallet.makeWeb3Provider(`https://mainnet.infura.io/v3/${this.infuraKey}`)
