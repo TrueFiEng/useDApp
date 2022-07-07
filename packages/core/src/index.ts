@@ -48,6 +48,7 @@ export {
   WalletConnectConnector,
   CoinbaseWalletConnector,
   FortmaticConnector,
+  TorusConnector,
 } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {

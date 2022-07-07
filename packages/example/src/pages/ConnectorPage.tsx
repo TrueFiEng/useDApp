@@ -4,11 +4,11 @@ import {
   WalletConnectConnector,
   CoinbaseWalletConnector,
   PortisConnector,
-  FortmaticConnector
+  FortmaticConnector,
+  TorusConnector
 } from '@usedapp/core'
 import { Container, MainContent, Section } from '../components/base/base'
 import { SingleConnector } from '../components/connectors/SingleConnector'
-
 
 export const ConnectorPage = () => {
 
@@ -22,6 +22,7 @@ export const ConnectorPage = () => {
             <SingleConnector name='Coinbase' connectorClass={CoinbaseWalletConnector}/>
             <SingleConnector name='Portis' connectorClass={PortisConnector}/>
             <SingleConnector name='Fortmatic' connectorClass={FortmaticConnector}/>
+            <SingleConnector name='Torus' connectorClass={TorusConnector}/>
           </Section>
         </Container>
       </MainContent>

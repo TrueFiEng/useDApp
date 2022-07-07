@@ -16,6 +16,7 @@
     "@coinbase/wallet-sdk": "^3.3.0",
     "@metamask/detect-provider": "^1.2.0",
     "@portis/web3": "^4.0.7",
+    "@toruslabs/torus-embed": "^1.27.0",
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "@walletconnect/types": "^1.7.8",
     "@walletconnect/web3-provider": "^1.7.8",

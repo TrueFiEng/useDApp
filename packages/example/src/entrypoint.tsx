@@ -12,6 +12,7 @@ import {
   PortisConnector,
   CoinbaseWalletConnector,
   FortmaticConnector,
+  TorusConnector,
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
@@ -32,6 +33,9 @@ const config: Config = {
     new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
     new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
     new FortmaticConnector('pk_test_79A2B99896AD6D3A'),
+    new TorusConnector({ 
+      showTorusButton: false
+    })
   ],
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,
