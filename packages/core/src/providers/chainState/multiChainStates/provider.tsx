@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useReducer } from 'react'
+import { ReactNode, useEffect, useMemo, useReducer, useRef } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
 import { ChainId, State, useConfig, useNetwork } from '../../..'
@@ -8,7 +8,7 @@ import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { providers } from 'ethers'
 import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory, RawCall } from '../common'
-import { getUniqueActiveCalls } from '../../../helpers'
+import { getCallsForUpdate, getUniqueActiveCalls, RefreshOptions } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
@@ -33,6 +33,8 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
   )
 }
 
+const stripCall = ({ isStatic, lastUpdatedBlockNumber, ...strippedCall }: RawCall) => strippedCall
+
 /**
  * @internal Intended for internal use - use it on your own risk
  */
@@ -52,8 +54,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const [debouncedCalls, debouncedNetworks] = useDebouncePair(calls, networks, 50)
   const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
 
+  const isInitialMount = useRef(true);
+
   // used for deep equality in hook dependencies
-  const uniqueCallsJSON = JSON.stringify(debouncedCalls)
+  const uniqueCallsJSON = JSON.stringify(debouncedCalls.map(stripCall))
 
   const chainId = useChainId()
   useDevtoolsReporting(
@@ -63,7 +67,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider, fullRefresh?: boolean) {
+  function multicallForChain(chainId: ChainId, provider: providers.BaseProvider, fullRefresh: boolean) {
     if (!isActive) {
       return
     }
@@ -82,13 +86,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       return
     }
 
-    let callsOnThisChain: RawCall[] = []
-    if (fullRefresh) {
-      callsOnThisChain = getUniqueActiveCalls(debouncedCalls, true)
-    } else {
-      callsOnThisChain = uniqueCalls
-    }
-    callsOnThisChain = callsOnThisChain.filter((call) => call.chainId === chainId)
+    const refreshOptions: RefreshOptions = fullRefresh ? { fullRefresh: true } : { blockNumbers }
+
+    const updatedCalls = getCallsForUpdate(debouncedCalls, refreshOptions)
+    const callsOnThisChain = updatedCalls.filter((call) => call.chainId === chainId)
 
     updateNetworks({
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
@@ -106,7 +107,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       chainId,
       reportError
     )
-    dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
+    dispatchCalls({ type: 'UPDATE_CALLS', calls, updatedCalls, blockNumber, chainId })
   }
 
   const refresh = (fullRefresh = false) => {
@@ -120,11 +121,18 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   }
 
   useEffect(() => {
-    refresh(true)
+    if (!isInitialMount.current) {
+      refresh(true)
+    }
   }, [networks, multicallAddresses, uniqueCallsJSON])
 
   useEffect(() => {
-    refresh()
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      refresh(true)
+    } else {
+      refresh()
+    }
   }, [blockNumbers])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [

@@ -3,6 +3,7 @@ import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
+import { ChainId } from '../constants/chainId'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -47,14 +48,43 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function getUniqueActiveCalls(requests: RawCall[], includeDisabled = false) {
+export function getUniqueActiveCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (request.isDisabled && !includeDisabled) {
+    if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
+      unique.push(request)
+      used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true
+    }
+  }
+  return unique
+}
+
+
+export type RefreshOptions = { fullRefresh: true } | { blockNumbers:  {
+  [chainId in ChainId]?: number
+}}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
+  const unique: RawCall[] = []
+  const used: Record<string, boolean> = {}
+  for (const request of requests) {
+    if (options && !('fullRefresh' in options) && request.isStatic) {
       continue
     }
-    if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
+    let shouldRefresh = true
+    if (options && 'blockNumbers' in options) {
+      const currentBlock = options.blockNumbers[request.chainId]
+      if (currentBlock && request.lastUpdatedBlockNumber && request.refreshPerBlocks) {
+        if (currentBlock < request.lastUpdatedBlockNumber + request.refreshPerBlocks) {
+          shouldRefresh = false
+        }
+      }
+    }
+    if (shouldRefresh && !used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
       unique.push(request)
       used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true
     }

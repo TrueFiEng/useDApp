@@ -20,7 +20,7 @@ describe('useEtherBalance with refreshing', () => {
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
   })
 
-  it('does not change value with never refreshing with global config', async () => {
+  it.only('does not change value with never refreshing with global config', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver), {
       config: {
         ...config,
