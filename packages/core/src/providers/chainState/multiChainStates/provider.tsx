@@ -121,15 +121,12 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   }
 
   useEffect(() => {
-    if (!isInitialMount.current) {
-      refresh(true)
-    }
+    refresh(true)
   }, [networks, multicallAddresses, uniqueCallsJSON])
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      refresh(true)
     } else {
       refresh()
     }

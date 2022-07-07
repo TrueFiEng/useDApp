@@ -72,7 +72,7 @@ export type RefreshOptions = { fullRefresh: true } | { blockNumbers:  {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (options && !('fullRefresh' in options) && request.isStatic) {
+    if (options && !('fullRefresh' in options) && request.isStatic && request.lastUpdatedBlockNumber !== undefined) {
       continue
     }
     let shouldRefresh = true
