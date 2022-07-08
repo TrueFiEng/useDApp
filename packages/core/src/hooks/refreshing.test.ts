@@ -98,7 +98,7 @@ describe('useEtherBalance with refreshing', () => {
     expect(result.current).to.eq(200)
   })
 
-  it.only('does change value after specified number of blocks with global config', async () => {
+  it('does change value after specified number of blocks with global config', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver), {
       config: {
         ...config,
@@ -111,10 +111,10 @@ describe('useEtherBalance with refreshing', () => {
     await mineBlock()
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
-    // await mineBlock()
-    // await waitForCurrent((val) => val?.toString() === '300')
-    // expect(result.error).to.be.undefined
-    // expect(result.current).to.eq(300)
+    await mineBlock()
+    await waitForCurrent((val) => val?.toString() === '300')
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(300)
   })
 
   it('does change value after specified number of blocks with query param', async () => {

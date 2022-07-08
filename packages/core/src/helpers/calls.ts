@@ -61,9 +61,10 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
 }
 
 
-export type RefreshOptions = { fullRefresh: true } | { blockNumbers:  {
-  [chainId in ChainId]?: number
-}}
+export interface RefreshOptions {
+  blockNumber?: number,
+  chainId?: ChainId
+}
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -71,14 +72,14 @@ export type RefreshOptions = { fullRefresh: true } | { blockNumbers:  {
  export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
   const callsForUpdate: RawCall[] = []
   for (const request of requests) {
-    if (options && !('fullRefresh' in options) && request.isStatic && request.lastUpdatedBlockNumber !== undefined) {
-      continue
-    }
-    if (options && 'blockNumbers' in options) {
-      const currentBlock = options.blockNumbers[request.chainId]
+    if (options) {
+      if (options.chainId && options.chainId !== request.chainId) {
+        continue
+      }
+      const currentBlock = options.blockNumber
       if (currentBlock && request.lastUpdatedBlockNumber && request.refreshPerBlocks) {
         if (currentBlock < request.lastUpdatedBlockNumber + request.refreshPerBlocks) {
-          continue;
+          continue
         }
       }
     }
