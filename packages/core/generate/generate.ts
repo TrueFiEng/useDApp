@@ -1,8 +1,11 @@
-import fs from 'fs'
+import * as fs from 'fs'
 import {ContractMethodNames} from '../src/model/types'
 
-const outDir = process.env.OUT_DIR ?? "./src/gen/hooks"
-const inputDir = process.env.INPUT_DIR ?? './build-types'
+const outDir = process.env.USEDAPP_OUT_DIR
+const inputDir = process.env.USEDAPP_TYPES_DIR
+if (!outDir) throw new Error('Missing USEDAPP_OUT_DIR')
+if (!inputDir) throw new Error('Missing USEDAPP_TYPES_DIR')
+
 
 import {ERC20__factory} from '../build-typechain/types'
 import { commonImports, imports } from './imports'
