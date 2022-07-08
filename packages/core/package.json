@@ -14,7 +14,7 @@
     "dist-node"
   ],
   "bin": {
-    "usedapp-generate-hooks": "./bin/usedapp-generate-hooks"
+    "usedapp-generate-hooks": "./bin/usedapp-generate-hooks.js"
   },
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
