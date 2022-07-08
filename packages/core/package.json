@@ -54,6 +54,7 @@
     "prettier": "^2.1.2",
     "react": "17.0.1",
     "solc": "^0.8.12",
+    "ts-node": "^10.7.0",
     "typechain": "^7.0.0",
     "typescript": "^4.6.2",
     "wait-for-expect": "^3.0.2"
@@ -66,7 +67,8 @@
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
+    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'",
+    "generate": "ts-node ./generate.ts"
   },
   "publishConfig": {
     "access": "public"
