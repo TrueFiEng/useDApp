@@ -10,6 +10,6 @@ import { useCall } from '../../hooks'
 export const imports = (contractName: string) => `
 import {${contractName}, ${contractName}__factory} from '../../../build-typechain/types'
 import ${contractName}ABI from '../../../build-typechain/${contractName}.json'
-const ERC20Interface = new Interface(${contractName}ABI.abi)
+const ${contractName}Interface = new Interface(${contractName}ABI.abi)
 
 `
