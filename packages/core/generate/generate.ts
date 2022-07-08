@@ -1,30 +1,26 @@
 import * as fs from 'fs'
-import {ContractMethodNames} from '../src/model/types'
+import path from 'path';
+import { commonImports, imports } from './imports'
 
 const outDir = process.env.USEDAPP_OUT_DIR
 const inputDir = process.env.USEDAPP_TYPES_DIR
 if (!outDir) throw new Error('Missing USEDAPP_OUT_DIR')
 if (!inputDir) throw new Error('Missing USEDAPP_TYPES_DIR')
+const typesDir = path.join(process.cwd(), inputDir)
 
+const factories = require(typesDir).factories
 
-import {ERC20__factory} from '../build-typechain/types'
-import { commonImports, imports } from './imports'
+console.log(factories)
+console.log(Object.keys(factories))
 
-fs.mkdirSync(outDir, {recursive: true})
+fs.mkdirSync(outDir!, {recursive: true})
 
-interface IFactories {
-  [key: ContractMethodNames<any>]: any
-}
-
-const factories: IFactories = {
-  ERC20: ERC20__factory,
-}
-
-Object.keys(factories).forEach((contractName) => {
+Object.keys(factories).forEach((factoryName) => {
+  const contractName = factoryName.split('_')[0]
   const filename = `${outDir}/${contractName}.ts`
-  let output = commonImports + imports(contractName)
+  let output = commonImports + imports(typesDir, contractName)
   console.log(`Processing ${contractName}`)
-  const factory = factories[contractName]
+  const factory = factories[factoryName]
   const Interface = factory.createInterface()
 
   const abi = factory.abi
@@ -52,8 +48,16 @@ export const use${contractName}_${functionName} = (
 `
     } else { // Non-View function
       output += `
-export const use${contractName}_${functionName} = 'TODO'
-
+export const use${contractName}_${functionName} = (
+  contractAddress: Falsy | string,
+  options?: TransactionOptions
+) => {
+  return useContractFunction(
+    contractAddress && new Contract(contractAddress, ${contractName}Interface) as ${contractName},
+    '${functionName}',
+    options
+  )
+}
 `
     }
   })
