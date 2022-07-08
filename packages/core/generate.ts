@@ -4,7 +4,7 @@ import {ContractMethodNames} from './src/model/types'
 const outDir = process.env.OUT_DIR ?? "./src/gen/hooks"
 const inputDir = process.env.INPUT_DIR ?? './build-types'
 
-import {ERC20__factory} from './build-types/ERC20__factory'
+import {ERC20__factory} from './build-typechain/types'
 
 fs.mkdirSync(outDir, {recursive: true})
 
