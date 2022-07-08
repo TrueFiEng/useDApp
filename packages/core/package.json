@@ -26,7 +26,9 @@
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
+    "@ethersproject/abi": "5.6.1",
     "@ethersproject/abstract-provider": "^5.6.1",
+    "@ethersproject/providers": "5.6.2",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
