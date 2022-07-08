@@ -27,8 +27,9 @@ Object.keys(factories).forEach((contractName) => {
   Object.keys(Interface.functions).forEach((fn) => {
     let functionName = fn.split('(')[0]
     let fnABI = abi.find((a: any) => a.name === functionName)
-    if (fnABI?.stateMutability === 'view') {
+    if (fnABI?.stateMutability === 'view' && functionName === 'balanceOf') {
       output += `
+        
         export const use${contractName}_${functionName} = () => {
 
         }
@@ -55,6 +56,12 @@ Object.keys(factories).forEach((contractName) => {
   })
   fs.writeFileSync(filename, output)
 })
+
+// generate:
+// export const useERC20 = {
+//   allowance: useERC20_allowance,
+//   ...
+// }
 
 
 // 1. take compiled ERC20 with typechain
