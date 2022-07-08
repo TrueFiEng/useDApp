@@ -11,6 +11,7 @@ export function subscribeToProviderEvents(connector: ConnectorController) {
 
     const onDisconnectListener = (): void => {
       void connector.connector.deactivate()
+      console.log('bleee')
     }
     provider.on('disconnect', onDisconnectListener)
 

@@ -1,27 +1,22 @@
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 import { providers } from 'ethers'
-import { getMetamaskProvider } from '../../../../helpers'
 
-export class MetamaskConnector implements Connector {
-  static tag = 'metamask'
+export class BraveConnector implements Connector {
+  static tag = 'brave'
 
   public provider?: providers.Web3Provider
   public priority = ConnectorPriority.Wallet
-  public name = 'Metamask'
+  public name = 'Brave'
 
   onUpdate?: UpdateFn
 
   public getTag(): string {
-    return MetamaskConnector.tag
+    return BraveConnector.tag
   }
 
   private async init() {
     if (this.provider) return
-    const metamask = await getMetamaskProvider()
-    if (!metamask) {
-      return
-    }
-    this.provider = metamask
+    this.provider = new providers.Web3Provider(window.ethereum as any)
   }
 
   async connectEagerly(): Promise<void> {

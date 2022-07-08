@@ -1,12 +1,12 @@
 import { providers } from 'ethers'
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 
-export class DefaultWalletConnector implements Connector {
-  static tag = 'defaultWallet'
+export class InjectedConnector implements Connector {
+  static tag = 'injected'
 
   public provider?: providers.Web3Provider | providers.JsonRpcProvider
   public priority = ConnectorPriority.Wallet
-  public name = 'DefaultWallet'
+  public name = 'Injected'
 
   onUpdate?: UpdateFn
 
@@ -15,7 +15,7 @@ export class DefaultWalletConnector implements Connector {
   }
 
   public getTag(): string {
-    return DefaultWalletConnector.tag
+    return InjectedConnector.tag
   }
 
   async connectEagerly(): Promise<void> {

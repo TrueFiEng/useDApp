@@ -13,6 +13,8 @@ import {
   CoinbaseWalletConnector,
   FortmaticConnector,
   TorusConnector,
+  BraveConnector,
+  InjectedConnector
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
@@ -35,7 +37,9 @@ const config: Config = {
     new FortmaticConnector('pk_test_79A2B99896AD6D3A'),
     new TorusConnector({ 
       showTorusButton: false
-    })
+    }),
+    new BraveConnector(),
+    new InjectedConnector(window.ethereum),
   ],
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,

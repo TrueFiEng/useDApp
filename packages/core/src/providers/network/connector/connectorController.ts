@@ -8,7 +8,7 @@ export class ConnectorController {
       this.accounts = accounts
     }
 
-    void this.connector.connectEagerly()
+    // void this.connector.connectEagerly()
   }
 
   public active = false

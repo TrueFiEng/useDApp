@@ -5,7 +5,7 @@ import { providers } from 'ethers'
 import { subscribeToProviderEvents } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
 import { ConnectorContext, MetamaskConnector } from '../connector'
-import { DefaultWalletConnector } from '../connector/impls/defaultWallet'
+import { InjectedConnector } from '../connector/impls/injected'
 import { ConnectorController } from '../connector/connectorController'
 import { TestingWalletConnector } from '../connector/impls/testingWallet'
 
@@ -54,7 +54,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       const tag = 'tag' in provider ? provider.tag : undefined
 
       setLoading(true)
-      const newConnector = !tag ? new DefaultWalletConnector(provider as JsonRpcProvider | ExternalProvider) : undefined
+      const newConnector = !tag ? new InjectedConnector(provider as JsonRpcProvider | ExternalProvider) : undefined
 
       const connector = tag
         ? connectors.find((c) => c.connector.getTag() === tag)

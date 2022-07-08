@@ -21,6 +21,9 @@ export class FortmaticConnector implements Connector {
     if (this.provider) return
     const fortmaticProvider = new Fortmatic(this.apiKey).getProvider()
     await fortmaticProvider.enable()
+    if (!fortmaticProvider) {
+      return
+    }
     this.provider = new providers.Web3Provider(fortmaticProvider as any)
   }
 

@@ -3,7 +3,7 @@ import { providers } from 'ethers'
 
 const GET_METAMASK_LINK = 'https://metamask.io/download.html'
 
-export async function getInjectedProvider() {
+export async function getMetamaskProvider() {
   if (!window.ethereum) {
     window.open(GET_METAMASK_LINK)
     return undefined
