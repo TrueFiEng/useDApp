@@ -41,8 +41,9 @@ jobs:
           cd siwe && pnpm run build && cd -
           cd coingecko && pnpm run build && cd -
           cd playwright && pnpm run build && cd -
+          cd example && pnpm run build && cd -
         working-directory: packages
-      - name: Run playwright
+      - name: Run playwright example
         run: |
           set -e
           pnpm start &
@@ -51,6 +52,15 @@ jobs:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/example
+      - name: Run playwright example-next
+        run: |
+          set -e
+          pnpm dev &
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DEBUG: usedapp*
+        working-directory: packages/example-next
   test-docs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
