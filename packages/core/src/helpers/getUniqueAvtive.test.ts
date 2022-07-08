@@ -57,35 +57,4 @@ describe('getUniqueActiveChainCalls', () => {
       },
     ])
   })
-
-  it('returns a list of unique and not disabled chain calls', () => {
-    const addresses = [Wallet.createRandom().address, Wallet.createRandom().address]
-    const calls: RawCall[] = [
-      {
-        chainId: 1,
-        address: addresses[0],
-        data: '0x123',
-        isDisabled: true,
-      },
-      {
-        chainId: 1,
-        address: addresses[0],
-        data: '0x123',
-      },
-      {
-        chainId: 1,
-        address: addresses[0],
-        data: '0xc0ffee',
-        isDisabled: true,
-      },
-    ]
-
-    expect(getUniqueActiveCalls(calls)).to.deep.equal([
-      {
-        chainId: 1,
-        address: addresses[0],
-        data: '0x123',
-      },
-    ])
-  })
 })

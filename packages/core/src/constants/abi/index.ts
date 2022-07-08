@@ -27,3 +27,6 @@ export { ERC20Mock, ERC20MockInterface }
 export { BlockNumberContract }
 
 export { RevertContract }
+
+export * from './doubler'
+export * from './timestamp'
