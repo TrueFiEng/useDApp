@@ -13,6 +13,9 @@
     "src",
     "dist-node"
   ],
+  "bin": {
+    "usedapp-generate-hooks": "./bin/usedapp-generate-hooks"
+  },
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
     "@uniswap/token-lists": "^1.0.0-beta.27",

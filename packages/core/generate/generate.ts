@@ -1,12 +1,14 @@
 import * as fs from 'fs'
-import path from 'path';
+import * as path from 'path';
 import { commonImports, imports } from './imports'
 
+if (!process.env.USEDAPP_ABIS_DIR) throw new Error('Missing USEDAPP_ABIS_DIR')
+if (!process.env.USEDAPP_TYPES_DIR) throw new Error('Missing USEDAPP_TYPES_DIR')
+if (!process.env.USEDAPP_OUT_DIR) throw new Error('Missing USEDAPP_OUT_DIR')
+
+const typesDir = path.join(process.cwd(), process.env.USEDAPP_TYPES_DIR)
+const abisDir = path.join(process.cwd(), process.env.USEDAPP_ABIS_DIR)
 const outDir = process.env.USEDAPP_OUT_DIR
-const inputDir = process.env.USEDAPP_TYPES_DIR
-if (!outDir) throw new Error('Missing USEDAPP_OUT_DIR')
-if (!inputDir) throw new Error('Missing USEDAPP_TYPES_DIR')
-const typesDir = path.join(process.cwd(), inputDir)
 
 const factories = require(typesDir).factories
 
@@ -18,7 +20,7 @@ fs.mkdirSync(outDir!, {recursive: true})
 Object.keys(factories).forEach((factoryName) => {
   const contractName = factoryName.split('_')[0]
   const filename = `${outDir}/${contractName}.ts`
-  let output = commonImports + imports(typesDir, contractName)
+  let output = commonImports + imports({typesDir, abisDir, contractName})
   console.log(`Processing ${contractName}`)
   const factory = factories[factoryName]
   const Interface = factory.createInterface()
