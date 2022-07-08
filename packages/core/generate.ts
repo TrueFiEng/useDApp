@@ -23,10 +23,10 @@ Object.keys(factories).forEach((contractName) => {
   const factory = factories[contractName]
   const Interface = factory.createInterface()
 
-  let abi = factory.abi
+  const abi = factory.abi
   Object.keys(Interface.functions).forEach((fn) => {
-    let functionName = fn.split('(')[0]
-    let fnABI = abi.find((a: any) => a.name === functionName)
+    const functionName = fn.split('(')[0]
+    const fnABI = abi.find((a: any) => a.name === functionName)
     if (fnABI?.stateMutability === 'view' && functionName === 'balanceOf') {
       output += `
         

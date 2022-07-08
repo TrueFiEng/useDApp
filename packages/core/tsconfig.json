@@ -19,5 +19,6 @@
     "src",
     "src/**/*.json",
     "internal",
+    "build-types"
   ]
 }
