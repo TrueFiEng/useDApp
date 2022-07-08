@@ -5,7 +5,7 @@
     "module": "commonjs",
     "composite": true,
     "declaration": true,
-    "inlineSourceMap": true,
+    "sourceMap": true,
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
