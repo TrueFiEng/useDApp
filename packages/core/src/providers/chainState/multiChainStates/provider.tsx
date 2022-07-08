@@ -7,8 +7,8 @@ import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { providers } from 'ethers'
-import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory } from '../common'
-import { getUniqueActiveCalls } from '../../../helpers'
+import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory, RawCall } from '../common'
+import { getCallsForUpdate, getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
@@ -21,6 +21,8 @@ interface Props {
   }
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 function composeChainState(networks: Providers, state: State, multicallAddresses: Props['multicallAddresses']) {
   return fromEntries(
     Object.keys(networks).map((chainId) => [
@@ -32,6 +34,9 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
     ])
   )
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const stripCall = ({ isStatic, lastUpdatedBlockNumber, ...strippedCall }: RawCall) => strippedCall
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -53,7 +58,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const uniqueCalls = useMemo(() => getUniqueActiveCalls(debouncedCalls), [debouncedCalls])
 
   // used for deep equality in hook dependencies
-  const uniqueCallsJSON = JSON.stringify(debouncedCalls)
+  const uniqueCallsJSON = JSON.stringify(debouncedCalls.map(stripCall))
 
   const chainId = useChainId()
   useDevtoolsReporting(
@@ -63,7 +68,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider?: providers.BaseProvider) {
+  function multicallForChain(chainId: ChainId, provider: providers.BaseProvider) {
     if (!isActive) {
       return
     }
@@ -82,7 +87,9 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       return
     }
 
-    const callsOnThisChain = uniqueCalls.filter((call) => call.chainId === chainId)
+    const updatedCalls = getCallsForUpdate(debouncedCalls, { chainId, blockNumber })
+    const callsOnThisChain = getUniqueActiveCalls(updatedCalls)
+
     updateNetworks({
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
       chainId,
@@ -99,10 +106,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       chainId,
       reportError
     )
-    dispatchCalls({ type: 'UPDATE_CALLS', calls, blockNumber, chainId })
+    dispatchCalls({ type: 'UPDATE_CALLS', calls, updatedCalls, blockNumber, chainId })
   }
 
-  useEffect(() => {
+  const refresh = () => {
     for (const [_chainId, provider] of Object.entries(networks)) {
       const chainId = Number(_chainId)
       // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
@@ -110,7 +117,24 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
         multicallForChain(chainId, provider)
       }
     }
-  }, [blockNumbers, networks, multicallAddresses, uniqueCallsJSON])
+  }
+
+  useEffect(() => {
+    dispatchCalls({ type: 'RESET_STATIC_CALLS' })
+    const currentBlockNumbers = JSON.stringify(blockNumbers)
+    const pollPromise = Promise.all(Object.entries(networks).map(([, network]) => network.poll()))
+    void pollPromise
+      .then(() => sleep(100))
+      .then(() => {
+        if (currentBlockNumbers === JSON.stringify(blockNumbers)) {
+          refresh()
+        }
+      })
+  }, [networks, multicallAddresses, uniqueCallsJSON])
+
+  useEffect(() => {
+    refresh()
+  }, [blockNumbers])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
     state,
