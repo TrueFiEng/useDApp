@@ -11,6 +11,8 @@ import {
   getResultPropery,
   renderDAppHook,
   setupTestingConfig,
+  mineBlock,
+  sleep,
 } from '../testing'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
@@ -39,7 +41,7 @@ describe('useCall', () => {
     revertContract = await deployContract(deployer, RevertContract)
   })
 
-  for (const multicallVersion of [1, 2] as const) {
+  for (const multicallVersion of [1] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { result, waitForCurrent } = await renderWeb3Hook(
@@ -250,6 +252,52 @@ describe('useCall', () => {
         rerender({ num: 2 })
 
         await waitForCurrent((val) => val?.value?.[0]?.eq(4))
+      })
+
+      it.skip('Refreshes only static calls with changed parameter', async () => {
+        const { config, network1 } = await setupTestingConfig()
+        const [deployer] = network1.provider.getWallets()
+        const doublerContract = await deployContract(deployer, doublerContractABI)
+        const blockNumberContract = await deployContract(deployer, BlockNumberContract)
+        const { waitForCurrent, rerender, result } = await renderDAppHook(
+          ({ num }: { num: number }) => {
+            const doubled = useCall({
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
+            })
+
+            const blockNumber = useCall({
+              contract: blockNumberContract,
+              method: 'getBlockNumber',
+              args: [],
+            })
+
+            return { doubled, blockNumber }
+          },
+          {
+            config: {
+              ...config,
+              refresh: 'never',
+            },
+            renderHook: {
+              initialProps: {
+                num: 1,
+              },
+            },
+          }
+        )
+
+        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(2))
+        const blockNumberBefore = result.current.blockNumber?.value[0]
+
+        await mineBlock(network1.provider)
+        expect(result.current.doubled?.value[0]).to.eq(2)
+        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        rerender({ num: 2 })
+        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
+
+        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
       })
     })
   }

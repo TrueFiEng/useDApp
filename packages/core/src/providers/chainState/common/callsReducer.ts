@@ -3,7 +3,7 @@ import { ChainId } from '../../..'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export type Action = AddCall | RemoveCall | UpdateCall
+export type Action = AddCall | RemoveCall | UpdateCall | ResetStaticCall
 
 /**
  * @public
@@ -40,6 +40,10 @@ interface UpdateCall {
   chainId: number
 }
 
+interface ResetStaticCall {
+  type: 'RESET_STATIC_CALLS'
+}
+
 interface RemoveCall {
   type: 'REMOVE_CALLS'
   calls: RawCall[]
@@ -59,6 +63,8 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
       const blockNumber = action.blockNumber
       return { ...call,  lastUpdatedBlockNumber: blockNumber }
     })
+  } else if (action.type === 'RESET_STATIC_CALLS') {
+    return state.map((call) => call.isStatic ? { ...call,  lastUpdatedBlockNumber: undefined } : call)
   } else {
     let finalState = state
     for (const call of action.calls) {

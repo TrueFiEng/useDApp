@@ -69,27 +69,22 @@ export type RefreshOptions = { fullRefresh: true } | { blockNumbers:  {
  * @internal Intended for internal use - use it on your own risk
  */
  export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
-  const unique: RawCall[] = []
-  const used: Record<string, boolean> = {}
+  const callsForUpdate: RawCall[] = []
   for (const request of requests) {
     if (options && !('fullRefresh' in options) && request.isStatic && request.lastUpdatedBlockNumber !== undefined) {
       continue
     }
-    let shouldRefresh = true
     if (options && 'blockNumbers' in options) {
       const currentBlock = options.blockNumbers[request.chainId]
       if (currentBlock && request.lastUpdatedBlockNumber && request.refreshPerBlocks) {
         if (currentBlock < request.lastUpdatedBlockNumber + request.refreshPerBlocks) {
-          shouldRefresh = false
+          continue;
         }
       }
     }
-    if (shouldRefresh && !used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
-      unique.push(request)
-      used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true
-    }
+    callsForUpdate.push(request)
   }
-  return unique
+  return callsForUpdate
 }
 
 /**
