@@ -12,7 +12,6 @@ import {
   renderDAppHook,
   setupTestingConfig,
   mineBlock,
-  sleep,
 } from '../testing'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'

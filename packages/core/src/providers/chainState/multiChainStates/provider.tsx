@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useReducer, useRef } from 'react'
+import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
 import { ChainId, State, useConfig, useNetwork } from '../../..'
@@ -8,7 +8,7 @@ import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
 import { providers } from 'ethers'
 import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory, RawCall } from '../common'
-import { getCallsForUpdate, getUniqueActiveCalls, RefreshOptions } from '../../../helpers'
+import { getCallsForUpdate, getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
@@ -35,6 +35,7 @@ function composeChainState(networks: Providers, state: State, multicallAddresses
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const stripCall = ({ isStatic, lastUpdatedBlockNumber, ...strippedCall }: RawCall) => strippedCall
 
 /**
@@ -122,7 +123,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     dispatchCalls({ type: 'RESET_STATIC_CALLS' })
     const currentBlockNumbers = JSON.stringify(blockNumbers)
     const pollPromise = Promise.all(Object.entries(networks).map(([, network]) => network.poll()))
-    pollPromise
+    void pollPromise
       .then(() => sleep(100))
       .then(() => {
         if (currentBlockNumbers === JSON.stringify(blockNumbers)) {
