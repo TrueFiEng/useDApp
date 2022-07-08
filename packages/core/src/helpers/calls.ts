@@ -60,16 +60,15 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
   return unique
 }
 
-
 export interface RefreshOptions {
-  blockNumber?: number,
+  blockNumber?: number
   chainId?: ChainId
 }
 
 /**
  * @internal Intended for internal use - use it on your own risk
  */
- export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
+export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
   const callsForUpdate: RawCall[] = []
   for (const request of requests) {
     if (options) {

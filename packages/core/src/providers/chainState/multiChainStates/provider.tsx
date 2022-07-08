@@ -121,12 +121,14 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   useEffect(() => {
     dispatchCalls({ type: 'RESET_STATIC_CALLS' })
     const currentBlockNumbers = JSON.stringify(blockNumbers)
-    const pollPromise = Promise.all(Object.entries(networks).map(([,network]) => network.poll()))
-    pollPromise.then(() => sleep(100)).then(() => {
-      if (currentBlockNumbers === JSON.stringify(blockNumbers)) {
-        refresh()
-      }
-    })
+    const pollPromise = Promise.all(Object.entries(networks).map(([, network]) => network.poll()))
+    pollPromise
+      .then(() => sleep(100))
+      .then(() => {
+        if (currentBlockNumbers === JSON.stringify(blockNumbers)) {
+          refresh()
+        }
+      })
   }, [networks, multicallAddresses, uniqueCallsJSON])
 
   useEffect(() => {

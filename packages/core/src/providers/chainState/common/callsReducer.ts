@@ -61,10 +61,10 @@ export function callsReducer(state: RawCall[] = [], action: Action) {
         return call
       }
       const blockNumber = action.blockNumber
-      return { ...call,  lastUpdatedBlockNumber: blockNumber }
+      return { ...call, lastUpdatedBlockNumber: blockNumber }
     })
   } else if (action.type === 'RESET_STATIC_CALLS') {
-    return state.map((call) => call.isStatic ? { ...call,  lastUpdatedBlockNumber: undefined } : call)
+    return state.map((call) => (call.isStatic ? { ...call, lastUpdatedBlockNumber: undefined } : call))
   } else {
     let finalState = state
     for (const call of action.calls) {
