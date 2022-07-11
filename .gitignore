@@ -7,4 +7,3 @@ dist
 packages/.pnpm-debug.log
 packages/example-next/.next
 packages/core/src/gen
-dist-node
