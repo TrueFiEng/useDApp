@@ -293,7 +293,6 @@ describe('useCall', () => {
         await mineBlock(network1.provider)
         expect(result.current.doubled?.value[0]).to.eq(2)
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
-        console.log('Rerender')
         rerender({ num: 2 })
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
 
