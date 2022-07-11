@@ -1,11 +1,6 @@
 export const commonImports = `
-// import { TransactionOptions, useCall, TransactionOptions } from '@usedapp/core'
-import { QueryParams } from '../../constants'
-import { useCall, useContractFunction } from '../../hooks'
-import { TransactionOptions } from '../../model'
-
+import { Falsy, Params, QueryParams, TransactionOptions, useCall, useContractFunction } from '@usedapp/core'
 import { Contract, utils } from 'ethers'
-import { Falsy, Params } from '../../model/types'
 `
 
 export interface ImportsOptions {

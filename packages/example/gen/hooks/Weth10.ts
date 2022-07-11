@@ -1,14 +1,9 @@
 
-// import { TransactionOptions, useCall, TransactionOptions } from '@usedapp/core'
-import { QueryParams } from '../../constants'
-import { useCall, useContractFunction } from '../../hooks'
-import { TransactionOptions } from '../../model'
-
+import { TransactionOptions, useCall, QueryParams, Falsy, Params } from '@usedapp/core'
 import { Contract, utils } from 'ethers'
-import { Falsy, Params } from '../../model/types'
 
-import {Weth10} from '/Users/przemek/Projects/useDApp/packages/example/gen/types'
-import Weth10ABI from '/Users/przemek/Projects/useDApp/packages/example/src/abi/Weth10.json'
+import {Weth10} from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/gen/types'
+import Weth10ABI from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/src/abi/Weth10.json'
 const Weth10Interface = new utils.Interface(Weth10ABI.abi)
 
 
@@ -28,7 +23,7 @@ export const useWeth10_CALLBACK_SUCCESS = (
   )
 }
 
-
+  
 export const useWeth10_PERMIT_TYPEHASH = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'PERMIT_TYPEHASH'>,
@@ -45,7 +40,7 @@ export const useWeth10_PERMIT_TYPEHASH = (
   )
 }
 
-
+  
 export const useWeth10_allowance = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'allowance'>,
@@ -62,7 +57,7 @@ export const useWeth10_allowance = (
   )
 }
 
-
+  
 export const useWeth10_approve = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -73,7 +68,7 @@ export const useWeth10_approve = (
     options
   )
 }
-
+  
 export const useWeth10_approveAndCall = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -84,7 +79,7 @@ export const useWeth10_approveAndCall = (
     options
   )
 }
-
+  
 export const useWeth10_balanceOf = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'balanceOf'>,
@@ -101,7 +96,7 @@ export const useWeth10_balanceOf = (
   )
 }
 
-
+  
 export const useWeth10_decimals = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'decimals'>,
@@ -118,7 +113,7 @@ export const useWeth10_decimals = (
   )
 }
 
-
+  
 export const useWeth10_deposit = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -129,7 +124,7 @@ export const useWeth10_deposit = (
     options
   )
 }
-
+  
 export const useWeth10_depositTo = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -140,7 +135,7 @@ export const useWeth10_depositTo = (
     options
   )
 }
-
+  
 export const useWeth10_depositToAndCall = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -151,7 +146,7 @@ export const useWeth10_depositToAndCall = (
     options
   )
 }
-
+  
 export const useWeth10_flashFee = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'flashFee'>,
@@ -168,7 +163,7 @@ export const useWeth10_flashFee = (
   )
 }
 
-
+  
 export const useWeth10_flashLoan = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -179,7 +174,7 @@ export const useWeth10_flashLoan = (
     options
   )
 }
-
+  
 export const useWeth10_flashMinted = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'flashMinted'>,
@@ -196,7 +191,7 @@ export const useWeth10_flashMinted = (
   )
 }
 
-
+  
 export const useWeth10_maxFlashLoan = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'maxFlashLoan'>,
@@ -213,7 +208,7 @@ export const useWeth10_maxFlashLoan = (
   )
 }
 
-
+  
 export const useWeth10_name = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'name'>,
@@ -230,7 +225,7 @@ export const useWeth10_name = (
   )
 }
 
-
+  
 export const useWeth10_nonces = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'nonces'>,
@@ -247,7 +242,7 @@ export const useWeth10_nonces = (
   )
 }
 
-
+  
 export const useWeth10_permit = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -258,7 +253,7 @@ export const useWeth10_permit = (
     options
   )
 }
-
+  
 export const useWeth10_symbol = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'symbol'>,
@@ -275,7 +270,7 @@ export const useWeth10_symbol = (
   )
 }
 
-
+  
 export const useWeth10_totalSupply = (
   contractAddress: Falsy | string,
   args: Falsy | Params<Weth10, 'totalSupply'>,
@@ -292,7 +287,7 @@ export const useWeth10_totalSupply = (
   )
 }
 
-
+  
 export const useWeth10_transfer = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -303,7 +298,7 @@ export const useWeth10_transfer = (
     options
   )
 }
-
+  
 export const useWeth10_transferAndCall = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -314,7 +309,7 @@ export const useWeth10_transferAndCall = (
     options
   )
 }
-
+  
 export const useWeth10_transferFrom = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -325,7 +320,7 @@ export const useWeth10_transferFrom = (
     options
   )
 }
-
+  
 export const useWeth10_withdraw = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -336,7 +331,7 @@ export const useWeth10_withdraw = (
     options
   )
 }
-
+  
 export const useWeth10_withdrawFrom = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -347,7 +342,7 @@ export const useWeth10_withdrawFrom = (
     options
   )
 }
-
+  
 export const useWeth10_withdrawTo = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -358,7 +353,7 @@ export const useWeth10_withdrawTo = (
     options
   )
 }
-
+  
 export const useWeth10 = {
   CALLBACK_SUCCESS: useWeth10_CALLBACK_SUCCESS,
   PERMIT_TYPEHASH: useWeth10_PERMIT_TYPEHASH,
@@ -386,3 +381,4 @@ export const useWeth10 = {
   withdrawFrom: useWeth10_withdrawFrom,
   withdrawTo: useWeth10_withdrawTo
 }
+  

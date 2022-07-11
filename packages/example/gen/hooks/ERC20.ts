@@ -1,14 +1,9 @@
 
-// import { TransactionOptions, useCall, TransactionOptions } from '@usedapp/core'
-import { QueryParams } from '../../constants'
-import { useCall, useContractFunction } from '../../hooks'
-import { TransactionOptions } from '../../model'
-
+import { Falsy, Params, QueryParams, TransactionOptions, useCall, useContractFunction } from '@usedapp/core'
 import { Contract, utils } from 'ethers'
-import { Falsy, Params } from '../../model/types'
 
-import {ERC20} from '/Users/przemek/Projects/useDApp/packages/example/gen/types'
-import ERC20ABI from '/Users/przemek/Projects/useDApp/packages/example/src/abi/ERC20.json'
+import { ERC20 } from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/gen/types'
+import ERC20ABI from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/src/abi/ERC20.json'
 const ERC20Interface = new utils.Interface(ERC20ABI.abi)
 
 
@@ -28,7 +23,7 @@ export const useERC20_allowance = (
   )
 }
 
-
+  
 export const useERC20_approve = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -39,7 +34,7 @@ export const useERC20_approve = (
     options
   )
 }
-
+  
 export const useERC20_balanceOf = (
   contractAddress: Falsy | string,
   args: Falsy | Params<ERC20, 'balanceOf'>,
@@ -56,7 +51,7 @@ export const useERC20_balanceOf = (
   )
 }
 
-
+  
 export const useERC20_decimals = (
   contractAddress: Falsy | string,
   args: Falsy | Params<ERC20, 'decimals'>,
@@ -73,7 +68,7 @@ export const useERC20_decimals = (
   )
 }
 
-
+  
 export const useERC20_decreaseAllowance = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -84,7 +79,7 @@ export const useERC20_decreaseAllowance = (
     options
   )
 }
-
+  
 export const useERC20_increaseAllowance = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -95,7 +90,7 @@ export const useERC20_increaseAllowance = (
     options
   )
 }
-
+  
 export const useERC20_name = (
   contractAddress: Falsy | string,
   args: Falsy | Params<ERC20, 'name'>,
@@ -112,7 +107,7 @@ export const useERC20_name = (
   )
 }
 
-
+  
 export const useERC20_symbol = (
   contractAddress: Falsy | string,
   args: Falsy | Params<ERC20, 'symbol'>,
@@ -129,7 +124,7 @@ export const useERC20_symbol = (
   )
 }
 
-
+  
 export const useERC20_totalSupply = (
   contractAddress: Falsy | string,
   args: Falsy | Params<ERC20, 'totalSupply'>,
@@ -146,7 +141,7 @@ export const useERC20_totalSupply = (
   )
 }
 
-
+  
 export const useERC20_transfer = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -157,7 +152,7 @@ export const useERC20_transfer = (
     options
   )
 }
-
+  
 export const useERC20_transferFrom = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -168,7 +163,7 @@ export const useERC20_transferFrom = (
     options
   )
 }
-
+  
 export const useERC20 = {
   allowance: useERC20_allowance,
   approve: useERC20_approve,
@@ -182,3 +177,4 @@ export const useERC20 = {
   transfer: useERC20_transfer,
   transferFrom: useERC20_transferFrom
 }
+  
