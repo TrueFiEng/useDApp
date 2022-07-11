@@ -1,5 +1,5 @@
 
-import { TransactionOptions, useCall, QueryParams, Falsy, Params } from '@usedapp/core'
+import { Falsy, Params, QueryParams, TransactionOptions, useCall, useContractFunction } from '@usedapp/core'
 import { Contract, utils } from 'ethers'
 
 import {Weth10} from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/gen/types'

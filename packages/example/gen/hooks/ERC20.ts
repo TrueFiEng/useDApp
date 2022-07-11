@@ -2,7 +2,7 @@
 import { Falsy, Params, QueryParams, TransactionOptions, useCall, useContractFunction } from '@usedapp/core'
 import { Contract, utils } from 'ethers'
 
-import { ERC20 } from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/gen/types'
+import {ERC20} from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/gen/types'
 import ERC20ABI from '/Users/jakub.sieczczynski/repos/useDApp/packages/example/src/abi/ERC20.json'
 const ERC20Interface = new utils.Interface(ERC20ABI.abi)
 
