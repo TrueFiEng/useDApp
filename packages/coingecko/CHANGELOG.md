@@ -1,5 +1,11 @@
 # @usedapp/coingecko
 
+## 1.1.0
+
+### Minor Changes
+
+- 9262b2f: Release v1.1.0
+
 ## 1.0.16
 
 ### Patch Changes
