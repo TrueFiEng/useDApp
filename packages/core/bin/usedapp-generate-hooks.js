@@ -24,7 +24,7 @@ if (!process.env.USEDAPP_OUT_DIR || !process.env.USEDAPP_TYPES_DIR || !process.e
   process.exit(-1)
 }
 
-const generate = require('../generate/generate')
+const {generate} = require('../generate/generate')
 generate()
   .then(() => console.log('✅ All done.'))
   .catch(e => {

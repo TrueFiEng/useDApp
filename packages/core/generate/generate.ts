@@ -1,36 +1,37 @@
 import * as fs from 'fs'
-import * as path from 'path';
+import * as path from 'path'
 import { commonImports, imports } from './imports'
 
-if (!process.env.USEDAPP_ABIS_DIR) throw new Error('Missing USEDAPP_ABIS_DIR')
-if (!process.env.USEDAPP_TYPES_DIR) throw new Error('Missing USEDAPP_TYPES_DIR')
-if (!process.env.USEDAPP_OUT_DIR) throw new Error('Missing USEDAPP_OUT_DIR')
+export async function generate() {
+  if (!process.env.USEDAPP_ABIS_DIR) throw new Error('Missing USEDAPP_ABIS_DIR')
+  if (!process.env.USEDAPP_TYPES_DIR) throw new Error('Missing USEDAPP_TYPES_DIR')
+  if (!process.env.USEDAPP_OUT_DIR) throw new Error('Missing USEDAPP_OUT_DIR')
 
-const typesDir = path.join(process.cwd(), process.env.USEDAPP_TYPES_DIR)
-const abisDir = path.join(process.cwd(), process.env.USEDAPP_ABIS_DIR)
-const outDir = process.env.USEDAPP_OUT_DIR
+  const typesDir = path.join(process.cwd(), process.env.USEDAPP_TYPES_DIR)
+  const abisDir = path.join(process.cwd(), process.env.USEDAPP_ABIS_DIR)
+  const outDir = process.env.USEDAPP_OUT_DIR
 
-const factories = require(typesDir).factories
+  const factories = require(typesDir).factories
 
-console.log(factories)
-console.log(Object.keys(factories))
+  console.log(factories)
+  console.log(Object.keys(factories))
 
-fs.mkdirSync(outDir!, {recursive: true})
+  fs.mkdirSync(outDir!, {recursive: true})
 
-Object.keys(factories).forEach((factoryName) => {
-  const contractName = factoryName.split('_')[0]
-  const filename = `${outDir}/${contractName}.ts`
-  let output = commonImports + imports({typesDir, abisDir, contractName})
-  console.log(`Processing ${contractName}`)
-  const factory = factories[factoryName]
-  const Interface = factory.createInterface()
-
-  const abi = factory.abi
-  Object.keys(Interface.functions).forEach((fn) => {
-    const functionName = fn.split('(')[0]
-    const fnABI = abi.find((a: any) => a.name === functionName)
-    if (fnABI?.stateMutability === 'view') {
-      output += `
+  Object.keys(factories).forEach((factoryName) => {
+    const contractName = factoryName.split('_')[0]
+    const filename = `${outDir}/${contractName}.ts`
+    let output = commonImports + imports({typesDir, abisDir, contractName})
+    console.log(`Processing ${contractName}`)
+    const factory = factories[factoryName]
+    const Interface = factory.createInterface()
+    
+    const abi = factory.abi
+    Object.keys(Interface.functions).forEach((fn) => {
+      const functionName = fn.split('(')[0]
+      const fnABI = abi.find((a: any) => a.name === functionName)
+      if (fnABI?.stateMutability === 'view') {
+        output += `
 export const use${contractName}_${functionName} = (
   contractAddress: Falsy | string,
   args: Falsy | Params<${contractName}, '${functionName}'>,
@@ -47,9 +48,9 @@ export const use${contractName}_${functionName} = (
   )
 }
 
-`
-    } else { // Non-View function
-      output += `
+  `
+      } else { // Non-View function
+        output += `
 export const use${contractName}_${functionName} = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
@@ -60,16 +61,17 @@ export const use${contractName}_${functionName} = (
     options
   )
 }
-`
-    }
-  })
-  output += `
+  `
+      }
+    })
+    output += `
 export const use${contractName} = {
   ${Object.keys(Interface.functions)
     .map(fn => fn.split('(')[0])
     .map(fn => `${fn}: use${contractName}_${fn}`)
     .join(",\n  ")}
 }
-`
-  fs.writeFileSync(filename, output)
-})
+  `
+    fs.writeFileSync(filename, output)
+  })
+}
