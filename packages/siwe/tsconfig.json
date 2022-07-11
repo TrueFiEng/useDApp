@@ -4,6 +4,7 @@
     "outDir": "dist",
     "module": "commonjs",
     "composite": true,
+    "declaration": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
