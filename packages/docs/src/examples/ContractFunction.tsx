@@ -24,7 +24,7 @@ export function App() {
 
     const { state, send } = useContractFunction(contract, 'deposit', {
       transactionName: 'Wrap',
-      bufferGasLimitPercentage: 10,
+      gasLimitBufferPercentage: 10,
     })
     const { status } = state
 

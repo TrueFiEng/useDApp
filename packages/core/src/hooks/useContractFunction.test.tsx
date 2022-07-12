@@ -115,7 +115,7 @@ describe('useContractFunction', () => {
       {
         config: {
           ...config,
-          bufferGasLimitPercentage: 100,
+          gasLimitBufferPercentage: 100,
         },
       }
     )
@@ -130,7 +130,7 @@ describe('useContractFunction', () => {
 
   it('transfer amount with limit in args', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'transfer', { bufferGasLimitPercentage: 100 }),
+      () => useContractFunction(token, 'transfer', { gasLimitBufferPercentage: 100 }),
       {
         config,
       }
