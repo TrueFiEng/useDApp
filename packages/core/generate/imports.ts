@@ -9,7 +9,7 @@ export interface ImportsOptions {
   contractName: string
 }
 export const imports = ({typesDir, abisDir, contractName}: ImportsOptions) => `
-import {${contractName}} from '${typesDir}'
+import { ${contractName} } from '${typesDir}'
 import ${contractName}ABI from '${abisDir}/${contractName}.json'
 const ${contractName}Interface = new utils.Interface(${contractName}ABI.abi)
 
