@@ -9,19 +9,16 @@ export async function generate() {
 
   const typesDir = path.join(process.cwd(), process.env.USEDAPP_TYPES_DIR)
   const abisDir = path.join(process.cwd(), process.env.USEDAPP_ABIS_DIR)
-  const outDir = process.env.USEDAPP_OUT_DIR
+  const outDir = path.join(process.cwd(),process.env.USEDAPP_OUT_DIR)
 
   const factories = require(typesDir).factories
-
-  console.log(factories)
-  console.log(Object.keys(factories))
 
   fs.mkdirSync(outDir!, {recursive: true})
 
   Object.keys(factories).forEach((factoryName) => {
     const contractName = factoryName.split('_')[0]
     const filename = `${outDir}/${contractName}.ts`
-    let output = commonImports + imports({typesDir, abisDir, contractName})
+    let output = commonImports + imports({typesDir, abisDir, outDir, contractName})
     console.log(`Processing ${contractName}`)
     const factory = factories[factoryName]
     const Interface = factory.createInterface()
@@ -48,7 +45,7 @@ export const use${contractName}_${functionName} = (
   )
 }
 
-  `
+`
       } else { // Non-View function
         output += `
 export const use${contractName}_${functionName} = (
@@ -61,7 +58,7 @@ export const use${contractName}_${functionName} = (
     options
   )
 }
-  `
+`
       }
     })
     output += `
@@ -71,7 +68,7 @@ export const use${contractName} = {
     .map(fn => `${fn}: use${contractName}_${fn}`)
     .join(",\n  ")}
 }
-  `
+`
     fs.writeFileSync(filename, output)
   })
 }

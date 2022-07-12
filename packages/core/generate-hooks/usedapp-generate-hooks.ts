@@ -1,9 +1,7 @@
-#!/usr/bin/env ts-node
-'use strict';
+#!/usr/bin/env node
+import {generate} from './generate'
 
 // TS-Node is required because we need to be importing typechain files.
-// Unless a different approach is possible?
-
 require('ts-node/register/transpile-only')
 
 console.log('EXPERIMENTAL: UseDApp automatic hook generation tool')
@@ -24,10 +22,9 @@ if (!process.env.USEDAPP_OUT_DIR || !process.env.USEDAPP_TYPES_DIR || !process.e
   process.exit(-1)
 }
 
-const {generate} = require('../generate/generate')
 generate()
   .then(() => console.log('✅ All done.'))
-  .catch(e => {
+  .catch((e: any) => {
     console.error(e);
     process.exit(1);
   })
