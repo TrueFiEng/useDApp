@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import {generate} from './generate'
 
 // TS-Node is required because we need to be importing typechain files.
