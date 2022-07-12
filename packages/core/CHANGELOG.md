@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.1.1
+
+### Patch Changes
+
+- 61963a5: Refresh only static calls with changed par
+
 ## 1.1.0
 
 ### Minor Changes
