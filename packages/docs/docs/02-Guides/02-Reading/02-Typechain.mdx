@@ -43,7 +43,7 @@ import { Weth10 } from '../../gen/types'
 import WethAbi from '../abi/Weth10.json'
 
 
-const wethInterface = new utils.Interface(WethAbi)
+const wethInterface = new utils.Interface(WethAbi.abi)
 const contract = new Contract(wethContractAddress, wethInterface) as Weth10
 
 export const Weth10Balance = () => {
@@ -80,7 +80,7 @@ import { Weth10 } from '../../gen/types'
 import WethAbi from '../abi/Weth10.json'
 
 
-const wethInterface = new utils.Interface(WethAbi)
+const wethInterface = new utils.Interface(WethAbi.abi)
 const contract = new Contract(wethContractAddress, wethInterface) as Weth10
 
 export const DepositWeth = () => {
