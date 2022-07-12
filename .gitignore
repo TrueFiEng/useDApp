@@ -6,4 +6,3 @@ packages/example/gen/types
 dist
 packages/.pnpm-debug.log
 packages/example-next/.next
-packages/core/src/gen
