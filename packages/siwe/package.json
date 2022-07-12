@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/siwe",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "repository": "git@github.com:TrueFiEng/useDApp.git",
   "author": "TrueFiEng",
   "license": "MIT",
@@ -16,7 +16,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "peerDependencies": {
     "@usedapp/core": "*",

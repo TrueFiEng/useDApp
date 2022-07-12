@@ -21,8 +21,6 @@ interface Props {
   }
 }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
 function composeChainState(networks: Providers, state: State, multicallAddresses: Props['multicallAddresses']) {
   return fromEntries(
     Object.keys(networks).map((chainId) => [
@@ -109,7 +107,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     dispatchCalls({ type: 'UPDATE_CALLS', calls, updatedCalls, blockNumber, chainId })
   }
 
-  const refresh = () => {
+  useEffect(() => {
     for (const [_chainId, provider] of Object.entries(networks)) {
       const chainId = Number(_chainId)
       // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
@@ -117,24 +115,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
         multicallForChain(chainId, provider)
       }
     }
-  }
-
-  useEffect(() => {
-    dispatchCalls({ type: 'RESET_STATIC_CALLS' })
-    const currentBlockNumbers = JSON.stringify(blockNumbers)
-    const pollPromise = Promise.all(Object.entries(networks).map(([, network]) => network.poll()))
-    void pollPromise
-      .then(() => sleep(100))
-      .then(() => {
-        if (currentBlockNumbers === JSON.stringify(blockNumbers)) {
-          refresh()
-        }
-      })
-  }, [networks, multicallAddresses, uniqueCallsJSON])
-
-  useEffect(() => {
-    refresh()
-  }, [blockNumbers])
+  }, [networks, multicallAddresses, uniqueCallsJSON, blockNumbers])
 
   const chains = useMemo(() => composeChainState(networks, state, multicallAddresses), [
     state,
