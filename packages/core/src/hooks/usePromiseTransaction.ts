@@ -10,7 +10,7 @@ import { BigNumber, Contract, errors, Signer } from 'ethers'
 export async function estimateTransactionGasLimit(
   transactionRequest: TransactionRequest | undefined,
   signer: Signer | undefined,
-  bufferGasLimitPercentage: number
+  gasLimitBufferPercentage: number
 ) {
   if (!signer || !transactionRequest) {
     return undefined
@@ -19,7 +19,7 @@ export async function estimateTransactionGasLimit(
     const estimatedGas = transactionRequest.gasLimit
       ? BigNumber.from(transactionRequest.gasLimit)
       : await signer.estimateGas(transactionRequest)
-    return estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+    return estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -33,11 +33,11 @@ export async function estimateContractFunctionGasLimit(
   contractWithSigner: Contract,
   functionName: string,
   args: any[],
-  bufferGasLimitPercentage: number
+  gasLimitBufferPercentage: number
 ): Promise<BigNumber | undefined> {
   try {
     const estimatedGas = await contractWithSigner.estimateGas[functionName](...args)
-    const gasLimit = estimatedGas?.mul(bufferGasLimitPercentage + 100).div(100)
+    const gasLimit = estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
     return gasLimit
   } catch (err: any) {
     console.error(err)
