@@ -20,6 +20,7 @@ jobs:
     - run: npm i -g pnpm@7.1.9
     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
     - run: pnpm run lint
+    - run: pnpm install
     - run: pnpm run build
     - run: pnpm run test -- --timeout 0
   test-example:
