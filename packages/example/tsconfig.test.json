@@ -3,5 +3,11 @@
   "compilerOptions": {
     "sourceMap": false,
     "inlineSourceMap": true
-  }
+  },
+  "include": [
+    "src",
+    "types",
+    "playwright",
+    "test"
+  ]
 }
