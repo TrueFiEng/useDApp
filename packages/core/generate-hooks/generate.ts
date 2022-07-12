@@ -34,7 +34,7 @@ export const use${contractName}_${functionName} = (
   args: Falsy | Params<${contractName}, '${functionName}'>,
   queryParams: QueryParams = {}
 ) => {
-  return useCall(
+  return useCall<${contractName}, '${functionName}'>(
     contractAddress
       && args
       && {
@@ -52,7 +52,7 @@ export const use${contractName}_${functionName} = (
   contractAddress: Falsy | string,
   options?: TransactionOptions
 ) => {
-  return useContractFunction(
+  return useContractFunction<${contractName}, '${functionName}'>(
     contractAddress && new Contract(contractAddress, ${contractName}Interface) as ${contractName},
     '${functionName}',
     options
