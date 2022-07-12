@@ -281,7 +281,6 @@ importers:
       react-router: ^5.2.0
       react-router-dom: ^5.2.0
       rimraf: ^3.0.2
-      solc: ^0.8.12
       speed-measure-webpack-plugin: ^1.5.0
       styled-components: ^5.2.1
       ts-loader: ^8.0.7
@@ -335,7 +334,7 @@ importers:
       copy-webpack-plugin: 6.4.1_webpack@4.46.0
       esbuild-loader: 2.18.0_webpack@4.46.0
       eslint: 7.22.0
-      ethereum-waffle: 4.0.0-alpha.0_bmhzddwxoelubxynztbwdlaes4
+      ethereum-waffle: 4.0.0-alpha.0_zzzvh6xx6dwrt4z2grziehaeke
       html-webpack-plugin: 4.5.2_webpack@4.46.0
       jsdom: 20.0.0
       jsdom-global: 3.0.2_jsdom@20.0.0
@@ -344,7 +343,6 @@ importers:
       prettier: 2.1.2
       react-refresh: 0.10.0
       rimraf: 3.0.2
-      solc: 0.8.12_debug@4.3.4
       speed-measure-webpack-plugin: 1.5.0_webpack@4.46.0
       ts-loader: 8.3.0_7in6qbnjgkqokibdcer35wqugu
       ts-node: 10.7.0_46pgf7sfaob72lkbqjt5y5pgiu
@@ -3202,7 +3200,7 @@ packages:
       ethers: 5.6.2
       mkdirp: 0.5.5
       node-fetch: 2.6.7
-      solc: 0.8.12_debug@4.3.4
+      solc: 0.8.12
       typechain: 7.0.1_typescript@4.6.2
     transitivePeerDependencies:
       - '@ethersproject/abi'
@@ -3238,6 +3236,32 @@ packages:
       - supports-color
       - typescript
     dev: false
+
+  /@ethereum-waffle/compiler/4.0.0-alpha.0_rv72jtg5velaopa54kglcu3bom:
+    resolution: {integrity: sha512-FGnU3eWVODjKncEXJHbaqfnP4GLKEpqlvQ7W3yRE4ovmSWCRjNAjTeeKwFW7zZlDwG8WIRFVvSWlySKeuWc8MQ==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      ethers: ^5.5.4
+      solc: '*'
+      typechain: ^7.0.0
+    dependencies:
+      '@resolver-engine/imports': 0.3.3
+      '@resolver-engine/imports-fs': 0.3.3
+      '@typechain/ethers-v5': 9.0.0_rv72jtg5velaopa54kglcu3bom
+      '@types/mkdirp': 0.5.2
+      '@types/node-fetch': 2.6.1
+      ethers: 5.6.2
+      mkdirp: 0.5.5
+      node-fetch: 2.6.7
+      typechain: 7.0.1_typescript@4.6.2
+    transitivePeerDependencies:
+      - '@ethersproject/abi'
+      - '@ethersproject/bytes'
+      - '@ethersproject/providers'
+      - encoding
+      - supports-color
+      - typescript
+    dev: true
 
   /@ethereum-waffle/ens/4.0.0-alpha.0:
     resolution: {integrity: sha512-F0D3Zx67QCcRLMoaeUiWNSjv4X11VMYxEtXcxKmCl5+QBhhMru11C4NyNwHuHzi6m06ubINyheEH/lM/DW2Rhg==}
@@ -7134,7 +7158,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
 
   /@webpack-cli/info/1.4.1_webpack-cli@4.9.2:
     resolution: {integrity: sha512-PKVGmazEq3oAo46Q63tpMr4HipI3OPfP7LiNOEJg963RMgT0rqheag28NCML0o3GIzA3DmxP1ZIAv9oTX1CUIA==}
@@ -7142,7 +7166,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
 
   /@webpack-cli/serve/1.6.1_ljueac44ujss5jcejzoycyjmea:
     resolution: {integrity: sha512-gNGTiTrjEVQ0OcVnzsRSqTxaBSr+dmTfm+qJsCDluky8uhdLWep7Gcr62QsAKHTMxjCS/8nEITsmFAhfIx+QSw==}
@@ -7153,7 +7177,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
 
   /@xtuc/ieee754/1.2.0:
@@ -8310,7 +8334,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.3_uh3is6e5v5hotr6z3q3do3qix4
+      styled-components: 5.3.3_w7o5yyljkiidx2s2nzb26ottzu
     dev: false
 
   /babel-plugin-syntax-async-functions/6.13.0:
@@ -9226,7 +9250,7 @@ packages:
       minipass-pipeline: 1.2.4
       mkdirp: 1.0.4
       p-map: 4.0.0
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 3.0.2
       ssri: 8.0.1
       tar: 6.1.11
@@ -12330,6 +12354,29 @@ packages:
       - utf-8-validate
     dev: false
 
+  /ethereum-waffle/4.0.0-alpha.0_zzzvh6xx6dwrt4z2grziehaeke:
+    resolution: {integrity: sha512-gDNoneCUuaidULiWuEXsygdgnRWHn8TWdg4BchQ/2poxtWomBjsPa4KeX7fmRLCLiklgTx/Lr2AsPv6XCG62uA==}
+    engines: {node: '>=10.0'}
+    hasBin: true
+    dependencies:
+      '@ethereum-waffle/chai': 4.0.0-alpha.0
+      '@ethereum-waffle/compiler': 4.0.0-alpha.0_rv72jtg5velaopa54kglcu3bom
+      '@ethereum-waffle/mock-contract': 4.0.0-alpha.0
+      '@ethereum-waffle/provider': 4.0.0-alpha.0
+      ethers: 5.6.2
+      typechain: 7.0.1_typescript@4.6.2
+    transitivePeerDependencies:
+      - '@ethersproject/abi'
+      - '@ethersproject/bytes'
+      - '@ethersproject/providers'
+      - bufferutil
+      - encoding
+      - solc
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
   /ethereumjs-abi/0.6.5:
     resolution: {integrity: sha512-rCjJZ/AE96c/AAZc6O3kaog4FhOsAViaysBxqJNy2+LHP0ttH0zkZ7nXdVHOAyt6lFwLO0nlCwWszysG/ao1+g==}
     dependencies:
@@ -13249,17 +13296,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-
-  /follow-redirects/1.14.9_debug@4.3.4:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14603,7 +14639,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -15564,7 +15600,7 @@ packages:
     dev: true
 
   /jsdom-global/3.0.2_jsdom@20.0.0:
-    resolution: {integrity: sha512-t1KMcBkz/pT5JrvcJbpUR2u/w1kO9jXctaaGJ0vZDzwFnIvGWw9IDSRciT83kIs8Bnw4qpOl8bQK08V01YgMPg==}
+    resolution: {integrity: sha1-a9KZwTsMRiay2iwDk81DhdYGrLk=}
     peerDependencies:
       jsdom: '>=10.0.0'
     dependencies:
@@ -18845,6 +18881,15 @@ packages:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
 
+  /promise-inflight/1.0.1:
+    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dev: true
+
   /promise-inflight/1.0.1_bluebird@3.7.2:
     resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
     peerDependencies:
@@ -20902,22 +20947,6 @@ packages:
       command-exists: 1.2.9
       commander: 8.3.0
       follow-redirects: 1.14.9
-      js-sha3: 0.8.0
-      memorystream: 0.3.1
-      semver: 5.7.1
-      tmp: 0.0.33
-    transitivePeerDependencies:
-      - debug
-    dev: true
-
-  /solc/0.8.12_debug@4.3.4:
-    resolution: {integrity: sha512-TU3anAhKWBQ/WrerJ9EcHrNwGOA1y5vIk5Flz7dBNamLDkX9VQTIwcKd3FiZsT0Ew8rSU7RTmJyGNHRGzP5TBA==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    dependencies:
-      command-exists: 1.2.9
-      commander: 8.3.0
-      follow-redirects: 1.14.9_debug@4.3.4
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1
@@ -23499,6 +23528,7 @@ packages:
       webpack-bundle-analyzer: 4.5.0
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
+    dev: true
 
   /webpack-cli/4.9.2_trrcpmpuvnar5ryzalwrwfpz2u:
     resolution: {integrity: sha512-m3/AACnBBzK/kMTcxWHcZFPrw/eQuY4Df1TxvIWfWM2x7mRqBQCqKEd96oCUa9jkapLBaFfRce33eGDb4Pr7YQ==}
@@ -23534,7 +23564,6 @@ packages:
       webpack: 4.46.0_webpack-cli@4.9.2
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
-    dev: true
 
   /webpack-dev-middleware/3.7.3_webpack@4.46.0:
     resolution: {integrity: sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==}
@@ -23604,7 +23633,7 @@ packages:
       supports-color: 6.1.0
       url: 0.11.0
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-dev-middleware: 3.7.3_webpack@4.46.0
       webpack-log: 2.0.0
       ws: 6.2.2
@@ -23755,7 +23784,7 @@ packages:
       tapable: 1.1.3
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
       watchpack: 1.7.5
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-sources: 1.4.3
     transitivePeerDependencies:
       - supports-color

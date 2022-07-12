@@ -20,7 +20,5 @@
     "src",
     "src/**/*.json",
     "internal",
-    "build-typechain",
-    "build-typechain/**/*.json",
   ]
 }

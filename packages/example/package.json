@@ -78,7 +78,6 @@
     "prettier": "^2.0.5",
     "react-refresh": "^0.10.0",
     "rimraf": "^3.0.2",
-    "solc": "^0.8.12",
     "speed-measure-webpack-plugin": "^1.5.0",
     "ts-loader": "^8.0.7",
     "ts-node": "^10.7.0",
