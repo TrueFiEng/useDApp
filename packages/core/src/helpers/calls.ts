@@ -75,6 +75,9 @@ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions)
       if (options.chainId && options.chainId !== request.chainId) {
         continue
       }
+      if (request.isStatic && request.lastUpdatedBlockNumber !== undefined) {
+        continue
+      }
       const currentBlock = options.blockNumber
       if (currentBlock && request.lastUpdatedBlockNumber && request.refreshPerBlocks) {
         if (currentBlock < request.lastUpdatedBlockNumber + request.refreshPerBlocks) {

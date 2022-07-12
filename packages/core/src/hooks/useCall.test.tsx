@@ -253,7 +253,7 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.value?.[0]?.eq(4))
       })
 
-      it.skip('Refreshes only static calls with changed parameter', async () => {
+      it('Refreshes only static calls with changed parameter', async () => {
         const { config, network1 } = await setupTestingConfig()
         const [deployer] = network1.provider.getWallets()
         const doublerContract = await deployContract(deployer, doublerContractABI)
