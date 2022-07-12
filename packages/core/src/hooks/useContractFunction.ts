@@ -76,10 +76,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
 
   const config = useConfig()
   const gasLimitBufferPercentage =
-    options?.gasLimitBufferPercentage
-    ?? options?.bufferGasLimitPercentage
-    ?? config?.gasLimitBufferPercentage
-    ?? 0
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!

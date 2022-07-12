@@ -36,10 +36,8 @@ export function useSendTransaction(options?: TransactionOptions) {
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
 
   const config = useConfig()
-  const gasLimitBufferPercentage = options?.gasLimitBufferPercentage
-    ?? options?.bufferGasLimitPercentage
-    ?? config?.gasLimitBufferPercentage
-    ?? 0
+  const gasLimitBufferPercentage =
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
