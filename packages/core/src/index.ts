@@ -71,8 +71,14 @@ export {
   useRawCalls,
   useResolveName,
 } from './hooks'
-export type { CurrencyFormatOptions, TransactionOptions, TransactionState, TransactionStatus } from './model'
-export type { Falsy, Params } from './model'
+export type {
+  CurrencyFormatOptions,
+  TransactionOptions,
+  TransactionState,
+  TransactionStatus,
+  Falsy,
+  Params,
+} from './model'
 export { Currency, CurrencyValue, FiatCurrency, NativeCurrency, Token, transactionErrored } from './model'
 export type { LogsResult, CallResult } from './helpers'
 export * from './model/chain'
