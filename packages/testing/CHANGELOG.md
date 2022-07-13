@@ -1,5 +1,28 @@
 # @usedapp/testing
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [61963a5]
+  - @usedapp/core@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 9262b2f: Release v1.1.0
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [a2f26c2]
+- Updated dependencies [2789dd9]
+- Updated dependencies [69ac77f]
+- Updated dependencies [96a3d85]
+  - @usedapp/core@1.1.0
+
 ## 1.0.15
 
 ### Patch Changes

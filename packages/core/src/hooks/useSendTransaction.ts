@@ -37,7 +37,8 @@ export function useSendTransaction(options?: TransactionOptions) {
   const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
 
   const config = useConfig()
-  const bufferGasLimitPercentage = options?.bufferGasLimitPercentage || config?.bufferGasLimitPercentage || 0
+  const gasLimitBufferPercentage =
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
@@ -46,8 +47,8 @@ export function useSendTransaction(options?: TransactionOptions) {
     async (transactionRequest: TransactionRequest) => {
       const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 
-      if (signer) {
-        const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, bufferGasLimitPercentage)
+    if (signer) {
+      const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
 
         return promiseTransaction(
           signer.sendTransaction({
@@ -57,7 +58,7 @@ export function useSendTransaction(options?: TransactionOptions) {
         )
       }
     },
-    [transactionChainId, provider, promiseTransaction, bufferGasLimitPercentage]
+    [transactionChainId, provider, promiseTransaction, gasLimitBufferPercentage]
   )
 
   return { sendTransaction, state, resetState }

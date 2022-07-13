@@ -82,7 +82,7 @@ describe('useSendTransaction', () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useSendTransaction({ signer: wallet1 }), {
       config: {
         ...config,
-        bufferGasLimitPercentage: 100,
+        gasLimitBufferPercentage: 100,
       },
     })
 
@@ -98,7 +98,7 @@ describe('useSendTransaction', () => {
       () =>
         useSendTransaction({
           signer: wallet1,
-          bufferGasLimitPercentage: 100,
+          gasLimitBufferPercentage: 100,
         }),
       {
         config,

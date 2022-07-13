@@ -75,7 +75,8 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
 
   const config = useConfig()
-  const bufferGasLimitPercentage = options?.bufferGasLimitPercentage || config?.bufferGasLimitPercentage || 0
+  const gasLimitBufferPercentage =
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
@@ -94,7 +95,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           contractWithSigner,
           functionName,
           args,
-          bufferGasLimitPercentage
+          gasLimitBufferPercentage
         )
 
         const modifiedOpts = {
@@ -120,7 +121,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         return receipt
       }
     },
-    [contract, functionName, options, provider, library, bufferGasLimitPercentage, promiseTransaction]
+    [contract, functionName, options, provider, library, gasLimitBufferPercentage, promiseTransaction]
   )
 
   return { send, state, events, resetState }

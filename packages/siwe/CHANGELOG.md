@@ -1,5 +1,15 @@
 # @usedapp/siwe
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [a2f26c2]
+- Updated dependencies [2789dd9]
+- Updated dependencies [69ac77f]
+- Updated dependencies [96a3d85]
+  - @usedapp/core@1.1.0
+
 ## 0.1.5
 
 ### Patch Changes

@@ -9,11 +9,14 @@ import {
   SECOND_TEST_CHAIN_ID,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   getResultPropery,
+  renderDAppHook,
+  setupTestingConfig,
+  mineBlock,
 } from '../testing'
 import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract, RevertContract } from '../constants'
+import { BlockNumberContract, RevertContract, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
 
 describe('useCall', () => {
@@ -37,7 +40,7 @@ describe('useCall', () => {
     revertContract = await deployContract(deployer, RevertContract)
   })
 
-  for (const multicallVersion of [1, 2] as const) {
+  for (const multicallVersion of [1] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { result, waitForCurrent } = await renderWeb3Hook(
@@ -217,6 +220,83 @@ describe('useCall', () => {
           // we don't actually know when the update is gonna happen - both possibilities are possible
           expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
         })
+      })
+
+      it('Refreshes static call on parameter change', async () => {
+        const { config, network1 } = await setupTestingConfig()
+        const [deployer] = network1.provider.getWallets()
+        const doublerContract = await deployContract(deployer, doublerContractABI)
+        const { waitForCurrent, rerender } = await renderDAppHook(
+          ({ num }: { num: number }) =>
+            useCall({
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
+            }),
+          {
+            config: {
+              ...config,
+              refresh: 'never',
+            },
+            renderHook: {
+              initialProps: {
+                num: 1,
+              },
+            },
+          }
+        )
+
+        await waitForCurrent((val) => val?.value?.[0]?.eq(2))
+
+        rerender({ num: 2 })
+
+        await waitForCurrent((val) => val?.value?.[0]?.eq(4))
+      })
+
+      it('Refreshes only static calls with changed parameter', async () => {
+        const { config, network1 } = await setupTestingConfig()
+        const [deployer] = network1.provider.getWallets()
+        const doublerContract = await deployContract(deployer, doublerContractABI)
+        const blockNumberContract = await deployContract(deployer, BlockNumberContract)
+        const { waitForCurrent, rerender, result } = await renderDAppHook(
+          ({ num }: { num: number }) => {
+            const doubled = useCall({
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
+            })
+
+            const blockNumber = useCall({
+              contract: blockNumberContract,
+              method: 'getBlockNumber',
+              args: [],
+            })
+
+            return { doubled, blockNumber }
+          },
+          {
+            config: {
+              ...config,
+              refresh: 'never',
+            },
+            renderHook: {
+              initialProps: {
+                num: 1,
+              },
+            },
+          }
+        )
+
+        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(2))
+        const blockNumberBefore = result.current.blockNumber?.value[0]
+
+        await mineBlock(network1.provider)
+        expect(result.current.doubled?.value[0]).to.eq(2)
+        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        rerender({ num: 2 })
+        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
+
+        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
       })
     })
   }

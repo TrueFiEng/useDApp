@@ -3,6 +3,7 @@ import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
+import { ChainId } from '../constants/chainId'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -51,15 +52,42 @@ export function getUniqueActiveCalls(requests: RawCall[]) {
   const unique: RawCall[] = []
   const used: Record<string, boolean> = {}
   for (const request of requests) {
-    if (request.isDisabled) {
-      continue
-    }
     if (!used[`${request.address.toLowerCase()}${request.data}${request.chainId}`]) {
       unique.push(request)
       used[`${request.address.toLowerCase()}${request.data}${request.chainId}`] = true
     }
   }
   return unique
+}
+
+export interface RefreshOptions {
+  blockNumber?: number
+  chainId?: ChainId
+}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions) {
+  const callsForUpdate: RawCall[] = []
+  for (const request of requests) {
+    if (options) {
+      if (options.chainId && options.chainId !== request.chainId) {
+        continue
+      }
+      if (request.isStatic && request.lastUpdatedBlockNumber !== undefined) {
+        continue
+      }
+      const currentBlock = options.blockNumber
+      if (currentBlock && request.lastUpdatedBlockNumber && request.refreshPerBlocks) {
+        if (currentBlock < request.lastUpdatedBlockNumber + request.refreshPerBlocks) {
+          continue
+        }
+      }
+    }
+    callsForUpdate.push(request)
+  }
+  return callsForUpdate
 }
 
 /**
