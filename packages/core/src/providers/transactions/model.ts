@@ -26,7 +26,7 @@ export function getStoredTransactionState(transaction: StoredTransaction) {
  * @public
  */
 export type StoredTransactions = {
-  [chainID: number]: StoredTransaction[]
+  [chainId: number]: StoredTransaction[]
 }
 
 /**

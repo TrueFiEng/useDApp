@@ -292,7 +292,7 @@
 
 ### Patch Changes
 
-- a07b14f: 📧 Add useChainMeta hook to get chain metadata from ChainID
+- a07b14f: 📧 Add useChainMeta hook to get chain metadata from ChainId
 - 9f8ce66: Add Palm Testnet support
 
 ## 0.10.0

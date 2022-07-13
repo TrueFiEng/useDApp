@@ -13,16 +13,16 @@ Returns URL to blockchain explorer for an address on a given chain.
 **Example**
 
 ```tsx
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainId)
   // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainId)
   // https://ropsten.etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
-  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
+  getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainId)
   // https://blockscout.com/poa/xdai/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987/transactions
 
-    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
+    getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainId)
   // https://explorer.harmony.one/address/0xc7095a52c403ee3625ce8b9ae8e2e46083b81987
 ```
 
@@ -46,16 +46,16 @@ Returns URL to blockchain explorer for a transaction hash on a given chain.
 **Example**
 
 ```tsx
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainID)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Mainnet.chainId)
   // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainID)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Ropsten.chainId)
   // https://ropsten.etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
-  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainID)
+  getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', xDai.chainId)
   // https://blockscout.com/poa/xdai/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a/internal-transactions
 
-   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainID)
+   getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987', Harmony.chainId)
   // https://explorer.harmony.one/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 ```
 
@@ -78,15 +78,15 @@ Returns name of a chain for a given `chainId`.
 **Example**
 
 ```tsx
-  getChainName(Mainnet.chainID) // Mainnet
-  getChainName(Ropsten.chainID) // Ropsten
-  getChainName(xDai.chainID)    // xDai
-  getChainName(Theta.chainID) // Theta
-  getChainName(Harmony.chainID) // Harmony
-  getChainName(Moonriver.chainID) // Moonriver
-  getChainName(Moonbeam.chainID) // Moonbeam
-  getChainName(OasisEmerald.chainID) //Oasis Emerald Paratime
-  getChainName(Fantom.chainID) // Fantom
+  getChainName(Mainnet.chainId) // Mainnet
+  getChainName(Ropsten.chainId) // Ropsten
+  getChainName(xDai.chainId)    // xDai
+  getChainName(Theta.chainId) // Theta
+  getChainName(Harmony.chainId) // Harmony
+  getChainName(Moonriver.chainId) // Moonriver
+  getChainName(Moonbeam.chainId) // Moonbeam
+  getChainName(OasisEmerald.chainId) //Oasis Emerald Paratime
+  getChainName(Fantom.chainId) // Fantom
 ```
 
 Can call with Chain directly:

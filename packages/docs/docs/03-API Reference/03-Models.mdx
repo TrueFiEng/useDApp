@@ -17,7 +17,7 @@ Mapping of ``ChainId``'s to node URLs to use in read-only mode.
   {
     ...
     readOnlyUrls: {
-      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
     }
   }
 ```
@@ -288,7 +288,7 @@ Fields:
 
 - ``receipt?: TransactionReceipt`` - optional field. See [Transaction Receipt](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt).
 
-- ``chainId?: ChainId`` - optional field. See [ChainID](#chainid).
+- ``chainId?: ChainId`` - optional field. See [ChainId](#chainid).
 
 - ``errorMessage?: string`` - optional field that contains error message when transaction fails or throws.
 
@@ -327,7 +327,7 @@ Optional overrides for hooks querying the state of the blockchain.
 
 An object consisting of:
 
-- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [ChainID](#chainid).
+- ``chainId?: ChainId`` - ChainId of the chain you want to perform the query on. Defaults to the chainId of the connected wallet. See [ChainId](#chainid).
 - ``isStatic?: boolean`` - Whether the query is static (not expected to change between calls). Used for optimizations.
 
 ## LogQueryParams
