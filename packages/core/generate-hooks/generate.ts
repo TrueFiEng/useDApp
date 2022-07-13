@@ -27,7 +27,7 @@ export async function generate() {
     Object.keys(Interface.functions).forEach((fn) => {
       const functionName = fn.split('(')[0]
       const fnABI = abi.find((a: any) => a.name === functionName)
-      if (fnABI?.stateMutability === 'view') {
+      if (['view', 'pure'].includes(fnABI?.stateMutability)) {
         output += `
 export const use${contractName}_${functionName} = (
   contractAddress: Falsy | string,

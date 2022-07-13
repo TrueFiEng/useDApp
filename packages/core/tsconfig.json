@@ -20,5 +20,6 @@
     "src",
     "src/**/*.json",
     "internal",
+    "generate-hooks",
   ]
 }
