@@ -10,8 +10,12 @@
   "types": "dist/esm/src/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "bin"
   ],
+  "bin": {
+    "usedapp-generate-hooks": "./bin/usedapp-generate-hooks.js"
+  },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.3.0",
     "@metamask/detect-provider": "^1.2.0",
@@ -32,7 +36,9 @@
   },
   "devDependencies": {
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
+    "@ethersproject/abi": "5.6.1",
     "@ethersproject/abstract-provider": "^5.6.1",
+    "@ethersproject/providers": "5.6.2",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
@@ -41,7 +47,7 @@
     "@types/lodash.merge": "^4.6.6",
     "@types/lodash.pickby": "^4.6.6",
     "@types/mocha": "^8.2.0",
-    "@types/node": "^17.0.10",
+    "@types/node": "^17.0.21",
     "@types/react": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
@@ -58,14 +64,16 @@
     "prettier": "^2.1.2",
     "react": "17.0.1",
     "solc": "^0.8.12",
+    "ts-node": "^10.7.0",
     "typechain": "^7.0.0",
     "typescript": "^4.6.2",
     "wait-for-expect": "^3.0.2"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn run build:esm && yarn run build:cjs && yarn build:cli",
     "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
+    "build:cli": "tsc ./generate-hooks/generate-hooks.ts --outDir bin && chmod +x bin/*",
     "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",

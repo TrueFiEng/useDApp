@@ -23,12 +23,13 @@ describe('useToken', async () => {
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.deep.equal({
+    const res = {
       name: 'MOCKToken',
       symbol: 'MOCK',
       decimals: 18,
       totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
-    })
+    }
+    expect(JSON.parse(JSON.stringify(result.current))).to.deep.equal(JSON.parse(JSON.stringify(res)))
   })
 
   it('should not throw error when token address is Falsy', async () => {

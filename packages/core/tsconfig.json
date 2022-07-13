@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "types": [
+      "mocha",
+      "node"
+    ],
     "outDir": "dist",
     "module": "commonjs",
     "composite": true,
@@ -16,5 +20,6 @@
     "src",
     "src/**/*.json",
     "internal",
+    "generate-hooks",
   ]
 }
