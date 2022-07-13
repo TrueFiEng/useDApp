@@ -22,7 +22,6 @@
     "@portis/web3": "^4.0.7",
     "@toruslabs/torus-embed": "^1.27.0",
     "@uniswap/token-lists": "^1.0.0-beta.27",
-    "@walletconnect/types": "^1.7.8",
     "@walletconnect/web3-provider": "^1.7.8",
     "fetch-mock": "^9.11.0",
     "fortmatic": "^2.4.0",
@@ -35,6 +34,7 @@
     "react": "*"
   },
   "devDependencies": {
+    "@walletconnect/types": "^1.7.8",
     "@ethereum-waffle/provider": "4.0.0-alpha.0",
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/abstract-provider": "^5.6.1",

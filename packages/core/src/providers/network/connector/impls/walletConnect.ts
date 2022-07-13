@@ -1,6 +1,6 @@
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { IWalletConnectProviderOptions } from '@walletconnect/types'
+import type { IWalletConnectProviderOptions } from '@walletconnect/types'
 import { providers } from 'ethers'
 
 export class WalletConnectConnector implements Connector {

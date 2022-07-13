@@ -118,7 +118,6 @@ importers:
       '@portis/web3': 4.0.7
       '@toruslabs/torus-embed': 1.27.1
       '@uniswap/token-lists': 1.0.0-beta.27
-      '@walletconnect/types': 1.7.8
       '@walletconnect/web3-provider': 1.7.8
       fetch-mock: 9.11.0
       fortmatic: 2.4.0
@@ -142,6 +141,7 @@ importers:
       '@types/react': 17.0.1
       '@typescript-eslint/eslint-plugin': 4.33.0_glyobjt4c3l2spbcp255qgbvye
       '@typescript-eslint/parser': 4.33.0_5gpqlwp5hzjrncnuiiolpsczg4
+      '@walletconnect/types': 1.7.8
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
@@ -309,7 +309,6 @@ importers:
       '@ethersproject/abi': 5.6.1
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/units': 5.6.0
-      '@types/react-router': 5.1.18
       '@types/styled-components': 5.1.24
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
@@ -338,6 +337,7 @@ importers:
       '@types/node': 17.0.21
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.1
+      '@types/react-router': 5.1.18
       '@types/react-router-dom': 4.2.6
       '@usedapp/playwright': link:../playwright
       '@usedapp/testing': link:../testing
@@ -7135,7 +7135,6 @@ packages:
 
   /@walletconnect/types/1.7.8:
     resolution: {integrity: sha512-0oSZhKIrtXRJVP1jQ0EDTRtotQY6kggGjDcmm/LLQBKnOZXdPeo0sPkV/7DjT5plT3O7Cjc6JvuXt9WOY0hlCA==}
-    dev: false
 
   /@walletconnect/utils/1.7.4:
     resolution: {integrity: sha512-09667lbpClPpbskCpLllAQ3MSiNnDlTlqcmWANJ/ZuqCqq5ENyytPqkUjPFSfRfRVkgdQ2t/byeQtDd1TEpHcg==}
