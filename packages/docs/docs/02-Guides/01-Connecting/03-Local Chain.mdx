@@ -94,9 +94,9 @@ Add ganache address to configuration.
   import { Localhost } from '@usedapp/core'
 
   const config = {
-    readOnlyChainId: Localhost.chainID,
+    readOnlyChainId: Localhost.chainId,
     readOnlyUrls: {
-      [Localhost.chainID]: 'http://127.0.0.1:8545',
+      [Localhost.chainId]: 'http://127.0.0.1:8545',
     },
   }
 ```

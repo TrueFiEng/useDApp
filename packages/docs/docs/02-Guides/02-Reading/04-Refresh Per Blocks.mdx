@@ -10,9 +10,9 @@ To disable refreshing calls per block, just pass `refresh` parameter as `never` 
   import { Mainnet } from '@usedapp/core'
 
   const config = {
-    readOnlyChainId: Mainnet.chainID,
+    readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
-      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
     refresh: 'never',
   }
@@ -28,9 +28,9 @@ To enable refreshing calls per specified number of blocks, just pass `refresh` p
   import { Mainnet } from '@usedapp/core'
 
   const config = {
-    readOnlyChainId: Mainnet.chainID,
+    readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
-      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
     refresh: 10,
   }
@@ -46,9 +46,9 @@ If you want to have your calls refreshed per single, mined block just pass `refr
   import { Mainnet } from '@usedapp/core'
 
   const config = {
-    readOnlyChainId: Mainnet.chainID,
+    readOnlyChainId: Mainnet.chainId,
     readOnlyUrls: {
-      [Mainnet.chainID]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
     refresh: 'everyBlock',
   }
