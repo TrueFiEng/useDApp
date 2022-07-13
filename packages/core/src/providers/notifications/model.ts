@@ -44,7 +44,7 @@ export type RemoveNotificationPayload = {
  * @public
  */
 export type Notifications = {
-  [chainID: number]: Notification[]
+  [chainId: number]: Notification[]
 }
 
 /**
