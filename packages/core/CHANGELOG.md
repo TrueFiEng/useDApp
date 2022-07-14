@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.1.2
+
+### Patch Changes
+
+- bbb0cc9: ⛽️ Introduce `gasLimitBufferPercentage` alias
+
 ## 1.1.1
 
 ### Patch Changes
