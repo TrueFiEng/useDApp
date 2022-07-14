@@ -16,7 +16,9 @@ export const AccountButton = () => {
   useEffect(() => {
     if (error) {
       setActivateError(error.message)
+      return
     }
+    setActivateError('')
   }, [error])
 
   const activate = async () => {

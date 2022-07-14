@@ -22,7 +22,9 @@ export const Web3ReactConnectorButton = () => {
   useEffect(() => {
     if (error) {
       setActivateError(error.message)
+      return
     }
+    setActivateError('')
   }, [error])
 
   const activateProvider = async () => {

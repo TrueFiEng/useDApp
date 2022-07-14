@@ -17,7 +17,9 @@ export const Web3ModalButton = () => {
   useEffect(() => {
     if (error) {
       setActivateError(error.message)
+      return
     }
+    setActivateError('')
   }, [error])
 
   const activateProvider = async () => {
