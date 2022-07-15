@@ -5,7 +5,7 @@ import { validateArguments } from '../helpers/validateArgument'
 import { useNetwork } from '../providers'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -66,7 +66,7 @@ export function useEthers(): Web3Ethers {
   } = useNetwork()
 
   const { networks, readOnlyUrls } = useConfig()
-  const error = useRef<Error | undefined>()
+  const [error, setError] = useState<Error | undefined>(undefined)
 
   const configuredChainIds = Object.keys(readOnlyUrls || {}).map((chainId) => parseInt(chainId, 10))
   const supportedChainIds = networks?.map((network) => network.chainId)
@@ -79,10 +79,10 @@ export function useEthers(): Web3Ethers {
     chainIdError.name = 'ChainIdError'
 
     if (isUnsupportedChainId || isNotConfiguredChainId) {
-      error.current = chainIdError
+      setError(chainIdError)
       return
     }
-    error.current = errors[errors.length - 1]
+    setError(errors[errors.length - 1])
   }, [chainId, errors])
 
   const readonlyNetwork = useReadonlyNetwork()
@@ -113,7 +113,7 @@ export function useEthers(): Web3Ethers {
   return {
     connector: undefined,
     library: provider,
-    chainId: error.current ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
+    chainId: error ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -131,7 +131,7 @@ export function useEthers(): Web3Ethers {
       throw new Error('setError is deprecated')
     },
 
-    error: error.current,
+    error,
     isLoading,
     switchNetwork,
   }
