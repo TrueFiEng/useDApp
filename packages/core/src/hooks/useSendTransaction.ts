@@ -47,8 +47,8 @@ export function useSendTransaction(options?: TransactionOptions) {
     async (transactionRequest: TransactionRequest) => {
       const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 
-      if (signer) {
-        const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
+    if (signer) {
+      const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
 
         return promiseTransaction(
           signer.sendTransaction({
