@@ -14,10 +14,12 @@ export const AccountButton = () => {
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
-    if (error) {
+    if (error && account) {
       setActivateError(error.message)
+      return
     }
-  }, [error])
+    setActivateError('')
+  }, [error, account])
 
   const activate = async () => {
     setActivateError('')

@@ -15,10 +15,12 @@ export const Web3ModalButton = () => {
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
-    if (error) {
+    if (error && account) {
       setActivateError(error.message)
+      return
     }
-  }, [error])
+    setActivateError('')
+  }, [error, account])
 
   const activateProvider = async () => {
     const providerOptions = {

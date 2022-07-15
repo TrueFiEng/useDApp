@@ -77,6 +77,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     wrapper: (wrapperProps) => (
       <ConfigProvider
         config={{
+          readOnlyUrls: readOnlyProviders,
           pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
           multicallVersion: options?.multicallVersion,
         }}
