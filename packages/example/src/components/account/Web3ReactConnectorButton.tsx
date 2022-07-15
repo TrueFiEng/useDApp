@@ -20,12 +20,12 @@ export const Web3ReactConnectorButton = () => {
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
-    if (error) {
+    if (error && account) {
       setActivateError(error.message)
       return
     }
     setActivateError('')
-  }, [error])
+  }, [error, account])
 
   const activateProvider = async () => {
     const web3Connector = new WalletConnectConnector({

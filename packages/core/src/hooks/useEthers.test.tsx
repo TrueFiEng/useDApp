@@ -2,8 +2,14 @@ import { expect } from 'chai'
 import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
-import { Mainnet } from '../model'
-import { renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
+import { Localhost, Mainnet } from '../model'
+import {
+  createMockProvider,
+  renderDAppHook,
+  SECOND_TEST_CHAIN_ID,
+  setupTestingConfig,
+  TestingNetwork,
+} from '../testing'
 import { useEthers } from './useEthers'
 
 describe('useEthers', () => {
@@ -56,6 +62,25 @@ describe('useEthers', () => {
     await waitForCurrent((val) => !!val.error)
     expect(result.current.error).not.to.be.undefined
     expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${SECOND_TEST_CHAIN_ID}`)
+  })
+
+  it('throws error if trying to use not configured network', async () => {
+    const notConfiguerdNetwork = await createMockProvider({ chainId: Localhost.chainId })
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(notConfiguerdNetwork.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
+
+    await waitForCurrent((val) => !!val.error)
+    expect(result.current.error).not.to.be.undefined
+    expect(result.current.error?.toString()).to.include(`Not configured chain id: ${Localhost.chainId}`)
   })
 
   it('returns correct provider after activation', async () => {

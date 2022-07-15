@@ -5,6 +5,7 @@ import { validateArguments } from '../helpers/validateArgument'
 import { useNetwork } from '../providers'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
+import { useEffect, useState } from 'react'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -64,14 +65,25 @@ export function useEthers(): Web3Ethers {
     isLoading,
   } = useNetwork()
 
-  const { networks } = useConfig()
+  const { networks, readOnlyUrls } = useConfig()
+  const [error, setError] = useState<Error | undefined>(undefined)
+
+  const configuredChainIds = Object.keys(readOnlyUrls || {}).map((chainId) => parseInt(chainId, 10))
   const supportedChainIds = networks?.map((network) => network.chainId)
-  const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
-  const unsupportedChainIdError = new Error(
-    `Unsupported chain id: ${chainId}. Supported chain ids are: ${supportedChainIds}.`
-  )
-  unsupportedChainIdError.name = 'UnsupportedChainIdError'
-  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
+
+  useEffect(() => {
+    const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
+    const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+
+    const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
+    chainIdError.name = 'ChainIdError'
+
+    if (isUnsupportedChainId || isNotConfiguredChainId) {
+      setError(chainIdError)
+      return
+    }
+    setError(errors[errors.length - 1])
+  }, [chainId, errors])
 
   const readonlyNetwork = useReadonlyNetwork()
   const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
@@ -101,7 +113,7 @@ export function useEthers(): Web3Ethers {
   return {
     connector: undefined,
     library: provider,
-    chainId: isUnsupportedChainId ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
+    chainId: error ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
