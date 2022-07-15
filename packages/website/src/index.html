@@ -1,512 +1,898 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>useDApp | Ethereum and React cooperating</title>
-    <meta name="title" content="useDApp | Ethereum and React cooperating" />
-    <meta
-      name="description"
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
-    />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://usedapp.io/" />
-    <meta property="og:title" content="useDApp | Ethereum and React cooperating" />
-    <meta
-      property="og:description"
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
-      />
-    <meta
-      property="og:image"
-      content="https://usedapp.io/img/welcome.png"
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>useDApp | Ethereum and React cooperating</title>
+  <meta name="title" content="useDApp | Ethereum and React cooperating" />
+  <meta name="description"
+    content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." />
 
-    />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://usedapp.io/" />
+  <meta property="og:title" content="useDApp | Ethereum and React cooperating" />
+  <meta property="og:description"
+    content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." />
+  <meta property="og:image" content="https://usedapp.io/img/welcome.png" />
 
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://usedapp.io/" />
-    <meta property="twitter:title" content="useDApp | Ethereum and React cooperating" />
-    <meta
-      property="twitter:description"
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
-    />
-    <meta
-      property="twitter:image"
-      content="https://usedapp.io/img/welcome.png"
-    />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://usedapp.io/" />
+  <meta property="twitter:title" content="useDApp | Ethereum and React cooperating" />
+  <meta property="twitter:description"
+    content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." />
+  <meta property="twitter:image" content="https://usedapp.io/img/welcome.png" />
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="/img/favicon.ico" />
-    <link rel="stylesheet" href="./css/main.css" />
-    <link rel="stylesheet" type="text/css" href="css/fullpage.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  </head>
+  <link rel="icon" type="image/png" href="/img/favicon.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
 
-  <body>
-    <header class="header">
-      <div class="container">
-        <div class="header__row">
-          <nav class="nav">
-            <ul id="header-menu" class="nav__list">
-              <li data-menuanchor="features" class="nav__item">
-                <a href="#features" data-destination="features" class="nav__link anchor"> FEATURES </a>
+<body class="body">
+  <header class="header">
+    <div class="container">
+      <div class="header__content">
+        <div class="header__logo">
+          <svg class="header__logo-image" viewBox="0 0 32 32" fill="none" color="currentColor">
+            <path d="M11.1943 3.92392L10.9275 22.861L3 25.8849V0L11.1943 3.92392Z" fill="currentColor" />
+            <path d="M21.7746 9.21681L21.7746 17.7143L29.75 15.009L29.75 5.3833L21.7746 9.21681Z" fill="currentColor" />
+            <path
+              d="M6.64502 31.9574C5.95183 31.8585 5.29358 31.5907 4.72819 31.1776L4.72896 31.1765C4.19292 30.7903 3.75652 30.2821 3.45587 29.6938C3.15491 29.1049 2.99864 28.4528 3.00001 27.7915V24.9069L9.82931 22.3019L21.7683 17.7544V27.0586L8.70345 31.7449C8.04509 31.9833 7.33821 32.0563 6.64502 31.9574Z"
+              fill="currentColor" />
+          </svg>
+          <span class="header__logo-text">useDApp</span>
+        </div>
+        <div class="header__menu">
+          <nav class="navigation header__navigation">
+            <ul class="navigation__list header__list">
+              <li class="navigation__item header__item">
+                <a href="#getting_started" class="navigation__link header__link">Getting started</a>
               </li>
-              <li data-menuanchor="build" class="nav__item">
-                <a href="#build" data-destination="build" class="nav__link anchor">BUILD</a>
+              <li class="navigation__item header__item">
+                <a href="#features" class="navigation__link header__link">Features</a>
               </li>
-              <li data-menuanchor="example" class="nav__item">
-                <a href="#example" data-destination="example" class="nav__link anchor">EXAMPLE</a>
+              <li class="navigation__item header__item">
+                <a href="#resources" class="navigation__link header__link">Resources</a>
               </li>
-              <li data-menuanchor="resources" class="nav__item">
-                <a href="#resources" data-destination="resources" class="nav__link anchor">RESOURCES</a>
+              <li class="navigation__item header__item">
+                <a href="#about-us" class="navigation__link header__link">About us</a>
               </li>
             </ul>
           </nav>
-          <a
-            href="https://usedapp-docs.netlify.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="button"
-            title="useDapp documentation"
-          >
-            <div>DOCUMENTATION</div>
-          </a>
-          <a
-            href="https://ethworks.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="animate__animated author author--mobile-menu"
-            title="Ethworks website homepage"
-            data-animations="animate__slideInUp"
-            style="animation-delay: 0.45s"
-          >
-            Created by
-            <svg class="author__image" x="0px" y="0px" viewBox="0 0 340 40" preserveAspectRatio="xMidYMid meet">
+          <div class="header__externals">
+            <ul class="socials header__socials">
+              <li class="social header__social">
+                <a href="https://discord.com/invite/cSSmtdq7jr" target="_blank" rel="noopener noreferrer"
+                  class="social__link header__social-link">
+                  <span class="social__text">
+                    UseDApp discord channel
+                  </span>
+                </a>
+              </li>
+              <li class="social header__social">
+                <a href="https://twitter.com/TrueFiEng" target="_blank" rel="noopener noreferrer"
+                  class="social__link header__social-link">
+                  <span class="social__text">
+                    UseDApp on Twitter
+                  </span>
+                </a>
+              </li>
+              <li class="social header__social">
+                <a href="https://medium.com/truefieng" target="_blank" rel="noopener noreferrer"
+                  class="social__link header__social-link">
+                  <span class="social__text">
+                    UseDApp on Medium
+                  </span>
+                </a>
+              </li>
+              <li class="social header__social">
+                <a href="https://github.com/TrueFiEng/useDApp" target="_blank" rel="noopener noreferrer"
+                  class="social__link header__social-link">
+                  <span class="social__text">
+                    UseDApp on GitHub
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <a href="https://usedapp-docs.netlify.app/docs" target="_blank" rel="noopener noreferrer"
+              class="button button--large header__docs" data-button-text="Documentation">Documentation</a>
+          </div>
+        </div>
+        <button class="header__burger">
+          <div class="header__burger-lines"></div>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <section id="main" class="section section--hero">
+      <div class="container">
+        <div class="hero">
+          <svg class="hero__ethereum" viewBox="0 0 256 418" fill="none" color="currentColor" data-aos="zoom-in-down">
+            <g class="hero__ethereum-top">
+              <line class="hero__ethereum-line" x1="128" y1="0" x2="0" y2="212.3" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="0" x2="255.9" y2="212.3" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="0" x2="128" y2="154.2" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="154.2" x2="255.9" y2="212.3" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="154.2" x2="0" y2="212.3" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="0" y1="212.3" x2="128" y2="288" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="154.2" x2="128" y2="288" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="255.9" y1="212.3" x2="128" y2="288" stroke="currentColor" />
+            </g>
+            <g class="hero__ethereum-bottom">
+              <line class="hero__ethereum-line" x1="0" y1="236.6" x2="128" y2="312.2" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="256" y1="236.6" x2="128" y2="312.2" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="128" y1="312.2" x2="128" y2="416.9" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="0" y1="236.6" x2="128" y2="416.9" stroke="currentColor" />
+              <line class="hero__ethereum-line" x1="256" y1="236.6" x2="128" y2="416.9" stroke="currentColor" />
+            </g>
+          </svg>
+          <h1 class="title hero__title">
+            <span data-aos="zoom-in-down">When</span> <span class="text--gradient" data-text="Ethereum"
+              data-aos="zoom-in-left" data-aos-delay="50">Ethereum</span></br><span data-aos="zoom-in-right"
+              data-aos-delay="100">meets</span> <span class="text--gradient" data-text="React" data-aos="zoom-in-up"
+              data-aos-delay="150">React</span>
+            <div class="hero__react-wrapper">
+              <svg class="hero__react" viewBox="0 0 256 256" fill="none" color="currentColor" data-aos="zoom-in-left">
+                <circle class="hero__react-circle" cx="128" cy="128" r="20" stroke="currentColor" />
+                <ellipse class="hero__react-line" cx="128" cy="128" rx="114" ry="48" stroke="currentColor" />
+                <ellipse class="hero__react-line" cx="128" cy="128" rx="114" ry="48" stroke="currentColor"
+                  style="transform: rotate(60deg)" />
+                <ellipse class="hero__react-line" cx="128" cy="128" rx="114" ry="48" stroke="currentColor"
+                  style="transform: rotate(120deg)" />
+              </svg>
+            </div>
+          </h1>
+          <p class="title hero__description" data-aos="zoom-in-up" data-aos-delay="200">Framework for Rapid Dapp
+            Development</p>
+        </div>
+      </div>
+    </section>
+    <section id="dependents" class="section section--dependents">
+      <div class="dependents">
+        <div class="container">
+          <div class="badge badge--large dependents__badge" data-aos="zoom-in-up"
+            data-aos-anchor=".section--dependents">
+            <svg class="badge__decoration" viewBox="0 0 12 11" fill="none" color="currentColor" data-aos="zoom-in-up"
+              data-aos-delay="50" data-aos-anchor=".section--dependents">
               <path
-                class="ethword"
-                d="M320.2,37c-2.5,0-5-0.3-7.5-1c-2.3-0.6-4.1-1.4-5.6-2.4l2.4-5.5c1.6,0.9,3.2,1.7,4.9,2.2
-                  c1.9,0.6,3.9,0.9,5.8,0.9c2,0,3.5-0.3,4.7-0.8c1.2-0.6,1.8-1.5,1.8-2.7c0-1-0.5-1.9-1.6-2.6c-1-0.6-2.7-1.2-5.4-1.7
-                  c-3.2-0.6-5.7-1.4-7.4-2.3c-1.7-0.9-2.9-1.9-3.6-3.1s-1-2.7-1-4.4c0-2,0.6-3.8,1.7-5.3c1.1-1.6,2.7-2.9,4.8-3.8
-                  c2.1-0.9,4.5-1.4,7.2-1.4c2.4,0,4.8,0.3,7,1c2.1,0.6,3.8,1.4,5,2.4L331,12c-1.4-0.9-2.9-1.6-4.4-2.1c-1.7-0.6-3.4-0.9-5.2-0.9
-                  c-1.7,0-3.1,0.3-4.2,1s-1.7,1.7-1.7,2.9c0,0.7,0.2,1.3,0.7,1.8c0.4,0.4,1.1,0.9,2.2,1.3c1,0.4,2.5,0.8,4.4,1.2
-                  c3,0.7,5.5,1.5,7.2,2.4s2.9,1.9,3.6,3.1s1,2.6,1,4.3c0,3.2-1.2,5.6-3.7,7.4C328.4,36.1,324.8,37,320.2,37L320.2,37z M197.9,37
-                  c-3.4,0-6.4-0.7-8.9-2.1c-2.5-1.4-4.4-3.4-5.8-5.9c-1.3-2.6-2-5.6-2-9.1c0-3.4,0.7-6.5,2.1-9c1.4-2.5,3.3-4.5,5.8-5.9
-                  s5.5-2.1,8.9-2.1s6.4,0.7,8.9,2.1s4.4,3.3,5.7,5.9c1.3,2.5,2,5.6,2,9s-0.7,6.5-2,9.1s-3.3,4.5-5.7,5.9
-                  C204.3,36.3,201.3,37,197.9,37z M197.9,8.9c-2.7,0-4.9,1-6.4,2.9s-2.3,4.6-2.3,8.2s0.8,6.4,2.3,8.3s3.7,2.9,6.4,2.9s4.9-1,6.4-2.9
-                  s2.3-4.7,2.3-8.3s-0.8-6.3-2.3-8.2C202.8,9.8,200.6,8.9,197.9,8.9z M290.4,36.6L276,20.3v16.3h-8V3.4h8v15.5l14-15.5h9.2
-                  l-14.7,15.7l15.2,17.4L290.4,36.6L290.4,36.6z M247.3,36.6l-4.3-11c-0.6-1.5-2-2.2-4.1-2.2h-3.8v13.3h-7.9V3.4h15.4
-                  c4,0,7,0.9,9,2.5c2,1.7,2.9,4.1,2.9,7.2c0,2.2-0.6,4.1-1.8,5.7c-1.2,1.6-2.8,2.7-5,3.4l-1.9,0.6l1.9,0.4c0.9,0.2,1.7,0.6,2.4,1.2
-                  s1.3,1.5,1.7,2.6l3.8,9.5L247.3,36.6L247.3,36.6z M235,17.6h6.2c2,0,3.5-0.3,4.5-1c1-0.7,1.5-1.8,1.5-3.2c0-1.5-0.5-2.6-1.5-3.2
-                  c-0.9-0.6-2.4-0.9-4.5-0.9H235L235,17.6L235,17.6z M153.5,36.6L146,15.3l-7.7,21.3h-6.5L120,3.4h8.1l7.4,22.6l8-22.6h5.4l7.7,23
-                  l7.7-23h7.5L160,36.6H153.5L153.5,36.6z M100.9,36.6V22.8H86.1v13.8h-7.8V3.4h7.8v13.3h14.8V3.4h7.8v33.1L100.9,36.6L100.9,36.6z
-                  M48.9,36.6V9.7H38.7V3.4h28.5v6.3H57v26.8L48.9,36.6L48.9,36.6z"
-              ></path>
-              <path class="eth-e" d="M5,3.4h23.7v6H5V3.4z"></path>
-              <path class="eth-e" d="M5,16.8h23.7v6H5V16.8z"></path>
-              <path class="eth-e" d="M5,31h23.7v6H5V31z"></path>
+                d="M4.85846 0.910521C5.20554 0.104558 6.34828 0.104558 6.69536 0.910521L7.49481 2.7669C7.63958 3.10308 7.95645 3.3333 8.32091 3.3671L10.3335 3.55376C11.2072 3.6348 11.5604 4.72161 10.9011 5.30077L9.38263 6.63473C9.10764 6.87631 8.98661 7.24881 9.06708 7.60588L9.51148 9.57762C9.70441 10.4337 8.77992 11.1054 8.02539 10.6573L6.28747 9.62539C5.97275 9.43851 5.58107 9.43851 5.26635 9.62539L3.52843 10.6573C2.7739 11.1054 1.84941 10.4337 2.04234 9.57762L2.48674 7.60588C2.56721 7.24881 2.44618 6.87631 2.17119 6.63473L0.652709 5.30077C-0.00655353 4.72161 0.346573 3.6348 1.22034 3.55376L3.23291 3.3671C3.59737 3.3333 3.91424 3.10308 4.05901 2.7669L4.85846 0.910521Z"
+                fill="currentColor" />
+            </svg>
+            <svg class="badge__decoration" viewBox="0 0 12 11" fill="none" color="currentColor" data-aos="zoom-in-up"
+              data-aos-delay="100" data-aos-anchor=".section--dependents">
+              <path
+                d="M4.85846 0.910521C5.20554 0.104558 6.34828 0.104558 6.69536 0.910521L7.49481 2.7669C7.63958 3.10308 7.95645 3.3333 8.32091 3.3671L10.3335 3.55376C11.2072 3.6348 11.5604 4.72161 10.9011 5.30077L9.38263 6.63473C9.10764 6.87631 8.98661 7.24881 9.06708 7.60588L9.51148 9.57762C9.70441 10.4337 8.77992 11.1054 8.02539 10.6573L6.28747 9.62539C5.97275 9.43851 5.58107 9.43851 5.26635 9.62539L3.52843 10.6573C2.7739 11.1054 1.84941 10.4337 2.04234 9.57762L2.48674 7.60588C2.56721 7.24881 2.44618 6.87631 2.17119 6.63473L0.652709 5.30077C-0.00655353 4.72161 0.346573 3.6348 1.22034 3.55376L3.23291 3.3671C3.59737 3.3333 3.91424 3.10308 4.05901 2.7669L4.85846 0.910521Z"
+                fill="currentColor" />
+            </svg>
+            <svg class="badge__decoration" viewBox="0 0 12 11" fill="none" color="currentColor" data-aos="zoom-in-up"
+              data-aos-delay="150" data-aos-anchor=".section--dependents">
+              <path
+                d="M4.85846 0.910521C5.20554 0.104558 6.34828 0.104558 6.69536 0.910521L7.49481 2.7669C7.63958 3.10308 7.95645 3.3333 8.32091 3.3671L10.3335 3.55376C11.2072 3.6348 11.5604 4.72161 10.9011 5.30077L9.38263 6.63473C9.10764 6.87631 8.98661 7.24881 9.06708 7.60588L9.51148 9.57762C9.70441 10.4337 8.77992 11.1054 8.02539 10.6573L6.28747 9.62539C5.97275 9.43851 5.58107 9.43851 5.26635 9.62539L3.52843 10.6573C2.7739 11.1054 1.84941 10.4337 2.04234 9.57762L2.48674 7.60588C2.56721 7.24881 2.44618 6.87631 2.17119 6.63473L0.652709 5.30077C-0.00655353 4.72161 0.346573 3.6348 1.22034 3.55376L3.23291 3.3671C3.59737 3.3333 3.91424 3.10308 4.05901 2.7669L4.85846 0.910521Z"
+                fill="currentColor" />
+            </svg>
+            <svg class="badge__decoration" viewBox="0 0 12 11" fill="none" color="currentColor" data-aos="zoom-in-up"
+              data-aos-delay="200" data-aos-anchor=".section--dependents">
+              <path
+                d="M4.85846 0.910521C5.20554 0.104558 6.34828 0.104558 6.69536 0.910521L7.49481 2.7669C7.63958 3.10308 7.95645 3.3333 8.32091 3.3671L10.3335 3.55376C11.2072 3.6348 11.5604 4.72161 10.9011 5.30077L9.38263 6.63473C9.10764 6.87631 8.98661 7.24881 9.06708 7.60588L9.51148 9.57762C9.70441 10.4337 8.77992 11.1054 8.02539 10.6573L6.28747 9.62539C5.97275 9.43851 5.58107 9.43851 5.26635 9.62539L3.52843 10.6573C2.7739 11.1054 1.84941 10.4337 2.04234 9.57762L2.48674 7.60588C2.56721 7.24881 2.44618 6.87631 2.17119 6.63473L0.652709 5.30077C-0.00655353 4.72161 0.346573 3.6348 1.22034 3.55376L3.23291 3.3671C3.59737 3.3333 3.91424 3.10308 4.05901 2.7669L4.85846 0.910521Z"
+                fill="currentColor" />
+            </svg>
+            <svg class="badge__decoration" viewBox="0 0 12 11" fill="none" color="currentColor" data-aos="zoom-in-up"
+              data-aos-delay="250" data-aos-anchor=".section--dependents">
+              <path
+                d="M4.85846 0.910521C5.20554 0.104558 6.34828 0.104558 6.69536 0.910521L7.49481 2.7669C7.63958 3.10308 7.95645 3.3333 8.32091 3.3671L10.3335 3.55376C11.2072 3.6348 11.5604 4.72161 10.9011 5.30077L9.38263 6.63473C9.10764 6.87631 8.98661 7.24881 9.06708 7.60588L9.51148 9.57762C9.70441 10.4337 8.77992 11.1054 8.02539 10.6573L6.28747 9.62539C5.97275 9.43851 5.58107 9.43851 5.26635 9.62539L3.52843 10.6573C2.7739 11.1054 1.84941 10.4337 2.04234 9.57762L2.48674 7.60588C2.56721 7.24881 2.44618 6.87631 2.17119 6.63473L0.652709 5.30077C-0.00655353 4.72161 0.346573 3.6348 1.22034 3.55376L3.23291 3.3671C3.59737 3.3333 3.91424 3.10308 4.05901 2.7669L4.85846 0.910521Z"
+                fill="currentColor" />
+            </svg>
+            <span class="badge__text dependents__badge-text" data-aos="zoom-in-right"
+              data-aos-anchor=".section--dependents">Over <span id="github-stars" class="badge__text--bold">1.2k+</span>
+              stars on
+              Github!</span>
+          </div>
+          <p class="title dependents__info" data-aos="zoom-in-up" data-aos-delay="100">Used by <span
+              id="github-dependents">2000+</span> open source projects</p>
+        </div>
+        <div class="container container--full">
+          <div class="slider dependents__slider">
+            <ul class="slider__list">
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/optimismPBC" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/OptimismPBC.png 1x, /img/projects/OptimismPBC@2x.png 2x">
+                    <img src="/img/projects/OptimismPBC.png" alt="OptimismPBC logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">OptimismPBC</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/nucypher" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Nu_Cypher.png 1x, /img/projects/Nu_Cypher@2x.png 2x">
+                    <img src="/img/projects/Nu_Cypher.png" alt="NuCypher logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">NuCypher</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/indexcoop" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Index_Coop.png 1x, /img/projects/Index_Coop@2x.png 2x">
+                    <img src="/img/projects/Index_Coop.png" alt="Index Coop logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Index Coop</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/developer_dao" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Developer_DAO.png 1x, /img/projects/Developer_DAO@2x.png 2x">
+                    <img src="/img/projects/Developer_DAO.png" alt="Developer DAO logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Developer DAO</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/voteWithTally" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Tally.jpeg 1x, /img/projects/Tally@2x.jpeg 2x">
+                    <img src="/img/projects/Tally.jpeg" alt="Tally logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Tally</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/PoolTogether_" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Pool_Together.png 1x, /img/projects/Pool_Together@2x.png 2x">
+                    <img src="/img/projects/Pool_Together.png" alt="PoolTogether logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">PoolTogether</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/nounsdao" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Nouns.png 1x, /img/projects/Nouns@2x.png 2x">
+                    <img src="/img/projects/Nouns.png" alt="Nouns logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Nouns</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/ethstatus" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Status.png 1x, /img/projects/Status@2x.png 2x">
+                    <img src="/img/projects/Status.png" alt="Status logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Status</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/tenderize_me" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Tenderize.png 1x, /img/projects/Tenderize@2x.png 2x">
+                    <img src="/img/projects/Tenderize.png" alt="Tenderize logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Tenderize</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/bobanetwork" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source srcset="/img/projects/Boba_Network.png 1x, /img/projects/Boba_Network@2x.png 2x">
+                    <img src="/img/projects/Boba_Network.png" alt="Boba Network logo" class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Boba Network</span>
+                </a>
+              </li>
+              <li class="dependents__slide slider__item" data-aos="zoom-in-up">
+                <a href="https://twitter.com/Treasure_DAO" target="_blank" rel="noopener noreferrer"
+                  class="slider__column slider__link">
+                  <picture>
+                    <source
+                      srcset="/img/projects/Treasure_Marketplace.png 1x, /img/projects/Treasure_Marketplace@2x.png 2x">
+                    <img src="/img/projects/Treasure_Marketplace.png" alt="Treasure Marketplace logo"
+                      class="slider__image">
+                  </picture>
+                  <span class="subtitle slider__text">Treasure </br> Marketplace</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="testimonials" class="section section--testimonials">
+      <div class="container">
+        <div class="testimonials">
+          <div class="testimonials__head">
+            <div class="badge badge--uppercase" data-aos="zoom-in-right">
+              <span class="badge__text">Testimonials</span>
+            </div>
+            <h2 class="title testimonials__title">
+              <span data-aos="zoom-in-right" data-aos-delay="50">Simple.</span> <span data-aos="zoom-in-down"
+                data-aos-delay="100">Robust.</span>
+              </br>
+              <span class="text--gradient" data-text="Battle Tested." data-aos="zoom-in-up" data-aos-delay="150">Battle
+                Tested.</span>
+              </br>
+              <span data-aos="zoom-in-left" data-aos-delay="200">Loved.</span>
+            </h2>
+          </div>
+          <ul class="testimonials__list">
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/1.png 1x, /img/testimonials/1@2x.png 2x">
+                <img src="/img/testimonials/1.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/2.png 1x, /img/testimonials/2@2x.png 2x">
+                <img src="/img/testimonials/2.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/3.png 1x, /img/testimonials/3@2x.png 2x">
+                <img src="/img/testimonials/3.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/4.png 1x, /img/testimonials/4@2x.png 2x">
+                <img src="/img/testimonials/4.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/5.png 1x, /img/testimonials/5@2x.png 2x">
+                <img src="/img/testimonials/5.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+            <li class="testimonials__item" data-aos="zoom-in-up">
+              <picture>
+                <source srcset="/img/testimonials/6.png 1x, /img/testimonials/6@2x.png 2x">
+                <img src="/img/testimonials/6.png" alt="" class="testimonials__image">
+              </picture>
+            </li>
+          </ul>
+          <div class="testimonials__paginations"></div>
+        </div>
+      </div>
+    </section>
+    <section id="getting_started" class="section section--start">
+      <div class="container">
+        <div class="start__header">
+          <div class="start__sliding-header">
+            <div data-aos="zoom-in-up">
+              <button data-start-terminal="npm" class="title start__button text--gradient start__button--active "
+                data-text="Start with npm">
+                Start with npm
+              </button>
+            </div>
+            <div data-aos="zoom-in-up" data-aos-delay="50">
+              <button data-start-terminal="boilerplate" class="title start__button text--gradient"
+                data-text="Start with boilerplate">
+                Start with boilerplate
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="title start__subtitle" data-aos="zoom-in-up" data-aos-delay="100">Just add an npm package and you're
+          good to go!</p>
+        <div data-aos="zoom-in-up" data-aos-delay="150">
+          <a href="https://usedapp-docs.netlify.app/docs" target="_blank" rel="noopener noreferrer"
+            class="button button--large start__link" data-button-text="Start now">Start now</a>
+        </div>
+        <div class="start__terminals" data-aos="fade-up" data-aos-delay="175">
+          <div data-start-terminal="npm" class="terminal start__terminal start__terminal--active">
+            <div class="terminal__window">
+              <div class="terminal__header">
+                <div class="terminal__button terminal__button--red"></div>
+                <div class="terminal__button terminal__button--yellow"></div>
+                <div class="terminal__button terminal__button--green"></div>
+              </div>
+              <div class="terminal__section">
+                <div class="terminal__history"></div>
+                >&nbsp;<span class="terminal__prompt"></span>
+                <br />
+                <span class="terminal__result">> Installing...</span>
+                <svg class="terminal__spinner" viewBox="0 0 50 50">
+                  <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <span class="terminal__notification">Installed!</span>
+              </div>
+              <canvas class="terminal__confetti"></canvas>
+            </div>
+          </div>
+          <div data-start-terminal="boilerplate" class="terminal terminal--white start__terminal">
+            <div class="terminal__window">
+              <div class="terminal__header">
+                <div class="terminal__button terminal__button--red"></div>
+                <div class="terminal__button terminal__button--yellow"></div>
+                <div class="terminal__button terminal__button--green"></div>
+              </div>
+              <div class="terminal__section">
+                <div class="terminal__history"></div>
+                >&nbsp;<span class="terminal__prompt"></span>
+                <br />
+                <span class="terminal__result">> Installing...</span>
+                <svg class="terminal__spinner" viewBox="0 0 50 50" fill="none" color="currentColor">
+                  <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5">
+                  </circle>
+                </svg>
+                <span class="terminal__notification">Installed!</span>
+              </div>
+              <canvas class="terminal__confetti"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="integration" class="section section--integration">
+      <div class="container">
+        <div class="integration">
+          <div class="integration__content">
+            <h2 class="title text--white text--gradient integration__title" data-text="Easy to integrate"
+              data-aos="zoom-in-right">
+              Easy to integrate
+            </h2>
+            <p class="title text--white integration__description" data-aos="zoom-in-right" data-aos-delay="50">
+              Just the way you like it!
+            </p>
+            <ul class="integration__list">
+              <li class="integration__item" data-aos="zoom-in-up">
+                WalletConnect working out-of-the box
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                Sign-In with Ethereum
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                Web3Modal compatible
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                Web3React backwards compatible
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                Small (No dependencies except ethers.js)
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                TypeScript native
+              </li>
+              <li class="integration__item" data-aos="zoom-in-up">
+                Devtools browser plugin
+              </li>
+            </ul>
+          </div>
+          <div class="integration__media">
+            <div data-aos="zoom-in-left">
+              <div class="integration__editor-container">
+                <picture>
+                  <source
+                    srcset="/img/integration/integration__editor.jpg 1x, /img/integration/integration__editor@2x.jpg 2x">
+                  <img src="/img/integration/integration__editor.jpg" alt="VSCode editor window"
+                    class="integration__editor">
+                </picture>
+              </div>
+            </div>
+            <div data-aos="zoom-in-up">
+              <div class="integration__video-container">
+                <video class="integration__video" data-video-tag="browser" poster="/img/covers/browser__cover.jpg"
+                  autoplay="" loop="" muted="true" defaultMuted playsinline="" oncontextmenu="return false;"
+                  preload="auto">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="features" class="section section--features">
+      <div class="container">
+        <div class="features">
+          <div class="features__row">
+            <div class="features__column">
+              <div class="badge badge--uppercase" data-aos="zoom-in-left">
+                <span class="badge__text">Feature</span>
+              </div>
+              <h3 class="title features__title" data-aos="zoom-in-left" data-aos-delay="50">Read</h3>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="75">
+                Autorefresh all visible values on new block
+              </p>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="100">
+                Minimize your Infura/Alchemy bill by squashing all calls into a single multicall
+              </p>
+            </div>
+            <div class="features__video-container" data-aos="zoom-in-up">
+              <video class="features__video" data-video-tag="read" poster="/img/covers/read__cover.jpg" autoplay=""
+                loop="" muted="true" defaultMuted playsinline="" oncontextmenu="return false;" preload="auto">
+              </video>
+            </div>
+          </div>
+          <div class="features__row">
+            <div class="features__column">
+              <div class="badge badge--uppercase" data-aos="zoom-in-left">
+                <span class="badge__text">Feature</span>
+              </div>
+              <h3 class="title features__title" data-aos="zoom-in-left" data-aos-delay="50">Connect</h3>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="75">
+                Autorefresh on wallet and network change
+              </p>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="100">
+                Connect to multiple networks at once
+              </p>
+            </div>
+            <div class="features__video-container" data-aos="zoom-in-up">
+              <video class="features__video" data-video-tag="connect" poster="/img/covers/connect__cover.jpg"
+                autoplay="" loop="" muted="true" defaultMuted playsinline="" oncontextmenu="return false;"
+                preload="auto">
+              </video>
+            </div>
+          </div>
+          <div class="features__row">
+            <div class="features__column">
+              <div class="badge badge--uppercase" data-aos="zoom-in-left">
+                <span class="badge__text">Feature</span>
+              </div>
+              <h3 class="title features__title" data-aos="zoom-in-left" data-aos-delay="50">Write</h3>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="75">
+                Manage transaction status with ease
+              </p>
+              <p class="features__text" data-aos="zoom-in-left" data-aos-delay="100">
+                Transaction history and notifications
+              </p>
+            </div>
+            <div class="features__video-container" data-aos="zoom-in-up">
+              <video class="features__video" data-video-tag="write" poster="/img/covers/write__cover.jpg" autoplay=""
+                loop="" muted="true" defaultMuted playsinline="" oncontextmenu="return false;" preload="auto">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="resources" class="section section--resources">
+      <div class="container">
+        <div class="resources">
+          <h2 class="title text--gradient resources__title" data-text="Resources" data-aos="zoom-in-down">Resources</h2>
+          <div class="resources__grid">
+            <picture class="resources__picture">
+              <source srcset="/img/resources/resources.jpg 1x, /img/resources/resources@2x.jpg 2x">
+              <img src="/img/resources/resources.jpg" alt="" class="resources__image" data-aos="zoom-in-up"
+                data-aos-delay="25">
+            </picture>
+            <div data-aos="zoom-in-right" data-aos-delay="50">
+              <a href="https://usedapp-docs.netlify.app/docs" target="_blank" rel="noopener noreferrer"
+                class="resources__item">
+                <svg class="resources__icon" viewBox="0 0 32 32" fill="none" color="currentColor">
+                  <path d="M18.668 0V9.33238H28.0004L18.668 0Z" fill="currentColor" />
+                  <path
+                    d="M18.6655 11.9989C17.1928 11.9989 15.9989 10.8034 15.9989 9.33238V0H6.66656C5.19388 0 4 1.19232 4 2.665V29.3306C4 30.8049 5.19388 31.9968 6.66656 31.9968L25.3313 32C26.8028 32 27.9979 30.8049 27.9979 29.333V11.9989H18.6655Z"
+                    fill="currentColor" />
+                </svg>
+                <span class="title text--gradient resources__name" data-text="Getting started">
+                  Getting started
+                </span>
+                <span class="subtitle resources__description">
+                  Take your first steps
+                </span>
+              </a>
+            </div>
+            <div data-aos="zoom-in-right" data-aos-delay="55">
+              <a href="https://example.usedapp.io/" target="_blank" rel="noopener noreferrer" class="resources__item">
+                <svg class="resources__icon" viewBox="0 0 32 32" fill="none" color="currentColor">
+                  <path
+                    d="M31.8001 15.5195L23.6332 7.35258C23.3793 7.09862 22.9299 7.09862 22.676 7.35258L20.9054 9.12317C20.6409 9.38762 20.6409 9.8163 20.9054 10.0808L26.8233 15.998L20.9057 21.9162C20.6413 22.1806 20.6413 22.6093 20.9057 22.8738L22.6763 24.6444C22.8033 24.7714 22.9756 24.8431 23.1551 24.8431C23.3342 24.8431 23.5069 24.7714 23.6339 24.6444L31.8001 16.4778C32.0646 16.213 32.0646 15.784 31.8001 15.5195Z"
+                    fill="currentColor" />
+                  <path
+                    d="M11.0928 21.9162L5.17591 15.9986L11.0938 10.0814C11.2208 9.95441 11.2922 9.7824 11.2922 9.6026C11.2922 9.42313 11.2211 9.25078 11.0938 9.1238L9.3232 7.35321C9.19623 7.22623 9.02387 7.15479 8.84441 7.15479C8.66495 7.15479 8.49259 7.22623 8.36561 7.35321L0.198341 15.5195C-0.0661136 15.7839 -0.0661136 16.2126 0.198341 16.4774L8.36528 24.644C8.49226 24.771 8.66461 24.8428 8.84407 24.8428C9.02353 24.8428 9.19589 24.771 9.32286 24.644L11.0935 22.8734C11.3579 22.6093 11.3579 22.1806 11.0928 21.9162Z"
+                    fill="currentColor" />
+                  <path
+                    d="M20.644 4.60501C20.558 4.44722 20.4131 4.33006 20.2411 4.27927L18.8057 3.85567C18.4475 3.74934 18.0703 3.95488 17.9646 4.31347L11.3011 26.8795C11.2503 27.0518 11.27 27.237 11.3556 27.3945C11.4413 27.5526 11.5866 27.6694 11.7586 27.7206L13.1939 28.1442C13.2579 28.1631 13.3226 28.1723 13.3859 28.1723C13.6782 28.1723 13.948 27.9813 14.0351 27.6864L20.6986 5.12004C20.7494 4.94768 20.7301 4.76246 20.644 4.60501Z"
+                    fill="currentColor" />
+                </svg>
+                <span class="title text--gradient resources__name" data-text="Example app">
+                  Example app
+                </span>
+                <span class="subtitle resources__description">
+                  See it in action
+                </span>
+              </a>
+            </div>
+            <div data-aos="zoom-in-left" data-aos-delay="60">
+              <a href="https://discord.com/invite/cSSmtdq7jr" target="_blank" rel="noopener noreferrer"
+                class="resources__item">
+                <svg class="resources__icon" viewBox="0 0 24 24" fill="none" color="currentColor">
+                  <path
+                    d="M9.14437 11.2547V11.2469C8.24733 11.2469 7.52344 11.9885 7.52344 12.8999C7.52344 13.8114 8.24733 14.553 9.14437 14.553C10.0414 14.553 10.7654 13.8114 10.7654 12.9077C10.7654 11.9962 10.0335 11.2547 9.14437 11.2547Z"
+                    fill="currentColor" />
+                  <path
+                    d="M12 0.28125C5.52792 0.28125 0.28125 5.52792 0.28125 12C0.28125 18.4721 5.52792 23.7188 12 23.7188C18.4721 23.7188 23.7188 18.4721 23.7188 12C23.7188 5.52792 18.4721 0.28125 12 0.28125ZM16.3357 18.1833C16.3357 18.1833 15.7453 17.5266 15.3206 16.9474C17.3664 16.3681 18.1378 15.2095 18.1378 15.2095C16.0106 16.5247 14.024 17.0307 12 16.9649C9.97598 17.0305 7.98938 16.5247 5.86247 15.2095C5.86247 15.2095 6.63356 16.3681 8.67966 16.9474C8.25478 17.5268 7.66462 18.1833 7.66462 18.1833C4.15495 18.1061 2.79375 15.9587 2.715 16.0514C2.715 11.2702 5.03625 7.377 5.03625 7.377C7.11356 5.88638 9.04927 5.82441 9.41906 5.81667L9.65517 6.04069C7.00341 6.7822 5.72081 7.94086 5.72081 7.94086C7.99673 6.84159 10.1418 6.45492 12 6.43177C13.8582 6.4552 16.0031 6.84159 18.2792 7.94086C18.2792 7.94086 16.9966 6.7822 14.3449 6.04069L14.5809 5.81667C14.9508 5.82441 16.8864 5.88619 18.9637 7.377C18.9637 7.377 21.285 11.2701 21.285 16.0514C21.2063 15.9587 19.845 18.1061 16.3357 18.1833Z"
+                    fill="currentColor" />
+                  <path
+                    d="M14.8554 11.2468V11.2546C13.9662 11.2546 13.2344 11.9961 13.2344 12.9076C13.2344 13.8113 13.9584 14.5529 14.8554 14.5529C15.7524 14.5529 16.4763 13.8113 16.4763 12.8998C16.4763 11.9883 15.7524 11.2468 14.8554 11.2468Z"
+                    fill="currentColor" />
+                </svg>
+                <span class="title text--gradient resources__name" data-text="Discord">
+                  Discord
+                </span>
+                <span class="subtitle resources__description">
+                  Connect with the community
+                </span>
+              </a>
+            </div>
+            <div data-aos="zoom-in-left" data-aos-delay="70">
+              <a href="https://github.com/TrueFiEng/useDApp" target="_blank" rel="noopener noreferrer"
+                class="resources__item">
+                <svg class="resources__icon" viewBox="0 0 24 24" fill="none" color="currentColor">
+                  <path
+                    d="M11.9985 0.249817C5.373 0.249817 0 5.64381 0 12.2978C0 17.6198 3.438 22.1348 8.208 23.7293C8.808 23.8403 9.027 23.4683 9.027 23.1488C9.027 22.8623 9.0165 22.1048 9.0105 21.0998C5.673 21.8273 4.968 19.4843 4.968 19.4843C4.4235 18.0923 3.636 17.7218 3.636 17.7218C2.5455 16.9748 3.717 16.9898 3.717 16.9898C4.9215 17.0753 5.5545 18.2318 5.5545 18.2318C6.6255 20.0723 8.364 19.5413 9.048 19.2323C9.156 18.4538 9.4665 17.9228 9.81 17.6213C7.146 17.3168 4.344 16.2833 4.344 11.6678C4.344 10.3523 4.812 9.27681 5.58 8.43381C5.4555 8.12931 5.0445 6.90381 5.697 5.24631C5.697 5.24631 6.705 4.92232 8.997 6.48081C9.954 6.21381 10.98 6.08031 12.0015 6.07581C13.02 6.08181 14.0475 6.21381 15.006 6.48231C17.2965 4.92382 18.303 5.24782 18.303 5.24782C18.957 6.90681 18.546 8.13081 18.423 8.43531C19.1925 9.27831 19.656 10.3538 19.656 11.6693C19.656 16.2968 16.851 17.3153 14.178 17.6138C14.6085 17.9858 14.9925 18.7208 14.9925 19.8443C14.9925 21.4553 14.9775 22.7543 14.9775 23.1488C14.9775 23.4713 15.1935 23.8463 15.8025 23.7278C20.565 22.1318 24 17.6183 24 12.2978C24 5.64381 18.627 0.249817 11.9985 0.249817Z"
+                    fill="currentColor" />
+                </svg>
+                <span class="title text--gradient resources__name" data-text="Github">
+                  Github
+                </span>
+                <span class="subtitle resources__description">
+                  We ❤️ open source
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="about-us" class="section section--about">
+      <div class="container">
+        <div data-aos="zoom-in-up">
+          <a href="https://github.com/TrueFiEng/useDApp" target="_blank" rel="noopener noreferrer" class="about__link">
+            <svg viewBox="0 0 152 47" fill="none" color="currentColor">
+              <path
+                d="M79.1637 35.0887V33.3585H72.5312V43.7398H79.1637V42.0096H74.348V39.4142H78.2986V37.684H74.348V35.0887H79.1637Z"
+                fill="currentColor" />
+              <path
+                d="M80.6107 43.7398H82.341V39.4142C82.341 38.304 83.0619 37.5254 84.0856 37.5254C84.893 37.5254 85.3977 38.1022 85.3977 39.2556V43.7398H87.1279V39.0538C87.1279 36.8622 85.8879 35.9538 84.5037 35.9538C83.4944 35.9538 82.7303 36.4729 82.3698 37.0352H82.341V36.098H80.6107V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M94.239 36.098V36.9919H94.2101C93.4892 36.3143 92.8692 35.9827 91.9032 35.9827C89.9279 35.9827 88.5004 37.4822 88.5004 39.7314C88.5004 41.9807 89.9279 43.4802 91.9032 43.4802C92.8692 43.4802 93.4892 43.1486 94.2101 42.4709H94.239V42.8026C94.239 44.2444 93.6334 45.2681 92.2348 45.2681C91.3985 45.2681 90.6776 44.8644 90.4037 43.8695L88.6158 44.1291C89.106 45.8016 90.3892 46.7676 92.206 46.7676C94.412 46.7676 95.9692 45.2249 95.9692 42.6584V36.098H94.239ZM92.2781 41.8942C91.1823 41.8942 90.2883 41.0435 90.2883 39.7314C90.2883 38.4194 91.1823 37.5687 92.2781 37.5687C93.3739 37.5687 94.2678 38.4194 94.2678 39.7314C94.2678 41.0435 93.3739 41.8942 92.2781 41.8942Z"
+                fill="currentColor" />
+              <path
+                d="M98.6681 35.305C99.3169 35.305 99.8216 34.8003 99.8216 34.1515C99.8216 33.5171 99.3169 32.998 98.6681 32.998C98.0193 32.998 97.5146 33.5171 97.5146 34.1515C97.5146 34.8003 98.0193 35.305 98.6681 35.305ZM97.803 43.7398H99.5332V36.098H97.803V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M101.379 43.7398H103.11V39.4142C103.11 38.304 103.831 37.5254 104.854 37.5254C105.662 37.5254 106.166 38.1022 106.166 39.2556V43.7398H107.897V39.0538C107.897 36.8622 106.657 35.9538 105.272 35.9538C104.263 35.9538 103.499 36.4729 103.138 37.0352H103.11V36.098H101.379V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M113.104 42.3556C112.124 42.3556 111.259 41.7068 111.129 40.4812H116.781C116.781 37.3957 114.979 35.9538 112.96 35.9538C110.884 35.9538 109.255 37.5398 109.255 39.9189C109.255 42.2979 110.884 43.884 113.09 43.884C114.633 43.884 115.887 43.2784 116.608 41.5337L114.806 41.2886C114.517 41.9519 113.912 42.3556 113.104 42.3556ZM112.989 37.4966C113.897 37.4966 114.676 38.1887 114.863 39.1547H111.115C111.302 38.1887 112.081 37.4966 112.989 37.4966Z"
+                fill="currentColor" />
+              <path
+                d="M121.595 42.3556C120.615 42.3556 119.749 41.7068 119.62 40.4812H125.272C125.272 37.3957 123.469 35.9538 121.451 35.9538C119.375 35.9538 117.745 37.5398 117.745 39.9189C117.745 42.2979 119.375 43.884 121.581 43.884C123.123 43.884 124.378 43.2784 125.099 41.5337L123.296 41.2886C123.008 41.9519 122.402 42.3556 121.595 42.3556ZM121.48 37.4966C122.388 37.4966 123.167 38.1887 123.354 39.1547H119.605C119.793 38.1887 120.571 37.4966 121.48 37.4966Z"
+                fill="currentColor" />
+              <path
+                d="M126.654 43.7398H128.384V39.4575C128.384 38.405 129.105 37.684 130.158 37.684C130.316 37.684 130.576 37.7129 130.792 37.7994V36.1413C130.59 36.0692 130.388 36.0259 130.158 36.0259C129.264 36.0259 128.716 36.4152 128.413 36.9199H128.384V36.098H126.654V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M132.841 35.305C133.49 35.305 133.995 34.8003 133.995 34.1515C133.995 33.5171 133.49 32.998 132.841 32.998C132.193 32.998 131.688 33.5171 131.688 34.1515C131.688 34.8003 132.193 35.305 132.841 35.305ZM131.976 43.7398H133.707V36.098H131.976V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M135.553 43.7398H137.283V39.4142C137.283 38.304 138.004 37.5254 139.028 37.5254C139.835 37.5254 140.34 38.1022 140.34 39.2556V43.7398H142.07V39.0538C142.07 36.8622 140.83 35.9538 139.446 35.9538C138.436 35.9538 137.672 36.4729 137.312 37.0352H137.283V36.098H135.553V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M149.181 36.098V36.9919H149.152C148.431 36.3143 147.811 35.9827 146.845 35.9827C144.87 35.9827 143.442 37.4822 143.442 39.7314C143.442 41.9807 144.87 43.4802 146.845 43.4802C147.811 43.4802 148.431 43.1486 149.152 42.4709H149.181V42.8026C149.181 44.2444 148.575 45.2681 147.177 45.2681C146.341 45.2681 145.62 44.8644 145.346 43.8695L143.558 44.1291C144.048 45.8016 145.331 46.7676 147.148 46.7676C149.354 46.7676 150.911 45.2249 150.911 42.6584V36.098H149.181ZM147.22 41.8942C146.124 41.8942 145.23 41.0435 145.23 39.7314C145.23 38.4194 146.124 37.5687 147.22 37.5687C148.316 37.5687 149.21 38.4194 149.21 39.7314C149.21 41.0435 148.316 41.8942 147.22 41.8942Z"
+                fill="currentColor" />
+              <path
+                d="M131.27 20.9894C131.073 21.7027 130.743 22.3512 130.348 22.9349C129.953 23.5834 129.426 24.1022 128.767 24.5561C126.066 26.5665 121.192 26.7611 118.03 23.7779C115.658 21.573 114.736 17.4874 116.185 14.0503C116.91 12.3642 118.293 10.6781 120.467 9.70534C122.97 8.60288 127.12 8.92713 129.36 11.3266C130.875 12.9479 131.666 15.4122 131.468 18.2656C131.468 18.525 131.402 18.7196 131.402 18.7196H119.808C119.808 19.5626 120.204 20.276 120.665 20.8597C121.258 21.6379 122.443 22.2864 123.629 22.3512C124.551 22.4161 125.605 22.2215 126.33 21.7027C126.923 21.2488 127.318 20.6651 127.581 19.9517L131.27 20.9894ZM127.12 15.8013C127.12 14.634 126.33 13.5315 125.408 13.0776C124.222 12.4939 122.707 12.5588 121.653 13.1424C120.665 13.6612 119.94 14.634 119.874 15.8662C121.521 15.8662 123.168 15.8662 124.815 15.8662C125.605 15.8013 126.33 15.8013 127.12 15.8013Z"
+                fill="currentColor" />
+              <path
+                d="M74.2234 9.64026V6.00862L78.1758 4.84131V9.64026H81.4694V13.4664H78.1758V20.1461C78.1758 20.8594 78.3075 21.3134 78.6369 21.5728C78.9662 21.8322 79.4273 21.9619 80.0861 21.9619C80.3496 21.9619 80.6131 21.9619 80.8766 21.9619C81.1401 21.9619 81.3377 21.897 81.4694 21.8322V25.399C81.2718 25.4638 80.9424 25.5935 80.5472 25.6584C80.152 25.7232 79.625 25.7881 78.9662 25.7881C77.3853 25.7881 76.1337 25.3341 75.2115 24.4911C74.2892 23.648 73.8281 22.4158 73.8281 20.8594V13.4664H70.9297V9.64026H74.2234Z"
+                fill="currentColor" />
+              <path
+                d="M94.8414 13.9204C93.7874 13.7907 92.2723 13.4665 90.5596 14.7635C90.1644 15.0877 89.9009 15.5417 89.6374 16.1253C89.4398 16.709 89.308 17.4223 89.308 18.2654V25.5287H84.8945V9.64027H89.1763C89.1763 10.4185 89.1763 11.1318 89.1763 11.91C89.3739 11.6506 89.5715 11.3264 89.7692 11.067C90.0985 10.7427 90.4279 10.4833 90.7573 10.2239C91.8112 9.57542 93.0628 9.44571 94.2485 9.51056C94.3803 9.51056 94.5779 9.51057 94.7755 9.57542V13.9204H94.8414Z"
+                fill="currentColor" />
+              <path
+                d="M108.147 9.64014H112.56V25.5934H108.279V23.6479C107.752 24.4909 107.093 25.0746 106.236 25.4637C104.26 26.3716 101.691 26.2419 99.9785 24.9449C98.3317 23.7127 97.8047 21.7024 97.8047 19.7568V9.64014H102.218V18.9138C102.218 20.5999 103.206 21.9618 104.985 22.0266C105.907 22.0266 106.763 21.7672 107.356 21.1187C108.015 20.4702 108.213 19.6271 108.213 18.7192C108.147 18.8489 108.147 9.64014 108.147 9.64014Z"
+                fill="currentColor" />
+              <path
+                d="M140.099 13.3366V25.5934H135.685V13.3366H132.984V9.64008H135.685C135.685 8.01882 135.553 6.39755 136.344 4.90598C136.937 3.73867 137.925 2.83076 139.176 2.31195C139.901 2.05255 140.692 1.92285 141.614 1.92285C142.075 1.92285 142.536 1.92285 142.931 1.9877C143.326 2.05255 143.656 2.1174 143.788 2.2471V5.81389C143.656 5.74904 143.524 5.74904 143.326 5.68419C142.602 5.55449 141.746 5.61934 141.087 6.00845C140.428 6.39755 140.165 7.11091 140.165 7.82426V9.57523H151.034V25.5285H146.686V13.3366H140.099Z"
+                fill="currentColor" />
+              <path
+                d="M151.491 4.32245C151.491 3.60909 151.162 2.89573 150.701 2.44178C150.24 1.98783 149.515 1.66357 148.791 1.66357C148.066 1.66357 147.341 1.98783 146.88 2.44178C146.419 2.89573 146.09 3.60909 146.09 4.32245C146.09 5.0358 146.419 5.74916 146.88 6.20311C147.341 6.65707 148.066 6.98132 148.791 6.98132C149.515 6.98132 150.24 6.65707 150.701 6.20311C151.162 5.74916 151.491 5.10065 151.491 4.32245Z"
+                fill="currentColor" />
+              <path
+                d="M43.1545 6.09668C41.1422 6.09668 39.2976 7.16355 38.3055 8.88162L25.7121 30.4822H16.3242V41.5666H28.9558C30.9538 41.5666 32.7998 40.5092 33.798 38.7932L46.3685 17.181H55.7312V6.09668H43.1545Z"
+                fill="currentColor" />
+              <path
+                d="M9.69918 41.5666L0 36.0382L15.8117 8.88162C16.8026 7.16355 18.6447 6.09668 20.6544 6.09668H33.2144V17.181H23.8642L9.69918 41.5666Z"
+                fill="currentColor" />
+              <path
+                d="M50.1022 34.9159C53.2113 34.9159 55.7318 32.4346 55.7318 29.3737C55.7318 26.3129 53.2113 23.8315 50.1022 23.8315C46.9931 23.8315 44.4727 26.3129 44.4727 29.3737C44.4727 32.4346 46.9931 34.9159 50.1022 34.9159Z"
+                fill="currentColor" />
+              <path d="M1.125 6.09668V17.181C7.34567 17.181 12.3841 12.2208 12.3841 6.09668H1.125Z"
+                fill="currentColor" />
             </svg>
           </a>
         </div>
       </div>
-    </header>
-    <div class="burger burger--arrowalt js-burger">
-      <div class="burger-box">
-        <div class="burger-inner"></div>
+      <div class="container container--full">
+        <div data-aos="zoom-in" data-aos-delay="50">
+          <div class="marquee3k" data-speed="1">
+            <h4 class="title text--gradient about__loop-text" data-text="We love
+          blockchain and open-source.&nbsp;">We love
+              blockchain and open-source.&nbsp;</h4>
+          </div>
+        </div>
       </div>
-    </div>
-    <a
-      href="https://usedapp-docs.netlify.app"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="button button--mobile-fixed"
-      title="useDapp documentation"
-    >
-      <div>DOCUMENTATION</div>
-    </a>
-    <main id="fullpage" class="main" data-anchor="about">
-      <section data-sectioncolor="#FFF4D4" class="section section--main">
-        <div class="container container--left">
-          <div class="smaller-wrapper">
-            <h1 class="main-title text--left">
-              <span class="main-title__large">useDApp</span> <br />
-              Ethereum <span data-animations="animate__shakeY" class="inline-block animate__animated">🤝</span> React
-            </h1>
-            <h2 class="title-page text--left">Framework for rapid DApp development.</h2>
-          </div>
-          <div class="hero-image">
-            <div
-              class="hero-image__wrapper"
-              data-tilt
-              data-tilt-full-page-listening
-              data-tilt-max="10"
-              data-tilt-reverse="true"
-            >
-              <div class="hero-image__bottom-cloud__wrapper">
-                <img
-                  src="./img/bottom-cloud.png"
-                  alt="Hero image"
-                  data-animations="animate__fadeInBottomLeft"
-                  class="hero-image__bottom-cloud animate__animated"
-                />
-              </div>
-              <div class="hero-image__top-cloud__wrapper">
-                <img
-                  src="./img/top-cloud.png"
-                  alt="Hero image"
-                  data-animations="animate__fadeInTopRight"
-                  class="hero-image__top-cloud animate__animated"
-                />
-              </div>
-              <div class="hero-image__rocket-woman__wrapper">
-                <img
-                  src="./img/rocket-woman.png"
-                  alt="Hero image"
-                  data-animations="animate__fadeInBottomRight"
-                  class="hero-image__rocket-woman animate__animated"
-                />
-              </div>
-            </div>
-          </div>
-          <a href="#features" data-destination="features" class="button-down anchor">
-            <img src="./img/arrowDown.svg" alt="Go down" />
+      <div class="container">
+        <p class="title about__description" data-aos="zoom-in-up" data-aos-delay="65">We are TrueFi Engineering team
+          working on <a href="https://truefi.io/" target="_blank" rel="noopener noreferrer"
+            class="about__description-link">TrueFi</a>
+          protocol.
+        </p>
+        <ul class="socials about__socials">
+          <li class="social about__social">
+            <a href="https://discord.com/invite/cSSmtdq7jr" target="_blank" rel="noopener noreferrer"
+              class="social__link" data-aos="zoom-in-up" data-aos-delay="20">
+              <span class="social__text">
+                UseDApp discord channel
+              </span>
+            </a>
+          </li>
+          <li class="social about__social">
+            <a href="https://twitter.com/TrueFiEng" target="_blank" rel="noopener noreferrer" class="social__link"
+              data-aos="zoom-in-up" data-aos-delay="40">
+              <span class="social__text">
+                UseDApp on Twitter
+              </span>
+            </a>
+          </li>
+          <li class="social about__social">
+            <a href="https://medium.com/truefieng" target="_blank" rel="noopener noreferrer" class="social__link"
+              data-aos="zoom-in-up" data-aos-delay="60">
+              <span class="social__text">
+                UseDApp on Medium
+              </span>
+            </a>
+          </li>
+          <li class="social about__social">
+            <a href="https://github.com/TrueFiEng/useDApp" target="_blank" rel="noopener noreferrer"
+              class="social__link" data-aos="zoom-in-up" data-aos-delay="80">
+              <span class="social__text">
+                UseDApp on GitHub
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer__logo">
+        <svg class="footer__logo-image" viewBox="0 0 32 32" fill="none" color="currentColor">
+          <path d="M11.1943 3.92392L10.9275 22.861L3 25.8849V0L11.1943 3.92392Z" fill="currentColor" />
+          <path d="M21.7746 9.21681L21.7746 17.7143L29.75 15.009L29.75 5.3833L21.7746 9.21681Z" fill="currentColor" />
+          <path
+            d="M6.64502 31.9574C5.95183 31.8585 5.29358 31.5907 4.72819 31.1776L4.72896 31.1765C4.19292 30.7903 3.75652 30.2821 3.45587 29.6938C3.15491 29.1049 2.99864 28.4528 3.00001 27.7915V24.9069L9.82931 22.3019L21.7683 17.7544V27.0586L8.70345 31.7449C8.04509 31.9833 7.33821 32.0563 6.64502 31.9574Z"
+            fill="currentColor" />
+        </svg>
+        <span class="footer__logo-text">useDApp</span>
+      </a>
+      <nav class="navigation footer__navigation">
+        <ul class="navigation__list footer__list">
+          <li class="navigation__item footer__item">
+            <a href="#testimonials" class="navigation__link footer__link">Testimonials</a>
+          </li>
+          <li class="navigation__item footer__item">
+            <a href="#getting_started" class="navigation__link footer__link">Getting started</a>
+          </li>
+          <li class="navigation__item footer__item">
+            <a href="#features" class="navigation__link footer__link">Features</a>
+          </li>
+          <li class="navigation__item footer__item">
+            <a href="#resources" class="navigation__link footer__link">Resources</a>
+          </li>
+          <li class="navigation__item footer__item">
+            <a href="https://usedapp-docs.netlify.app/docs" target="_blank" rel="noopener noreferrer"
+              class="navigation__link navigation__link--external footer__link">Documentation</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="copyrights">
+        <div class="copyrights__created">
+          <span class="copyright__text">
+            Created by
+          </span>
+          <a href="https://twitter.com/TrueFiEng" target="_blank" rel="noopener noreferrer" class="copyrights__link">
+            <svg viewBox="0 0 152 47" fill="none" color="currentColor">
+              <path
+                d="M79.1637 35.0887V33.3585H72.5312V43.7398H79.1637V42.0096H74.348V39.4142H78.2986V37.684H74.348V35.0887H79.1637Z"
+                fill="currentColor" />
+              <path
+                d="M80.6107 43.7398H82.341V39.4142C82.341 38.304 83.0619 37.5254 84.0856 37.5254C84.893 37.5254 85.3977 38.1022 85.3977 39.2556V43.7398H87.1279V39.0538C87.1279 36.8622 85.8879 35.9538 84.5037 35.9538C83.4944 35.9538 82.7303 36.4729 82.3698 37.0352H82.341V36.098H80.6107V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M94.239 36.098V36.9919H94.2101C93.4892 36.3143 92.8692 35.9827 91.9032 35.9827C89.9279 35.9827 88.5004 37.4822 88.5004 39.7314C88.5004 41.9807 89.9279 43.4802 91.9032 43.4802C92.8692 43.4802 93.4892 43.1486 94.2101 42.4709H94.239V42.8026C94.239 44.2444 93.6334 45.2681 92.2348 45.2681C91.3985 45.2681 90.6776 44.8644 90.4037 43.8695L88.6158 44.1291C89.106 45.8016 90.3892 46.7676 92.206 46.7676C94.412 46.7676 95.9692 45.2249 95.9692 42.6584V36.098H94.239ZM92.2781 41.8942C91.1823 41.8942 90.2883 41.0435 90.2883 39.7314C90.2883 38.4194 91.1823 37.5687 92.2781 37.5687C93.3739 37.5687 94.2678 38.4194 94.2678 39.7314C94.2678 41.0435 93.3739 41.8942 92.2781 41.8942Z"
+                fill="currentColor" />
+              <path
+                d="M98.6681 35.305C99.3169 35.305 99.8216 34.8003 99.8216 34.1515C99.8216 33.5171 99.3169 32.998 98.6681 32.998C98.0193 32.998 97.5146 33.5171 97.5146 34.1515C97.5146 34.8003 98.0193 35.305 98.6681 35.305ZM97.803 43.7398H99.5332V36.098H97.803V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M101.379 43.7398H103.11V39.4142C103.11 38.304 103.831 37.5254 104.854 37.5254C105.662 37.5254 106.166 38.1022 106.166 39.2556V43.7398H107.897V39.0538C107.897 36.8622 106.657 35.9538 105.272 35.9538C104.263 35.9538 103.499 36.4729 103.138 37.0352H103.11V36.098H101.379V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M113.104 42.3556C112.124 42.3556 111.259 41.7068 111.129 40.4812H116.781C116.781 37.3957 114.979 35.9538 112.96 35.9538C110.884 35.9538 109.255 37.5398 109.255 39.9189C109.255 42.2979 110.884 43.884 113.09 43.884C114.633 43.884 115.887 43.2784 116.608 41.5337L114.806 41.2886C114.517 41.9519 113.912 42.3556 113.104 42.3556ZM112.989 37.4966C113.897 37.4966 114.676 38.1887 114.863 39.1547H111.115C111.302 38.1887 112.081 37.4966 112.989 37.4966Z"
+                fill="currentColor" />
+              <path
+                d="M121.595 42.3556C120.615 42.3556 119.749 41.7068 119.62 40.4812H125.272C125.272 37.3957 123.469 35.9538 121.451 35.9538C119.375 35.9538 117.745 37.5398 117.745 39.9189C117.745 42.2979 119.375 43.884 121.581 43.884C123.123 43.884 124.378 43.2784 125.099 41.5337L123.296 41.2886C123.008 41.9519 122.402 42.3556 121.595 42.3556ZM121.48 37.4966C122.388 37.4966 123.167 38.1887 123.354 39.1547H119.605C119.793 38.1887 120.571 37.4966 121.48 37.4966Z"
+                fill="currentColor" />
+              <path
+                d="M126.654 43.7398H128.384V39.4575C128.384 38.405 129.105 37.684 130.158 37.684C130.316 37.684 130.576 37.7129 130.792 37.7994V36.1413C130.59 36.0692 130.388 36.0259 130.158 36.0259C129.264 36.0259 128.716 36.4152 128.413 36.9199H128.384V36.098H126.654V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M132.841 35.305C133.49 35.305 133.995 34.8003 133.995 34.1515C133.995 33.5171 133.49 32.998 132.841 32.998C132.193 32.998 131.688 33.5171 131.688 34.1515C131.688 34.8003 132.193 35.305 132.841 35.305ZM131.976 43.7398H133.707V36.098H131.976V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M135.553 43.7398H137.283V39.4142C137.283 38.304 138.004 37.5254 139.028 37.5254C139.835 37.5254 140.34 38.1022 140.34 39.2556V43.7398H142.07V39.0538C142.07 36.8622 140.83 35.9538 139.446 35.9538C138.436 35.9538 137.672 36.4729 137.312 37.0352H137.283V36.098H135.553V43.7398Z"
+                fill="currentColor" />
+              <path
+                d="M149.181 36.098V36.9919H149.152C148.431 36.3143 147.811 35.9827 146.845 35.9827C144.87 35.9827 143.442 37.4822 143.442 39.7314C143.442 41.9807 144.87 43.4802 146.845 43.4802C147.811 43.4802 148.431 43.1486 149.152 42.4709H149.181V42.8026C149.181 44.2444 148.575 45.2681 147.177 45.2681C146.341 45.2681 145.62 44.8644 145.346 43.8695L143.558 44.1291C144.048 45.8016 145.331 46.7676 147.148 46.7676C149.354 46.7676 150.911 45.2249 150.911 42.6584V36.098H149.181ZM147.22 41.8942C146.124 41.8942 145.23 41.0435 145.23 39.7314C145.23 38.4194 146.124 37.5687 147.22 37.5687C148.316 37.5687 149.21 38.4194 149.21 39.7314C149.21 41.0435 148.316 41.8942 147.22 41.8942Z"
+                fill="currentColor" />
+              <path
+                d="M131.27 20.9894C131.073 21.7027 130.743 22.3512 130.348 22.9349C129.953 23.5834 129.426 24.1022 128.767 24.5561C126.066 26.5665 121.192 26.7611 118.03 23.7779C115.658 21.573 114.736 17.4874 116.185 14.0503C116.91 12.3642 118.293 10.6781 120.467 9.70534C122.97 8.60288 127.12 8.92713 129.36 11.3266C130.875 12.9479 131.666 15.4122 131.468 18.2656C131.468 18.525 131.402 18.7196 131.402 18.7196H119.808C119.808 19.5626 120.204 20.276 120.665 20.8597C121.258 21.6379 122.443 22.2864 123.629 22.3512C124.551 22.4161 125.605 22.2215 126.33 21.7027C126.923 21.2488 127.318 20.6651 127.581 19.9517L131.27 20.9894ZM127.12 15.8013C127.12 14.634 126.33 13.5315 125.408 13.0776C124.222 12.4939 122.707 12.5588 121.653 13.1424C120.665 13.6612 119.94 14.634 119.874 15.8662C121.521 15.8662 123.168 15.8662 124.815 15.8662C125.605 15.8013 126.33 15.8013 127.12 15.8013Z"
+                fill="currentColor" />
+              <path
+                d="M74.2234 9.64026V6.00862L78.1758 4.84131V9.64026H81.4694V13.4664H78.1758V20.1461C78.1758 20.8594 78.3075 21.3134 78.6369 21.5728C78.9662 21.8322 79.4273 21.9619 80.0861 21.9619C80.3496 21.9619 80.6131 21.9619 80.8766 21.9619C81.1401 21.9619 81.3377 21.897 81.4694 21.8322V25.399C81.2718 25.4638 80.9424 25.5935 80.5472 25.6584C80.152 25.7232 79.625 25.7881 78.9662 25.7881C77.3853 25.7881 76.1337 25.3341 75.2115 24.4911C74.2892 23.648 73.8281 22.4158 73.8281 20.8594V13.4664H70.9297V9.64026H74.2234Z"
+                fill="currentColor" />
+              <path
+                d="M94.8414 13.9204C93.7874 13.7907 92.2723 13.4665 90.5596 14.7635C90.1644 15.0877 89.9009 15.5417 89.6374 16.1253C89.4398 16.709 89.308 17.4223 89.308 18.2654V25.5287H84.8945V9.64027H89.1763C89.1763 10.4185 89.1763 11.1318 89.1763 11.91C89.3739 11.6506 89.5715 11.3264 89.7692 11.067C90.0985 10.7427 90.4279 10.4833 90.7573 10.2239C91.8112 9.57542 93.0628 9.44571 94.2485 9.51056C94.3803 9.51056 94.5779 9.51057 94.7755 9.57542V13.9204H94.8414Z"
+                fill="currentColor" />
+              <path
+                d="M108.147 9.64014H112.56V25.5934H108.279V23.6479C107.752 24.4909 107.093 25.0746 106.236 25.4637C104.26 26.3716 101.691 26.2419 99.9785 24.9449C98.3317 23.7127 97.8047 21.7024 97.8047 19.7568V9.64014H102.218V18.9138C102.218 20.5999 103.206 21.9618 104.985 22.0266C105.907 22.0266 106.763 21.7672 107.356 21.1187C108.015 20.4702 108.213 19.6271 108.213 18.7192C108.147 18.8489 108.147 9.64014 108.147 9.64014Z"
+                fill="currentColor" />
+              <path
+                d="M140.099 13.3366V25.5934H135.685V13.3366H132.984V9.64008H135.685C135.685 8.01882 135.553 6.39755 136.344 4.90598C136.937 3.73867 137.925 2.83076 139.176 2.31195C139.901 2.05255 140.692 1.92285 141.614 1.92285C142.075 1.92285 142.536 1.92285 142.931 1.9877C143.326 2.05255 143.656 2.1174 143.788 2.2471V5.81389C143.656 5.74904 143.524 5.74904 143.326 5.68419C142.602 5.55449 141.746 5.61934 141.087 6.00845C140.428 6.39755 140.165 7.11091 140.165 7.82426V9.57523H151.034V25.5285H146.686V13.3366H140.099Z"
+                fill="currentColor" />
+              <path
+                d="M151.491 4.32245C151.491 3.60909 151.162 2.89573 150.701 2.44178C150.24 1.98783 149.515 1.66357 148.791 1.66357C148.066 1.66357 147.341 1.98783 146.88 2.44178C146.419 2.89573 146.09 3.60909 146.09 4.32245C146.09 5.0358 146.419 5.74916 146.88 6.20311C147.341 6.65707 148.066 6.98132 148.791 6.98132C149.515 6.98132 150.24 6.65707 150.701 6.20311C151.162 5.74916 151.491 5.10065 151.491 4.32245Z"
+                fill="currentColor" />
+              <path
+                d="M43.1545 6.09668C41.1422 6.09668 39.2976 7.16355 38.3055 8.88162L25.7121 30.4822H16.3242V41.5666H28.9558C30.9538 41.5666 32.7998 40.5092 33.798 38.7932L46.3685 17.181H55.7312V6.09668H43.1545Z"
+                fill="currentColor" />
+              <path
+                d="M9.69918 41.5666L0 36.0382L15.8117 8.88162C16.8026 7.16355 18.6447 6.09668 20.6544 6.09668H33.2144V17.181H23.8642L9.69918 41.5666Z"
+                fill="currentColor" />
+              <path
+                d="M50.1022 34.9159C53.2113 34.9159 55.7318 32.4346 55.7318 29.3737C55.7318 26.3129 53.2113 23.8315 50.1022 23.8315C46.9931 23.8315 44.4727 26.3129 44.4727 29.3737C44.4727 32.4346 46.9931 34.9159 50.1022 34.9159Z"
+                fill="currentColor" />
+              <path d="M1.125 6.09668V17.181C7.34567 17.181 12.3841 12.2208 12.3841 6.09668H1.125Z"
+                fill="currentColor" />
+            </svg>
           </a>
         </div>
-      </section>
-      <section data-sectioncolor="#DCDBFF" data-anchor="features" class="section section--features">
-        <div class="container container--left">
-          <h2 class="title">Features</h2>
-          <div class="features">
-            <div data-animations="animate__fadeInLeft" class="features__box animate__animated">
-              <h2 class="features__title">🔌 Connection management</h2>
-              <ul class="features__list">
-                <li class="features__item">Read-only mode out-of the box</li>
-                <li class="features__item">Network switching</li>
-                <li class="features__item">Handling multiple networks</li>
-              </ul>
-            </div>
-            <div
-              data-animations="animate__fadeInRight"
-              style="animation-delay: 0.15s"
-              class="features__box animate__animated animate__fast"
-            >
-              <h2 class="features__title">🔄 Reading blockchain state</h2>
-              <ul class="features__list">
-                <li class="features__item">Auto refresh on new block</li>
-                <li class="features__item">Auto refresh on wallet change</li>
-                <li class="features__item">Combine multiple calls into a single multicall</li>
-              </ul>
-            </div>
-            <div
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.3s"
-              class="features__box features__box--desktop animate__animated animate__fast"
-            >
-              <h2 class="features__title">✅ Transactions</h2>
-              <ul class="features__list">
-                <li class="features__item">Track transaction state</li>
-                <li class="features__item">History</li>
-                <li class="features__item">Notifications</li>
-              </ul>
-            </div>
-            <div
-              data-animations="animate__fadeInRight"
-              style="animation-delay: 0.45s"
-              class="features__box features__box--desktop animate__animated animate__fast"
-            >
-              <h2 class="features__title">⚙️ Browser plugin</h2>
-              <ul class="features__list">
-                <li class="features__item">Available in Beta for Firefox and Chrome</li>
-                <li class="features__item">Track under-the-hood events</li>
-                <li class="features__item">Manage ABIs and tags</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section data-sectioncolor="#D4EDFF" data-anchor="build" class="section">
-        <div class="container build">
-          <h2 class="title build__title">Good design is opinionated</h2>
-          <h3 class="small-title">build on modern DApp stack</h3>
-          <div class="build__options">
-            <img
-              src="./img/react.png"
-              alt="React logo"
-              data-animations="animate__fadeInLeft"
-              style="animation-delay: 0.45s"
-              class="build__option animate__animated animate__fast"
-            />
-            <img
-              src="./img/ethers.svg"
-              alt="Ethers logo"
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.3s"
-              class="build__option animate__animated animate__fast"
-            />
+        <span class="copyrights__rights">
+          © 2021 Flex. All rights reserved.
+        </span>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="/js/min/marquee3k.min.js"></script>
+  <script src="/js/min/confetti.min.js"></script>
+  <script src="/js/min/typed.min.js"></script>
+  <script src="/js/min/main.min.js"></script>
+  <script src="/js/min/fetchGitHubRepoData.min.js"></script>
+  <script src="/js/min/sectionsRedirect.min.js"></script>
+  <script src="/js/min/sectionsObserver.min.js"></script>
+</body>
 
-            <img
-              src="./img/web3.png"
-              alt="Web3 logo"
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.3s"
-              class="build__option animate__animated animate__fast"
-            />
-            <img
-              src="./img/waffle.png"
-              alt="Waffle logo"
-              data-animations="animate__fadeInRight"
-              style="animation-delay: 0.45s"
-              class="build__option animate__animated animate__fast"
-            />
-          </div>
-        </div>
-      </section>
-      <section data-sectioncolor="#DAFFE9" data-anchor="example" class="section">
-        <div class="container">
-          <div class="two-columns">
-            <div class="smaller-wrapper">
-              <h2 class="title text--left">Example</h2>
-              <p class="title-page title-page--small text--left">
-                Example app
-                <br class="br-none" />
-                is availiable
-                <a
-                  href="https://example.useDApp.io/"
-                  class="link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="useDApp example application"
-                >
-                  here</a
-                >
-                <span data-animations="animate__heartBeat animate__infinite" class="inline-block animate__animated"
-                  >❤️</span
-                >
-              </p>
-            </div>
-            <div data-animations="animate__slideInRight" class="slider animate__animated animate__slideInRight">
-              <div class="window window--active">
-                <pre
-                  class="window-pre"
-                ><code class="code" data-lines="1"><span class="code--red">const</span> config: Config = {
-    readOnlyChainId: ChainId.Mainnet,
-    readOnlyUrls: {
-      [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
-    },
-  }
-
-  ReactDOM.render (
-    &lt;React.StrictMode&gt;
-      &lt;DAppProvider config={config}&gt;
-        &lt;App /&gt;
-      &lt;/DAppProvider&gt;
-    &lt;/React.StrictMode&gt;,
-    document.getElementById</span>('root')
-  )
-  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
-              </div>
-              <div class="window">
-                <pre
-                  class="window-pre"
-                ><code class="code" data-lines="1"><span class="code--red">import</span> { formatUnits } from '@ethersproject/units'
-
-<span class="code--red">const</span> DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
-
-<span class="code--red">export </span><span class="code--blue">function</span> TokenBalance( ) {
-    const { account } = useEthers( )
-    const tokenBalance = useTokenBalance(DAI, account)
-
-<span class="code--red">return</span> (
-      &lt;div&gt;
-         {tokenBalance && &lt;p&gt;Balance: {formatUnits(tokenBalance, 18)}&lt;/p&gt;}
-      &lt;/div&gt;
-    )
-}
-
-  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
-              </div>
-              <div class="window">
-                <pre
-                  class="window-pre"
-                ><code class="code" data-lines="1"><span class="code--blue">function</span> useTokenBalance(
-  tokenAddress: string | Falsy,
-  address: string | Falsy
-): BigNumber | undefined {
-
-  <span class="code--red">const</span> { value } =
-    useCall(
-      address && tokenAddress && {
-          contract: new Contract(tokenAddress, ERC20Interface),<span class="code--gray"> // Contract instance</span>
-          method: "balanceOf",<span class="code--gray"> // Method to be called</span>
-          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span>
-        }
-    ) ?? { };
-
-  <span class="code--red">const</span> [tokenBalance] = value ?? []
-  <span class="code--red">return</span> tokenBalance
-}
-                  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
-              </div>
-
-              <div data-animations="animate__slideInRight" class="slider__btns animate__animated animate__slideInRight">
-                <button class="slider__btn slider__btn--left"></button>
-                <button class="slider__btn slider__btn--right slider__btn--active"></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section data-sectioncolor="#FFE9DA" data-anchor="resources" class="section section--with-footer">
-        <div class="container container--near-footer resources">
-          <h2 class="title">Resources</h2>
-          <div class="resources__list">
-            <div
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.45s"
-              class="resource animate__animated animate__fast"
-            >
-              <div class="resource__box">
-                <a
-                  href="https://example.useDApp.io/"
-                  class="resource__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="useDApp example application"
-                >
-                  <span>🎮</span>
-                  <p>Example app</p></a
-                >
-              </div>
-            </div>
-            <div
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.45s"
-              class="resource animate__animated animate__fast"
-            >
-              <div class="resource__box">
-                <a
-                  href="https://usedapp-docs.netlify.app"
-                  class="resource__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="useDApp example application"
-                >
-                  <span>📄</span>
-                  <p>Docs</p></a
-                >
-              </div>
-            </div>
-            <div
-              data-animations="animate__fadeInUp"
-              style="animation-delay: 0.45s"
-              class="resource animate__animated animate__fast"
-            >
-              <div class="resource__box">
-                <a
-                  href="https://github.com/EthWorks/useDApp"
-                  class="resource__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="useDApp example application"
-                >
-                  <img src="./img/github.svg" alt="github" />
-                  <p>Github</p></a
-                >
-              </div>
-            </div>
-            <div
-            data-animations="animate__fadeInUp"
-            style="animation-delay: 0.45s"
-            class="resource animate__animated animate__fast"
-          >
-            <div class="resource__box">
-              <a
-                href="https://discord.gg/cSSmtdq7jr"
-                class="resource__link"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="useDApp community discord"
-              >
-                <img src="./img/discord-logo.svg" width="15%" alt="discord"/>
-                <p>Discord</p></a
-              >
-            </div>
-          </div>
-        </div>
-        <div class="footer">
-          <div class="container">
-            <nav class="footer__nav">
-              <a
-                href="https://ethworks.io/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="author"
-                title="Ethworks website homepage"
-              >
-                <span>Created by</span>
-                <svg class="author__image" x="0px" y="0px" viewBox="0 0 340 40" preserveAspectRatio="xMidYMid meet">
-                  <path
-                    class="ethword"
-                    d="M320.2,37c-2.5,0-5-0.3-7.5-1c-2.3-0.6-4.1-1.4-5.6-2.4l2.4-5.5c1.6,0.9,3.2,1.7,4.9,2.2
-                  c1.9,0.6,3.9,0.9,5.8,0.9c2,0,3.5-0.3,4.7-0.8c1.2-0.6,1.8-1.5,1.8-2.7c0-1-0.5-1.9-1.6-2.6c-1-0.6-2.7-1.2-5.4-1.7
-                  c-3.2-0.6-5.7-1.4-7.4-2.3c-1.7-0.9-2.9-1.9-3.6-3.1s-1-2.7-1-4.4c0-2,0.6-3.8,1.7-5.3c1.1-1.6,2.7-2.9,4.8-3.8
-                  c2.1-0.9,4.5-1.4,7.2-1.4c2.4,0,4.8,0.3,7,1c2.1,0.6,3.8,1.4,5,2.4L331,12c-1.4-0.9-2.9-1.6-4.4-2.1c-1.7-0.6-3.4-0.9-5.2-0.9
-                  c-1.7,0-3.1,0.3-4.2,1s-1.7,1.7-1.7,2.9c0,0.7,0.2,1.3,0.7,1.8c0.4,0.4,1.1,0.9,2.2,1.3c1,0.4,2.5,0.8,4.4,1.2
-                  c3,0.7,5.5,1.5,7.2,2.4s2.9,1.9,3.6,3.1s1,2.6,1,4.3c0,3.2-1.2,5.6-3.7,7.4C328.4,36.1,324.8,37,320.2,37L320.2,37z M197.9,37
-                  c-3.4,0-6.4-0.7-8.9-2.1c-2.5-1.4-4.4-3.4-5.8-5.9c-1.3-2.6-2-5.6-2-9.1c0-3.4,0.7-6.5,2.1-9c1.4-2.5,3.3-4.5,5.8-5.9
-                  s5.5-2.1,8.9-2.1s6.4,0.7,8.9,2.1s4.4,3.3,5.7,5.9c1.3,2.5,2,5.6,2,9s-0.7,6.5-2,9.1s-3.3,4.5-5.7,5.9
-                  C204.3,36.3,201.3,37,197.9,37z M197.9,8.9c-2.7,0-4.9,1-6.4,2.9s-2.3,4.6-2.3,8.2s0.8,6.4,2.3,8.3s3.7,2.9,6.4,2.9s4.9-1,6.4-2.9
-                  s2.3-4.7,2.3-8.3s-0.8-6.3-2.3-8.2C202.8,9.8,200.6,8.9,197.9,8.9z M290.4,36.6L276,20.3v16.3h-8V3.4h8v15.5l14-15.5h9.2
-                  l-14.7,15.7l15.2,17.4L290.4,36.6L290.4,36.6z M247.3,36.6l-4.3-11c-0.6-1.5-2-2.2-4.1-2.2h-3.8v13.3h-7.9V3.4h15.4
-                  c4,0,7,0.9,9,2.5c2,1.7,2.9,4.1,2.9,7.2c0,2.2-0.6,4.1-1.8,5.7c-1.2,1.6-2.8,2.7-5,3.4l-1.9,0.6l1.9,0.4c0.9,0.2,1.7,0.6,2.4,1.2
-                  s1.3,1.5,1.7,2.6l3.8,9.5L247.3,36.6L247.3,36.6z M235,17.6h6.2c2,0,3.5-0.3,4.5-1c1-0.7,1.5-1.8,1.5-3.2c0-1.5-0.5-2.6-1.5-3.2
-                  c-0.9-0.6-2.4-0.9-4.5-0.9H235L235,17.6L235,17.6z M153.5,36.6L146,15.3l-7.7,21.3h-6.5L120,3.4h8.1l7.4,22.6l8-22.6h5.4l7.7,23
-                  l7.7-23h7.5L160,36.6H153.5L153.5,36.6z M100.9,36.6V22.8H86.1v13.8h-7.8V3.4h7.8v13.3h14.8V3.4h7.8v33.1L100.9,36.6L100.9,36.6z
-                  M48.9,36.6V9.7H38.7V3.4h28.5v6.3H57v26.8L48.9,36.6L48.9,36.6z"
-                  ></path>
-                  <path class="eth-e" d="M5,3.4h23.7v6H5V3.4z"></path>
-                  <path class="eth-e" d="M5,16.8h23.7v6H5V16.8z"></path>
-                  <path class="eth-e" d="M5,31h23.7v6H5V31z"></path>
-                </svg>
-              </a>
-              <div class="footer__menu">
-                <ul class="nav__list">
-                  <li class="nav__item">
-                    <a href="#features" data-destination="features" class="nav__link anchor"> FEATURES </a>
-                  </li>
-                  <li class="nav__item">
-                    <a href="#build" data-destination="build" class="nav__link anchor">BUILD</a>
-                  </li>
-                  <li class="nav__item">
-                    <a href="#example" data-destination="example" class="nav__link anchor">EXAMPLE</a>
-                  </li>
-                  <li class="nav__item">
-                    <a href="#resources" data-destination="resources" class="nav__link anchor">RESOURCES</a>
-                  </li>
-                </ul>
-                <a
-                  href="https://usedapp-docs.netlify.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="useDapp documentation"
-                  class="button"
-                  >DOCUMENTATION</a
-                >
-              </div>
-            </nav>
-          </div>
-        </div>
-      </section>
-    </main>
-    <div class="sections-backgrounds"></div>
-
-    <script src="js/scrolloverflow.min.js"></script>
-    <script src="js/fullpage.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/code-lines.js"></script>
-    <script src="js/animations-on-scroll.js"></script>
-    <script src="js/vanilla-tilt.js"></script>
-    <script src="js/slider.js"></script>
-  </body>
 </html>
