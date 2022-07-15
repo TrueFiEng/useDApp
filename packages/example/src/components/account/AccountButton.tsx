@@ -20,7 +20,7 @@ export const AccountButton = () => {
     }
     setActivateError('')
   }, [error, account])
-
+  
   const activate = async () => {
     setActivateError('')
     activateBrowserWallet()
