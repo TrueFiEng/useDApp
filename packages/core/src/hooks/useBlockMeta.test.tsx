@@ -3,7 +3,7 @@ import { Wallet } from 'ethers'
 import { Config, useBlockMeta } from '..'
 import { renderDAppHook, renderWeb3Hook, sleep, setupTestingConfig, TestingNetwork } from '../testing'
 
-describe('useBlockMeta', () => {
+describe.only('useBlockMeta', () => {
   let network1: TestingNetwork
   let config: Config
   const receiver = Wallet.createRandom().address
@@ -13,7 +13,7 @@ describe('useBlockMeta', () => {
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
   })
   it('retrieves block timestamp and difficulty', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useBlockMeta)
+    const { result, waitForCurrent } = await renderDAppHook(useBlockMeta, { config })
     await waitForCurrent((val) => val?.timestamp !== undefined && val?.difficulty !== undefined)
 
     expect(result.error).to.be.undefined
@@ -22,14 +22,14 @@ describe('useBlockMeta', () => {
   })
 
   it('updates the block timestamp when a transaction gets mined', async () => {
-    const { result, mineBlock, waitForCurrent } = await renderWeb3Hook(useBlockMeta)
+    const { result, waitForCurrent } = await renderDAppHook(useBlockMeta, { config })
     await waitForCurrent((val) => val.timestamp !== undefined && val.difficulty !== undefined)
 
     expect(result.error).to.be.undefined
     const firstTimestamp = result.current.timestamp
 
     await sleep(1000)
-    await mineBlock()
+    await network1.mineBlock()
     await waitForCurrent((val) => val.timestamp?.getTime() !== firstTimestamp?.getTime())
     expect(result.current.timestamp).to.be.greaterThan(firstTimestamp)
   })
