@@ -40,10 +40,11 @@ describe('useCall', () => {
     revertContract = await deployContract(deployer, RevertContract)
   })
 
-  for (const multicallVersion of [1] as const) {
+  for (const multicallVersion of [1, 2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
-      it('initial test balance to be correct', async () => {
-        const { result, waitForCurrent } = await renderWeb3Hook(
+      it.only('initial test balance to be correct', async () => {
+        const { config } = await setupTestingConfig({ multicallVersion })
+        const { result, waitForCurrent } = await renderDAppHook(
           () =>
             useCall({
               contract: token,
@@ -51,10 +52,7 @@ describe('useCall', () => {
               args: [deployer.address],
             }),
           {
-            readonlyMockProviders: {
-              [chainId]: mockProvider,
-            },
-            multicallVersion,
+            config
           }
         )
         await waitForCurrent((val) => val !== undefined)

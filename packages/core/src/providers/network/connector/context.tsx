@@ -21,7 +21,7 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controllers, setControllers] = useState<ConnectorController[]>([])
   const [activeConnectorTag, setActiveConnectorTag] = useState<string | undefined>()
-  const { connectors = [new MetamaskConnector()] } = useConfig()
+  const { connectors } = useConfig()
 
   const activeConnector = controllers.find((c) => c.connector.getTag() === activeConnectorTag)
 

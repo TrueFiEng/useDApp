@@ -44,8 +44,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
   useEffect(() => {
     if (providerOverride) {
-      addConnector(new TestingWalletConnector(providerOverride))
-      void activate(TestingWalletConnector)
+      void activate(providerOverride)
     }
   }, [providerOverride])
 
