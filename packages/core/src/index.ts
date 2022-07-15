@@ -44,12 +44,8 @@ export {
   multicall2,
   useNetwork,
   MetamaskConnector,
-  PortisConnector,
   WalletConnectConnector,
   CoinbaseWalletConnector,
-  FortmaticConnector,
-  TorusConnector,
-  BraveConnector,
   InjectedConnector,
 } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'

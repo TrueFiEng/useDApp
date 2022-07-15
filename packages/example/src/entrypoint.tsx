@@ -9,17 +9,11 @@ import {
   Arbitrum,
   WalletConnectConnector,
   MetamaskConnector,
-  PortisConnector,
   CoinbaseWalletConnector,
-  FortmaticConnector,
-  TorusConnector,
-  BraveConnector,
-  InjectedConnector
+  InjectedConnector,
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
-
-const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -31,14 +25,8 @@ const config: Config = {
   },
   connectors: [
     new MetamaskConnector(),
-    new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
     new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
     new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
-    new FortmaticConnector('pk_test_79A2B99896AD6D3A'),
-    new TorusConnector({ 
-      showTorusButton: false
-    }),
-    new BraveConnector(),
     new InjectedConnector(window.ethereum),
   ],
   multicallVersion: 2 as const,

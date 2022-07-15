@@ -39,29 +39,31 @@ export function SingleConnector({ name, connectorClass }: ConnectorProps) {
           )}
         </Account>
       </SectionRow>
-      {account && connector?.connector.name === name && account && <ContentBlock>
-        {account && (
-          <ContentRow>
-            <Label>Account:</Label> <TextInline>{account}</TextInline>{' '}
-          </ContentRow>
-        )}
-        {ethBalance && (
-          <ContentRow>
-            <Label>Eth balance:</Label> <TextInline>{formatEther(ethBalance)}</TextInline> <Label>ETH</Label>
-          </ContentRow>
-        )}
-        {chainId && (
-          <ContentRow>
-            <Label>Chain Id:</Label> <TextInline>{chainId}</TextInline>{' '}
-          </ContentRow>
-        )}
-        {stakingBalance && (
-          <ContentRow>
-            <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
-            <Label>ETH</Label>
-          </ContentRow>
-        )}
-      </ContentBlock>}
+      {account && connector?.connector.name === name && account && (
+        <ContentBlock>
+          {account && (
+            <ContentRow>
+              <Label>Account:</Label> <TextInline>{account}</TextInline>{' '}
+            </ContentRow>
+          )}
+          {ethBalance && (
+            <ContentRow>
+              <Label>Eth balance:</Label> <TextInline>{formatEther(ethBalance)}</TextInline> <Label>ETH</Label>
+            </ContentRow>
+          )}
+          {chainId && (
+            <ContentRow>
+              <Label>Chain Id:</Label> <TextInline>{chainId}</TextInline>{' '}
+            </ContentRow>
+          )}
+          {stakingBalance && (
+            <ContentRow>
+              <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
+              <Label>ETH</Label>
+            </ContentRow>
+          )}
+        </ContentBlock>
+      )}
       <br />
       {account && connector?.connector.name === name && <SendEthForm />}
     </>

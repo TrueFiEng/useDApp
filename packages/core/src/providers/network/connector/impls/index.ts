@@ -1,8 +1,4 @@
 export { CoinbaseWalletConnector } from './coinbaseWallet'
 export { WalletConnectConnector } from './walletConnect'
 export { MetamaskConnector } from './metamask'
-export { PortisConnector } from './portis'
-export { FortmaticConnector } from './fortmatic'
-export { TorusConnector } from './torus'
-export { BraveConnector } from './brave'
 export { InjectedConnector } from './injected'
