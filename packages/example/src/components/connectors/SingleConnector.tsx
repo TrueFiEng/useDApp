@@ -63,7 +63,7 @@ export function SingleConnector({ name, connectorClass }: ConnectorProps) {
         )}
       </ContentBlock>}
       <br />
-      {account && connector?.connector.name === name && account && account && <SendEthForm />}
+      {account && connector?.connector.name === name && <SendEthForm />}
     </>
   )
 }

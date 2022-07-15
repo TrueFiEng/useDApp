@@ -42,7 +42,7 @@ export class PortisConnector implements Connector {
   async activate(): Promise<void> {
     try {
       await this.init()
-      const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.onUpdate?.({ chainId: this.chainId, accounts })
     } catch (e) {
       console.log(e)

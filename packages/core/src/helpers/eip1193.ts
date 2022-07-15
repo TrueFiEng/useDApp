@@ -11,7 +11,6 @@ export function subscribeToProviderEvents(connector: ConnectorController) {
 
     const onDisconnectListener = (): void => {
       void connector.connector.deactivate()
-      console.log('bleee')
     }
     provider.on('disconnect', onDisconnectListener)
 
@@ -26,6 +25,9 @@ export function subscribeToProviderEvents(connector: ConnectorController) {
     provider.on('accountsChanged', onAccountsChangedListener)
 
     return () => {
+      if (connector.connector.name === 'Fortmatic') {
+        return
+      }
       provider.removeListener('connect', onConnectListener)
       provider.removeListener('disconnect', onDisconnectListener)
       provider.removeListener('chainChanged', onChainChangedListener)

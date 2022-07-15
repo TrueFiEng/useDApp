@@ -52,7 +52,7 @@ export class FortmaticConnector implements Connector {
       }
 
       const chainId: string = await this.provider!.send('eth_chainId', [])
-      const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.onUpdate?.({ chainId: parseInt(chainId), accounts })
     } catch (err) {
       console.warn(err)
