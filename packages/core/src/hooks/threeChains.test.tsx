@@ -43,7 +43,7 @@ describe('useCall - three chains', () => {
   }
 
   for (const chainId of chainIds) {
-    const provider = new MockProvider({ ganacheOptions: { _chainIdRpc: chainId } as any })
+    const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
     const [deployer] = provider.getWallets()
     chains[chainId] = {
       provider,

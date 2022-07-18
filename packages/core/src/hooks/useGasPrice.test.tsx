@@ -6,7 +6,7 @@ import { ChainId } from '../constants/chainId'
 
 describe('useGasPrice', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
 
   it('retrieves gas price', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useGasPrice)

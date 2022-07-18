@@ -16,7 +16,7 @@ import { useRawCall, useRawCalls } from './useRawCalls'
 
 describe('useRawCall', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
   const [deployer] = mockProvider.getWallets()
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
