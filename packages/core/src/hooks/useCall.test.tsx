@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'

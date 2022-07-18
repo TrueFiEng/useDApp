@@ -1,5 +1,5 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { Contract, providers, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'

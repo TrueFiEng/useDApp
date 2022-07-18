@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import type { Filter, TransactionRequest } from '@ethersproject/abstract-provider'
 import { Contract, constants, BigNumber, ethers, utils } from 'ethers'
 import { expect } from 'chai'

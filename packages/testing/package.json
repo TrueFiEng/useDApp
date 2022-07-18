@@ -10,7 +10,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@ethereum-waffle/provider": "4.0.0-dev.79d1c7b",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/chai": "^4.2.14",
@@ -32,7 +31,7 @@
     "@ethersproject/contracts": "5.6.0",
     "@ethersproject/providers": "5.6.2",
     "@usedapp/core": "workspace:*",
-    "ethereum-waffle": "4.0.0-dev.79d1c7b",
+    "ethereum-waffle": "4.0.0-alpha.26",
     "ethers": "5.6.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
