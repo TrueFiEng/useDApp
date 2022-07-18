@@ -1,24 +1,31 @@
 import { expect } from 'chai'
 import { useBlockNumber } from '../../src'
-import { renderWeb3Hook } from '../../src/testing'
+import { renderDAppHook, setupTestingConfig, sleep } from '../../src/testing'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
-    const { result, waitForCurrentEqual } = await renderWeb3Hook(useBlockNumber)
+    const { config } = await setupTestingConfig()
+    const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
 
     await waitForCurrentEqual(1)
     expect(result.error).to.be.undefined
     expect(result.current).to.be.equal(1)
   })
 
-  it('updates the block number when a transaction gets mined', async () => {
-    const { result, waitForCurrentEqual, mineBlock } = await renderWeb3Hook(useBlockNumber)
-    await waitForCurrentEqual(1)
+  it.skip('updates the block number when a transaction gets mined', async () => {
+    const { config, network1 } = await setupTestingConfig()
+    network1.provider.on('block', (payload: any) => { console.log({ payload }) })
+    const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
+    const blockNumber = await network1.provider.getBlockNumber()
+    console.log({ blockNumber })
+    console.log({ polling: network1.provider.polling, pollingInterval: network1.provider.pollingInterval })
+    await waitForCurrentEqual(blockNumber)
 
-    await mineBlock()
+    await network1.mineBlock()
+    console.log({ blockNumber: await network1.provider.getBlockNumber() })
 
-    await waitForCurrentEqual(2)
+    await waitForCurrentEqual(blockNumber + 1)
     expect(result.error).to.be.undefined
     expect(result.current).to.be.equal(2)
-  })
+  }).timeout(60000)
 })

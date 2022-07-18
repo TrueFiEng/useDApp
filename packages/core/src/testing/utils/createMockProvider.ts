@@ -30,16 +30,12 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
     opts.multicallVersion === 2 ? deployMulticall2(provider, chainId) : deployMulticall(provider, chainId)
   )
 
-  const mineBlock = async () => {
-    await provider.send('evm_mine', [])
-  }
-
   return {
     provider,
     multicallAddresses,
     wallets: provider.getWallets(),
     deployer: provider.getWallets()[0],
     chainId,
-    mineBlock
+    mineBlock: () => mineBlock(provider)
   }
 }

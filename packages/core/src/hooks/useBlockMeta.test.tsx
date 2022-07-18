@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import { Wallet } from 'ethers'
 import { Config, useBlockMeta } from '..'
-import { renderDAppHook, renderWeb3Hook, sleep, setupTestingConfig, TestingNetwork } from '../testing'
+import { renderDAppHook, sleep, setupTestingConfig, TestingNetwork } from '../testing'
 
-describe.only('useBlockMeta', () => {
+describe('useBlockMeta', () => {
   let network1: TestingNetwork
   let config: Config
   const receiver = Wallet.createRandom().address

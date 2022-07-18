@@ -28,6 +28,7 @@ export const setupTestingConfig = async (
       ...network1.multicallAddresses,
       ...network2.multicallAddresses,
     },
+    multicallVersion
   }
 
   return {
