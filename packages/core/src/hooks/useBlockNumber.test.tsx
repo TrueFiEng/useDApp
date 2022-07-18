@@ -12,7 +12,7 @@ describe('useBlockNumber', () => {
     expect(result.current).to.be.equal(1)
   })
 
-  it.only('updates the block number when a transaction gets mined', async () => {
+  it('updates the block number when a transaction gets mined', async () => {
     const { config, network1 } = await setupTestingConfig()
     network1.provider.on('block', (payload: any) => { console.log({ payload }) })
     const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
