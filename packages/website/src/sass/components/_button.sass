@@ -1,0 +1,48 @@
+%buttonDefaultStyles
+  display: flex
+  position: relative
+  justify-content: center
+  align-items: center
+  width: fit-content
+  height: 56px
+  padding: 0 32px
+  font-size: 14px
+  line-height: 16px
+  font-weight: 700
+  letter-spacing: 0.02em
+  border-radius: 28px
+  color: $white
+  cursor: pointer
+  transition: $all
+
+%buttonLargeStyles
+  min-width: 200px
+
+%buttonHoverStyles
+  background-color: transparent
+  color: transparent
+
+  &::before
+    opacity: 1
+
+.button
+  @extend %buttonDefaultStyles
+  background-color: $black
+
+  &::before
+    @extend %buttonDefaultStyles
+    content: attr(data-button-text)
+    position: absolute
+    top: 0
+    left: 0
+    opacity: 0
+    background-image: $gradient-red-to-purple
+
+  &:hover
+    @extend %buttonHoverStyles
+  &:focus-visible
+    @extend %buttonHoverStyles
+
+.button--large,
+.button--large::before
+  @extend %buttonLargeStyles

@@ -93,7 +93,9 @@ button {
   font-style: normal;
   font-display: swap;
 }
-* {
+*,
+*::before,
+*::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -119,6 +121,61 @@ html {
   max-width: 1260px;
 }
 
+.button::before, .button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 56px;
+  padding: 0 32px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  -webkit-border-radius: 28px;
+          border-radius: 28px;
+  color: #FFFFFF;
+  cursor: pointer;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.button--large,
+.button--large::before {
+  min-width: 200px;
+}
+
+.button:focus-visible, .button:hover {
+  background-color: transparent;
+  color: transparent;
+}
+.button:focus-visible::before, .button:hover::before {
+  opacity: 1;
+}
+
+.button {
+  background-color: #23242A;
+}
+.button::before {
+  content: attr(data-button-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  background-image: -webkit-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
+  background-image: -o-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
+  background-image: linear-gradient(96.79deg, #FA6069 32.86%, #6058F2 91.29%);
+}
 .navigation__list {
   display: -webkit-box;
   display: -ms-flexbox;
