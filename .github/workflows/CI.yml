@@ -12,16 +12,16 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
-    - run: npm i -g pnpm@7.1.9
-    - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-    - run: pnpm run lint
-    - run: pnpm run build
-    - run: pnpm run test -- --timeout 0
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - run: pnpm run lint
+      - run: pnpm run build
+      - run: pnpm run test -- --timeout 0
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -92,3 +92,24 @@ jobs:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/docs
+  changeset-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile
+      - name: Set git user
+        run: |
+          git config user.name truefibot
+          git config user.email truebot.github@trusttoken.com
+      - name: Changesets publish dry run
+        uses: changesets/action@v1
+        with:
+          publish: pnpm build && pnpm changeset publish --dry-run
+          version: pnpm changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
