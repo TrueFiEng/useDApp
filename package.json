@@ -12,7 +12,8 @@
     "build": "pnpm run -r build",
     "test": "wsrun -e -c -s --exclude-missing test",
     "version": "pnpm changeset version && pnpm install",
-    "release": "pnpm build && pnpm changeset publish"
+    "release": "pnpm build && pnpm changeset publish",
+    "release:dry": "pnpm build && pnpm changeset publish --dry-run"
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
