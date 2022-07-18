@@ -10,7 +10,7 @@ import {
   setupTestingConfig
 } from '../testing'
 import { BigNumber } from 'ethers'
-import { deployContract, MockProvider } from 'ethereum-waffle'
+import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, RevertContract, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
 
