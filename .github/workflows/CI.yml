@@ -102,10 +102,10 @@ jobs:
           node-version: "16.x"
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
-      - name: Set git user
-        run: |
-          git config user.name truefibot
-          git config user.email truebot.github@trusttoken.com
+      # - name: Set git user
+      #   run: |
+      #     git config user.name truefibot
+      #     git config user.email truebot.github@trusttoken.com
       - name: Changesets publish dry run
         id: changesets
         uses: changesets/action@v1
@@ -114,9 +114,3 @@ jobs:
           version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-        #   commit: "🎉 Release new version"
-        #   title: "🎉 Release new version"
-        #   setupGitUser: false
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-        #   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
