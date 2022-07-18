@@ -92,7 +92,7 @@ jobs:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/docs
-  changeset-dry-run:
+  check-mixed-changesets:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -102,8 +102,4 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
-      - name: Changesets publish dry run
-        run: |
-          set -e
-          pnpm changeset publish --dry-run
-          pnpm changeset version
+      - run: pnpm changeset version
