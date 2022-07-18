@@ -7,9 +7,7 @@ import {
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   getResultPropery,
   renderDAppHook,
-  setupTestingConfig,
-  sleep,
-  mineBlock
+  setupTestingConfig
 } from '../testing'
 import { BigNumber } from 'ethers'
 import { deployContract, MockProvider } from 'ethereum-waffle'
@@ -17,7 +15,7 @@ import { BlockNumberContract, RevertContract, doublerContractABI } from '../cons
 import waitForExpect from 'wait-for-expect'
 
 describe('useCall', () => {
-  for (const multicallVersion of [1] as const) {
+  for (const multicallVersion of [1, 2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
@@ -237,31 +235,8 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.value?.[0]?.eq(4))
       })
 
-      it.only('Refreshes only static calls with changed parameter', async () => {
-        // const otherProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: 1 } as any })
-        // otherProvider.on('block', (payload: any) => { console.log('other', payload) })
-        // otherProvider.pollingInterval = 100
-
-        // console.log('other mine')
-        // await mineBlock(otherProvider)
-        // await sleep(1000)
-        // console.log('other mine 2')
-        // await mineBlock(otherProvider)
-        // await sleep(5000)
-
-
+      it('Refreshes only static calls with changed parameter', async () => {
         const { config, network1 } = await setupTestingConfig()
-        network1.provider.on('block', (payload: any) => { console.log({ payload, multicallVersion }) })
-        network1.provider.pollingInterval = 100
-        console.log('first mine')
-        await mineBlock(network1.provider)
-        await sleep(1000)
-        console.log('second mine')
-        await mineBlock(network1.provider)
-        await sleep(5000)
-
-
-        // return
         const doublerContract = await deployContract(network1.deployer, doublerContractABI)
         const blockNumberContract = await deployContract(network1.deployer, BlockNumberContract)
         const { waitForCurrent, rerender, result } = await renderDAppHook(
@@ -296,22 +271,15 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(2))
         const blockNumberBefore = result.current.blockNumber?.value[0]
 
-        console.log("pollingInterval", network1.provider.pollingInterval)
-        network1.provider.pollingInterval = 100
+        await network1.mineBlock()
 
-        console.log('mining NOW')
-        await network1.mineBlock()
-        await sleep(1000)
-        await network1.mineBlock()
-        console.log('mined')
         expect(result.current.doubled?.value[0]).to.eq(2)
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
         rerender({ num: 2 })
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
 
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
-        await sleep(5000)
-      }).timeout(60000)
+      })
     })
   }
 })
