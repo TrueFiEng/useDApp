@@ -112,6 +112,8 @@ jobs:
         with:
           publish: pnpm run release:dry
           version: pnpm run version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         #   commit: "🎉 Release new version"
         #   title: "🎉 Release new version"
         #   setupGitUser: false
