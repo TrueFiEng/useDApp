@@ -5,7 +5,7 @@ import { BigNumber, Contract, ethers, Wallet } from 'ethers'
 import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken, setupTestingConfig } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
-const CONTRACT_FUNCTION_COST = 51941 // mock transfer transaction cost
+const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 
 describe('useContractFunction', () => {
   const mockProvider = new MockProvider()

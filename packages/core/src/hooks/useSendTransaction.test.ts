@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils, Wallet, ethers } from 'ethers'
 import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
+import { parseEther } from 'ethers/lib/utils'
 
 const BASE_TX_COST = 21000
 
@@ -20,22 +21,21 @@ describe('useSendTransaction', () => {
     wallet1 = ethers.Wallet.fromMnemonic(
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
     ).connect(network1.provider)
-    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
+    // Top up the wallet because it has 0 funds initially.
+    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: parseEther('1') })
   })
 
   it('success', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
 
-    const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
-    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
-
-    expect(await spender.getBalance()).to.eq(spenderBalance.sub(10))
+    await expect(await network1.provider.getTransaction(receipt!.transactionHash))
+      .to.changeEtherBalances([spender, receiver], ['-10', '10'])
   })
 
   it('sends with different signer', async () => {
@@ -78,9 +78,11 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
+    console.log(result.current.state)
+    console.log(result.current.state.errorMessage)
     expect(result.current.state.status).to.eq('Success')
     expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
   })
@@ -98,7 +100,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -109,15 +111,13 @@ describe('useSendTransaction', () => {
   it('Returns receipt after correct transaction', async () => {
     const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
 
-    const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
-    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await spender.getBalance()).to.eq(spenderBalance.sub(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(receiver.address)
@@ -139,12 +139,14 @@ describe('useSendTransaction', () => {
     const spenderBalance = await wallet1.getBalance()
     const receiverBalance = await wallet2.getBalance()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
+    console.log({tx})
+    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
