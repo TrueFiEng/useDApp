@@ -102,13 +102,10 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
-      # - name: Set git user
-        # run: |
-        #   git config user.name truefibot
-        #   git config user.email truebot.github@trusttoken.com
       - name: Changesets publish dry run
-        with:
-          publish: pnpm build && pnpm changeset publish --dry-run
-          version: pnpm changeset version
+        run: |
+          set -e
+          pnpm build && pnpm changeset publish --dry-run
+          pnpm changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
