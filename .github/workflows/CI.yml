@@ -8,7 +8,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node: ["14.x", "16.x"]
+        node: ['14.x', '16.x']
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
@@ -69,7 +69,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
@@ -99,18 +99,14 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
-      # - name: Set git user
-      #   run: |
-      #     git config user.name truefibot
-      #     git config user.email truebot.github@trusttoken.com
       - name: Changesets publish dry run
-        id: changesets
+        # id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm run release:dry
+          publish: pnpm build && pnpm changeset publish --dry-run
           version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
