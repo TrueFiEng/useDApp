@@ -102,10 +102,11 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - name: Changesets publish dry run
         run: |
           set -e
-          pnpm build && pnpm changeset publish --dry-run
+          pnpm changeset publish --dry-run
           pnpm changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
