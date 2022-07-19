@@ -203,6 +203,16 @@ html {
   margin-left: 24px;
 }
 
+.navigation__link:focus-visible, .navigation__link:hover {
+  border-color: #23242A;
+}
+
+.navigation__link--active,
+.navigation__link:active {
+  text-stroke: 0.04em #23242A;
+  -webkit-text-stroke: 0.04em #23242A;
+}
+
 .navigation__link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -218,8 +228,18 @@ html {
   width: fit-content;
   height: 30px;
   padding: 0 16px;
+  font-size: 14px;
+  line-height: 16px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 16px;
+          border-radius: 16px;
+  text-stroke: 0em transparent;
+  -webkit-text-stroke: 0em transparent;
+  letter-spacing: 0.065em;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
-
 .socials {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -355,7 +375,6 @@ html {
   font-size: 20px;
   line-height: 24px;
   font-weight: 700;
-  letter-spacing: -0.03em;
   color: inherit;
 }
 

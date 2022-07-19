@@ -5,9 +5,16 @@
   width: fit-content
 
 .navigation__item
-  
+
   & + &
     margin-left: 24px
+
+%navigationLinkHoverStyles
+  border-color: $black
+
+%navigationLinkActiveStyles
+  text-stroke: 0.04em $black
+  -webkit-text-stroke: 0.04em $black
 
 .navigation__link
   display: flex
@@ -16,3 +23,20 @@
   width: fit-content
   height: 30px
   padding: 0 16px
+  font-size: 14px
+  line-height: 16px
+  border: 1px solid transparent
+  border-radius: 16px
+  text-stroke: 0em transparent
+  -webkit-text-stroke: 0em transparent
+  letter-spacing: 0.065em
+  transition: $all
+
+  &:hover
+    @extend %navigationLinkHoverStyles
+  &:focus-visible
+    @extend %navigationLinkHoverStyles
+
+.navigation__link--active,
+.navigation__link:active
+  @extend %navigationLinkActiveStyles
