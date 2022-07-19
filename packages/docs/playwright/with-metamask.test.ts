@@ -62,19 +62,56 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
   describe('Guides/Transactions', () => {
     it('Switches networks', async () => {
+      let popupPromise
+      let popupPage
+
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
 
-      const popupPromise = waitForPopup(context)
+      popupPromise = waitForPopup(context)
       await page.click(XPath.text('button', 'Switch to Rinkeby'))
-      const popupPage = await popupPromise
+      popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
+      })
+
+      popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Switch to Mainnet'))
+      popupPage = await popupPromise
+      await popupPage.click(XPath.text('button', 'Switch network'))
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+      })
+    })
+  })
+
+  describe('Guides/Siwe', () => {
+    it('Can sign in and sign out', async () => {
+      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
+      })
+
+      const popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Sign in'))
+      const popupPage = await popupPromise
+      await popupPage.click(XPath.text('button', 'Sign'))
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
+      })
+
+      await page.click(XPath.text('button', 'Sign out'))
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
       })
     })
   })
