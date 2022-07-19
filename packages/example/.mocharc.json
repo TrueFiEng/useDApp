@@ -1,5 +1,4 @@
 {
-  "spec": "./test/*.test.{ts,tsx}",
   "require": "@swc-node/register",
   "watchExtensions": "ts",
   "extension": "ts",

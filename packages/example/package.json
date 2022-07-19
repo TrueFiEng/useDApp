@@ -19,8 +19,8 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
-    "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha -r ts-node/register/transpile-only",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000",
+    "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha -r ts-node/register/transpile-only './test/**/*.test.{ts,tsx}'",
+    "test:playwright": "TS_NODE_PROJECT=./tsconfig.test.json mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000",
     "copy-files": "cp -r ./src/assets ./dist/cjs/src/assets && cp -r ./src/assets ./dist/esm/src/assets"
   },
   "files": [
