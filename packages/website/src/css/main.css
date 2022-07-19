@@ -70,26 +70,10 @@ button {
 }
 
 @font-face {
-  font-family: "HelveticaNeue";
-  src: url("../fonts/HelveticaNeue.eot");
-  src: url("../fonts/HelveticaNeue.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeue.svg#HelveticaNeue") format("svg"), url("../fonts/HelveticaNeue.ttf") format("truetype"), url("../fonts/HelveticaNeue.woff") format("woff"), url("../fonts/HelveticaNeue.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "HelveticaNeue-Medium";
-  src: url("../fonts/HelveticaNeue-Medium.eot");
-  src: url("../fonts/HelveticaNeue-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeue-Medium.svg#HelveticaNeue-Medium") format("svg"), url("../fonts/HelveticaNeue-Medium.ttf") format("truetype"), url("../fonts/HelveticaNeue-Medium.woff") format("woff"), url("../fonts/HelveticaNeue-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "HelveticaNeue-Bold";
-  src: url("../fonts/HelveticaNeue-Bold.eot");
-  src: url("../fonts/HelveticaNeue-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaNeue-Bold.svg#HelveticaNeue-Bold") format("svg"), url("../fonts/HelveticaNeue-Bold.ttf") format("truetype"), url("../fonts/HelveticaNeue-Bold.woff") format("woff"), url("../fonts/HelveticaNeue-Bold.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "PlusJakartaSans";
+  src: url("../fonts/PlusJakartaSans.eot");
+  src: url("../fonts/PlusJakartaSans.eot?#iefix") format("embedded-opentype"), url("../fonts/PlusJakartaSans.ttf") format("truetype"), url("../fonts/PlusJakartaSans.woff") format("woff"), url("../fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
@@ -106,7 +90,8 @@ button {
 }
 
 html {
-  font-family: "HelveticaNeue", sans-serif;
+  font-family: "PlusJakartaSans", sans-serif;
+  font-weight: 400;
   scroll-behavior: smooth;
 }
 
@@ -151,9 +136,7 @@ html {
 .gradient-text::before {
   content: attr(data-text);
   position: absolute;
-  display: inherit;
-  top: 0;
-  left: 0;
+  display: inline;
   font-size: inherit;
   line-height: inherit;
   font-weight: inherit;
@@ -292,7 +275,7 @@ html {
           border-radius: 16px;
   text-stroke: 0em transparent;
   -webkit-text-stroke: 0em transparent;
-  letter-spacing: 0.065em;
+  letter-spacing: 0.05em;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
@@ -389,7 +372,9 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -432,6 +417,7 @@ html {
   font-size: 20px;
   line-height: 24px;
   font-weight: 700;
+  letter-spacing: -0.03em;
   color: inherit;
 }
 
@@ -451,4 +437,56 @@ html {
 
 .header__socials {
   margin-right: 32px;
+}
+
+.section--hero {
+  padding-top: 216px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 172px 1fr;
+  grid-template-rows: auto auto;
+  -webkit-column-gap: 48px;
+     -moz-column-gap: 48px;
+          column-gap: 48px;
+  row-gap: 36px;
+}
+
+.hero__ethereum {
+  grid-column: 1/1;
+  grid-row: 1/-1;
+}
+
+.hero__title {
+  font-size: 100px;
+  line-height: 110px;
+  font-weight: 700;
+  word-spacing: -8px;
+}
+
+.hero__react-wrapper {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  height: 72px;
+  width: 118px;
+}
+
+.hero__react {
+  position: absolute;
+}
+
+.hero__description {
+  font-size: 24px;
+  line-height: 38px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
