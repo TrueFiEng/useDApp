@@ -11,13 +11,29 @@
   font-size: 14px
   line-height: 18px
   font-weight: 500
+  letter-spacing: 0.01em
   color: $badge-text
   white-space: nowrap
 
+.badge__text--bold
+  font-weight: 700
+
 .badge__decoration
+  width: 12px
+  height: 12px
+  color: $badge-decoration
+
+.badge--large
+  height: 38px
+  padding: 0 12px
+
+.badge--large .badge__text
+  font-size: 14px
+  line-height: 38px
+
+.badge--large .badge__decoration
   width: 14px
   height: 14px
-  color: $badge-decoration
 
 .badge__decoration + .badge__decoration
   margin-left: 2px
