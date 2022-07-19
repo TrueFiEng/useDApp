@@ -746,3 +746,13 @@ html {
 .testimonials__item:nth-child(6) {
   grid-area: testimonial6;
 }
+
+.testimonials__image {
+  display: block;
+  max-width: 100%;
+  -webkit-border-radius: 16px;
+          border-radius: 16px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
