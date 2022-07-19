@@ -161,6 +161,45 @@ html {
   transition: all 0.25s ease;
 }
 
+.badge {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 22px;
+  padding: 0 8px;
+  -webkit-border-radius: 22px;
+          border-radius: 22px;
+  background-color: #FFF2D1;
+}
+
+.badge__text {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #D09600;
+  white-space: nowrap;
+}
+
+.badge__decoration {
+  width: 14px;
+  height: 14px;
+  color: #FFC123;
+}
+
+.badge__decoration + .badge__decoration {
+  margin-left: 2px;
+}
+
+.badge__decoration + .badge__text {
+  margin-left: 10px;
+}
+
 .button::before, .button {
   display: -webkit-box;
   display: -ms-flexbox;

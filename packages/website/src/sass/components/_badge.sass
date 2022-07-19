@@ -1,0 +1,26 @@
+.badge
+  display: flex
+  align-items: center
+  width: fit-content
+  height: 22px
+  padding: 0 8px
+  border-radius: 22px
+  background-color: $badge-background
+
+.badge__text
+  font-size: 14px
+  line-height: 18px
+  font-weight: 500
+  color: $badge-text
+  white-space: nowrap
+
+.badge__decoration
+  width: 14px
+  height: 14px
+  color: $badge-decoration
+
+.badge__decoration + .badge__decoration
+  margin-left: 2px
+
+.badge__decoration + .badge__text
+  margin-left: 10px
