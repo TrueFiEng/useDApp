@@ -62,18 +62,15 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
   describe('Guides/Transactions', () => {
     it('Switches networks', async () => {
-      let popupPromise
-      let popupPage
-
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
 
-      popupPromise = waitForPopup(context)
+      let popupPromise = waitForPopup(context)
       await page.click(XPath.text('button', 'Switch to Rinkeby'))
-      popupPage = await popupPromise
+      let popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
       await waitForExpect(async () => {
