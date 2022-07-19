@@ -686,6 +686,7 @@ html {
 
 .section--testimonials {
   padding-top: 76px;
+  padding-bottom: 76px;
 }
 
 .testimonials {
@@ -755,4 +756,62 @@ html {
   -o-object-fit: cover;
      object-fit: cover;
   overflow: hidden;
+}
+
+.section--start {
+  padding-top: 56px;
+}
+
+.start {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+}
+
+.start__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-column-gap: 64px;
+     -moz-column-gap: 64px;
+          column-gap: 64px;
+  row-gap: 32px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.start__button {
+  font-size: 56px;
+  line-height: 72px;
+  color: #F0F0F0;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+.start__button:hover {
+  color: #23242A;
+}
+.start__button:focus-visible {
+  color: #23242A;
+}
+
+.start__subtitle {
+  font-size: 32px;
+  line-height: 72px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.start__link {
+  margin: 24px auto 0;
 }
