@@ -37,11 +37,19 @@
     left: 0
     opacity: 0
     background-image: $gradient-red-to-purple
+    pointer-events: none
+    user-select: none
 
   &:hover
     @extend %buttonHoverStyles
   &:focus-visible
     @extend %buttonHoverStyles
+  &:active
+    @extend %buttonHoverStyles
+    background-color: transparentize($black, 0.2)
+
+    &::before
+      opacity: 0.8
 
 .button--large,
 .button--large::before

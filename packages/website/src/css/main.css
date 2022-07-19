@@ -155,11 +155,11 @@ html {
   min-width: 200px;
 }
 
-.button:focus-visible, .button:hover {
+.button:active, .button:focus-visible, .button:hover {
   background-color: transparent;
   color: transparent;
 }
-.button:focus-visible::before, .button:hover::before {
+.button:active::before, .button:focus-visible::before, .button:hover::before {
   opacity: 1;
 }
 
@@ -175,7 +175,19 @@ html {
   background-image: -webkit-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
   background-image: -o-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
   background-image: linear-gradient(96.79deg, #FA6069 32.86%, #6058F2 91.29%);
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
+.button:active {
+  background-color: rgba(35, 36, 42, 0.8);
+}
+.button:active::before {
+  opacity: 0.8;
+}
+
 .navigation__list {
   display: -webkit-box;
   display: -ms-flexbox;
