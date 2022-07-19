@@ -28,18 +28,17 @@ describe('useSendTransaction', () => {
   })
 
   it('success', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      useSendTransaction,
-      { config }
-    )
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
     await waitForNextUpdate()
 
     const receipt = await result.current.sendTransaction({ to: wallet1.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    await expect(await network1.provider.getTransaction(receipt!.transactionHash))
-      .to.changeEtherBalances([wallet2, wallet1], ['-10', '10'])
+    await expect(await network1.provider.getTransaction(receipt!.transactionHash)).to.changeEtherBalances(
+      [wallet2, wallet1],
+      ['-10', '10']
+    )
   })
 
   it('sends with different signer', async () => {
@@ -139,7 +138,6 @@ describe('useSendTransaction', () => {
     await waitForNextUpdate()
 
     const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
-    
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
