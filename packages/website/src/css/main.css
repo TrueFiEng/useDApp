@@ -121,6 +121,63 @@ html {
   max-width: 1260px;
 }
 
+@-webkit-keyframes gradiet-text-animation {
+  0% {
+    background-position: 0% 100%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes gradiet-text-animation {
+  0% {
+    background-position: 0% 100%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+.gradient-text {
+  position: relative;
+  color: inherit;
+}
+.gradient-text::before {
+  content: attr(data-text);
+  position: absolute;
+  display: inherit;
+  top: 0;
+  left: 0;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  background-image: -webkit-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
+  background-image: -o-linear-gradient(353.21deg, #FA6069 32.86%, #6058F2 91.29%);
+  background-image: linear-gradient(96.79deg, #FA6069 32.86%, #6058F2 91.29%);
+  -webkit-background-size: 200% 100%;
+          background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: gradiet-text-animation 10s infinite ease;
+          animation: gradiet-text-animation 10s infinite ease;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
 .button::before, .button {
   display: -webkit-box;
   display: -ms-flexbox;
