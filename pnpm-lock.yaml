@@ -88,7 +88,7 @@ importers:
       chai-as-promised: ^7.1.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
-      ethereum-waffle: 4.0.0-alpha.26
+      ethereum-waffle: 4.0.0-alpha.27
       ethers: 5.6.2
       fetch-mock: ^9.11.0
       jsdom: ^16.4.0
@@ -132,7 +132,7 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.22.0
-      ethereum-waffle: 4.0.0-alpha.26_typescript@4.6.2
+      ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
       ethers: 5.6.2
       jsdom: 16.7.0
       jsdom-global: 3.0.2_jsdom@16.7.0
@@ -3181,6 +3181,19 @@ packages:
       - supports-color
       - utf-8-validate
 
+  /@ethereum-waffle/chai/4.0.0-alpha.27:
+    resolution: {integrity: sha512-fBQWIGf3aKqa9kGOWHNu6uYZ6btPdk41ute2XQwVF/WrkGNM/DLcibPMnqSw5Jck122zkasV42ui0n5gdhCPKQ==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      debug: 4.3.4
+      ethers: 5.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@ethereum-waffle/compiler/4.0.0-alpha.21_dqstcxk6dweeanttmebaapvusu:
     resolution: {integrity: sha512-1+9S72b17cPVoiJ1+d2rwH4fLM0O5KMKGpKRZW0bIeMMw8+s4Y0e52NagAs3/3HSgjK3hSzsZcW9+Lnz4E/pnQ==}
     engines: {node: '>=10.0'}
@@ -3220,6 +3233,16 @@ packages:
       - bufferutil
       - utf-8-validate
 
+  /@ethereum-waffle/ens/4.0.0-alpha.22:
+    resolution: {integrity: sha512-+kzLoTwuPqjDvaWjpN+avkRk1TGag9QGw5hmGffB8NB6f4GHlHTbCq2A/rj10ERBN9SW+IROM3I+ygdAOPeqGQ==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      ethers: 5.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: true
+
   /@ethereum-waffle/mock-contract/4.0.0-alpha.21:
     resolution: {integrity: sha512-7St9+K+dYlIwagZlkE7ry4Au9wuEh9AH/tpMQ6wfy92lpyBUsrzG1rft+lD/6oUJ7MpN8VI/xYAoU8tdjPkWJw==}
     engines: {node: '>=10.0'}
@@ -3243,6 +3266,21 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+
+  /@ethereum-waffle/provider/4.0.0-alpha.25:
+    resolution: {integrity: sha512-BzAUdgQ/PJdjr0T7JVU730+LOqoVstUvICldTo6/HSmsdjUwNxmxVDA28A3cfhV0tt6+u+4ej7VhcMjVmgY/fA==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      '@ethereum-waffle/ens': 4.0.0-alpha.22
+      '@ganache/ethereum-options': 0.1.4
+      debug: 4.3.4
+      ethers: 5.6.2
+      ganache: 7.0.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
 
   /@ethereumjs/block/3.6.3:
     resolution: {integrity: sha512-CegDeryc2DVKnDkg5COQrE0bJfw/p0v3GBk2W5/Dj5dOVfEmb50Ux0GLnSPypooLnfqjwFaorGuT9FokWB3GRg==}
@@ -11785,6 +11823,26 @@ packages:
       - supports-color
       - typescript
       - utf-8-validate
+
+  /ethereum-waffle/4.0.0-alpha.27_typescript@4.6.2:
+    resolution: {integrity: sha512-4QeS4i8v1lBsF86AgWeLDqSXlArcqq6pfsfqV4rO2WfYIgSqw93C+av+Q16HBN286zDBI6bh6GjOkMVz6GnEQQ==}
+    engines: {node: '>=10.0'}
+    hasBin: true
+    dependencies:
+      '@ethereum-waffle/chai': 4.0.0-alpha.27
+      '@ethereum-waffle/compiler': 4.0.0-alpha.21_dqstcxk6dweeanttmebaapvusu
+      '@ethereum-waffle/mock-contract': 4.0.0-alpha.21
+      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      ethers: 5.6.2
+      solc: 0.6.12
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
 
   /ethereumjs-abi/0.6.8:
     resolution: {integrity: sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==}
@@ -21644,7 +21702,7 @@ packages:
     resolution: {integrity: sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==}
 
   /util-deprecate/1.0.2:
-    resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
   /util.promisify/1.0.0:
     resolution: {integrity: sha512-i+6qA2MPhvoKLuxnJNpXAGhg7HphQOSUq2LKMZD0m15EiskXUkMvKdF4Uui0WYeCUGea+o2cw/ZuwehtfsrNkA==}

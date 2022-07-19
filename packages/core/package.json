@@ -48,7 +48,7 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "ethereum-waffle": "4.0.0-alpha.26",
+    "ethereum-waffle": "4.0.0-alpha.27",
     "ethers": "^5.6.8",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
