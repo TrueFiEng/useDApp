@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'
@@ -21,7 +21,7 @@ import waitForExpect from 'wait-for-expect'
 
 describe('useCall', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
   const [deployer] = mockProvider.getWallets()
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract

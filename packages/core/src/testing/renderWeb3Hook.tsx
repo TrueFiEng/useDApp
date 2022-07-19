@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'

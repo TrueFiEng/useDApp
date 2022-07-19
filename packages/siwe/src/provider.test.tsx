@@ -74,7 +74,7 @@ describe('siwe provider tests', async () => {
         const { activate } = useEthers()
         useEffect(() => {
           void activate(network.provider)
-        }, [activate])
+        }, [])
         return useSiwe()
       },
       {
@@ -93,7 +93,7 @@ describe('siwe provider tests', async () => {
         const { activate } = useEthers()
         useEffect(() => {
           void activate(network.provider)
-        }, [activate])
+        }, [])
         return useSiwe()
       },
       {

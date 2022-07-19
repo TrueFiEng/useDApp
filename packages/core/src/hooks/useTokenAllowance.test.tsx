@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import { expect } from 'chai'
 import {
@@ -14,7 +14,7 @@ import { utils } from 'ethers'
 
 describe('useTokenAllowance', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
   const [deployer, spender] = mockProvider.getWallets()
   const [secondDeployer, secondSpender] = secondMockProvider.getWallets()
   let token: Contract

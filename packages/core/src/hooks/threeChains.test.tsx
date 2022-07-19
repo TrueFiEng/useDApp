@@ -1,5 +1,5 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { Contract, providers, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
@@ -43,7 +43,7 @@ describe('useCall - three chains', () => {
   }
 
   for (const chainId of chainIds) {
-    const provider = new MockProvider({ ganacheOptions: { _chainIdRpc: chainId } as any })
+    const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
     const [deployer] = provider.getWallets()
     chains[chainId] = {
       provider,

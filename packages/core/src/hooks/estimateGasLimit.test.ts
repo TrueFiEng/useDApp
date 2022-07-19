@@ -7,7 +7,7 @@ import { estimateContractFunctionGasLimit, estimateTransactionGasLimit } from '.
 const BASE_TX_COST = 21000
 const LIMITED_TX_COST = 23100 // 21000 * 1.1
 
-const CONTRACT_FUNCTION_COST = 51941 // mock transfer transaction cost
+const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 
 describe('estimateGasLimit', () => {
   const mockProvider = new MockProvider()

@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import type { Filter, TransactionRequest } from '@ethersproject/abstract-provider'
 import { Contract, constants, BigNumber, ethers, utils } from 'ethers'
 import { expect } from 'chai'
@@ -18,7 +18,7 @@ const { defaultAbiCoder, getAddress, hexStripZeros } = utils
 
 describe('useRawLogs', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
   const [deployer, receiver] = mockProvider.getWallets()
   const [secondDeployer] = secondMockProvider.getWallets()
   const eventTopic = ethers.utils.id('Transfer(address,address,uint256)')

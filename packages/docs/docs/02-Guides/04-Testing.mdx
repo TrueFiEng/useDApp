@@ -51,12 +51,11 @@ Then we can check if our result is correct. ``result.current`` is a value return
 ## Full example
 
 ```tsx
-  import { MockProvider } from '@ethereum-waffle/provider'
   import { Contract } from '@ethersproject/contracts'
   import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
   import { renderWeb3Hook } from '@usedapp/testing'
   import chai, { expect } from 'chai'
-  import { solidity, deployContract } from 'ethereum-waffle'
+  import { solidity, deployContract, MockProvider } from 'ethereum-waffle'
   import { utils } from 'ethers'
 
   chai.use(solidity)

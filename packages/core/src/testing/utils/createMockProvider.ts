@@ -20,7 +20,7 @@ export type TestingNetwork = CreateMockProviderResult
  */
 export const createMockProvider = async (opts: CreateMockProviderOptions = {}): Promise<CreateMockProviderResult> => {
   const chainId = opts.chainId ?? ChainId.Mainnet
-  const provider = new MockProvider({ ganacheOptions: { _chainIdRpc: chainId } as any })
+  const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
   const multicallAddresses = await deployMulticall(provider, chainId)
   return {
     provider,

@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import type { TransactionRequest } from '@ethersproject/abstract-provider'
 import { constants } from 'ethers'
 import { Contract } from 'ethers'
@@ -20,7 +20,7 @@ const AddressZero = constants.AddressZero
 
 describe('useLogs', () => {
   const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
   const [deployer, receiver] = mockProvider.getWallets()
   const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
