@@ -47,4 +47,28 @@ describe('useBlockMeta', () => {
     await waitForCurrent((val) => val.timestamp?.getTime() !== firstTimestamp?.getTime())
     expect(result.current.timestamp).to.be.greaterThan(firstTimestamp)
   })
+
+  it('updates the block number when a transaction gets mined', async () => {
+    const { config, network1 } = await setupTestingConfig()
+    const { result, waitForCurrent } = await renderDAppHook(useBlockMeta, { config })
+    const blockNumberFromProvider = await network1.provider.getBlockNumber()
+    await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider)
+
+    await network1.mineBlock()
+
+    await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider + 1)
+    expect(result.error).to.be.undefined
+  })
+
+  it('updates the block number when a transaction gets mined on another chain', async () => {
+    const { config, network2 } = await setupTestingConfig()
+    const { result, waitForCurrent } = await renderDAppHook(() => useBlockMeta({ chainId: network2.chainId }), { config })
+    const blockNumberFromProvider = await network2.provider.getBlockNumber()
+    await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider)
+
+    await network2.mineBlock()
+
+    await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider + 1)
+    expect(result.error).to.be.undefined
+  })
 })
