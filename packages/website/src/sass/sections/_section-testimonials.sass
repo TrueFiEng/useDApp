@@ -1,0 +1,45 @@
+.section--testimonials
+  padding-top: 76px
+
+.testimonials
+  display: grid
+  grid-template-columns: repeat(3, minmax(100px, 352px))
+  grid-template-areas: "head head testimonial1" ".testimonial2 testimonial3" "testimonial4 testimonial5 testimonial6"
+  column-gap: 32px
+  align-items: center
+
+.testimonials__head
+  grid-column: 1 / 3
+
+.testimonials__title
+  display: block
+  margin-top: 10px
+  font-size: 84px
+  line-height: 100px
+  letter-spacing: -0.03em
+
+.testimonials__list
+  display: contents
+
+.testimonials__item
+  width: 100%
+  padding: 16px
+  filter: drop-shadow(0px 14px 37px transparentize($black, 0.95))
+
+.testimonials__item:nth-child(1)
+  grid-area: testimonial1
+
+.testimonials__item:nth-child(2)
+  grid-area: testimonial2
+
+.testimonials__item:nth-child(3)
+  grid-area: testimonial3
+
+.testimonials__item:nth-child(4)
+  grid-area: testimonial4
+
+.testimonials__item:nth-child(5)
+  grid-area: testimonial5
+
+.testimonials__item:nth-child(6)
+  grid-area: testimonial6
