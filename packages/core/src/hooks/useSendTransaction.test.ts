@@ -28,14 +28,18 @@ describe('useSendTransaction', () => {
   })
 
   it('success', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      useSendTransaction,
+      { config }
+    )
+    await waitForNextUpdate()
 
-    const receipt = await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10) })
+    const receipt = await result.current.sendTransaction({ to: wallet1.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    await expect(await mockProvider.getTransaction(receipt!.transactionHash))
-      .to.changeEtherBalances([spender, receiver], ['-10', '10'])
+    await expect(await network1.provider.getTransaction(receipt!.transactionHash))
+      .to.changeEtherBalances([wallet2, wallet1], ['-10', '10'])
   })
 
   it('sends with different signer', async () => {
@@ -81,8 +85,6 @@ describe('useSendTransaction', () => {
     await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
-    console.log(result.current.state)
-    console.log(result.current.state.errorMessage)
     expect(result.current.state.status).to.eq('Success')
     expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
   })
