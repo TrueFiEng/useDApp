@@ -1,7 +1,7 @@
 import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
 import { BigNumber, Contract, ethers, Wallet } from 'ethers'
-import { contractCallOutOfGasMock, deployMockToken, setupTestingConfig, CreateMockProviderResult } from '../../src/testing'
+import { deployMockToken, setupTestingConfig, CreateMockProviderResult } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
@@ -80,11 +80,10 @@ describe('useContractFunction', () => {
     }
   })
 
-  it('fail (when transaction reverts)', async () => {
-    const contractMock = contractCallOutOfGasMock
-
+  it('exception (when transaction reverts)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(contractMock, 'transfer'),
+      // { gasLimitBufferPercentage: -10 } - to cause out of gas error
+      () => useContractFunction(token, 'transfer', { gasLimitBufferPercentage: -10 }),
       {
         config,
       }
@@ -94,10 +93,8 @@ describe('useContractFunction', () => {
     await result.current.send(spender.address, 10)
     await waitForCurrent((val) => val.state !== undefined)
 
-    expect(result.current.state.status).to.eq('Fail')
-    if (result.current.state.status === 'Fail') {
-      expect(result.current.state.errorMessage).to.eq('out of gas')
-    }
+    expect(result.current.state.status).to.eq('Exception')
+    expect(result.current.state.errorMessage).to.eq('transaction failed')
   })
 
   it('should not throw error when contract is Falsy', async () => {
