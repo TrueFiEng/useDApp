@@ -1,24 +1,23 @@
 import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, Contract, ethers, Wallet } from 'ethers'
-import { renderWeb3Hook, contractCallOutOfGasMock, deployMockToken, setupTestingConfig } from '../../src/testing'
+import { contractCallOutOfGasMock, deployMockToken, setupTestingConfig, CreateMockProviderResult } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 
 describe('useContractFunction', () => {
-  const mockProvider = new MockProvider()
-  const [deployer, spender] = mockProvider.getWallets()
   let token: Contract
   let config: Config
-  let network1
+  let network1: CreateMockProviderResult
   let wallet1: Wallet
   let wallet2: Wallet
+  let spender: Wallet
 
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
-    token = await deployMockToken(deployer)
+    token = await deployMockToken(network1.deployer)
+    spender = network1.wallets[1]
     wallet2 = network1.wallets[1]
     wallet1 = ethers.Wallet.fromMnemonic(
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
@@ -28,10 +27,10 @@ describe('useContractFunction', () => {
   })
 
   it('success', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'approve'),
       {
-        mockProvider,
+        config,
       }
     )
     await waitForNextUpdate()
@@ -39,14 +38,14 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
-    expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+    expect(await token.allowance(network1.deployer.address, spender.address)).to.eq(200)
   })
 
   it('events', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'approve'),
       {
-        mockProvider,
+        config,
       }
     )
     await waitForNextUpdate()
@@ -58,16 +57,16 @@ describe('useContractFunction', () => {
     const event = result.current?.events?.[0]
 
     expect(event?.name).to.eq('Approval')
-    expect(event?.args['owner']).to.eq(deployer.address)
+    expect(event?.args['owner']).to.eq(network1.deployer.address)
     expect(event?.args['spender']).to.eq(spender.address)
     expect(event?.args['value']).to.eq(BigNumber.from(200))
   })
 
   it('exception (bad arguments)', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'approve'),
       {
-        mockProvider,
+        config,
       }
     )
 
@@ -84,10 +83,10 @@ describe('useContractFunction', () => {
   it('fail (when transaction reverts)', async () => {
     const contractMock = contractCallOutOfGasMock
 
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(contractMock, 'transfer'),
       {
-        mockProvider,
+        config,
       }
     )
 
@@ -102,8 +101,8 @@ describe('useContractFunction', () => {
   })
 
   it('should not throw error when contract is Falsy', async () => {
-    const { result, waitForNextUpdate } = await renderWeb3Hook(() => useContractFunction(null, 'approve'), {
-      mockProvider,
+    const { result, waitForNextUpdate } = await renderDAppHook(() => useContractFunction(null, 'approve'), {
+      config,
     })
     await waitForNextUpdate()
     await result.current.send(spender.address, 200)
@@ -145,10 +144,10 @@ describe('useContractFunction', () => {
   })
 
   it('success with correct receipt', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useContractFunction(token, 'approve'),
       {
-        mockProvider,
+        config,
       }
     )
     await waitForNextUpdate()
@@ -156,11 +155,11 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
-    expect(await token.allowance(deployer.address, spender.address)).to.eq(200)
+    expect(await token.allowance(network1.deployer.address, spender.address)).to.eq(200)
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(token.address)
-    expect(result.current.state.receipt?.from).to.eq(deployer.address)
+    expect(result.current.state.receipt?.from).to.eq(network1.deployer.address)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
     expect(result.current.state.receipt?.status).to.eq(1)
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
