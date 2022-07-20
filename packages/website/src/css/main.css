@@ -572,6 +572,7 @@ html {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  color: #23242A;
 }
 
 .header__logo-image {
@@ -605,6 +606,116 @@ html {
 
 .header__socials {
   margin-right: 32px;
+}
+
+.footer {
+  padding-top: 68px;
+  padding-bottom: 56px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #151515;
+}
+
+.footer__logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 32px;
+  margin: 0 auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: #FFFFFF;
+}
+
+.footer__logo-image {
+  width: 32px;
+  height: 32px;
+  color: inherit;
+}
+
+.footer__logo-text {
+  margin-left: 8px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: inherit;
+}
+
+.footer__navigation {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 40px auto 0;
+}
+
+.footer__item + .footer__item {
+  margin-left: 48px;
+}
+
+.footer__link {
+  padding: 0 8px;
+  color: #FFFFFF;
+}
+.footer__link:hover {
+  border-color: #FFFFFF;
+}
+.footer__link:focus-visible {
+  border-color: #FFFFFF;
+}
+
+.footer__link--active,
+.footer__link:active {
+  text-stroke: 0.04em #FFFFFF;
+  -webkit-text-stroke: 0.04em #FFFFFF;
+}
+
+.copyrights {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 48px auto 0;
+  -webkit-column-gap: 40px;
+     -moz-column-gap: 40px;
+          column-gap: 40px;
+  row-gap: 12px;
+}
+
+.copyrights__created {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 24px;
+     -moz-column-gap: 24px;
+          column-gap: 24px;
+  row-gap: 12px;
+  max-width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.copyrights__logo {
+  width: 100%;
+  max-width: 100px;
+}
+
+.copyrights__rights {
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
 }
 
 .section--hero {
