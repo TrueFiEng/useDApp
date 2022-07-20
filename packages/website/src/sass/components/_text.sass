@@ -5,3 +5,36 @@
 .subtitle
   font-weight: 600
   letter-spacing: 0.01em
+
+.text--white
+  color: $white
+
+@keyframes gradiet-text-animation
+  0%
+    background-position: 0% 100%
+  50%
+    background-position: 100% 100%
+  100%
+    background-position: 0% 100%
+
+.text--gradient
+  position: relative
+  color: inherit
+
+  &::before
+    content: attr(data-text)
+    position: absolute
+    display: inline
+    font-size: inherit
+    line-height: inherit
+    font-weight: inherit
+    background-image: $gradient-red-to-purple
+    background-size: 200% 100%
+    background-clip: text
+    -webkit-background-clip: text
+    text-fill-color: transparent
+    -webkit-text-fill-color: transparent
+    animation: gradiet-text-animation 10s infinite ease
+    pointer-events: none
+    user-select: none
+    transition: $all

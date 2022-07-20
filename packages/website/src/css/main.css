@@ -116,6 +116,10 @@ html {
   letter-spacing: 0.01em;
 }
 
+.text--white {
+  color: #FFFFFF;
+}
+
 @-webkit-keyframes gradiet-text-animation {
   0% {
     background-position: 0% 100%;
@@ -139,11 +143,11 @@ html {
     background-position: 0% 100%;
   }
 }
-.gradient-text {
+.text--gradient {
   position: relative;
   color: inherit;
 }
-.gradient-text::before {
+.text--gradient::before {
   content: attr(data-text);
   position: absolute;
   display: inline;
@@ -814,4 +818,73 @@ html {
 
 .start__link {
   margin: 24px auto 0;
+}
+
+.section--integration {
+  padding-top: 152px;
+  padding-bottom: 104px;
+  background-color: #000000;
+}
+
+.integration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 54px;
+     -moz-column-gap: 54px;
+          column-gap: 54px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.integration__content {
+  width: 100%;
+  max-width: 536px;
+}
+
+.integration__title {
+  font-size: 84px;
+  line-height: 106px;
+}
+
+.integration__description {
+  font-size: 32px;
+  line-height: 72px;
+  margin-top: 22px;
+}
+
+.integration__list {
+  margin-top: 54px;
+}
+
+.integration__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #A4A4A4;
+}
+.integration__item::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" color="rgb(112,211,116)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M20 7.5975L9.90608 18L4 12.735L5.78463 11.0132L9.77205 14.5679L18.0857 6L20 7.5975Z" fill="currentColor"/> </svg>');
+  -webkit-background-size: 24px 24px;
+          background-size: 24px 24px;
+}
+
+.integration__item + .integration__item {
+  margin-top: 24px;
 }

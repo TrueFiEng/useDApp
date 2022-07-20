@@ -1,0 +1,48 @@
+.section--integration
+  padding-top: 152px
+  padding-bottom: 104px
+  background-color: $total-black
+
+.integration
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+  column-gap: 54px
+  width: 100%
+  max-width: 100%
+
+.integration__content
+  width: 100%
+  max-width: 536px
+
+.integration__title
+  font-size: 84px
+  line-height: 106px
+
+.integration__description
+  font-size: 32px
+  line-height: 72px
+  margin-top: 22px
+
+.integration__list
+  margin-top: 54px
+
+.integration__item
+  display: flex
+  align-items: center
+  font-size: 18px
+  line-height: 26px
+  font-weight: 600
+  letter-spacing: 0.01em
+  color: $gray
+
+  &::before
+    content: ''
+    width: 24px
+    height: 24px
+    margin-right: 16px
+    background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" color="rgb(112,211,116)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M20 7.5975L9.90608 18L4 12.735L5.78463 11.0132L9.77205 14.5679L18.0857 6L20 7.5975Z" fill="currentColor"/> </svg>')
+    background-size: 24px 24px
+
+.integration__item + .integration__item
+  margin-top: 24px
