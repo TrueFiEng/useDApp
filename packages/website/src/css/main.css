@@ -548,6 +548,19 @@ html {
           align-items: center;
   height: 80px;
   width: 100%;
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(0px);
+          backdrop-filter: blur(0px);
+  z-index: 100;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.header--fixed {
+  background-color: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
 }
 
 .header__content {
@@ -558,7 +571,6 @@ html {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  padding-bottom: 6px;
 }
 
 .header__logo {

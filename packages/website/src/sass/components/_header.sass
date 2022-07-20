@@ -6,12 +6,19 @@
   align-items: center
   height: 80px
   width: 100%
+  background-color: transparent
+  backdrop-filter: blur(0px)
+  z-index: 100
+  transition: $all-xl
+
+.header--fixed
+  background-color: transparentize($white, 0.1)
+  backdrop-filter: blur(20px)
 
 .header__content
   display: flex
   align-items: center
   width: 100%
-  padding-bottom: 6px
 
 .header__logo
   display: flex
