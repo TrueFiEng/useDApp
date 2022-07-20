@@ -1,3 +1,4 @@
+// header
 const body = document.body
 const header = body.querySelector("header")
 
@@ -13,3 +14,6 @@ const handleHeaderStyles = () => {
 }
 
 document.addEventListener("scroll", handleHeaderStyles)
+
+// marquee
+Marquee3k.init()
