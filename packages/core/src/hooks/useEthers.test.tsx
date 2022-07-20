@@ -6,7 +6,6 @@ import { Localhost, Mainnet } from '../model'
 import {
   createMockProvider,
   renderDAppHook,
-  SECOND_TEST_CHAIN_ID,
   setupTestingConfig,
   TestingNetwork,
 } from '../testing'
@@ -61,7 +60,7 @@ describe('useEthers', () => {
 
     await waitForCurrent((val) => !!val.error)
     expect(result.current.error).not.to.be.undefined
-    expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${SECOND_TEST_CHAIN_ID}`)
+    expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${network2.chainId}`)
   })
 
   it('throws error if trying to use not configured network', async () => {
