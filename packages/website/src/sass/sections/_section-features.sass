@@ -1,0 +1,51 @@
+.section--features
+  padding-top: 208px
+
+.features
+  display: flex
+  flex-direction: column
+  width: 100%
+  padding-bottom: 148px
+  border-bottom: 1px solid transparentize($black, 0.9)
+
+.features__row
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  flex-wrap: wrap
+  width: 100%
+  max-width: 100%
+
+.features__row + .features__row
+  margin-top: 220px
+
+.features__row:nth-child(odd)
+  flex-direction: row-reverse
+
+.features__image
+  display: block
+  width: 100%
+  max-width: 544px
+  max-height: 368px
+  border-radius: 8px
+  object-fit: cover
+
+.features__column
+  width: 100%
+  max-width: 448px
+
+.features__title
+  margin-top: 40px
+  font-size: 84px
+  line-height: 72px
+  letter-spacing: -0.03em
+
+.features__text
+  margin-top: 40px
+  font-size: 18px
+  line-height: 24px
+  font-weight: 600
+  letter-spacing: 0.01em
+
+.features__text + .features__text
+  margin-top: 24px
