@@ -60,13 +60,27 @@
   align-items: center
   column-gap: 24px
   row-gap: 12px
-  max-width: 100%
-  flex-wrap: wrap
   color: transparentize($white, 0.5)
 
-.copyrights__logo
-  width: 100%
-  max-width: 100px
+.copyrights__text
+  font-size: 14px
+  line-height: 16px
+  color: inherit
+
+.copyrights__link
+  width: 100px
+  color: inherit
+  transition: $all
+
+  &:hover
+    color: $white
+
+  &:focus-visible
+    color: $white
+
+  &:active
+    color: $white
+    opacity: 0.9
 
 .copyrights__rights
   color: transparentize($white, 0.5)
