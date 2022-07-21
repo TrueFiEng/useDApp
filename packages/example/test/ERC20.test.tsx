@@ -1,10 +1,5 @@
 import { Config, Mainnet } from '@usedapp/core'
-import {
-  deployMockToken,
-  renderDAppHook,
-  setupTestingConfig,
-  TestingNetwork,
-} from '@usedapp/testing'
+import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
 import { expect } from 'chai'
 import { BigNumber, Contract, Wallet } from 'ethers'
 import { describe } from 'mocha'
