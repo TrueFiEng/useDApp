@@ -885,6 +885,32 @@ html {
   padding-top: 76px;
   padding-bottom: 76px;
 }
+.section--testimonials::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: -webkit-linear-gradient(#D5DAE1 1px, transparent 1px), -webkit-linear-gradient(left, #D5DAE1 1px, transparent 1px);
+  background-image: -o-linear-gradient(#D5DAE1 1px, transparent 1px), -o-linear-gradient(left, #D5DAE1 1px, transparent 1px);
+  background-image: linear-gradient(#D5DAE1 1px, transparent 1px), linear-gradient(90deg, #D5DAE1 1px, transparent 1px);
+  -webkit-background-size: 24px 24px;
+          background-size: 24px 24px;
+  background-repeat: repeat;
+  opacity: 0.4;
+  -webkit-transform: translateY(-5px);
+      -ms-transform: translateY(-5px);
+          transform: translateY(-5px);
+  -webkit-mask-image: -webkit-radial-gradient(black, transparent);
+          mask-image: radial-gradient(black, transparent);
+  -webkit-mask-size: 55% 55%;
+          mask-size: 55% 55%;
+  -webkit-mask-position: 60% 15%;
+          mask-position: 60% 15%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
 
 .testimonials {
   display: grid;
