@@ -1,19 +1,19 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils, Wallet, ethers } from 'ethers'
-import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
+import { setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 import { parseEther } from 'ethers/lib/utils'
 
 const BASE_TX_COST = 21000
 
 describe('useSendTransaction', () => {
-  const mockProvider = new MockProvider()
-  const [spender, receiver, secondReceiver] = mockProvider.getWallets()
   let network1: TestingNetwork
   let config: Config
   let wallet1: Wallet
   let wallet2: Wallet
+  let spender: Wallet
+  let receiver: Wallet
+  let secondReceiver: Wallet
 
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
@@ -22,9 +22,10 @@ describe('useSendTransaction', () => {
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
     ).connect(network1.provider)
     // Top up the wallet because it has 0 funds initially - on both providers.
-    // There are 2 providers because one is used in renderWeb3Hook and the other in renderDappHook.
     await network1.wallets[1].sendTransaction({ to: wallet1.address, value: parseEther('1') })
-    await mockProvider.getWallets()[1].sendTransaction({ to: wallet1.address, value: parseEther('1') })
+    spender = network1.wallets[0]
+    receiver = network1.wallets[1]
+    secondReceiver = network1.wallets[2]
   })
 
   it('success', async () => {
@@ -45,10 +46,10 @@ describe('useSendTransaction', () => {
     const receiverBalance = await receiver.getBalance()
     const secondReceiverBalance = await secondReceiver.getBalance()
 
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useSendTransaction({ signer: receiver }),
       {
-        mockProvider,
+        config,
       }
     )
     await waitForNextUpdate()
@@ -60,7 +61,7 @@ describe('useSendTransaction', () => {
   })
 
   it('Exception(invalid sender)', async () => {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
     await waitForNextUpdate()
 
     await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
@@ -110,7 +111,7 @@ describe('useSendTransaction', () => {
   })
 
   it('Returns receipt after correct transaction', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, { config })
 
     const receiverBalance = await receiver.getBalance()
 
