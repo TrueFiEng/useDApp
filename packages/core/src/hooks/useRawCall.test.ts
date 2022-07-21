@@ -4,7 +4,7 @@ import { utils } from 'ethers'
 import { RawCall } from '..'
 import { encodeCallData } from '../helpers'
 import {
-  CreateMockProviderResult,
+  TestingNetwork,
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
@@ -18,8 +18,8 @@ describe('useRawCall', () => {
   let token: Contract
   let secondToken: Contract
   let config: Config
-  let network1: CreateMockProviderResult
-  let network2: CreateMockProviderResult
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())

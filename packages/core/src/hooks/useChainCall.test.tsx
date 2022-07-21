@@ -6,7 +6,7 @@ import {
   MOCK_TOKEN_INITIAL_BALANCE,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   setupTestingConfig,
-  CreateMockProviderResult,
+  TestingNetwork,
 } from '../testing'
 import { encodeCallData } from '../helpers'
 import { BigNumber } from 'ethers'
@@ -17,8 +17,8 @@ describe('useChainCall', () => {
   let token: Contract
   let secondToken: Contract
   let config: Config
-  let network1: CreateMockProviderResult
-  let network2: CreateMockProviderResult
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())

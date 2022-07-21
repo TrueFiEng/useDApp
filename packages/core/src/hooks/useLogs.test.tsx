@@ -6,7 +6,7 @@ import { BigNumber, ethers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
 import { Config, ERC20MockInterface } from '../constants'
 import {
-  CreateMockProviderResult,
+  TestingNetwork,
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
   renderDAppHook,
@@ -22,8 +22,8 @@ describe('useLogs', () => {
   let token: Contract
   let secondToken: Contract
   let config: Config
-  let network1: CreateMockProviderResult
-  let network2: CreateMockProviderResult
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())

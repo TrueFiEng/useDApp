@@ -1,7 +1,7 @@
 import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
 import { BigNumber, Contract, ethers, Wallet } from 'ethers'
-import { deployMockToken, setupTestingConfig, CreateMockProviderResult } from '../../src/testing'
+import { deployMockToken, setupTestingConfig, TestingNetwork } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
@@ -9,7 +9,7 @@ const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 describe('useContractFunction', () => {
   let token: Contract
   let config: Config
-  let network1: CreateMockProviderResult
+  let network1: TestingNetwork
   let wallet1: Wallet
   let wallet2: Wallet
   let spender: Wallet
