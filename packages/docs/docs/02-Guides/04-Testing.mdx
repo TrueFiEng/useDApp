@@ -53,7 +53,7 @@ Then we can check if our result is correct. ``result.current`` is a value return
 ## Full example
 
 ```tsx
-  import type { Contract } from '@ethersproject/contracts'
+  import type { Wallet, Contract } from 'ethers'
   import { useTokenAllowance } from '@usedapp/core'
   import { renderDAppHook, deployMockToken } from '@usedapp/testing'
   import chai, { expect } from 'chai'
@@ -65,10 +65,14 @@ Then we can check if our result is correct. ``result.current`` is a value return
     let token: Contract
     let config: Config
     let network1: TestingNetwork
+    let deployer: Wallet
+    let spender: Wallet
 
     beforeEach(async () => {
       ;({ config, network1 } = await setupTestingConfig())
-      token = await deployMockToken(network1.deployer)
+      deployer = network1.wallets[0]
+      spender = network1.wallets[1]
+      token = await deployMockToken(deployer)
     })
 
     it('returns current allowance', async () => {
