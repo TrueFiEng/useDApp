@@ -27,7 +27,7 @@ export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfi
       ...network2.multicallAddresses,
     },
     multicallVersion,
-    pollingInterval: 100
+    pollingInterval: 100,
   }
 
   return {
