@@ -69,6 +69,99 @@ button {
   cursor: pointer;
 }
 
+@-webkit-keyframes testimonialsGridAnimation {
+  0% {
+    -webkit-mask-position: 100% 50%;
+            mask-position: 100% 50%;
+  }
+  10% {
+    -webkit-mask-position: 75% 100%;
+            mask-position: 75% 100%;
+  }
+  20% {
+    -webkit-mask-position: 50% 100%;
+            mask-position: 50% 100%;
+  }
+  30% {
+    -webkit-mask-position: 25% 75%;
+            mask-position: 25% 75%;
+  }
+  40% {
+    -webkit-mask-position: 0% 50%;
+            mask-position: 0% 50%;
+  }
+  50% {
+    -webkit-mask-position: 0% 0%;
+            mask-position: 0% 0%;
+  }
+  60% {
+    -webkit-mask-position: 50% 25%;
+            mask-position: 50% 25%;
+  }
+  70% {
+    -webkit-mask-position: 50% 50%;
+            mask-position: 50% 50%;
+  }
+  80% {
+    -webkit-mask-position: 50% 100%;
+            mask-position: 50% 100%;
+  }
+  90% {
+    -webkit-mask-position: 75% 50%;
+            mask-position: 75% 50%;
+  }
+  100% {
+    -webkit-mask-position: 100% 50%;
+            mask-position: 100% 50%;
+  }
+}
+
+@keyframes testimonialsGridAnimation {
+  0% {
+    -webkit-mask-position: 100% 50%;
+            mask-position: 100% 50%;
+  }
+  10% {
+    -webkit-mask-position: 75% 100%;
+            mask-position: 75% 100%;
+  }
+  20% {
+    -webkit-mask-position: 50% 100%;
+            mask-position: 50% 100%;
+  }
+  30% {
+    -webkit-mask-position: 25% 75%;
+            mask-position: 25% 75%;
+  }
+  40% {
+    -webkit-mask-position: 0% 50%;
+            mask-position: 0% 50%;
+  }
+  50% {
+    -webkit-mask-position: 0% 0%;
+            mask-position: 0% 0%;
+  }
+  60% {
+    -webkit-mask-position: 50% 25%;
+            mask-position: 50% 25%;
+  }
+  70% {
+    -webkit-mask-position: 50% 50%;
+            mask-position: 50% 50%;
+  }
+  80% {
+    -webkit-mask-position: 50% 100%;
+            mask-position: 50% 100%;
+  }
+  90% {
+    -webkit-mask-position: 75% 50%;
+            mask-position: 75% 50%;
+  }
+  100% {
+    -webkit-mask-position: 100% 50%;
+            mask-position: 100% 50%;
+  }
+}
 @font-face {
   font-family: "PlusJakartaSans";
   src: url("../fonts/PlusJakartaSans.eot");
@@ -123,6 +216,9 @@ html {
       -ms-user-select: none;
           user-select: none;
   z-index: -1;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .title {
@@ -910,6 +1006,8 @@ html {
           mask-position: 60% 15%;
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
+  -webkit-animation: testimonialsGridAnimation 20s linear infinite;
+          animation: testimonialsGridAnimation 20s linear infinite;
 }
 
 .testimonials {
