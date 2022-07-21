@@ -3,6 +3,24 @@
   padding-bottom: 66px
   background-color: $total-black
 
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-image: linear-gradient($decorator-line-red 1px, transparent 1px), linear-gradient(90deg, $decorator-line-red 1px, transparent 1px)
+    background-size: 24px 24px
+    background-repeat: repeat
+    opacity: 0.4
+    transform: translateY(-5px)
+    mask-image: radial-gradient(black, transparent)
+    mask-size: 65% 65%
+    mask-position: 50% 50%
+    mask-repeat: no-repeat
+    z-index: 1
+
 .about__link
   display: flex
   width: 100%
