@@ -28,8 +28,6 @@ describe('useLogs', () => {
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())
     token = await deployMockToken(network1.deployer)
-    // deploy ignored token on the second chain so the addresses of token and secondToken are different
-    await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
     secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
@@ -205,7 +203,7 @@ describe('useLogs', () => {
     const log = result.current!.value![0]
 
     expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
-    expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
+    expect(getAddress(log.data['to'])).to.equal(getAddress(network2.deployer.address), 'To')
     expect(log.data['value']).to.equal(SECOND_MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
 

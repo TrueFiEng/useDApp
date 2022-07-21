@@ -69,7 +69,7 @@ describe('useCall', () => {
         )
         await testMultiChainUseCall(
           secondToken,
-          [network1.deployer.address],
+          [network2.deployer.address],
           network2.chainId,
           SECOND_MOCK_TOKEN_INITIAL_BALANCE,
           config

@@ -27,8 +27,6 @@ describe('useRawLogs', () => {
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())
     token = await deployMockToken(network1.deployer)
-    // deploy ignored token on the second chain so the addresses of token and secondToken are different
-    await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
     secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
