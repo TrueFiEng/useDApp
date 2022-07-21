@@ -215,10 +215,15 @@ html {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  z-index: -1;
+  z-index: 1;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
+}
+
+.section .container {
+  z-index: 2;
+  position: relative;
 }
 
 .title {
@@ -1188,14 +1193,8 @@ html {
           mask-position: 100% 50%;
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
-  z-index: 1;
   -webkit-animation: gridAnimation 20s linear infinite;
           animation: gridAnimation 20s linear infinite;
-}
-
-.section--integration .container {
-  z-index: 2;
-  position: relative;
 }
 
 .integration {
