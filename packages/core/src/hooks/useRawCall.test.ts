@@ -9,7 +9,7 @@ import {
   MOCK_TOKEN_INITIAL_BALANCE,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   setupTestingConfig,
-  renderDAppHook
+  renderDAppHook,
 } from '../testing'
 import { Config } from '../constants'
 import { useRawCall, useRawCalls } from './useRawCalls'
@@ -34,7 +34,7 @@ describe('useRawCall', () => {
       chainId: network1.chainId,
     }
     const { result, waitForCurrent } = await renderDAppHook(() => useRawCall(call), {
-      config
+      config,
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -96,7 +96,7 @@ describe('useRawCall', () => {
           )
         ),
       {
-        config
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -119,7 +119,7 @@ describe('useRawCall', () => {
           )
         ),
       {
-        config
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)

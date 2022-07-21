@@ -5,16 +5,16 @@ import { deployMulticall, deployMulticall2 } from './deployMulticall'
 import { mineBlock } from './mineBlock'
 
 export interface CreateMockProviderOptions {
-  chainId?: ChainId,
+  chainId?: ChainId
   multicallVersion?: 1 | 2
 }
 
 export interface CreateMockProviderResult {
-  provider: MockProvider,
-  multicallAddresses: MulticallAddresses,
-  wallets: Wallet[],
-  deployer: Wallet,
-  chainId: ChainId,
+  provider: MockProvider
+  multicallAddresses: MulticallAddresses
+  wallets: Wallet[]
+  deployer: Wallet
+  chainId: ChainId
   mineBlock: () => Promise<void>
 }
 export type TestingNetwork = CreateMockProviderResult
@@ -26,9 +26,9 @@ export type TestingNetwork = CreateMockProviderResult
 export const createMockProvider = async (opts: CreateMockProviderOptions = {}): Promise<CreateMockProviderResult> => {
   const chainId = opts.chainId ?? ChainId.Mainnet
   const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
-  const multicallAddresses = await (
-    opts.multicallVersion === 2 ? deployMulticall2(provider, chainId) : deployMulticall(provider, chainId)
-  )
+  const multicallAddresses = await (opts.multicallVersion === 2
+    ? deployMulticall2(provider, chainId)
+    : deployMulticall(provider, chainId))
 
   return {
     provider,
@@ -36,6 +36,6 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
     wallets: provider.getWallets(),
     deployer: provider.getWallets()[0],
     chainId,
-    mineBlock: () => mineBlock(provider)
+    mineBlock: () => mineBlock(provider),
   }
 }

@@ -7,7 +7,7 @@ import {
   MOCK_TOKEN_INITIAL_BALANCE,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   TestingNetwork,
-  setupTestingConfig
+  setupTestingConfig,
 } from '../testing'
 import { useTokenAllowance } from './useTokenAllowance'
 import { utils, Wallet } from 'ethers'
@@ -37,7 +37,7 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
-        config
+        config,
       }
     )
 
@@ -53,7 +53,7 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useTokenAllowance(token.address, deployer.address, spender.address),
       {
-        config
+        config,
       }
     )
 
@@ -92,7 +92,7 @@ describe('useTokenAllowance', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useTokenAllowance(contract.address, user, spenderUser, { chainId }),
       {
-        config
+        config,
       }
     )
 

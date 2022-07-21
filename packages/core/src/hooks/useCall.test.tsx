@@ -7,7 +7,7 @@ import {
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   getResultPropery,
   renderDAppHook,
-  setupTestingConfig
+  setupTestingConfig,
 } from '../testing'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
@@ -28,7 +28,7 @@ describe('useCall', () => {
               args: [network1.deployer.address],
             }),
           {
-            config
+            config,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -48,7 +48,7 @@ describe('useCall', () => {
               args: [],
             }),
           {
-            config
+            config,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -81,6 +81,7 @@ describe('useCall', () => {
         args: string[],
         chainId: number,
         endValue: BigNumber,
+        // eslint-disable-next-line no-undef
         config: Awaited<ReturnType<typeof setupTestingConfig>>['config']
       ) => {
         const { result, waitForCurrent } = await renderDAppHook(
@@ -94,7 +95,7 @@ describe('useCall', () => {
               { chainId }
             ),
           {
-            config
+            config,
           }
         )
         await waitForCurrent((val) => val !== undefined)
@@ -123,7 +124,7 @@ describe('useCall', () => {
             return { balance, block }
           },
           {
-            config
+            config,
           }
         )
 
@@ -169,7 +170,7 @@ describe('useCall', () => {
             return { block1, block2 }
           },
           {
-            config
+            config,
           }
         )
 

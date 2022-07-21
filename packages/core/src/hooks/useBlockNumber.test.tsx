@@ -11,8 +11,8 @@ describe('useBlockNumber', () => {
     expect(result.error).to.be.undefined
     expect(result.current).to.be.equal(1)
   })
-  
-  it('doesn\'t update the block number when a transaction gets mined', async () => {
+
+  it("doesn't update the block number when a transaction gets mined", async () => {
     const { config, network1 } = await setupTestingConfig()
     const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
     const blockNumberFromProvider = await network1.provider.getBlockNumber()
@@ -28,11 +28,15 @@ describe('useBlockNumber', () => {
 
   it('updates the block number when a transaction gets mined', async () => {
     const { config, network1 } = await setupTestingConfig()
-    const { result, waitForCurrentEqual } = await renderDAppHook(() => {
-      const {} = useBlockMeta()
-      const blockNumber = useBlockNumber()
-      return blockNumber
-    }, { config })
+    const { result, waitForCurrentEqual } = await renderDAppHook(
+      () => {
+        // eslint-disable-next-line no-empty-pattern
+        const {} = useBlockMeta()
+        const blockNumber = useBlockNumber()
+        return blockNumber
+      },
+      { config }
+    )
     const blockNumberFromProvider = await network1.provider.getBlockNumber()
     await waitForCurrentEqual(blockNumberFromProvider)
 

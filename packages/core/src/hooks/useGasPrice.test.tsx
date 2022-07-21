@@ -26,7 +26,7 @@ describe('useGasPrice', () => {
 
   const testMultiChainUseGasPrice = async (chainId: number) => {
     const { result, waitForCurrent } = await renderDAppHook(() => useGasPrice({ chainId }), {
-      config
+      config,
     })
 
     await waitForCurrent((val) => val !== undefined)

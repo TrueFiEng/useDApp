@@ -8,7 +8,7 @@ import {
   renderDAppHook,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
   TestingNetwork,
-  setupTestingConfig
+  setupTestingConfig,
 } from '../testing'
 import { useRawLogs } from './useRawLogs'
 import { useSendTransaction } from './useSendTransaction'
@@ -48,7 +48,7 @@ describe('useRawLogs', () => {
     const tx: TransactionRequest = {
       to: token.address,
       value: BigNumber.from(0),
-      data: txData
+      data: txData,
     }
 
     await result.current.sendTransaction(tx)
@@ -180,14 +180,14 @@ describe('useRawLogs', () => {
       address: secondToken.address,
       fromBlock: 0,
       toBlock: 'latest',
-      topics: [eventTopic]
+      topics: [eventTopic],
     }
 
     const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), {
       config: {
         ...config,
-        readOnlyChainId: network2.chainId
-      }
+        readOnlyChainId: network2.chainId,
+      },
     })
 
     await waitForCurrent((val) => val !== undefined)

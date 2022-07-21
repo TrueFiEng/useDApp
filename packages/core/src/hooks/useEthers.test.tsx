@@ -3,12 +3,7 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Localhost, Mainnet } from '../model'
-import {
-  createMockProvider,
-  renderDAppHook,
-  setupTestingConfig,
-  TestingNetwork,
-} from '../testing'
+import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
 describe('useEthers', () => {

@@ -7,7 +7,7 @@ import { Kovan } from '../model'
 describe('useConfig', () => {
   it('default', async () => {
     const { result, waitForCurrent } = await renderDAppHook(useConfig, {
-      config: {}
+      config: {},
     })
     await waitForCurrent((val) => val != undefined)
     expect(result.current['multicallVersion']).to.eq(1)
@@ -15,7 +15,7 @@ describe('useConfig', () => {
 
   it('custom value', async () => {
     const { result, waitForCurrent } = await renderDAppHook(useConfig, {
-      config: { readOnlyChainId: 1 }
+      config: { readOnlyChainId: 1 },
     })
     await waitForCurrent((val) => val != undefined)
     expect(result.current['readOnlyChainId']).to.eq(1)
@@ -59,7 +59,7 @@ describe('useUpdateConfig', () => {
         return { config, updateConfig }
       },
       {
-        config: { readOnlyChainId: 1 }
+        config: { readOnlyChainId: 1 },
       }
     )
     await waitForCurrent((val) => val != undefined)
@@ -77,7 +77,7 @@ describe('useUpdateConfig', () => {
         return { config, updateConfig }
       },
       {
-        config: { readOnlyChainId: 1, multicallAddresses }
+        config: { readOnlyChainId: 1, multicallAddresses },
       }
     )
 

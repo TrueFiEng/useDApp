@@ -62,7 +62,9 @@ describe('useBlockMeta', () => {
 
   it('updates the block number when a transaction gets mined on another chain', async () => {
     const { config, network2 } = await setupTestingConfig()
-    const { result, waitForCurrent } = await renderDAppHook(() => useBlockMeta({ chainId: network2.chainId }), { config })
+    const { result, waitForCurrent } = await renderDAppHook(() => useBlockMeta({ chainId: network2.chainId }), {
+      config,
+    })
     const blockNumberFromProvider = await network2.provider.getBlockNumber()
     await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider)
 

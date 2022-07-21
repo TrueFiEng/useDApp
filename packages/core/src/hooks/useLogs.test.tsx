@@ -49,7 +49,7 @@ describe('useLogs', () => {
     const tx: TransactionRequest = {
       to: token.address,
       value: BigNumber.from(0),
-      data: txData
+      data: txData,
     }
 
     await result.current.sendTransaction(tx)
@@ -187,7 +187,7 @@ describe('useLogs', () => {
           {
             fromBlock: 0,
             toBlock: 'latest',
-            chainId: network2.chainId
+            chainId: network2.chainId,
           }
         ),
       {

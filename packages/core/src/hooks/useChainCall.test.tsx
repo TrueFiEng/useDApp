@@ -35,7 +35,7 @@ describe('useChainCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useChainCall(encodeCallData(callData, network1.chainId)),
       {
-        config
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -72,7 +72,7 @@ describe('useChainCall', () => {
           )
         ),
       {
-        config
+        config,
       }
     )
 

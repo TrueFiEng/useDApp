@@ -36,7 +36,7 @@ describe('useContractCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => useContractCall(callData, { chainId: network1.chainId }),
       {
-        config
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -78,7 +78,7 @@ describe('useContractCall', () => {
           { chainId }
         ),
       {
-        config
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -97,7 +97,7 @@ describe('useContractCall', () => {
     const { result, waitForNextUpdate } = await renderDAppHook(
       () => useContractCall(callData, { chainId: network1.chainId }),
       {
-        config
+        config,
       }
     )
     await waitForNextUpdate()

@@ -2,7 +2,13 @@ import { Contract } from 'ethers'
 import { useToken } from '..'
 import { expect } from 'chai'
 import type { Config } from '../constants'
-import { renderDAppHook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE, TestingNetwork, setupTestingConfig } from '../testing'
+import {
+  renderDAppHook,
+  deployMockToken,
+  MOCK_TOKEN_INITIAL_BALANCE,
+  TestingNetwork,
+  setupTestingConfig,
+} from '../testing'
 
 describe('useToken', async () => {
   let token: Contract
@@ -16,7 +22,7 @@ describe('useToken', async () => {
 
   it('returns correct token constants', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useToken(token.address), {
-      config
+      config,
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
