@@ -701,6 +701,11 @@ body {
   -webkit-mask-image: -webkit-linear-gradient(black 75%, transparent);
           mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(75%, black), to(transparent));
           mask-image: linear-gradient(black 75%, transparent);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: none;
   -webkit-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
