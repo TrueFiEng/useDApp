@@ -2,6 +2,18 @@
   padding-top: 216px
   padding-bottom: 60px
 
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-image: radial-gradient(at 70% 20%, $decoration-gradient-red 0px, transparent 52%), radial-gradient(at 45% -20%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 25% 0%, $decoration-gradient-violet 0px, transparent 50%)
+    filter: blur(150px)
+    transform: translateY(-50%)
+    opacity: 0.9
+
 .hero
   display: grid
   grid-template-columns: 172px 1fr
