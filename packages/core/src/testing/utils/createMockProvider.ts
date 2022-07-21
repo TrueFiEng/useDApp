@@ -30,11 +30,13 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
     ? deployMulticall2(provider, chainId)
     : deployMulticall(provider, chainId))
 
+  const [deployer, ...wallets] = provider.getWallets()
+
   return {
     provider,
     multicallAddresses,
-    wallets: provider.getWallets(),
-    deployer: provider.getWallets()[0],
+    wallets,
+    deployer,
     chainId,
     mineBlock: () => mineBlock(provider),
   }

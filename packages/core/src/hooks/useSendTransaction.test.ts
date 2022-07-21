@@ -22,10 +22,10 @@ describe('useSendTransaction', () => {
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
     ).connect(network1.provider)
     // Top up the wallet because it has 0 funds initially - on both providers.
-    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: parseEther('1') })
-    spender = network1.wallets[0]
-    receiver = network1.wallets[1]
-    secondReceiver = network1.wallets[2]
+    await network1.wallets[0].sendTransaction({ to: wallet1.address, value: parseEther('1') })
+    spender = network1.deployer
+    receiver = network1.wallets[0]
+    secondReceiver = network1.wallets[1]
   })
 
   it('success', async () => {
@@ -37,7 +37,7 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     await expect(await network1.provider.getTransaction(receipt!.transactionHash)).to.changeEtherBalances(
-      [wallet2, wallet1],
+      [network1.deployer, wallet1],
       ['-10', '10']
     )
   })

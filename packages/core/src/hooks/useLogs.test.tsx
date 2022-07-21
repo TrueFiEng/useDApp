@@ -63,8 +63,8 @@ describe('useLogs', () => {
   it('Can get only the recent token transfer log', async () => {
     const blockNumber = await network1.provider.getBlockNumber()
 
-    const from = network1.wallets[0]
-    const to = network1.wallets[1]
+    const from = network1.deployer
+    const to = network1.wallets[0]
 
     const fromAddress = from.address
     const toAddress = to.address
@@ -103,8 +103,8 @@ describe('useLogs', () => {
   })
 
   it('Can get all token transfer logs using the default log query parameters', async () => {
-    const from = network1.wallets[0]
-    const to = network1.wallets[1]
+    const from = network1.deployer
+    const to = network1.wallets[0]
 
     const fromAddress = from.address
     const toAddress = to.address

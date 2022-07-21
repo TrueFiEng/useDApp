@@ -27,10 +27,10 @@ describe('useTokenAllowance', () => {
     ;({ config, network1, network2 } = await setupTestingConfig())
     token = await deployMockToken(network1.deployer)
     secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
-    deployer = network1.wallets[0]
-    spender = network1.wallets[1]
-    secondDeployer = network2.wallets[0]
-    secondSpender = network2.wallets[1]
+    deployer = network1.deployer
+    spender = network1.wallets[0]
+    secondDeployer = network2.deployer
+    secondSpender = network2.wallets[0]
   })
 
   it('returns 0 when spender is not yet approved', async () => {
