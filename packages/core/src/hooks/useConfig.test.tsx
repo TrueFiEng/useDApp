@@ -63,10 +63,10 @@ describe('useUpdateConfig', () => {
       }
     )
     await waitForCurrent((val) => val != undefined)
-    expect(result.current.config['pollingInterval']).to.eq(15000)
-    result.current.updateConfig({ pollingInterval: 10 })
-    await waitForCurrent((val) => val.config.pollingInterval != 15000)
-    expect(result.current.config['pollingInterval']).to.eq(10)
+    expect(result.current.config['multicallVersion']).to.eq(1)
+    result.current.updateConfig({ multicallVersion: 2 })
+    await waitForCurrent((val) => val.config.pollingInterval != 1)
+    expect(result.current.config['multicallVersion']).to.eq(2)
   })
   it('deep updates', async () => {
     const multicallAddresses = { 1: '0x1', 2: '0x2' }
