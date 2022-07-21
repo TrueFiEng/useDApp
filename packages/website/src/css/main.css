@@ -69,7 +69,7 @@ button {
   cursor: pointer;
 }
 
-@-webkit-keyframes testimonialsGridAnimation {
+@-webkit-keyframes gridAnimation {
   0% {
     -webkit-mask-position: 100% 50%;
             mask-position: 100% 50%;
@@ -116,7 +116,7 @@ button {
   }
 }
 
-@keyframes testimonialsGridAnimation {
+@keyframes gridAnimation {
   0% {
     -webkit-mask-position: 100% 50%;
             mask-position: 100% 50%;
@@ -1006,8 +1006,8 @@ html {
           mask-position: 60% 15%;
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
-  -webkit-animation: testimonialsGridAnimation 20s linear infinite;
-          animation: testimonialsGridAnimation 20s linear infinite;
+  -webkit-animation: gridAnimation 20s linear infinite;
+          animation: gridAnimation 20s linear infinite;
 }
 
 .testimonials {
@@ -1189,6 +1189,8 @@ html {
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
   z-index: 1;
+  -webkit-animation: gridAnimation 20s linear infinite;
+          animation: gridAnimation 20s linear infinite;
 }
 
 .section--integration .container {
@@ -1507,6 +1509,8 @@ html {
   -webkit-mask-repeat: no-repeat;
           mask-repeat: no-repeat;
   z-index: 1;
+  -webkit-animation: gridAnimation 20s linear infinite;
+          animation: gridAnimation 20s linear infinite;
 }
 
 .about__link {
