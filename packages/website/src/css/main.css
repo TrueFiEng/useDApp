@@ -116,12 +116,13 @@ html {
   position: relative;
   overflow: hidden;
 }
-.section::before {
+.section::before, .section::after {
   pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  z-index: -1;
 }
 
 .title {
@@ -956,6 +957,27 @@ html {
 
 .section--start {
   padding-top: 56px;
+}
+.section--start::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 125%;
+  height: 100%;
+  background-image: -webkit-radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), -webkit-radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), -webkit-radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), -webkit-radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
+  background-image: -o-radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), -o-radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), -o-radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), -o-radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
+  background-image: radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
+  -webkit-background-size: 120% 100%;
+          background-size: 120% 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  -webkit-filter: blur(100px);
+          filter: blur(100px);
+  -webkit-transform: translateX(-50%) translateY(-60%);
+      -ms-transform: translateX(-50%) translateY(-60%);
+          transform: translateX(-50%) translateY(-60%);
+  opacity: 0.9;
 }
 
 .start {

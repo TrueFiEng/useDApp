@@ -1,6 +1,21 @@
 .section--start
   padding-top: 56px
 
+  &::before
+    content: ''
+    position: absolute
+    left: 50%
+    top: 100%
+    width: 125%
+    height: 100%
+    background-image: radial-gradient(at 100% 100%, $decoration-gradient-violet 0px, transparent 50%), radial-gradient(at 65% 45%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 35% 45%, $decoration-gradient-pink 0px, transparent 50%), radial-gradient(at 0% 100%, $decoration-gradient-orange 0px, transparent 50%)
+    background-size: 120% 100%
+    background-position: 50% 50%
+    background-repeat: no-repeat
+    filter: blur(100px)
+    transform: translateX(-50%) translateY(-60%)
+    opacity: 0.9
+
 .start
   display: flex
   flex-direction: column
