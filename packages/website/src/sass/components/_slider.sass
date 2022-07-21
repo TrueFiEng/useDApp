@@ -6,12 +6,19 @@
   display: flex
   align-items: flex-start
   max-width: 100%
-  overflow: scroll
+  overflow-x: auto
+  scroll-snap-type: x mandatory
+  scroll-behavior: smooth
+  overflow-scrolling: touch
+  -webkit-overflow-scrolling: touch
+  scroll-snap-points-x: repeat(100px)
+  scroll-snap-type: mandatory
 
 .slider__item
   display: flex
   justify-content: center
   align-items: center
+  scroll-snap-align: start
 
 .slider__item + .slider__item
   margin-left: 16px
