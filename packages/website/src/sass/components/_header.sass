@@ -6,12 +6,29 @@
   align-items: center
   height: 80px
   width: 100%
-  background-color: transparent
-  backdrop-filter: blur(0px)
   z-index: 100
   transition: $all-xl
 
-.header--fixed
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: transparent
+    backdrop-filter: blur(0px)
+    mask-size: 100% 300%
+    mask-position: 100% 100%
+    mask-repeat: no-repeat
+    mask-image: linear-gradient(black 75%, transparent)
+    transition: $all-xl
+
+.header .container
+  z-index: 1
+
+.header--fixed::before
+  mask-position: 100% 0%
   background-color: transparentize($white, 0.1)
   backdrop-filter: blur(20px)
 
