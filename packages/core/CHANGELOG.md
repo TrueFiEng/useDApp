@@ -1,5 +1,18 @@
 # @usedapp/core
 
+## 1.1.3
+
+### Patch Changes
+
+- f2c3766: ♨️ Properly update error when switching to not configured network
+- 3becd1d: Remove the need for specifying ABIs dir for generating hooks
+
+## 1.1.2
+
+### Patch Changes
+
+- bbb0cc9: ⛽️ Introduce `gasLimitBufferPercentage` alias
+
 ## 1.1.1
 
 ### Patch Changes

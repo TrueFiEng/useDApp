@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Wallet } from 'ethers'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { deployMockToken, renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
+import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useTokenBalance } from './useTokenBalance'
 
 describe('useTokenBalance', () => {
@@ -51,7 +51,7 @@ describe('useTokenBalance', () => {
 
   it('returns balance for explicitly another chain', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenBalance(token2.address, receiver, { chainId: SECOND_TEST_CHAIN_ID }),
+      () => useTokenBalance(token2.address, receiver, { chainId: network2.chainId }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)

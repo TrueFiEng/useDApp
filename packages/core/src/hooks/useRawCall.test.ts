@@ -1,44 +1,40 @@
-import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'
-import { ChainId } from '../constants/chainId'
 import { encodeCallData } from '../helpers'
 import {
+  TestingNetwork,
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
-  renderWeb3Hook,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
+  setupTestingConfig,
+  renderDAppHook,
 } from '../testing'
+import { Config } from '../constants'
 import { useRawCall, useRawCalls } from './useRawCalls'
 
 describe('useRawCall', () => {
-  const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
-  const [deployer] = mockProvider.getWallets()
-  const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
-  let chainId: number
+  let config: Config
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
-    chainId = (await mockProvider.getNetwork()).chainId
-    token = await deployMockToken(deployer)
-    secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    token = await deployMockToken(network1.deployer)
+    secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
   it('can query ERC20 balance', async () => {
     const call: RawCall = {
       address: token.address,
-      data: token.interface.encodeFunctionData('balanceOf', [deployer.address]),
-      chainId: mockProvider.network.chainId,
+      data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
+      chainId: network1.chainId,
     }
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCall(call), {
-      readonlyMockProviders: {
-        [chainId]: mockProvider,
-      },
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawCall(call), {
+      config,
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -50,30 +46,28 @@ describe('useRawCall', () => {
     const calls: RawCall[] = [
       {
         address: token.address.toLowerCase(),
-        data: token.interface.encodeFunctionData('balanceOf', [deployer.address.toLowerCase()]),
-        chainId: mockProvider.network.chainId,
+        data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address.toLowerCase()]),
+        chainId: network1.chainId,
       },
       {
         address: token.address.toLowerCase(),
-        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(deployer.address)]),
-        chainId: mockProvider.network.chainId,
+        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(network1.deployer.address)]),
+        chainId: network1.chainId,
       },
       {
         address: utils.getAddress(token.address),
-        data: token.interface.encodeFunctionData('balanceOf', [deployer.address.toLowerCase()]),
-        chainId: mockProvider.network.chainId,
+        data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address.toLowerCase()]),
+        chainId: network1.chainId,
       },
       {
         address: utils.getAddress(token.address),
-        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(deployer.address)]),
-        chainId: mockProvider.network.chainId,
+        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(network1.deployer.address)]),
+        chainId: network1.chainId,
       },
     ]
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawCalls(calls), {
-      readonlyMockProviders: {
-        [chainId]: mockProvider,
-      },
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawCalls(calls), {
+      config,
     })
     await waitForCurrent((val) => val !== undefined && val.every((x) => x?.success))
     expect(result.error).to.be.undefined
@@ -89,23 +83,20 @@ describe('useRawCall', () => {
   })
 
   it('returns correct initial balance for mainnet', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall(
           encodeCallData(
             {
               contract: token,
-              args: [deployer.address],
+              args: [network1.deployer.address],
               method: 'balanceOf',
             },
-            ChainId.Localhost
+            network1.chainId
           )
         ),
       {
-        readonlyMockProviders: {
-          [ChainId.Localhost]: mockProvider,
-          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-        },
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -115,23 +106,20 @@ describe('useRawCall', () => {
   })
 
   it('returns correct initial balance for other chain', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall(
           encodeCallData(
             {
               contract: secondToken,
-              args: [secondDeployer.address],
+              args: [network2.deployer.address],
               method: 'balanceOf',
             },
-            SECOND_TEST_CHAIN_ID
+            network2.chainId
           )
         ),
       {
-        readonlyMockProviders: {
-          [ChainId.Localhost]: mockProvider,
-          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-        },
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)

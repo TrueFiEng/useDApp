@@ -1,26 +1,21 @@
 import { expect } from 'chai'
 import { useConfig, useUpdateConfig } from './useConfig'
-import { renderWeb3Hook, renderDAppHook, setupTestingConfig } from '../../src/testing'
+import { renderDAppHook, setupTestingConfig } from '../../src/testing'
 import { Config } from '../constants'
 import { Kovan } from '../model'
-import { ConfigProvider } from '../providers/config/provider'
 
 describe('useConfig', () => {
   it('default', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useConfig, {
-      renderHook: {
-        wrapper: ({ children }) => <ConfigProvider config={{}}>{children}</ConfigProvider>,
-      },
+    const { result, waitForCurrent } = await renderDAppHook(useConfig, {
+      config: {},
     })
     await waitForCurrent((val) => val != undefined)
     expect(result.current['pollingInterval']).to.eq(15000)
   })
 
   it('custom value', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useConfig, {
-      renderHook: {
-        wrapper: ({ children }) => <ConfigProvider config={{ readOnlyChainId: 1 }}>{children}</ConfigProvider>,
-      },
+    const { result, waitForCurrent } = await renderDAppHook(useConfig, {
+      config: { readOnlyChainId: 1 },
     })
     await waitForCurrent((val) => val != undefined)
     expect(result.current['readOnlyChainId']).to.eq(1)
@@ -57,16 +52,14 @@ describe('useConfig', () => {
 
 describe('useUpdateConfig', () => {
   it('updates config', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const config = useConfig()
         const updateConfig = useUpdateConfig()
         return { config, updateConfig }
       },
       {
-        renderHook: {
-          wrapper: ({ children }) => <ConfigProvider config={{ readOnlyChainId: 1 }}>{children}</ConfigProvider>,
-        },
+        config: { readOnlyChainId: 1 },
       }
     )
     await waitForCurrent((val) => val != undefined)
@@ -77,18 +70,14 @@ describe('useUpdateConfig', () => {
   })
   it('deep updates', async () => {
     const multicallAddresses = { 1: '0x1', 2: '0x2' }
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const config = useConfig()
         const updateConfig = useUpdateConfig()
         return { config, updateConfig }
       },
       {
-        renderHook: {
-          wrapper: ({ children }) => (
-            <ConfigProvider config={{ readOnlyChainId: 1, multicallAddresses }}>{children}</ConfigProvider>
-          ),
-        },
+        config: { readOnlyChainId: 1, multicallAddresses },
       }
     )
 

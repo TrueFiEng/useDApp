@@ -1,18 +1,19 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils, Wallet, ethers } from 'ethers'
-import { renderWeb3Hook, setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
+import { setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
+import { parseEther } from 'ethers/lib/utils'
 
 const BASE_TX_COST = 21000
 
 describe('useSendTransaction', () => {
-  const mockProvider = new MockProvider()
-  const [spender, receiver, secondReceiver] = mockProvider.getWallets()
   let network1: TestingNetwork
   let config: Config
   let wallet1: Wallet
   let wallet2: Wallet
+  let spender: Wallet
+  let receiver: Wallet
+  let secondReceiver: Wallet
 
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
@@ -20,31 +21,30 @@ describe('useSendTransaction', () => {
     wallet1 = ethers.Wallet.fromMnemonic(
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
     ).connect(network1.provider)
-    await network1.wallets[1].sendTransaction({ to: wallet1.address, value: 100000 })
+    // Top up the wallet because it has 0 funds initially - on both providers.
+    await network1.wallets[0].sendTransaction({ to: wallet1.address, value: parseEther('1') })
+    spender = network1.deployer
+    receiver = network1.wallets[0]
+    secondReceiver = network1.wallets[1]
   })
 
   it('success', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, {
-      config,
-    })
-    const spenderBalance = await spender.getBalance()
-    const receiverBalance = await receiver.getBalance()
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
+    await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet1.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
-
-    expect(await spender.getBalance()).to.eq(spenderBalance.sub(10))
+    await expect(await network1.provider.getTransaction(receipt!.transactionHash)).to.changeEtherBalances(
+      [network1.deployer, wallet1],
+      ['-10', '10']
+    )
   })
 
   it('sends with different signer', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () =>
-        useSendTransaction({
-          signer: receiver,
-        }),
+      () => useSendTransaction({ signer: receiver }),
       {
         config,
       }
@@ -61,16 +61,8 @@ describe('useSendTransaction', () => {
   })
 
   it('Exception(invalid sender)', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(
-      () =>
-        useSendTransaction({
-          signer: wallet1,
-          bufferGasLimitPercentage: 100,
-        }),
-      {
-        config,
-      }
-    )
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
+    await waitForNextUpdate()
 
     await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
     await waitForCurrent((val) => val.state !== undefined)
@@ -86,7 +78,7 @@ describe('useSendTransaction', () => {
       },
     })
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -105,7 +97,7 @@ describe('useSendTransaction', () => {
       }
     )
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -114,17 +106,15 @@ describe('useSendTransaction', () => {
   })
 
   it('Returns receipt after correct transaction', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useSendTransaction, { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, { config })
 
-    const spenderBalance = await spender.getBalance()
     const receiverBalance = await receiver.getBalance()
 
-    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10), gasPrice: 0 })
+    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await spender.getBalance()).to.eq(spenderBalance.sub(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(receiver.address)
@@ -142,15 +132,12 @@ describe('useSendTransaction', () => {
       { config }
     )
 
-    const spenderBalance = await wallet1.getBalance()
-    const receiverBalance = await wallet2.getBalance()
-
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
+    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -168,15 +155,12 @@ describe('useSendTransaction', () => {
       { config }
     )
 
-    const spenderBalance = await wallet1.getBalance()
-    const receiverBalance = await wallet2.getBalance()
-
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
+    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -200,15 +184,12 @@ describe('useSendTransaction', () => {
       { config }
     )
 
-    const spenderBalance = await wallet1.getBalance()
-    const receiverBalance = await wallet2.getBalance()
-
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10), gasPrice: 0 })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await wallet2.getBalance()).to.eq(receiverBalance.add(10))
-    expect(await wallet1.getBalance()).to.eq(spenderBalance.sub(10))
+    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
+    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)

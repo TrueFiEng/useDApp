@@ -2,7 +2,8 @@
   "include": [
     "src",
     "types",
-    "playwright"
+    "playwright",
+    "test"
   ],
   "compilerOptions": {
     "outDir": "dist",

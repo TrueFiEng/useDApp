@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
 import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'
@@ -77,6 +77,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     wrapper: (wrapperProps) => (
       <ConfigProvider
         config={{
+          readOnlyUrls: readOnlyProviders,
           pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
           multicallVersion: options?.multicallVersion,
         }}

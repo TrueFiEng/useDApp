@@ -4,7 +4,7 @@ import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { ConnectorContext, ConnectorController, useNetwork } from '../providers'
 import { useConfig } from '../hooks'
-import { useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -62,7 +62,7 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { errors },
+    network: { errors, chainId },
     deactivate,
     activate,
     activateBrowserWallet,
@@ -71,15 +71,25 @@ export function useEthers(): Web3Ethers {
 
   const { activeConnector } = useContext(ConnectorContext)!
 
-  const { networks } = useConfig()
+  const { networks, readOnlyUrls } = useConfig()
+  const [error, setError] = useState<Error | undefined>(undefined)
+
+  const configuredChainIds = Object.keys(readOnlyUrls || {}).map((chainId) => parseInt(chainId, 10))
   const supportedChainIds = networks?.map((network) => network.chainId)
-  const isUnsupportedChainId =
-    activeConnector?.chainId && supportedChainIds && supportedChainIds.indexOf(activeConnector?.chainId) < 0
-  const unsupportedChainIdError = new Error(
-    `Unsupported chain id: ${activeConnector?.chainId}. Supported chain ids are: ${supportedChainIds}.`
-  )
-  unsupportedChainIdError.name = 'UnsupportedChainIdError'
-  const error = isUnsupportedChainId ? unsupportedChainIdError : errors[errors.length - 1]
+
+  useEffect(() => {
+    const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
+    const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
+
+    const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
+    chainIdError.name = 'ChainIdError'
+
+    if (isUnsupportedChainId || isNotConfiguredChainId) {
+      setError(chainIdError)
+      return
+    }
+    setError(errors[errors.length - 1])
+  }, [chainId, errors])
 
   const provider = activeConnector?.getProvider()
 
@@ -108,7 +118,7 @@ export function useEthers(): Web3Ethers {
   return {
     connector: activeConnector,
     library: provider,
-    chainId: activeConnector?.chainId,
+    chainId:  error ? undefined : activeConnector?.chainId,
     account,
     active: !!activeConnector,
     activate: async (providerOrConnector: SupportedProviders | { tag: string }) => {

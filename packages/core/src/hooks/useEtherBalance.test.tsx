@@ -3,7 +3,7 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_ID, sleep } from '../testing'
+import { TestingNetwork, renderDAppHook, setupTestingConfig, sleep } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
@@ -90,7 +90,7 @@ describe('useEtherBalance', () => {
 
   it('explicitly specified chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useEtherBalance(receiver, { chainId: SECOND_TEST_CHAIN_ID }),
+      () => useEtherBalance(receiver, { chainId: network2.chainId }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)

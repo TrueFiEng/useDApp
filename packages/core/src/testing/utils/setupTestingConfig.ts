@@ -3,7 +3,7 @@ import { Mainnet } from '../../model'
 import { createMockProvider } from './createMockProvider'
 import { SECOND_TEST_CHAIN_ID } from './deployMockToken'
 
-export interface SetupTestingConfigOptions {
+interface SetupTestingConfigOptions {
   multicallVersion: 1 | 2
 }
 
@@ -12,9 +12,7 @@ export interface SetupTestingConfigOptions {
  * and constructs a useDapp Config.
  * @internal
  */
-export const setupTestingConfig = async (
-  { multicallVersion }: SetupTestingConfigOptions = { multicallVersion: 1 }
-) => {
+export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfigOptions = { multicallVersion: 1 }) => {
   const network1 = await createMockProvider({ chainId: Mainnet.chainId, multicallVersion })
   const network2 = await createMockProvider({ chainId: SECOND_TEST_CHAIN_ID, multicallVersion })
 
@@ -28,7 +26,8 @@ export const setupTestingConfig = async (
       ...network1.multicallAddresses,
       ...network2.multicallAddresses,
     },
-    multicallVersion
+    multicallVersion,
+    pollingInterval: 100,
   }
 
   return {
