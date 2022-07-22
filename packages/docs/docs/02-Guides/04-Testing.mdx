@@ -1,6 +1,6 @@
 # Testing
 
-Let's take ``useTokenAllowance`` as an example.
+Let's take ``useTokenAllowance`` hook as an example.
 
 ## Setup
 
@@ -13,7 +13,7 @@ First of all we'll have to setup local ethereum node and create a provider for i
   const [deployer, spender] = mockProvider.getWallets()
 ```
 
-Next we need to deploy all the neccesary contracts and create a useDApp config object. ``useDApp`` requires Multicall contract to deployed in order to be able to query blockchain. `@usedapp/core` package is shipped together with the Multicall object, that contains all the neccesary data for deployment.
+Next we need to deploy all the neccesary contracts and create a ``useDApp`` config object. ``useDApp`` requires ``Multicall`` contract to be deployed in order to be able to query blockchain. ``@usedapp/core`` package is shipped together with the ``Multicall`` object, that contains all the neccesary data for deployment.
 
 ```tsx
   import { MultiCall } from '@usedapp/core'
@@ -21,10 +21,10 @@ Next we need to deploy all the neccesary contracts and create a useDApp config o
   const multicall = await deployContract(deployer, Multicall)
 ```
 
-Now we have to create a useDApp config object. Let's populate it with the following fields:
-  - readOnlyChainId: the default chain that `useDApp queries`
-  - readOnlyUrls: this object contains info on how to access specific chains. In this case we're using the MockProvider object, so we'll pass it to the config object.
-  - multicallAddresses: addresses of Multicall contracts on specific chains. Here we'll use the address of the contract that we deployed before.
+Now we have to create a ``useDApp`` config object. Let's populate it with the following fields:
+  - readOnlyChainId: the default chain that ``useDApp`` queries.
+  - readOnlyUrls: this object contains info on how to access specific chains. In this case we're using the ``MockProvider`` object, so we'll pass it to the config object.
+  - multicallAddresses: addresses of ``Multicall`` contracts on specific chains. Here we'll use the address of the contract that we deployed before.
 
 ```tsx
   let config: Config
@@ -43,11 +43,11 @@ Now we have to create a useDApp config object. Let's populate it with the follow
 
 :::note
 
-You could also use the Multicall2 contract. It is also exported from the `@usedapp/core` package. In this case you would also need to specify `multicallVersion` field in your `config` object (set it to `2`).
+You could also use the ``Multicall2`` contract. It is also exported from the ``@usedapp/core`` package. In this case you would also need to specify ``multicallVersion`` field in your ``config`` object (set it to `2`).
 
 :::
 
-The last step would be to deploy the mock ERC20 token that we'll use in the tests. The `@usedapp/core` package exports the token contract that we'll use.
+The last step would be to deploy the mock ``ERC20`` token that we'll use in the tests. The ``@usedapp/core`` package exports the token contract that we'll use.
 
 ```tsx
   import { MockERC20 } from '@usedapp/core'
