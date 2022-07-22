@@ -4,7 +4,13 @@ Let's take ``useTokenAllowance`` hook as an example.
 
 ## Setup
 
-First of all we'll have to setup local ethereum node and create a provider for it. We should also have access to some accounts on this network with some funds on them. All this can be easily using the [Waffle](https://github.com/TrueFiEng/Waffle) testing library.
+First of all we'll have to setup local ethereum node and create a provider for it. We should also have access to some accounts on this network with some funds on them. All this can be easily using the [Waffle](https://github.com/TrueFiEng/Waffle) testing library. You can install it using
+
+```bash npm2yarn
+npm install --save-dev ethereum-waffle 
+```
+
+And the code will look something this:
 
 ```tsx
   import { MockProvider } from 'ethereum-waffle'
@@ -22,9 +28,9 @@ Next we need to deploy all the neccesary contracts and create a ``useDApp`` conf
 ```
 
 Now we have to create a ``useDApp`` config object. Let's populate it with the following fields:
-  - readOnlyChainId: the default chain that ``useDApp`` queries.
-  - readOnlyUrls: this object contains info on how to access specific chains. In this case we're using the ``MockProvider`` object, so we'll pass it to the config object.
-  - multicallAddresses: addresses of ``Multicall`` contracts on specific chains. Here we'll use the address of the contract that we deployed before.
+  - `readOnlyChainId`: the default chain that ``useDApp`` queries.
+  - `readOnlyUrls`: this object contains info on how to access specific chains. In this case we're using the ``MockProvider`` object, so we'll pass it to the config object.
+  - `multicallAddresses`: addresses of ``Multicall`` contracts on specific chains. Here we'll use the address of the contract that we deployed before.
 
 ```tsx
   const chainId = (await mockProvider.getNetwork()).chainId
