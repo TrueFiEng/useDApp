@@ -1,27 +1,70 @@
 # Testing
 
-## Setup
-
 Let's take ``useTokenAllowance`` as an example.
 
-In the ``useDApp`` monorepo we have prepared and use in tests some auxillary methods. The first one to know is ``setupTestingConfig``. It creates two networks (blockchain nodes), deploys multicall contract to them and creates a ``useDApp`` config object with the data about those two networks. You can also pass the version of multicall contract to use to the ``setupTestingConfig`` method. The default version is ``1``.
+## Setup
 
-The second method we will take advantage of in this example is ``deployMockToken`` - it deploys an ERC20 token contract to the network. So the setup code might look something like this:
+First of all we'll have to setup local ethereum node and create a provider for it. We should also have access to some accounts on this network with some funds on them. All this can be easily using the [Waffle](https://github.com/TrueFiEng/Waffle) testing library.
 
 ```tsx
-  let token: Contract
-  let config: Config
-  let network1: TestingNetwork
-  let deployer: Wallet
-  let spender: Wallet
+  import { MockProvider } from 'ethereum-waffle'
 
-  beforeEach(async () => {
-    ;({ config, network1 } = await setupTestingConfig())
-    deployer = network1.wallets[0]
-    spender = network1.wallets[1]
-    token = await deployMockToken(deployer)
-  })
+  const mockProvider = new MockProvider()
+  const [deployer, spender] = mockProvider.getWallets()
 ```
+
+Next we need to deploy all the neccesary contracts and create a useDApp config object. ``useDApp`` requires Multicall contract to deployed in order to be able to query blockchain. `@usedapp/core` package is shipped together with the Multicall object, that contains all the neccesary data for deployment.
+
+```tsx
+  import { MultiCall } from '@usedapp/core'
+
+  const multicall = await deployContract(deployer, Multicall)
+```
+
+Now we have to create a useDApp config object. Let's populate it with the following fields:
+  - readOnlyChainId: the default chain that `useDApp queries`
+  - readOnlyUrls: this object contains info on how to access specific chains. In this case we're using the MockProvider object, so we'll pass it to the config object.
+  - multicallAddresses: addresses of Multicall contracts on specific chains. Here we'll use the address of the contract that we deployed before.
+
+```tsx
+  let config: Config
+
+  const chainId = (await mockProvider.getNetwork()).chainId
+  config = {
+    readOnlyChainId: chainId,
+    readOnlyUrls: {
+      [chainId]: mockProvider
+    },
+    multicallAddresses: {
+      [chainId]: multicall.address
+    }
+  }
+```
+
+:::note
+
+You could also use the Multicall2 contract. It is also exported from the `@usedapp/core` package. In this case you would also need to specify `multicallVersion` field in your `config` object (set it to `2`).
+
+:::
+
+The last step would be to deploy the mock ERC20 token that we'll use in the tests. The `@usedapp/core` package exports the token contract that we'll use.
+
+```tsx
+  import { MockERC20 } from '@usedapp/core'
+
+  let token: Contract
+
+  const tokenArgs = [
+      'MOCKToken', // name of the token
+      'MOCK', // symbol of the token
+      deployer.address, // address of the token owner
+      utils.parseEther('10') // total supply of the token
+    ]
+
+  token = await deployContract(deployer, MockERC20)
+```
+
+Now we're ready to do the actual testing.
 
 ## Testing
 
@@ -64,15 +107,26 @@ Then we can check if our result is correct. ``result.current`` is a value return
   describe('useTokenAllowance', () => {
     let token: Contract
     let config: Config
-    let network1: TestingNetwork
-    let deployer: Wallet
-    let spender: Wallet
 
     beforeEach(async () => {
-      ;({ config, network1 } = await setupTestingConfig())
-      deployer = network1.wallets[0]
-      spender = network1.wallets[1]
-      token = await deployMockToken(deployer)
+      const multicall = await deployContract(deployer, Multicall)
+      const chainId = (await mockProvider.getNetwork()).chainId
+      config = {
+        readOnlyChainId: chainId,
+        readOnlyUrls: {
+          [chainId]: mockProvider
+        },
+        multicallAddresses: {
+          [chainId]: multicall.address
+        }
+      }
+      const tokenArgs = [
+        'MOCKToken',
+        'MOCK',
+        deployer.address,
+        utils.parseEther('10')
+      ]
+      token = await deployContract(deployer, ERC20Mock, tokenArgs)
     })
 
     it('returns current allowance', async () => {
