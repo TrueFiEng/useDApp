@@ -27,10 +27,8 @@ Now we have to create a ``useDApp`` config object. Let's populate it with the fo
   - multicallAddresses: addresses of ``Multicall`` contracts on specific chains. Here we'll use the address of the contract that we deployed before.
 
 ```tsx
-  let config: Config
-
   const chainId = (await mockProvider.getNetwork()).chainId
-  config = {
+  const config = {
     readOnlyChainId: chainId,
     readOnlyUrls: {
       [chainId]: mockProvider
@@ -96,20 +94,24 @@ Then we can check if our result is correct. ``result.current`` is a value return
 ## Full example
 
 ```tsx
-  import type { Wallet, Contract } from 'ethers'
-  import { useTokenAllowance } from '@usedapp/core'
-  import { renderDAppHook, deployMockToken } from '@usedapp/testing'
+  import type { Contract } from 'ethers'
+  import { useTokenAllowance, Config, MultiCall, ERC20Mock } from '@usedapp/core'
+  import { renderDAppHook } from '@usedapp/testing'
   import chai, { expect } from 'chai'
+  import { MockProvider, deployContract, solidity } from 'ethereum-waffle'
   import { utils } from 'ethers'
 
   chai.use(solidity)
 
   describe('useTokenAllowance', () => {
+    const mockProvider = new MockProvider()
+    const [deployer, spender] = mockProvider.getWallets()
+
     let token: Contract
     let config: Config
 
     beforeEach(async () => {
-      const multicall = await deployContract(deployer, Multicall)
+      const multicall = await deployContract(deployer, MultiCall)
       const chainId = (await mockProvider.getNetwork()).chainId
       config = {
         readOnlyChainId: chainId,
