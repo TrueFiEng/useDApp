@@ -1,3 +1,6 @@
+// animations
+AOS.init()
+
 // header
 const body = document.body
 const header = body.querySelector("header")
