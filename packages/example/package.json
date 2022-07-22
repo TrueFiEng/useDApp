@@ -7,7 +7,7 @@
   "types": "dist/esm/src/index.d.ts",
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
-    "usedapp:generate": "USEDAPP_OUT_DIR=./gen/hooks USEDAPP_TYPES_DIR=./gen/types USEDAPP_ABIS_DIR=./src/abi pnpm usedapp-generate-hooks",
+    "usedapp:generate": "USEDAPP_OUT_DIR=./gen/hooks USEDAPP_TYPES_DIR=./gen/types pnpm usedapp-generate-hooks",
     "start": "webpack serve --mode development",
     "build": "yarn build:app && yarn build:package",
     "build:app": "yarn generate && tsc --noEmit && rimraf build && webpack --mode production --progress",

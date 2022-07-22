@@ -5,7 +5,7 @@ import { BigNumber, Contract, Wallet } from 'ethers'
 import { describe } from 'mocha'
 import { useERC20_balanceOf, useERC20_transfer } from '../gen/hooks/ERC20'
 
-describe('ERC20', () => {
+describe('Auto-generated hook: ERC20', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
