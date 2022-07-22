@@ -3,12 +3,10 @@ import * as path from 'path'
 import { commonImports, imports } from './imports'
 
 export async function generate() {
-  if (!process.env.USEDAPP_ABIS_DIR) throw new Error('Missing USEDAPP_ABIS_DIR')
   if (!process.env.USEDAPP_TYPES_DIR) throw new Error('Missing USEDAPP_TYPES_DIR')
   if (!process.env.USEDAPP_OUT_DIR) throw new Error('Missing USEDAPP_OUT_DIR')
 
   const typesDir = path.join(process.cwd(), process.env.USEDAPP_TYPES_DIR)
-  const abisDir = path.join(process.cwd(), process.env.USEDAPP_ABIS_DIR)
   const outDir = path.join(process.cwd(),process.env.USEDAPP_OUT_DIR)
 
   const factories = require(typesDir).factories
@@ -18,7 +16,7 @@ export async function generate() {
   Object.keys(factories).forEach((factoryName) => {
     const contractName = factoryName.split('_')[0]
     const filename = `${outDir}/${contractName}.ts`
-    let output = commonImports + imports({typesDir, abisDir, outDir, contractName})
+    let output = commonImports + imports({typesDir, outDir, contractName})
     console.log(`Processing ${contractName}`)
     const factory = factories[factoryName]
     const Interface = factory.createInterface()

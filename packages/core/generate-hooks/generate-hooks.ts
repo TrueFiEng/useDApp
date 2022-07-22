@@ -11,12 +11,11 @@ const usage = () => {
   
   USEDAPP_OUT_DIR=<destination directory> \
   USEDAPP_TYPES_DIR=<typechain files> \
-  USEDAPP_ABIS_DIR=<contract abis> \
   usedapp-generate-hooks
   `)
 }
 
-if (!process.env.USEDAPP_OUT_DIR || !process.env.USEDAPP_TYPES_DIR || !process.env.USEDAPP_ABIS_DIR) {
+if (!process.env.USEDAPP_OUT_DIR || !process.env.USEDAPP_TYPES_DIR) {
   usage()
   process.exit(-1)
 }

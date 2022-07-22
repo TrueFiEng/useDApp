@@ -7,13 +7,11 @@ import { Contract, utils } from 'ethers'
 
 export interface ImportsOptions {
   typesDir: string,
-  abisDir: string,
   outDir: string,
   contractName: string
 }
-export const imports = ({typesDir, abisDir, outDir, contractName}: ImportsOptions) => `
-import { ${contractName} } from '${path.relative(outDir, typesDir)}'
-import ${contractName}ABI from '${path.relative(outDir, abisDir)}/${contractName}.json'
-const ${contractName}Interface = new utils.Interface(${contractName}ABI.abi)
+export const imports = ({typesDir, outDir, contractName}: ImportsOptions) => `
+import { ${contractName}, ${contractName}__factory } from '${path.relative(outDir, typesDir)}'
+const ${contractName}Interface = new utils.Interface(${contractName}__factory.abi)
 
 `
