@@ -35,7 +35,7 @@ export const renderDAppHook = async <Tprops, TResult>(
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <DAppProvider config={{ pollingInterval: 100, ...options?.config }}>
+      <DAppProvider config={options?.config ?? {}}>
         <UserWrapper {...wrapperProps} />
       </DAppProvider>
     ),

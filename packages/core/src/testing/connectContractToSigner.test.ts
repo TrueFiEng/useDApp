@@ -1,19 +1,18 @@
-import { ERC20Interface, useEthers } from '..'
-import chai, { expect } from 'chai'
-import { MockProvider, solidity } from 'ethereum-waffle'
+import { Config, ERC20Interface, useEthers } from '..'
+import { expect } from 'chai'
 import { Contract } from 'ethers'
-import { renderWeb3Hook } from '.'
+import { renderDAppHook } from './renderDAppHook'
 import { connectContractToSigner } from '../hooks/useContractFunction'
-
-chai.use(solidity)
+import { setupTestingConfig, TestingNetwork } from './utils'
 
 describe('connectContractToSigner', () => {
-  const mockProvider = new MockProvider()
-  const [deployer] = mockProvider.getWallets()
   let token: Contract
+  let config: Config
+  let network1: TestingNetwork
 
   beforeEach(async () => {
-    token = new Contract(deployer.address, ERC20Interface)
+    ;({ config, network1 } = await setupTestingConfig())
+    token = new Contract(network1.deployer.address, ERC20Interface)
   })
 
   it('throws error without signer', () => {
@@ -21,21 +20,21 @@ describe('connectContractToSigner', () => {
   })
 
   it('noop if contract has signer', () => {
-    const signer = mockProvider.getSigner()
+    const signer = network1.provider.getSigner()
     const connectedContract = token.connect(signer)
 
     expect(connectContractToSigner(connectedContract).signer).to.eq(signer)
   })
 
   it('takes signer from options', () => {
-    const signer = mockProvider.getSigner()
+    const signer = network1.provider.getSigner()
     const connectedContract = connectContractToSigner(token, { signer })
 
     expect(connectedContract.signer).to.eq(signer)
   })
 
   it('takes signer from library', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useEthers(), { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), { config })
     await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 

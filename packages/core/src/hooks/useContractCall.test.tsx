@@ -1,31 +1,29 @@
-import { MockProvider } from 'ethereum-waffle'
 import { Contract } from 'ethers'
 import { expect } from 'chai'
 import {
-  renderWeb3Hook,
-  deployMockToken,
+  renderDAppHook,
+  setupTestingConfig,
   MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
+  TestingNetwork,
+  deployMockToken,
 } from '../testing'
-import { ChainId } from '../constants/chainId'
 import { BigNumber } from 'ethers'
 import { ERC20Interface } from '../constants/abi'
 import { useContractCall } from './useContractCall'
+import { Config } from '../constants'
 
 describe('useContractCall', () => {
-  const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { chain: { chainId: SECOND_TEST_CHAIN_ID } } })
-  const [deployer] = mockProvider.getWallets()
-  const [secondDeployer] = secondMockProvider.getWallets()
   let token: Contract
   let secondToken: Contract
-  let chainId: number
+  let config: Config
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
-    chainId = (await mockProvider.getNetwork()).chainId
-    token = await deployMockToken(deployer)
-    secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    token = await deployMockToken(network1.deployer)
+    secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
   it('initial test balance to be correct', async () => {
@@ -33,14 +31,12 @@ describe('useContractCall', () => {
       abi: ERC20Interface,
       address: token.address,
       method: 'balanceOf',
-      args: [deployer.address],
+      args: [network1.deployer.address],
     }
-    const { result, waitForCurrent } = await renderWeb3Hook(
-      () => useContractCall(callData, { chainId: ChainId.Localhost }),
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => useContractCall(callData, { chainId: network1.chainId }),
       {
-        readonlyMockProviders: {
-          [chainId]: mockProvider,
-        },
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -52,14 +48,14 @@ describe('useContractCall', () => {
   it('multichain calls return correct initial balances', async () => {
     await testMultiChainUseContractCall(
       token.address,
-      [deployer.address],
-      ChainId.Localhost,
+      [network1.deployer.address],
+      network1.chainId,
       MOCK_TOKEN_INITIAL_BALANCE
     )
     await testMultiChainUseContractCall(
       secondToken.address,
-      [secondDeployer.address],
-      SECOND_TEST_CHAIN_ID,
+      [network2.deployer.address],
+      network2.chainId,
       SECOND_MOCK_TOKEN_INITIAL_BALANCE
     )
   })
@@ -70,7 +66,7 @@ describe('useContractCall', () => {
     chainId: number,
     endValue: BigNumber
   ) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useContractCall(
           {
@@ -82,10 +78,7 @@ describe('useContractCall', () => {
           { chainId }
         ),
       {
-        readonlyMockProviders: {
-          [ChainId.Localhost]: mockProvider,
-          [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-        },
+        config,
       }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -99,12 +92,12 @@ describe('useContractCall', () => {
       abi: ERC20Interface,
       address: undefined as any,
       method: 'balanceOf',
-      args: [deployer.address],
+      args: [network1.deployer.address],
     }
-    const { result, waitForNextUpdate } = await renderWeb3Hook(
-      () => useContractCall(callData, { chainId: ChainId.Localhost }),
+    const { result, waitForNextUpdate } = await renderDAppHook(
+      () => useContractCall(callData, { chainId: network1.chainId }),
       {
-        mockProvider,
+        config,
       }
     )
     await waitForNextUpdate()
