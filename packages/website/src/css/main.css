@@ -968,6 +968,9 @@ img {
 .hero__ethereum {
   grid-column: 1/1;
   grid-row: 1/-1;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .hero__title {
@@ -995,6 +998,9 @@ img {
 
 .hero__react {
   position: absolute;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .hero__description {
