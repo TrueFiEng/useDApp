@@ -8,14 +8,12 @@ export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
   signOut: () => void
   isLoggedIn: boolean
-  authToken: string | undefined | null
 }
 
 const SiweContext = createContext<SiweContextValue>({
   signIn: () => undefined,
   signOut: () => undefined,
   isLoggedIn: false,
-  authToken: undefined,
 })
 
 export function useSiwe() {
@@ -36,21 +34,16 @@ export interface SiweProviderProps {
 export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)
-  const { getNonce, getAuth } = api ?? getFetchers(backendUrl ?? '')
-  const [authToken, setAuthToken] = useState<string | undefined | null>(undefined)
+  const { getNonce, getAuth, signIn, signOut } = api ?? getFetchers(backendUrl ?? '')
 
   useEffect(() => {
     if (!account || !chainId) {
       return
     }
-    setAuthToken(localStorage.getItem('authToken' + account + chainId))
-    if (authToken === null) {
-      return
-    }
-    void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : setLoggedIn(false)))
-  }, [authToken, getAuth, account, chainId])
+    void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : setLoggedIn(false)))
+  }, [getAuth, account, chainId])
 
-  const signIn = useCallback(
+  const handleSignIn = useCallback(
     async (signInOptions?: SignInOptions) => {
       if (!account || !chainId || !library) {
         return
@@ -73,30 +66,26 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       })
       const signature = await signer.signMessage(message.prepareMessage())
 
-      const session = JSON.stringify({ signature, message })
+      await signIn({ signature, message })
 
-      localStorage.setItem('authToken' + account + chainId, session)
-      setAuthToken(session)
-
-      void getAuth(account, chainId).then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
+      void getAuth().then((res) => (res.loggedIn ? setLoggedIn(true) : undefined))
     },
-    [account, chainId, library, getAuth, setAuthToken, getNonce]
+    [account, chainId, library, getAuth, getNonce, signIn]
   )
 
-  const signOut = useCallback(async () => {
+  const handleSignOut = useCallback(async () => {
     if (!account || !chainId) {
       return
     }
-    localStorage.removeItem('authToken' + account + chainId)
+
+    await signOut()
     setLoggedIn(false)
-    setAuthToken(undefined)
-  }, [setLoggedIn, setAuthToken, account, chainId])
+  }, [setLoggedIn, account, chainId, signOut])
 
   const value = {
-    signIn,
-    signOut,
+    signIn: handleSignIn,
+    signOut: handleSignOut,
     isLoggedIn,
-    authToken,
   }
 
   return <SiweContext.Provider value={value} children={children} />
