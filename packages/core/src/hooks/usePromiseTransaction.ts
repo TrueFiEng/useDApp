@@ -11,7 +11,7 @@ export async function estimateTransactionGasLimit(
   transactionRequest: TransactionRequest | undefined,
   signer: Signer | undefined,
   gasLimitBufferPercentage: number
-) {
+): Promise<BigNumber | undefined> {
   if (!signer || !transactionRequest) {
     return undefined
   }
