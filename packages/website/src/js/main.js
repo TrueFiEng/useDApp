@@ -1,8 +1,12 @@
+const body = document.body
+
+body.querySelectorAll('.dependents__slide .slider__link').forEach((slide, index) => slide.dataset.aosDelay = (50 * index).toString())
 // animations on scroll
-AOS.init()
+AOS.init({
+  once: true
+})
 
 // header
-const body = document.body
 const header = body.querySelector("header")
 
 const headerOffset = header.clientHeight
@@ -19,7 +23,6 @@ const handleHeaderStyles = () => {
 document.addEventListener("scroll", handleHeaderStyles)
 
 // motion path
-
 const ethereumIllustration = body.querySelector('.hero__ethereum')
 const reactIllustration = body.querySelector('.hero__react')
 
