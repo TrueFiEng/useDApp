@@ -4,10 +4,11 @@
   align-items: center
   width: fit-content
 
-.navigation__item
-
-  & + &
-    margin-left: 24px
+.navigation__item + .navigation__item
+  margin-left: 24px
+  
+  +media(l)
+    margin-left: 8px
 
 %navigationLinkHoverStyles
   border-color: $black
@@ -30,6 +31,7 @@
   text-stroke: 0em transparent
   -webkit-text-stroke: 0em transparent
   letter-spacing: 0.05em
+  white-space: nowrap
   transition: $all
 
   &:hover

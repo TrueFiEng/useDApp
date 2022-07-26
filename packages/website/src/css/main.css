@@ -569,6 +569,11 @@ img {
 .navigation__item + .navigation__item {
   margin-left: 24px;
 }
+@media (max-width: 1200px) {
+  .navigation__item + .navigation__item {
+    margin-left: 8px;
+  }
+}
 
 .navigation__link:focus-visible, .navigation__link:hover {
   border-color: #23242A;
@@ -603,6 +608,7 @@ img {
   text-stroke: 0em transparent;
   -webkit-text-stroke: 0em transparent;
   letter-spacing: 0.05em;
+  white-space: nowrap;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
@@ -820,6 +826,11 @@ img {
 
 .header__navigation {
   margin-left: 24px;
+}
+@media (max-width: 1200px) {
+  .header__navigation {
+    margin-left: 8px;
+  }
 }
 
 .header__externals {
