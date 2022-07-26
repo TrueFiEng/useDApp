@@ -554,7 +554,7 @@ img {
 }
 
 .slider__text {
-  margin-top: 14px;
+  margin-top: 16px;
   font-size: 12px;
   line-height: 18px;
   color: #767676;
@@ -1110,6 +1110,12 @@ img {
   padding-top: 58px;
   padding-bottom: 74px;
 }
+@media (max-width: 1200px) {
+  .section--dependents {
+    padding-top: 42px;
+    padding-bottom: 24px;
+  }
+}
 
 .dependents {
   display: -webkit-box;
@@ -1139,6 +1145,12 @@ img {
 .dependents__slider {
   margin: 32px auto 0;
   max-width: 1308px;
+}
+@media (max-width: 1200px) {
+  .dependents__slider {
+    margin: 28px auto 0;
+    max-width: 100%;
+  }
 }
 
 .dependents__slider .slider__list {
