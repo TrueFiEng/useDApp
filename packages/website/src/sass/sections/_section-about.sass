@@ -22,6 +22,10 @@
     z-index: 1
     animation: gridAnimation 20s linear infinite
 
+  +media(l)
+    padding-top: 32px
+    pading-bottom: 32px
+
 .about__link
   display: flex
   width: 100%
@@ -47,6 +51,11 @@
   color: $white
   overflow: hidden
 
+  +media(l)
+    margin-top: 44px
+    font-size: 60px
+    line-height: 72px
+
 .about__description
   margin: 32px auto 0
   max-width: 544px
@@ -54,6 +63,11 @@
   line-height: 38px
   color: $white
   text-align: center
+
+  +media(l)
+    margin: 24px auto 0
+    font-size: 28px
+    line-height: 32px
 
 .about__description-link
   color: $purple
@@ -69,6 +83,9 @@
 
 .about__socials
   margin: 84px auto 0
+
+  +media(l)
+    margin: 44px auto 0
 
 .about__social + .about__social
   margin-left: 32px
