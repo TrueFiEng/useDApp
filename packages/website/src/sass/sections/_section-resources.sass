@@ -2,6 +2,10 @@
   padding-top: 140px
   padding-bottom: 140px
 
+  +media(l)
+    padding-top: 56px
+    padding-bottom: 68px
+
 .resources
   display: flex
   flex-direction: column
@@ -15,6 +19,10 @@
   text-align: center
   letter-spacing: -0.03em
 
+  +media(l)
+    font-size: 60px
+    line-height: 72px
+
 .resources__grid
   display: grid
   grid-auto-flow: column
@@ -23,11 +31,19 @@
   grid-row-gap: 50px
   margin-top: 40px
 
+  +media(l)
+    grid-template-columns: repeat(3, 210px)
+    grid-column-gap: 20px
+    grid-row-gap: 30px
+    margin-top: 32px
+
 .resources__picture
   grid-column: 2 / 3
   grid-row: 1 / 3
 
 .resources__image
+  max-height: 100%
+  max-width: 100%
   object-fit: cover
 
 .resources__item .text--gradient::before
@@ -35,6 +51,8 @@
 
 %resourcesItemHoverStyle
   background-color: $total-black
+  border-color: $total-black
+
   .text--gradient
     color: $white
 
@@ -56,7 +74,8 @@
   max-height: 272px
   padding: 56px 24px
   border-radius: 8px
-  background-color: transparent
+  border: 1px solid transparentize($black, 0.9)
+  background-color: $white
   transition: $all
 
   &:hover
@@ -69,6 +88,10 @@
     @extend %resourcesItemHoverStyle
     opacity: 0.85
 
+  +media(l)
+    max-height: 164px
+    padding: 32px 16px
+
 .resources__icon
   min-width: 32px
   max-width: 32px
@@ -76,14 +99,32 @@
   max-height: 32px
   transition: $all
 
+  +media(l)
+    min-width: 20px
+    max-width: 20px
+    min-height: 20px
+    max-height: 20px
+
+
 .resources__name
   margin-top: 32px
   font-size: 24px
   line-height: 38px
+
+  +media(l)
+    margin-top: 20px
+    font-size: 18px
+    line-height: 22px
 
 .resources__description
   margin-top: 16px
   font-size: 18px
   line-height: 26px
   color: $dark
+  white-space: normal
   transition: $all
+
+  +media(l)
+    margin-top: 10px
+    font-size: 14px
+    line-height: 16px

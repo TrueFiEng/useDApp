@@ -1661,6 +1661,12 @@ img {
   padding-top: 140px;
   padding-bottom: 140px;
 }
+@media (max-width: 1200px) {
+  .section--resources {
+    padding-top: 56px;
+    padding-bottom: 68px;
+  }
+}
 
 .resources {
   display: -webkit-box;
@@ -1683,6 +1689,12 @@ img {
   text-align: center;
   letter-spacing: -0.03em;
 }
+@media (max-width: 1200px) {
+  .resources__title {
+    font-size: 60px;
+    line-height: 72px;
+  }
+}
 
 .resources__grid {
   display: grid;
@@ -1692,6 +1704,14 @@ img {
   grid-row-gap: 50px;
   margin-top: 40px;
 }
+@media (max-width: 1200px) {
+  .resources__grid {
+    grid-template-columns: repeat(3, 210px);
+    grid-column-gap: 20px;
+    grid-row-gap: 30px;
+    margin-top: 32px;
+  }
+}
 
 .resources__picture {
   grid-column: 2/3;
@@ -1699,6 +1719,8 @@ img {
 }
 
 .resources__image {
+  max-height: 100%;
+  max-width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -1709,6 +1731,7 @@ img {
 
 .resources__item:active, .resources__item:focus-visible, .resources__item:hover {
   background-color: #000000;
+  border-color: #000000;
 }
 .resources__item:active .text--gradient, .resources__item:focus-visible .text--gradient, .resources__item:hover .text--gradient {
   color: #FFFFFF;
@@ -1740,13 +1763,20 @@ img {
   padding: 56px 24px;
   -webkit-border-radius: 8px;
           border-radius: 8px;
-  background-color: transparent;
+  border: 1px solid rgba(35, 36, 42, 0.1);
+  background-color: #FFFFFF;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
 }
 .resources__item:active {
   opacity: 0.85;
+}
+@media (max-width: 1200px) {
+  .resources__item {
+    max-height: 164px;
+    padding: 32px 16px;
+  }
 }
 
 .resources__icon {
@@ -1758,11 +1788,26 @@ img {
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
 }
+@media (max-width: 1200px) {
+  .resources__icon {
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
+  }
+}
 
 .resources__name {
   margin-top: 32px;
   font-size: 24px;
   line-height: 38px;
+}
+@media (max-width: 1200px) {
+  .resources__name {
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
 
 .resources__description {
@@ -1770,9 +1815,17 @@ img {
   font-size: 18px;
   line-height: 26px;
   color: #767676;
+  white-space: normal;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
+}
+@media (max-width: 1200px) {
+  .resources__description {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 16px;
+  }
 }
 
 .section--about {
