@@ -16,6 +16,9 @@
     transform: translateX(-50%) translateY(-60%)
     opacity: 0.9
 
+  +media(l)
+    padding-top: 24px
+
 .start
   display: flex
   flex-direction: column
@@ -29,6 +32,9 @@
   width: fit-content
   margin: 0 auto
 
+  +media(l)
+    column-gap: 24px
+
 .start__button
   font-size: 56px
   line-height: 72px
@@ -39,6 +45,9 @@
     color: $black
   &:focus-visible
     color: $black
+  
+  +media(l)
+    font-size: 38px
 
 .start__subtitle
   font-size: 32px
@@ -48,3 +57,16 @@
 
 .start__link
   margin: 24px auto 0
+
+.start__terminal
+  width: 100%
+  max-width: 832px
+  height: 510px
+  margin: 54px auto 0
+  border-radius: 8px 8px 0 0
+  object-fit: cover
+
+  +media(l)
+    margin: 62px auto 0
+    max-width: 540px
+    height: 296px
