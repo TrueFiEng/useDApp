@@ -853,6 +853,12 @@ img {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   background-color: #151515;
 }
+@media (max-width: 1200px) {
+  .footer {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+}
 
 .footer__logo {
   display: -webkit-box;
