@@ -21,7 +21,7 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { account, activateBrowserWallet } = useEthers()
+  const { account, activateBrowserWallet, error } = useEthers()
   const { signIn, signOut, isLoggedIn } = useSiwe()
 
   const SiweComponent = () => {
@@ -39,8 +39,9 @@ export function App() {
 
   return (
     <div>
+      {error && <p>{error.message}</p>}
       {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
-      {account && <SiweComponent />}
+      {!error && account && <SiweComponent />}
     </div>
   )
 }
