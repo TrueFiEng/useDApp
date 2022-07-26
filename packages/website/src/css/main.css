@@ -1037,7 +1037,7 @@ img {
     -webkit-column-gap: 24px;
        -moz-column-gap: 24px;
             column-gap: 24px;
-    row-gap: 8px;
+    row-gap: 16px;
   }
 }
 
@@ -1060,7 +1060,7 @@ img {
 @media (max-width: 1200px) {
   .hero__title {
     font-size: 68px;
-    line-height: 72px;
+    line-height: 78px;
   }
 }
 
@@ -1214,7 +1214,7 @@ img {
 }
 @media (max-width: 1200px) {
   .section--testimonials {
-    padding-top: 24px;
+    padding-top: 8px;
     padding-bottom: 24px;
   }
 }
@@ -1235,6 +1235,7 @@ img {
     -webkit-column-gap: 18px;
        -moz-column-gap: 18px;
             column-gap: 18px;
+    row-gap: 8px;
   }
 }
 
@@ -1672,7 +1673,7 @@ img {
   .features__text {
     margin-top: 16px;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 24px;
     letter-spacing: unset;
   }
 }
@@ -1889,7 +1890,7 @@ img {
 @media (max-width: 1200px) {
   .section--about {
     padding-top: 32px;
-    pading-bottom: 32px;
+    padding-bottom: 32px;
   }
 }
 
