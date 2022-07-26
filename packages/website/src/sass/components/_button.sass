@@ -15,8 +15,15 @@
   cursor: pointer
   transition: $all
 
+  +media(l)
+    height: 46px
+    padding: 0 12px
+
 %buttonLargeStyles
   min-width: 200px
+
+  +media(l)
+    min-width: unset
 
 %buttonHoverStyles
   background-color: transparent

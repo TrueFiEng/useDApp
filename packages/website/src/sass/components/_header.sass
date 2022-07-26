@@ -26,6 +26,9 @@
     pointer-events: none
     transition: $all-xl
 
+  +media(l)
+    height: 60px
+
 .header .container
   z-index: 1
 
@@ -46,10 +49,17 @@
   width: fit-content
   color: $black
 
+  +media(l)
+    height: 24px
+
 .header__logo-image
   width: 32px
   height: 32px
   color: inherit
+
+  +media(l)
+    width: 24px
+    height: 24px
 
 .header__logo-text
   margin-left: 8px
@@ -58,6 +68,11 @@
   font-weight: 700
   letter-spacing: -0.03em
   color: inherit
+
+  +media(l)
+    margin-left: 6px
+    font-size: 14px
+    line-height: 24px
 
 .header__navigation
   margin-left: 24px
@@ -69,3 +84,6 @@
 
 .header__socials
   margin-right: 32px
+
+  +media(l)
+    display: none
