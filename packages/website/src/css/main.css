@@ -1044,6 +1044,7 @@ img {
   line-height: 110px;
   font-weight: 700;
   word-spacing: -8px;
+  white-space: nowrap;
 }
 @media (max-width: 1200px) {
   .hero__title {
@@ -1218,6 +1219,13 @@ img {
       -ms-flex-align: center;
           align-items: center;
 }
+@media (max-width: 1200px) {
+  .testimonials {
+    -webkit-column-gap: 18px;
+       -moz-column-gap: 18px;
+            column-gap: 18px;
+  }
+}
 
 .testimonials__head {
   grid-column: 1/3;
@@ -1229,6 +1237,7 @@ img {
   font-size: 84px;
   line-height: 100px;
   letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 @media (max-width: 1200px) {
   .testimonials__title {
@@ -1249,7 +1258,7 @@ img {
 }
 @media (max-width: 1200px) {
   .testimonials__item {
-    padding: 12px;
+    padding: 8px;
     -webkit-filter: drop-shadow(0px 8px 22px rgba(35, 36, 42, 0.05));
             filter: drop-shadow(0px 8px 22px rgba(35, 36, 42, 0.05));
   }
