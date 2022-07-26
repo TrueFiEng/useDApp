@@ -20,6 +20,10 @@
     mask-repeat: no-repeat
     animation: gridAnimation 20s linear infinite
 
+  +media(l)
+    padding-top: 24px
+    padding-bottom: 24px
+
 .testimonials
   display: grid
   grid-template-columns: repeat(3, minmax(100px, 352px))
@@ -43,7 +47,11 @@
 .testimonials__item
   width: 100%
   padding: 16px
-  filter: drop-shadow(0px 14px 37px transparentize($black, 0.95))
+  filter: drop-shadow(0px 12px 36px transparentize($black, 0.95))
+  
+  +media(l)
+    padding: 12px
+    filter: drop-shadow(0px 8px 22px transparentize($black, 0.95))
 
 .testimonials__item:nth-child(1)
   grid-area: testimonial1
