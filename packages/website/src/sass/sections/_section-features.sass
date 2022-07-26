@@ -14,6 +14,9 @@
     transform: translateX(-50%) translateY(-60%)
     opacity: 0.9
 
+  +media(l)
+    padding-top: 102px
+
 .features
   display: flex
   flex-direction: column
@@ -21,16 +24,22 @@
   padding-bottom: 148px
   border-bottom: 1px solid transparentize($black, 0.9)
 
+  +media(l)
+    padding-bottom: 102px
+
 .features__row
   display: flex
   flex-direction: row
   justify-content: space-between
-  flex-wrap: wrap
   width: 100%
   max-width: 100%
+  column-gap: 20px
 
 .features__row + .features__row
   margin-top: 220px
+
+  +media(l)
+    margin-top: 90px
 
 .features__row:nth-child(odd)
   flex-direction: row-reverse
@@ -42,9 +51,16 @@
   border-radius: 8px
   object-fit: cover
 
+  +media(l)
+    max-width: 100%
+    max-height: 220px
+
 .features__column
   width: 100%
   max-width: 448px
+
+  +media(l)
+    max-width: 328px
 
 .features__title
   margin-top: 40px
@@ -52,12 +68,23 @@
   line-height: 72px
   letter-spacing: -0.03em
 
+  +media(l)
+    margin-top: 16px
+    font-size: 60px
+
 .features__text
   margin-top: 40px
   font-size: 18px
   line-height: 24px
   font-weight: 600
   letter-spacing: 0.01em
+  color: $dark
+
+  +media(l)
+    margin-top: 16px
+    font-size: 16px
+    line-height: 20px
+    letter-spacing: unset
 
 .features__text + .features__text
   margin-top: 24px
