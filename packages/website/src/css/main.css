@@ -216,13 +216,13 @@ img {
 
 .container {
   width: 100%;
-  max-width: 1168px;
+  max-width: 1216px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 48px;
 }
 
 .container--large {
-  max-width: 1308px;
+  max-width: 1356px;
 }
 
 .container--full {
@@ -255,6 +255,7 @@ img {
 .title {
   font-weight: 700;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .title span {
@@ -264,6 +265,7 @@ img {
 .subtitle {
   font-weight: 600;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .text--white {
@@ -1144,7 +1146,7 @@ img {
 
 .dependents__slider {
   margin: 32px auto 0;
-  max-width: 1308px;
+  max-width: 1356px;
 }
 @media (max-width: 1200px) {
   .dependents__slider {
@@ -1223,6 +1225,12 @@ img {
   font-size: 84px;
   line-height: 100px;
   letter-spacing: -0.03em;
+}
+@media (max-width: 1200px) {
+  .testimonials__title {
+    font-size: 60px;
+    line-height: 72px;
+  }
 }
 
 .testimonials__list {
@@ -1345,6 +1353,7 @@ img {
   font-size: 56px;
   line-height: 72px;
   color: #F0F0F0;
+  white-space: nowrap;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
@@ -1366,6 +1375,11 @@ img {
   line-height: 72px;
   margin-top: 24px;
   text-align: center;
+}
+@media (max-width: 1200px) {
+  .start__subtitle {
+    font-size: 28px;
+  }
 }
 
 .start__link {
@@ -1423,6 +1437,12 @@ img {
   -webkit-animation: gridAnimation 20s linear infinite;
           animation: gridAnimation 20s linear infinite;
 }
+@media (max-width: 1200px) {
+  .section--integration {
+    padding-top: 48px;
+    padding-bottom: 36px;
+  }
+}
 
 .integration {
   display: -webkit-box;
@@ -1449,15 +1469,26 @@ img {
   font-size: 84px;
   line-height: 106px;
 }
+@media (max-width: 1200px) {
+  .integration__title {
+    font-size: 60px;
+    line-height: 72px;
+  }
+}
 
 .integration__description {
   font-size: 32px;
   line-height: 72px;
   margin-top: 22px;
 }
+@media (max-width: 1200px) {
+  .integration__description {
+    font-size: 28px;
+  }
+}
 
 .integration__list {
-  margin-top: 54px;
+  margin-top: 56px;
 }
 
 .integration__item {
