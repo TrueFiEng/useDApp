@@ -3,7 +3,7 @@ import { getAddress } from 'ethers/lib/utils'
 import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { ConnectorContext, ConnectorController, useNetwork } from '../providers'
-import { useConfig } from '../hooks'
+import { useConfig, useReadonlyNetwork } from '../hooks'
 import { useEffect, useState, useContext } from 'react'
 
 type JsonRpcProvider = providers.JsonRpcProvider
@@ -73,6 +73,7 @@ export function useEthers(): Web3Ethers {
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
+  const readonlyNetwork = useReadonlyNetwork()
 
   const configuredChainIds = Object.keys(readOnlyUrls || {}).map((chainId) => parseInt(chainId, 10))
   const supportedChainIds = networks?.map((network) => network.chainId)
@@ -92,7 +93,13 @@ export function useEthers(): Web3Ethers {
     setError(errors[errors.length - 1])
   }, [activeConnector?.chainId, errors])
 
-  const provider = activeConnector?.getProvider()
+  const { provider, chainId } = activeConnector?.getProvider() ? {
+    provider: activeConnector.getProvider(),
+    chainId: error ? undefined : activeConnector?.chainId,
+  }: {
+    provider: (readonlyNetwork?.provider as JsonRpcProvider | undefined),
+    chainId: readonlyNetwork?.chainId,
+  }
 
   const switchNetwork = async (chainId: number) => {
     validateArguments({ chainId }, { chainId: 'number' })
@@ -119,7 +126,7 @@ export function useEthers(): Web3Ethers {
   return {
     connector: activeConnector,
     library: provider,
-    chainId:  error ? undefined : activeConnector?.chainId,
+    chainId,
     account,
     active: !!activeConnector,
     activate: async (providerOrConnector: SupportedProviders | { tag: string }) => {

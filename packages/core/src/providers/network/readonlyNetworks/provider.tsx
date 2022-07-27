@@ -65,7 +65,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
       const provider = providers[(chainId as unknown) as ChainId]
       if (provider) {
-        provider.polling = provider instanceof JsonRpcProvider || (isActive && nonStaticCalls > 0)
+        provider.polling = provider instanceof JsonRpcProvider && (isActive && nonStaticCalls > 0)
       }
     }
   }, [networkStates, isActive])
