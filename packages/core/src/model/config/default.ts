@@ -12,9 +12,7 @@ export const DEFAULT_CONFIG: FullConfig = {
   localStorage: {
     transactionPath: 'transactions',
   },
-  connectors: [
-    new MetamaskConnector()
-  ],
+  connectors: [new MetamaskConnector()],
   autoConnect: true,
   multicallVersion: 1,
 }

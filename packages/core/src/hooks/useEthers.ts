@@ -93,13 +93,15 @@ export function useEthers(): Web3Ethers {
     setError(errors[errors.length - 1])
   }, [activeConnector?.chainId, errors])
 
-  const { provider, chainId } = activeConnector?.getProvider() ? {
-    provider: activeConnector.getProvider(),
-    chainId: error ? undefined : activeConnector?.chainId,
-  }: {
-    provider: (readonlyNetwork?.provider as JsonRpcProvider | undefined),
-    chainId: readonlyNetwork?.chainId,
-  }
+  const { provider, chainId } = activeConnector?.getProvider()
+    ? {
+        provider: activeConnector.getProvider(),
+        chainId: error ? undefined : activeConnector?.chainId,
+      }
+    : {
+        provider: readonlyNetwork?.provider as JsonRpcProvider | undefined,
+        chainId: readonlyNetwork?.chainId,
+      }
 
   const switchNetwork = async (chainId: number) => {
     validateArguments({ chainId }, { chainId: 'number' })

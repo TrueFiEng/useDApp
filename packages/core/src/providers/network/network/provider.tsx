@@ -7,7 +7,6 @@ import { useLocalStorage, useConfig } from '../../../hooks'
 import { ConnectorContext, MetamaskConnector } from '../connector'
 import { InjectedConnector } from '../connector/impls/injected'
 import { ConnectorController } from '../connector/connectorController'
-import { TestingWalletConnector } from '../connector/impls/testingWallet'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider

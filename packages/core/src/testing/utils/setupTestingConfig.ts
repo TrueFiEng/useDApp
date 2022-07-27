@@ -27,9 +27,7 @@ export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfi
       ...network1.multicallAddresses,
       ...network2.multicallAddresses,
     },
-    connectors: [
-      new InjectedConnector(network1.provider),
-    ],
+    connectors: [new InjectedConnector(network1.provider)],
     multicallVersion,
     pollingInterval: 100,
   }

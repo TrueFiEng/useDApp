@@ -2,7 +2,6 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useConfig } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
-import { MetamaskConnector } from './impls'
 
 interface ConnectorContextValue {
   connectors: ConnectorController[]

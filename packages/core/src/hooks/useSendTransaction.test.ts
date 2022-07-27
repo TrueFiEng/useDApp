@@ -43,12 +43,9 @@ describe('useSendTransaction', () => {
   })
 
   it('sends with different signer', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => useSendTransaction({ signer: receiver }),
-      {
-        config,
-      }
-    )
+    const { result, waitForCurrent } = await renderDAppHook(() => useSendTransaction({ signer: receiver }), {
+      config,
+    })
 
     const receiverBalance = await receiver.getBalance()
     const secondReceiverBalance = await secondReceiver.getBalance()
