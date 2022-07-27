@@ -28,10 +28,10 @@ describe('useEthers', () => {
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
     expect(result.current.connector).to.be.undefined
-    expect(result.current.chainId).to.be.undefined
+    expect(result.current.chainId).to.eq(Mainnet.chainId)
     expect(result.current.account).to.be.undefined
     expect(result.current.error).to.be.undefined
-    expect(result.current.library).to.be.undefined
+    expect(result.current.library).to.eq(network1.provider)
     expect(result.current.active).to.be.false
     expect(result.current.isLoading).to.be.false
   })
