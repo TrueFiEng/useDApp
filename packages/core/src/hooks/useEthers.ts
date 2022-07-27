@@ -62,7 +62,7 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { errors, chainId },
+    network: { errors },
     deactivate,
     activate,
     activateBrowserWallet,
@@ -78,6 +78,7 @@ export function useEthers(): Web3Ethers {
   const supportedChainIds = networks?.map((network) => network.chainId)
 
   useEffect(() => {
+    const chainId = activeConnector?.chainId
     const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
     const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
 
@@ -89,7 +90,7 @@ export function useEthers(): Web3Ethers {
       return
     }
     setError(errors[errors.length - 1])
-  }, [chainId, errors])
+  }, [activeConnector?.chainId, errors])
 
   const provider = activeConnector?.getProvider()
 

@@ -1,5 +1,6 @@
 import { Config } from '../../constants'
 import { Mainnet } from '../../model'
+import { InjectedConnector } from '../../providers'
 import { createMockProvider } from './createMockProvider'
 import { SECOND_TEST_CHAIN_ID } from './deployMockToken'
 
@@ -26,6 +27,9 @@ export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfi
       ...network1.multicallAddresses,
       ...network2.multicallAddresses,
     },
+    connectors: [
+      new InjectedConnector(network1.provider),
+    ],
     multicallVersion,
     pollingInterval: 100,
   }
