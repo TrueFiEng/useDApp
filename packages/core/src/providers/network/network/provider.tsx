@@ -60,7 +60,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
       if (!connector) {
         setLoading(false)
-        throw new Error('Connector not defined')
+        throw new Error(`Connector ${tag} not found.`)
       }
 
       if (!connector.active) {

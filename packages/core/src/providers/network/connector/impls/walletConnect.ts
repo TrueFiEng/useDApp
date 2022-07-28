@@ -4,7 +4,7 @@ import type { IWalletConnectProviderOptions } from '@walletconnect/types'
 import { providers } from 'ethers'
 
 export class WalletConnectConnector implements Connector {
-  static tag = 'waletconnect'
+  static tag = 'walletconnect'
   public provider?: providers.Web3Provider
   public priority = ConnectorPriority.Wallet
   public name = 'WalletConnect'
@@ -43,7 +43,7 @@ export class WalletConnectConnector implements Connector {
     try {
       await (this.provider?.provider as WalletConnectProvider).enable()
       const chainId: string = await this.provider!.send('eth_chainId', [])
-      const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.onUpdate?.({ chainId: parseInt(chainId), accounts })
     } catch (e) {
       console.log(e)

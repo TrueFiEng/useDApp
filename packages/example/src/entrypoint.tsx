@@ -11,9 +11,20 @@ import {
   MetamaskConnector,
   CoinbaseWalletConnector,
   InjectedConnector,
+  Connector,
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
+
+const connectors: Connector[] = [
+  new MetamaskConnector(),
+  new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
+  new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+]
+
+if (window.ethereum) {
+  connectors.push(new InjectedConnector(window.ethereum))
+}
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -23,15 +34,10 @@ const config: Config = {
     [Kovan.chainId]: getDefaultProvider('kovan'),
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
   },
-  connectors: [
-    new MetamaskConnector(),
-    new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
-    new InjectedConnector(window.ethereum),
-  ],
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
+  connectors
 }
 
 ReactDOM.render(
