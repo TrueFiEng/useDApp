@@ -127,7 +127,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         await page.goto(`${baseUrl}connector`)
 
         await page.click(XPath.text('button', 'Disconnect'))
-        await page.click(XPath.id('button', 'walletConnectButton'))
+        await page.click(XPath.id('button', 'WalletConnectButton'))
         await page.click(XPath.text('a', 'Desktop'))
         await page.click(XPath.text('div', 'Ambire'))
 

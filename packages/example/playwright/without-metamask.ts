@@ -69,7 +69,7 @@ export const withoutMetamaskTest = (baseUrl: string) => {
         // })
 
         await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('p', 'Uniswap Labs List'))).to.be.true
+          expect(await page.isVisible(XPath.text('p', 'Uniswap Labs Default'))).to.be.true
 
           // tokenResponse.tokens.map(async (token: any) => {
           //   return expect(await page.isVisible(XPath.text('p', token.name))).to.be.true
