@@ -5,24 +5,6 @@ import { SiweProvider, useSiwe } from './provider'
 import React, { useEffect } from 'react'
 import { expect } from 'chai'
 import { SiweMessage } from 'siwe'
-import 'mock-local-storage'
-
-let store: Record<string, string> = {}
-
-const mockLocalStorage = {
-  getItem: (key: string): string | null => {
-    return key in store ? store[key] : null
-  },
-  setItem: (key: string, value: string) => {
-    store[key] = `${value}`
-  },
-  removeItem: (key: string) => {
-    delete store[key]
-  },
-  clear: () => {
-    store = {}
-  },
-}
 
 const testSiweFetchers = (address: string): SiweFetchers => {
   return {
@@ -42,6 +24,12 @@ const testSiweFetchers = (address: string): SiweFetchers => {
       }),
       loggedIn: true,
     }),
+    signIn(): Promise<void> {
+      return Promise.resolve()
+    },
+    signOut(): Promise<void> {
+      return Promise.resolve()
+    },
   }
 }
 
@@ -53,7 +41,6 @@ describe('siwe provider tests', async () => {
   before(async () => {
     ;({ config, network1: network } = await setupTestingConfig())
     address = network.provider.getWallets()[0].address
-    global.localStorage = mockLocalStorage as any
   })
 
   it('return initialized values', async () => {

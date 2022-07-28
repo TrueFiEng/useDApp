@@ -10,9 +10,16 @@ export interface AuthResponse {
   loggedIn: boolean
 }
 
+interface SignInProps {
+  signature: string
+  message: SiweMessage
+}
+
 export interface SiweFetchers {
   getNonce: () => Promise<NonceResponse>
-  getAuth: (account: string, chainId: number) => Promise<AuthResponse>
+  getAuth: () => Promise<AuthResponse>
+  signIn: ({ signature, message }: SignInProps) => Promise<void>
+  signOut: () => Promise<void>
 }
 
 const failedAuthResponse = {
@@ -27,17 +34,9 @@ const failedNonceResponse = {
 
 export const getFetchers = (backendUrl: string): SiweFetchers => {
   return {
-    getAuth: async (account: string, chainId: number) => {
-      const token = localStorage.getItem('authToken' + account + chainId)
-
-      if (token === undefined || token === null) {
-        return failedAuthResponse
-      }
-
+    getAuth: async () => {
       const authRequest = await fetch(`${backendUrl}/siwe/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       if (!authRequest.ok) {
@@ -63,6 +62,24 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
       return {
         ...nonceResponse,
       } as NonceResponse
+    },
+    signIn: async ({ signature, message }) => {
+      await fetch(`${backendUrl}/siwe/signin`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          signature,
+          message,
+        }),
+      })
+    },
+    signOut: async () => {
+      await fetch(`${backendUrl}/siwe/signout`, {
+        credentials: 'include',
+      })
     },
   }
 }
