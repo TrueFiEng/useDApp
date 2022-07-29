@@ -3,14 +3,22 @@ import { Layout } from './Layout'
 import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Mainnet, MetamaskConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
+declare global {
+  interface Window {
+    ethereum: any
+  }
+}
+
 const connectors: Connector[] = [
   new MetamaskConnector(),
   new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
   new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
 ]
 
-if (window.ethereum) {
-  connectors.push(new InjectedConnector(window.ethereum))
+if (typeof window !== "undefined") {
+  if (window.ethereum) {
+    connectors.push(new InjectedConnector(window.ethereum))
+  }
 }
 
 const config: Config = {
