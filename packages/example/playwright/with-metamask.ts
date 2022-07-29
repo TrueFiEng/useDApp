@@ -133,17 +133,16 @@ export const withMetamaskTest = (baseUrl: string) => {
         await page.click(XPath.text('a', 'Desktop'))
         await page.click(XPath.text('div', 'Ambire'))
 
+        // waiting for the ambire page to open
         await waitForExpect(() => {
           expect(context.pages().length).to.be.equal(pagesNumber + 1)
         })
 
         const ambirePage = context.pages()[context.pages().length - 1]
-        // for (let i = 0; i < context.pages().length; i++) {
-        //   await context.pages()[i].screenshot({ path: `playwright/screenshots/sc-${i}.png`, fullPage: true  })
-        // }
         pagesNumber = context.pages().length
         await ambirePage.click(XPath.text('button', 'Metamask'))
 
+        // waiting for the metamask page to open
         await waitForExpect(() => {
           expect(context.pages().length).to.be.equal(pagesNumber + 1)
         })
