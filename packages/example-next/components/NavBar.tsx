@@ -47,6 +47,10 @@ export function NavBar() {
               </>
             </StyledLink>
             <StyledLink href="/wallet-connect"> WalletConnect example </StyledLink>
+            <StyledLink href="/connector">
+              {' '}
+              Connector{' '}
+            </StyledLink>
           </SidebarNavLinks>
         </SidebarNav>
       </SidebarContainer>
