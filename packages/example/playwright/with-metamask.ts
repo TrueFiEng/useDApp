@@ -20,10 +20,6 @@ export const withMetamaskTest = (baseUrl: string) => {
         headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
         slowMo,
         args,
-        recordVideo: {
-          dir: './recordings/',
-          size: { width: 1280, height: 960 }
-        }
       })
 
       log('Waiting until Metamask installs itself...')
@@ -127,7 +123,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
 
-      it.only('Can connect to connect wallet', async () => {
+      it('Can connect to connect wallet', async () => {
         await page.goto(`${baseUrl}connector`)
 
         await page.click(XPath.text('button', 'Disconnect'))
