@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args } from '@usedapp/playwright'
+import { sleep } from '@usedapp/testing'
 
 const log = debug('usedapp:example:playwright')
 
@@ -132,6 +133,8 @@ export const withMetamaskTest = (baseUrl: string) => {
         await page.click(XPath.text('div', 'Ambire'))
 
         const ambirePage = context.pages()[context.pages().length - 1]
+        await sleep(3000)
+        await ambirePage.screenshot({ path: 'playwright/ambire.png', fullPage: true  })
         await ambirePage.click(XPath.text('button', 'Metamask'))
 
         const metamaskPage = context.pages()[context.pages().length - 1]
