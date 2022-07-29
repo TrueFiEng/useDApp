@@ -124,7 +124,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
 
-      it('Can connect to connect wallet', async () => {
+      it.only('Can connect to connect wallet', async () => {
         await page.goto(`${baseUrl}connector`)
 
         await page.click(XPath.text('button', 'Disconnect'))
@@ -134,7 +134,9 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         const ambirePage = context.pages()[context.pages().length - 1]
         await sleep(3000)
-        await ambirePage.screenshot({ path: 'playwright/ambire.png', fullPage: true  })
+        for (const page of context.pages()) {
+          await page.screenshot({ path: `playwright/screenshots/${page.url()}.png`, fullPage: true  })
+        }
         await ambirePage.click(XPath.text('button', 'Metamask'))
 
         const metamaskPage = context.pages()[context.pages().length - 1]
