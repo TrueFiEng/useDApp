@@ -127,21 +127,26 @@ export const withMetamaskTest = (baseUrl: string) => {
       it('Can connect to connect wallet', async () => {
         await page.goto(`${baseUrl}connector`)
 
-        const pageNumber = context.pages().length
+        let pagesNumber = context.pages().length
         await page.click(XPath.text('button', 'Disconnect'))
         await page.click(XPath.id('button', 'WalletConnectButton'))
         await page.click(XPath.text('a', 'Desktop'))
         await page.click(XPath.text('div', 'Ambire'))
 
         await waitForExpect(() => {
-          expect(context.pages().length).to.be.equal(pageNumber + 1)
+          expect(context.pages().length).to.be.equal(pagesNumber + 1)
         })
 
         const ambirePage = context.pages()[context.pages().length - 1]
         // for (let i = 0; i < context.pages().length; i++) {
         //   await context.pages()[i].screenshot({ path: `playwright/screenshots/sc-${i}.png`, fullPage: true  })
         // }
+        pagesNumber = context.pages().length
         await ambirePage.click(XPath.text('button', 'Metamask'))
+
+        await waitForExpect(() => {
+          expect(context.pages().length).to.be.equal(pagesNumber + 1)
+        })
 
         const metamaskPage = context.pages()[context.pages().length - 1]
 
