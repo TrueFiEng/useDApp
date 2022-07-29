@@ -3,7 +3,6 @@ import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args } from '@usedapp/playwright'
-import { sleep } from '@usedapp/testing'
 
 const log = debug('usedapp:example:playwright')
 
