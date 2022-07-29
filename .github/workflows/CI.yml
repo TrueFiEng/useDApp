@@ -52,6 +52,12 @@ jobs:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/example
+      - name: Upload recordings
+        uses: actions/upload-artifact@v1
+        if: always() # Can be helpful for failed tests as well.
+        with:
+          name: recordings
+          path: packages/example/playwright/recordings
       - name: Run playwright example-next
         run: |
           set -e
