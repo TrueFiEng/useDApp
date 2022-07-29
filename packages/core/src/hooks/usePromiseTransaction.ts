@@ -83,6 +83,15 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         const errorCode = isNaN(parsedErrorCode) ? undefined : parsedErrorCode
         const errorHash = e?.error?.data?.originalError?.data ?? e?.error?.data
         const errorMessage = e.error?.data?.message ?? e.error?.message ?? e.reason ?? e.data?.message ?? e.message
+
+        // If the error was SomeCustomError(), we can get the args...
+        // if (e.Code === utils.Logger.errors.CALL_EXCEPTION) {
+        // if (e.errorName === "SomeCustomError") {
+        // These are both the same; keyword vs positional.
+        //   Logger.log(e.errorArgs.value, e.errorArgs[1]);
+        // [e.errorName, e.errorArgs]
+        // }
+        // }
         if (transaction) {
           const droppedAndReplaced = isDroppedAndReplaced(e)
 
