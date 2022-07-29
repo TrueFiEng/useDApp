@@ -135,7 +135,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         const ambirePage = context.pages()[context.pages().length - 1]
         await sleep(3000)
         for (let i = 0; i < context.pages().length; i++) {
-          await context.pages()[i].screenshot({ path: `playwright/screenshots/${page.url()}.png`, fullPage: true  })
+          await context.pages()[i].screenshot({ path: `playwright/screenshots/sc-${i}.png`, fullPage: true  })
         }
         await ambirePage.click(XPath.text('button', 'Metamask'))
 
