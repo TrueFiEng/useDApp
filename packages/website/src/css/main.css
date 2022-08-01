@@ -1559,9 +1559,9 @@ img {
   background-repeat: no-repeat;
   -webkit-filter: blur(100px);
           filter: blur(100px);
-  -webkit-transform: translateX(-50%) translateY(-60%);
-      -ms-transform: translateX(-50%) translateY(-60%);
-          transform: translateX(-50%) translateY(-60%);
+  -webkit-transform: translateX(-50%) translateY(-45%);
+      -ms-transform: translateX(-50%) translateY(-45%);
+          transform: translateX(-50%) translateY(-45%);
   opacity: 0.9;
 }
 @media (max-width: 1200px) {
@@ -1643,6 +1643,9 @@ img {
 .features__video {
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+          transform: scale(1.05);
 }
 
 .features__video--desktop.features__video--default {
