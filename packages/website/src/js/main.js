@@ -1,26 +1,27 @@
 const body = document.body
+const header = body.querySelector('header')
+const footer = body.querySelector('footer')
 
 body.querySelectorAll('.dependents__slide .slider__link').forEach((slide, index) => slide.dataset.aosDelay = (50 * index).toString())
+
 // animations on scroll
 AOS.init({
   once: true
 })
 
-// header
-const header = body.querySelector("header")
-
+// fixed header animation
 const headerOffset = header.clientHeight
 
 const handleHeaderStyles = () => {
   if (window.scrollY < headerOffset) {
-    header.classList.remove("header--fixed")
+    header.classList.remove('header--fixed')
   }
   if (window.scrollY >= headerOffset) {
-    header.classList.add("header--fixed")
+    header.classList.add('header--fixed')
   }
 }
 
-document.addEventListener("scroll", handleHeaderStyles)
+document.addEventListener('scroll', handleHeaderStyles)
 
 // motion path
 const ethereumIllustration = body.querySelector('.hero__ethereum')

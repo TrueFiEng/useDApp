@@ -579,7 +579,7 @@ img {
   border-color: #23242A;
 }
 
-.navigation__link--active,
+.navigation__link.navigation__link--active,
 .navigation__link:active {
   text-stroke: 0.04em #23242A;
   -webkit-text-stroke: 0.04em #23242A;

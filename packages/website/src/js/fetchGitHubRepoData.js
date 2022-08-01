@@ -39,7 +39,7 @@ const showFetchedDependents = async () => {
           const numberOfDependentsLink = documentBody.querySelector(
             `.table-list-filters a[href$="${githubPackageID}"]`
           )
-          if (numberOfDependentsLink) {
+          if (numberOfDependentsLink && Number(numberOfDependentsLink.innerText) > 0) {
             githubDependentsText.textContent =
               new Intl.NumberFormat("en-US", { notation: "compact" })
                 .format(numberOfDependentsLink.innerText.replace(/[^0-9]/g, ""))
