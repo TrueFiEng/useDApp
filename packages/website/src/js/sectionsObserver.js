@@ -13,8 +13,6 @@ function scrollEvents(entries, observer) {
       navigationLinks.forEach(navigationLink => {
         if (!navigationLink.classList.contains('navigation__link--external')) {
           navigationLink.classList.remove('navigation__link--active')
-          console.log('href', navigationLink.href.substring(navigationLink.href.indexOf('#') + 1))
-          console.log('id', entry.target.id)
           if (navigationLink.href.substring(navigationLink.href.indexOf('#') + 1) == entry.target.id) {
             navigationLink.classList.add('navigation__link--active')
           }
