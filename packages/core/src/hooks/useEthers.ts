@@ -62,7 +62,7 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { errors },
+    network: { errors, chainId: networkChainId },
     deactivate,
     activate,
     activateBrowserWallet,
@@ -70,6 +70,8 @@ export function useEthers(): Web3Ethers {
   } = useNetwork()
 
   const { activeConnector } = useContext(ConnectorContext)!
+  const [activeConnectorChainId, setActiveConnectorChainId] = useState<number | undefined>()
+  console.log({activeConnectorChainId})
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
@@ -79,7 +81,24 @@ export function useEthers(): Web3Ethers {
   const supportedChainIds = networks?.map((network) => network.chainId)
 
   useEffect(() => {
-    const chainId = activeConnector?.chainId
+    console.log({activeConnector})
+    if (activeConnector) {
+      console.log('this happens', {activeConnectorChainId: activeConnector.chainId})
+      setActiveConnectorChainId(activeConnector.chainId)
+      activeConnector.onUpdate = ({ chainId }) => {
+        console.log('connector controller on update', { chainId })
+        setActiveConnectorChainId(chainId)
+      }
+    }
+    return () => {
+      if (activeConnector) {
+        activeConnector.onUpdate = undefined
+      }
+    }
+  }, [activeConnector])
+
+  useEffect(() => {
+    const chainId = activeConnectorChainId
     const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
     const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
 
@@ -91,12 +110,12 @@ export function useEthers(): Web3Ethers {
       return
     }
     setError(errors[errors.length - 1])
-  }, [activeConnector?.chainId, errors])
+  }, [activeConnectorChainId, errors])
 
   const { provider, chainId } = activeConnector?.getProvider()
     ? {
         provider: activeConnector.getProvider(),
-        chainId: error ? undefined : activeConnector?.chainId,
+        chainId: activeConnectorChainId,
       }
     : {
         provider: readonlyNetwork?.provider as JsonRpcProvider | undefined,

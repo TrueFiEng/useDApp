@@ -1,8 +1,12 @@
+import assert from 'assert'
 import { expect } from 'chai'
-import { Wallet } from 'ethers'
-import { useEffect } from 'react'
+import { MockProvider } from 'ethereum-waffle'
+import { providers, Wallet } from 'ethers'
+import { useContext, useEffect } from 'react'
+import waitForExpect from 'wait-for-expect'
 import { Config } from '../constants'
 import { Localhost, Mainnet } from '../model'
+import { ConnectorContext } from '../providers'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
@@ -103,5 +107,28 @@ describe('useEthers', () => {
     expect(result.current.library).to.eq(network2.provider)
     expect(result.current.active).to.be.true
     expect(result.current.isLoading).to.be.false
+  })
+
+  it.only('Switches network', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
+    await waitForCurrent((val) => !val.isLoading)
+
+    expect(result.current.chainId).to.eq(network1.chainId)
+
+    network1.provider.emit('chainChanged', network2.chainId.toString())
+
+    await waitForExpect(() => {
+      expect(result.current.chainId).to.eq(network2.chainId)
+    })
   })
 })
