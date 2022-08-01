@@ -1,6 +1,6 @@
 .section--integration
   padding-top: 152px
-  padding-bottom: 104px
+  padding-bottom: 24px
   background-color: $total-black
 
   &::before
@@ -27,8 +27,6 @@
 
 .integration
   display: flex
-  justify-content: space-between
-  flex-wrap: wrap
   column-gap: 54px
   width: 100%
   max-width: 100%
@@ -75,3 +73,151 @@
 
 .integration__item + .integration__item
   margin-top: 24px
+
+.integration__media
+  display: flex
+  flex-direction: column
+
+.integration__editor-container
+  border-radius: 8px
+  filter: drop-shadow(0px 4px 208px transparentize($decoration-gradient-tomato, 0.7))
+  transform: translate(10%, -15%)
+  overflow: hidden
+
+.integration__editor
+  display: block
+  object-fit: cover
+
+.integration__video-container
+  width: fit-content
+  height: fit-content
+  max-width: 608px
+  border-radius: 8px
+  filter: drop-shadow(0px 4px 208px transparentize($decoration-gradient-tomato, 0.7))
+  transform: translate(32%, -20%)
+  overflow: hidden
+
+  +media(l)
+    max-width: 100%
+
+.integration__video
+  object-fit: cover
+  transform: scale(1.02)
+
+.integration__video--desktop
+  &.integration__video--default
+    display: block
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: block
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: block
+
+  +media(l)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+
+.integration__video--tablet
+  &.integration__video--default
+    display: none
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+  +media(l)
+    &.integration__video--default
+      display: block
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+
+  +media(s)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+
+.integration__video--mobile
+  &.integration__video--default
+    display: none
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+  +media(s)
+    &.integration__video--default
+      display: block
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
