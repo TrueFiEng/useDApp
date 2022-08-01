@@ -2,7 +2,7 @@ const body = document.body
 const header = body.querySelector('header')
 const footer = body.querySelector('footer')
 
-body.querySelectorAll('.dependents__slide .slider__link').forEach((slide, index) => slide.dataset.aosDelay = (50 * index).toString())
+body.querySelectorAll('.dependents__slide.slider__item').forEach((slide, index) => slide.dataset.aosDelay = (50 * index).toString())
 
 // animations on scroll
 AOS.init({
