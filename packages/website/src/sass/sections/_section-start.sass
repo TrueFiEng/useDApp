@@ -36,9 +36,11 @@
     column-gap: 24px
 
   +media(s)
+    flex-direction: column
     column-gap: unset
     row-gap: 12px
-    flex-direction: column
+    margin-left: 0
+    margin-right: auto
 
 .start__button
   font-size: 56px
@@ -59,6 +61,10 @@
     font-size: 32px
     line-height: 38px
     letter-spacing: -0.03em
+
+  +media(xs)
+    font-size: 24px
+    line-height: 32px
 
 .start__subtitle
   font-size: 32px
@@ -91,5 +97,5 @@
 
   +media(s)
     margin: 52px auto 0
-    max-width: 312px
+    max-width: 100%
     height: 180px

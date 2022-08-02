@@ -106,14 +106,19 @@
   margin-top: 24px
 
 .features__video-container
+  dispalay: flex
+  justify-content: center
+  align-items: center
   width: fit-content
   height: fit-content
   max-width: 540px
   border-radius: 8px
+  text-align: center
   overflow: hidden
 
   +media(l)
     max-width: 326px
+    border-radius: 4px
 
   +media(s)
     margin-top: 32px
@@ -122,6 +127,10 @@
 .features__video
   object-fit: cover
   transform: scale(1.02)
+
+  +media(s)
+    max-width: 100%
+    object-fit: contain
 
 .features__video--desktop
   &.features__video--default

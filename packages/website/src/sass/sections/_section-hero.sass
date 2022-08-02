@@ -41,6 +41,9 @@
     column-gap: 16px
     row-gap: 12px
 
+  +media(xs)
+    grid-template-columns: 72px 1fr
+
 .hero__ethereum
   grid-column: 1 / 1
   grid-row: 1 / -1
@@ -56,6 +59,10 @@
     max-width: 92px
     max-height: 152px
     margin-top: 20px
+
+  +media(xs)
+    max-width: 72px
+    max-height: 120px
 
 .hero__title
   display: block
