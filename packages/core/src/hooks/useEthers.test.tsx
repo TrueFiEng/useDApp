@@ -1,8 +1,8 @@
 import { expect } from 'chai'
-import { Wallet } from 'ethers'
+import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
-import { Localhost, Mainnet } from '../model'
+import { Localhost, Mainnet, Mumbai } from '../model'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
@@ -103,5 +103,18 @@ describe('useEthers', () => {
     expect(result.current.library).to.eq(network2.provider)
     expect(result.current.active).to.be.true
     expect(result.current.isLoading).to.be.false
+  })
+
+  it('works with a websocket provider', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
+      config: {
+        readOnlyChainId: Mumbai.chainId,
+        readOnlyUrls: {
+          [Mumbai.chainId]: new providers.WebSocketProvider('wss://rpc-mumbai.matic.today'),
+        },
+      },
+    })
+    await waitForCurrent((val) => !val.isLoading)
+    expect(result.error).to.be.undefined
   })
 })

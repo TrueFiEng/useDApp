@@ -8,6 +8,7 @@ import { fromEntries } from '../../../helpers/fromEntries'
 import { ConnectorContext } from '../connector/context'
 import { networkStatesReducer } from './reducer'
 import { useWindow } from '../../window'
+import { isWebSocketProvider } from '../../../helpers'
 
 const { Provider, StaticJsonRpcProvider, JsonRpcProvider } = providers
 type BaseProvider = providers.BaseProvider

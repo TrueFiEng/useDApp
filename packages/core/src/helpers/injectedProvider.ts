@@ -1,5 +1,6 @@
 import detectEthereumProvider from '@metamask/detect-provider'
 import { providers } from 'ethers'
+import { isWebSocketProvider } from './isWebSocketProvider'
 
 const GET_METAMASK_LINK = 'https://metamask.io/download.html'
 
