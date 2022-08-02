@@ -1050,16 +1050,25 @@ body.body--menu-open .header__burger-lines::after {
     row-gap: 48px;
     width: 100%;
     max-width: 100%;
-    background-color: #000000;
+    background-color: transparent;
     background-image: -webkit-radial-gradient(at 90% 55%, #000000 0px, transparent 50%), -webkit-radial-gradient(at 150% 150%, #7F30FF 0px, transparent 50%), -webkit-radial-gradient(at 150% 200%, #0038FF 0px, transparent 50%), -webkit-radial-gradient(at 75% 165%, #FA6069 0px, transparent 50%), -webkit-radial-gradient(at 50% 125%, #FF8000 0px, transparent 50%);
     background-image: -o-radial-gradient(at 90% 55%, #000000 0px, transparent 50%), -o-radial-gradient(at 150% 150%, #7F30FF 0px, transparent 50%), -o-radial-gradient(at 150% 200%, #0038FF 0px, transparent 50%), -o-radial-gradient(at 75% 165%, #FA6069 0px, transparent 50%), -o-radial-gradient(at 50% 125%, #FF8000 0px, transparent 50%);
     background-image: radial-gradient(at 90% 55%, #000000 0px, transparent 50%), radial-gradient(at 150% 150%, #7F30FF 0px, transparent 50%), radial-gradient(at 150% 200%, #0038FF 0px, transparent 50%), radial-gradient(at 75% 165%, #FA6069 0px, transparent 50%), radial-gradient(at 50% 125%, #FF8000 0px, transparent 50%);
     -webkit-background-size: 400% 400%;
             background-size: 400% 400%;
     background-position: 100% 100%;
+    opacity: 0.3;
     -webkit-transform: translateX(100%);
         -ms-transform: translateX(100%);
             transform: translateX(100%);
+    -webkit-mask-image: -webkit-linear-gradient(right, black calc(100% - 48px), transparent);
+            mask-image: linear-gradient(270deg, black calc(100% - 48px), transparent);
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    -webkit-mask-position: 100% 100%;
+            mask-position: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
     -webkit-transition: all 0.25s ease;
     -o-transition: all 0.25s ease;
     transition: all 0.25s ease;
@@ -1078,6 +1087,10 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .body--menu-open .header__menu {
+  background-color: #000000;
+  -webkit-mask-size: calc(100% + 48px) 100%;
+          mask-size: calc(100% + 48px) 100%;
+  opacity: 1;
   -webkit-transform: translateX(0);
       -ms-transform: translateX(0);
           transform: translateX(0);
@@ -1799,6 +1812,7 @@ body.body--menu-open .header__burger-lines::after {
   -o-object-fit: cover;
      object-fit: cover;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .section--start {
@@ -2571,6 +2585,7 @@ body.body--menu-open .header__burger-lines::after {
   -webkit-border-radius: 8px;
           border-radius: 8px;
   text-align: center;
+  margin: 0 auto;
   overflow: hidden;
 }
 @media (max-width: 1200px) {
@@ -2582,7 +2597,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 @media (max-width: 600px) {
   .features__video-container {
-    margin-top: 32px;
+    margin: 32px auto 0;
     max-width: 100%;
   }
 }

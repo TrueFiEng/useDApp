@@ -189,11 +189,16 @@ body.body--menu-open
     row-gap: 48px
     width: 100%
     max-width: 100%
-    background-color: $total-black
+    background-color: transparent
     background-image: radial-gradient(at 90% 55%, $total-black 0px, transparent 50%), radial-gradient(at 150% 150%, $decoration-gradient-violet 0px, transparent 50%), radial-gradient(at 150% 200%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 75% 165%, $decoration-gradient-red 0px, transparent 50%), radial-gradient(at 50% 125%, $decoration-gradient-orange 0px, transparent 50%)
     background-size: 400% 400%
     background-position: 100% 100%
+    opacity: 0.3
     transform: translateX(100%)
+    mask-image: linear-gradient(270deg, black calc(100% - 48px), transparent)
+    mask-size: 100% 100%
+    mask-position: 100% 100%
+    mask-repeat: no-repeat
     transition: $all
     z-index: 45
 
@@ -204,6 +209,9 @@ body.body--menu-open
       box-sizing: content-box
 
 .body--menu-open .header__menu
+  background-color: $total-black
+  mask-size: calc(100% + 48px) 100%
+  opacity: 1
   transform: translateX(0)
 
 .header__navigation
