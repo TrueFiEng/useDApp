@@ -37,7 +37,5 @@ export class ConnectorController extends EventEmitter {
 // this.chainId.set(chainId)
 // const chainId = useSubscribe(connectorController.chainId)
 
-
-
 // 1. Remove connector controller
 // 2. where we take connector.chainId, subscribe to onUpdate in useEffect((), [activeConnector])

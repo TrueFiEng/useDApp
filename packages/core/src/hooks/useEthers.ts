@@ -62,7 +62,7 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const {
-    network: { errors, chainId: networkChainId },
+    network: { errors },
     deactivate,
     activate,
     activateBrowserWallet,
@@ -86,7 +86,9 @@ export function useEthers(): Web3Ethers {
         setActiveConnectorChainId(chainId)
       }
       activeConnector.on('update', onUpdate)
-      return () => { activeConnector.off('update', onUpdate) }
+      return () => {
+        activeConnector.off('update', onUpdate)
+      }
     }
   }, [activeConnector])
 
