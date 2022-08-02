@@ -200,6 +200,11 @@ button {
   display: none;
 }
 
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 html {
   font-family: "PlusJakartaSans", sans-serif;
   font-weight: 400;
@@ -214,7 +219,7 @@ body {
   overflow: hidden;
 }
 
-img {
+img, svg {
   display: block;
 }
 
@@ -2229,6 +2234,12 @@ body.body--menu-open .header__burger-lines::after {
       -ms-transform: scale(1.02);
           transform: scale(1.02);
 }
+@media (max-width: 600px) {
+  .integration__video {
+    -o-object-fit: contain;
+       object-fit: contain;
+  }
+}
 
 .integration__video--desktop.integration__video--default {
   display: block;
@@ -3065,9 +3076,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .about__link {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: block;
   width: 100%;
   max-width: 152px;
   color: #FFFFFF;
