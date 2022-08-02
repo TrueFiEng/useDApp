@@ -44,3 +44,21 @@ reactIllustration.querySelectorAll('.hero__react > *').forEach(
 
 // marquee
 Marquee3k.init()
+
+// header menu
+const headerBurgerButton = header.querySelector('.header__burger')
+
+header.addEventListener('click', (event) => {
+  let eventTarget = event.target
+  if (eventTarget == headerBurgerButton) {
+    body.classList.toggle('body--menu-open')
+  }
+  if (
+    eventTarget.classList.contains('header__logo') ||
+    eventTarget.classList.contains('header__link') ||
+    eventTarget.classList.contains('header__social-link') ||
+    eventTarget.classList.contains('header__docs')
+  ) {
+    body.classList.remove('body--menu-open')
+  }
+})

@@ -13,9 +13,16 @@
 %navigationLinkHoverStyles
   border-color: $black
 
+  +media(s)
+    border-color: $white
+
 %navigationLinkActiveStyles
   text-stroke: 0.04em $black
   -webkit-text-stroke: 0.04em $black
+
+  +media(s)
+    text-stroke: 0.04em $white
+    -webkit-text-stroke: 0.04em $white
 
 .navigation__link
   display: flex
@@ -32,12 +39,16 @@
   -webkit-text-stroke: 0em transparent
   letter-spacing: 0.05em
   white-space: nowrap
+  color: $black
   transition: $all
 
   &:hover
     @extend %navigationLinkHoverStyles
   &:focus-visible
     @extend %navigationLinkHoverStyles
+
+  +media(s)
+    color: $white
 
 .navigation__link.navigation__link--active,
 .navigation__link:active
