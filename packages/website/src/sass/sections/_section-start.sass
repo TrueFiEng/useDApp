@@ -35,6 +35,11 @@
   +media(l)
     column-gap: 24px
 
+  +media(s)
+    column-gap: unset
+    row-gap: 12px
+    flex-direction: column
+
 .start__button
   font-size: 56px
   line-height: 72px
@@ -50,6 +55,11 @@
   +media(l)
     font-size: 38px
 
+  +media(s)
+    font-size: 32px
+    line-height: 38px
+    letter-spacing: -0.03em
+
 .start__subtitle
   font-size: 32px
   line-height: 72px
@@ -58,6 +68,10 @@
 
   +media(l)
     font-size: 28px
+
+  +media(s)
+    font-size: 18px
+    line-height: 24px
 
 .start__link
   margin: 24px auto 0
@@ -74,3 +88,8 @@
     margin: 62px auto 0
     max-width: 540px
     height: 296px
+
+  +media(s)
+    margin: 52px auto 0
+    max-width: 312px
+    height: 180px

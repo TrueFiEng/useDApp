@@ -23,7 +23,10 @@
 
   +media(l)
     padding-top: 48px
-    padding-bottom: 36px
+    padding-bottom: 24px
+
+  +media(s)
+    padding-top: 80px
 
 .integration
   display: flex
@@ -31,9 +34,15 @@
   width: 100%
   max-width: 100%
 
+  +media(l)
+    flex-direction: column
+
 .integration__content
   width: 100%
   max-width: 536px
+
+  +media(s)
+    max-width: 100%
 
 .integration__title
   font-size: 84px
@@ -43,6 +52,11 @@
     font-size: 60px
     line-height: 72px
 
+  +media(s)
+    font-size: 36px
+    line-height: 42px
+    letter-spacing: -0.03em
+
 .integration__description
   font-size: 32px
   line-height: 72px
@@ -51,8 +65,15 @@
   +media(l)
     font-size: 28px
 
+  +media(s)
+    font-size: 18px
+    line-height: 24px
+
 .integration__list
   margin-top: 56px
+
+  +media(s)
+    margin-top: 42px
 
 .integration__item
   display: flex
@@ -71,22 +92,43 @@
     background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" color="rgb(112,211,116)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M20 7.5975L9.90608 18L4 12.735L5.78463 11.0132L9.77205 14.5679L18.0857 6L20 7.5975Z" fill="currentColor"/> </svg>')
     background-size: 24px 24px
 
+  +media(s)
+    font-size: 16px
+    line-height: 24px
+
 .integration__item + .integration__item
   margin-top: 24px
+
+  +media(s)
+    margin-top: 18px
 
 .integration__media
   display: flex
   flex-direction: column
 
+  +media(l)
+    margin-top: 32px
+
 .integration__editor-container
+  max-width: 608px
   border-radius: 8px
   filter: drop-shadow(0px 4px 208px transparentize($decoration-gradient-tomato, 0.7))
   transform: translate(10%, -15%)
   overflow: hidden
 
+  +media(l)
+    max-width: 480px
+    transform: translate(0)
+
+  +media(s)
+    max-width: 328px
+    transform: translate(-10%, 5%)
+
 .integration__editor
   display: block
   object-fit: cover
+  max-width: 100%
+  max-height: 100%
 
 .integration__video-container
   width: fit-content
@@ -98,9 +140,16 @@
   overflow: hidden
 
   +media(l)
-    max-width: 100%
+    max-width: 480px
+    transform: translate(40%, -15%)
+
+  +media(s)
+    max-width: 328px
+    transform: translate(5%, -15%)
 
 .integration__video
+  max-width: 100%
+  max-height: 100%
   object-fit: cover
   transform: scale(1.02)
 

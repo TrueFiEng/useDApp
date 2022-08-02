@@ -18,6 +18,10 @@
     padding-top: 128px
     padding-bottom: 42px
 
+  +media(s)
+    padding-top: 104px
+    padding-bottom: 38px
+
 .hero
   display: grid
   grid-template-columns: 172px 1fr
@@ -32,10 +36,26 @@
     column-gap: 24px
     row-gap: 16px
 
+  +media(s)
+    grid-template-columns: 92px 1fr
+    column-gap: 16px
+    row-gap: 12px
+
 .hero__ethereum
   grid-column: 1 / 1
   grid-row: 1 / -1
+  max-width: 172px
+  max-height: 282px
   transition: $all
+
+  +media(l)
+    max-width: 128px
+    max-height: 210px
+
+  +media(s)
+    max-width: 92px
+    max-height: 152px
+    margin-top: 20px
 
 .hero__title
   display: block
@@ -49,17 +69,33 @@
     font-size: 68px
     line-height: 78px
 
+  +media(s)
+    font-size: 42px
+    line-height: 46px
+    white-space: normal
+    word-spacing: unset
+
 .hero__react-wrapper
   display: inline-flex
   justify-content: center
   align-items: center
   position: relative
-  height: 72px
   width: 118px
+  max-width: 118px
+  height: 72px
+  max-height: 72px
 
   +media(l)
-    height: 46px
     width: 88px
+    max-width: 88px
+    height: 46px
+    max-height: 46px
+
+  +media(s)
+    width: 40px
+    max-width: 40px
+    height: 44px
+    max-height: 44px
 
 .hero__react
   position: absolute
@@ -68,6 +104,11 @@
 .hero__description
   font-size: 24px
   line-height: 38px
+
+  +media(s)
+    grid-column: 1 / -1
+    font-size: 18px
+    line-height: 24px
 
 .hero__ethereum
   stroke-width: 2.5px

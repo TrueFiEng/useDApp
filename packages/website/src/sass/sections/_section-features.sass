@@ -17,6 +17,10 @@
   +media(l)
     padding-top: 102px
 
+  +media(s)
+    padding-top: 80px
+    padding-bottom: 40px
+
 .features
   display: flex
   flex-direction: column
@@ -27,6 +31,10 @@
   +media(l)
     padding-bottom: 102px
 
+  +media(s)
+    padding-bottom: 0
+    border-bottom: none
+
 .features__row
   display: flex
   flex-direction: row
@@ -35,14 +43,67 @@
   max-width: 100%
   column-gap: 20px
 
+  +media(s)
+    flex-direction: column
+    justify-content: unset
+
 .features__row + .features__row
   margin-top: 220px
 
   +media(l)
     margin-top: 90px
 
+  +media(s)
+    margin-top: 32px
+
 .features__row:nth-child(odd)
   flex-direction: row-reverse
+
+  +media(s)
+    flex-direction: column
+
+.features__column
+  width: 100%
+  max-width: 448px
+
+  +media(l)
+    max-width: 328px
+
+.features__title
+  margin-top: 40px
+  font-size: 84px
+  line-height: 72px
+  letter-spacing: -0.03em
+
+  +media(l)
+    margin-top: 16px
+    font-size: 60px
+
+  +media(s)
+    margin-top: 8px
+    font-size: 42px
+
+.features__text
+  margin-top: 40px
+  font-size: 18px
+  line-height: 24px
+  font-weight: 600
+  letter-spacing: 0.01em
+  color: $dark
+
+  +media(l)
+    margin-top: 16px
+    font-size: 16px
+    line-height: 24px
+    letter-spacing: unset
+
+  +media(s)
+    font-size: 16px
+    line-height: 20px
+    margin-top: 8px
+
+.features__text + .features__text
+  margin-top: 24px
 
 .features__video-container
   width: fit-content
@@ -52,6 +113,10 @@
   overflow: hidden
 
   +media(l)
+    max-width: 326px
+
+  +media(s)
+    margin-top: 32px
     max-width: 100%
 
 .features__video
@@ -175,37 +240,3 @@
         display: none
       &.features__video--retina
         display: block
-
-.features__column
-  width: 100%
-  max-width: 448px
-
-  +media(l)
-    max-width: 328px
-
-.features__title
-  margin-top: 40px
-  font-size: 84px
-  line-height: 72px
-  letter-spacing: -0.03em
-
-  +media(l)
-    margin-top: 16px
-    font-size: 60px
-
-.features__text
-  margin-top: 40px
-  font-size: 18px
-  line-height: 24px
-  font-weight: 600
-  letter-spacing: 0.01em
-  color: $dark
-
-  +media(l)
-    margin-top: 16px
-    font-size: 16px
-    line-height: 24px
-    letter-spacing: unset
-
-.features__text + .features__text
-  margin-top: 24px

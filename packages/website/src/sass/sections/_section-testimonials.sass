@@ -24,6 +24,9 @@
     padding-top: 8px
     padding-bottom: 24px
 
+  +media(s)
+    padding-top: 48px
+
 .testimonials
   display: grid
   grid-template-columns: repeat(3, minmax(100px, 352px))
@@ -35,8 +38,15 @@
     column-gap: 18px
     row-gap: 8px
 
+  +media(s)
+    grid-template-columns: unset
+    grid-template-areas: unset
+
 .testimonials__head
   grid-column: 1 / 3
+
+  +media(s)
+  grid-column: unset
 
 .testimonials__title
   display: block
@@ -50,8 +60,23 @@
     font-size: 60px
     line-height: 72px
 
+  +media(s)
+    font-size: 32px
+    line-height: 38px
+
 .testimonials__list
   display: contents
+
+  +media(s)
+    display: flex
+    width: calc(100% + $container-padding-mobile * 2)
+    max-width: calc(100% + $container-padding-mobile * 2)
+    margin: 0
+    margin-left: -$container-padding-mobile
+    margin-right: -$container-padding-mobile
+    padding: 0 $container-padding-mobile
+    overflow: hidden
+    overflow-x: auto
 
 .testimonials__item
   width: 100%
@@ -61,6 +86,13 @@
   +media(l)
     padding: 8px
     filter: drop-shadow(0px 8px 22px transparentize($black, 0.95))
+
+  +media(l)
+    min-width: 100%
+    padding: 16px 0
+
+    & + &
+      margin-left: 48px
 
 .testimonials__item:nth-child(1)
   grid-area: testimonial1
@@ -79,6 +111,11 @@
 
 .testimonials__item:nth-child(6)
   grid-area: testimonial6
+
+.testimonials__item:nth-child(even),
+.testimonials__item:nth-child(odd)
+  +media(s)
+    grid-area: unset
 
 .testimonials__image
   max-width: 100%

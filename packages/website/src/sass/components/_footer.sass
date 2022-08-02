@@ -8,6 +8,10 @@
     padding-top: 56px
     padding-bottom: 56px
 
+  +media(s)
+    padding-top: 24px
+    padding-bottom: 32px
+
 .footer__logo
   display: flex
   align-items: center
@@ -33,8 +37,18 @@
   width: fit-content
   margin: 40px auto 0
 
+.footer__list
+  +media(s)
+    flex-wrap: wrap
+    justify-content: center
+    column-gap: 16px
+    row-gap: 16px
+
 .footer__item + .footer__item
   margin-left: 48px
+
+  +media(s)
+    margin-left: 0
 
 .footer__link
   padding: 0 8px
@@ -58,6 +72,10 @@
   margin: 48px auto 0
   column-gap: 40px
   row-gap: 12px
+
+  +media(s)
+    flex-direction: column
+    margin: 40px auto 0
 
 .copyrights__created
   display: flex
