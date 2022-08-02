@@ -185,10 +185,11 @@ body.body--menu-open
     top: 0
     left: 0
     flex-direction: column
-    justify-content: space-evenly
-    row-gap: 48px
+    row-gap: 32px
     width: 100%
     max-width: 100%
+    height: 100vh
+    height: calc(var(--vh, 1vh) * 100)
     background-color: transparent
     background-image: radial-gradient(at 90% 55%, $total-black 0px, transparent 50%), radial-gradient(at 150% 150%, $decoration-gradient-violet 0px, transparent 50%), radial-gradient(at 150% 200%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 75% 165%, $decoration-gradient-red 0px, transparent 50%), radial-gradient(at 50% 125%, $decoration-gradient-orange 0px, transparent 50%)
     background-size: 400% 400%
@@ -201,12 +202,6 @@ body.body--menu-open
     mask-repeat: no-repeat
     transition: $all
     z-index: 45
-
-    min-height: 100%
-    @supports (min-height: -webkit-fill-available)
-      min-height: stretch
-      min-height: -webkit-fill-available
-      box-sizing: content-box
 
 .body--menu-open .header__menu
   background-color: $total-black
@@ -222,7 +217,7 @@ body.body--menu-open
 
   +media(s)
     margin-left: 0
-    margin-top: 48px
+    margin-top: 96px
 
 .header__list
 
@@ -233,7 +228,7 @@ body.body--menu-open
   & + &
     +media(s)
       margin-left: 0
-      margin-top: 48px
+      margin-top: 32px
 
     +media(xs)
       margin-top: 24px
@@ -269,4 +264,7 @@ body.body--menu-open
       min-width: unset
 
   +media(s)
-    margin-top: 48px
+    margin-top: 32px
+
+  +media(s)
+    margin-top: 24px

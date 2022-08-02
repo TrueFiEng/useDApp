@@ -62,3 +62,15 @@ header.addEventListener('click', (event) => {
     body.classList.remove('body--menu-open')
   }
 })
+
+// handle visual height unit
+
+const handleVisualHeightUnit = () => {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+  console.log(vh)
+}
+
+handleVisualHeightUnit()
+
+window.addEventListener('resize', handleVisualHeightUnit);
