@@ -14,7 +14,8 @@ module.exports = function (context, options) {
           }),
           new webpack.ProvidePlugin({
             Buffer: [require.resolve('buffer/'), 'Buffer']
-          })
+          }),
+          new NodePolyfillPlugin()
         ],
         resolve: {
           fallback: {

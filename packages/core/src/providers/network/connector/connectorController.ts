@@ -1,20 +1,19 @@
 import { providers } from 'ethers'
-import { Connector, UpdateFn } from './connector'
+import { EventEmitter } from 'events'
+import { Connector } from './connector'
 
-export class ConnectorController {
+export class ConnectorController extends EventEmitter {
   constructor(public readonly connector: Connector) {
+    super()
     connector.onUpdate = ({ chainId, accounts }) => {
       this.chainId = chainId
       this.accounts = accounts
-      console.log('connector controller sending on update', {onUpdate: this.onUpdate})
-      this.onUpdate?.({ chainId, accounts })
+      this.emit('update', { chainId, accounts })
       // controller is to be removed
     }
 
     // void this.connector.connectEagerly()
   }
-
-  onUpdate?: UpdateFn
 
   public active = false
   public accounts: string[] = []

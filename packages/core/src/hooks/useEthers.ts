@@ -71,7 +71,6 @@ export function useEthers(): Web3Ethers {
 
   const { activeConnector } = useContext(ConnectorContext)!
   const [activeConnectorChainId, setActiveConnectorChainId] = useState<number | undefined>()
-  console.log({activeConnectorChainId})
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
@@ -81,19 +80,13 @@ export function useEthers(): Web3Ethers {
   const supportedChainIds = networks?.map((network) => network.chainId)
 
   useEffect(() => {
-    console.log({activeConnector})
     if (activeConnector) {
-      console.log('this happens', {activeConnectorChainId: activeConnector.chainId})
       setActiveConnectorChainId(activeConnector.chainId)
-      activeConnector.onUpdate = ({ chainId }) => {
-        console.log('connector controller on update', { chainId })
+      const onUpdate = ({ chainId }: { chainId: number }) => {
         setActiveConnectorChainId(chainId)
       }
-    }
-    return () => {
-      if (activeConnector) {
-        activeConnector.onUpdate = undefined
-      }
+      activeConnector.on('update', onUpdate)
+      return () => { activeConnector.off('update', onUpdate) }
     }
   }, [activeConnector])
 
