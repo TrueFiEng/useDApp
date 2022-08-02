@@ -15,6 +15,22 @@ export const OptimismKovan: Chain = {
   getExplorerTransactionLink: getTransactionLink(testnetExplorerUrl),
 }
 
+
+const testnetGoerliExplorerUrl = 'https://blockscout.com/optimism/goerli/'
+
+export const OptimismGoerli: Chain = {
+  chainId: 420,
+  chainName: 'OptimismGoerli',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xC8315CC7DCDF57476a8a1D184505845d52711024',
+  rpcUrl: 'https://goerli.optimism.io',
+  blockExplorerUrl: testnetGoerliExplorerUrl,
+  getExplorerAddressLink: getAddressLink(testnetGoerliExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(testnetGoerliExplorerUrl),
+}
+
+
 const optimismExplorerUrl = 'https://optimistic.etherscan.io'
 
 export const Optimism: Chain = {

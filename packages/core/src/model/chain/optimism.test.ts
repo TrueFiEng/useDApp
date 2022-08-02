@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { TEST_ADDRESS, TEST_TX } from './test-defaults'
-import { Optimism, OptimismKovan } from '../../../src'
+import { Optimism, OptimismKovan, OptimismGoerli } from '../../../src'
 
 describe('Optimism Chain', () => {
   it('getChainId', () => {
@@ -30,12 +30,18 @@ describe('Optimism Chain', () => {
     expect(OptimismKovan.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
       `https://kovan-optimistic.etherscan.io/address/${TEST_ADDRESS}`
     )
+    expect(OptimismGoerli.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
+      `https://blockscout.com/optimism/goerli/address/${TEST_ADDRESS}`
+    )
   })
 
   it('getExplorerTransactionLink', () => {
     expect(Optimism.getExplorerTransactionLink(TEST_TX)).to.eq(`https://optimistic.etherscan.io/tx/${TEST_TX}`)
     expect(OptimismKovan.getExplorerTransactionLink(TEST_TX)).to.eq(
       `https://kovan-optimistic.etherscan.io/tx/${TEST_TX}`
+    )
+    expect(OptimismGoerli.getExplorerTransactionLink(TEST_TX)).to.eq(
+      `https:/https://blockscout.com/optimism/goerli/tx/${TEST_TX}`
     )
   })
 })
