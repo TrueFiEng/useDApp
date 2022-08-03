@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.1.4
+
+### Patch Changes
+
+- d2a0e57: 🪒 Do not assign polling intervals on websocket providers
+
 ## 1.1.3
 
 ### Patch Changes
