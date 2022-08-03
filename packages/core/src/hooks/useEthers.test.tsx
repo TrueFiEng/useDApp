@@ -6,6 +6,8 @@ import { Localhost, Mainnet, Mumbai } from '../model'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
+import Ganache, { Server } from 'ganache';
+
 describe('useEthers', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
@@ -105,16 +107,31 @@ describe('useEthers', () => {
     expect(result.current.isLoading).to.be.false
   })
 
-  it('works with a websocket provider', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
-      config: {
-        readOnlyChainId: Mumbai.chainId,
-        readOnlyUrls: {
-          [Mumbai.chainId]: new providers.WebSocketProvider('wss://rpc-mumbai.matic.today'),
-        },
-      },
+  describe('Websocket provider', () => {
+    let ganacheServer: Server<"ethereum">
+    const wsPort = 18845
+    const wsUrl = `ws://localhost:${wsPort}`
+
+    before(async () => {
+      ganacheServer = Ganache.server({ server: { ws : true } })
+      await ganacheServer.listen(18845)
     })
-    await waitForCurrent((val) => !val.isLoading)
-    expect(result.error).to.be.undefined
+
+    after(async () => {
+      await ganacheServer.close()
+    })
+
+    it('works with a websocket provider', async () =>{
+      const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
+        config: {
+          readOnlyChainId: Mumbai.chainId,
+          readOnlyUrls: {
+            [Mumbai.chainId]: new providers.WebSocketProvider(wsUrl),
+          },
+        },
+      })
+      await waitForCurrent((val) => !val.isLoading)
+      expect(result.error).to.be.undefined
+    })
   })
 })
