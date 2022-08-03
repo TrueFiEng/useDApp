@@ -196,5 +196,5 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
     expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
-  })
+  }).timeout(10000)
 })
