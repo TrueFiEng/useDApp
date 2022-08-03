@@ -36,20 +36,21 @@
   grid-template-columns: repeat(3, 352px)
   grid-column-gap: 32px
   grid-row-gap: 50px
-  margin-top: 40px
+  justify-content: center
+  margin: 40px auto 0
   width: 100%
 
   +media(l)
     grid-template-columns: repeat(3, 210px)
     grid-column-gap: 20px
     grid-row-gap: 30px
-    margin-top: 32px
+    margin: 32px auto 0
 
   +media(s)
     grid-auto-flow: row
     grid-template-columns: 1fr
     grid-row-gap: 24px
-    margin-top: 0
+    margin: 0 auto
 
 .resources__picture
   grid-column: 2 / 3

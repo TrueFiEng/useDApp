@@ -119,19 +119,17 @@
 
   +media(l)
     max-width: 326px
-    border-radius: 4px
 
   +media(s)
     margin: 32px auto 0
     max-width: 100%
 
 .features__video
-  object-fit: cover
+  width: 100%
+  max-width: 100%
+  height: 100%
+  object-fit: contain
   transform: scale(1.02)
-
-  +media(s)
-    max-width: 100%
-    object-fit: contain
 
 .features__video--desktop
   &.features__video--default
