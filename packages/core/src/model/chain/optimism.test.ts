@@ -41,7 +41,7 @@ describe('Optimism Chain', () => {
       `https://kovan-optimistic.etherscan.io/tx/${TEST_TX}`
     )
     expect(OptimismGoerli.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https:/https://blockscout.com/optimism/goerli/tx/${TEST_TX}`
+      `https://blockscout.com/optimism/goerli/tx/${TEST_TX}`
     )
   })
 })
