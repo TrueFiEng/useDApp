@@ -99,8 +99,8 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         )
 
         const modifiedOpts = {
-          ...opts,
           gasLimit,
+          ...opts,
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
         modifiedArgs.push(modifiedOpts)
