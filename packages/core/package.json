@@ -50,6 +50,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "ethereum-waffle": "4.0.0-alpha.27",
     "ethers": "^5.6.8",
+    "ganache": "7.0.3",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
