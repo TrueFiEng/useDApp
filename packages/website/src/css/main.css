@@ -180,6 +180,166 @@ button {
     stroke-dashoffset: 0;
   }
 }
+@-webkit-keyframes animateHeroEthereumTop {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  25% {
+    -webkit-transform: translateY(-3%);
+            transform: translateY(-3%);
+  }
+  50% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  75% {
+    -webkit-transform: translateY(2%);
+            transform: translateY(2%);
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@keyframes animateHeroEthereumTop {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  25% {
+    -webkit-transform: translateY(-3%);
+            transform: translateY(-3%);
+  }
+  50% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  75% {
+    -webkit-transform: translateY(2%);
+            transform: translateY(2%);
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@-webkit-keyframes animateHeroEthereumBottom {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  25% {
+    -webkit-transform: translateY(-2%);
+            transform: translateY(-2%);
+  }
+  50% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  75% {
+    -webkit-transform: translateY(3%);
+            transform: translateY(3%);
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@keyframes animateHeroEthereumBottom {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  25% {
+    -webkit-transform: translateY(-2%);
+            transform: translateY(-2%);
+  }
+  50% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  75% {
+    -webkit-transform: translateY(3%);
+            transform: translateY(3%);
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@-webkit-keyframes animateHeroReactImage {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+  }
+  25% {
+    -webkit-transform: rotate(90deg) scale(0.95);
+            transform: rotate(90deg) scale(0.95);
+  }
+  50% {
+    -webkit-transform: rotate(180deg) scale(1.05);
+            transform: rotate(180deg) scale(1.05);
+  }
+  75% {
+    -webkit-transform: rotate(270deg) scale(0.95);
+            transform: rotate(270deg) scale(0.95);
+  }
+  100% {
+    -webkit-transform: rotate(360deg) scale(1);
+            transform: rotate(360deg) scale(1);
+  }
+}
+@keyframes animateHeroReactImage {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+  }
+  25% {
+    -webkit-transform: rotate(90deg) scale(0.95);
+            transform: rotate(90deg) scale(0.95);
+  }
+  50% {
+    -webkit-transform: rotate(180deg) scale(1.05);
+            transform: rotate(180deg) scale(1.05);
+  }
+  75% {
+    -webkit-transform: rotate(270deg) scale(0.95);
+            transform: rotate(270deg) scale(0.95);
+  }
+  100% {
+    -webkit-transform: rotate(360deg) scale(1);
+            transform: rotate(360deg) scale(1);
+  }
+}
+@-webkit-keyframes animateHeroReactCircle {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  55% {
+    -webkit-transform: scale(1.25);
+            transform: scale(1.25);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes animateHeroReactCircle {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  55% {
+    -webkit-transform: scale(1.25);
+            transform: scale(1.25);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
 @font-face {
   font-family: "PlusJakartaSans";
   src: url("../fonts/PlusJakartaSans.eot");
@@ -1536,14 +1696,17 @@ body.body--menu-open .header__burger-lines::after {
 
 .hero__ethereum {
   stroke-width: 2.5px;
+  overflow: visible;
 }
 
 .hero__react {
   stroke-width: 3px;
+  overflow: visible;
 }
 
-.hero__ethereum *,
-.hero__react * {
+.hero__ethereum .hero__ethereum-line,
+.hero__react .hero__react-line,
+.hero__react .hero__react-circle {
   -webkit-transform-origin: 50% 50%;
       -ms-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
@@ -1551,14 +1714,34 @@ body.body--menu-open .header__burger-lines::after {
   stroke-linejoin: miter;
 }
 
-.hero__ethereum > * {
+.hero__ethereum .hero__ethereum-line {
   -webkit-animation: animateHeroStroke 1.5s ease forwards;
           animation: animateHeroStroke 1.5s ease forwards;
 }
 
-.hero__react > * {
+.hero__ethereum-top {
+  -webkit-animation: animateHeroEthereumTop 5s linear infinite;
+          animation: animateHeroEthereumTop 5s linear infinite;
+}
+
+.hero__ethereum-bottom {
+  -webkit-animation: animateHeroEthereumBottom 5s linear infinite;
+          animation: animateHeroEthereumBottom 5s linear infinite;
+}
+
+.hero__react-wrapper {
+  -webkit-animation: animateHeroReactImage 10s linear infinite;
+          animation: animateHeroReactImage 10s linear infinite;
+}
+
+.hero__react .hero__react-line {
   -webkit-animation: animateHeroStroke 1s ease forwards;
           animation: animateHeroStroke 1s ease forwards;
+}
+
+.hero__react .hero__react-circle {
+  -webkit-animation: animateHeroReactCircle 5s ease infinite;
+          animation: animateHeroReactCircle 5s ease infinite;
 }
 
 .section--dependents {

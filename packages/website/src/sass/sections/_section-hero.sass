@@ -123,19 +123,33 @@
 
 .hero__ethereum
   stroke-width: 2.5px
+  overflow: visible
 
 .hero__react
   stroke-width: 3px
+  overflow: visible
 
-.hero__ethereum,
-.hero__react
-  & *
-    transform-origin: 50% 50%
-    stroke-linecap: round
-    stroke-linejoin: miter
+.hero__ethereum .hero__ethereum-line,
+.hero__react .hero__react-line,
+.hero__react .hero__react-circle
+  transform-origin: 50% 50%
+  stroke-linecap: round
+  stroke-linejoin: miter
 
-.hero__ethereum > *
+.hero__ethereum .hero__ethereum-line
   animation: animateHeroStroke 1.5s ease forwards
 
-.hero__react > *
+.hero__ethereum-top
+  animation: animateHeroEthereumTop 5s linear infinite
+
+.hero__ethereum-bottom
+  animation: animateHeroEthereumBottom 5s linear infinite
+
+.hero__react-wrapper
+  animation: animateHeroReactImage 10s linear infinite
+
+.hero__react .hero__react-line
   animation: animateHeroStroke 1s ease forwards
+
+.hero__react .hero__react-circle
+  animation: animateHeroReactCircle 5s ease infinite

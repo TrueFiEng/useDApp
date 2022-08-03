@@ -27,14 +27,14 @@ document.addEventListener('scroll', handleHeaderStyles)
 const ethereumIllustration = body.querySelector('.hero__ethereum')
 const reactIllustration = body.querySelector('.hero__react')
 
-ethereumIllustration.querySelectorAll('.hero__ethereum > *').forEach(
+ethereumIllustration.querySelectorAll('.hero__ethereum .hero__ethereum-line').forEach(
   (item, index) => {
     item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
     item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
     item.style.setProperty('animation-delay', `${10 * index / 100}s`)
   }
 )
-reactIllustration.querySelectorAll('.hero__react > *').forEach(
+reactIllustration.querySelectorAll('.hero__react .hero__react-line').forEach(
   (item, index) => {
     item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
     item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
