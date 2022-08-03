@@ -121,7 +121,7 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
-    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * CONTRACT_FUNCTION_COST)
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.be.closeTo(2 * CONTRACT_FUNCTION_COST, 100)
   })
 
   it('transfer amount with limit in args', async () => {
@@ -137,7 +137,7 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Success')
-    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * CONTRACT_FUNCTION_COST)
+    expect(result.current.state.transaction?.gasLimit.toNumber()).to.be.closeTo(2 * CONTRACT_FUNCTION_COST, 100)
   })
 
   it('success with correct receipt', async () => {
