@@ -15,7 +15,6 @@ export const OptimismKovan: Chain = {
   getExplorerTransactionLink: getTransactionLink(testnetExplorerUrl),
 }
 
-
 const testnetGoerliExplorerUrl = 'https://blockscout.com/optimism/goerli/'
 
 export const OptimismGoerli: Chain = {
@@ -29,7 +28,6 @@ export const OptimismGoerli: Chain = {
   getExplorerAddressLink: getAddressLink(testnetGoerliExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(testnetGoerliExplorerUrl),
 }
-
 
 const optimismExplorerUrl = 'https://optimistic.etherscan.io'
 
