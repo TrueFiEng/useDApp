@@ -6,7 +6,7 @@ import { Localhost, Mainnet, Mumbai } from '../model'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 
-import Ganache, { Server } from 'ganache';
+import Ganache, { Server } from 'ganache'
 
 describe('useEthers', () => {
   let network1: TestingNetwork
@@ -108,12 +108,12 @@ describe('useEthers', () => {
   })
 
   describe('Websocket provider', () => {
-    let ganacheServer: Server<"ethereum">
+    let ganacheServer: Server<'ethereum'>
     const wsPort = 18845
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
-      ganacheServer = Ganache.server({ server: { ws : true } })
+      ganacheServer = Ganache.server({ server: { ws: true } })
       await ganacheServer.listen(18845)
     })
 
@@ -121,7 +121,7 @@ describe('useEthers', () => {
       await ganacheServer.close()
     })
 
-    it('works with a websocket provider', async () =>{
+    it('works with a websocket provider', async () => {
       const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
         config: {
           readOnlyChainId: Mumbai.chainId,
