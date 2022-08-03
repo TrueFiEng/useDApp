@@ -2393,16 +2393,16 @@ body.body--menu-open .header__burger-lines::after {
   left: 0;
   top: 50%;
   width: 125%;
-  height: 100%;
+  height: 90%;
   background-image: -webkit-radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), -webkit-radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
   background-image: -o-radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), -o-radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
   background-image: radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
   background-repeat: no-repeat;
   -webkit-filter: blur(100px);
           filter: blur(100px);
-  -webkit-transform: translateX(-50%) translateY(-45%);
-      -ms-transform: translateX(-50%) translateY(-45%);
-          transform: translateX(-50%) translateY(-45%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
   opacity: 0.9;
 }
 @media (max-width: 1200px) {
