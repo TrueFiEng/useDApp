@@ -46,7 +46,8 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
 
   let timestamp: Date | undefined
   try {
-    timestamp = timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
+    timestamp =
+      timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
   } catch (e: any) {
     console.warn('Failed to parse timestamp', e)
   }
