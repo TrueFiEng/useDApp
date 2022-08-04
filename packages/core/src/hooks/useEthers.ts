@@ -104,6 +104,8 @@ export function useEthers(): Web3Ethers {
         if (chain?.rpcUrl) {
           await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
         }
+      } else {
+        throw error
       }
     }
   }
