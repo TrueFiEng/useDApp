@@ -1,11 +1,15 @@
 export const reverterContractSource = `
-  pragma solidity ^0.8.0;
+pragma solidity ^0.8.0;
 
-  contract ReverterContract {
-    function double(int num) public view returns (int) {
-      return 2 * num;
-    }
+contract ReverterContract {
+  function doRevert() public pure {
+    revert();
   }
+
+  function revertOnOdd(uint num) public {
+      require(num % 2 == 0, "Expected num to be even.");
+  }
+}
 `
 
 export const reverterContractABI = {
