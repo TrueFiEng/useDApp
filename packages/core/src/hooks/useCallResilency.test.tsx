@@ -2,10 +2,7 @@ import { expect } from 'chai'
 import { deployContract } from 'ethereum-waffle'
 import { useCall } from '..'
 import { doublerContractABI, reverterContractABI } from '../constants'
-import {
-  renderDAppHook,
-  setupTestingConfig
-} from '../testing'
+import { renderDAppHook, setupTestingConfig } from '../testing'
 
 describe('useCall Resilency tests', () => {
   for (const multicallVersion of [1, 2] as const) {
