@@ -12,6 +12,7 @@ import {
   CoinbaseWalletConnector,
   InjectedConnector,
   Connector,
+  Localhost,
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
@@ -33,6 +34,7 @@ const config: Config = {
     [Ropsten.chainId]: getDefaultProvider('ropsten'),
     [Kovan.chainId]: getDefaultProvider('kovan'),
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+    [Localhost.chainId]: 'http://localhost:8545',
   },
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,

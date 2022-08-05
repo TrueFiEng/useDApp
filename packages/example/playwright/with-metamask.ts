@@ -2,7 +2,10 @@ import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args } from '@usedapp/playwright'
+import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args, waitForPopup, waitForPageToClose } from '@usedapp/playwright'
+import { BigNumber, utils, Wallet } from 'ethers'
+import Ganache, { Server } from 'ganache'
+import { defaultAccounts } from 'ethereum-waffle'
 
 const log = debug('usedapp:example:playwright')
 
@@ -11,6 +14,7 @@ export const withMetamaskTest = (baseUrl: string) => {
     let page: Page
     let context: BrowserContext
     let metamask: MetaMask
+    let server: Server<'ethereum'>
 
     const resetBrowserContext = async () => {
       if (page) await page.close()
@@ -33,8 +37,23 @@ export const withMetamaskTest = (baseUrl: string) => {
       addPageDiagnostics(page)
     }
 
+    const startGanache = async () => {
+      server = Ganache.server({
+        accounts: defaultAccounts,
+        logging: {
+          quiet: true,
+        }
+      })
+      await server.listen(8545)
+    }
+
+    const stopGanache = () => server.close()
+
     before(async () => await resetBrowserContext())
     after(async () => await context?.close())
+
+    before(startGanache)
+    after(stopGanache)
 
     before(async () => {
       log('Connecting Metamask to the app...')
@@ -50,6 +69,18 @@ export const withMetamaskTest = (baseUrl: string) => {
       await popupPage.click(XPath.text('button', 'Next'))
       await popupPage.click(XPath.text('button', 'Connect'))
       log('Metamask connected to the app.')
+
+      await metamask.addAccount(defaultAccounts[0].secretKey, [page])
+
+      await metamask.switchToNetwork('Localhost 8545')
+
+      const txConfirmPagePromise = waitForPopup(context)
+      const txConfirmPage = await txConfirmPagePromise
+      await txConfirmPage.click(XPath.text('button', 'Confirm'))
+      await waitForPageToClose(txConfirmPage)
+      await page.waitForSelector(XPath.text('h1', 'Balance'))
+
+      await metamask.switchToNetwork('Ethereum Mainnet')
     })
 
     describe('Balance', () => {
@@ -179,6 +210,65 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('p', 'Send transaction'))).to.be.true
+        })
+      })
+
+      it.only('Switches accounts', async () => {
+        const wallet = Wallet.createRandom()
+        await metamask.addAccount(wallet.privateKey)
+
+        await page.goto(`${baseUrl}balance`)
+
+        const getAccountAndBalance = async () => {
+          await waitForExpect(async () => {
+            expect(await page.isVisible(XPath.id('span', 'balance-page-account'))).to.be.true
+            expect(await page.isVisible(XPath.id('span', 'balance-page-balance'))).to.be.true
+          })
+
+          let balance: BigNumber
+          let address: string
+
+          {
+            const locator = page.locator(`${XPath.id('span', 'balance-page-balance')}`)
+            const textContent = await locator.textContent()
+            if (!textContent) {
+              throw new Error('Balance for current account not found')
+            }
+            balance = utils.parseEther(textContent)
+          }
+
+          {
+            const locator = page.locator(`${XPath.id('span', 'balance-page-account')}`)
+            const textContent = await locator.textContent()
+            if (!textContent) {
+              throw new Error('Address for current account not found')
+            }
+            address = textContent
+          }
+
+          return { balance, address }
+        }
+
+        await waitForExpect(async () => {
+          const { balance } = await getAccountAndBalance()
+          expect(balance).to.be.eq(0)
+        })
+
+        await metamask.switchToNetwork('Localhost 8545')
+
+        await waitForExpect(async () => {
+          const { balance } = await getAccountAndBalance()
+          expect(balance).to.be.eq(0)
+        })
+
+        await metamask.addAccount(defaultAccounts[1].secretKey)
+
+        await waitForExpect(async () => {
+          const wallet = new Wallet(defaultAccounts[1].secretKey)
+          const { balance, address } = await getAccountAndBalance()
+          expect(address).to.be.eq(wallet.address)
+          const currentBalance = await wallet.getBalance()
+          expect(balance).to.be.eq(currentBalance)
         })
       })
     })
