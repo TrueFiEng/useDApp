@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { defaultAccounts, deployContract } from 'ethereum-waffle'
 import { useCall, useEthers, useBlockMeta } from '../hooks'
-import { doublerContractABI, reverterContractABI } from '../constants'
+import { Config, doublerContractABI, reverterContractABI } from '../constants'
 import { mineBlock, renderDAppHook, setupTestingConfig, sleep } from '../testing'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 
@@ -86,28 +86,45 @@ describe('useCall Resilency tests', () => {
 
         describe('Multichain with RPC servers', () => {
           let ganacheServers: Server<'ethereum'>[]
+          let miners: Wallet[]
+          let config: Config
 
-          before(async () => {
+          beforeEach(async () => {
             ganacheServers = [
               Ganache.server({chain: {chainId: 1337}, logging: {quiet: true}, wallet: {accounts: defaultAccounts}}),
               Ganache.server({chain: {chainId: 31337}, logging: {quiet: true}, wallet: {accounts: defaultAccounts}})]
             await ganacheServers[0].listen(18800)
             await ganacheServers[1].listen(18801)
+
+            miners = [
+              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18800')),
+              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18801'))
+            ]
+
+            const multicall0 = await deployContract(miners[0], multicall2ABI)
+            const multicall1 = await deployContract(miners[1], multicall2ABI)
+
+            config = {
+              readOnlyChainId: 1337,
+              readOnlyUrls: {
+                [1337]: 'http://localhost:18800',
+                [31337]: 'http://localhost:18801',
+              },
+              pollingInterval: 200,
+              multicallAddresses: {
+                [1337]: multicall0.address,
+                [31337]: multicall1.address,
+              }
+            }
           })
 
-          after(async () => {
+          afterEach(async () => {
             try {await ganacheServers[0].close()} catch {}
             try {await ganacheServers[1].close() } catch {}
           })
 
 
-          it.only('Continues to work when secondary RPC endpoint fails', async () => {
-            const miner0 = new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18800'))
-            const miner1 = new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18801'))
-
-            const multicall0 = await deployContract(miner0, multicall2ABI)
-            const multicall1 = await deployContract(miner1, multicall2ABI)
-
+          it.only('Continues to work when *secondary* RPC endpoint fails', async () => {
             const { result, waitForCurrent, rerender, unmount } = await renderDAppHook(
               () => {
                 const { chainId, account, activateBrowserWallet, deactivate } = useEthers()
@@ -116,18 +133,7 @@ describe('useCall Resilency tests', () => {
                 return { chainId, secondChainBlockNumber, firstChainBlockNumber }
               },
               {
-                config: {
-                  readOnlyChainId: 1337,
-                  readOnlyUrls: {
-                    [1337]: 'http://localhost:18800',
-                    [31337]: 'http://localhost:18801',
-                  },
-                  pollingInterval: 200,
-                  multicallAddresses: {
-                    [1337]: multicall0.address,
-                    [31337]: multicall1.address,
-                  }
-                },
+                config,
               }
             )
 
@@ -136,13 +142,41 @@ describe('useCall Resilency tests', () => {
             expect(result.current.secondChainBlockNumber).to.be.equal(1)
             expect(result.current.firstChainBlockNumber).to.be.equal(1)
 
-            await ganacheServers[1].close()
-            await miner0.sendTransaction({to: constants.AddressZero})
+            await ganacheServers[1].close() // Secondary, as in NOT the `readOnlyChainId` one.
+            await miners[0].sendTransaction({to: constants.AddressZero})
             await waitForCurrent((val) => val.firstChainBlockNumber === 2)
             await sleep(1000)
             console.log('>>>>', {current: result.current})
             expect(result.current.firstChainBlockNumber).to.be.equal(2)
             expect(result.current.secondChainBlockNumber).to.be.equal(1)
+            expect(result.current.chainId).to.be.equal(1337)
+          })
+
+          it.only('Continues to work when *primary* RPC endpoint fails', async () => {
+            const { result, waitForCurrent, rerender, unmount } = await renderDAppHook(
+              () => {
+                const { chainId, account, activateBrowserWallet, deactivate } = useEthers()
+                const {blockNumber: firstChainBlockNumber} = useBlockMeta({chainId: 1337})
+                const {blockNumber: secondChainBlockNumber} = useBlockMeta({chainId: 31337})
+                return { chainId, secondChainBlockNumber, firstChainBlockNumber }
+              },
+              {
+                config,
+              }
+            )
+
+            await waitForCurrent((val) => val.chainId !== undefined && val.secondChainBlockNumber !== undefined && val.firstChainBlockNumber !== undefined)
+            expect(result.current.chainId).to.be.equal(1337)
+            expect(result.current.secondChainBlockNumber).to.be.equal(1)
+            expect(result.current.firstChainBlockNumber).to.be.equal(1)
+
+            await ganacheServers[0].close() // Primary, as in the `readOnlyChainId` one.
+            await miners[1].sendTransaction({to: constants.AddressZero})
+            await waitForCurrent((val) => val.secondChainBlockNumber === 2)
+            await sleep(1000)
+            console.log('>>>>', {current: result.current})
+            expect(result.current.firstChainBlockNumber).to.be.equal(1)
+            expect(result.current.secondChainBlockNumber).to.be.equal(2)
             expect(result.current.chainId).to.be.equal(1337)
           })
         })
