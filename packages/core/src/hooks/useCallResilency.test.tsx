@@ -9,8 +9,8 @@ import { constants, providers, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
 
 describe('useCall Resilency tests', () => {
-  for (const multicallVersion of [1] as const) {
-    for (const fastMulticallEncoding of [false] as const) {
+  for (const multicallVersion of [1, 2] as const) {
+    for (const fastMulticallEncoding of [false, true] as const) {
       describe(`Multicall v${multicallVersion} configured: fastMulticallEncoding=${fastMulticallEncoding}`, () => {
         it('Other hooks work when one call reverts', async function () {
           if (multicallVersion === 1) this.skip() // This cannot work in multicall 1 as the whole batch reverts.
