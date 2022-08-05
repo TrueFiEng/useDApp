@@ -114,7 +114,7 @@ describe('useEthers', () => {
 
     before(async () => {
       ganacheServer = Ganache.server({ server: { ws: true } })
-      await ganacheServer.listen(18845)
+      await ganacheServer.listen(wsPort)
     })
 
     after(async () => {
