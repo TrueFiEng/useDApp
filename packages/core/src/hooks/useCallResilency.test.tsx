@@ -130,10 +130,10 @@ describe('useCall Resilency tests', () => {
           afterEach(async () => {
             try {
               await ganacheServers[0].close()
-            } catch {}
+            } catch {} // eslint-disable-line no-empty
             try {
               await ganacheServers[1].close()
-            } catch {}
+            } catch {} // eslint-disable-line no-empty
           })
 
           it('Continues to work when *secondary* RPC endpoint fails', async () => {
