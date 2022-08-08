@@ -108,10 +108,9 @@ export function useEthers(): Web3Ethers {
     const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
     const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
 
-    const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
-    chainIdError.name = 'ChainIdError'
-
     if (isUnsupportedChainId || isNotConfiguredChainId) {
+      const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
+      chainIdError.name = 'ChainIdError'
       setError(chainIdError)
       return
     }
@@ -144,6 +143,8 @@ export function useEthers(): Web3Ethers {
         if (chain?.rpcUrl) {
           await (provider as any).send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
         }
+      } else {
+        throw error
       }
     }
   }

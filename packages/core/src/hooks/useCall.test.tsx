@@ -11,7 +11,7 @@ import {
 } from '../testing'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract, RevertContract, doublerContractABI } from '../constants'
+import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
 
 describe('useCall', () => {
@@ -38,7 +38,7 @@ describe('useCall', () => {
 
       it('returns error on revert', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
-        const revertContract = await deployContract(network1.deployer, RevertContract)
+        const revertContract = await deployContract(network1.deployer, reverterContractABI)
 
         const { result, waitForCurrent } = await renderDAppHook(
           () =>
