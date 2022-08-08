@@ -210,34 +210,32 @@ describe('useCall Resilency tests', () => {
           })
 
           it('Does not do duplicate polls for data', async () => {
-            
-            const { result, waitForCurrent, rerender } = await renderDAppHook(() => {
-              const { chainId, error } = useEthers()
-              const { blockNumber: firstChainBlockNumber } = useBlockMeta({ chainId: 1337 })
-              return { chainId, firstChainBlockNumber, error }
-            }, {
-              config: {
-                readOnlyChainId: config.readOnlyChainId,
-                readOnlyUrls: {
-                  [1337]: config.readOnlyUrls![1337],
-                },
-                multicallAddresses: {
-                  [1337]: config.multicallAddresses![1337],
-                },
-                pollingInterval: 500,
+            const { result, waitForCurrent, rerender } = await renderDAppHook(
+              () => {
+                const { chainId, error } = useEthers()
+                const { blockNumber: firstChainBlockNumber } = useBlockMeta({ chainId: 1337 })
+                return { chainId, firstChainBlockNumber, error }
               },
-            })
-            await waitForCurrent(
-              (val) =>
-                val.chainId !== undefined &&
-                val.firstChainBlockNumber !== undefined
+              {
+                config: {
+                  readOnlyChainId: config.readOnlyChainId,
+                  readOnlyUrls: {
+                    [1337]: config.readOnlyUrls![1337],
+                  },
+                  multicallAddresses: {
+                    [1337]: config.multicallAddresses![1337],
+                  },
+                  pollingInterval: 500,
+                },
+              }
             )
-            expect(result.error).to.be.undefined;
+            await waitForCurrent((val) => val.chainId !== undefined && val.firstChainBlockNumber !== undefined)
+            expect(result.error).to.be.undefined
 
             const calls: string[] = []
 
-            const originalCall: providers.StaticJsonRpcProvider['call'] = (config.readOnlyUrls![1337] as any).call;
-            (config.readOnlyUrls![1337] as any).call = async function (...args: any[]): Promise<any> {
+            const originalCall: providers.StaticJsonRpcProvider['call'] = (config.readOnlyUrls![1337] as any).call
+            ;(config.readOnlyUrls![1337] as any).call = async function (...args: any[]): Promise<any> {
               if (args[1] === 2) {
                 // In this test, let's take a look at calls made for blockNumber 2.
                 calls.push(JSON.stringify(args))
