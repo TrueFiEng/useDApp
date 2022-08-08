@@ -63,13 +63,30 @@ header.addEventListener('click', (event) => {
   }
 })
 
+// start terminals toggle
+
+const startHeader = body.querySelector('.start__header')
+const startTriggers = startHeader.querySelectorAll('.start__button')
+const startTerminals = body.querySelectorAll('.start__terminal')
+
+startHeader.addEventListener('click', (event) => {
+  startTriggers.forEach((button) => button.classList.remove('start__button--active'))
+  event.target.classList.add('start__button--active')
+  startTerminals.forEach((terminal) => {
+    terminal.classList.remove('start__terminal--active')
+    if (terminal.dataset.startTerminal === event.target.dataset.startTerminal) {
+      terminal.classList.add('start__terminal--active')
+    }
+  })
+})
+
 // handle visual height unit
 
 const handleVisualHeightUnit = () => {
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
+  let vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
 
 handleVisualHeightUnit()
 
-window.addEventListener('resize', handleVisualHeightUnit);
+window.addEventListener('resize', handleVisualHeightUnit)
