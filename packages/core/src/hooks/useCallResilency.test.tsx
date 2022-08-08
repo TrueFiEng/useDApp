@@ -105,9 +105,12 @@ describe('useCall Resilency tests', () => {
             await ganacheServers[0].listen(18800)
             await ganacheServers[1].listen(18801)
 
+            const provider1 = new providers.StaticJsonRpcProvider('http://localhost:18800')
+            const provider2 = new providers.StaticJsonRpcProvider('http://localhost:18801')
+
             miners = [
-              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18800')),
-              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18801')),
+              new Wallet(defaultAccounts[0].secretKey, provider1),
+              new Wallet(defaultAccounts[0].secretKey, provider2),
             ]
 
             const multicall0 = await deployContract(miners[0], multicall2ABI)
@@ -116,8 +119,8 @@ describe('useCall Resilency tests', () => {
             config = {
               readOnlyChainId: 1337,
               readOnlyUrls: {
-                [1337]: new providers.StaticJsonRpcProvider('http://localhost:18800'),
-                [31337]: new providers.StaticJsonRpcProvider('http://localhost:18801'),
+                [1337]: provider1,
+                [31337]: provider2,
               },
               pollingInterval: 200,
               multicallAddresses: {
