@@ -58,7 +58,10 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
     () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
     [networks, multicallVersion]
   )
-  const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
+  const multicallAddressesMerged = useMemo(() => ({ ...defaultAddresses, ...multicallAddresses }), [
+    defaultAddresses,
+    multicallAddresses,
+  ])
 
   return (
     <ConnectorContextProvider>

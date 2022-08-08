@@ -3,7 +3,7 @@ import { defaultAccounts, deployContract } from 'ethereum-waffle'
 import { Config, doublerContractABI, reverterContractABI } from '../constants'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { useBlockMeta, useCall, useEthers } from '../hooks'
-import { renderDAppHook, setupTestingConfig } from '../testing'
+import { renderDAppHook, setupTestingConfig, sleep } from '../testing'
 
 import { constants, providers, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
@@ -105,9 +105,12 @@ describe('useCall Resilency tests', () => {
             await ganacheServers[0].listen(18800)
             await ganacheServers[1].listen(18801)
 
+            const provider1 = new providers.StaticJsonRpcProvider('http://localhost:18800')
+            const provider2 = new providers.StaticJsonRpcProvider('http://localhost:18801')
+
             miners = [
-              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18800')),
-              new Wallet(defaultAccounts[0].secretKey, new providers.StaticJsonRpcProvider('http://localhost:18801')),
+              new Wallet(defaultAccounts[0].secretKey, provider1),
+              new Wallet(defaultAccounts[0].secretKey, provider2),
             ]
 
             const multicall0 = await deployContract(miners[0], multicall2ABI)
@@ -116,8 +119,8 @@ describe('useCall Resilency tests', () => {
             config = {
               readOnlyChainId: 1337,
               readOnlyUrls: {
-                [1337]: 'http://localhost:18800',
-                [31337]: 'http://localhost:18801',
+                [1337]: provider1,
+                [31337]: provider2,
               },
               pollingInterval: 200,
               multicallAddresses: {
@@ -198,6 +201,51 @@ describe('useCall Resilency tests', () => {
             expect(result.current.firstChainBlockNumber).to.be.equal(1)
             expect(result.current.secondChainBlockNumber).to.be.equal(2)
             expect(result.current.chainId).to.be.equal(1337)
+          })
+
+          it('Does not do duplicate polls for data', async () => {
+            const { result, waitForCurrent, rerender } = await renderDAppHook(
+              () => {
+                const { chainId, error } = useEthers()
+                const { blockNumber: firstChainBlockNumber } = useBlockMeta({ chainId: 1337 })
+                return { chainId, firstChainBlockNumber, error }
+              },
+              {
+                config: {
+                  readOnlyChainId: config.readOnlyChainId,
+                  readOnlyUrls: {
+                    [1337]: config.readOnlyUrls![1337],
+                  },
+                  multicallAddresses: {
+                    [1337]: config.multicallAddresses![1337],
+                  },
+                  pollingInterval: 500,
+                },
+              }
+            )
+            await waitForCurrent((val) => val.chainId !== undefined && val.firstChainBlockNumber !== undefined)
+            expect(result.error).to.be.undefined
+
+            const calls: string[] = []
+
+            const originalCall: providers.StaticJsonRpcProvider['call'] = (config.readOnlyUrls![1337] as any).call
+            ;(config.readOnlyUrls![1337] as any).call = async function (...args: any[]): Promise<any> {
+              if (args[1] === 2) {
+                // In this test, let's take a look at calls made for blockNumber 2.
+                calls.push(JSON.stringify(args))
+              }
+              return await originalCall.apply(config.readOnlyUrls![1337], args as any)
+            }
+
+            await miners[0].sendTransaction({ to: constants.AddressZero })
+            rerender()
+            await sleep(1000)
+
+            await miners[0].sendTransaction({ to: constants.AddressZero })
+            rerender()
+            await sleep(1000)
+
+            expect(calls.length).to.eq(1)
           })
         })
       })
