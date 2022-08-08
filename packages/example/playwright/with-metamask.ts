@@ -215,7 +215,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
       it.only('Switches accounts', async () => {
         const wallet = Wallet.createRandom()
-        await metamask.addAccount(wallet.privateKey)
+        await metamask.addAccount(wallet.privateKey, [page])
 
         await page.goto(`${baseUrl}balance`)
 
@@ -250,22 +250,24 @@ export const withMetamaskTest = (baseUrl: string) => {
         }
 
         await waitForExpect(async () => {
-          const { balance } = await getAccountAndBalance()
+          const { address, balance } = await getAccountAndBalance()
+          expect(address).to.be.eq(wallet.address)
           expect(balance).to.be.eq(0)
         })
 
         await metamask.switchToNetwork('Localhost 8545')
 
         await waitForExpect(async () => {
-          const { balance } = await getAccountAndBalance()
+          const { address, balance } = await getAccountAndBalance()
+          expect(address).to.be.eq(wallet.address)
           expect(balance).to.be.eq(0)
         })
 
-        await metamask.addAccount(defaultAccounts[1].secretKey)
+        await metamask.addAccount(defaultAccounts[1].secretKey, [page])
 
         await waitForExpect(async () => {
           const wallet = new Wallet(defaultAccounts[1].secretKey)
-          const { balance, address } = await getAccountAndBalance()
+          const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           const currentBalance = await wallet.getBalance()
           expect(balance).to.be.eq(currentBalance)
