@@ -32,12 +32,13 @@ export function Balance() {
             )}
             {account && (
               <ContentRow>
-                <Label>Account:</Label> <TextInline id='balance-page-account'>{account}</TextInline>
+                <Label>Account:</Label> <TextInline id="balance-page-account">{account}</TextInline>
               </ContentRow>
             )}
             {userBalance && (
               <ContentRow>
-                <Label>Ether balance:</Label> <TextInline id='balance-page-balance'>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
+                <Label>Ether balance:</Label>{' '}
+                <TextInline id="balance-page-balance">{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
               </ContentRow>
             )}
           </ContentBlock>

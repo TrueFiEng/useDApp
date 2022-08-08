@@ -24,6 +24,6 @@ export const waitForPageToClose = async (page: Page, timeout = 10000) => {
       if (!page.isClosed()) return
       clearInterval(intervalId)
       resolve()
-    } , 100)
+    }, 100)
   })
 }

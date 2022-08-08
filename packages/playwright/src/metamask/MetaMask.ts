@@ -46,7 +46,7 @@ export class MetaMask {
 
       const connectPagePromise = waitForPopup(page.context())
 
-      page.evaluate(`
+      void page.evaluate(`
         window.ethereum
           .request({
             method: 'wallet_requestPermissions',

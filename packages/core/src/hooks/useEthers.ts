@@ -74,7 +74,7 @@ export function useEthers(): Web3Ethers {
   const [activeConnectorAccount, setActiveConnectorAccount] = useState<string | undefined>()
 
   const setActiveConnectorAccountAddress = useCallback(() => {
-    if ( activeConnector?.accounts[0] ) {
+    if (activeConnector?.accounts[0]) {
       setActiveConnectorAccount(getAddress(activeConnector.accounts[0]))
       return
     }

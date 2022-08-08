@@ -2,7 +2,15 @@ import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args, waitForPopup, waitForPageToClose } from '@usedapp/playwright'
+import {
+  slowMo,
+  XPath,
+  addPageDiagnostics,
+  MetaMask,
+  metamaskChromeArgs as args,
+  waitForPopup,
+  waitForPageToClose,
+} from '@usedapp/playwright'
 import { BigNumber, utils, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
 import { defaultAccounts } from 'ethereum-waffle'
@@ -44,7 +52,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         accounts: defaultAccounts,
         logging: {
           quiet: true,
-        }
+        },
       })
       await server.listen(8545)
       log('Ganache server started')
@@ -223,7 +231,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
 
-      it.only('Switches accounts', async () => {
+      it('Switches accounts', async () => {
         const wallet = Wallet.createRandom()
         log('Adding a clear account to the wallet...')
         await metamask.addAccount(wallet.privateKey, [page])
@@ -283,10 +291,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         log('Checking account with some funds on it on local network...')
         await waitForExpect(async () => {
-          const wallet = new Wallet(
-            defaultAccounts[1].secretKey,
-            new JsonRpcProvider('http://localhost:8545')
-          )
+          const wallet = new Wallet(defaultAccounts[1].secretKey, new JsonRpcProvider('http://localhost:8545'))
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           const currentBalance = await wallet.getBalance()
