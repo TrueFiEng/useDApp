@@ -4,7 +4,7 @@ import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
 import { validateArguments } from '../helpers/validateArgument'
 import { ConnectorContext, ConnectorController, useNetwork } from '../providers'
 import { useConfig, useReadonlyNetwork } from '../hooks'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useCallback } from 'react'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -71,6 +71,15 @@ export function useEthers(): Web3Ethers {
 
   const { activeConnector } = useContext(ConnectorContext)!
   const [activeConnectorChainId, setActiveConnectorChainId] = useState<number | undefined>()
+  const [activeConnectorAccount, setActiveConnectorAccount] = useState<string | undefined>()
+
+  const setActiveConnectorAccountAddress = useCallback(() => {
+    if ( activeConnector?.accounts[0] ) {
+      setActiveConnectorAccount(getAddress(activeConnector.accounts[0]))
+      return
+    }
+    setActiveConnectorAccount(undefined)
+  }, [activeConnector])
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
@@ -82,8 +91,10 @@ export function useEthers(): Web3Ethers {
   useEffect(() => {
     if (activeConnector) {
       setActiveConnectorChainId(activeConnector.chainId)
+      setActiveConnectorAccountAddress()
       const onUpdate = ({ chainId }: { chainId: number }) => {
         setActiveConnectorChainId(chainId)
+        setActiveConnectorAccountAddress()
       }
       activeConnector.on('update', onUpdate)
       return () => {
@@ -137,13 +148,11 @@ export function useEthers(): Web3Ethers {
     }
   }
 
-  const account = activeConnector?.accounts[0] ? getAddress(activeConnector?.accounts[0]) : undefined
-
   return {
     connector: activeConnector,
     library: provider,
     chainId,
-    account,
+    account: activeConnectorAccount,
     active: !!activeConnector,
     activate: async (providerOrConnector: SupportedProviders | { tag: string }) => {
       if ('getProvider' in providerOrConnector) {

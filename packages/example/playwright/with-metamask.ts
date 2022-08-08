@@ -6,6 +6,7 @@ import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args
 import { BigNumber, utils, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
 import { defaultAccounts } from 'ethereum-waffle'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 const log = debug('usedapp:example:playwright')
 
@@ -259,7 +260,7 @@ export const withMetamaskTest = (baseUrl: string) => {
           return { balance, address }
         }
 
-        log('Checking the newly created account...')
+        log('Checking newly created account...')
         await waitForExpect(async () => {
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
@@ -270,7 +271,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         await metamask.switchToNetwork('Localhost 8545')
         log('Switched to local network.')
 
-        log('Checking the newly created account on local network...')
+        log('Checking newly created account on local network...')
         await waitForExpect(async () => {
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
@@ -280,9 +281,12 @@ export const withMetamaskTest = (baseUrl: string) => {
         log('Adding account with some funds on it...')
         await metamask.addAccount(defaultAccounts[1].secretKey, [page])
 
-        log('Checking the account with some funds on it on local network...')
+        log('Checking account with some funds on it on local network...')
         await waitForExpect(async () => {
-          const wallet = new Wallet(defaultAccounts[1].secretKey)
+          const wallet = new Wallet(
+            defaultAccounts[1].secretKey,
+            new JsonRpcProvider('http://localhost:8545')
+          )
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           const currentBalance = await wallet.getBalance()
