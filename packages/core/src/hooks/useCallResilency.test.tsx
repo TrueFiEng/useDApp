@@ -3,7 +3,7 @@ import { defaultAccounts, deployContract } from 'ethereum-waffle'
 import { Config, doublerContractABI, reverterContractABI } from '../constants'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { useBlockMeta, useCall, useEthers } from '../hooks'
-import { renderDAppHook, setupTestingConfig } from '../testing'
+import { renderDAppHook, setupTestingConfig, sleep } from '../testing'
 
 import { constants, providers, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
@@ -116,8 +116,8 @@ describe('useCall Resilency tests', () => {
             config = {
               readOnlyChainId: 1337,
               readOnlyUrls: {
-                [1337]: 'http://localhost:18800',
-                [31337]: 'http://localhost:18801',
+                [1337]: new providers.StaticJsonRpcProvider('http://localhost:18800'),
+                [31337]: new providers.StaticJsonRpcProvider('http://localhost:18801'),
               },
               pollingInterval: 200,
               multicallAddresses: {
@@ -198,6 +198,67 @@ describe('useCall Resilency tests', () => {
             expect(result.current.firstChainBlockNumber).to.be.equal(1)
             expect(result.current.secondChainBlockNumber).to.be.equal(2)
             expect(result.current.chainId).to.be.equal(1337)
+          })
+
+          it.only('Does not poll too frequently', async () => {
+            
+            const { result, waitForCurrent, rerender } = await renderDAppHook(() => {
+              const { chainId, error } = useEthers()
+              const { blockNumber: firstChainBlockNumber } = useBlockMeta({ chainId: 1337 })
+              const { blockNumber: secondChainBlockNumber } = useBlockMeta({ chainId: 31337 })
+              return { chainId, secondChainBlockNumber, firstChainBlockNumber, error }
+            }, {
+              config: {
+                ...config,
+                pollingInterval: 500,
+              },
+            })
+            await waitForCurrent(
+              (val) =>
+                val.chainId !== undefined &&
+                val.secondChainBlockNumber !== undefined &&
+                val.firstChainBlockNumber !== undefined
+            )
+            expect(result.error).to.be.undefined;
+
+            await sleep(1000)
+
+            const calls: string[] = []
+
+            const originalCall: providers.StaticJsonRpcProvider['call'] = (config.readOnlyUrls![1337] as any).call;
+            (config.readOnlyUrls![1337] as any).call = async function (...args: any[]): Promise<any> {
+              console.log('we have a call', {args})
+              if (args[1] === 2) {
+                // In this test, let's take a look at calls made for blockNumber 2.
+                calls.push(JSON.stringify(args))
+              }
+              return await originalCall.apply(config.readOnlyUrls![1337], args as any)
+            }
+
+            const originalBN: providers.StaticJsonRpcProvider['getBlockNumber'] = (config.readOnlyUrls![1337] as any).getBlockNumber;
+            (config.readOnlyUrls![1337] as any).originalBN = async function (...args: any[]): Promise<any> {
+              console.log('we have a getBlockNumber', {args})
+              return await originalBN.apply(config.readOnlyUrls![1337], args as any)
+            }
+
+            await miners[0].sendTransaction({ to: constants.AddressZero })
+            rerender()
+            
+            await sleep(1000)
+
+            await miners[0].sendTransaction({ to: constants.AddressZero })
+            rerender()
+            
+            await sleep(1000)
+
+            console.log({calls})
+            expect(calls.length).to.eq(1)
+
+            // we have duplicate calls.
+            // Next steps:
+            // Gather the calls into an array, have a red test that there are duplicates (e.g. same data, for block number 2)
+            // then look for the cause of the calls.
+
           })
         })
       })
