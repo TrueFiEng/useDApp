@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Mainnet, MetamaskConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
+import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Localhost, Mainnet, MetamaskConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 declare global {
@@ -28,6 +28,7 @@ const config: Config = {
     [Ropsten.chainId]: getDefaultProvider('ropsten'),
     [Kovan.chainId]: getDefaultProvider('kovan'),
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+    [Localhost.chainId]: 'http://localhost:8545',
   },
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,

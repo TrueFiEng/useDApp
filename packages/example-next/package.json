@@ -25,6 +25,7 @@
     "@types/styled-components": "^5.1.7",
     "eslint": "7.22.0",
     "eslint-config-next": "12.1.6",
+    "ethereum-waffle": "4.0.0-alpha.27",
     "mocha": "^8.2.1",
     "typescript": "^4.6.2"
   }
