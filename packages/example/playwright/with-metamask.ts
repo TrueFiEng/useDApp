@@ -38,6 +38,7 @@ export const withMetamaskTest = (baseUrl: string) => {
     }
 
     const startGanache = async () => {
+      log('Starting local Ganache server...')
       server = Ganache.server({
         accounts: defaultAccounts,
         logging: {
@@ -45,6 +46,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         }
       })
       await server.listen(8545)
+      log('Ganache server started')
     }
 
     const stopGanache = () => server.close()
@@ -70,16 +72,23 @@ export const withMetamaskTest = (baseUrl: string) => {
       await popupPage.click(XPath.text('button', 'Connect'))
       log('Metamask connected to the app.')
 
+      log('Adding an account with some funds to be able to deploy multicall contract...')
       await metamask.addAccount(defaultAccounts[0].secretKey, [page])
 
+      log('Swtiching to local network to deploy multicall...')
+      const txConfirmPagePromise = waitForPopup(context)
       await metamask.switchToNetwork('Localhost 8545')
 
-      const txConfirmPagePromise = waitForPopup(context)
+      log('Waiting for the multicall deployment confirmation popup...')
       const txConfirmPage = await txConfirmPagePromise
+      log('Confirming multicall deployment...')
       await txConfirmPage.click(XPath.text('button', 'Confirm'))
       await waitForPageToClose(txConfirmPage)
+      log('Waiting for the multicall address to propagate through the app...')
       await page.waitForSelector(XPath.text('h1', 'Balance'))
+      log('Multicall contract deployed.')
 
+      log('Switching back to the Mainnet..')
       await metamask.switchToNetwork('Ethereum Mainnet')
     })
 
@@ -215,6 +224,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
       it.only('Switches accounts', async () => {
         const wallet = Wallet.createRandom()
+        log('Adding a clear account to the wallet...')
         await metamask.addAccount(wallet.privateKey, [page])
 
         await page.goto(`${baseUrl}balance`)
@@ -249,22 +259,28 @@ export const withMetamaskTest = (baseUrl: string) => {
           return { balance, address }
         }
 
+        log('Checking the newly created account...')
         await waitForExpect(async () => {
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           expect(balance).to.be.eq(0)
         })
 
+        log('Switching to local network...')
         await metamask.switchToNetwork('Localhost 8545')
+        log('Switched to local network.')
 
+        log('Checking the newly created account on local network...')
         await waitForExpect(async () => {
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           expect(balance).to.be.eq(0)
         })
 
+        log('Adding account with some funds on it...')
         await metamask.addAccount(defaultAccounts[1].secretKey, [page])
 
+        log('Checking the account with some funds on it on local network...')
         await waitForExpect(async () => {
           const wallet = new Wallet(defaultAccounts[1].secretKey)
           const { address, balance } = await getAccountAndBalance()
