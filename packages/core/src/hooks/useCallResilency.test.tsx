@@ -145,16 +145,7 @@ describe('useCall Resilency tests', () => {
                 return { chainId, secondChainBlockNumber, firstChainBlockNumber, error }
               },
               {
-                config: {
-                  readOnlyChainId: config.readOnlyChainId,
-                  readOnlyUrls: {
-                    [1337]: config.readOnlyUrls![1337],
-                  },
-                  pollingInterval: 200,
-                  multicallAddresses: {
-                    [1337]: config.multicallAddresses![1337],
-                  },
-                },
+                config,
               }
             )
 
