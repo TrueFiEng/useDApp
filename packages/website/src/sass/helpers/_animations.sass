@@ -72,3 +72,38 @@
     transform: scale(1.25)
   100%
     transform: scale(1)
+
+@keyframes animateTerminalCursor
+  0%
+    opacity: 1
+  50%
+    opacity: 0
+  100%
+    opacity: 1
+
+@keyframes animateLoaderRotation
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+@keyframes animateLoaderDash
+  0%
+    stroke-dasharray: 1, 150
+    stroke-dashoffset: 0
+
+  50%
+    stroke-dasharray: 90, 150
+    stroke-dashoffset: -35
+
+  100%
+    stroke-dasharray: 90, 150
+    stroke-dashoffset: -124
+
+@keyframes animateTerminalNotification
+  0%
+    opacity: 0
+    transform: translate(-50%, -40%)
+  100%
+    opacity: 1
+    transform: translate(-50%, -50%)

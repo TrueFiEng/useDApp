@@ -63,11 +63,74 @@ header.addEventListener('click', (event) => {
   }
 })
 
-// start terminals toggle
+// start terminals action
 
 const startHeader = body.querySelector('.start__header')
 const startTriggers = startHeader.querySelectorAll('.start__button')
 const startTerminals = body.querySelectorAll('.start__terminal')
+const npmTerminal = body.querySelector('.start__terminal[data-start-terminal="npm"]')
+const boilerplateTerminal = body.querySelector('.start__terminal[data-start-terminal="boilerplate"]')
+
+const showTerminalResult = (terminal) => {
+  terminal.querySelector('.terminal__result').classList.add('terminal__result--active')
+  terminal.querySelector('.typed-cursor').classList.add('terminal__cursor--hidden')
+  terminal.querySelector('.terminal__spinner').classList.add('terminal__spinner--active')
+  const decorationTimeout = setTimeout(() => {
+    terminal.querySelector('.terminal__spinner').classList.remove('terminal__spinner--active')
+    terminal.querySelector('.terminal__notification').classList.add('terminal__notification--active')
+    const terminalConfetti = confetti.create(terminal.querySelector('.terminal__confetti'), { resize: true })
+    terminalConfetti({
+      angle: 360,
+      spread: 360,
+      particleCount: 500,
+      origin: { x: 0.5, y: 1, }
+    })
+  }, 1500)
+}
+
+const terminalsSection = body.querySelector('.start__terminals')
+
+const terminalsObserverOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.2,
+}
+
+const typeNpmTerminal = new Typed(npmTerminal.querySelector('.terminal__prompt'), {
+  strings: ['npm i @usedapp/core ethers'],
+  typeSpeed: 40,
+  onStringTyped: (pos, self) => showTerminalResult(npmTerminal),
+  cursorChar: '|'
+})
+
+const typeBoilerplateTerminal = new Typed(boilerplateTerminal.querySelector('.terminal__prompt'), {
+  strings: ['yarn create eth-app dapp'],
+  typeSpeed: 40,
+  onStringTyped: (pos, self) => showTerminalResult(boilerplateTerminal),
+  cursorChar: '|'
+})
+
+typeNpmTerminal.reset()
+typeNpmTerminal.stop()
+typeBoilerplateTerminal.reset()
+typeBoilerplateTerminal.stop()
+
+let firstEntry = true
+
+function scrollEvents(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (firstEntry !== false) {
+        typeNpmTerminal.reset()
+        typeNpmTerminal.start()
+      }
+      firstEntry = false
+    }
+  })
+}
+
+const terminalsScrollObserver = new IntersectionObserver(scrollEvents, terminalsObserverOptions)
+terminalsScrollObserver.observe(terminalsSection)
 
 startHeader.addEventListener('click', (event) => {
   startTriggers.forEach((button) => button.classList.remove('start__button--active'))
@@ -76,6 +139,9 @@ startHeader.addEventListener('click', (event) => {
     terminal.classList.remove('start__terminal--active')
     if (terminal.dataset.startTerminal === event.target.dataset.startTerminal) {
       terminal.classList.add('start__terminal--active')
+      if (event.target.dataset.startTerminal === 'boilerplate') {
+        typeBoilerplateTerminal.start()
+      }
     }
   })
 })
