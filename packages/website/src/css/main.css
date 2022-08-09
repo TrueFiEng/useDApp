@@ -1558,7 +1558,6 @@ body.body--menu-open .header__burger-lines::after {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  margin: 0 auto;
 }
 @media (max-width: 1200px) {
   .hero {
@@ -1567,6 +1566,7 @@ body.body--menu-open .header__burger-lines::after {
        -moz-column-gap: 24px;
             column-gap: 24px;
     row-gap: 16px;
+    margin: 0 auto;
   }
 }
 @media (max-width: 600px) {
