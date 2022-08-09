@@ -51,6 +51,6 @@ export class WalletConnectConnector implements Connector {
   }
 
   async deactivate(): Promise<void> {
-    return
+    this.onUpdate?.({ chainId: 0, accounts: [] })
   }
 }
