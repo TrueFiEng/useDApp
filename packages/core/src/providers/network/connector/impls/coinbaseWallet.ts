@@ -47,7 +47,7 @@ export class CoinbaseWalletConnector implements Connector {
       return
     }
     const chainId: string = await this.provider!.send('eth_chainId', [])
-    const accounts: string[] = await this.provider!.send('eth_accounts', [])
+    const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
     this.onUpdate?.({ chainId: parseInt(chainId), accounts })
   }
 
