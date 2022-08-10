@@ -2626,14 +2626,11 @@ body.body--menu-open .header__burger-lines::after {
 
 .integration__editor-container {
   max-width: 608px;
-  -webkit-border-radius: 8px;
-          border-radius: 8px;
   -webkit-filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
           filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
   -webkit-transform: translate(10%, -15%);
       -ms-transform: translate(10%, -15%);
           transform: translate(10%, -15%);
-  overflow: hidden;
 }
 @media (max-width: 1200px) {
   .integration__editor-container {
@@ -2658,6 +2655,9 @@ body.body--menu-open .header__burger-lines::after {
      object-fit: cover;
   max-width: 100%;
   max-height: 100%;
+  -webkit-border-radius: 8px;
+          border-radius: 8px;
+  overflow: hidden;
 }
 
 .integration__video-container {
