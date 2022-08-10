@@ -72,7 +72,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
         await connector.activate()
         const connectorProvider = connector.getProvider()
         if (connectorProvider) {
-          (connectorProvider as any).pollingInterval = getPollingInterval(connector.chainId)
+          ;(connectorProvider as any).pollingInterval = getPollingInterval(connector.chainId)
         }
       }
 
