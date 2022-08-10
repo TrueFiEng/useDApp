@@ -37,4 +37,4 @@ function throwUnhandledRejection(error: Error) {
 /**
  * Like setImmediate but for async/await API. Useful for preserving stack-traces.
  */
-const waitImmediate = () => new Promise((resolve) => setImmediate(resolve))
+const waitImmediate = () => new Promise((resolve) => setTimeout(resolve))
