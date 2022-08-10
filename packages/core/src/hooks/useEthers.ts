@@ -92,14 +92,11 @@ export function useEthers(): Web3Ethers {
     if (activeConnector) {
       setActiveConnectorChainId(activeConnector.chainId)
       setActiveConnectorAccountAddress()
-      const onUpdate = ({ chainId }: { chainId: number }) => {
+      const unsub = activeConnector.updated.on(({ chainId }) => {
         setActiveConnectorChainId(chainId)
         setActiveConnectorAccountAddress()
-      }
-      activeConnector.on('update', onUpdate)
-      return () => {
-        activeConnector.off('update', onUpdate)
-      }
+      })
+      return unsub
     }
   }, [activeConnector])
 

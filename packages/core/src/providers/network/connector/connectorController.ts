@@ -1,14 +1,15 @@
 import { providers } from 'ethers'
-import { EventEmitter } from 'events'
+import { Event } from '../../../helpers/event'
 import { Connector } from './connector'
 
-export class ConnectorController extends EventEmitter {
+export class ConnectorController {
+  readonly updated = new Event<{ chainId: number; accounts: string[] }>()
+
   constructor(public readonly connector: Connector) {
-    super()
     connector.onUpdate = ({ chainId, accounts }) => {
       this.chainId = chainId
       this.accounts = accounts
-      this.emit('update', { chainId, accounts })
+      this.updated.emit({ chainId, accounts })
       // controller is to be removed
     }
 
