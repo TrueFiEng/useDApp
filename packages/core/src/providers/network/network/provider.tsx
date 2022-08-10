@@ -20,13 +20,18 @@ interface NetworkProviderProps {
  * @internal Intended for internal use - use it on your own risk
  */
 export function NetworkProvider({ children, providerOverride }: NetworkProviderProps) {
-  const { autoConnect } = useConfig()
+  const { autoConnect, pollingIntervals, pollingInterval } = useConfig()
 
   const [network, dispatch] = useReducer(networkReducer, defaultNetworkState)
   const [onUnsubscribe, setOnUnsubscribe] = useState<() => void>(() => () => undefined)
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('autoConnectTag')
   const [isLoading, setLoading] = useState(false)
   const { connectors, setActiveConnectorTag, activeConnector, addConnector } = useContext(ConnectorContext)!
+
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+    pollingInterval,
+    pollingIntervals,
+  ])
 
   const reportError = useCallback((error: Error) => {
     console.error(error)
@@ -65,6 +70,10 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
 
       if (!connector.active) {
         await connector.activate()
+        const connectorProvider = connector.getProvider()
+        if (connectorProvider) {
+          (connectorProvider as any).pollingInterval = getPollingInterval(connector.chainId)
+        }
       }
 
       onUnsubscribe()
