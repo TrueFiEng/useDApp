@@ -1805,7 +1805,7 @@ body.body--menu-open .header__burger-lines::after {
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/img/backgrounds/hero__background.png");
+  background-image: url("/img/backgrounds/hero__background.jpg");
   -webkit-background-size: 100% auto;
           background-size: 100% auto;
   background-repeat: no-repeat;
@@ -1824,7 +1824,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 @media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
   .section--hero::before {
-    background-image: url("/img/backgrounds/hero__background@2x.png");
+    background-image: url("/img/backgrounds/hero__background@2x.jpg");
   }
 }
 
@@ -2273,7 +2273,7 @@ body.body--menu-open .header__burger-lines::after {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/img/backgrounds/start__background.png");
+  background-image: url("/img/backgrounds/start__background.jpg");
   -webkit-background-size: auto 100%;
           background-size: auto 100%;
   background-repeat: no-repeat;
@@ -2288,7 +2288,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 @media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
   .section--start::before {
-    background-image: url("/img/backgrounds/start__background@2x.png");
+    background-image: url("/img/backgrounds/start__background@2x.jpg");
   }
 }
 
@@ -2882,7 +2882,7 @@ body.body--menu-open .header__burger-lines::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/img/backgrounds/features__background.png");
+  background-image: url("/img/backgrounds/features__background.jpg");
   -webkit-background-size: auto 100%;
           background-size: auto 100%;
   background-repeat: no-repeat;
@@ -2903,7 +2903,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 @media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
   .section--features::before {
-    background-image: url("/img/backgrounds/features__background@2x.png");
+    background-image: url("/img/backgrounds/features__background@2x.jpg");
   }
 }
 
