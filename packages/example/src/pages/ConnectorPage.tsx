@@ -1,5 +1,5 @@
 import React from 'react'
-import { MetamaskConnector, WalletConnectConnector, CoinbaseWalletConnector, InjectedConnector } from '@usedapp/core'
+import { MetamaskConnector, WalletConnectConnector, CoinbaseWalletConnector, InjectedConnector, PortisConnector } from '@usedapp/core'
 import { Container, MainContent, Section } from '../components/base/base'
 import { SingleConnector } from '../components/connectors/SingleConnector'
 
@@ -13,6 +13,7 @@ export const ConnectorPage = () => {
             <SingleConnector name="WalletConnect" connectorClass={WalletConnectConnector} />
             <SingleConnector name="Coinbase" connectorClass={CoinbaseWalletConnector} />
             <SingleConnector name="Injected" connectorClass={InjectedConnector} />
+            <SingleConnector name="Portis" connectorClass={PortisConnector} />
           </Section>
         </Container>
       </MainContent>

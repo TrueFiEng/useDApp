@@ -20,11 +20,9 @@
     "@coinbase/wallet-sdk": "^3.3.0",
     "@metamask/detect-provider": "^1.2.0",
     "@portis/web3": "^4.0.7",
-    "@toruslabs/torus-embed": "^1.27.0",
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "@walletconnect/web3-provider": "^1.7.8",
     "fetch-mock": "^9.11.0",
-    "fortmatic": "^2.4.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
     "nanoid": "3.3.4"

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Localhost, Mainnet, MetamaskConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
+import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Localhost, Mainnet, MetamaskConnector, PortisConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 declare global {
@@ -9,10 +9,13 @@ declare global {
   }
 }
 
+const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
+
 const connectors: Connector[] = [
   new MetamaskConnector(),
   new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
   new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+  new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1)
 ]
 
 if (typeof window !== "undefined") {
@@ -46,7 +49,6 @@ interface Props {
 }
 
 export function Providers(props: Props) {
-  console.log({ config })
   return (
     <DAppProvider config={config}>
       <Layout>{props.children}</Layout>

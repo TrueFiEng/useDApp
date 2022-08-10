@@ -46,6 +46,7 @@ export {
   MetamaskConnector,
   WalletConnectConnector,
   CoinbaseWalletConnector,
+  PortisConnector,
   InjectedConnector,
 } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'

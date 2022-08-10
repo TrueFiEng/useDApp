@@ -13,6 +13,7 @@
   "dependencies": {
     "@usedapp/core": "workspace:*",
     "@usedapp/example": "workspace:*",
+    "encoding": "^0.1.13",
     "next": "12.1.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",

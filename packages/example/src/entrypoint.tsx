@@ -10,6 +10,7 @@ import {
   WalletConnectConnector,
   MetamaskConnector,
   CoinbaseWalletConnector,
+  PortisConnector,
   InjectedConnector,
   Connector,
   Localhost,
@@ -17,10 +18,13 @@ import {
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
 
+const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
+
 const connectors: Connector[] = [
   new MetamaskConnector(),
   new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
   new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+  new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
 ]
 
 if (window.ethereum) {
