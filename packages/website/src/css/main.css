@@ -162,24 +162,6 @@ button {
             mask-position: 100% 50%;
   }
 }
-@-webkit-keyframes animateHeroStroke {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes animateHeroStroke {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-  }
-}
 @-webkit-keyframes animateHeroEthereumTop {
   0% {
     -webkit-transform: translateY(0%);
@@ -2011,11 +1993,9 @@ body.body--menu-open .header__burger-lines::after {
           transform-origin: 50% 50%;
   stroke-linecap: round;
   stroke-linejoin: miter;
-}
-
-.hero__ethereum .hero__ethereum-line {
-  -webkit-animation: animateHeroStroke 1.5s ease forwards;
-          animation: animateHeroStroke 1.5s ease forwards;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .hero__ethereum-top {
@@ -2031,11 +2011,6 @@ body.body--menu-open .header__burger-lines::after {
 .hero__react-wrapper {
   -webkit-animation: animateHeroReactImage 10s linear infinite;
           animation: animateHeroReactImage 10s linear infinite;
-}
-
-.hero__react .hero__react-line {
-  -webkit-animation: animateHeroStroke 1s ease forwards;
-          animation: animateHeroStroke 1s ease forwards;
 }
 
 .hero__react .hero__react-circle {
@@ -2720,6 +2695,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .integration__video {
+  min-width: 100%;
   width: 100%;
   max-width: 100%;
   height: 100%;
@@ -3104,6 +3080,7 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .features__video {
+  min-width: 100%;
   width: 100%;
   max-width: 100%;
   height: 100%;

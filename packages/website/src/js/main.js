@@ -29,15 +29,46 @@ const reactIllustration = body.querySelector('.hero__react')
 
 ethereumIllustration.querySelectorAll('.hero__ethereum .hero__ethereum-line').forEach(
   (item, index) => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes heroEthereumLine${index} {
+        0% {
+          opacity: 0.5;
+          stroke-dashoffset: ${item.getTotalLength() + 1};
+        }
+        100% {
+          opacity: 1;
+          stroke-dashoffset: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
     item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
     item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
+    item.style.setProperty('animation', `heroEthereumLine${index} 1.5s ease forwards`)
     item.style.setProperty('animation-delay', `${10 * index / 100}s`)
   }
 )
+
 reactIllustration.querySelectorAll('.hero__react .hero__react-line').forEach(
   (item, index) => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes heroReactLine${index} {
+        0% {
+          opacity: 0.5;
+          stroke-dashoffset: ${item.getTotalLength() + 1};
+        }
+        100% {
+          opacity: 1;
+          stroke-dashoffset: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
     item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
     item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
+    item.style.setProperty('animation', `heroReactLine${index} 1.5s ease forwards`)
     item.style.setProperty('animation-delay', `${20 * index / 100}s`)
   }
 )
