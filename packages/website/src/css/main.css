@@ -1823,15 +1823,10 @@ body.body--menu-open .header__burger-lines::after {
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: -webkit-radial-gradient(at 70% 20%, #FA6069 0px, transparent 52%), -webkit-radial-gradient(at 45% -20%, #0038FF 0px, transparent 50%), -webkit-radial-gradient(at 25% 0%, #7F30FF 0px, transparent 50%);
-  background-image: -o-radial-gradient(at 70% 20%, #FA6069 0px, transparent 52%), -o-radial-gradient(at 45% -20%, #0038FF 0px, transparent 50%), -o-radial-gradient(at 25% 0%, #7F30FF 0px, transparent 50%);
-  background-image: radial-gradient(at 70% 20%, #FA6069 0px, transparent 52%), radial-gradient(at 45% -20%, #0038FF 0px, transparent 50%), radial-gradient(at 25% 0%, #7F30FF 0px, transparent 50%);
-  -webkit-filter: blur(150px);
-          filter: blur(150px);
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
-  opacity: 0.9;
+  background-image: url("/img/backgrounds/hero__background.png");
+  -webkit-background-size: 100% auto;
+          background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 @media (max-width: 1200px) {
   .section--hero {
@@ -1843,6 +1838,11 @@ body.body--menu-open .header__burger-lines::after {
   .section--hero {
     padding-top: 104px;
     padding-bottom: 38px;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
+  .section--hero::before {
+    background-image: url("/img/backgrounds/hero__background@2x.png");
   }
 }
 
@@ -2295,26 +2295,25 @@ body.body--menu-open .header__burger-lines::after {
   content: "";
   position: absolute;
   left: 50%;
-  top: 100%;
-  width: 125%;
+  bottom: 0;
+  width: 100%;
   height: 100%;
-  background-image: -webkit-radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), -webkit-radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), -webkit-radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), -webkit-radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
-  background-image: -o-radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), -o-radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), -o-radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), -o-radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
-  background-image: radial-gradient(at 100% 100%, #7F30FF 0px, transparent 50%), radial-gradient(at 65% 45%, #0038FF 0px, transparent 50%), radial-gradient(at 35% 45%, #FF4880 0px, transparent 50%), radial-gradient(at 0% 100%, #FF8000 0px, transparent 50%);
-  -webkit-background-size: 120% 100%;
-          background-size: 120% 100%;
-  background-position: 50% 50%;
+  background-image: url("/img/backgrounds/start__background.png");
+  -webkit-background-size: auto 100%;
+          background-size: auto 100%;
   background-repeat: no-repeat;
-  -webkit-filter: blur(100px);
-          filter: blur(100px);
-  -webkit-transform: translateX(-50%) translateY(-60%);
-      -ms-transform: translateX(-50%) translateY(-60%);
-          transform: translateX(-50%) translateY(-60%);
-  opacity: 0.9;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 @media (max-width: 1200px) {
   .section--start {
     padding-top: 24px;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
+  .section--start::before {
+    background-image: url("/img/backgrounds/start__background@2x.png");
   }
 }
 
@@ -2903,20 +2902,17 @@ body.body--menu-open .header__burger-lines::after {
 .section--features::before {
   content: "";
   position: absolute;
-  left: 0;
   top: 50%;
-  width: 125%;
-  height: 90%;
-  background-image: -webkit-radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), -webkit-radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
-  background-image: -o-radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), -o-radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
-  background-image: radial-gradient(at 0% 49%, rgba(255, 193, 7, 0.46) 0px, transparent 50%), radial-gradient(at 0% 77%, rgba(255, 193, 7, 0.46) 0px, transparent 50%);
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/img/backgrounds/features__background.png");
+  -webkit-background-size: auto 100%;
+          background-size: auto 100%;
   background-repeat: no-repeat;
-  -webkit-filter: blur(100px);
-          filter: blur(100px);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-      -ms-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
-  opacity: 0.9;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 @media (max-width: 1200px) {
   .section--features {
@@ -2927,6 +2923,11 @@ body.body--menu-open .header__burger-lines::after {
   .section--features {
     padding-top: 80px;
     padding-bottom: 40px;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
+  .section--features::before {
+    background-image: url("/img/backgrounds/features__background@2x.png");
   }
 }
 

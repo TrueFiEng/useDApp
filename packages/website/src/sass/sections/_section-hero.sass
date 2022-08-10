@@ -9,10 +9,9 @@
     top: 0
     width: 100%
     height: 100%
-    background-image: radial-gradient(at 70% 20%, $decoration-gradient-red 0px, transparent 52%), radial-gradient(at 45% -20%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 25% 0%, $decoration-gradient-violet 0px, transparent 50%)
-    filter: blur(150px)
-    transform: translateY(-50%)
-    opacity: 0.9
+    background-image: url('/img/backgrounds/hero__background.png')
+    background-size: 100% auto
+    background-repeat: no-repeat
 
   +media(l)
     padding-top: 128px
@@ -21,6 +20,10 @@
   +media(s)
     padding-top: 104px
     padding-bottom: 38px
+
+  @media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi)
+    &::before
+      background-image: url('/img/backgrounds/hero__background@2x.png')
 
 .hero
   display: grid
