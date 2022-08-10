@@ -21,15 +21,20 @@ if (typeof window !== "undefined") {
   }
 }
 
+const readOnlyUrls: Config['readOnlyUrls'] = {
+  [Mainnet.chainId]: process.env.NEXT_PUBLIC_MAINNET_URL || getDefaultProvider('mainnet'),
+  [Ropsten.chainId]: getDefaultProvider('ropsten'),
+  [Kovan.chainId]: getDefaultProvider('kovan'),
+  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+}
+
+if (process.env.NEXT_PUBLIC_LOCALHOST_URL) {
+  readOnlyUrls[Localhost.chainId] = process.env.NEXT_PUBLIC_LOCALHOST_URL
+}
+
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
-  readOnlyUrls: {
-    [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-    [Ropsten.chainId]: getDefaultProvider('ropsten'),
-    [Kovan.chainId]: getDefaultProvider('kovan'),
-    [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
-    [Localhost.chainId]: 'http://localhost:8545',
-  },
+  readOnlyUrls,
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
@@ -41,6 +46,7 @@ interface Props {
 }
 
 export function Providers(props: Props) {
+  console.log({ config })
   return (
     <DAppProvider config={config}>
       <Layout>{props.children}</Layout>

@@ -46,20 +46,28 @@ jobs:
       - name: Run playwright example
         run: |
           set -e
-          pnpm start &
+          LOCALHOST_URL='http://localhost:8545' pnpm start &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
         working-directory: packages/example
       - name: Run playwright example-next
+        # echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local - couln't figure out how to set env variable the same as in previous section
         run: |
           set -e
+          echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local
+          echo "NEXT_PUBLIC_MAINNET_URL=${MAINNET_URL}" >> .env.local
           pnpm dev &
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*
+        working-directory: packages/example-next
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf .env.local
         working-directory: packages/example-next
   test-docs:
     runs-on: ubuntu-latest
