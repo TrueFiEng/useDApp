@@ -71,6 +71,23 @@ const startTerminals = body.querySelectorAll('.start__terminal')
 const npmTerminal = body.querySelector('.start__terminal[data-start-terminal="npm"]')
 const boilerplateTerminal = body.querySelector('.start__terminal[data-start-terminal="boilerplate"]')
 
+function setupCanvas(canvas) {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return ctx;
+}
+
+const ctx = setupCanvas(document.querySelector('.terminal__confetti'));
+ctx.lineWidth = 5;
+ctx.beginPath();
+ctx.moveTo(100, 100);
+ctx.lineTo(200, 200);
+ctx.stroke();
+
 const showTerminalResult = (terminal) => {
   terminal.querySelector('.terminal__result').classList.add('terminal__result--active')
   terminal.querySelector('.typed-cursor').classList.add('terminal__cursor--hidden')
@@ -83,7 +100,8 @@ const showTerminalResult = (terminal) => {
       angle: 360,
       spread: 360,
       particleCount: 500,
-      origin: { x: 0.5, y: 1, }
+      origin: { x: 0.5, y: 1.2, },
+      useWorker: true,
     })
   }, 1500)
 }
@@ -105,7 +123,7 @@ const typeNpmTerminal = new Typed(npmTerminal.querySelector('.terminal__prompt')
 
 const typeBoilerplateTerminal = new Typed(boilerplateTerminal.querySelector('.terminal__prompt'), {
   strings: ['yarn create eth-app dapp'],
-  typeSpeed: 40,
+  typeSpeed: 45,
   onStringTyped: (pos, self) => showTerminalResult(boilerplateTerminal),
   cursorChar: '|'
 })
@@ -119,12 +137,14 @@ let firstEntry = true
 
 function scrollEvents(entries, observer) {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      if (firstEntry !== false) {
-        typeNpmTerminal.reset()
-        typeNpmTerminal.start()
+    if (entry.intersectionRatio > 0) {
+      if (entry.isIntersecting) {
+        if (firstEntry !== false) {
+          typeNpmTerminal.reset()
+          typeNpmTerminal.start()
+        }
+        firstEntry = false
       }
-      firstEntry = false
     }
   })
 }
