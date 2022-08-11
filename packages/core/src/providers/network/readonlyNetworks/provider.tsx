@@ -59,7 +59,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   useEffect(() => {
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
       const provider = providers[(chainId as unknown) as ChainId]
-      if (provider) {
+      if (provider && !isWebSocketProvider(provider)) {
         provider.polling = isActive && nonStaticCalls > 0
       }
     }
