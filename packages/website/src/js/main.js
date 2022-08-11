@@ -252,4 +252,84 @@ const handleVisualHeightUnit = () => {
 
 handleVisualHeightUnit()
 
-window.addEventListener('resize', handleVisualHeightUnit)
+// videos render
+
+const integrationMobileWidth = '328'
+const integrationMobileHeight = '212'
+const integrationTabletWidth = '480'
+const integrationTabletHeight = '310'
+const integrationDesktopWidth = '600'
+const integrationDesktopHeight = '388'
+
+const featuresMobileWidth = '312'
+const featuresMobileHeight = '212'
+const featuresTabletWidth = '326'
+const featuresTabletHeight = '220'
+const featuresDesktopWidth = '540'
+const featuresDesktopHeight = '366'
+
+const videoTags = body.querySelectorAll('[data-video-tag]')
+
+const handleVideosRender = () => {
+  videoTags.forEach((video) => {
+    const integrationVideo = video.classList.contains('integration__video')
+    const isMobile = window.matchMedia("(max-width: 600px)").matches
+    const isTablet = window.matchMedia("(max-width: 1200px)").matches
+    const videoSizeSuffix = () => {
+      if (isMobile) {
+        return 'mobile'
+      } else if (isTablet) {
+        return 'tablet'
+      } else {
+        return 'desktop'
+      }
+    }
+    const isHighResolutionScreen = window
+      .matchMedia("(-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi)")
+      .matches
+
+    video.innerHTML = `
+    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${isHighResolutionScreen && '@2x'}.webm" type="video/webm">
+    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${isHighResolutionScreen && '@2x'}.mp4" type="video/mp4">
+    `
+
+    if (isMobile) {
+      if (integrationVideo) {
+        video.width = integrationMobileWidth
+        video.height = integrationMobileHeight
+      } else {
+        video.width = featuresMobileWidth
+        video.height = featuresMobileHeight
+      }
+    } else if (isTablet) {
+      if (integrationVideo) {
+        video.width = integrationTabletWidth
+        video.height = integrationTabletHeight
+      } else {
+        video.width = featuresTabletWidth
+        video.height = featuresTabletHeight
+      }
+    } else {
+      if (integrationVideo) {
+        video.width = integrationDesktopWidth
+        video.height = integrationDesktopHeight
+      } else {
+        video.width = featuresDesktopWidth
+        video.height = featuresDesktopHeight
+      }
+    }
+  })
+}
+
+window.addEventListener('load', (event) => {
+  handleVideosRender()
+});
+
+// resize event listener
+
+resizeWindowActions = () => {
+  handleVisualHeightUnit()
+  handleVideosRender()
+}
+
+window.addEventListener('resize', resizeWindowActions)

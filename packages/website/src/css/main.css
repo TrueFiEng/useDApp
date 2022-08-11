@@ -3124,7 +3124,9 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .features__video-container {
-  dispalay: flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
