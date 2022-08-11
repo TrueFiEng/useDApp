@@ -34,7 +34,7 @@ ethereumIllustration.querySelectorAll('.hero__ethereum .hero__ethereum-line').fo
       @keyframes heroEthereumLine${index} {
         0% {
           opacity: 0.5;
-          stroke-dashoffset: ${item.getTotalLength() + 1};
+          stroke-dashoffset: ${(item.getTotalLength() + 1).toFixed(2)};
         }
         100% {
           opacity: 1;
@@ -43,8 +43,8 @@ ethereumIllustration.querySelectorAll('.hero__ethereum .hero__ethereum-line').fo
       }
     `;
     document.head.appendChild(style);
-    item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
-    item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
+    item.style.setProperty('stroke-dasharray', ((item.getTotalLength() + 1)).toFixed(2).toString())
+    item.style.setProperty('stroke-dashoffset', ((item.getTotalLength() + 1)).toFixed(2).toString())
     item.style.setProperty('animation', `heroEthereumLine${index} 1.5s ease forwards`)
     item.style.setProperty('animation-delay', `${10 * index / 100}s`)
   }
@@ -57,7 +57,7 @@ reactIllustration.querySelectorAll('.hero__react .hero__react-line').forEach(
       @keyframes heroReactLine${index} {
         0% {
           opacity: 0.5;
-          stroke-dashoffset: ${item.getTotalLength() + 1};
+          stroke-dashoffset: ${(item.getTotalLength() + 1).toFixed(2)};
         }
         100% {
           opacity: 1;
@@ -66,8 +66,8 @@ reactIllustration.querySelectorAll('.hero__react .hero__react-line').forEach(
       }
     `;
     document.head.appendChild(style);
-    item.style.setProperty('stroke-dasharray', (item.getTotalLength() + 1).toString())
-    item.style.setProperty('stroke-dashoffset', (item.getTotalLength() + 1).toString())
+    item.style.setProperty('stroke-dasharray', ((item.getTotalLength() + 1)).toFixed(2).toString())
+    item.style.setProperty('stroke-dashoffset', ((item.getTotalLength() + 1)).toFixed(2).toString())
     item.style.setProperty('animation', `heroReactLine${index} 1.5s ease forwards`)
     item.style.setProperty('animation-delay', `${20 * index / 100}s`)
   }
