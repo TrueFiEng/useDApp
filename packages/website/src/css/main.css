@@ -2208,7 +2208,7 @@ body.body--menu-open .header__burger-lines::after {
     padding: 8px;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 600px) {
   .testimonials__item {
     min-width: 100%;
     padding: 16px 0;
