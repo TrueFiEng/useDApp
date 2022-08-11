@@ -2276,6 +2276,7 @@ body.body--menu-open .header__burger-lines::after {
   background-image: url("/img/backgrounds/start__background.jpg");
   -webkit-background-size: 100% auto;
           background-size: 100% auto;
+  background-position: 0% 100%;
   background-repeat: no-repeat;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
