@@ -74,7 +74,6 @@
     margin: 0
     margin-left: -$container-padding-mobile
     margin-right: -$container-padding-mobile
-    padding: 0 $container-padding-mobile
     overflow: hidden
     overflow-x: auto
 
@@ -88,6 +87,12 @@
   +media(s)
     min-width: 100%
     padding: 16px 0
+
+    &:first-child
+      padding-left: 24px
+
+    &:last-child
+      padding-right: 24px
 
     & + &
       margin-left: 48px
@@ -139,6 +144,10 @@
     display: flex
 
 .testimonials__pagination
+  display: flex
+  justify-content: center
+  align-items: center
+  position: relative
   min-width: 12px
   width: 12px
   max-width: 12px
@@ -148,6 +157,15 @@
   border-radius: 12px
   background-color: $light
   transition: $all
+
+.testimonials__pagination::before
+  content: ''
+  position: absolute
+  top: 50%
+  left: 50%
+  width: calc(100% + 12px)
+  height: calc(100% + 12px)
+  transform: translate(-50%, -50%) 
 
 .testimonials__pagination--active
   background-color: $decorator-line-red

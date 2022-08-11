@@ -2193,7 +2193,6 @@ body.body--menu-open .header__burger-lines::after {
     margin: 0;
     margin-left: -24px;
     margin-right: -24px;
-    padding: 0 24px;
     overflow: hidden;
     overflow-x: auto;
   }
@@ -2212,6 +2211,12 @@ body.body--menu-open .header__burger-lines::after {
   .testimonials__item {
     min-width: 100%;
     padding: 16px 0;
+  }
+  .testimonials__item:first-child {
+    padding-left: 24px;
+  }
+  .testimonials__item:last-child {
+    padding-right: 24px;
   }
   .testimonials__item + .testimonials__item {
     margin-left: 48px;
@@ -2290,6 +2295,16 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .testimonials__pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
   min-width: 12px;
   width: 12px;
   max-width: 12px;
@@ -2302,6 +2317,18 @@ body.body--menu-open .header__burger-lines::after {
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
+}
+
+.testimonials__pagination::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .testimonials__pagination--active {
