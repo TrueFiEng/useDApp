@@ -1,4 +1,4 @@
-%buttonDefaultStyles
+@mixin buttonDefaultStyles
   display: flex
   position: relative
   justify-content: center
@@ -19,21 +19,21 @@
     height: 46px
     padding: 0 12px
 
-%buttonLargeStyles
+@mixin buttonLargeStyles
   min-width: 200px
 
-%buttonHoverStyles
+@mixin buttonHoverStyles
   background-color: transparent
 
   &::before
     opacity: 1
 
 .button
-  @extend %buttonDefaultStyles
+  @include buttonDefaultStyles
   background-color: $black
 
   &::before
-    @extend %buttonDefaultStyles
+    @include buttonDefaultStyles
     content: attr(data-button-text)
     position: absolute
     top: 0
@@ -43,17 +43,19 @@
     pointer-events: none
     user-select: none
 
-  &:hover
-    @extend %buttonHoverStyles
-  &:focus-visible
-    @extend %buttonHoverStyles
-  &:active
-    @extend %buttonHoverStyles
-    background-color: transparentize($black, 0.2)
+.button:hover
+  @include buttonHoverStyles
 
-    &::before
-      opacity: 0.8
+.button:focus-visible
+  @include buttonHoverStyles
+
+.button:active
+  @include buttonHoverStyles
+  background-color: transparentize($black, 0.2)
+
+  &::before
+    opacity: 0.8
 
 .button--large,
 .button--large::before
-  @extend %buttonLargeStyles
+  @include buttonLargeStyles

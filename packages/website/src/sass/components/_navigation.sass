@@ -10,13 +10,13 @@
   +media(l)
     margin-left: 8px
 
-%navigationLinkHoverStyles
+@mixin navigationLinkHoverStyles
   border-color: $black
 
   +media(s)
     border-color: $white
 
-%navigationLinkActiveStyles
+@mixin navigationLinkActiveStyles
   text-stroke: 0.04em $black
   -webkit-text-stroke: 0.04em $black
 
@@ -42,14 +42,15 @@
   color: $black
   transition: $all
 
-  &:hover
-    @extend %navigationLinkHoverStyles
-  &:focus-visible
-    @extend %navigationLinkHoverStyles
-
   +media(s)
     color: $white
 
+.navigation__link:hover
+  @include navigationLinkHoverStyles
+
+.navigation__link:focus-visible
+  @include navigationLinkHoverStyles
+
 .navigation__link.navigation__link--active,
 .navigation__link:active
-  @extend %navigationLinkActiveStyles
+  @include navigationLinkActiveStyles

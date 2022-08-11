@@ -7,28 +7,28 @@
   & + &
     margin-left: 16px
 
-%socialLinkStyles
+@mixin socialLinkStyles
   display: block
   width: 24px
   height: 24px
   border-radius: 12px
   transition: $all
 
-%buttonHoverStyles
+@mixin buttonHoverStyles
   background-color: transparent
 
   &::before
     opacity: 1
 
 .social__link
-  @extend %socialLinkStyles
+  @include socialLinkStyles
   position: relative
   background-color: $black
   cursor: pointer
   mask-size: 100% 100%
 
   &::before
-    @extend %socialLinkStyles
+    @include socialLinkStyles
     content: ''
     position: absolute
     left: 0
@@ -38,16 +38,18 @@
     pointer-events: none
     user-select: none
 
-  &:hover
-    @extend %buttonHoverStyles
-  &:focus-visible
-    @extend %buttonHoverStyles
-  &:active
-    @extend %buttonHoverStyles
-    background-color: transparentize($black, 0.2)
+.social__link:hover
+  @include buttonHoverStyles
 
-    &::before
-      opacity: 0.8
+.social__link:focus-visible
+  @include buttonHoverStyles
+
+.social__link:active
+  @include buttonHoverStyles
+  background-color: transparentize($black, 0.2)
+
+  &::before
+    opacity: 0.8
 
 .social__link[href*="discord"]
   mask-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white" color="white"><path d="M9.14437 11.2547V11.2469C8.24733 11.2469 7.52344 11.9885 7.52344 12.8999C7.52344 13.8114 8.24733 14.553 9.14437 14.553C10.0414 14.553 10.7654 13.8114 10.7654 12.9077C10.7654 11.9962 10.0335 11.2547 9.14437 11.2547Z" fill="currentColor" /> <path d="M12 0.28125C5.52792 0.28125 0.28125 5.52792 0.28125 12C0.28125 18.4721 5.52792 23.7188 12 23.7188C18.4721 23.7188 23.7188 18.4721 23.7188 12C23.7188 5.52792 18.4721 0.28125 12 0.28125ZM16.3357 18.1833C16.3357 18.1833 15.7453 17.5266 15.3206 16.9474C17.3664 16.3681 18.1378 15.2095 18.1378 15.2095C16.0106 16.5247 14.024 17.0307 12 16.9649C9.97598 17.0305 7.98938 16.5247 5.86247 15.2095C5.86247 15.2095 6.63356 16.3681 8.67966 16.9474C8.25478 17.5268 7.66462 18.1833 7.66462 18.1833C4.15495 18.1061 2.79375 15.9587 2.715 16.0514C2.715 11.2702 5.03625 7.377 5.03625 7.377C7.11356 5.88638 9.04927 5.82441 9.41906 5.81667L9.65517 6.04069C7.00341 6.7822 5.72081 7.94086 5.72081 7.94086C7.99673 6.84159 10.1418 6.45492 12 6.43177C13.8582 6.4552 16.0031 6.84159 18.2792 7.94086C18.2792 7.94086 16.9966 6.7822 14.3449 6.04069L14.5809 5.81667C14.9508 5.82441 16.8864 5.88619 18.9637 7.377C18.9637 7.377 21.285 11.2701 21.285 16.0514C21.2063 15.9587 19.845 18.1061 16.3357 18.1833Z" fill="currentColor" /> <path d="M14.8554 11.2468V11.2546C13.9662 11.2546 13.2344 11.9961 13.2344 12.9076C13.2344 13.8113 13.9584 14.5529 14.8554 14.5529C15.7524 14.5529 16.4763 13.8113 16.4763 12.8998C16.4763 11.9883 15.7524 11.2468 14.8554 11.2468Z" fill="currentColor" /> </svg>')

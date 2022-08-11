@@ -55,11 +55,6 @@
   white-space: nowrap
   transition: $all
 
-  &:hover
-    color: $black
-  &:focus-visible
-    color: $black
-
   +media(l)
     font-size: 28px
     line-height: 36px
@@ -67,6 +62,12 @@
   +media(xs)
     font-size: 24px
     line-height: 32px
+
+.start__button:hover
+  color: $black
+
+.start__button:focus-visible
+  color: $black
 
 .start__button::before
   opacity: 0

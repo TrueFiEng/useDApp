@@ -74,7 +74,7 @@
 .resources__item .text--gradient::before
   opacity: 0
 
-%resourcesItemHoverStyle
+@mixin resourcesItemHoverStyle
   background-color: $total-black
   border-color: $total-black
 
@@ -103,16 +103,6 @@
   background-color: $white
   transition: $all
 
-  &:hover
-    @extend %resourcesItemHoverStyle
-
-  &:focus-visible
-    @extend %resourcesItemHoverStyle
-
-  &:active
-    @extend %resourcesItemHoverStyle
-    opacity: 0.85
-
   +media(l)
     max-height: 164px
     padding: 32px 16px
@@ -121,6 +111,16 @@
     max-height: unset
     min-height: 208px
     padding: 40px 16px
+
+.resources__item:hover
+  @include resourcesItemHoverStyle
+
+.resources__item:focus-visible
+  @include resourcesItemHoverStyle
+
+.resources__item:active
+  @include resourcesItemHoverStyle
+  opacity: 0.85
 
 .resources__icon
   min-width: 32px
