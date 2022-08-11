@@ -133,11 +133,7 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.22.0
-<<<<<<< HEAD
-      ethereum-waffle: 4.0.0-alpha.0_vxv4aci463p4lmzsosnpbvbobq
-=======
       ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
->>>>>>> origin/master
       ethers: 5.6.2
       ganache: 7.0.3
       jsdom: 16.7.0
@@ -215,7 +211,7 @@ importers:
       eslint: 7.22.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.22.0
       ethers: 5.6.2
-      node-polyfill-webpack-plugin: 1.1.4
+      node-polyfill-webpack-plugin: 1.1.4_webpack@5.72.1
       prettier: 2.3.0
       prism-react-renderer: 1.3.1_react@17.0.1
       react: 17.0.1
@@ -2421,7 +2417,7 @@ packages:
       detect-port: 1.3.0
       escape-html: 1.0.3
       eta: 1.12.3
-      file-loader: 6.2.0_webpack@5.70.0
+      file-loader: 6.2.0_webpack@5.72.1
       fs-extra: 10.0.1
       html-minifier-terser: 6.1.0
       html-tags: 3.1.0
@@ -3192,71 +3188,11 @@ packages:
       - supports-color
       - utf-8-validate
 
-<<<<<<< HEAD
-  /@ethereum-waffle/compiler/4.0.0-alpha.0_evwpngr4l2gcbwkv6h33kmi4ti:
-    resolution: {integrity: sha512-FGnU3eWVODjKncEXJHbaqfnP4GLKEpqlvQ7W3yRE4ovmSWCRjNAjTeeKwFW7zZlDwG8WIRFVvSWlySKeuWc8MQ==}
-    engines: {node: '>=10.0'}
-    peerDependencies:
-      ethers: ^5.5.4
-      solc: '*'
-      typechain: ^7.0.0
-    dependencies:
-      '@resolver-engine/imports': 0.3.3
-      '@resolver-engine/imports-fs': 0.3.3
-      '@typechain/ethers-v5': 9.0.0_evwpngr4l2gcbwkv6h33kmi4ti
-      '@types/mkdirp': 0.5.2
-      '@types/node-fetch': 2.6.1
-      ethers: 5.6.2
-      mkdirp: 0.5.5
-      node-fetch: 2.6.7
-      typechain: 7.0.1_typescript@4.6.2
-    transitivePeerDependencies:
-      - '@ethersproject/abi'
-      - '@ethersproject/bytes'
-      - '@ethersproject/providers'
-      - encoding
-      - supports-color
-      - typescript
-    dev: false
-
-  /@ethereum-waffle/compiler/4.0.0-alpha.0_rv72jtg5velaopa54kglcu3bom:
-    resolution: {integrity: sha512-FGnU3eWVODjKncEXJHbaqfnP4GLKEpqlvQ7W3yRE4ovmSWCRjNAjTeeKwFW7zZlDwG8WIRFVvSWlySKeuWc8MQ==}
-    engines: {node: '>=10.0'}
-    peerDependencies:
-      ethers: ^5.5.4
-      solc: '*'
-      typechain: ^7.0.0
-    dependencies:
-      '@resolver-engine/imports': 0.3.3
-      '@resolver-engine/imports-fs': 0.3.3
-      '@typechain/ethers-v5': 9.0.0_rv72jtg5velaopa54kglcu3bom
-      '@types/mkdirp': 0.5.2
-      '@types/node-fetch': 2.6.1
-      ethers: 5.6.2
-      mkdirp: 0.5.5
-      node-fetch: 2.6.7
-      typechain: 7.0.1_typescript@4.6.2
-    transitivePeerDependencies:
-      - '@ethersproject/abi'
-      - '@ethersproject/bytes'
-      - '@ethersproject/providers'
-      - encoding
-      - supports-color
-      - typescript
-    dev: true
-
-  /@ethereum-waffle/compiler/4.0.0-alpha.0_v6vta2kyp54j4b3gwunxhbqiem:
-    resolution: {integrity: sha512-FGnU3eWVODjKncEXJHbaqfnP4GLKEpqlvQ7W3yRE4ovmSWCRjNAjTeeKwFW7zZlDwG8WIRFVvSWlySKeuWc8MQ==}
-    engines: {node: '>=10.0'}
-    peerDependencies:
-      ethers: ^5.5.4
-=======
   /@ethereum-waffle/compiler/4.0.0-alpha.21_dqstcxk6dweeanttmebaapvusu:
     resolution: {integrity: sha512-1+9S72b17cPVoiJ1+d2rwH4fLM0O5KMKGpKRZW0bIeMMw8+s4Y0e52NagAs3/3HSgjK3hSzsZcW9+Lnz4E/pnQ==}
     engines: {node: '>=10.0'}
     peerDependencies:
       ethers: 5.6.2
->>>>>>> origin/master
       solc: '*'
       typechain: ^8.0.0
     dependencies:
@@ -3265,23 +3201,14 @@ packages:
       '@ethersproject/providers': 5.6.2
       '@resolver-engine/imports': 0.3.3
       '@resolver-engine/imports-fs': 0.3.3
-<<<<<<< HEAD
-      '@typechain/ethers-v5': 9.0.0_2xzg6yvpfwjeuco6uqh77rba2u
-=======
       '@typechain/ethers-v5': 10.0.0_6jqidlmlrnjtv7hicrkmjgnnji
->>>>>>> origin/master
       '@types/mkdirp': 0.5.2
       '@types/node-fetch': 2.6.1
       ethers: 5.6.2
       mkdirp: 0.5.5
       node-fetch: 2.6.7
-<<<<<<< HEAD
-      solc: 0.8.12
-      typechain: 7.0.1_typescript@4.6.2
-=======
       solc: 0.6.12
       typechain: 8.1.0_typescript@4.6.2
->>>>>>> origin/master
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -6332,47 +6259,7 @@ packages:
       typescript: '>=4.3.0'
     dependencies:
       '@ethersproject/abi': 5.6.1
-<<<<<<< HEAD
-      '@ethersproject/providers': 5.6.2
-      lodash: 4.17.21
-      ts-essentials: 7.0.3_typescript@4.6.2
-      typechain: 8.1.0_typescript@4.6.2
-      typescript: 4.6.2
-    dev: true
-
-  /@typechain/ethers-v5/9.0.0_2xzg6yvpfwjeuco6uqh77rba2u:
-    resolution: {integrity: sha512-bAanuPl1L2itaUdMvor/QvwnIH+TM/CmG00q17Ilv3ZZMeJ2j8HcarhgJUZ9pBY1teBb85P8cC03dz3mSSx+tQ==}
-    peerDependencies:
-      '@ethersproject/abi': ^5.0.0
-      '@ethersproject/bytes': ^5.0.0
-      '@ethersproject/providers': ^5.0.0
-      ethers: ^5.1.3
-      typechain: ^7.0.0
-      typescript: '>=4.0.0'
-    dependencies:
-      '@ethersproject/abi': 5.6.1
       '@ethersproject/bytes': 5.6.1
-      '@ethersproject/providers': 5.6.2
-      ethers: 5.6.2
-      lodash: 4.17.21
-      ts-essentials: 7.0.3_typescript@4.6.2
-      typechain: 7.0.1_typescript@4.6.2
-      typescript: 4.6.2
-    dev: true
-
-  /@typechain/ethers-v5/9.0.0_evwpngr4l2gcbwkv6h33kmi4ti:
-    resolution: {integrity: sha512-bAanuPl1L2itaUdMvor/QvwnIH+TM/CmG00q17Ilv3ZZMeJ2j8HcarhgJUZ9pBY1teBb85P8cC03dz3mSSx+tQ==}
-    peerDependencies:
-      '@ethersproject/abi': ^5.0.0
-      '@ethersproject/bytes': ^5.0.0
-      '@ethersproject/providers': ^5.0.0
-      ethers: ^5.1.3
-      typechain: ^7.0.0
-      typescript: '>=4.0.0'
-    dependencies:
-=======
-      '@ethersproject/bytes': 5.6.1
->>>>>>> origin/master
       '@ethersproject/providers': 5.6.2
       ethers: 5.6.2
       lodash: 4.17.21
@@ -7640,7 +7527,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
+      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
 
   /@webpack-cli/info/1.4.1_webpack-cli@4.9.2:
     resolution: {integrity: sha512-PKVGmazEq3oAo46Q63tpMr4HipI3OPfP7LiNOEJg963RMgT0rqheag28NCML0o3GIzA3DmxP1ZIAv9oTX1CUIA==}
@@ -7648,7 +7535,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
+      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
 
   /@webpack-cli/serve/1.6.1_ljueac44ujss5jcejzoycyjmea:
     resolution: {integrity: sha512-gNGTiTrjEVQ0OcVnzsRSqTxaBSr+dmTfm+qJsCDluky8uhdLWep7Gcr62QsAKHTMxjCS/8nEITsmFAhfIx+QSw==}
@@ -7659,7 +7546,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
+      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
 
   /@xtuc/ieee754/1.2.0:
@@ -7765,7 +7652,6 @@ packages:
     resolution: {integrity: sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-    dev: true
 
   /address/1.1.2:
     resolution: {integrity: sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==}
@@ -9216,7 +9102,7 @@ packages:
       minipass-pipeline: 1.2.4
       mkdirp: 1.0.4
       p-map: 4.0.0
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 3.0.2
       ssri: 8.0.1
       tar: 6.1.11
@@ -12122,59 +12008,8 @@ packages:
       secp256k1: 4.0.3
       setimmediate: 1.0.5
 
-<<<<<<< HEAD
-  /ethereum-waffle/4.0.0-alpha.0_npo4ep7cyc426pha7ww6vnkdsi:
-    resolution: {integrity: sha512-gDNoneCUuaidULiWuEXsygdgnRWHn8TWdg4BchQ/2poxtWomBjsPa4KeX7fmRLCLiklgTx/Lr2AsPv6XCG62uA==}
-    engines: {node: '>=10.0'}
-    hasBin: true
-    dependencies:
-      '@ethereum-waffle/chai': 4.0.0-alpha.0
-      '@ethereum-waffle/compiler': 4.0.0-alpha.0_evwpngr4l2gcbwkv6h33kmi4ti
-      '@ethereum-waffle/mock-contract': 4.0.0-alpha.0
-      '@ethereum-waffle/provider': 4.0.0-alpha.0
-      ethers: 5.6.2
-      typechain: 7.0.1_typescript@4.6.2
-    transitivePeerDependencies:
-      - '@ethersproject/abi'
-      - '@ethersproject/bytes'
-      - '@ethersproject/providers'
-      - bufferutil
-      - encoding
-      - solc
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: false
-
-  /ethereum-waffle/4.0.0-alpha.0_vxv4aci463p4lmzsosnpbvbobq:
-    resolution: {integrity: sha512-gDNoneCUuaidULiWuEXsygdgnRWHn8TWdg4BchQ/2poxtWomBjsPa4KeX7fmRLCLiklgTx/Lr2AsPv6XCG62uA==}
-    engines: {node: '>=10.0'}
-    hasBin: true
-    dependencies:
-      '@ethereum-waffle/chai': 4.0.0-alpha.0
-      '@ethereum-waffle/compiler': 4.0.0-alpha.0_v6vta2kyp54j4b3gwunxhbqiem
-      '@ethereum-waffle/mock-contract': 4.0.0-alpha.0
-      '@ethereum-waffle/provider': 4.0.0-alpha.0
-      ethers: 5.6.2
-      typechain: 7.0.1_typescript@4.6.2
-    transitivePeerDependencies:
-      - '@ethersproject/abi'
-      - '@ethersproject/bytes'
-      - '@ethersproject/providers'
-      - bufferutil
-      - encoding
-      - solc
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: true
-
-  /ethereum-waffle/4.0.0-alpha.0_zzzvh6xx6dwrt4z2grziehaeke:
-    resolution: {integrity: sha512-gDNoneCUuaidULiWuEXsygdgnRWHn8TWdg4BchQ/2poxtWomBjsPa4KeX7fmRLCLiklgTx/Lr2AsPv6XCG62uA==}
-=======
   /ethereum-waffle/4.0.0-alpha.27_typescript@4.6.2:
     resolution: {integrity: sha512-4QeS4i8v1lBsF86AgWeLDqSXlArcqq6pfsfqV4rO2WfYIgSqw93C+av+Q16HBN286zDBI6bh6GjOkMVz6GnEQQ==}
->>>>>>> origin/master
     engines: {node: '>=10.0'}
     hasBin: true
     dependencies:
@@ -12831,6 +12666,17 @@ packages:
       webpack: 5.70.0
     dev: false
 
+  /file-loader/6.2.0_webpack@5.72.1:
+    resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      loader-utils: 2.0.2
+      schema-utils: 3.1.1
+      webpack: 5.72.1
+    dev: false
+
   /file-system-cache/1.0.5:
     resolution: {integrity: sha1-hCWbNqK7uNPW6xAh0xMv/mTP/08=}
     dependencies:
@@ -13065,6 +12911,17 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+
+  /follow-redirects/1.14.9_debug@4.3.4:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
@@ -14316,7 +14173,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -16838,7 +16695,7 @@ packages:
       util: 0.11.1
       vm-browserify: 1.1.2
 
-  /node-polyfill-webpack-plugin/1.1.4:
+  /node-polyfill-webpack-plugin/1.1.4_webpack@5.72.1:
     resolution: {integrity: sha512-Z0XTKj1wRWO8o/Vjobsw5iOJCN+Sua3EZEUc2Ziy9CyVvmHKu6o+t4gUH9GOE0czyPR94LI6ZCV/PpcM8b5yow==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -16868,6 +16725,7 @@ packages:
       url: 0.11.0
       util: 0.12.4
       vm-browserify: 1.1.2
+      webpack: 5.72.1
     dev: false
 
   /node-releases/2.0.2:
@@ -18389,15 +18247,6 @@ packages:
   /progress/2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
-
-  /promise-inflight/1.0.1:
-    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dev: true
 
   /promise-inflight/1.0.1_bluebird@3.7.2:
     resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
@@ -21217,7 +21066,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      acorn: 8.7.0
+      acorn: 8.7.1
       commander: 2.20.3
       source-map: 0.6.1
       source-map-support: 0.5.21
@@ -21955,7 +21804,7 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      file-loader: 6.2.0_webpack@5.70.0
+      file-loader: 6.2.0_webpack@5.72.1
       loader-utils: 2.0.2
       mime-types: 2.1.34
       schema-utils: 3.1.1
@@ -22130,7 +21979,7 @@ packages:
     engines: {node: '>= 0.8'}
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
@@ -22431,7 +22280,6 @@ packages:
       webpack-bundle-analyzer: 4.5.0
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
-    dev: true
 
   /webpack-cli/4.9.2_trrcpmpuvnar5ryzalwrwfpz2u:
     resolution: {integrity: sha512-m3/AACnBBzK/kMTcxWHcZFPrw/eQuY4Df1TxvIWfWM2x7mRqBQCqKEd96oCUa9jkapLBaFfRce33eGDb4Pr7YQ==}
@@ -22467,6 +22315,7 @@ packages:
       webpack: 4.46.0_webpack-cli@4.9.2
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
+    dev: true
 
   /webpack-dev-middleware/3.7.3_webpack@4.46.0:
     resolution: {integrity: sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==}
@@ -22536,7 +22385,7 @@ packages:
       supports-color: 6.1.0
       url: 0.11.0
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
+      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
       webpack-dev-middleware: 3.7.3_webpack@4.46.0
       webpack-log: 2.0.0
       ws: 6.2.2
@@ -22687,7 +22536,7 @@ packages:
       tapable: 1.1.3
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
       watchpack: 1.7.5
-      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
+      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
       webpack-sources: 1.4.3
     transitivePeerDependencies:
       - supports-color
