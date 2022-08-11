@@ -50,7 +50,7 @@ describe('useConfig', () => {
   })
 })
 
-describe.only('useUpdateConfig', () => {
+describe('useUpdateConfig', () => {
   it('updates config', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
