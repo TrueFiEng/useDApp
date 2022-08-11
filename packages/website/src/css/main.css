@@ -2202,14 +2202,10 @@ body.body--menu-open .header__burger-lines::after {
 .testimonials__item {
   width: 100%;
   padding: 16px;
-  -webkit-filter: drop-shadow(0px 12px 36px rgba(35, 36, 42, 0.05));
-          filter: drop-shadow(0px 12px 36px rgba(35, 36, 42, 0.05));
 }
 @media (max-width: 1200px) {
   .testimonials__item {
     padding: 8px;
-    -webkit-filter: drop-shadow(0px 8px 22px rgba(35, 36, 42, 0.05));
-            filter: drop-shadow(0px 8px 22px rgba(35, 36, 42, 0.05));
   }
 }
 @media (max-width: 1200px) {
@@ -2259,8 +2255,16 @@ body.body--menu-open .header__burger-lines::after {
           border-radius: 16px;
   -o-object-fit: cover;
      object-fit: cover;
-  overflow: hidden;
   margin: 0 auto;
+  -webkit-box-shadow: 0px 12px 36px rgba(35, 36, 42, 0.05);
+          box-shadow: 0px 12px 36px rgba(35, 36, 42, 0.05);
+  overflow: hidden;
+}
+@media (max-width: 1200px) {
+  .testimonials__image {
+    -webkit-box-shadow: 0px 8px 22px rgba(35, 36, 42, 0.05);
+            box-shadow: 0px 8px 22px rgba(35, 36, 42, 0.05);
+  }
 }
 
 .section--start {
@@ -2627,8 +2631,8 @@ body.body--menu-open .header__burger-lines::after {
 
 .integration__editor-container {
   max-width: 608px;
-  -webkit-filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
-          filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
+  -webkit-box-shadow: 0px 4px 208px rgba(251, 96, 106, 0.3);
+          box-shadow: 0px 4px 208px rgba(251, 96, 106, 0.3);
   -webkit-transform: translate(10%, -15%);
       -ms-transform: translate(10%, -15%);
           transform: translate(10%, -15%);
@@ -2671,8 +2675,8 @@ body.body--menu-open .header__burger-lines::after {
   max-width: 608px;
   -webkit-border-radius: 8px;
           border-radius: 8px;
-  -webkit-filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
-          filter: drop-shadow(0px 4px 208px rgba(251, 96, 106, 0.3));
+  -webkit-box-shadow: 0px 4px 208px rgba(251, 96, 106, 0.3);
+          box-shadow: 0px 4px 208px rgba(251, 96, 106, 0.3);
   -webkit-transform: translate(32%, -20%);
       -ms-transform: translate(32%, -20%);
           transform: translate(32%, -20%);

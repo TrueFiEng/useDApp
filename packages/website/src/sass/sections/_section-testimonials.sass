@@ -81,11 +81,9 @@
 .testimonials__item
   width: 100%
   padding: 16px
-  filter: drop-shadow(0px 12px 36px transparentize($black, 0.95))
 
   +media(l)
     padding: 8px
-    filter: drop-shadow(0px 8px 22px transparentize($black, 0.95))
 
   +media(l)
     min-width: 100%
@@ -121,5 +119,9 @@
   max-width: 100%
   border-radius: 16px
   object-fit: cover
-  overflow: hidden
   margin: 0 auto
+  box-shadow: 0px 12px 36px transparentize($black, 0.95)
+  overflow: hidden
+
+  +media(l)
+    box-shadow: 0px 8px 22px transparentize($black, 0.95)
