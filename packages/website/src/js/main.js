@@ -73,8 +73,47 @@ reactIllustration.querySelectorAll('.hero__react .hero__react-line').forEach(
   }
 )
 
-// marquee
-Marquee3k.init()
+// testimonials pagination
+const testimonials = body.querySelector('.testimonials')
+const testimonialsList = testimonials.querySelector('.testimonials__list')
+const testimonialsItems = testimonialsList.querySelectorAll('.testimonials__item')
+const testimonialsPagination = testimonials.querySelector('.testimonials__paginations')
+
+testimonialsItems.forEach((testimonial, index) => {
+  testimonial.dataset.testimonialNumber = index
+  const testimonialPaginationButton = document.createElement('button')
+  testimonialPaginationButton.classList.add('testimonials__pagination')
+  testimonialPaginationButton.dataset.testimonialButtonNumber = index
+  testimonialsPagination.appendChild(testimonialPaginationButton)
+})
+
+const testimonialsObserverOptions = {
+  threshold: 0.7,
+}
+
+const testimonialsPaginationButtons = testimonialsPagination.querySelectorAll('.testimonials__pagination')
+
+function testimonialsSlideEvents(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.intersectionRatio > 0) {
+      if (entry.isIntersecting) {
+        testimonialsPaginationButtons.forEach((button, index) => {
+          button.classList.remove('testimonials__pagination--active')
+          testimonialsPaginationButtons[entry.target.dataset.testimonialNumber].classList.add('testimonials__pagination--active')
+        })
+      }
+    }
+  })
+}
+
+const testimonialsScrollObserver = new IntersectionObserver(testimonialsSlideEvents, testimonialsObserverOptions)
+testimonialsItems.forEach((testimonial) => testimonialsScrollObserver.observe(testimonial))
+
+testimonialsPagination.addEventListener('click', (event) => {
+  if (event.target.classList.contains('testimonials__pagination')) {
+    testimonialsList.querySelector(`[data-testimonial-number="${event.target.dataset.testimonialButtonNumber}"`).scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+  }
+})
 
 // header menu
 const headerBurgerButton = header.querySelector('.header__burger')
@@ -200,6 +239,9 @@ startHeader.addEventListener('click', (event) => {
     }
   })
 })
+
+// marquee
+Marquee3k.init()
 
 // handle visual height unit
 

@@ -2267,6 +2267,47 @@ body.body--menu-open .header__burger-lines::after {
   }
 }
 
+.testimonials__paginations {
+  display: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 12px;
+     -moz-column-gap: 12px;
+          column-gap: 12px;
+  row-gap: 12px;
+  margin: 16px auto 0;
+}
+@media (max-width: 600px) {
+  .testimonials__paginations {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+.testimonials__pagination {
+  min-width: 12px;
+  width: 12px;
+  max-width: 12px;
+  min-height: 12px;
+  height: 12px;
+  max-height: 12px;
+  -webkit-border-radius: 12px;
+          border-radius: 12px;
+  background-color: #F0F0F0;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.testimonials__pagination--active {
+  background-color: #FA6069;
+}
+
 .section--start {
   padding-top: 56px;
 }

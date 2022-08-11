@@ -125,3 +125,29 @@
 
   +media(l)
     box-shadow: 0px 8px 22px transparentize($black, 0.95)
+
+.testimonials__paginations
+  display: none
+  width: fit-content
+  max-width: 100%
+  flex-wrap: wrap
+  column-gap: 12px
+  row-gap: 12px
+  margin: 16px auto 0
+
+  +media(s)
+    display: flex
+
+.testimonials__pagination
+  min-width: 12px
+  width: 12px
+  max-width: 12px
+  min-height: 12px
+  height: 12px
+  max-height: 12px
+  border-radius: 12px
+  background-color: $light
+  transition: $all
+
+.testimonials__pagination--active
+  background-color: $decorator-line-red
