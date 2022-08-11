@@ -1,5 +1,26 @@
 # @usedapp/core
 
+## 1.1.5
+
+### Patch Changes
+
+- ed915f1: ⛓ Add Optimism Göerli test chain
+- f420823: Resurface error when 'switchNetwork' fails
+- af0c4c4: 👮‍♀️ Disable `chainId` in `useEthers` only on unsupported or not configured chains
+
+## 1.1.4
+
+### Patch Changes
+
+- d2a0e57: 🪒 Do not assign polling intervals on websocket providers
+
+## 1.1.3
+
+### Patch Changes
+
+- f2c3766: ♨️ Properly update error when switching to not configured network
+- 3becd1d: Remove the need for specifying ABIs dir for generating hooks
+
 ## 1.1.2
 
 ### Patch Changes

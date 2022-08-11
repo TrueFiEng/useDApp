@@ -1,18 +1,18 @@
 import { expect } from 'chai'
 import { AdderProvider, useAdder } from './useAdder'
-import { renderWeb3Hook } from '../../src/testing'
+import { renderDAppHook } from '../../src/testing'
 
 describe('useAdder', () => {
   it('properly renders without arguments or context wrapper', async () => {
-    const { result } = await renderWeb3Hook(useAdder)
+    const { result } = await renderDAppHook(useAdder)
 
     expect(result.error).to.be.undefined
     expect(result.current.sum).to.be.equal(0)
   })
 
   it('properly renders with arguments', async () => {
-    const { result: firstExample } = await renderWeb3Hook(() => useAdder(1, 1))
-    const { result: secondExample } = await renderWeb3Hook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
+    const { result: firstExample } = await renderDAppHook(() => useAdder(1, 1))
+    const { result: secondExample } = await renderDAppHook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
       renderHook: { initialProps: { arg1: 1, arg2: 1 } },
     })
 
@@ -21,7 +21,7 @@ describe('useAdder', () => {
   })
 
   it('properly renders with changing arguments', async () => {
-    const { result, rerender } = await renderWeb3Hook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
+    const { result, rerender } = await renderDAppHook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
       renderHook: { initialProps: { arg1: 1, arg2: 1 } },
     })
 
@@ -33,12 +33,12 @@ describe('useAdder', () => {
   })
 
   it('properly renders with context wrapper', async () => {
-    const { result: firstExample } = await renderWeb3Hook(useAdder, {
+    const { result: firstExample } = await renderDAppHook(useAdder, {
       renderHook: {
         wrapper: ({ children }) => <AdderProvider value={{ prov1: 2, prov2: 2 }}>{children}</AdderProvider>,
       },
     })
-    const { result: secondExample } = await renderWeb3Hook(() => useAdder(), {
+    const { result: secondExample } = await renderDAppHook(() => useAdder(), {
       renderHook: {
         wrapper: ({ children, prov1, prov2 }) => <AdderProvider value={{ prov1, prov2 }}>{children}</AdderProvider>,
         initialProps: { prov1: 2, prov2: 2 },
@@ -50,7 +50,7 @@ describe('useAdder', () => {
   })
 
   it('properly renders with context wrapper changing props', async () => {
-    const { result, rerender } = await renderWeb3Hook(() => useAdder(), {
+    const { result, rerender } = await renderDAppHook(() => useAdder(), {
       renderHook: {
         wrapper: ({ children, prov1, prov2 }) => <AdderProvider value={{ prov1, prov2 }}>{children}</AdderProvider>,
         initialProps: { prov1: 2, prov2: 2 },
@@ -65,7 +65,7 @@ describe('useAdder', () => {
   })
 
   it('properly renders with arguments and context wrapper', async () => {
-    const { result } = await renderWeb3Hook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
+    const { result } = await renderDAppHook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
       renderHook: {
         wrapper: ({ children, prov1, prov2 }) => <AdderProvider value={{ prov1, prov2 }}>{children}</AdderProvider>,
         initialProps: { arg1: 1, arg2: 1, prov1: 2, prov2: 2 },
@@ -77,7 +77,7 @@ describe('useAdder', () => {
   })
 
   it('properly renders with changing arguments and context wrapper changing props', async () => {
-    const { result, rerender } = await renderWeb3Hook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
+    const { result, rerender } = await renderDAppHook(({ arg1, arg2 }) => useAdder(arg1, arg2), {
       renderHook: {
         wrapper: ({ children, prov1, prov2 }) => <AdderProvider value={{ prov1, prov2 }}>{children}</AdderProvider>,
         initialProps: { arg1: 1, arg2: 1, prov1: 2, prov2: 2 },

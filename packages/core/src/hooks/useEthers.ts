@@ -75,10 +75,9 @@ export function useEthers(): Web3Ethers {
     const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
     const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
 
-    const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
-    chainIdError.name = 'ChainIdError'
-
     if (isUnsupportedChainId || isNotConfiguredChainId) {
+      const chainIdError = new Error(`${isUnsupportedChainId ? 'Unsupported' : 'Not configured'} chain id: ${chainId}.`)
+      chainIdError.name = 'ChainIdError'
       setError(chainIdError)
       return
     }
@@ -104,6 +103,8 @@ export function useEthers(): Web3Ethers {
         if (chain?.rpcUrl) {
           await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
         }
+      } else {
+        throw error
       }
     }
   }
@@ -113,7 +114,8 @@ export function useEthers(): Web3Ethers {
   return {
     connector: undefined,
     library: provider,
-    chainId: error ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
+    chainId:
+      error?.name === 'ChainIdError' ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {

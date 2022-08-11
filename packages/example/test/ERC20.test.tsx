@@ -1,17 +1,11 @@
 import { Config, Mainnet } from '@usedapp/core'
-import {
-  deployMockToken,
-  renderDAppHook,
-  SECOND_TEST_CHAIN_ID,
-  setupTestingConfig,
-  TestingNetwork,
-} from '@usedapp/testing'
+import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
 import { expect } from 'chai'
 import { BigNumber, Contract, Wallet } from 'ethers'
 import { describe } from 'mocha'
 import { useERC20_balanceOf, useERC20_transfer } from '../gen/hooks/ERC20'
 
-describe('ERC20', () => {
+describe('Auto-generated hook: ERC20', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
@@ -25,11 +19,11 @@ describe('ERC20', () => {
 
   beforeEach(async () => {
     ;({ config, network1, network2 } = await setupTestingConfig())
-    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
-    await network2.wallets[1].sendTransaction({ to: receiver, value: 200 })
+    await network1.deployer.sendTransaction({ to: receiver, value: 100 })
+    await network2.deployer.sendTransaction({ to: receiver, value: 200 })
 
-    deployer = network1.wallets[0]
-    secondDeployer = network2.wallets[0]
+    deployer = network1.deployer
+    secondDeployer = network2.deployer
     token1 = await deployMockToken(deployer)
     token2 = await deployMockToken(secondDeployer)
 
@@ -59,7 +53,7 @@ describe('ERC20', () => {
 
     it('returns balance for explicitly another chain', async () => {
       const { result, waitForCurrent } = await renderDAppHook(
-        () => useERC20_balanceOf(token2.address, [receiver], { chainId: SECOND_TEST_CHAIN_ID }),
+        () => useERC20_balanceOf(token2.address, [receiver], { chainId: network2.chainId }),
         { config }
       )
       await waitForCurrent((val) => val !== undefined)
@@ -73,6 +67,7 @@ describe('ERC20', () => {
       const { result } = await renderDAppHook(() => useERC20_transfer(token1.address), {
         config,
       })
+      expect(await token1.balanceOf(receiver)).to.eq(100)
       await result.current.send(receiver, 100)
       expect(result.error).to.be.undefined
       expect(await token1.balanceOf(receiver)).to.eq(200)

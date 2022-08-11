@@ -7,7 +7,7 @@
   "types": "dist/esm/src/index.d.ts",
   "scripts": {
     "typechain:generate": "yarn typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
-    "usedapp:generate": "USEDAPP_OUT_DIR=./gen/hooks USEDAPP_TYPES_DIR=./gen/types USEDAPP_ABIS_DIR=./src/abi pnpm usedapp-generate-hooks",
+    "usedapp:generate": "USEDAPP_OUT_DIR=./gen/hooks USEDAPP_TYPES_DIR=./gen/types pnpm usedapp-generate-hooks",
     "start": "webpack serve --mode development",
     "build": "yarn build:app && yarn build:package",
     "build:app": "yarn generate && tsc --noEmit && rimraf build && webpack --mode production --progress",
@@ -19,7 +19,7 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
-    "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha -r ts-node/register/transpile-only",
+    "test": "mocha -r ts-node/register/transpile-only './test/**/*.test.{ts,tsx}' --timeout 60000",
     "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000",
     "copy-files": "cp -r ./src/assets ./dist/cjs/src/assets && cp -r ./src/assets ./dist/esm/src/assets"
   },
@@ -69,7 +69,7 @@
     "copy-webpack-plugin": "^6.2.1",
     "esbuild-loader": "^2.11.0",
     "eslint": "7.22.0",
-    "ethereum-waffle": "4.0.0-alpha.0",
+    "ethereum-waffle": "4.0.0-alpha.27",
     "html-webpack-plugin": "^4.5.0",
     "jsdom": "^20.0.0",
     "jsdom-global": "^3.0.2",

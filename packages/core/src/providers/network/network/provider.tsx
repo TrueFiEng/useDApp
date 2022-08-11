@@ -3,7 +3,7 @@ import { NetworkContext } from './context'
 import { defaultNetworkState, networkReducer } from './reducer'
 import { Network } from './model'
 import { providers } from 'ethers'
-import { subscribeToProviderEvents, getInjectedProvider } from '../../../helpers'
+import { subscribeToProviderEvents, getInjectedProvider, isWebSocketProvider } from '../../../helpers'
 import { useLocalStorage, useConfig } from '../../../hooks'
 import detectEthereumProvider from '@metamask/detect-provider'
 
@@ -135,7 +135,9 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
           update,
           onDisconnect(wrappedProvider),
           (chainId) => {
-            wrappedProvider.pollingInterval = getPollingInterval(chainId)
+            if (!isWebSocketProvider(wrappedProvider)) {
+              wrappedProvider.pollingInterval = getPollingInterval(chainId)
+            }
           }
         )
         setOnUnsubscribe(() => clearSubscriptions)

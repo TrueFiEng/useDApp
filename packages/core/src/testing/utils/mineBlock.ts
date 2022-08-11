@@ -1,4 +1,4 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { constants } from 'ethers'
 import { getAdminWallet } from './getAdminWallet'
 

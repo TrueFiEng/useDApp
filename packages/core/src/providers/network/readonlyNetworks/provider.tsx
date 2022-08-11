@@ -7,6 +7,7 @@ import { BaseProviderFactory, ChainId, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { networkStatesReducer } from './reducer'
 import { useWindow } from '../../window'
+import { isWebSocketProvider } from '../../../helpers'
 
 const { Provider, StaticJsonRpcProvider } = providers
 type BaseProvider = providers.BaseProvider
@@ -58,7 +59,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   useEffect(() => {
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
       const provider = providers[(chainId as unknown) as ChainId]
-      if (provider) {
+      if (provider && !isWebSocketProvider(provider)) {
         provider.polling = isActive && nonStaticCalls > 0
       }
     }
@@ -66,7 +67,9 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
 
   useEffect(() => {
     for (const [chainId, provider] of Object.entries(providers)) {
-      provider.pollingInterval = getPollingInterval(Number(chainId))
+      if (!isWebSocketProvider(provider)) {
+        provider.pollingInterval = getPollingInterval(Number(chainId))
+      }
     }
   }, [providers, getPollingInterval])
 

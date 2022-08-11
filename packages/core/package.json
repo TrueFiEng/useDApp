@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/core",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "repository": "git@github.com:EthWorks/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
@@ -29,7 +29,6 @@
     "react": "*"
   },
   "devDependencies": {
-    "@ethereum-waffle/provider": "4.0.0-alpha.0",
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/abstract-provider": "^5.6.1",
     "@ethersproject/providers": "5.6.2",
@@ -49,8 +48,9 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "ethereum-waffle": "4.0.0-alpha.0",
+    "ethereum-waffle": "4.0.0-alpha.27",
     "ethers": "^5.6.8",
+    "ganache": "7.0.3",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
