@@ -1,6 +1,9 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { Arbitrum, CoinbaseWalletConnector, Config, Connector, DAppProvider, InjectedConnector, Kovan, Localhost, Mainnet, MetamaskConnector, PortisConnector, Ropsten, WalletConnectConnector } from '@usedapp/core'
+import { Arbitrum, Config, Connector, DAppProvider, InjectedConnector, Kovan, Localhost, Mainnet, MetamaskConnector, Ropsten } from '@usedapp/core'
+import { WalletConnectConnector} from '@usedapp/wallet-connect-connector'
+import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
+import { PortisConnector } from '@usedapp/portis-connector'
 import { getDefaultProvider } from 'ethers'
 
 declare global {

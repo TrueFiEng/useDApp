@@ -7,14 +7,14 @@ import {
   Kovan,
   Config,
   Arbitrum,
-  WalletConnectConnector,
   MetamaskConnector,
-  CoinbaseWalletConnector,
-  PortisConnector,
   InjectedConnector,
   Connector,
   Localhost,
 } from '@usedapp/core'
+import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
+import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
+import { PortisConnector } from '@usedapp/portis-connector'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
 

@@ -11,8 +11,11 @@
     "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts'"
   },
   "dependencies": {
+    "@usedapp/coinbase-connector": "workspace:^0.0.1",
     "@usedapp/core": "workspace:*",
     "@usedapp/example": "workspace:*",
+    "@usedapp/portis-connector": "workspace:^0.0.1",
+    "@usedapp/wallet-connect-connector": "workspace:^0.0.1",
     "encoding": "^0.1.13",
     "next": "12.1.2",
     "react": "17.0.1",

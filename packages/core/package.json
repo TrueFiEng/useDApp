@@ -17,11 +17,8 @@
     "usedapp-generate-hooks": "./bin/usedapp-generate-hooks.js"
   },
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.3.0",
     "@metamask/detect-provider": "^1.2.0",
-    "@portis/web3": "^4.0.7",
     "@uniswap/token-lists": "^1.0.0-beta.27",
-    "@walletconnect/web3-provider": "^1.7.8",
     "fetch-mock": "^9.11.0",
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
@@ -29,7 +26,21 @@
   },
   "peerDependencies": {
     "ethers": "*",
-    "react": "*"
+    "react": "*",
+    "@coinbase/wallet-sdk": "*",
+    "@walletconnect/web3-provider": "*",
+    "@portis/web3": "*"
+  },
+  "peerDependenciesMeta": {
+    "@coinbase/wallet-sdk": {
+      "optional": true
+    },
+    "@walletconnect/web3-provider": {
+      "optional": true
+    },
+    "@portis/web3": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@walletconnect/types": "^1.7.8",
@@ -65,7 +76,10 @@
     "ts-node": "^10.7.0",
     "typechain": "^7.0.0",
     "typescript": "^4.6.2",
-    "wait-for-expect": "^3.0.2"
+    "wait-for-expect": "^3.0.2",
+    "@coinbase/wallet-sdk": "^3.3.0",
+    "@walletconnect/web3-provider": "^1.7.8",
+    "@portis/web3": "^4.0.7"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs && yarn build:cli",

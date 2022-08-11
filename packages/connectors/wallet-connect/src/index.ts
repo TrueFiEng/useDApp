@@ -1,0 +1,1 @@
+export { WalletConnectConnector } from '@usedapp/core/dist/cjs/src/providers/network/connector/impls/walletConnect'

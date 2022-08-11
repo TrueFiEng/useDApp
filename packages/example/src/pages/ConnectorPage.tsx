@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-  MetamaskConnector,
-  WalletConnectConnector,
-  CoinbaseWalletConnector,
-  InjectedConnector,
-  PortisConnector,
-} from '@usedapp/core'
+import { MetamaskConnector, InjectedConnector } from '@usedapp/core'
+import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
+import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
+import { PortisConnector } from '@usedapp/portis-connector'
 import { Container, MainContent, Section } from '../components/base/base'
 import { SingleConnector } from '../components/connectors/SingleConnector'
 
