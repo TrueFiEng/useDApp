@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useConfig } from './useConfig'
 
-function getItem(key: string, localStorage: WindowLocalStorage['localStorage']) {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  const item = localStorage.getItem(key)
+function getItem(key: string, storage: WindowLocalStorage['localStorage']) {
+  const item = storage.getItem(key)
   if (item !== null) {
     try {
       return JSON.parse(item)
@@ -16,12 +12,12 @@ function getItem(key: string, localStorage: WindowLocalStorage['localStorage']) 
   }
 }
 
-function setItem(key: string, value: any, localStorage: WindowLocalStorage['localStorage']) {
+function setItem(key: string, value: any, storage: WindowLocalStorage['localStorage']) {
   if (value === undefined) {
-    localStorage.removeItem(key)
+    storage.removeItem(key)
   } else {
     const toStore = JSON.stringify(value)
-    localStorage.setItem(key, toStore)
+    storage.setItem(key, toStore)
     return JSON.parse(toStore)
   }
 }
@@ -31,20 +27,17 @@ function setItem(key: string, value: any, localStorage: WindowLocalStorage['loca
  */
 export function useLocalStorage(key: string) {
   const { localStorageOverride = window.localStorage } = useConfig()
-  const [value, setValue] = useState(() => getItem(key, localStorageOverride))
+  const [value, setValue] = useState(getItem(key, localStorageOverride))
 
   useEffect(() => {
     setValue(getItem(key, localStorageOverride))
   }, [key])
 
   useEffect(() => {
-    if (!value) {
-      return
-    }
     setItem(key, value, localStorageOverride)
   }, [value])
 
-  // As value updating relies on useEffect, it takes mutliple rerenders to fully update the value.
-  // The third elemnt in the return array allows to get the immediate value stored in the localStorage.
+  // As value updating relies on useEffect, it takes multiple rerenders to fully update the value.
+  // The third element in the return array allows to get the immediate value stored in the localStorage.
   return [value, setValue, () => getItem(key, localStorageOverride)] as const
 }
