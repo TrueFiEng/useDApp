@@ -28,22 +28,24 @@
   text-align: center
 
 .start__header
+  position: relative
+  width: 100%
+  max-width: 100%
+  pointer-events: none
+  user-select: none
+
+.start__sliding-header
   display: flex
   column-gap: 64px
   row-gap: 32px
   width: fit-content
   margin: 0 auto
+  transition: $all
   pointer-events: none
+  user-select: none
 
   +media(l)
     column-gap: 24px
-
-  +media(s)
-    flex-direction: column
-    column-gap: unset
-    row-gap: 12px
-    margin-left: 0
-    margin-right: auto
 
 .start__button
   font-size: 56px
@@ -59,8 +61,8 @@
     color: $black
 
   +media(l)
-    font-size: 32px
-    line-height: 48px
+    font-size: 28px
+    line-height: 36px
 
   +media(xs)
     font-size: 24px

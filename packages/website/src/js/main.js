@@ -97,7 +97,8 @@ header.addEventListener('click', (event) => {
 // start terminals action
 
 const startHeader = body.querySelector('.start__header')
-const startTriggers = startHeader.querySelectorAll('.start__button')
+const startSlidingHeader = startHeader.querySelector('.start__sliding-header')
+const startTriggers = startSlidingHeader.querySelectorAll('.start__button')
 const startTerminals = body.querySelectorAll('.start__terminal')
 const npmTerminal = body.querySelector('.start__terminal[data-start-terminal="npm"]')
 const boilerplateTerminal = body.querySelector('.start__terminal[data-start-terminal="boilerplate"]')
@@ -184,6 +185,8 @@ const terminalsScrollObserver = new IntersectionObserver(scrollEvents, terminals
 terminalsScrollObserver.observe(terminalsSection)
 
 startHeader.addEventListener('click', (event) => {
+  startSlidingHeader.style.transform = 'translateX(0)'
+
   startTriggers.forEach((button) => button.classList.remove('start__button--active'))
   event.target.classList.add('start__button--active')
   startTerminals.forEach((terminal) => {
@@ -192,6 +195,7 @@ startHeader.addEventListener('click', (event) => {
       terminal.classList.add('start__terminal--active')
       if (event.target.dataset.startTerminal === 'boilerplate') {
         typeBoilerplateTerminal.start()
+        startSlidingHeader.style.transform = `translateX(-${Math.max(0, (startSlidingHeader.clientWidth - startHeader.clientWidth))}px)`
       }
     }
   })

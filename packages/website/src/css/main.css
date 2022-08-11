@@ -2312,6 +2312,17 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .start__header {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.start__sliding-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2323,27 +2334,20 @@ body.body--menu-open .header__burger-lines::after {
   width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
   pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 @media (max-width: 1200px) {
-  .start__header {
+  .start__sliding-header {
     -webkit-column-gap: 24px;
        -moz-column-gap: 24px;
             column-gap: 24px;
-  }
-}
-@media (max-width: 600px) {
-  .start__header {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-column-gap: unset;
-       -moz-column-gap: unset;
-            column-gap: unset;
-    row-gap: 12px;
-    margin-left: 0;
-    margin-right: auto;
   }
 }
 
@@ -2365,8 +2369,8 @@ body.body--menu-open .header__burger-lines::after {
 }
 @media (max-width: 1200px) {
   .start__button {
-    font-size: 32px;
-    line-height: 48px;
+    font-size: 28px;
+    line-height: 36px;
   }
 }
 @media (max-width: 340px) {
