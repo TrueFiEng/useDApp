@@ -327,9 +327,15 @@ window.addEventListener('load', (event) => {
 
 // resize event listener
 
+let windowPreviousWidth = window.innerWidth
+
 resizeWindowActions = () => {
   handleVisualHeightUnit()
-  handleVideosRender()
+  if (windowPreviousWidth !== window.innerWidth) {
+    windowPreviousWidth = window.innerWidth
+    handleVideosRender()
+    console.log('resized')
+  }
 }
 
 window.addEventListener('resize', resizeWindowActions)
