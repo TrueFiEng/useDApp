@@ -869,6 +869,8 @@ img, svg {
       -ms-user-select: none;
           user-select: none;
   color: inherit;
+  position: relative;
+  z-index: 1;
 }
 
 .terminal__result--active {
