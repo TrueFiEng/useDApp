@@ -49,8 +49,8 @@ gulp.task('min-js', function () {
 
 gulp.task('watch', function () {
 	gulp.watch('src/sass/**/*.sass', gulp.parallel('sass'));
-	gulp.watch('src/js/*.js', gulp.parallel('min-js'));
-	gulp.watch('src/js/**/*.js').on('change', browserSync.reload);
+	// gulp.watch('src/js/*.js', gulp.parallel('min-js'));
+	gulp.watch('src/js/*.js').on('change', gulp.parallel('min-js'), browserSync.reload);
 	gulp.watch('src/*.html').on('change', browserSync.reload);
 });
 
