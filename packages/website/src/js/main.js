@@ -273,7 +273,7 @@ const videoTags = body.querySelectorAll('[data-video-tag]')
 const handleVideosRender = () => {
   videoTags.forEach((video) => {
     const integrationVideo = video.classList.contains('integration__video')
-    const isMobile = window.matchMedia("(max-width: 600px)").matches
+    const isMobile = window.matchMedia("(max-width: 740px)").matches
     const isTablet = window.matchMedia("(max-width: 1200px)").matches
     const videoSizeSuffix = () => {
       if (isMobile) {
