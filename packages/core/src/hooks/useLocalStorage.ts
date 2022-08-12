@@ -33,7 +33,7 @@ export function useLocalStorage(key: string) {
   const {
     localStorageOverride = typeof window !== 'undefined' ? window.localStorage : global.localStorage,
   } = useConfig()
-  const [value, setValue] = useState(getItem(key, localStorageOverride))
+  const [value, setValue] = useState(() => getItem(key, localStorageOverride))
 
   useEffect(() => {
     setValue(getItem(key, localStorageOverride))
