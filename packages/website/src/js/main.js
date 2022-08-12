@@ -275,6 +275,8 @@ const handleVideosRender = () => {
     const integrationVideo = video.classList.contains('integration__video')
     const isMobile = window.matchMedia("(max-width: 740px)").matches
     const isTablet = window.matchMedia("(max-width: 1200px)").matches
+    const isHightResolution = window.matchMedia("(-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi)").matches
+
     const videoSizeSuffix = () => {
       if (isMobile) {
         return 'mobile'
@@ -284,13 +286,17 @@ const handleVideosRender = () => {
         return 'desktop'
       }
     }
-    const isHighResolutionScreen = window
-      .matchMedia("(-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi)")
-      .matches
+    const videoResolutionSuffix = () => {
+      if (isHightResolution) {
+        return '@2x'
+      } else {
+        return ''
+      }
+    }
 
     video.innerHTML = `
-    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${isHighResolutionScreen && '@2x'}.webm" type="video/webm">
-    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${isHighResolutionScreen && '@2x'}.mp4" type="video/mp4">
+    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${videoResolutionSuffix()}.webm" type="video/webm">
+    <source src="/video/${video.dataset.videoTag}__${videoSizeSuffix()}${videoResolutionSuffix()}.mp4" type="video/mp4">
     `
 
     if (isMobile) {
