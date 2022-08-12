@@ -48,7 +48,6 @@ jobs:
           DEBUG: usedapp*
         working-directory: packages/example
       - name: Run playwright example-next
-        # echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local - couln't figure out how to set env variable the same as in previous section
         run: |
           set -e
           echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local

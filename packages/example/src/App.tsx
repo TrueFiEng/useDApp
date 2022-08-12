@@ -14,7 +14,6 @@ import { NotificationsList } from './components/Transactions/History'
 import { Web3Modal } from './pages/Web3Modal'
 import { Web3ReactConnector } from './pages/Web3ReactConnector'
 import { Multichain } from './pages/Multichain'
-// import { WalletConnect } from './pages/WalletConnect'
 import { ConnectorPage } from './pages/ConnectorPage'
 import { WalletConnect } from './pages/WalletConnect'
 import { ENSExample } from './components/ENS/ENSExample'
@@ -37,7 +36,7 @@ export function App() {
           <Route exact path="/web3react" component={Web3ReactConnector} />
           <Route exact path="/multichain" component={Multichain} />
           <Route exact path="/wallet-connect" component={WalletConnect} />
-          <Route exact path="/connector" component={ConnectorPage} />
+          <Route exact path="/connectors" component={ConnectorPage} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>

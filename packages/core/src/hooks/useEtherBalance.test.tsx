@@ -61,21 +61,23 @@ describe('useEtherBalance', () => {
     expect(result.current).to.eq(200)
   })
 
-  it('defaults to active read-write provider chain id', async () => {
+  it.only('defaults to active read-write provider chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
-        const { activate } = useEthers()
+        const { activate, chainId } = useEthers()
+        const balance = useEtherBalance(receiver)
+        console.log({ chainId, balance: balance?.toString() })
         useEffect(() => {
           void activate(network2.provider)
         }, [])
 
-        return useEtherBalance(receiver)
+        return balance
       },
       { config }
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(100)
+    await waitForCurrent((val) => !!val?.eq(200))
   })
 
   it('explicitly mainnet', async () => {

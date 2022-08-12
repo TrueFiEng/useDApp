@@ -27,7 +27,7 @@ export class InjectedConnector implements Connector {
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.onUpdate?.({ chainId: parseInt(chainId), accounts })
     } catch (error) {
-      console.log(error)
+      console.debug(error)
     }
   }
 

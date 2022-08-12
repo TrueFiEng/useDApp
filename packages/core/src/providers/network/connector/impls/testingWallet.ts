@@ -26,7 +26,7 @@ export class TestingWalletConnector implements Connector {
       const chainId: string = await this.provider!.send('eth_chainId', [])
       this.onUpdate?.({ chainId: parseInt(chainId), accounts: [] })
     } catch (error) {
-      console.log(error)
+      console.debug(error)
     }
   }
 

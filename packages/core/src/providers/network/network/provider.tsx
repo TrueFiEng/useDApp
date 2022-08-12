@@ -7,6 +7,7 @@ import { useLocalStorage, useConfig } from '../../../hooks'
 import { ConnectorContext, MetamaskConnector } from '../connector'
 import { InjectedConnector } from '../connector/impls/injected'
 import { ConnectorController } from '../connector/connectorController'
+import { Network } from './model'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
@@ -52,6 +53,13 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
     }
   }, [providerOverride])
 
+  const update = useCallback(
+    (newNetwork: Partial<Network>) => {
+      dispatch({ type: 'UPDATE_NETWORK', network: newNetwork })
+    },
+    [network]
+  )
+
   const activate = useCallback(
     async (provider: JsonRpcProvider | ExternalProvider | { tag: string }) => {
       const tag = 'tag' in provider ? provider.tag : undefined
@@ -77,7 +85,7 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       }
 
       onUnsubscribe()
-      const clearSubscriptions = subscribeToProviderEvents(connector)
+      const clearSubscriptions = subscribeToProviderEvents(connector, update)
       setOnUnsubscribe(() => clearSubscriptions)
 
       if (!tag) {

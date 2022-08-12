@@ -35,9 +35,14 @@ export class CoinbaseWalletConnector implements Connector {
     if (!this.provider) {
       return
     }
-    const chainId: string = await this.provider!.send('eth_chainId', [])
-    const accounts: string[] = await this.provider!.send('eth_accounts', [])
-    this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+
+    try {
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
+      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+    } catch (e) {
+      console.debug(e)
+    }
   }
 
   async activate(): Promise<void> {
@@ -46,9 +51,14 @@ export class CoinbaseWalletConnector implements Connector {
     if (!this.provider) {
       return
     }
-    const chainId: string = await this.provider!.send('eth_chainId', [])
-    const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
-    this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+
+    try {
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
+      this.onUpdate?.({ chainId: parseInt(chainId), accounts })
+    } catch (e) {
+      console.debug(e)
+    }
   }
 
   async deactivate(): Promise<void> {

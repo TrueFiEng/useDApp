@@ -1,7 +1,15 @@
 import { EventEmitter } from 'events'
 import { ConnectorController } from '../providers/network/connector/connectorController'
+import { Network } from '../providers/network/network/model'
 
-export function subscribeToProviderEvents(connector: ConnectorController) {
+export function subscribeToProviderEvents(
+  connector: ConnectorController,
+  onUpdate: (updatedNetwork: Partial<Network>) => void
+) {
+  const connectorUnsub = connector.updated.on(({ chainId, accounts }) => {
+    onUpdate({ chainId, accounts })
+  })
+
   const provider: EventEmitter | undefined = (connector.getProvider() as any).provider
   if (provider?.on) {
     const onConnectListener = (): void => {
@@ -25,6 +33,8 @@ export function subscribeToProviderEvents(connector: ConnectorController) {
     provider.on('accountsChanged', onAccountsChangedListener)
 
     return () => {
+      connectorUnsub()
+
       if (connector.connector.name === 'Fortmatic') {
         return
       }
