@@ -334,7 +334,6 @@ resizeWindowActions = () => {
   if (windowPreviousWidth !== window.innerWidth) {
     windowPreviousWidth = window.innerWidth
     handleVideosRender()
-    console.log('resized')
   }
 }
 
