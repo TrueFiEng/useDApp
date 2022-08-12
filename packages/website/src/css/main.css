@@ -1886,6 +1886,14 @@ body.body--menu-open .header__burger-lines::after {
   -webkit-background-size: 100% auto;
           background-size: 100% auto;
   background-repeat: no-repeat;
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%, black), to(transparent));
+  -webkit-mask-image: -webkit-linear-gradient(top, black 95%, transparent);
+          mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%, black), to(transparent));
+          mask-image: linear-gradient(180deg, black 95%, transparent);
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
 }
 @media (max-width: 1200px) {
   .section--hero {
@@ -2423,9 +2431,9 @@ body.body--menu-open .header__burger-lines::after {
   width: 100%;
   height: 100%;
   background-image: url("/img/backgrounds/start__background.jpg");
-  -webkit-background-size: 100% auto;
-          background-size: 100% auto;
-  background-position: 0% 100%;
+  -webkit-background-size: 100% 95%;
+          background-size: 100% 95%;
+  background-position: 50% 100%;
   background-repeat: no-repeat;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
@@ -2434,6 +2442,10 @@ body.body--menu-open .header__burger-lines::after {
 @media (max-width: 1200px) {
   .section--start {
     padding-top: 24px;
+  }
+  .section--start::before {
+    -webkit-background-size: 150% 95%;
+            background-size: 150% 95%;
   }
 }
 @media (-webkit-min-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 120dpi) {
