@@ -14,12 +14,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://usedapp.io/" />
     <meta property="og:title" content="useDApp | Ethereum and React cooperating" />
-    <meta 
-      property="og:description" 
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+    <meta
+      property="og:description"
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
       />
-    <meta 
-      property="og:image" 
+    <meta
+      property="og:image"
       content="https://usedapp.io/img/welcome.png"
 
     />
@@ -27,12 +27,12 @@
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://usedapp.io/" />
     <meta property="twitter:title" content="useDApp | Ethereum and React cooperating" />
-    <meta 
-      property="twitter:description" 
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+    <meta
+      property="twitter:description"
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
     />
-    <meta 
-      property="twitter:image" 
+    <meta
+      property="twitter:image"
       content="https://usedapp.io/img/welcome.png"
     />
 
@@ -294,7 +294,7 @@
       [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
   }
-    
+
   ReactDOM.render (
     &lt;React.StrictMode&gt;
       &lt;DAppProvider config={config}&gt;
@@ -315,7 +315,7 @@
 <span class="code--red">export </span><span class="code--blue">function</span> TokenBalance( ) {
     const { account } = useEthers( )
     const tokenBalance = useTokenBalance(DAI, account)
-                  
+
 <span class="code--red">return</span> (
       &lt;div&gt;
          {tokenBalance && &lt;p&gt;Balance: {formatUnits(tokenBalance, 18)}&lt;/p&gt;}
@@ -336,9 +336,9 @@
     useContractCall (
       address && tokenAddress && {
           abi: ERC20Interface,<span class="code--gray"> // ABI interface of the called contract</span>
-          address: tokenAddress,<span class="code--gray"> // On-chain address of the deployed contract</span> 
-          method: "balanceOf",<span class="code--gray"> // Method to be called</span> 
-          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span> 
+          address: tokenAddress,<span class="code--gray"> // On-chain address of the deployed contract</span>
+          method: "balanceOf",<span class="code--gray"> // Method to be called</span>
+          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span>
         }
     ) ?? [ ];
  <span class="code--red">return</span> tokenBalance;
