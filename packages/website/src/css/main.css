@@ -903,13 +903,9 @@ img, svg {
           user-select: none;
   -webkit-animation: animateLoaderRotation 2s linear infinite;
           animation: animateLoaderRotation 2s linear infinite;
-  -webkit-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
   z-index: 2;
 }
 .terminal__spinner .path {
-  stroke: #FFFFFF;
   stroke-linecap: square;
   -webkit-animation: animateLoaderDash 1.5s ease-in-out infinite;
           animation: animateLoaderDash 1.5s ease-in-out infinite;
@@ -922,6 +918,14 @@ img, svg {
      -moz-user-select: auto;
       -ms-user-select: auto;
           user-select: auto;
+}
+
+.terminal .terminal__spinner {
+  color: #FFFFFF;
+}
+
+.terminal.terminal--white .terminal__spinner {
+  color: #000000;
 }
 
 .terminal__confetti {
@@ -2622,6 +2626,14 @@ body.body--menu-open .header__burger-lines::after {
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+.start__terminal .terminal__confetti {
+  opacity: 0;
+}
+
+.start__terminal.start__terminal--active .terminal__confetti {
+  opacity: 1;
 }
 
 .section--integration {

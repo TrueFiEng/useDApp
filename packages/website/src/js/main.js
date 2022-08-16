@@ -229,11 +229,14 @@ startHeader.addEventListener('click', (event) => {
   startTerminals.forEach((terminal) => {
     terminal.classList.remove('start__terminal--active')
     terminal.querySelector('.terminal__notification').classList.remove('terminal__notification--active')
+    terminal.querySelector('.terminal__result').classList.remove('terminal__result--active')
+    terminal.querySelector('.typed-cursor').classList.remove('terminal__cursor--hidden')
+    terminal.querySelector('.terminal__spinner').classList.remove('terminal__spinner--active')
     if (terminal.dataset.startTerminal === event.target.dataset.startTerminal) {
       terminal.classList.add('start__terminal--active')
       typeNpmTerminal.reset()
-      typeNpmTerminal.start()
       typeBoilerplateTerminal.reset()
+      typeNpmTerminal.start()
       typeBoilerplateTerminal.start()
       if (event.target.dataset.startTerminal === 'boilerplate') {
         startSlidingHeader.style.transform = `translateX(-${Math.max(0, (startSlidingHeader.clientWidth - startHeader.clientWidth))}px)`

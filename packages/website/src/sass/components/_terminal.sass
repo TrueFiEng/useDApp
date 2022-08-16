@@ -94,11 +94,9 @@
   pointer-events: none
   user-select: none
   animation: animateLoaderRotation 2s linear infinite
-  transition: $all-xl
   z-index: 2
 
   & .path
-    stroke: $white
     stroke-linecap: square
     animation: animateLoaderDash 1.5s ease-in-out infinite
 
@@ -106,6 +104,12 @@
   opacity: 1
   pointer-events: auto
   user-select: auto
+
+.terminal .terminal__spinner
+  color: $white
+
+.terminal.terminal--white .terminal__spinner
+  color: $total-black
 
 .terminal__confetti
   position: absolute
