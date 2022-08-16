@@ -333,7 +333,7 @@
   address: string | Falsy
 ): BigNumber | undefined {
 
-  <span class="code--red">const</span> { value, error } =
+  <span class="code--red">const</span> { value } =
     useCall(
       address && tokenAddress && {
           contract: new Contract(tokenAddress, ERC20Interface),<span class="code--gray"> // Contract instance</span>
@@ -342,13 +342,8 @@
         }
     ) ?? { };
 
-  if (error) {
-    console.error(error.message)
-    <span class="code--red">return</span> undefined
-  }
-
-  <span class="code--red">const</span> value?.[0]
-
+  <span class="code--red">const</span> [tokenBalance] = value ?? []
+  <span class="code--red">return</span> tokenBalance
 }
                   <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
               </div>
