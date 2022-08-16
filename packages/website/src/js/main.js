@@ -224,17 +224,21 @@ const terminalsScrollObserver = new IntersectionObserver(scrollEvents, terminals
 terminalsScrollObserver.observe(terminalsSection)
 
 startHeader.addEventListener('click', (event) => {
-  startSlidingHeader.style.transform = 'translateX(0)'
-
   startTriggers.forEach((button) => button.classList.remove('start__button--active'))
   event.target.classList.add('start__button--active')
   startTerminals.forEach((terminal) => {
     terminal.classList.remove('start__terminal--active')
+    terminal.querySelector('.terminal__notification').classList.remove('terminal__notification--active')
     if (terminal.dataset.startTerminal === event.target.dataset.startTerminal) {
       terminal.classList.add('start__terminal--active')
+      typeNpmTerminal.reset()
+      typeNpmTerminal.start()
+      typeBoilerplateTerminal.reset()
+      typeBoilerplateTerminal.start()
       if (event.target.dataset.startTerminal === 'boilerplate') {
-        typeBoilerplateTerminal.start()
         startSlidingHeader.style.transform = `translateX(-${Math.max(0, (startSlidingHeader.clientWidth - startHeader.clientWidth))}px)`
+      } else {
+        startSlidingHeader.style.transform = `translateX(0px)`
       }
     }
   })
