@@ -14,12 +14,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://usedapp.io/" />
     <meta property="og:title" content="useDApp | Ethereum and React cooperating" />
-    <meta 
-      property="og:description" 
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+    <meta
+      property="og:description"
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
       />
-    <meta 
-      property="og:image" 
+    <meta
+      property="og:image"
       content="https://usedapp.io/img/welcome.png"
 
     />
@@ -27,12 +27,12 @@
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://usedapp.io/" />
     <meta property="twitter:title" content="useDApp | Ethereum and React cooperating" />
-    <meta 
-      property="twitter:description" 
-      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable." 
+    <meta
+      property="twitter:description"
+      content="useDApp is framework for rapid Dapp development. Simple. Robust. Extendable. Testable."
     />
-    <meta 
-      property="twitter:image" 
+    <meta
+      property="twitter:image"
       content="https://usedapp.io/img/welcome.png"
     />
 
@@ -294,7 +294,7 @@
       [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
     },
   }
-    
+
   ReactDOM.render (
     &lt;React.StrictMode&gt;
       &lt;DAppProvider config={config}&gt;
@@ -315,7 +315,7 @@
 <span class="code--red">export </span><span class="code--blue">function</span> TokenBalance( ) {
     const { account } = useEthers( )
     const tokenBalance = useTokenBalance(DAI, account)
-                  
+
 <span class="code--red">return</span> (
       &lt;div&gt;
          {tokenBalance && &lt;p&gt;Balance: {formatUnits(tokenBalance, 18)}&lt;/p&gt;}
@@ -328,22 +328,24 @@
               <div class="window">
                 <pre
                   class="window-pre"
-                ><code class="code" data-lines="1"><span class="code--blue">function</span> useTokenBalance (
+                ><code class="code" data-lines="1"><span class="code--blue">function</span> useTokenBalance(
   tokenAddress: string | Falsy,
   address: string | Falsy
-) {
-  <span class="code--red">const</span> [tokenBalance] =
-    useContractCall (
+): BigNumber | undefined {
+
+  <span class="code--red">const</span> { value } =
+    useCall(
       address && tokenAddress && {
-          abi: ERC20Interface,<span class="code--gray"> // ABI interface of the called contract</span>
-          address: tokenAddress,<span class="code--gray"> // On-chain address of the deployed contract</span> 
-          method: "balanceOf",<span class="code--gray"> // Method to be called</span> 
-          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span> 
+          contract: new Contract(tokenAddress, ERC20Interface),<span class="code--gray"> // Contract instance</span>
+          method: "balanceOf",<span class="code--gray"> // Method to be called</span>
+          args: [address],<span class="code--gray"> // Method arguments - address to be checked for balance</span>
         }
-    ) ?? [ ];
- <span class="code--red">return</span> tokenBalance;
+    ) ?? { };
+
+  <span class="code--red">const</span> [tokenBalance] = value ?? []
+  <span class="code--red">return</span> tokenBalance
 }
-  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
+                  <span class="code__lines">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</span></code></pre>
               </div>
 
               <div data-animations="animate__slideInRight" class="slider__btns animate__animated animate__slideInRight">
