@@ -1113,6 +1113,7 @@ img, svg {
   -webkit-text-stroke: 0em transparent;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  text-transform: capitalize;
   color: #23242A;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
