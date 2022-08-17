@@ -44,6 +44,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${Fonts.Helvetica};
     font-size: 16px;
     color: ${Colors.Black[900]};
+    overscroll-behavior-y: none;
   }
   
   button {

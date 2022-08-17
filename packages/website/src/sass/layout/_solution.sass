@@ -1,0 +1,233 @@
+.row
+  display: flex
+  justify-content: space-between
+  width: 100%
+
+.two-columns
+  display: grid
+  padding: 0 12px
+  grid-template-columns: 1fr 1fr
+  width: 100%
+  grid-column-gap: 24px
+  grid-row-gap: 24px
+
+  +media(l)
+    grid-template-columns: 1fr
+
+  +media(m)
+    padding: 0
+
+  +media(s)
+    grid-row-gap: 24px
+    margin-bottom: 46px
+
+.boxes-row + .boxes-row
+  margin-top: 24px
+
+.box
+  display: flex
+  flex-direction: column
+  padding: 32px 48px
+  width: 100%
+  height: 100%
+  background: #FFFFFF
+  box-shadow: 10px 10px 50px 3px rgba(39, 92, 141, 0.1)
+  border-radius: 12px
+
+  +media(m)
+    padding: 16px 24px
+
+  +media(s)
+    height: auto
+    margin-bottom: 24px
+    padding: 0
+    background-color: transparent
+    box-shadow: unset
+
+.box--more-space
+  padding: 20px 32px
+
+  +media(s)
+    padding: 0
+
+.box--more-space .box__subtitle
+  margin-bottom: 12px
+
+.box--inline
+  display: inline-flex
+  align-items: baseline
+  gap: 4px
+  padding: 16px 24px
+  background: #FFFFFF
+  box-shadow: 10px 10px 50px 3px rgba(39, 92, 141, 0.1)
+  border-radius: 12px
+
+  +media(s)
+    display: inline
+
+    .info__row.info__row--small .info__icon
+      margin: 0
+
+.box--inline .info__row
+  gap: 4px
+  margin-bottom: 0
+  align-items: baseline
+
+.box__title
+  margin-bottom: 16px
+  font-weight: bold
+  font-size: 40px
+  line-height: 48px
+  text-align: center
+  color: #23242A
+
+  +media(l)
+    text-align: left
+
+  +media(m)
+    font-size: 24px
+    line-height: 32px
+    margin-bottom: 12px
+
+  +media(s)
+    margin: 0 auto
+    margin-bottom: 0
+    font-size: 32px
+    line-height: 38px
+    text-align: center
+
+.box__subtitle
+  margin-bottom: 24px
+  font-size: 20px
+  line-height: 32px
+  text-align: center
+  color: #23242A
+
+  +media(l)
+    text-align: left
+
+  +media(m)
+    margin: 0 auto
+    font-size: 16px
+    line-height: 32px
+    margin-bottom: 24px
+    text-align: center
+
+
+.box__small-subtitle
+  margin-bottom: auto
+  font-size: 16px
+  line-height: 24px
+  text-align: center
+  color: #23242A
+
+.box__grid
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-column-gap: 24px
+  grid-row-gap: 24px
+
+  +media(m)
+    grid-column-gap: 24px
+    grid-row-gap: 12px
+
+  +media(s)
+    grid-column-gap: 12px
+    grid-row-gap: 24px
+
+.box__rows
+  display: grid
+  grid-row-gap: 12px
+
+  +media(s)
+    grid-row-gap: 8px
+
+.box__rows .info
+  max-width: 100%
+
+.box__label
+  font-weight: 500
+  font-size: 16px
+  line-height: 150%
+  letter-spacing: 0.11em
+  text-transform: uppercase
+  color: #23242A
+
+  +media(m)
+    font-size: 12px
+
+.info
+  max-width: 192px
+
+  +media(l)
+    max-width: 100%
+
+.info__row
+  display: flex
+  margin-bottom: 8px
+
+.info__icon
+  margin-right: 16px
+  line-height: 32px
+
+  +media(m)
+    margin-right: 8px
+    font-size: 16px
+    line-height: 24px
+
+  +media(s)
+    margin-right: 4px
+    font-size: 14px
+    line-height: 16px
+
+.info__title
+  font-weight: bold
+  font-size: 20px
+  line-height: 32px
+  color: #23242A
+
+  +media(m)
+    font-size: 16px
+    line-height: 24px
+
+  +media(s)
+    font-size: 14px
+    line-height: 16px
+
+.info__row.info__row--small .info__title
+  font-weight: bold
+  font-size: 16px
+  line-height: 24px
+  color: #23242A
+
+  +media(s)
+    font-size: 14px
+    line-height: 16px
+
+.info__row.info__row--small .info__icon
+  line-height: 24px
+
+  +media(s)
+    margin-right: 4px
+    font-size: 14px
+    line-height: 16px
+
+.info__text
+  font-size: 14px
+  line-height: 24px
+  color: #23242A
+
+  +media(s)
+    fon-size: 12px
+    line-height: 16px
+
+.problem-row
+  display: grid
+  grid-template-columns: 1fr 1fr
+  column-gap: 24px
+  margin-bottom: 24px
+
+  +media(m)
+    column-gap: 12px
+    margin-bottom: 16px
+

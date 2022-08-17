@@ -1,20 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { ChainId, DAppProvider } from '@usedapp/core'
-import { App } from './App'
-
-const config = {
-  readOnlyChainId: ChainId.Mainnet,
-  readOnlyUrls: {
-    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
-  },
-}
-
-ReactDOM.render(
-  <React.StrictMode>
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+export { App } from './App'
+export * from './pages'
+export {
+  Sidebar,
+  SidebarLinkDescription,
+  SidebarNav,
+  SidebarNavLinks,
+  ToMain,
+  ToMainBottom,
+  Handshaking,
+  Page,
+  SidebarContainer,
+} from './components/base/base'
+export { ENSExample } from './components/ENS/ENSExample'
+export { GlobalStyle } from './global/GlobalStyle'
+export * from './global/styles'
+export { NotificationsList } from './components/Transactions/History'

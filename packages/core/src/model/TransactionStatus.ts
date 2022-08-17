@@ -1,16 +1,27 @@
-import { ChainId } from '../constants'
-import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
+import type { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
 
-export type TransactionState = 'None' | 'Mining' | 'Success' | 'Fail' | 'Exception'
+/**
+ * @public
+ */
+export type TransactionState = 'None' | 'PendingSignature' | 'Mining' | 'Success' | 'Fail' | 'Exception'
 
+/**
+ * @public
+ */
 export interface TransactionStatus {
   status: TransactionState
   transaction?: TransactionResponse
   receipt?: TransactionReceipt
-  chainId?: ChainId
+  chainId?: number
   errorMessage?: string
+  errorCode?: number
+  errorHash?: string
+  originalTransaction?: TransactionResponse
 }
 
+/**
+ * @public
+ */
 export function transactionErrored(transaction: TransactionStatus) {
   return 'errorMessage' in transaction
 }

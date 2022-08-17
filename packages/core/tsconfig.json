@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "types": [
+      "mocha",
+      "node"
+    ],
     "outDir": "dist",
     "module": "commonjs",
     "composite": true,
@@ -9,11 +13,13 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
   "include": [
     "src",
     "src/**/*.json",
-    "test"
+    "internal",
+    "generate-hooks",
   ]
 }

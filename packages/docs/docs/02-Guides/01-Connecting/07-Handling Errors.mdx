@@ -1,0 +1,90 @@
+# Handling Errors
+
+## Handling wallet activation errors
+
+It is possible to access wallet activation errors by checking if `const {error} = useEthers()` changes :
+
+```tsx
+  const [activateError, setActivateError] = useState('')
+  const { error } = useEthers()
+  useEffect(() => {
+    if (error) {
+      setActivateError(error.message)
+    }
+  }, [error])
+
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
+```
+
+## Connect to unsupported chain
+
+If supported chains are set, you will get `unsupported chain error` or `missing multichain error` from `const {error} = useEthers()`.
+
+**Example**
+
+Setting supported chains:
+
+```tsx
+const config: Config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+  },
+  networks: [Mainnet],
+  multicallVersion: 2 as const,
+}
+```
+
+Please ensure that your custom chainId is added to the list of all chains. If not you will get undefined for all calls and no error will be shown.
+
+The list of default supported useDapp's chains:
+
+```tsx
+export const DEFAULT_SUPPORTED_CHAINS = [
+  Localhost,
+  Hardhat,
+  Avalanche,
+  AvalancheTestnet,
+  Arbitrum,
+  ArbitrumRinkeby,
+  Aurora,
+  AuroraTestnet,
+  Mainnet,
+  Ropsten,
+  Rinkeby,
+  Goerli,
+  Kovan,
+  BSC,
+  BSCTestnet,
+  Cronos,
+  CronosTestnet,
+  Fantom,
+  FantomTestnet,
+  Gnosis,
+  Harmony,
+  Andromeda,
+  Stardust,
+  Moonriver,
+  MoonbaseAlpha,
+  Moonbeam,
+  Palm,
+  PalmTestnet,
+  Polygon,
+  Mumbai,
+  OasisEmerald,
+  OasisEmeraldTestnet,
+  Songbird,
+  Theta,
+  ThetaTestnet,
+  ThunderCore,
+  ThunderCoreTestnet,
+  OptimismKovan,
+  Optimism,
+  Velas,
+  VelasTestnet,
+  ZkSyncTestnet,
+]
+```

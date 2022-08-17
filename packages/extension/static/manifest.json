@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "useDApp DevTools",
+  "description": "Developer tools for useDApp",
+  "version": "1.0",
+  "homepage_url": "https://github.com/ethworks/usedapp",
+  "permissions": ["storage", "http://*/*", "https://*/*", "<all_urls>"],
+  "icons": {
+    "16": "icons/icon.svg",
+    "32": "icons/icon.svg",
+    "48": "icons/icon.svg",
+    "64": "icons/icon.svg",
+    "96": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon-inactive.svg",
+    "default_title": "useDApp DevTools",
+    "default_popup": "popup/popup-inactive.html"
+  },
+  "devtools_page": "devtools.html",
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

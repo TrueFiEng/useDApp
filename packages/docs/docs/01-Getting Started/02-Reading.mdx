@@ -1,0 +1,44 @@
+# Reading
+
+There is a number of useful hooks that you can use to read blockchain state, such us:
+
+- ``useBlockMeta()`` - return meta information (``timestamp`` and ``difficulty``) about most recent block mined
+- ``useEtherBalance(address)`` - returns ether balance as BigNumber for given address (or ``undefined``)
+- ``useTokenBalance(tokenAddress, address)`` - returns balance of a given token as BigNumber for given address (or undefined)
+- ``useTokenAllowance(tokenAddress, ownerAddress, spenderAddress)`` - returns allowance of a given token as BigNumber for given owner and spender address pair (or undefined)
+
+## Examples
+
+### Ether balance
+
+`useEtherBalance(address: string)`
+
+Provides a way to fetch the account balance. Takes the account address as an argument and returns ``BigNumber`` or ``undefined`` when data is not available (i.e. not connected). 
+To obtain currently connected ``account`` employ ``useEthers()``.
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import EthBalance from '../../example-loader.js!/src/examples/EthBalance.tsx'
+
+<ExampleContainer example={EthBalance}/>
+
+### Token balance
+
+`useTokenBalance(address: string, tokenAddress: string)`
+
+Provides a way to fetch balance of ERC20 token specified by ``tokenAddress`` for provided ``address``. Returns ``BigNumber`` or ``undefined`` when data is not available.
+
+import TokenBalance from '../../example-loader.js!/src/examples/TokenBalance.tsx'
+
+<ExampleContainer example={TokenBalance}/>
+
+## Custom Hooks
+
+See the [Custom Hooks](/docs/Guides/Reading/Custom%20Hooks) guide if you need to read state not supported by the built-in [hooks](/docs/API%20Reference/Hooks).
+
+## Reading without a browser wallet
+
+In order to interact with the blockchain in a read-only mode without a browser wallet, just specify `readOnlyChainId` and `readOnlyUrls` in your config - no activation required.
+
+import ReadingWithoutWallet from '../../example-loader.js!/src/examples/ReadingWithoutWallet.tsx'
+
+<ExampleContainer example={ReadingWithoutWallet}/>

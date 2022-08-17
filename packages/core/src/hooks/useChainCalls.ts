@@ -1,20 +1,28 @@
-import { useContext, useEffect } from 'react'
-import { ChainCall } from '../providers/chainState/callsReducer'
-import { ChainStateContext } from '../providers/chainState/context'
+import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
+import { useRawCalls } from './useRawCalls'
 
-export function useChainCalls(calls: (ChainCall | Falsy)[]) {
-  const { addCalls, removeCalls, value } = useContext(ChainStateContext)
-
-  useEffect(() => {
-    const filteredCalls = calls.filter(Boolean) as ChainCall[]
-    addCalls(filteredCalls)
-    return () => removeCalls(filteredCalls)
-  }, [JSON.stringify(calls), addCalls, removeCalls])
-
-  return calls.map((call) => call && value?.state?.[call.address]?.[call.data])
+/**
+ * Makes multiple calls to specific contracts and returns corresponding values. The hook will cause the component to refresh when values change.
+ * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
+ * @public
+ * @deprecated It's recommended to use {@link useCalls} or {@link useRawCalls} instead.
+ * @param calls list of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
+ * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
+ */
+export function useChainCalls(calls: (RawCall | Falsy)[]) {
+  const results = useRawCalls(calls)
+  return results.map((result) => result?.value)
 }
 
-export function useChainCall(call: ChainCall | Falsy) {
+/**
+ * Makes a call to a specific contract and returns its value. The hook will cause the component to refresh whenever a new block is mined and the value is changed.
+ * Calls will be combined into a single multicall across all uses of {@link useChainCall}, {@link useChainCalls}, {@link useRawCall} and {@link useRawCalls}.
+ * @public
+ * @deprecated It's recommended to use {@link useCall} or {@link useRawCall} instead.
+ * @param call a single call, also see {@link RawCall}. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
+ * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
+ */
+export function useChainCall(call: RawCall | Falsy) {
   return useChainCalls([call])[0]
 }

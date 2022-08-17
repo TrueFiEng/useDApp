@@ -3,7 +3,7 @@ import { formatEther } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
 import { ContentBlock } from '../base/base'
 import { TextBold } from '../../typography/Text'
-import { Colors, BorderRad } from '../../global/styles'
+import { Colors, BorderRad, Transitions } from '../../global/styles'
 import styled from 'styled-components'
 import { useEtherBalance, useEthers } from '@usedapp/core'
 import { Button } from '../base/Button'
@@ -30,7 +30,7 @@ const InputComponent = () => {
 
   const handleClick = () => {
     setDisabled(true)
-    sendTransaction({ to: address, value: utils.parseEther(amount) })
+    void sendTransaction({ to: address, value: utils.parseEther(amount) })
   }
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const InputComponent = () => {
           min="0"
           disabled={disabled}
         />
-        <FormTicker>ETH To</FormTicker>
+        <FormTicker>ETH to:</FormTicker>
         <AddressInput
           id={`AddressInput`}
           type="text"
@@ -103,6 +103,13 @@ const LabelRow = styled.div`
 
 const Label = styled.label`
   font-weight: 700;
+  cursor: pointer;
+  transition: ${Transitions.all};
+
+  &:hover,
+  &:focus-within {
+    color: ${Colors.Yellow[500]};
+  }
 `
 
 const TitleRow = styled.div`
@@ -125,8 +132,7 @@ const Input = styled.input`
   border: 0;
   border-radius: ${BorderRad.m};
   -moz-appearance: textfield;
-
-  box-shadow: inset 0 0 0 1px ${Colors.Gray['300']};
+  outline: none;
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -139,14 +145,6 @@ const Input = styled.input`
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
     -webkit-background-clip: text;
-  }
-
-  &:focus {
-    outline: transparent auto 1px;
-  }
-
-  &:focus-visible {
-    box-shadow: inset 0 0 0 2px ${Colors.Black['900']} !important;
   }
 `
 
@@ -164,6 +162,12 @@ const InputRow = styled.div`
   border: ${Colors.Gray['300']} 1px solid;
   border-radius: ${BorderRad.m};
   overflow: hidden;
+  transition: ${Transitions.all};
+
+  &:hover,
+  &:focus-within {
+    border-color: ${Colors.Black[900]};
+  }
 `
 
 const FormTicker = styled.div`

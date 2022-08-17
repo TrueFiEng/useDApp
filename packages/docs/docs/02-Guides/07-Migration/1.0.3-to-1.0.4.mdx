@@ -1,0 +1,21 @@
+# Migrating to 1.0.4
+
+## Updated useLookupAddress hook
+
+`useLookupAddress` hook now takes an argument and returns object instead of string.
+The argument is of type `string | undefined` and is the address to be looked up.
+The return object consists of three values:
+- `ens: string | null | undefined` - ENS name of the account.
+- `isLoading: boolean` - indicates whether the lookup is in progress.
+- `error: Error | null` - error that occurred during the lookup or null if no error occurred.
+
+To preserve behaviour of the hook, update your code in the following manner:
+````diff
+  - const ens = useLookupAddress()
+  + const { account } = useEthers()
+  + const { ens } = useLookupAddress(account)
+````
+
+## Added useResolveName hook
+
+`useResolveName` hook is used to resolve an ENS name to a specific address. You can check out the docs on the hook [here](../../API%20Reference/Hooks#useresolvename).

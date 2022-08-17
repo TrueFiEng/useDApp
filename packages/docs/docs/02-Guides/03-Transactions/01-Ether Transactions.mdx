@@ -1,0 +1,38 @@
+# Ether Transactions
+
+Sending transactions is really simple with useDApp. All we need to send a simple transaction,
+is to use [useSendTransaction](/docs/API%20Reference/Hooks#usesendtransaction) hook, which returns a ``sendTransaction`` function and ``state`` object.
+
+See [Transaction Status](./03-Transaction%20Status.mdx) for reference on how to monitor the `state` of a transaction.
+
+You can add additional buffer of gas limit by setting `gasLimitBufferPercentage` in config or directly in transaction options, see live example below.
+It adds 10% of gas limit more to what is estimated by the Ethers library.
+
+**Example**
+
+Simply call a hook in a component.
+
+```tsx
+  const { sendTransaction, state } = useSendTransaction()
+```
+
+Then when you want to send a transaction, call ``sendTransaction`` for example in a button callback.
+Function accepts a [Transaction Request](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest) object as a parameter.
+In example below ``setDisabled(true)`` sets input components to disabled while transaction is being processed (It is a good practice to disable component when transaction is mining).
+
+```tsx
+  const handleClick = () => {
+    setDisabled(true)
+    sendTransaction({ to: address, value: utils.parseEther(amount) })
+  }
+```
+
+**Live example**
+
+App will send 1 wei to a test account.
+Connect a MetaMask wallet **and switch to a test network**, such as Kovan or Ropsten.
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import SendTransaction from '../../../example-loader.js!/src/examples/SendTransaction.tsx'
+
+<ExampleContainer example={SendTransaction}/>

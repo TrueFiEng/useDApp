@@ -1,0 +1,49 @@
+# Sign in with Ethereum
+
+## Prerequisites
+
+Before adding SIWE module to your dapp, you need to configure [fastify-siwe](https://www.npmjs.com/package/fastify-siwe) in your backend.
+
+More informations about Sign in with Ethereum can be found [here](https://login.xyz/).
+
+## Configuration
+
+Add `SiweProvider` to React Providers wrapping your app, next to the `DAppProvider`.
+
+```tsx
+  <DAppProvider>
+    <SiweProvider backendUrl={backendUrl}>{/* backendUrl: 'backend url with configured @fastify/siwe */}
+      <App /> {/* Wrap your app with the Provider */}
+    </SiweProvider>
+  </DAppProvider>
+```
+
+## Usage
+
+Hook `useSiwe` is available and it gives us two functions and a boolean value:
+
+```tsx
+export interface SignInOptions {
+  domain?: string
+  uri?: string
+}
+
+interface SiweContextValue {
+  signIn: (signInOptions?: SignInOptions) => void
+  signOut: () => void
+  isLoggedIn: boolean
+}
+```
+
+`signIn` - Callback that signs you in with Ethereum. You can add optional `SignInOptions` object, to override current signing message.
+
+`signOut` - Callback that signs you out. It destroys your current session.
+
+`isLoggedIn` - Boolean value that informs you if you are logged in.
+
+## Live example
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import Siwe from '../../example-loader.js!/src/examples/Siwe.tsx'
+
+<ExampleContainer example={Siwe}/>

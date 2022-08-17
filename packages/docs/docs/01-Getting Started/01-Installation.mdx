@@ -1,0 +1,58 @@
+---
+slug: /
+---
+
+# Installation
+
+To start working with useDapp you need to have a working React environment.
+
+To get started, add the following npm package `@usedapp/core` and its peer dependency in your project:
+
+```bash npm2yarn
+npm install @usedapp/core ethers
+```
+
+## Example
+
+Below is a simple example:
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted.tsx'
+
+<ExampleContainer example={GettingStarted}/>
+
+Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/EthWorks/useDapp/tree/master/packages/example).
+
+Let's go over it step by step.
+
+## Setup
+
+The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config [here](/docs/API%20Reference/Models#config).
+
+```jsx
+  <DAppProvider>
+    <App /> {/* Wrap your app with the Provider */}
+  </DAppProvider>
+```
+
+## Connecting to a network
+
+Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks "Connect" button.
+
+```jsx
+  export function App() {
+    const { activateBrowserWallet, account } = useEthers()
+    return (
+      <div>
+        <div>
+          <button onClick={() => activateBrowserWallet()}>Connect</button>
+        </div>
+        {account && <p>Account: {account}</p>}
+      </div>
+    )
+  }
+```
+
+After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
+
+If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the [web3-react](https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview) doc for that one.

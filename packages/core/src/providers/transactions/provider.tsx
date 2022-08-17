@@ -1,6 +1,5 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
-import { useBlockNumber } from '../blockNumber/context'
+import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hooks'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
@@ -13,7 +12,8 @@ interface Props {
 export function TransactionProvider({ children }: Props) {
   const { chainId, library } = useEthers()
   const blockNumber = useBlockNumber()
-  const [storage, setStorage] = useLocalStorage('transactions')
+  const { localStorage } = useConfig()
+  const [storage, setStorage] = useLocalStorage(localStorage.transactionPath)
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
   const { addNotification } = useNotificationsContext()
 
@@ -87,7 +87,7 @@ export function TransactionProvider({ children }: Props) {
       dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
     }
 
-    updateTransactions()
+    void updateTransactions()
   }, [chainId, library, blockNumber])
 
   return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />

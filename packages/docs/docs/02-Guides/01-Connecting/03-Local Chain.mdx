@@ -1,0 +1,119 @@
+# Local Chain
+
+In this tutorial, we will go through the steps of connecting to a local Chain using Ganache.
+Connecting to a local Chain can be useful for local development of DApps for a number of reasons:
+
+- Transactions are faster,
+- Possibility to work offline,
+- Not relying on testnet faucets.
+
+## Prerequisites
+
+The tutorial assumes the user has already started with the basics of `useDApp`.
+
+See the [Getting Started](/docs) guide if you are a new user.
+
+## Start ganache
+
+Ganache is a personal blockchain for rapid Ethereum distributed application development. 
+You can use Ganache across the entire development cycle; enabling you to develop, deploy, and test your dApps in a safe and deterministic environment. 
+
+### Install
+
+```bash npm2yarn
+npm install ganache
+```
+
+### Run
+
+```bash
+ganache
+```
+
+You will see something like:
+
+```
+ganache v7.0.3 (@ganache/cli: 0.1.4, @ganache/core: 0.1.4)
+Starting RPC server
+
+Available Accounts
+==================
+(0) 0x83e670e1a9FC3c3c1399a80325083741D1a362f2 (1000 ETH)
+(1) 0xD52EFcd9d7dd4c27ff3BBC0e5bE796D9DF8503F0 (1000 ETH)
+(2) 0xd680d18708938aA350eEE857f201E1DFBc7202cf (1000 ETH)
+(3) 0xb8597c215460712c080C18636fc82960136437F1 (1000 ETH)
+(4) 0xd2b3694138b3379De32A027A09bEa207821A306D (1000 ETH)
+(5) 0xa6Fd3C54AB8B9F781Ca02eD0248683058B6088d8 (1000 ETH)
+(6) 0x5F8840e9e4C2C84D088c1fFb889f2aCAb3684f76 (1000 ETH)
+(7) 0xDf75De85f03Ce83D39C071e4c8D43914319FAB2C (1000 ETH)
+(8) 0xC98d548f1De48B3E6489DE6220aF7132898A3979 (1000 ETH)
+(9) 0x2138ff683f771ecca3312D18928131778f7f1635 (1000 ETH)
+
+Private Keys
+==================
+(0) 0xf6286bdb58f15a3c4f99af001a67d88104c3421bc680c51277b9b887325ee3f9
+(1) 0x80fed1c26b199d1c0a13cac49e977f3f306082be800fb8d6f1e4a109395b1a50
+(2) 0xf5ec61de0080e9a6081b9f828b917fdbc9f7f76bca041d48f74c38ec55702423
+(3) 0xc2c5eefc5b84d4b0a12d6384f502e31e771c1e1980f253dccc4ee51e45ffe08c
+(4) 0x2a932d7ec4abe76914cee7e95b287946a8fc9f1035d367201f42f8d2f12126d3
+(5) 0x75c6cb6c8e2b822547e19990d3329d81f85014dfb5a22374ab41b777ebe03ba4
+(6) 0x33cd5cd08cefd3027d79ad72d060b5162dc4284734dabc747644e06f90a33829
+(7) 0x45279b730ca8b4fcf6db360da6136ca5fe33e88e621b3a2012123add4093cd39
+(8) 0x01fea72899b1d02befcde988e9d1f152ce8ffb4872cdfdeb2676ad3fcf1746f2
+(9) 0x40e7e7e7c53b885f86cff7479ba42dc48c661a98e802867462e4f4e0283cb625
+
+HD Wallet
+==================
+Mnemonic:      ribbon twice crisp coconut spot tube cushion upset sunny spell riot empower
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+Default Gas Price
+==================
+2000000000
+
+BlockGas Limit
+==================
+30000000
+
+Call Gas Limit
+==================
+50000000
+
+Chain Id
+==================
+1337
+
+RPC Listening on 127.0.0.1:8545
+```
+
+## Configuration
+
+Add ganache address to configuration.
+
+```tsx
+  import { Localhost } from '@usedapp/core'
+
+  const config = {
+    readOnlyChainId: Localhost.chainId,
+    readOnlyUrls: {
+      [Localhost.chainId]: 'http://127.0.0.1:8545',
+    },
+  }
+```
+
+## Reading from blockchain
+
+To read from blockchain, just add a `queryOptions` object to specified call.
+
+You do not have to deploy multicall, because useDapp does it automatically.
+
+### Example
+
+```tsx
+const etherBalance = useEtherBalance(account, { chainId: Localhost.chainId })
+const tokenBalance = useTokenBalance(tokenAddress, account, { chainId: Localhost.chainId })
+```
+
+## Summary
+
+In this tutorial, we went through the steps required for using useDApp with a local chain using Ganache.
