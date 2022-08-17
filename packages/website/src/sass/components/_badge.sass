@@ -49,3 +49,38 @@
 
 .badge__decoration + .badge__text
   margin-left: 10px
+
+.badge--link
+  cursor: pointer
+  transition: $all
+
+.badge--link:hover
+  background-color: $black
+
+.badge--link:active
+  background-color: $black
+  opacity: 0.9
+
+.badge--link:hover .badge__decoration
+  color: $white
+
+.badge--link:hover .badge__text
+  color: $white
+
+.badge--link:focus-visible
+  background-color: $black
+
+.badge--link:focus-visible .badge__decoration
+  color: $white
+
+.badge--link:focus-visible .badge__text
+  color: $white
+
+.badge--link:active
+  background-color: $black
+
+.badge--link:active .badge__decoration
+  color: $white
+
+.badge--link:active .badge__text
+  color: $white

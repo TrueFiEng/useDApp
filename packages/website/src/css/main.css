@@ -652,6 +652,54 @@ img, svg {
   margin-left: 10px;
 }
 
+.badge--link {
+  cursor: pointer;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.badge--link:hover {
+  background-color: #23242A;
+}
+
+.badge--link:active {
+  background-color: #23242A;
+  opacity: 0.9;
+}
+
+.badge--link:hover .badge__decoration {
+  color: #FFFFFF;
+}
+
+.badge--link:hover .badge__text {
+  color: #FFFFFF;
+}
+
+.badge--link:focus-visible {
+  background-color: #23242A;
+}
+
+.badge--link:focus-visible .badge__decoration {
+  color: #FFFFFF;
+}
+
+.badge--link:focus-visible .badge__text {
+  color: #FFFFFF;
+}
+
+.badge--link:active {
+  background-color: #23242A;
+}
+
+.badge--link:active .badge__decoration {
+  color: #FFFFFF;
+}
+
+.badge--link:active .badge__text {
+  color: #FFFFFF;
+}
+
 .button {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2140,16 +2188,34 @@ body.body--menu-open .header__burger-lines::after {
 }
 
 .dependents__info {
+  display: block;
   margin: 10px auto 0;
   font-size: 24px;
   line-height: 38px;
   text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 @media (max-width: 740px) {
   .dependents__info {
     font-size: 18px;
     line-height: 24px;
   }
+}
+
+.dependents__info:hover {
+  color: #4D43FF;
+}
+
+.dependents__info:focus-visible {
+  color: #4D43FF;
+}
+
+.dependents__info:active {
+  color: #4D43FF;
+  opacity: 0.9;
 }
 
 .dependents__slider {

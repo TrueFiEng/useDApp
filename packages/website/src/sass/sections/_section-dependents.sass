@@ -16,14 +16,27 @@
   margin: 0 auto
 
 .dependents__info
+  display: block
   margin: 10px auto 0
   font-size: 24px
   line-height: 38px
   text-align: center
+  cursor: pointer
+  transition: $all
 
   +media(s)
     font-size: 18px
     line-height: 24px
+
+.dependents__info:hover
+  color: $purple
+
+.dependents__info:focus-visible
+  color: $purple
+
+.dependents__info:active
+  color: $purple
+  opacity: 0.9
 
 .dependents__slider
   margin: 32px auto 0
