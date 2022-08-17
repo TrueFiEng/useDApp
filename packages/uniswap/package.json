@@ -30,7 +30,8 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "@usedapp/testing": "workspace:*",
-    "@types/react": "17.0.1"
+    "@types/react": "17.0.1",
+    "@types/mocha": "^8.2.0"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs",
