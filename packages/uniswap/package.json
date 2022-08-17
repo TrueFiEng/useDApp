@@ -11,6 +11,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
+    "lint": "yarn lint:prettier --check && yarn lint:eslint",
+    "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
+    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
+    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'",
+    "test": "mocha './{src,test}/**/*.test.{ts,tsx}'"
+  },
   "dependencies": {
     
   },
@@ -26,6 +36,7 @@
     "eslint": "7.22.0",
     "prettier": "2.1.2",
     "ts-node": "^10.7.0",
+    "mocha": "^8.2.1",
     "ethereum-waffle": "4.0.0-alpha.27",
     "typescript": "^4.6.2",
     "chai": "^4.2.0",
@@ -34,14 +45,5 @@
     "@usedapp/testing": "workspace:*",
     "@types/react": "17.0.1",
     "@types/mocha": "^8.2.0"
-  },
-  "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
-    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
-    "build:cjs": "tsc --outDir dist/cjs",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
-    "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
   }
 }
