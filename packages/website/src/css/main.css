@@ -1791,6 +1791,11 @@ body.body--menu-open .header__burger-lines::after {
   color: #FFFFFF;
 }
 
+.footer__link.navigation__link--active {
+  text-stroke: 0.04em #FFFFFF;
+  -webkit-text-stroke: 0.04em #FFFFFF;
+}
+
 .footer__link:hover {
   border-color: #FFFFFF;
 }
@@ -1871,11 +1876,6 @@ body.body--menu-open .header__burger-lines::after {
 .copyrights__link:active {
   color: #FFFFFF;
   opacity: 0.9;
-}
-
-.copyrights__rights {
-  color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
 }
 
 .section--hero {
