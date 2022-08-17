@@ -1,15 +1,13 @@
-import { MockProvider } from '@ethereum-waffle/provider'
-import { solidity } from 'ethereum-waffle'
-import { Contract } from '@ethersproject/contracts'
-import { pack, keccak256 } from '@ethersproject/solidity'
-import { getCreate2Address } from '@ethersproject/address'
-import { parseFixed, formatFixed, BigNumber } from '@ethersproject/bignumber'
+import { solidity, MockProvider } from 'ethereum-waffle'
+import {BigNumber, Contract} from 'ethers'
+import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils';
 import chai, { expect } from 'chai'
-import { useUniswapPrice, INIT_CODE_HASH, UniswapV2Pair } from '@usedapp/uniswap'
+import { useUniswapPrice } from './useUniswapPrice'
+import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
 import { compareAddress } from '@usedapp/core'
-import { renderWeb3Hook } from '../src'
-import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../src/utils/deployMockToken'
-import { deployUniswapV2Pair } from '../src/utils/deployMockUniswapV2Pair'
+import { renderWeb3Hook } from '@usedapp/testing'
+import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '@usedapp/testing'
+import { deployUniswapV2Pair } from '../utils/deployMockUniswapV2Pair'
 
 chai.use(solidity)
 
@@ -44,13 +42,13 @@ describe('useUniswapPrice', () => {
   })
 
   it('get init code hash', async () => {
-    const initCodeHash = keccak256(['bytes'], [pack(['bytes'], [`0x${UniswapV2Pair.bytecode}`])])
+    const initCodeHash = solidityKeccak256(['bytes'], [solidityPack(['bytes'], [`0x${UniswapV2Pair.bytecode}`])])
     expect(initCodeHash).to.equal(INIT_CODE_HASH)
   })
 
   it('compute pair address by using CREATE2', async () => {
     const [token0Addr, token1Addr] = sortAddress(tokenA.address, tokenB.address)
-    const salt = keccak256(['bytes'], [pack(['address', 'address'], [token0Addr, token1Addr])])
+    const salt = solidityKeccak256(['bytes'], [solidityPack(['address', 'address'], [token0Addr, token1Addr])])
     const computedAddress = getCreate2Address(factory.address, salt, INIT_CODE_HASH)
     expect(computedAddress).to.equal(pair.address)
   })
@@ -70,6 +68,6 @@ describe('useUniswapPrice', () => {
     )
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(parseFixed(formatFixed(price, DIGITS), DIGITS))
+    expect(result.current).to.eq(price)
   })
 })

@@ -1,7 +1,7 @@
 import { Wallet } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { Contract } from '@ethersproject/contracts'
-import { UniswapV2Pair, UniswapV2Factory } from '@usedapp/uniswap'
+import { Contract } from 'ethers'
+import { UniswapV2Pair, UniswapV2Factory } from '../constants'
 
 export async function deployUniswapV2Pair(deployer: Wallet, token0: Contract, token1: Contract) {
   const factory = await deployContract(deployer, UniswapV2Factory, [deployer.address])

@@ -1,11 +1,9 @@
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
 import { compareAddress, useContractCall } from '@usedapp/core'
-import { pack, keccak256 } from '@ethersproject/solidity'
-import { getCreate2Address } from '@ethersproject/address'
-import { BigNumber, parseFixed, formatFixed } from '@ethersproject/bignumber'
+import {BigNumber} from 'ethers'
+import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils';
 
 /**
- * @dev
  * function`getReserves` of UniswapV2Pair returns uint112 type,
  * so we simply divide the reserve of quate token into the reserve of base token
  * e.g ETH/DAI reserve of Dai / the reserve of WETH
@@ -36,7 +34,7 @@ export function useUniswapPrice(
 
   const pair = getCreate2Address(
     overrides?.factory || UNISWAP_V2_FACTORY_ADDRESS[1], // Mainnet
-    keccak256(['bytes'], [pack(['address', 'address'], [token0, token1])]),
+    solidityKeccak256(['bytes'], [solidityPack(['address', 'address'], [token0, token1])]),
     overrides?.initCodeHash || INIT_CODE_HASH
   )
   const [reserve0, reserve1] =
@@ -56,5 +54,6 @@ export function useUniswapPrice(
   const EXP_SCALE = BigNumber.from(10).pow(digits)
   const price: BigNumber = numerator.mul(EXP_SCALE).div(denominator)
 
-  return parseFixed(formatFixed(price, digits), digits)
+  // return parseFixed(formatFixed(price, digits), digits)
+  return price
 }

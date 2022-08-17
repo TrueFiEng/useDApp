@@ -11,6 +11,10 @@
     "skipLibCheck": true,
     "moduleResolution": "node"
   },
+  "types": [
+    "mocha",
+    "node"
+  ],
   "include": [
     "src",
     "src/**/*.json"
