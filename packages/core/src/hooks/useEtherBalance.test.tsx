@@ -61,12 +61,11 @@ describe('useEtherBalance', () => {
     expect(result.current).to.eq(200)
   })
 
-  it.only('defaults to active read-write provider chain id', async () => {
+  it('defaults to active read-write provider chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
-        const { activate, chainId } = useEthers()
+        const { activate } = useEthers()
         const balance = useEtherBalance(receiver)
-        console.log({ chainId, balance: balance?.toString() })
         useEffect(() => {
           void activate(network2.provider)
         }, [])

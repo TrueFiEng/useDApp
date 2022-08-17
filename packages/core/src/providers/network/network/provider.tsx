@@ -87,6 +87,11 @@ export function NetworkProvider({ children, providerOverride }: NetworkProviderP
       onUnsubscribe()
       const clearSubscriptions = subscribeToProviderEvents(connector, update)
       setOnUnsubscribe(() => clearSubscriptions)
+      update({
+        provider: connector.getProvider(),
+        chainId: connector.chainId,
+        accounts: connector.accounts,
+      })
 
       if (!tag) {
         addConnector(newConnector!)

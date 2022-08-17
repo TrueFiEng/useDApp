@@ -37,7 +37,7 @@ describe('ApiNode connector', () => {
 
     const config: typeof initialConfig = {
       ...initialConfig,
-      connectors: [...initialConfig.connectors!, new ApiNodeConnector(rpcEndpoint)],
+      connectors: [...initialConfig.connectors!, new ApiNodeConnector(rpcEndpoint, 100)],
     }
 
     const { waitForCurrent } = await renderDAppHook(

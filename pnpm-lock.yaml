@@ -72,8 +72,8 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@coinbase/wallet-sdk': 3.3.0
-      '@usedapp/core': link:../../core
     devDependencies:
+      '@usedapp/core': link:../../core
       typescript: 4.6.2
 
   packages/connectors/portis:
@@ -83,8 +83,8 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@portis/web3': 4.0.7
-      '@usedapp/core': link:../../core
     devDependencies:
+      '@usedapp/core': link:../../core
       typescript: 4.6.2
 
   packages/connectors/wallet-connect:
@@ -93,9 +93,9 @@ importers:
       '@walletconnect/web3-provider': ^1.7.8
       typescript: ^4.6.2
     dependencies:
-      '@usedapp/core': link:../../core
       '@walletconnect/web3-provider': 1.7.8
     devDependencies:
+      '@usedapp/core': link:../../core
       typescript: 4.6.2
 
   packages/core:

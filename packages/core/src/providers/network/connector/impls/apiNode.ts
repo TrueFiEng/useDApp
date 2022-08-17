@@ -1,4 +1,5 @@
 import { providers } from 'ethers'
+import { DEFAULT_CONFIG } from '../../../../model/config/default'
 import { Connector, ConnectorPriority, UpdateFn } from '../connector'
 
 export class ApiNodeConnector implements Connector {
@@ -10,8 +11,9 @@ export class ApiNodeConnector implements Connector {
 
   onUpdate?: UpdateFn | undefined
 
-  constructor(url: string) {
+  constructor(url: string, pollingInterval = DEFAULT_CONFIG.pollingInterval) {
     this.provider = new providers.JsonRpcProvider(url)
+    this.provider.pollingInterval = pollingInterval
   }
 
   getTag(): string {
