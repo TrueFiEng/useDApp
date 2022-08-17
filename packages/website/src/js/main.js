@@ -247,9 +247,6 @@ startHeader.addEventListener('click', (event) => {
   })
 })
 
-// marquee
-Marquee3k.init()
-
 // handle visual height unit
 
 const handleVisualHeightUnit = () => {
@@ -335,6 +332,8 @@ const handleVideosRender = () => {
 }
 
 window.addEventListener('load', (event) => {
+  // marquee
+  Marquee3k.init()
   handleVideosRender()
 });
 
