@@ -1,0 +1,156 @@
+.section--hero
+  padding-top: 216px
+  padding-bottom: 60px
+
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-image: url('/img/backgrounds/hero__background.jpg')
+    background-size: 100% auto
+    background-repeat: no-repeat
+    mask-image: linear-gradient(180deg, black 95%, transparent)
+    mask-size: 100% 100%
+    mask-repeat: no-repeat
+
+  +media(l)
+    padding-top: 128px
+    padding-bottom: 42px
+
+  +media(s)
+    padding-top: 104px
+    padding-bottom: 38px
+
+  @media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi)
+    &::before
+      background-image: url('/img/backgrounds/hero__background@2x.jpg')
+
+.hero
+  display: grid
+  grid-template-columns: 172px 1fr
+  grid-template-rows: auto auto
+  column-gap: 48px
+  row-gap: 36px
+  width: fit-content
+
+  +media(l)
+    grid-template-columns: 128px 1fr
+    column-gap: 24px
+    row-gap: 16px
+    margin: 0 auto
+
+  +media(s)
+    grid-template-columns: 92px 1fr
+    column-gap: 16px
+    row-gap: 12px
+
+  +media(xs)
+    grid-template-columns: 72px 1fr
+
+.hero__ethereum
+  grid-column: 1 / 1
+  grid-row: 1 / -1
+  max-width: 172px
+  max-height: 282px
+  transition: $all
+
+  +media(l)
+    max-width: 128px
+    max-height: 210px
+
+  +media(s)
+    max-width: 92px
+    max-height: 152px
+    margin-top: 20px
+
+  +media(xs)
+    max-width: 72px
+    max-height: 120px
+
+.hero__title
+  display: block
+  font-size: 100px
+  line-height: 110px
+  font-weight: 700
+  word-spacing: -8px
+  white-space: nowrap
+
+  +media(l)
+    font-size: 68px
+    line-height: 78px
+
+  +media(s)
+    font-size: 42px
+    line-height: 46px
+    white-space: normal
+    word-spacing: unset
+
+  +media(xs)
+    font-size: 32px
+    line-height: 40px
+
+.hero__react-wrapper
+  display: inline-flex
+  justify-content: center
+  align-items: center
+  position: relative
+  width: 118px
+  max-width: 118px
+  height: 72px
+  max-height: 72px
+
+  +media(l)
+    width: 88px
+    max-width: 88px
+    height: 46px
+    max-height: 46px
+
+  +media(s)
+    width: 40px
+    max-width: 40px
+    height: 24px
+    max-height: 24px
+
+.hero__react
+  position: absolute
+  transition: $all
+
+.hero__description
+  font-size: 24px
+  line-height: 38px
+
+  +media(s)
+    grid-column: 1 / -1
+    font-size: 18px
+    line-height: 24px
+
+.hero__ethereum
+  stroke-width: 2.5px
+  overflow: visible
+
+.hero__react
+  stroke-width: 3px
+  overflow: visible
+
+.hero__ethereum .hero__ethereum-line,
+.hero__react .hero__react-line,
+.hero__react .hero__react-circle
+  transform-origin: 50% 50%
+  stroke-linecap: round
+  stroke-linejoin: miter
+  transition: $all
+
+.hero__ethereum-top
+  animation: animateHeroEthereumTop 5s linear infinite
+
+.hero__ethereum-bottom
+  animation: animateHeroEthereumBottom 5s linear infinite
+
+.hero__react-wrapper
+  animation: animateHeroReactImage 10s linear infinite
+
+.hero__react .hero__react-circle
+  animation: animateHeroReactCircle 5s ease infinite

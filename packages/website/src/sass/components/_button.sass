@@ -1,0 +1,61 @@
+@mixin buttonDefaultStyles
+  display: flex
+  position: relative
+  justify-content: center
+  align-items: center
+  width: fit-content
+  height: 56px
+  padding: 0 32px
+  font-size: 14px
+  line-height: 16px
+  font-weight: 700
+  letter-spacing: 0.02em
+  border-radius: 28px
+  color: $white
+  cursor: pointer
+  transition: $all
+
+  +media(l)
+    height: 46px
+    padding: 0 12px
+
+@mixin buttonLargeStyles
+  min-width: 200px
+
+@mixin buttonHoverStyles
+  background-color: transparent
+
+  &::before
+    opacity: 1
+
+.button
+  @include buttonDefaultStyles
+  background-color: $black
+
+  &::before
+    @include buttonDefaultStyles
+    content: attr(data-button-text)
+    position: absolute
+    top: 0
+    left: 0
+    opacity: 0
+    background-image: $gradient-red-to-purple
+    pointer-events: none
+    user-select: none
+
+.button:hover
+  @include buttonHoverStyles
+
+.button:focus-visible
+  @include buttonHoverStyles
+
+.button:active
+  @include buttonHoverStyles
+  background-color: transparentize($black, 0.2)
+
+  &::before
+    opacity: 0.8
+
+.button--large,
+.button--large::before
+  @include buttonLargeStyles

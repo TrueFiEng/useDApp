@@ -1,0 +1,275 @@
+.section--integration
+  padding-top: 152px
+  padding-bottom: 106px
+  background-color: $total-black
+
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-image: linear-gradient($decorator-line-red 1px, transparent 1px), linear-gradient(90deg, $decorator-line-red 1px, transparent 1px)
+    background-size: 24px 24px
+    background-repeat: repeat
+    opacity: 0.4
+    transform: translateY(-5px)
+    mask-image: radial-gradient(black, transparent)
+    mask-size: 65% 60%
+    mask-position: 100% 50%
+    mask-repeat: no-repeat
+    animation: gridAnimation 20s linear infinite
+
+  +media(l)
+    padding-top: 48px
+    padding-bottom: 24px
+
+  +media(s)
+    padding-top: 80px
+
+.integration
+  display: flex
+  column-gap: 54px
+  width: 100%
+  max-width: 100%
+
+  +media(l)
+    flex-direction: column
+
+.integration__content
+  width: 100%
+  max-width: 536px
+
+  +media(s)
+    max-width: 100%
+
+.integration__title
+  font-size: 84px
+  line-height: 106px
+
+  +media(l)
+    font-size: 60px
+    line-height: 72px
+
+  +media(s)
+    font-size: 36px
+    line-height: 42px
+    letter-spacing: -0.03em
+
+.integration__description
+  font-size: 32px
+  line-height: 72px
+  margin-top: 22px
+
+  +media(l)
+    font-size: 28px
+
+  +media(s)
+    font-size: 18px
+    line-height: 24px
+
+.integration__list
+  margin-top: 56px
+
+  +media(s)
+    margin-top: 42px
+
+.integration__item
+  display: flex
+  align-items: center
+  font-size: 18px
+  line-height: 26px
+  font-weight: 600
+  letter-spacing: 0.01em
+  color: $gray
+
+  &::before
+    content: ''
+    width: 24px
+    height: 24px
+    margin-right: 16px
+    background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" color="rgb(112,211,116)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M20 7.5975L9.90608 18L4 12.735L5.78463 11.0132L9.77205 14.5679L18.0857 6L20 7.5975Z" fill="currentColor"/> </svg>')
+    background-size: 24px 24px
+
+  +media(s)
+    font-size: 16px
+    line-height: 24px
+
+.integration__item + .integration__item
+  margin-top: 24px
+
+  +media(s)
+    margin-top: 18px
+
+.integration__media
+  display: flex
+  flex-direction: column
+
+  +media(l)
+    margin-top: 32px
+
+.integration__editor-container
+  max-width: 608px
+  box-shadow: 0px 4px 208px transparentize($decoration-gradient-tomato, 0.7)
+  transform: translate(10%, -15%)
+
+  +media(l)
+    max-width: 480px
+    transform: translate(0)
+
+  +media(s)
+    max-width: 328px
+    transform: translate(-10%, 5%)
+
+.integration__editor
+  display: block
+  object-fit: cover
+  max-width: 100%
+  max-height: 100%
+  border-radius: 8px
+  overflow: hidden
+
+.integration__video-container
+  width: fit-content
+  height: fit-content
+  max-width: 608px
+  border-radius: 8px
+  box-shadow: 0px 4px 208px transparentize($decoration-gradient-tomato, 0.7)
+  transform: translate(32%, -20%)
+  overflow: hidden
+
+  +media(l)
+    max-width: 480px
+    transform: translate(40%, -15%)
+
+  +media(s)
+    max-width: 328px
+    transform: translate(5%, -15%)
+
+.integration__video
+  min-width: 100%
+  width: 100%
+  max-width: 100%
+  height: 100%
+  max-height: 100%
+  object-fit: contain
+  transform: scale(1.02)
+
+.integration__video--desktop
+  &.integration__video--default
+    display: block
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: block
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: block
+
+  +media(l)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+
+.integration__video--tablet
+  &.integration__video--default
+    display: none
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+  +media(l)
+    &.integration__video--default
+      display: block
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+
+  +media(s)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: none
+
+.integration__video--mobile
+  &.integration__video--default
+    display: none
+  &.integration__video--retina
+    display: none
+
+  @media (-webkit-min-device-pixel-ratio: 1.25)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+  @media (min-resolution: 120dpi)
+    &.integration__video--default
+      display: none
+    &.integration__video--retina
+      display: none
+
+  +media(s)
+    &.integration__video--default
+      display: block
+    &.integration__video--retina
+      display: none
+
+    @media (-webkit-min-device-pixel-ratio: 1.25)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block
+    @media (min-resolution: 120dpi)
+      &.integration__video--default
+        display: none
+      &.integration__video--retina
+        display: block

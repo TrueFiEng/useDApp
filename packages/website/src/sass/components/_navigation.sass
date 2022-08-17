@@ -1,0 +1,57 @@
+
+.navigation__list
+  display: flex
+  align-items: center
+  width: fit-content
+
+.navigation__item + .navigation__item
+  margin-left: 24px
+
+  +media(l)
+    margin-left: 8px
+
+@mixin navigationLinkHoverStyles
+  border-color: $black
+
+  +media(s)
+    border-color: $white
+
+@mixin navigationLinkActiveStyles
+  text-stroke: 0.04em $black
+  -webkit-text-stroke: 0.04em $black
+
+  +media(s)
+    text-stroke: 0.04em $white
+    -webkit-text-stroke: 0.04em $white
+
+.navigation__link
+  display: flex
+  justify-content: center
+  align-items: center
+  width: fit-content
+  height: 30px
+  padding: 0 16px
+  font-size: 14px
+  line-height: 16px
+  border: 1px solid transparent
+  border-radius: 16px
+  text-stroke: 0em transparent
+  -webkit-text-stroke: 0em transparent
+  letter-spacing: 0.05em
+  white-space: nowrap
+  text-transform: capitalize
+  color: $black
+  transition: $all
+
+  +media(s)
+    color: $white
+
+.navigation__link:hover
+  @include navigationLinkHoverStyles
+
+.navigation__link:focus-visible
+  @include navigationLinkHoverStyles
+
+.navigation__link.navigation__link--active,
+.navigation__link:active
+  @include navigationLinkActiveStyles

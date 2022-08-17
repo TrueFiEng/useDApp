@@ -1,0 +1,20 @@
+.container
+  width: 100%
+  max-width: calc($container-default + $container-padding-desktop + $container-padding-desktop)
+  margin: 0 auto
+  padding: 0 $container-padding-desktop
+
+  +media(s)
+    max-width: 100%
+    padding: 0 $container-padding-mobile
+
+.container--large
+  max-width: calc($container-large + $container-padding-desktop + $container-padding-desktop)
+
+  +media(s)
+    max-width: 100%
+
+.container--full
+  max-width: 100%
+  padding: 0
+  overflow: hidden
