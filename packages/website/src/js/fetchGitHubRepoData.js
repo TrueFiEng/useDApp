@@ -41,9 +41,10 @@ const showFetchedDependents = async () => {
           )
           const numberOfDependentsInnerText = `${numberOfDependentsLink.innerText.replace(/[^0-9]/g, "")}`
           if (numberOfDependentsLink && Number(numberOfDependentsInnerText) > 0) {
+            const localNumberOfDependets = Math.floor(Number(numberOfDependentsInnerText) / 100) * 100
             githubDependentsText.textContent =
               new Intl.NumberFormat("en-US", { notation: "compact" })
-                .format(numberOfDependentsInnerText)
+                .format(localNumberOfDependets)
                 .toLowerCase() + "+"
           }
         }
