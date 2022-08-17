@@ -21,7 +21,7 @@ const showFetchedStars = async () => {
 }
 
 const showFetchedDependents = async () => {
-  githubDependentsText.textContent = "2000+"
+  githubDependentsText.textContent = "2.5k+"
 
   const githubPackageDependentsURL =
     "https://github.com/TrueFiEng/useDApp/network/dependents?package_id="
@@ -39,10 +39,11 @@ const showFetchedDependents = async () => {
           const numberOfDependentsLink = documentBody.querySelector(
             `.table-list-filters a[href$="${githubPackageID}"]`
           )
-          if (numberOfDependentsLink && Number(numberOfDependentsLink.innerText) > 0) {
+          const numberOfDependentsInnerText = `${numberOfDependentsLink.innerText.replace(/[^0-9]/g, "")}`
+          if (numberOfDependentsLink && Number(numberOfDependentsInnerText) > 0) {
             githubDependentsText.textContent =
               new Intl.NumberFormat("en-US", { notation: "compact" })
-                .format(numberOfDependentsLink.innerText.replace(/[^0-9]/g, ""))
+                .format(numberOfDependentsInnerText)
                 .toLowerCase() + "+"
           }
         }
