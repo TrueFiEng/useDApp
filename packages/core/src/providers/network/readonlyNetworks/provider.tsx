@@ -59,8 +59,8 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   const walletProviderItem = activeConnector && chainId ? { [chainId]: walletProvider } : {}
 
   useEffect(() => {
-    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides, ...walletProviderItem })
-  }, [...Object.entries(readOnlyUrls).flat(), walletProvider])
+    setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
+  }, [...Object.entries(readOnlyUrls).flat()])
 
   useEffect(() => {
     for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {

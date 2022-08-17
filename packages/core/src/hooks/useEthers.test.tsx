@@ -113,7 +113,7 @@ describe('useEthers', () => {
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
-      ganacheServer = Ganache.server({ server: { ws: true } })
+      ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
       await ganacheServer.listen(wsPort)
     })
 
