@@ -7,16 +7,17 @@ const githubPackageID = "UGFja2FnZS0xODg5OTgyMTY5"
 const proxyURL = "https://api.allorigins.win/raw?url="
 
 const showFetchedStars = async () => {
-  githubStarsText.textContent = "1.2k+"
+  githubStarsText.textContent = "1.2k"
 
   await fetch("https://api.github.com/repos/TrueFiEng/useDApp")
+    .then((response) => response.status === 200 ? response : Promise.reject('Failed to load number of GitHub stars.'))
     .then((response) => response.json())
     .then(
       (data) =>
       (githubStarsText.textContent =
         Intl.NumberFormat("en-US", { notation: "compact" })
           .format(data.stargazers_count)
-          .toLowerCase() + "+")
+          .toLowerCase())
     )
 }
 
@@ -29,6 +30,7 @@ const showFetchedDependents = async () => {
   const proxyURL = "https://api.allorigins.win/raw?url="
 
   fetch(proxyURL + githubPackageDependentsURL + githubPackageID)
+    .then((response) => response.status === 200 ? response : Promise.reject('Failed to load number of GitHub dependents.'))
     .then((response) => response.text())
     .then((html) => {
       const parser = new DOMParser()
