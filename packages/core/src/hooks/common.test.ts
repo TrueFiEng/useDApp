@@ -30,6 +30,7 @@ describe('ApiNode connector', () => {
 
   after(async () => {
     await server.close()
+    window.localStorage.clear()
   })
 
   it('Uses ApiNodeConnector as readonly connector', async () => {
