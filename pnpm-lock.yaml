@@ -125,7 +125,7 @@ importers:
       chai-as-promised: ^7.1.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
-      ethereum-waffle: 4.0.0-alpha.27
+      ethereum-waffle: 4.0.4
       ethers: 5.6.9
       fetch-mock: ^9.11.0
       ganache: 7.0.3
@@ -174,7 +174,7 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.22.0
-      ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
+      ethereum-waffle: 4.0.4_typescript@4.6.2
       ethers: 5.6.9
       ganache: 7.0.3
       jsdom: 16.7.0
@@ -319,7 +319,7 @@ importers:
       debug: ^4.3.4
       esbuild-loader: ^2.11.0
       eslint: 7.22.0
-      ethereum-waffle: 4.0.0-alpha.27
+      ethereum-waffle: 4.0.4
       file-loader: ^6.2.0
       framer-motion: ^4.1.5
       ganache: 7.0.3
@@ -392,7 +392,7 @@ importers:
       copy-webpack-plugin: 6.4.1_webpack@4.46.0
       esbuild-loader: 2.18.0_webpack@4.46.0
       eslint: 7.22.0
-      ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
+      ethereum-waffle: 4.0.4_kwnzqwn322murajwjctnbaj77a
       ganache: 7.0.3
       html-webpack-plugin: 4.5.2_webpack@4.46.0
       jsdom: 20.0.0
@@ -427,7 +427,7 @@ importers:
       encoding: ^0.1.13
       eslint: 7.22.0
       eslint-config-next: 12.1.6
-      ethereum-waffle: 4.0.0-alpha.27
+      ethereum-waffle: 4.0.4
       mocha: ^8.2.1
       next: 12.1.2
       react: 17.0.1
@@ -452,7 +452,7 @@ importers:
       '@types/styled-components': 5.1.24
       eslint: 7.22.0
       eslint-config-next: 12.1.6_rotnogawkvvli5ftcowmvhugxu
-      ethereum-waffle: 4.0.0-alpha.27_lcuro2urubbgbtvp5o3y5cw3q4
+      ethereum-waffle: 4.0.4_lcuro2urubbgbtvp5o3y5cw3q4
       mocha: 8.4.0
       typescript: 4.6.2
 
@@ -613,7 +613,7 @@ importers:
       '@usedapp/core': workspace:*
       chai: ^4.2.0
       eslint: 7.22.0
-      ethereum-waffle: 4.0.0-alpha.27
+      ethereum-waffle: 4.0.4
       ethers: 5.6.9
       jsdom: ^16.4.0
       jsdom-global: ^3.0.2
@@ -627,7 +627,7 @@ importers:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.2
       '@usedapp/core': link:../core
-      ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
+      ethereum-waffle: 4.0.4_typescript@4.6.2
       ethers: 5.6.9
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
@@ -3308,11 +3308,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@ethereum-waffle/chai/4.0.0-alpha.27:
-    resolution: {integrity: sha512-fBQWIGf3aKqa9kGOWHNu6uYZ6btPdk41ute2XQwVF/WrkGNM/DLcibPMnqSw5Jck122zkasV42ui0n5gdhCPKQ==}
+  /@ethereum-waffle/chai/4.0.4:
+    resolution: {integrity: sha512-s8nWICE4J3izKnGGh45kiOY4Vn1QEpPZgGa4iJWKzLmd2dQGLKpIK8i/g+P7J8So4TCfanXPNtM2WfKgzSZNOA==}
     engines: {node: '>=10.0'}
     dependencies:
-      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      '@ethereum-waffle/provider': 4.0.3
       debug: 4.3.4
       ethers: 5.6.9
     transitivePeerDependencies:
@@ -3320,8 +3320,8 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@ethereum-waffle/compiler/4.0.0-alpha.21_k25o3ehbvkwhnroiwh5ckaa7da:
-    resolution: {integrity: sha512-1+9S72b17cPVoiJ1+d2rwH4fLM0O5KMKGpKRZW0bIeMMw8+s4Y0e52NagAs3/3HSgjK3hSzsZcW9+Lnz4E/pnQ==}
+  /@ethereum-waffle/compiler/4.0.2_mwkz5p74gtdzfaenh7hsm6crcq:
+    resolution: {integrity: sha512-ZoNI9e3ReOH8jz5+7dqhju1WlXxhogwvgdCixdPkdC/Rs2xMgUmynANdSWOxQWjywEScvvfqFkQpltlcvqiytw==}
     engines: {node: '>=10.0'}
     peerDependencies:
       ethers: 5.6.2
@@ -3339,7 +3339,7 @@ packages:
       ethers: 5.6.9
       mkdirp: 0.5.5
       node-fetch: 2.6.7
-      solc: 0.6.12
+      solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
@@ -3348,8 +3348,8 @@ packages:
       - typescript
       - utf-8-validate
 
-  /@ethereum-waffle/compiler/4.0.0-alpha.21_td6cwx7wdbjara4hkccfi6ah5y:
-    resolution: {integrity: sha512-1+9S72b17cPVoiJ1+d2rwH4fLM0O5KMKGpKRZW0bIeMMw8+s4Y0e52NagAs3/3HSgjK3hSzsZcW9+Lnz4E/pnQ==}
+  /@ethereum-waffle/compiler/4.0.2_ngeyzvk4gec3bmknvz7uochdle:
+    resolution: {integrity: sha512-ZoNI9e3ReOH8jz5+7dqhju1WlXxhogwvgdCixdPkdC/Rs2xMgUmynANdSWOxQWjywEScvvfqFkQpltlcvqiytw==}
     engines: {node: '>=10.0'}
     peerDependencies:
       ethers: 5.6.2
@@ -3367,7 +3367,7 @@ packages:
       ethers: 5.6.9
       mkdirp: 0.5.5
       node-fetch: 2.6.7_encoding@0.1.13
-      solc: 0.6.12
+      solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
@@ -3377,8 +3377,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@ethereum-waffle/ens/4.0.0-alpha.22:
-    resolution: {integrity: sha512-+kzLoTwuPqjDvaWjpN+avkRk1TGag9QGw5hmGffB8NB6f4GHlHTbCq2A/rj10ERBN9SW+IROM3I+ygdAOPeqGQ==}
+  /@ethereum-waffle/ens/4.0.1:
+    resolution: {integrity: sha512-mdML2uvz/Owcb3VWu+rC45NPbk68avykkV7qgIEtyqzO5PcIhCyx6mULFEhqG9LK5vaGDm4HIQ/UyEH9lneOKQ==}
     engines: {node: '>=10.0'}
     dependencies:
       ethers: 5.6.9
@@ -3386,8 +3386,8 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /@ethereum-waffle/mock-contract/4.0.0-alpha.21:
-    resolution: {integrity: sha512-7St9+K+dYlIwagZlkE7ry4Au9wuEh9AH/tpMQ6wfy92lpyBUsrzG1rft+lD/6oUJ7MpN8VI/xYAoU8tdjPkWJw==}
+  /@ethereum-waffle/mock-contract/4.0.2:
+    resolution: {integrity: sha512-5TpyZ81pWbBx+OPXqnTfXqKEsggihIxIlCubICYgndWIHOZ5pBYhRXD6oYREx9+tdJK0+KB06u2g77lBIslbrQ==}
     engines: {node: '>=10.0'}
     dependencies:
       '@ethersproject/abi': 5.6.4
@@ -3396,11 +3396,11 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /@ethereum-waffle/provider/4.0.0-alpha.25:
-    resolution: {integrity: sha512-BzAUdgQ/PJdjr0T7JVU730+LOqoVstUvICldTo6/HSmsdjUwNxmxVDA28A3cfhV0tt6+u+4ej7VhcMjVmgY/fA==}
+  /@ethereum-waffle/provider/4.0.3:
+    resolution: {integrity: sha512-GCBiOXpT3GO2br2VQCQ2hzhnEv22Jb0muYzZh3EqQQKIFb+pxm5pLKkzwfDSSuVFNv0zYEullcwwvtCGuXctpw==}
     engines: {node: '>=10.0'}
     dependencies:
-      '@ethereum-waffle/ens': 4.0.0-alpha.22
+      '@ethereum-waffle/ens': 4.0.1
       '@ganache/ethereum-options': 0.1.4
       debug: 4.3.4
       ethers: 5.6.9
@@ -9707,9 +9707,6 @@ packages:
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
-  /commander/3.0.2:
-    resolution: {integrity: sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==}
-
   /commander/4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
     engines: {node: '>= 6'}
@@ -12069,40 +12066,63 @@ packages:
       secp256k1: 4.0.3
       setimmediate: 1.0.5
 
-  /ethereum-waffle/4.0.0-alpha.27_lcuro2urubbgbtvp5o3y5cw3q4:
-    resolution: {integrity: sha512-4QeS4i8v1lBsF86AgWeLDqSXlArcqq6pfsfqV4rO2WfYIgSqw93C+av+Q16HBN286zDBI6bh6GjOkMVz6GnEQQ==}
+  /ethereum-waffle/4.0.4_kwnzqwn322murajwjctnbaj77a:
+    resolution: {integrity: sha512-7e5/mDxxmVKOI8oy9KHTjO2k75klf97SxS7Pw6oO+NZ2K+QjygMxMolonkQg5CDFhD63WLm4dpiqqxzBcqFeuQ==}
     engines: {node: '>=10.0'}
     hasBin: true
     dependencies:
-      '@ethereum-waffle/chai': 4.0.0-alpha.27
-      '@ethereum-waffle/compiler': 4.0.0-alpha.21_td6cwx7wdbjara4hkccfi6ah5y
-      '@ethereum-waffle/mock-contract': 4.0.0-alpha.21
-      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      '@ethereum-waffle/chai': 4.0.4
+      '@ethereum-waffle/compiler': 4.0.2_mwkz5p74gtdzfaenh7hsm6crcq
+      '@ethereum-waffle/mock-contract': 4.0.2
+      '@ethereum-waffle/provider': 4.0.3
       ethers: 5.6.9
-      solc: 0.6.12
+      solc: 0.8.15_debug@4.3.4
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
+      - debug
       - encoding
       - supports-color
       - typescript
       - utf-8-validate
     dev: true
 
-  /ethereum-waffle/4.0.0-alpha.27_typescript@4.6.2:
-    resolution: {integrity: sha512-4QeS4i8v1lBsF86AgWeLDqSXlArcqq6pfsfqV4rO2WfYIgSqw93C+av+Q16HBN286zDBI6bh6GjOkMVz6GnEQQ==}
+  /ethereum-waffle/4.0.4_lcuro2urubbgbtvp5o3y5cw3q4:
+    resolution: {integrity: sha512-7e5/mDxxmVKOI8oy9KHTjO2k75klf97SxS7Pw6oO+NZ2K+QjygMxMolonkQg5CDFhD63WLm4dpiqqxzBcqFeuQ==}
     engines: {node: '>=10.0'}
     hasBin: true
     dependencies:
-      '@ethereum-waffle/chai': 4.0.0-alpha.27
-      '@ethereum-waffle/compiler': 4.0.0-alpha.21_k25o3ehbvkwhnroiwh5ckaa7da
-      '@ethereum-waffle/mock-contract': 4.0.0-alpha.21
-      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      '@ethereum-waffle/chai': 4.0.4
+      '@ethereum-waffle/compiler': 4.0.2_ngeyzvk4gec3bmknvz7uochdle
+      '@ethereum-waffle/mock-contract': 4.0.2
+      '@ethereum-waffle/provider': 4.0.3
       ethers: 5.6.9
-      solc: 0.6.12
+      solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /ethereum-waffle/4.0.4_typescript@4.6.2:
+    resolution: {integrity: sha512-7e5/mDxxmVKOI8oy9KHTjO2k75klf97SxS7Pw6oO+NZ2K+QjygMxMolonkQg5CDFhD63WLm4dpiqqxzBcqFeuQ==}
+    engines: {node: '>=10.0'}
+    hasBin: true
+    dependencies:
+      '@ethereum-waffle/chai': 4.0.4
+      '@ethereum-waffle/compiler': 4.0.2_mwkz5p74gtdzfaenh7hsm6crcq
+      '@ethereum-waffle/mock-contract': 4.0.2
+      '@ethereum-waffle/provider': 4.0.3
+      ethers: 5.6.9
+      solc: 0.8.15
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - encoding
       - supports-color
       - typescript
@@ -13156,6 +13176,7 @@ packages:
       klaw: 1.3.1
       path-is-absolute: 1.0.1
       rimraf: 2.7.1
+    dev: true
 
   /fs-extra/10.0.1:
     resolution: {integrity: sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==}
@@ -15320,6 +15341,7 @@ packages:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
     optionalDependencies:
       graceful-fs: 4.2.9
+    dev: true
 
   /jsonfile/3.0.1:
     resolution: {integrity: sha1-pezG9l9T9mLEQVx2daAzHQmS7GY=}
@@ -15436,6 +15458,7 @@ packages:
     resolution: {integrity: sha512-TED5xi9gGQjGpNnvRWknrwAB1eL5GciPfVFOt3Vk1OJCVDQbzuSfrF3hkUQKlsgKrG1F+0t5W0m+Fje1jIt8rw==}
     optionalDependencies:
       graceful-fs: 4.2.9
+    dev: true
 
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
@@ -19000,7 +19023,7 @@ packages:
     dev: false
 
   /readable-stream/1.0.34:
-    resolution: {integrity: sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=}
+    resolution: {integrity: sha512-ok1qVCJuRkNmvebYikljxJA/UEsKwLl2nI1OmaqAu4/UE+h0wKCHok4XkL/gvi39OacXvw59RJUOFUkDib2rHg==}
     dependencies:
       core-util-is: 1.0.3
       inherits: 2.0.4
@@ -20272,22 +20295,39 @@ packages:
       smart-buffer: 4.2.0
     dev: true
 
-  /solc/0.6.12:
-    resolution: {integrity: sha512-Lm0Ql2G9Qc7yPP2Ba+WNmzw2jwsrd3u4PobHYlSOxaut3TtUbj9+5ZrT6f4DUpNPEoBaFUOEg9Op9C0mk7ge9g==}
-    engines: {node: '>=8.0.0'}
+  /solc/0.8.12:
+    resolution: {integrity: sha512-TU3anAhKWBQ/WrerJ9EcHrNwGOA1y5vIk5Flz7dBNamLDkX9VQTIwcKd3FiZsT0Ew8rSU7RTmJyGNHRGzP5TBA==}
+    engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
       command-exists: 1.2.9
-      commander: 3.0.2
-      fs-extra: 0.30.0
+      commander: 8.3.0
+      follow-redirects: 1.14.9_debug@4.3.4
       js-sha3: 0.8.0
       memorystream: 0.3.1
-      require-from-string: 2.0.2
       semver: 5.7.1
       tmp: 0.0.33
+    transitivePeerDependencies:
+      - debug
+    dev: true
 
-  /solc/0.8.12:
-    resolution: {integrity: sha512-TU3anAhKWBQ/WrerJ9EcHrNwGOA1y5vIk5Flz7dBNamLDkX9VQTIwcKd3FiZsT0Ew8rSU7RTmJyGNHRGzP5TBA==}
+  /solc/0.8.15:
+    resolution: {integrity: sha512-Riv0GNHNk/SddN/JyEuFKwbcWcEeho15iyupTSHw5Np6WuXA5D8kEHbyzDHi6sqmvLzu2l+8b1YmL8Ytple+8w==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    dependencies:
+      command-exists: 1.2.9
+      commander: 8.3.0
+      follow-redirects: 1.14.9_debug@4.3.4
+      js-sha3: 0.8.0
+      memorystream: 0.3.1
+      semver: 5.7.1
+      tmp: 0.0.33
+    transitivePeerDependencies:
+      - debug
+
+  /solc/0.8.15_debug@4.3.4:
+    resolution: {integrity: sha512-Riv0GNHNk/SddN/JyEuFKwbcWcEeho15iyupTSHw5Np6WuXA5D8kEHbyzDHi6sqmvLzu2l+8b1YmL8Ytple+8w==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
