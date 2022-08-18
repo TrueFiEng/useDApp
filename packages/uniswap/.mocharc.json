@@ -1,8 +1,6 @@
 {
-  "spec": "test/**/*.test.{ts,tsx}",
+  "spec": "src/**/*.test.{ts,tsx}",
   "require": "ts-node/register",
-  "watchExtensions": "ts",
-  "extension": "ts",
-  "timeout": 3000,
+  "timeout": 10000,
   "file": "./src/test-setup.ts"
 }

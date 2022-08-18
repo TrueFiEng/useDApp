@@ -19,7 +19,7 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'",
-    "test": "mocha './{src,test}/**/*.test.{ts,tsx}'"
+    "test": "mocha"
   },
   "dependencies": {
     

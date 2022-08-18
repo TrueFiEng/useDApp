@@ -1,19 +1,17 @@
-import { solidity, MockProvider } from 'ethereum-waffle'
-import {BigNumber, Contract} from 'ethers'
+import {BigNumber, Contract, Wallet} from 'ethers'
 import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils';
 import chai, { expect } from 'chai'
 import { useUniswapPrice } from './useUniswapPrice'
 import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
-import { compareAddress } from '@usedapp/core'
-import { renderWeb3Hook } from '@usedapp/testing'
+import { compareAddress, Config } from '@usedapp/core'
+import { renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
 import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '@usedapp/testing'
 import { deployUniswapV2Pair } from '../utils/deployMockUniswapV2Pair'
 
-chai.use(solidity)
-
 describe('useUniswapPrice', () => {
-  const mockProvider = new MockProvider()
-  const [deployer] = mockProvider.getWallets()
+  let network1: TestingNetwork
+  let config: Config
+  let deployer: Wallet
   const DIGITS = 18
   const ONE = BigNumber.from(1)
   const RATIO = BigNumber.from(5)
@@ -34,6 +32,8 @@ describe('useUniswapPrice', () => {
   }
 
   beforeEach(async () => {
+    ;({ config, network1 } = await setupTestingConfig())
+    deployer = network1.wallets[0]
     tokenA = await deployMockToken(deployer)
     tokenB = await deployMockToken(deployer)
     ;({ factory, pair } = await deployUniswapV2Pair(deployer, tokenA, tokenB))
@@ -60,12 +60,13 @@ describe('useUniswapPrice', () => {
     const [numerator, denominator] = tokenA.address === token0Addr ? [ONE, RATIO] : [RATIO, ONE]
     const price = numerator.mul(EXP_SCALE).div(denominator)
 
-    const { result, waitForCurrent } = await renderWeb3Hook(
+    const { result, waitForCurrent } = await renderDAppHook(
       () => useUniswapPrice(tokenA.address, tokenB.address, { factory: factory.address }),
       {
-        mockProvider,
+        config,
       }
     )
+
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(price)
