@@ -81,26 +81,6 @@ export const withoutMetamaskTest = (baseUrl: string) => {
       })
     })
 
-    describe('Tokens', () => {
-      it('Reads the tokens info', async () => {
-        await page.goto(`${baseUrl}tokens`)
-
-        // const tokenResponse = await page.evaluate(async () => {
-        //   const UNISWAP_TOKEN_LIST_URL = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
-        //   return await fetch(UNISWAP_TOKEN_LIST_URL)
-        //     .then(r => r.ok ? r.json() : Promise.reject(r))
-        // })
-
-        await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('p', 'Uniswap Labs Default'))).to.be.true
-
-          // tokenResponse.tokens.map(async (token: any) => {
-          //   return expect(await page.isVisible(XPath.text('p', token.name))).to.be.true
-          // })
-        })
-      })
-    })
-
     describe('Mulltichain', () => {
       it('Reads the chain names', async () => {
         await page.goto(`${baseUrl}multichain`)
