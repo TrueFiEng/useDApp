@@ -143,7 +143,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
     describe('Connectors', () => {
       it('Can connect with a Metamask connector', async () => {
-        await page.goto(`${baseUrl}connector`)
+        await page.goto(`${baseUrl}connectors`)
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
@@ -241,7 +241,7 @@ export const withMetamaskTest = (baseUrl: string) => {
       })
 
       it('Can connect to WalletConnect', async () => {
-        await page.goto(`${baseUrl}connector`)
+        await page.goto(`${baseUrl}connectors`)
 
         let pagesNumber = context.pages().length
         await page.click(XPath.text('button', 'Disconnect'))
