@@ -56,7 +56,7 @@ describe('useUniswapPrice', () => {
   it('get price', async () => {
     const [token0Addr] = sortAddress(tokenA.address, tokenB.address)
 
-    // base/quate (e.g. ETH/DAI): price of baseToken in quateToken = quateTokenReserve / baseTokenReserve
+    // base/quote (e.g. ETH/DAI): price of baseToken in quoteToken = quoteTokenReserve / baseTokenReserve
     const [numerator, denominator] = tokenA.address === token0Addr ? [ONE, RATIO] : [RATIO, ONE]
     const price = numerator.mul(EXP_SCALE).div(denominator)
 
