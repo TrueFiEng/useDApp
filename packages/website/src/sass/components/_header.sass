@@ -1,0 +1,270 @@
+.header
+  display: flex
+  position: fixed
+  top: 0
+  left: 0
+  align-items: center
+  height: 80px
+  width: 100%
+  z-index: 100
+  transition: $all-xl
+
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: transparent
+    backdrop-filter: blur(0px)
+    mask-size: 100% 300%
+    mask-position: 100% 100%
+    mask-repeat: no-repeat
+    mask-image: linear-gradient(black 75%, transparent)
+    user-select: none
+    pointer-events: none
+    transition: $all-xl
+
+  +media(l)
+    height: 60px
+
+  +media(s)
+    height: 72px
+
+.header .container
+  z-index: 1
+
+.header--fixed::before
+  mask-position: 100% 0%
+  background-color: transparentize($white, 0.1)
+  backdrop-filter: blur(8px)
+
+.header__burger
+  display: none
+  position: relative
+  justify-content: center
+  align-items: center
+  width: 40px
+  height: 40px
+  margin-left: auto
+  padding: 10px
+  border-radius: 20px
+  background-color: $total-black
+  transition: $all
+  z-index: 50
+
+  +media(s)
+    display: flex
+
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: inherit
+    height: inherit
+    border-radius: inherit
+    opacity: 0
+    background-image: $gradient-red-to-purple
+    pointer-events: none
+    user-select: none
+    transition: $all
+
+.header__burger:hover
+  &::before
+    opacity: 1
+
+.header__burger:focus-visible
+  &::before
+    opacity: 1
+
+.header__burger-lines
+  display: flex
+  position: relative
+  flex-direction: column
+  width: 20px
+  height: 2px
+  background-color: $white
+  row-gap: 4px
+  user-select: none
+  pointer-events: none
+  transition: $all
+
+  &::before,
+  &::after
+    content: ''
+    display: block
+    position: absolute
+    width: 20px
+    height: 2px
+    background-color: $white
+    transform-origin: 50% 0%
+    user-select: none
+    pointer-events: none
+    transition: $all
+
+  &::before
+    top: 0
+    transform: translate(0, calc(-100% - 4px)) skewY(0deg)
+
+  &::after
+    bottom: 0
+    transform: translate(0, calc(100% + 4px)) skewY(0deg)
+
+body.body--menu-open
+  .header__burger-lines::before
+    transform: translate(0, calc(-100% - 1px)) skewY(15deg)
+
+  .header__burger-lines::after
+    transform: translate(0, calc(100% + 1px)) skewY(-15deg)
+
+.header__content
+  display: flex
+  align-items: center
+  width: 100%
+
+.header__logo
+  display: flex
+  align-items: center
+  height: 32px
+  width: fit-content
+  color: $black
+  cursor: pointer
+  transition: $all
+
+  +media(l)
+    height: 24px
+
+  +media(s)
+    z-index: 50
+
+.body--menu-open .header__logo
+  color: $white
+
+.header__logo-image
+  width: 32px
+  height: 32px
+  color: inherit
+  pointer-events: none
+  user-select: none
+
+  +media(l)
+    width: 24px
+    height: 24px
+
+  +media(s)
+    width: 32px
+    height: 32px
+
+.header__logo-text
+  margin-left: 8px
+  font-size: 20px
+  line-height: 24px
+  font-weight: 700
+  letter-spacing: -0.03em
+  color: inherit
+  pointer-events: none
+  user-select: none
+
+  +media(l)
+    margin-left: 6px
+    font-size: 14px
+    line-height: 24px
+
+  +media(s)
+    font-size: 20px
+
+.header__menu
+  display: flex
+  width: 100%
+  align-items: center
+
+  +media(s)
+    position: fixed
+    top: 0
+    left: 0
+    flex-direction: column
+    row-gap: 32px
+    width: 100%
+    max-width: 100%
+    height: 100vh
+    height: calc(var(--vh, 1vh) * 100)
+    background-color: transparent
+    background-image: radial-gradient(at 90% 55%, $total-black 0px, transparent 50%), radial-gradient(at 150% 150%, $decoration-gradient-violet 0px, transparent 50%), radial-gradient(at 150% 200%, $decoration-gradient-blue 0px, transparent 50%), radial-gradient(at 75% 165%, $decoration-gradient-red 0px, transparent 50%), radial-gradient(at 50% 125%, $decoration-gradient-orange 0px, transparent 50%)
+    background-size: 400% 400%
+    background-position: 100% 100%
+    opacity: 0.3
+    transform: translateX(100%)
+    mask-image: linear-gradient(270deg, black calc(100% - 48px), transparent)
+    mask-size: 100% 100%
+    mask-position: 100% 100%
+    mask-repeat: no-repeat
+    transition: $all
+    z-index: 45
+
+.body--menu-open .header__menu
+  background-color: $total-black
+  mask-size: calc(100% + 48px) 100%
+  opacity: 1
+  transform: translateX(0)
+
+.header__navigation
+  margin-left: 24px
+
+  +media(l)
+    margin-left: 8px
+
+  +media(s)
+    margin-left: 0
+    margin-top: 96px
+
+.header__list
+
+  +media(s)
+    flex-direction: column
+
+.header__item
+  & + &
+    +media(s)
+      margin-left: 0
+      margin-top: 32px
+
+    +media(xs)
+      margin-top: 24px
+
+.header__externals
+  display: flex
+  align-items: center
+  margin-left: auto
+
+  +media(s)
+    flex-direction: column
+    margin: 0 auto
+
+.header__socials
+  margin-right: 32px
+
+  +media(l)
+    display: none
+
+  +media(s)
+    display: flex
+    margin: 0
+
+.header__socials .header__social-link
+  +media(s)
+    background-color: $white
+
+.header__docs
+  +media(l)
+    min-width: unset
+
+    &::before
+      min-width: unset
+
+  +media(s)
+    margin-top: 32px
+
+  +media(s)
+    margin-top: 24px

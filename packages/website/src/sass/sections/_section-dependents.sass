@@ -1,0 +1,57 @@
+.section--dependents
+  padding-top: 58px
+  padding-bottom: 74px
+
+  +media(l)
+    padding-top: 42px
+    padding-bottom: 24px
+
+.dependents
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: 100%
+
+.dependents__badge
+  margin: 0 auto
+
+.dependents__info
+  display: block
+  margin: 10px auto 0
+  font-size: 24px
+  line-height: 38px
+  text-align: center
+  cursor: pointer
+  transition: $all
+
+  +media(s)
+    font-size: 18px
+    line-height: 24px
+
+.dependents__info:hover
+  color: $purple
+
+.dependents__info:focus-visible
+  color: $purple
+
+.dependents__info:active
+  color: $purple
+  opacity: 0.9
+
+.dependents__slider
+  margin: 32px auto 0
+  max-width: calc($container-large + $container-padding-desktop + $container-padding-desktop)
+
+  +media(l)
+    margin: 28px auto 0
+    max-width: 100%
+
+  +media(s)
+    margin: 40px auto 0
+
+.dependents__slider .slider__list
+  padding: 0 24px
+
+.dependents__slide .slider__link,
+.dependents__slide .slider__text
+  min-width: 100px

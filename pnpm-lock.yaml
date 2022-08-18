@@ -654,6 +654,7 @@ importers:
       del: ^3.0.0
       gulp: ^4.0.0
       gulp-autoprefixer: ^4.0.0
+      gulp-minify: ^3.1.0
       gulp-sass: ^5.0.0
       sass: ^1.43.4
     devDependencies:
@@ -661,6 +662,7 @@ importers:
       del: 3.0.0
       gulp: 4.0.2
       gulp-autoprefixer: 4.1.0
+      gulp-minify: 3.1.0
       gulp-sass: 5.1.0
       sass: 1.49.9
 
@@ -7874,7 +7876,7 @@ packages:
     dev: true
 
   /ansi-wrap/0.1.0:
-    resolution: {integrity: sha1-qCJQ3bABXponyoLoLqYDu/pF768=}
+    resolution: {integrity: sha512-ZyznvL8k/FZeQHr2T6LzcJ/+vBApDnMNZvfVFy3At0knswWd6rJ3/0Hhmpu8oqa6C92npmozs890sX9Dl6q+Qw==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -9552,7 +9554,7 @@ packages:
     dev: true
 
   /clone-buffer/1.0.0:
-    resolution: {integrity: sha1-4+JbIHrE5wGvch4staFnksrD3Fg=}
+    resolution: {integrity: sha512-KLLTJWrvwIP+OPfMn0x2PheDEP20RPUcGXj/ERegTgdmPEZylALQldygiqrPPu8P45uNuPs7ckmReLY6v/iA5g==}
     engines: {node: '>= 0.10'}
     dev: true
 
@@ -9571,7 +9573,7 @@ packages:
     dev: false
 
   /clone-stats/1.0.0:
-    resolution: {integrity: sha1-s3gt/4u1R04Yuba/D9/ngvh3doA=}
+    resolution: {integrity: sha512-au6ydSpg6nsrigcZ4m8Bc9hxjeW+GJ8xh5G3BJCMt4WXe1H10UNaVOamqQTmrx1kjVuxAHIQSNU6hY4Nsn9/ag==}
     dev: true
 
   /clone/1.0.4:
@@ -13674,6 +13676,17 @@ packages:
       yargs: 7.1.2
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /gulp-minify/3.1.0:
+    resolution: {integrity: sha512-ixF41aYg+NQikI8hpoHdEclYcQkbGdXQu1CBdHaU7Epg8H6e8d2jWXw1+rBPgYwl/XpKgjHj7NI6gkhoSNSSAg==}
+    dependencies:
+      ansi-colors: 1.1.0
+      minimatch: 3.1.2
+      plugin-error: 0.1.2
+      terser: 3.17.0
+      through2: 2.0.5
+      vinyl: 2.2.1
     dev: true
 
   /gulp-sass/5.1.0:
@@ -21138,6 +21151,17 @@ packages:
       source-map: 0.6.1
       terser: 5.12.0
       webpack: 5.72.1
+
+  /terser/3.17.0:
+    resolution: {integrity: sha512-/FQzzPJmCpjAH9Xvk2paiWrFq+5M6aVOf+2KRbwhByISDX/EujxsK+BAvrhb6H+2rtrLCHK9N01wO014vrIwVQ==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    dependencies:
+      acorn: 8.7.1
+      commander: 2.20.3
+      source-map: 0.6.1
+      source-map-support: 0.5.21
+    dev: true
 
   /terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==}
