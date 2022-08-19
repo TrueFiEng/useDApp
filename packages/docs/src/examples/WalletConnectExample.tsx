@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance } from '@usedapp/core'
+import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance, Rinkeby } from '@usedapp/core'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
@@ -11,6 +11,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
   },
 }
 
@@ -28,7 +29,7 @@ function App() {
   async function onConnect() {
     try {
       const provider = new WalletConnectProvider({
-        infuraId: '62687d1a985d4508b2b7a24827551934',
+        infuraId: 'f88abc181a4a45a6bc47bdda05a94944',
       })
       await provider.enable()
       await activate(provider)

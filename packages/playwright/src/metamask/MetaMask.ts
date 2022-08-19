@@ -5,6 +5,7 @@ import { XPath } from '../xpath'
 export const log = debug('usedapp:playwright')
 
 export class MetaMask {
+  private extensionId: string | undefined
   constructor(private page: Page) {}
 
   async getExtensionId() {
@@ -16,11 +17,13 @@ export class MetaMask {
     if (!id?.startsWith('ID: ')) throw new Error('Getting Metamask extension ID failed.')
     const extractedId = id.slice(4)
     log(`Successfully extracted Metamask ID: ${extractedId}`)
+    this.extensionId = extractedId
     return extractedId
   }
 
   async gotoMetamask() {
-    const metamaskId = await this.getExtensionId()
+    console.log('this.extensionId', this.extensionId)
+    const metamaskId = this.extensionId ?? (await this.getExtensionId())
     const metamaskUrl = 'chrome-extension://' + metamaskId + '//home.html'
     await this.page.goto(metamaskUrl)
   }
@@ -43,5 +46,34 @@ export class MetaMask {
 
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
+  }
+
+  async addWallet(privateKey: string) {
+    log('Adding wallet...')
+    await this.gotoMetamask()
+    await this.page.click(XPath.class('div', 'identicon__address-wrapper'))
+    await this.page.click(XPath.text('div', 'Import Account'))
+    await this.page.fill('#private-key-box', privateKey)
+    await this.page.click(XPath.text('button', 'Import'))
+    log('Wallet added.')
+  }
+
+  async switchWallet(index: number) {
+    log('Switching wallet...')
+    await this.gotoMetamask()
+    await this.page.click(XPath.class('div', 'identicon__address-wrapper'))
+    await this.page.click(`xpath=//div[contains(@class, "account-menu__accounts")]/div[${index}]`)
+    log('Wallet switched.')
+  }
+
+  async disconnect(app: string) {
+    log(`Disconnecting ${app}...`)
+    await this.gotoMetamask()
+    await this.page.click(`xpath=//button[@title='Account Options']`)
+    await this.page.click(XPath.text('span', 'Connected sites'))
+    const parentElement = this.page.locator(`xpath=//div[div[@title='${app}']][2]`)
+    console.log('parentElement', await parentElement.innerText())
+    // await disconnectElement.click()
+    log(`${app} disconnected.`)
   }
 }

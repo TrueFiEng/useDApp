@@ -8,9 +8,9 @@ import {
   addPageDiagnostics,
   MetaMask,
   metamaskChromeArgs as args,
-  waitForPopup
+  waitForPopup,
 } from '@usedapp/playwright'
-import {baseUrl} from './constants'
+import { baseUrl } from './constants'
 
 const log = debug('usedapp:docs:playwright')
 
@@ -60,56 +60,63 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     log('Metamask connected to the app.')
   })
 
-  describe('Guides/Transactions', () => {
-    it('Switches networks', async () => {
-      await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
+  // describe('Guides/Transactions', () => {
+  //   it('Switches networks', async () => {
+  //     await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
-      })
+  //     await waitForExpect(async () => {
+  //       expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+  //     })
 
-      let popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Rinkeby'))
-      let popupPage = await popupPromise
-      await popupPage.click(XPath.text('button', 'Switch network'))
+  //     let popupPromise = waitForPopup(context)
+  //     await page.click(XPath.text('button', 'Switch to Rinkeby'))
+  //     let popupPage = await popupPromise
+  //     await popupPage.click(XPath.text('button', 'Switch network'))
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
-      })
+  //     await waitForExpect(async () => {
+  //       expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
+  //     })
 
-      popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Mainnet'))
-      popupPage = await popupPromise
-      await popupPage.click(XPath.text('button', 'Switch network'))
+  //     popupPromise = waitForPopup(context)
+  //     await page.click(XPath.text('button', 'Switch to Mainnet'))
+  //     popupPage = await popupPromise
+  //     await popupPage.click(XPath.text('button', 'Switch network'))
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
-      })
-    })
-  })
+  //     await waitForExpect(async () => {
+  //       expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+  //     })
+  //   })
+  // })
 
   describe('Guides/Siwe', () => {
-    it('Can sign in and sign out', async () => {
-      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+    // it('Can sign in and sign out', async () => {
+    //   await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
-      })
+    //   await waitForExpect(async () => {
+    //     expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
+    //   })
 
-      const popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Sign in'))
-      const popupPage = await popupPromise
-      await popupPage.click(XPath.text('button', 'Sign'))
+    //   const popupPromise = waitForPopup(context)
+    //   await page.click(XPath.text('button', 'Sign in'))
+    //   const popupPage = await popupPromise
+    //   await popupPage.click(XPath.text('button', 'Sign'))
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
-      })
+    //   await waitForExpect(async () => {
+    //     expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
+    //   })
 
-      await page.click(XPath.text('button', 'Sign out'))
+    //   await page.click(XPath.text('button', 'Sign out'))
 
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
-      })
+    //   await waitForExpect(async () => {
+    //     expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
+    //   })
+    // })
+
+    it('xxx', async () => {
+      await metamask.addWallet('0x941536648ac10d5734973e94df413c17809d6cc5e24cd11e947e685acfbd12ae')
+      await metamask.switchWallet(1)
+      await metamask.disconnect('http://localhost:3000')
+      console.log('done')
     })
   })
 })
