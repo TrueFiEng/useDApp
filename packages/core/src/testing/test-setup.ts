@@ -4,7 +4,10 @@ import { solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
 
 let jsdomCleanup: any
-before(() => jsdomCleanup = require('jsdom-global')())
+before(() => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  jsdomCleanup = require('jsdom-global')()
+})
 after(() => jsdomCleanup?.())
 
 chai.use(solidity)

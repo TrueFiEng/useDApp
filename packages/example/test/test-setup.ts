@@ -7,6 +7,7 @@ chai.use(chaiAsPromised)
 
 let jsdomCleanup: any
 before(() => {
-  jsdomCleanup = require('jsdom-global')(undefined, {url: 'http://localhost/'})
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  jsdomCleanup = require('jsdom-global')(undefined, { url: 'http://localhost/' })
 })
 after(() => jsdomCleanup?.())
