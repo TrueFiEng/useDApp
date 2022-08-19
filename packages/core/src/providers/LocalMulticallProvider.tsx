@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { utils, providers } from 'ethers'
 import { getChainById } from '../helpers'
-import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'
+import { useEthers, useBlockNumber, useConfig, useUpdateConfig } from '../hooks'
 import multicallABI from '../constants/abi/MultiCall.json'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { deployContract } from '../helpers/contract'
@@ -21,7 +21,6 @@ enum LocalMulticallState {
 export function LocalMulticallProvider({ children }: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
   const { library, chainId } = useEthers()
-  const [, setMulticallAddress, getCurrent] = useLocalStorage('local_multicall_address' + chainId)
 
   const { multicallAddresses, multicallVersion } = useConfig()
   const [localMulticallState, setLocalMulticallState] = useState(LocalMulticallState.Unknown)
@@ -45,7 +44,8 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
         return
       }
       const checkDeployed = async () => {
-        const multicallAddress = getCurrent()
+        const localMulticallAddress = 'local_multicall_address' + chainId
+        const multicallAddress = window.localStorage.getItem(localMulticallAddress)
 
         if (typeof multicallAddress === 'string' && utils.isAddress(multicallAddress)) {
           const multicallCode = await library.getCode(multicallAddress)
@@ -70,7 +70,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
               signer
             )
             updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
-            setMulticallAddress(contractAddress)
+            window.localStorage.setItem(localMulticallAddress, contractAddress)
             setMulticallBlockNumber(blockNumber)
             setLocalMulticallState(LocalMulticallState.Deployed)
           } catch {

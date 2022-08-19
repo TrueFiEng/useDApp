@@ -71,8 +71,8 @@ const InputComponent = () => {
 }
 
 export const SendEthForm = () => {
-  const { account, chainId } = useEthers()
-  const balance = useEtherBalance(account, { chainId })
+  const { account } = useEthers()
+  const balance = useEtherBalance(account)
   return (
     <ContentBlock style={{ padding: 0 }}>
       <TitleRow>
