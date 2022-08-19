@@ -1,8 +1,11 @@
-import 'jsdom-global/register'
 import 'mock-local-storage'
 import chai from 'chai'
 import { solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
+
+let jsdomCleanup: any
+before(() => jsdomCleanup = require('jsdom-global')())
+after(() => jsdomCleanup?.())
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
