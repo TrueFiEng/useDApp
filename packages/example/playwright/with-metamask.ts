@@ -240,6 +240,50 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
 
+      it('Transfers funds to another wallet', async () => {
+        log('Adding an account with some funds on local network...')
+        await metamask.addAccount(defaultAccounts[2].secretKey, [page])
+
+        log('Switching to local network...')
+        await metamask.switchToNetwork('Localhost 8545')
+        log('Switched to local network.')
+  
+        const wallet = Wallet.createRandom()
+        log(`Trying to transfer funds to ${wallet.address}...`)
+        let pagesNumber = context.pages().length
+
+        await page.goto(`${baseUrl}send`)
+        await page.fill(XPath.id('input', 'EthInput'), '1')
+        await page.fill(XPath.id('input', 'AddressInput'), wallet.address)
+        await page.click(XPath.text('button', 'Send'))
+
+        await waitForExpect(() => {
+          expect(context.pages().length).to.be.equal(pagesNumber + 1)
+        })
+
+        const metamaskPage = context.pages()[context.pages().length - 1]
+
+        log('Confiming transaction in metamask...')
+        await metamaskPage.click(XPath.text('button', 'Confirm'))
+        log('Transaction sent.')
+
+        log('Checking if funds were sent...')
+        await metamask.addAccount(wallet.privateKey, [page])
+
+        await page.goto(`${baseUrl}balance`)
+
+        await waitForExpect(async () => {
+          expect(await page.isVisible(XPath.id('span', 'balance-page-balance'))).to.be.true
+          const locator = page.locator(`${XPath.id('span', 'balance-page-balance')}`)
+          const textContent = await locator.textContent()
+          if (!textContent) {
+            throw new Error('Balance for current account not found')
+          }
+          const balance = utils.parseEther(textContent)
+          expect(balance).to.be.eq(utils.parseEther('1'))
+        })
+      })
+
       it('Can connect to WalletConnect', async () => {
         await page.goto(`${baseUrl}connectors`)
 
