@@ -5,6 +5,7 @@ import { headless, slowMo, XPath, addPageDiagnostics } from '@usedapp/playwright
 import Ganache, { Server } from 'ganache'
 import debug from 'debug'
 import { defaultAccounts } from 'ethereum-waffle'
+import { sleep } from '@usedapp/testing'
 
 const log = debug('usedapp:example:playwright')
 
@@ -84,6 +85,8 @@ export const withoutMetamaskTest = (baseUrl: string) => {
     describe('Mulltichain', () => {
       it('Reads the chain names', async () => {
         await page.goto(`${baseUrl}multichain`)
+
+        await sleep(1000) // to avoid failing providers in consetutive tests
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
