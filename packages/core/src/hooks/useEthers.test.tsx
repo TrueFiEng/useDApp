@@ -34,7 +34,7 @@ describe('useEthers', () => {
     expect(result.current.account).to.be.undefined
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.eq(network1.provider)
-    expect(result.current.active).to.be.false
+    expect(result.current.active).to.be.true
     expect(result.current.isLoading).to.be.false
   })
 
