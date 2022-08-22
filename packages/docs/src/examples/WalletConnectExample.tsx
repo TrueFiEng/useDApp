@@ -28,7 +28,7 @@ function App() {
   async function onConnect() {
     try {
       const provider = new WalletConnectProvider({
-        infuraId: '62687d1a985d4508b2b7a24827551934',
+        infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
       })
       await provider.enable()
       await activate(provider)
