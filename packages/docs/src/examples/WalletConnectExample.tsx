@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance } from '@usedapp/core'
 
 // Regular import crashes the app with "Buffer is not defined" error.
-import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js';
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { AccountIcon } from './components/AccountIcon'
