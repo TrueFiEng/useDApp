@@ -90,7 +90,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         }
         if (localStorage.getItem('getMessageHash')) {
           const siweMessage = new SiweMessage(JSON.parse(localStorage.getItem('siweMessage') as string))
-          createGnosisSafeListener({
+          void createGnosisSafeListener({
             message: siweMessage,
           })
         } else {
