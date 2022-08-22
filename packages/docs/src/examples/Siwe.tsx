@@ -25,12 +25,12 @@ ReactDOM.render(
 
 export function App() {
   const { account, activate, error, activateBrowserWallet } = useEthers()
-  const { signIn, signOut, isLoggedIn, isLoading, message } = useSiwe()
+  const { signIn, signOut, isLoggedIn, isLoading, message, error: siweError } = useSiwe()
 
   async function onConnect() {
     try {
       const provider = new WalletConnectProvider({
-        infuraId: 'f88abc181a4a45a6bc47bdda05a94944',
+        infuraId: 'fb8e136826194e17957732a5167af494',
       })
       await provider.enable()
       await activate(provider)
@@ -71,15 +71,15 @@ export function App() {
         <button disabled={!isLoggedIn} onClick={signOut}>
           Sign out
         </button>
-        {isLoggedIn ? (
+        {siweError && <div>Error: {siweError.message}</div>}
+        {isLoggedIn && (
           <>
             <p>Logged in with {message.address}</p>
             <p>Nonce: {message.nonce}</p>
             <p>ChainId: {message.chainId}</p>
           </>
-        ) : (
-          <p>Not logged in</p>
         )}
+        {!siweError && !isLoggedIn && <p>Not logged in</p>}
       </div>
     )
   }

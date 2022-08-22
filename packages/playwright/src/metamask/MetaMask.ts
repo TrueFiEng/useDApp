@@ -12,7 +12,7 @@ export class MetaMask {
     await this.page.goto('chrome://extensions')
     await this.page.click('#devMode')
     await this.page.waitForSelector('#extension-id')
-    const locator = await this.page.locator('#extension-id')
+    const locator = this.page.locator('#extension-id')
     const id = await locator.innerText()
     if (!id?.startsWith('ID: ')) throw new Error('Getting Metamask extension ID failed.')
     const extractedId = id.slice(4)
@@ -22,7 +22,6 @@ export class MetaMask {
   }
 
   async gotoMetamask() {
-    console.log('this.extensionId', this.extensionId)
     const metamaskId = this.extensionId ?? (await this.getExtensionId())
     const metamaskUrl = 'chrome-extension://' + metamaskId + '//home.html'
     await this.page.goto(metamaskUrl)
@@ -62,18 +61,20 @@ export class MetaMask {
     log('Switching wallet...')
     await this.gotoMetamask()
     await this.page.click(XPath.class('div', 'identicon__address-wrapper'))
-    await this.page.click(`xpath=//div[contains(@class, "account-menu__accounts")]/div[${index}]`)
+    await this.page.click(XPath.text('div', `Account ${index + 1}`))
     log('Wallet switched.')
   }
 
-  async disconnect(app: string) {
+  async disconnectApp(app: string) {
     log(`Disconnecting ${app}...`)
     await this.gotoMetamask()
     await this.page.click(`xpath=//button[@title='Account Options']`)
     await this.page.click(XPath.text('span', 'Connected sites'))
-    const parentElement = this.page.locator(`xpath=//div[div[@title='${app}']][2]`)
-    console.log('parentElement', await parentElement.innerText())
-    // await disconnectElement.click()
+    const disconnectButton = this.page.locator(
+      `xpath=//span[contains(text(), "${app}")]/ancestor::div[1]/ancestor::div[1]/a`
+    )
+    await disconnectButton.click()
+    await this.page.click(XPath.text('button', 'Disconnect'))
     log(`${app} disconnected.`)
   }
 }
