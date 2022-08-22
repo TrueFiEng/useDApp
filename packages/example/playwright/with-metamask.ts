@@ -247,10 +247,10 @@ export const withMetamaskTest = (baseUrl: string) => {
         log('Switching to local network...')
         await metamask.switchToNetwork('Localhost 8545')
         log('Switched to local network.')
-  
+
         const wallet = Wallet.createRandom()
         log(`Trying to transfer funds to ${wallet.address}...`)
-        let pagesNumber = context.pages().length
+        const pagesNumber = context.pages().length
 
         await page.goto(`${baseUrl}send`)
         await page.fill(XPath.id('input', 'EthInput'), '1')
