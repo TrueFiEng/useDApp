@@ -127,9 +127,11 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     if (page) await page.close()
     if (context) await context.close()
 
+    log(`Slowmo: ${slowMo}`)
+
     context = await browserType.launchPersistentContext('', {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
-      slowMo,
+      slowMo: 750,
       args,
       recordVideo: {
         dir: 'playwright/recordings/',
