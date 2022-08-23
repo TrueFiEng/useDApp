@@ -49,7 +49,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const { getNonce, getAuth, signIn, signOut } = api ?? getFetchers(backendUrl ?? '')
 
   const createGnosisSafeListener = async ({ message }: { message: SiweMessage }) => {
-    console.log('Creating listener for Gnosis Safe')
     const gnosisSafeContract = new Contract(message.address, new Interface(GNOSIS_SAFE_ABI), library)
 
     let getMessageHash = localStorage.getItem('getMessageHash')
@@ -57,8 +56,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       getMessageHash = await gnosisSafeContract.getMessageHash(utils.hashMessage(message.prepareMessage()))
       localStorage.setItem('getMessageHash', getMessageHash as string)
     }
-
-    console.log({ getMessageHash })
 
     const onMultiSigSigned = async () => {
       gnosisSafeContract.removeListener(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)

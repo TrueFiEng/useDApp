@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import { Mainnet, DAppProvider, useEthers, Config, Rinkeby } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { SiweProvider, useSiwe } from '@usedapp/siwe'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+
+// Regular import crashes the app with "Buffer is not defined" error.
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
 import { AccountIcon } from './components/AccountIcon'
 
 const config: Config = {
