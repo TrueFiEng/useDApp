@@ -30,7 +30,9 @@ export async function connectToMetamask({ page, context }: { page: Page; context
   await popupPage.click(XPath.text('button', 'Connect'))
   try {
     await popupPage.click(XPath.text('button', 'Switch network'))
+    log('Switched network')
   } catch (err) {
+    log('No switch network button')
     // Ignore error
   }
   await waitForExpect(() => {
