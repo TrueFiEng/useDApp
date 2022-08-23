@@ -23,7 +23,7 @@ ReactDOM.render(
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 export function App() {
-  const { account, activateBrowserWallet, deactivate, chainId} = useEthers()
+  const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
   if (!config.readOnlyUrls[chainId]) {
