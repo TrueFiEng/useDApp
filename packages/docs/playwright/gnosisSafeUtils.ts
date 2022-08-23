@@ -43,8 +43,6 @@ export async function walletConnectConnect({ page }: { page: Page }) {
   const isMac = await page.evaluate(() => navigator.platform.includes('Mac'))
   const modifier = isMac ? 'Meta' : 'Control'
 
-  await page.screenshot({ path: 'playwright/recordings/walletConnectConnect.png' })
-
   await page.frameLocator('[title="WalletConnect"]').locator('#wc-uri').focus()
   await page.keyboard.press(`${modifier}+KeyV`)
 }
@@ -70,5 +68,7 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   const popupPromise = waitForPopup(context)
   await page.click(XPath.text('span', 'Submit'))
   const popupPage = await popupPromise
-  await popupPage.click(XPath.text('button', 'Confirm'))
+  log('Trying to click...')
+  await (await popupPage.waitForSelector(XPath.text('button', 'Confirm'))).click()
+  // await popupPage.click(XPath.text('button', 'Confirm'))
 }

@@ -18,7 +18,7 @@
     "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './src/examples/*.{ts,tsx}'",
     "lint:prettier": "pnpm prettier './src/examples/*.{ts,tsx}'",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 90000"
+    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000"
   },
   "dependencies": {
     "@algolia/client-search": "^4.9.1",

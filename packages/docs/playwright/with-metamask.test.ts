@@ -127,11 +127,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     if (page) await page.close()
     if (context) await context.close()
 
-    log(`Slowmo: ${slowMo}`)
-
     context = await browserType.launchPersistentContext('', {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
-      slowMo: 750,
+      slowMo: 500,
       args,
       recordVideo: {
         dir: 'playwright/recordings/',
@@ -156,10 +154,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
 
   before(async () => {
     await import('dotenv/config')
-    log('Importing wallets...')
     await metamask.addWallet(process.env.DOCS_GNOSIS_OWNER_FIRST)
     await metamask.addWallet(process.env.DOCS_GNOSIS_OWNER_SECOND)
-    log('Wallets imported.')
   })
 
   it('Sign transaction from 2 wallets', async () => {
@@ -197,10 +193,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    log('Switching wallets...')
     await metamask.disconnectApp('gnosis-safe.io')
     await metamask.switchWallet(1)
-    log('Wallet switched.')
 
     log('Second wallet signs...')
     await secondSign({
@@ -237,10 +231,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    log('Switching wallets...')
     await metamask.disconnectApp('gnosis-safe.io')
     await metamask.switchWallet(2)
-    log('Wallet switched.')
 
     await page.reload()
     await page.click(XPath.text('button', 'Connect with WalletConnect'))
@@ -281,10 +273,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    log('Switching wallets...')
     await metamask.disconnectApp('gnosis-safe.io')
     await metamask.switchWallet(1)
-    log('Wallet switched.')
 
     await page.close()
     log('Page closed.')
