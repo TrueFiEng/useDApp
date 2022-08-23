@@ -2,8 +2,11 @@ import { BrowserContext, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { expect } from 'chai'
 import { XPath, waitForPopup } from '@usedapp/playwright'
+import debug from 'debug'
 
 export const GNOSIS_SAFE_URL = 'https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home'
+
+const log = debug('usedapp:docs:playwright')
 
 export async function initGnosisSafe({ page, url }: { page: Page; url: string }) {
   await page.goto(url)
@@ -36,13 +39,12 @@ export async function connectToMetamask({ page, context }: { page: Page; context
 }
 
 export async function walletConnectConnect({ page }: { page: Page }) {
-  // const iframeElement = await page.waitForSelector('//iframe')
-  // const iframe = await iframeElement.contentFrame()
-
   const isMac = await page.evaluate(() => navigator.platform.includes('Mac'))
   const modifier = isMac ? 'Meta' : 'Control'
 
-  // await iframe?.focus('#wc-uri')
+  // print the whole page to the console
+  log(await page.content())
+
   await page.frameLocator('[title="WalletConnect"]').locator('#wc-uri').focus()
   await page.keyboard.press(`${modifier}+KeyV`)
 }

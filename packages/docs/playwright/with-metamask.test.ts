@@ -55,8 +55,6 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
   before(async () => {
     log('Connecting Metamask to the app...')
-    await metamask.addWallet('44e06012d980837ea48fe4e712837ddfcf7e6f8aeb37975b9ee9bbf39029a65c')
-    await metamask.switchWallet(1)
     await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
     const popupPromise = waitForPopup(context)
