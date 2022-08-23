@@ -77,6 +77,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         if (res.loggedIn) {
           const siweMessage = res.message as SiweMessage
           setMessage(siweMessage)
+          setLoading(false)
           if (siweMessage.address !== account) {
             setError(new Error('Wrong account'))
             return setLoggedIn(false)
@@ -85,7 +86,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
             setError(new Error('Wrong chainId'))
             return setLoggedIn(false)
           }
-          setLoading(false)
           return setLoggedIn(true)
         }
         if (localStorage.getItem('getMessageHash')) {
@@ -157,7 +157,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         chainId,
         nonce,
       })
-      localStorage.setItem('siweMessage', JSON.stringify(message))
 
       setLoading(true)
       const signature = await signer.signMessage(message.prepareMessage()).catch((err) => {
@@ -175,6 +174,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       }
 
       if (signature === '0x') {
+        localStorage.setItem('siweMessage', JSON.stringify(message))
         return createGnosisSafeListener({
           message,
         })

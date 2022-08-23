@@ -3,6 +3,8 @@ import waitForExpect from 'wait-for-expect'
 import { expect } from 'chai'
 import { XPath, waitForPopup } from '@usedapp/playwright'
 
+export const GNOSIS_SAFE_URL = 'https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home'
+
 export async function initGnosisSafe({ page, url }: { page: Page; url: string }) {
   await page.goto(url)
   await page.click(XPath.text('span', 'Accept all'))
@@ -53,14 +55,12 @@ export async function firstSign({ page, context }: { page: Page; context: Browse
 }
 
 export async function secondSign({ page, context }: { page: Page; context: BrowserContext }) {
-  await page.goto('https://gnosis-safe.io/app/rin:0x390De1aB69a6ef1e48545aa7c9852E5Cdff9a08C/home')
-  await page.reload()
+  await page.goto(GNOSIS_SAFE_URL)
 
   await connectToMetamask({
     page: page,
     context,
   })
-
   await page.click(XPath.text('span', 'signMessage'))
   await page.click(XPath.text('span', 'signMessage'))
   await page.click('xpath=//span[contains(text(), "Confirm") and @class="MuiButton-label"]')
