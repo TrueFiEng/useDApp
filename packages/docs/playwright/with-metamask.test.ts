@@ -69,12 +69,12 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       let popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Rinkeby'))
+      await page.click(XPath.text('button', 'Switch to Goerli'))
       let popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='4']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
       })
 
       popupPromise = waitForPopup(context)
