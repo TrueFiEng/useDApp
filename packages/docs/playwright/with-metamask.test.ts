@@ -81,7 +81,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       const popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Rinkeby'))
+      await page.click(XPath.text('button', 'Switch to Goerli'))
       const popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 

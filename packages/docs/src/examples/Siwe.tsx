@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useEthers, Config, Rinkeby } from '@usedapp/core'
+import { Mainnet, DAppProvider, useEthers, Config, Rinkeby, Goerli } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { SiweProvider, useSiwe } from '@usedapp/siwe'
 
@@ -12,6 +12,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
     [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
   },
 }
