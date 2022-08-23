@@ -36,13 +36,14 @@ export async function connectToMetamask({ page, context }: { page: Page; context
 }
 
 export async function walletConnectConnect({ page }: { page: Page }) {
-  const iframeElement = await page.waitForSelector('//iframe')
-  const iframe = await iframeElement.contentFrame()
+  // const iframeElement = await page.waitForSelector('//iframe')
+  // const iframe = await iframeElement.contentFrame()
 
   const isMac = await page.evaluate(() => navigator.platform.includes('Mac'))
   const modifier = isMac ? 'Meta' : 'Control'
 
-  await iframe?.focus('#wc-uri')
+  // await iframe?.focus('#wc-uri')
+  await page.frameLocator('[title="WalletConnect"]').locator('#wc-uri').focus()
   await page.keyboard.press(`${modifier}+KeyV`)
 }
 

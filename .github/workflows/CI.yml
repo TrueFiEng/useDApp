@@ -70,7 +70,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - uses: microsoft/playwright-github-action@v1
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
