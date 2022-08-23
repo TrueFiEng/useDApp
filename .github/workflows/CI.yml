@@ -88,7 +88,7 @@ jobs:
           pnpm run generate
           yarn start &
           sleep 15
-          yarn test:playwright
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
