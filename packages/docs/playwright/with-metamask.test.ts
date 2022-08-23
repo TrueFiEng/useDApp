@@ -131,6 +131,10 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
       slowMo,
       args,
+      recordVideo: {
+        dir: './videos/',
+        size: { width: 1280, height: 720 },
+      },
     })
 
     log('Waiting until Metamask installs itself...')

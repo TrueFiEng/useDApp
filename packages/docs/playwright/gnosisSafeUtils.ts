@@ -33,7 +33,6 @@ export async function connectToMetamask({ page, context }: { page: Page; context
     log('Switched network')
   } catch (err) {
     log('No switch network button')
-    // Ignore error
   }
   await waitForExpect(() => {
     expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
@@ -44,8 +43,7 @@ export async function walletConnectConnect({ page }: { page: Page }) {
   const isMac = await page.evaluate(() => navigator.platform.includes('Mac'))
   const modifier = isMac ? 'Meta' : 'Control'
 
-  // print the whole page to the console
-  log(await page.content())
+  await page.screenshot({ path: 'playwright/recordings/walletConnectConnect.png' })
 
   await page.frameLocator('[title="WalletConnect"]').locator('#wc-uri').focus()
   await page.keyboard.press(`${modifier}+KeyV`)
