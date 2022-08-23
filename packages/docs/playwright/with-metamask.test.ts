@@ -132,8 +132,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
       slowMo,
       args,
       recordVideo: {
-        dir: './videos/',
-        size: { width: 1280, height: 720 },
+        dir: 'playwright/recordings/',
+        size: { width: 1280, height: 960 },
       },
     })
 
