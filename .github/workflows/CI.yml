@@ -91,7 +91,7 @@ jobs:
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
-          DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_LAST }}
+          DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
           DEBUG: usedapp*
         working-directory: packages/docs
   check-mixed-changesets:
