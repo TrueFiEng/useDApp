@@ -110,7 +110,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   })
 })
 
-describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
+describe.only(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
   /**
    * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
    * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
@@ -214,7 +214,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     log('Transaction mined.')
 
     await waitForExpect(async () => {
-      expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
     })
 
     await page.click(XPath.text('button', 'Sign out'))
@@ -256,7 +258,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     log('Transaction mined.')
 
     await waitForExpect(async () => {
-      expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
     })
 
     await page.click(XPath.text('button', 'Sign out'))
@@ -302,7 +306,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     await page.click(XPath.text('button', 'Connect with WalletConnect'))
 
     await waitForExpect(async () => {
-      expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
     })
   })
 })
