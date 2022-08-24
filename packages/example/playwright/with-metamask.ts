@@ -92,60 +92,37 @@ export const withMetamaskTest = (baseUrl: string) => {
       await metamask.switchToNetwork('Ethereum Mainnet')
     })
 
-    describe('Balance', () => {
-      it('Reads the ETH2 staking contract and account balance', async () => {
-        await page.goto(`${baseUrl}balance`)
+    describe('Metamask', () => {
+      const expectCurrentAddressToEq = async (address: string) => {
+        // this function requires page to be on the Balance page
+        const locator = page.locator(`${XPath.id('span', 'balance-page-account')}`)
+        const textContent = await locator.textContent()
+        if (!textContent) {
+          throw new Error('Address for current account not found')
+        }
+        expect(textContent).to.be.eq(address)
+      }
 
+      it('Reads basic info', async () => {
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
-        })
-
-        await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Ether balance:'))).to.be.true
-        })
-      })
-    })
-
-    describe('Mulltichain', () => {
-      it('Reads the chain names', async () => {
-        await page.goto(`${baseUrl}multichain`)
-
-        await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
-        })
+        }) 
+        
+        expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
       })
 
-      it('Check if all chains were loaded', async () => {
-        await page.goto(`${baseUrl}multichain`)
-
-        await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ether balance:', 4))).to.be.true
-        })
-      })
-    })
-
-    describe('Metamask', () => {
       it('Holds MetaMask in session', async () => {
         await page.reload()
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Account:')), 'Account is not visible').to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Eth balance:')), 'Eth balance is not visible').to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Chain Id:')), 'Chain Id is not visible').to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Ether balance:')), 'Eth balance is not visible').to.be.true
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:')), 'ETH2 staking contract is not visible').to.be.true
         })
 
-        await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('p', 'Send transaction')), 'Send transaction is not visible').to.be.true
-        })
+        expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
       })
 
       it('Switches accounts', async () => {
@@ -243,6 +220,10 @@ export const withMetamaskTest = (baseUrl: string) => {
         await metamaskPage.click(XPath.text('button', 'Confirm'))
         log('Transaction sent.')
 
+        log('Waiting for confirmation that transaction was mined to pop up in notifications...')
+        await page.waitForSelector(XPath.text('p', 'Transaction succeed'))
+        log('Received notification that transaction was mined.')
+
         log('Checking if funds were sent...')
         await metamask.addAccount(wallet.privateKey, [page])
 
@@ -260,5 +241,32 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
     })
+
+    describe('Mulltichain', () => {
+      it('Reads the chain names', async () => {
+        await page.goto(`${baseUrl}multichain`)
+
+        await waitForExpect(async () => {
+          expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+        })
+      })
+
+      it('Check if all chains were loaded', async () => {
+        await page.goto(`${baseUrl}multichain`)
+
+        await waitForExpect(async () => {
+          expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Ether balance:', 4))).to.be.true
+        })
+      })
+    })
+
+    
   })
 }
