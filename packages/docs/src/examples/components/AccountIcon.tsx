@@ -3,7 +3,7 @@ import { useEthers } from '@usedapp/core'
 import React, { useEffect, useRef } from 'react'
 
 export interface AccountIconProps {
-    account?: string
+  account?: string
 }
 
 export function AccountIcon({ account }: AccountIconProps) {
@@ -12,7 +12,7 @@ export function AccountIcon({ account }: AccountIconProps) {
 
   const { account: walletAccount } = useEthers()
   const address = account ?? walletAccount
-  
+
   const accountIconRef = useRef<any>(null)
 
   useEffect(() => {

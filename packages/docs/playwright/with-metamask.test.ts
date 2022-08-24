@@ -8,9 +8,9 @@ import {
   addPageDiagnostics,
   MetaMask,
   metamaskChromeArgs as args,
-  waitForPopup
+  waitForPopup,
 } from '@usedapp/playwright'
-import {baseUrl} from './constants'
+import { baseUrl } from './constants'
 
 const log = debug('usedapp:docs:playwright')
 
