@@ -163,6 +163,7 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@metamask/jazzicon': ^2.0.0
       '@tsconfig/docusaurus': ^1.0.4
+      '@types/debug': ^4.1.7
       '@types/mocha': ^8.2.0
       '@types/node': ^17.0.10
       '@types/react': 17.0.1
@@ -175,6 +176,7 @@ importers:
       '@usedapp/siwe': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
+      chai: ^4.2.0
       clsx: ^1.1.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
@@ -221,6 +223,7 @@ importers:
       '@babel/core': 7.17.5
       '@docusaurus/module-type-aliases': 2.0.0-beta.20_w7o5yyljkiidx2s2nzb26ottzu
       '@tsconfig/docusaurus': 1.0.4
+      '@types/debug': 4.1.7
       '@types/mocha': 8.2.3
       '@types/node': 17.0.21
       '@types/react': 17.0.1
@@ -228,6 +231,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 4.33.0_glyobjt4c3l2spbcp255qgbvye
       '@typescript-eslint/parser': 4.33.0_5gpqlwp5hzjrncnuiiolpsczg4
       '@usedapp/playwright': link:../playwright
+      chai: 4.3.6
       mocha: 8.4.0
       playwright: 1.20.2
       ts-node: 10.7.0_46pgf7sfaob72lkbqjt5y5pgiu
@@ -3261,7 +3265,7 @@ packages:
       ethers: 5.6.9
       mkdirp: 0.5.5
       node-fetch: 2.6.7
-      solc: 0.8.15_debug@4.3.4
+      solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
