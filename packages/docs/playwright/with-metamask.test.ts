@@ -110,7 +110,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   })
 })
 
-describe.only(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
+describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
   /**
    * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
    * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
