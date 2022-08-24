@@ -163,7 +163,6 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@metamask/jazzicon': ^2.0.0
       '@tsconfig/docusaurus': ^1.0.4
-      '@types/chai': ^4.2.14
       '@types/debug': ^4.1.7
       '@types/mocha': ^8.2.0
       '@types/node': ^17.0.10
@@ -177,7 +176,7 @@ importers:
       '@usedapp/siwe': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
-      chai: ^4.3.6
+      chai: ^4.2.0
       clsx: ^1.1.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
@@ -224,7 +223,6 @@ importers:
       '@babel/core': 7.17.5
       '@docusaurus/module-type-aliases': 2.0.0-beta.20_w7o5yyljkiidx2s2nzb26ottzu
       '@tsconfig/docusaurus': 1.0.4
-      '@types/chai': 4.3.0
       '@types/debug': 4.1.7
       '@types/mocha': 8.2.3
       '@types/node': 17.0.21
