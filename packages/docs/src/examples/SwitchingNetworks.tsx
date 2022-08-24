@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Rinkeby } from '@usedapp/core'
+import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Goerli } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
 
@@ -39,8 +39,8 @@ export function App() {
           </button>
         }{' '}
         {
-          <button onClick={() => switchNetwork(Rinkeby.chainId)} disabled={chainId === Rinkeby.chainId}>
-            Switch to Rinkeby
+          <button onClick={() => switchNetwork(Goerli.chainId)} disabled={chainId === Goerli.chainId}>
+            Switch to Goerli
           </button>
         }
       </div>

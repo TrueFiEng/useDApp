@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance } from '@usedapp/core'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance, Goerli } from '@usedapp/core'
+
+// Regular import crashes the app with "Buffer is not defined" error.
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { AccountIcon } from './components/AccountIcon'
@@ -11,6 +13,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
 
@@ -22,8 +25,11 @@ ReactDOM.render(
 )
 
 function App() {
-  const { account, activate, deactivate } = useEthers()
+  const { account, activate, deactivate, chainId } = useEthers()
   const etherBalance = useEtherBalance(account)
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
 
   async function onConnect() {
     try {
