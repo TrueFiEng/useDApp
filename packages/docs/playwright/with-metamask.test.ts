@@ -20,8 +20,6 @@ import {
   connectToWalletConnect,
 } from './gnosisSafeUtils'
 
-waitForExpect.defaults.timeout = 90000
-
 const log = debug('usedapp:docs:playwright')
 
 describe(`Browser: ${browserType.name()} with Metamask`, () => {
