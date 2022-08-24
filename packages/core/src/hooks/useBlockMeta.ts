@@ -23,7 +23,7 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
   const refresh = queryParams.refresh ?? configRefresh
   const isStatic = queryParams.isStatic ?? refresh === 'never'
   const refreshPerBlocks = typeof refresh === 'number' ? refresh : undefined
-  const timestamp = useRawCall(
+  const timestampResult = useRawCall(
     address &&
       chainId !== undefined && {
         address,
@@ -44,8 +44,16 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
       }
   )
 
+  let timestamp: Date | undefined
+  try {
+    timestamp =
+      timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
+  } catch (e: any) {
+    console.warn('Failed to parse timestamp', e)
+  }
+
   return {
-    timestamp: timestamp !== undefined ? new Date(BigNumber.from(timestamp.value).mul(1000).toNumber()) : undefined,
+    timestamp,
     difficulty: difficulty !== undefined ? BigNumber.from(difficulty.value) : undefined,
     blockNumber: chainId ? blockNumbers[chainId as ChainId] : undefined,
   }

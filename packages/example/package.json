@@ -19,8 +19,8 @@
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "yarn prettier './{src,test,playwright}/**/*.{ts,tsx}'",
-    "test": "mocha -r ts-node/register/transpile-only './test/**/*.test.{ts,tsx}' --timeout 60000",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000",
+    "test": "mocha -r ts-node/register/transpile-only './test/**/*.test.{ts,tsx}'",
+    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts'",
     "copy-files": "cp -r ./src/assets ./dist/cjs/src/assets && cp -r ./src/assets ./dist/esm/src/assets"
   },
   "files": [
@@ -70,6 +70,7 @@
     "esbuild-loader": "^2.11.0",
     "eslint": "7.22.0",
     "ethereum-waffle": "4.0.0-alpha.27",
+    "ganache": "7.0.3",
     "html-webpack-plugin": "^4.5.0",
     "jsdom": "^20.0.0",
     "jsdom-global": "^3.0.2",
