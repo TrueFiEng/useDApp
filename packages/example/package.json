@@ -69,7 +69,7 @@
     "copy-webpack-plugin": "^6.2.1",
     "esbuild-loader": "^2.11.0",
     "eslint": "7.22.0",
-    "ethereum-waffle": "4.0.0-alpha.27",
+    "ethereum-waffle": "4.0.4",
     "ganache": "7.0.3",
     "html-webpack-plugin": "^4.5.0",
     "jsdom": "^20.0.0",
