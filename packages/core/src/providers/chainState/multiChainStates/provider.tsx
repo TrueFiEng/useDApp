@@ -76,10 +76,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     if (!provider || !blockNumber) {
       return
     }
-    if (!multicallAddress) {
-      reportError(new Error(`Missing multicall address for chain id ${chainId}`))
-      return
-    }
+
     if (debouncedNetworks !== networks) {
       // Wait for debounce to catch up.
       return
@@ -87,6 +84,11 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
 
     const updatedCalls = getCallsForUpdate(debouncedCalls, { chainId, blockNumber })
     const callsOnThisChain = getUniqueActiveCalls(updatedCalls)
+
+    if (callsOnThisChain.length > 0 && !multicallAddress) {
+      reportError(new Error(`Missing multicall address for chain id ${chainId}`))
+      return
+    }
 
     updateNetworks({
       type: 'UPDATE_NON_STATIC_CALLS_COUNT',
