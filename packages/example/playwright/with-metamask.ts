@@ -119,6 +119,11 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
 
         await expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
+
+        // ensuring that multicall contract is properly handled
+        await expect(waitForExpect(async () => {
+          expect(await page.isVisible(XPath.text('div', 'Missing'))).to.be.true
+        }, 1000)).to.be.eventually.rejected
       })
 
       it('Holds MetaMask in session', async () => {
@@ -134,6 +139,11 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
 
         await expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
+
+        // ensuring that multicall contract is properly handled
+        await expect(waitForExpect(async () => {
+          expect(await page.isVisible(XPath.text('div', 'Missing'))).to.be.true
+        }, 1000)).to.be.eventually.rejected
       })
 
       it('Switches accounts', async () => {

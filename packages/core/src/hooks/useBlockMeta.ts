@@ -46,14 +46,11 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
   )
 
   const timestamp = useMemo(() => {
-    let timestamp: Date | undefined
     try {
-      timestamp =
-        timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
+      return timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
     } catch (e: any) {
       console.warn('Failed to parse timestamp of a block', e)
     }
-    return timestamp
   }, [timestampResult])
 
   return {
