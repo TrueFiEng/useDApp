@@ -366,6 +366,7 @@ importers:
     specifiers:
       '@types/chai': ^4.2.14
       '@types/chai-as-promised': ^7.1.3
+      '@types/mocha': ^8.2.0
       '@types/node': ^17.0.10
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.1
@@ -374,6 +375,7 @@ importers:
       '@usedapp/example': workspace:*
       chai: ^4.2.0
       chai-as-promised: ^7.1.1
+      encoding: ^0.1.13
       eslint: 7.22.0
       eslint-config-next: 12.1.6
       ethereum-waffle: 4.0.4
@@ -386,6 +388,7 @@ importers:
     dependencies:
       '@usedapp/core': link:../core
       '@usedapp/example': link:../example
+      encoding: 0.1.13
       next: 12.1.2_w7o5yyljkiidx2s2nzb26ottzu
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
@@ -393,6 +396,7 @@ importers:
     devDependencies:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 8.2.3
       '@types/node': 17.0.21
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.1
@@ -401,7 +405,7 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
       eslint-config-next: 12.1.6_rotnogawkvvli5ftcowmvhugxu
-      ethereum-waffle: 4.0.4_typescript@4.6.2
+      ethereum-waffle: 4.0.4_lcuro2urubbgbtvp5o3y5cw3q4
       mocha: 8.4.0
       typescript: 4.6.2
 
@@ -3265,6 +3269,35 @@ packages:
       ethers: 5.6.9
       mkdirp: 0.5.5
       node-fetch: 2.6.7
+      solc: 0.8.15
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /@ethereum-waffle/compiler/4.0.2_ngeyzvk4gec3bmknvz7uochdle:
+    resolution: {integrity: sha512-ZoNI9e3ReOH8jz5+7dqhju1WlXxhogwvgdCixdPkdC/Rs2xMgUmynANdSWOxQWjywEScvvfqFkQpltlcvqiytw==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      ethers: 5.6.2
+      solc: '*'
+      typechain: ^8.0.0
+    dependencies:
+      '@ethersproject/abi': 5.6.4
+      '@ethersproject/bytes': 5.6.1
+      '@ethersproject/providers': 5.6.8
+      '@resolver-engine/imports': 0.3.3
+      '@resolver-engine/imports-fs': 0.3.3
+      '@typechain/ethers-v5': 10.0.0_hlkxsmuzi2vlqbmppo6fem2zqm
+      '@types/mkdirp': 0.5.2
+      '@types/node-fetch': 2.6.1
+      ethers: 5.6.9
+      mkdirp: 0.5.5
+      node-fetch: 2.6.7_encoding@0.1.13
       solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
@@ -10911,6 +10944,11 @@ packages:
       level-errors: 2.0.1
     dev: true
 
+  /encoding/0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    dependencies:
+      iconv-lite: 0.6.3
+
   /end-of-stream/1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
     dependencies:
@@ -11889,6 +11927,27 @@ packages:
       '@ethereum-waffle/provider': 4.0.3
       ethers: 5.6.9
       solc: 0.8.15_debug@4.3.4
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /ethereum-waffle/4.0.4_lcuro2urubbgbtvp5o3y5cw3q4:
+    resolution: {integrity: sha512-7e5/mDxxmVKOI8oy9KHTjO2k75klf97SxS7Pw6oO+NZ2K+QjygMxMolonkQg5CDFhD63WLm4dpiqqxzBcqFeuQ==}
+    engines: {node: '>=10.0'}
+    hasBin: true
+    dependencies:
+      '@ethereum-waffle/chai': 4.0.4
+      '@ethereum-waffle/compiler': 4.0.2_ngeyzvk4gec3bmknvz7uochdle
+      '@ethereum-waffle/mock-contract': 4.0.2
+      '@ethereum-waffle/provider': 4.0.3
+      ethers: 5.6.9
+      solc: 0.8.15
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
@@ -14079,7 +14138,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
-    dev: true
 
   /icss-utils/4.1.1:
     resolution: {integrity: sha512-4aFq7wvWyMHKgxsH8QQtGpvbASCf+eM3wPRLI6R+MgAnTCZ6STYsRvttLvRWK0Nfif5piF394St3HeJDaljGPA==}
@@ -16525,6 +16583,19 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+
+  /node-fetch/2.6.7_encoding@0.1.13:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      encoding: 0.1.13
+      whatwg-url: 5.0.0
+    dev: true
 
   /node-forge/0.10.0:
     resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
