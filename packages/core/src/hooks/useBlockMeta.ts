@@ -6,6 +6,7 @@ import { useRawCall } from './useRawCalls'
 import { useChainId } from './useChainId'
 import { useConfig } from './useConfig'
 import { useBlockNumbers } from './useBlockNumbers'
+import { useMemo } from 'react'
 
 const GET_CURRENT_BLOCK_TIMESTAMP_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockTimestamp', [])
 const GET_CURRENT_BLOCK_DIFFICULTY_CALL = MultiCallABI.encodeFunctionData('getCurrentBlockDifficulty', [])
@@ -44,13 +45,16 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
       }
   )
 
-  let timestamp: Date | undefined
-  try {
-    timestamp =
-      timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
-  } catch (e: any) {
-    console.warn('Failed to parse timestamp', e)
-  }
+  const timestamp = useMemo(() => {
+    let timestamp: Date | undefined
+    try {
+      timestamp =
+        timestampResult !== undefined ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber()) : undefined
+    } catch (e: any) {
+      console.warn('Failed to parse timestamp of a block', e)
+    }
+    return timestamp
+  }, [timestampResult])
 
   return {
     timestamp,
