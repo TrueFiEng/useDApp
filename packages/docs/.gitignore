@@ -25,3 +25,6 @@ generate/*.gen.json
 
 # dotenv files
 .env
+
+# recordings
+recordings

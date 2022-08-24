@@ -39,7 +39,7 @@ export async function connectToMetamask({ page, context }: { page: Page; context
   })
 }
 
-export async function walletConnectConnect({ page }: { page: Page }) {
+export async function connectToWalletConnect({ page }: { page: Page }) {
   const isMac = await page.evaluate(() => navigator.platform.includes('Mac'))
   const modifier = isMac ? 'Meta' : 'Control'
 
@@ -57,7 +57,6 @@ export async function firstSign({ page, context }: { page: Page; context: Browse
 
 export async function secondSign({ page, context }: { page: Page; context: BrowserContext }) {
   await page.goto(GNOSIS_SAFE_URL)
-
   await connectToMetamask({
     page: page,
     context,
@@ -69,6 +68,5 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   await page.click(XPath.text('span', 'Submit'))
   const popupPage = await popupPromise
   log('Trying to click...')
-  await popupPage.click('//button[contains(text(), "Confirm")]')
-  // await popupPage.click(XPath.text('button', 'Confirm'))
+  await popupPage.click(XPath.text('button', 'Confirm'))
 }

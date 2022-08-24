@@ -17,7 +17,7 @@ import {
   GNOSIS_SAFE_URL,
   initGnosisSafe,
   secondSign,
-  walletConnectConnect,
+  connectToWalletConnect,
 } from './gnosisSafeUtils'
 
 waitForExpect.defaults.timeout = 90000
@@ -112,9 +112,14 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
 describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
   /**
+   * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
+   * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
    * Address1: 0x26d1B17858bDDEC866b644fD7392Ab92835E6Bc0
    * Address2: 0x259B75A99d55550d0A2EdE6D601FE3aFE7a14DE7
    * Address3: 0x8A6dbE810e48fdDACe34b53F46bce05EeFd7d53D
+   *
+   * Sometimes tests can fail because balance one of the first two wallets is not enough to pay for gas,
+   * so we need to use some kind of faucet to get enough balance for the test.
    *
    */
 
@@ -131,6 +136,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
       headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
       slowMo: 500,
       args,
+      // For CI debugging purposes
       // recordVideo: {
       //   dir: 'playwright/recordings/',
       //   size: { width: 1280, height: 960 },
@@ -178,7 +184,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     log('Metamask connected to Gnosis Safe.')
 
     log('Connecting WalletConnect to Gnosis Safe...')
-    await walletConnectConnect({
+    await connectToWalletConnect({
       page: gnosisSiwePage,
     })
     log('WalletConnect connected to Gnosis Safe.')
