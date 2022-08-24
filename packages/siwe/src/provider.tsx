@@ -1,17 +1,17 @@
 import { useEthers } from '@usedapp/core'
+import { Contract, utils } from 'ethers'
 import React, { useEffect, ReactNode, useState, useCallback } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
-import { SiweFetchers, getFetchers } from './requests'
-import { Contract, utils } from 'ethers'
-import { Interface } from 'ethers/lib/utils'
 import { GNOSIS_SAFE_ABI } from './constants'
+import { SiweFetchers, getFetchers } from './requests'
 
 export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
   signOut: () => void
   isLoggedIn: boolean
   isLoading: boolean
+  cancelLoading: () => void
   message: SiweMessage | undefined
   error: any
 }
@@ -21,6 +21,7 @@ const SiweContext = createContext<SiweContextValue>({
   signOut: () => undefined,
   isLoggedIn: false,
   isLoading: false,
+  cancelLoading: () => undefined,
   message: undefined,
   error: undefined,
 })
@@ -40,6 +41,11 @@ export interface SiweProviderProps {
   api?: SiweFetchers
 }
 
+const clearStorage = () => {
+  localStorage.removeItem('siweMessage')
+  localStorage.removeItem('getMessageHash')
+}
+
 export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) => {
   const { account, chainId, library } = useEthers()
   const [isLoggedIn, setLoggedIn] = useState(false)
@@ -47,24 +53,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const [message, setMessage] = useState<SiweMessage | undefined>(undefined)
   const [error, setError] = useState<any>(undefined)
   const { getNonce, getAuth, signIn, signOut } = api ?? getFetchers(backendUrl ?? '')
-
-  const createGnosisSafeListener = async ({ message }: { message: SiweMessage }) => {
-    const gnosisSafeContract = new Contract(message.address, new Interface(GNOSIS_SAFE_ABI), library)
-
-    let getMessageHash = localStorage.getItem('getMessageHash')
-    if (!getMessageHash) {
-      getMessageHash = await gnosisSafeContract.getMessageHash(utils.hashMessage(message.prepareMessage()))
-      localStorage.setItem('getMessageHash', getMessageHash as string)
-    }
-
-    const onMultiSigSigned = async () => {
-      gnosisSafeContract.removeListener(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
-      localStorage.removeItem('getMessageHash')
-      localStorage.removeItem('siweMessage')
-      void getAuthRequestHandler()
-    }
-    gnosisSafeContract.once(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
-  }
 
   const getAuthRequestHandler = () => {
     setLoading(true)
@@ -76,18 +64,18 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
           setMessage(siweMessage)
           setLoading(false)
           if (siweMessage.address !== account) {
-            setError(new Error('Wrong account'))
+            setError(new Error('Account mismatch'))
             return setLoggedIn(false)
           }
           if (siweMessage.chainId !== chainId) {
-            setError(new Error('Wrong chainId'))
+            setError(new Error('ChainId mismatch'))
             return setLoggedIn(false)
           }
           return setLoggedIn(true)
         }
         if (localStorage.getItem('getMessageHash')) {
           const siweMessage = new SiweMessage(JSON.parse(localStorage.getItem('siweMessage') as string))
-          void createGnosisSafeListener({
+          void createMultiSigListener({
             message: siweMessage,
           })
         } else {
@@ -109,8 +97,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     } catch (err) {
       setError(err)
     } finally {
-      localStorage.removeItem('siweMessage')
-      localStorage.removeItem('getMessageHash')
+      clearStorage()
       setLoggedIn(false)
       setMessage(undefined)
     }
@@ -125,6 +112,11 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       setError(err)
     }
   }
+
+  const cancelLoading = useCallback(() => {
+    clearStorage()
+    setLoading(false)
+  }, [])
 
   useEffect(() => {
     if (!account || !chainId) {
@@ -172,7 +164,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
 
       if (signature === '0x') {
         localStorage.setItem('siweMessage', JSON.stringify(message))
-        return createGnosisSafeListener({
+        return createMultiSigListener({
           message,
         })
       }
@@ -189,11 +181,30 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     await signOutRequestHandler()
   }, [account, chainId])
 
+  const createMultiSigListener = async ({ message }: { message: SiweMessage }) => {
+    const gnosisSafeContract = new Contract(message.address, new utils.Interface(GNOSIS_SAFE_ABI), library)
+
+    let getMessageHash = localStorage.getItem('getMessageHash')
+    if (!getMessageHash) {
+      getMessageHash = await gnosisSafeContract.getMessageHash(utils.hashMessage(message.prepareMessage()))
+      localStorage.setItem('getMessageHash', getMessageHash as string)
+    }
+
+    const onMultiSigSigned = async () => {
+      gnosisSafeContract.removeListener(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
+      localStorage.removeItem('getMessageHash')
+      localStorage.removeItem('siweMessage')
+      void getAuthRequestHandler()
+    }
+    gnosisSafeContract.once(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
+  }
+
   const value = {
     signIn: handleSignIn,
     signOut: handleSignOut,
     isLoggedIn,
     isLoading,
+    cancelLoading,
     message,
     error,
   }

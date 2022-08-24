@@ -28,7 +28,7 @@ ReactDOM.render(
 
 export function App() {
   const { account, activate, error, activateBrowserWallet } = useEthers()
-  const { signIn, signOut, isLoggedIn, isLoading, message, error: siweError } = useSiwe()
+  const { signIn, signOut, isLoggedIn, isLoading, cancelLoading, message, error: siweError } = useSiwe()
 
   async function onConnect() {
     try {
@@ -65,7 +65,12 @@ export function App() {
 
   const SiweComponent = () => {
     if (isLoading) {
-      return <div>Loading...</div>
+      return (
+        <>
+          <button onClick={cancelLoading}>Cancel</button>
+          <div>Loading...</div>
+        </>
+      )
     }
     return (
       <div>

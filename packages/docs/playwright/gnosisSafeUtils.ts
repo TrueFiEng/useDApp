@@ -67,6 +67,5 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   const popupPromise = waitForPopup(context)
   await page.click(XPath.text('span', 'Submit'))
   const popupPage = await popupPromise
-  log('Trying to click...')
   await popupPage.click(XPath.text('button', 'Confirm'))
 }
