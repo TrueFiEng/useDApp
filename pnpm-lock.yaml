@@ -179,7 +179,6 @@ importers:
       buffer: ^6.0.3
       chai: ^4.3.6
       clsx: ^1.1.1
-      dotenv: ^16.0.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
       ethers: 5.6.2
@@ -235,7 +234,6 @@ importers:
       '@typescript-eslint/parser': 4.33.0_5gpqlwp5hzjrncnuiiolpsczg4
       '@usedapp/playwright': link:../playwright
       chai: 4.3.6
-      dotenv: 16.0.1
       mocha: 8.4.0
       playwright: 1.20.2
       ts-node: 10.7.0_46pgf7sfaob72lkbqjt5y5pgiu
@@ -10926,11 +10924,6 @@ packages:
 
   /dotenv-expand/5.1.0:
     resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
-    dev: true
-
-  /dotenv/16.0.1:
-    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
-    engines: {node: '>=12'}
     dev: true
 
   /dotenv/8.6.0:
