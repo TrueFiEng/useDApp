@@ -2,7 +2,15 @@ import debug from 'debug'
 import { expect } from 'chai'
 import { BrowserContext, chromium as browserType, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
-import { slowMo, XPath, addPageDiagnostics, MetaMask, metamaskChromeArgs as args, waitForPopup, waitForPageToClose } from '@usedapp/playwright'
+import {
+  slowMo,
+  XPath,
+  addPageDiagnostics,
+  MetaMask,
+  metamaskChromeArgs as args,
+  waitForPopup,
+  waitForPageToClose,
+} from '@usedapp/playwright'
 import { BigNumber, utils, Wallet, providers } from 'ethers'
 import Ganache, { Server } from 'ganache'
 import { defaultAccounts } from 'ethereum-waffle'
@@ -108,9 +116,9 @@ export const withMetamaskTest = (baseUrl: string) => {
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Ether balance:'))).to.be.true
-        }) 
-        
-        expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
+        })
+
+        await expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
       })
 
       it('Holds MetaMask in session', async () => {
@@ -119,10 +127,13 @@ export const withMetamaskTest = (baseUrl: string) => {
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Account:')), 'Account is not visible').to.be.true
           expect(await page.isVisible(XPath.text('span', 'Ether balance:')), 'Eth balance is not visible').to.be.true
-          expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:')), 'ETH2 staking contract is not visible').to.be.true
+          expect(
+            await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:')),
+            'ETH2 staking contract is not visible'
+          ).to.be.true
         })
 
-        expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
+        await expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
       })
 
       it('Switches accounts', async () => {
@@ -185,7 +196,10 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         log('Checking account with some funds on it on local network...')
         await waitForExpect(async () => {
-          const wallet = new Wallet(defaultAccounts[1].secretKey, new providers.StaticJsonRpcProvider('http://localhost:8545'))
+          const wallet = new Wallet(
+            defaultAccounts[1].secretKey,
+            new providers.StaticJsonRpcProvider('http://localhost:8545')
+          )
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           const currentBalance = await wallet.getBalance()
@@ -266,7 +280,5 @@ export const withMetamaskTest = (baseUrl: string) => {
         })
       })
     })
-
-    
   })
 }

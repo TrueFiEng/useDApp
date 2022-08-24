@@ -84,7 +84,6 @@ export class MetaMask {
     log(`Network switched to "${network}"`)
   }
 
-
   async activate() {
     log('Activating Metamask...')
     await this.gotoMetamask()
