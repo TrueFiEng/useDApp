@@ -4,4 +4,5 @@ export class XPath {
   }
   static class(element: keyof HTMLElementTagNameMap, className: string) {
     return `//${element}[@class="${className}"]`
+  }
 }
