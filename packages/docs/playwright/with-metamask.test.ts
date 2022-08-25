@@ -209,9 +209,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    log('Waiting for the transaction to be mined...')
-    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    log('Transaction mined.')
+    // log('Waiting for the transaction to be mined...')
+    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    // log('Transaction mined.')
 
     await waitForExpect(async () => {
       expect(
@@ -253,9 +253,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    log('Waiting for the transaction to be mined...')
-    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    log('Transaction mined.')
+    // log('Waiting for the transaction to be mined...')
+    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    // log('Transaction mined.')
 
     await waitForExpect(async () => {
       expect(
@@ -296,9 +296,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    log('Waiting for the transaction to be mined...')
-    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    log('Transaction mined.')
+    // log('Waiting for the transaction to be mined...')
+    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    // log('Transaction mined.')
 
     log('Opening page again...')
     page = await context.newPage()
