@@ -63,7 +63,7 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   })
   await page.click(XPath.text('span', 'signMessage'))
   await page.click(XPath.text('span', 'signMessage'))
-  await page.click('xpath=//span[contains(text(), "Confirm") and @class="MuiButton-label"]')
+  await page.click('//span[contains(text(), "Confirm") and @class="MuiButton-label"]')
   const popupPromise = waitForPopup(context)
   await page.click(XPath.text('span', 'Submit'))
   const popupPage = await popupPromise

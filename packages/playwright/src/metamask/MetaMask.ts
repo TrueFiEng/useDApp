@@ -93,12 +93,12 @@ export class MetaMask {
 
     await this.page.fill('#create-password', 'qwerty123')
     await this.page.fill('#confirm-password', 'qwerty123')
-    await this.page.check('xpath=//div[@role="checkbox"]')
+    await this.page.check('//div[@role="checkbox"]')
     await this.page.click(XPath.text('button', 'Create'))
     await this.page.click(XPath.text('button', 'Next'))
     await this.page.click(XPath.text('button', 'Remind me later')) // Recovery phrase.
 
-    await this.page.waitForSelector('xpath=//h2[contains(text(), "What\'s new")]', { state: 'visible' })
+    await this.page.waitForSelector('//h2[contains(text(), "What\'s new")]', { state: 'visible' })
 
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
@@ -107,19 +107,18 @@ export class MetaMask {
   async switchWallet(index: number) {
     log('Switching wallet...')
     await this.gotoMetamask()
-    await this.page.click(XPath.class('div', 'identicon__address-wrapper'))
-    await this.page.click(XPath.text('div', `Account ${index + 1}`))
+    await this.page.click('.account-menu__icon')
+    await this.page.click(`//div[contains(text(), "Account ${index + 1}")]`)
+
     log('Wallet switched.')
   }
 
   async disconnectApp(app: string) {
     log(`Disconnecting ${app}...`)
     await this.gotoMetamask()
-    await this.page.click(`xpath=//button[@title='Account Options']`)
+    await this.page.click(`//button[@title='Account Options']`)
     await this.page.click(XPath.text('span', 'Connected sites'))
-    const disconnectButton = this.page.locator(
-      `xpath=//span[contains(text(), "${app}")]/ancestor::div[1]/ancestor::div[1]/a`
-    )
+    const disconnectButton = this.page.locator(`//span[contains(text(), "${app}")]/ancestor::div[1]/ancestor::div[1]/a`)
     await disconnectButton.click()
     await this.page.click(XPath.text('button', 'Disconnect'))
     log(`${app} disconnected.`)
