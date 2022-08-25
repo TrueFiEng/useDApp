@@ -108,201 +108,203 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   })
 })
 
-if (process.env.CI) {
-  describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
-    /**
-     * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
-     * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
-     * Address1: 0x26d1B17858bDDEC866b644fD7392Ab92835E6Bc0
-     * Address2: 0x259B75A99d55550d0A2EdE6D601FE3aFE7a14DE7
-     * Address3: 0x8A6dbE810e48fdDACe34b53F46bce05EeFd7d53D
-     *
-     * Sometimes tests can fail because balance one of the first two wallets is not enough to pay for gas,
-     * so we need to use some kind of faucet to get enough balance for the test.
-     *
-     */
+describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
+  /**
+   * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
+   * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
+   * Address1: 0x26d1B17858bDDEC866b644fD7392Ab92835E6Bc0
+   * Address2: 0x259B75A99d55550d0A2EdE6D601FE3aFE7a14DE7
+   * Address3: 0x8A6dbE810e48fdDACe34b53F46bce05EeFd7d53D
+   *
+   * Sometimes tests can fail because balance one of the first two wallets is not enough to pay for gas,
+   * so we need to use some kind of faucet to get enough balance for the test.
+   *
+   */
 
-    let page: Page
-    let gnosisSiwePage: Page
-    let context: BrowserContext
-    let metamask: MetaMask
+  const DOCS_GNOSIS_OWNER_FIRST = process.env.DOCS_GNOSIS_OWNER_FIRST
+  const DOCS_GNOSIS_OWNER_SECOND = process.env.DOCS_GNOSIS_OWNER_SECOND
 
-    const resetBrowserContext = async () => {
-      if (page) await page.close()
-      if (context) await context.close()
+  let page: Page
+  let gnosisSiwePage: Page
+  let context: BrowserContext
+  let metamask: MetaMask
 
-      context = await browserType.launchPersistentContext('', {
-        headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
-        slowMo: 500,
-        args,
-      })
+  const resetBrowserContext = async () => {
+    if (page) await page.close()
+    if (context) await context.close()
 
-      log('Waiting until Metamask installs itself...')
-      await waitForExpect(async () => {
-        expect(context.backgroundPages().length).to.eq(1)
-      })
-
-      metamask = new MetaMask(await context.newPage())
-      await metamask.activate()
-      page = await context.newPage()
-      gnosisSiwePage = await context.newPage()
-      addPageDiagnostics(page)
-    }
-
-    before(() => resetBrowserContext())
-    after(() => context?.close())
-
-    before(async () => {
-      await metamask.addWallet(process.env.DOCS_GNOSIS_OWNER_FIRST)
-      await metamask.addWallet(process.env.DOCS_GNOSIS_OWNER_SECOND)
+    context = await browserType.launchPersistentContext('', {
+      headless: false, // Extensions only work in Chrome / Chromium in non-headless mode.
+      slowMo: 500,
+      args,
     })
 
-    it('Sign transaction from 2 wallets', async () => {
-      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
-      await page.click(XPath.text('button', 'Connect with WalletConnect'))
-      await page.click(XPath.text('a', 'Copy to clipboard'))
-
-      log('Initializing Gnosis Safe page...')
-      await initGnosisSafe({
-        page: gnosisSiwePage,
-        url: GNOSIS_SAFE_URL,
-      })
-      log('Gnosis Safe page initialized.')
-
-      log('Connecting Metamask to Gnosis Safe...')
-      await connectToMetamask({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('Metamask connected to Gnosis Safe.')
-
-      log('Connecting WalletConnect to Gnosis Safe...')
-      await connectToWalletConnect({
-        page: gnosisSiwePage,
-      })
-      log('WalletConnect connected to Gnosis Safe.')
-
-      await page.click(XPath.text('button', 'Sign in'))
-      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
-
-      log('First wallet signs...')
-      await firstSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('First wallet signed.')
-
-      await metamask.disconnectApp('gnosis-safe.io')
-      await metamask.switchWallet(1)
-
-      log('Second wallet signs...')
-      await secondSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('Second wallet signed.')
-
-      log('Waiting for the transaction to be mined...')
-      await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-      log('Transaction mined.')
-
-      await waitForExpect(async () => {
-        expect(
-          await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
-        ).to.be.true
-      })
-
-      await page.click(XPath.text('button', 'Sign out'))
+    log('Waiting until Metamask installs itself...')
+    await waitForExpect(async () => {
+      expect(context.backgroundPages().length).to.eq(1)
     })
 
-    it('Sign transaction from 2 wallets with page refresh', async () => {
-      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
-      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+    metamask = new MetaMask(await context.newPage())
+    await metamask.activate()
+    page = await context.newPage()
+    gnosisSiwePage = await context.newPage()
+    addPageDiagnostics(page)
+  }
 
-      await page.click(XPath.text('button', 'Sign in'))
-      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+  before(() => resetBrowserContext())
+  after(() => context?.close())
 
-      await gnosisSiwePage.goto(GNOSIS_SAFE_URL)
-      await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
+  before(async function () {
+    if (!DOCS_GNOSIS_OWNER_FIRST || !DOCS_GNOSIS_OWNER_SECOND) this.skip()
+    await metamask.addWallet(DOCS_GNOSIS_OWNER_FIRST)
+    await metamask.addWallet(DOCS_GNOSIS_OWNER_SECOND)
+  })
 
-      log('First wallet signs...')
-      await firstSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('First wallet signed.')
+  it('Sign transaction from 2 wallets', async () => {
+    await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+    await page.click(XPath.text('button', 'Connect with WalletConnect'))
+    await page.click(XPath.text('a', 'Copy to clipboard'))
 
-      await metamask.disconnectApp('gnosis-safe.io')
-      await metamask.switchWallet(2)
+    log('Initializing Gnosis Safe page...')
+    await initGnosisSafe({
+      page: gnosisSiwePage,
+      url: GNOSIS_SAFE_URL,
+    })
+    log('Gnosis Safe page initialized.')
 
-      await page.reload()
-      await page.click(XPath.text('button', 'Connect with WalletConnect'))
-      log('Page reloaded.')
+    log('Connecting Metamask to Gnosis Safe...')
+    await connectToMetamask({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('Metamask connected to Gnosis Safe.')
 
-      log('Second wallet signs...')
-      await secondSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('Second wallet signed.')
+    log('Connecting WalletConnect to Gnosis Safe...')
+    await connectToWalletConnect({
+      page: gnosisSiwePage,
+    })
+    log('WalletConnect connected to Gnosis Safe.')
 
-      log('Waiting for the transaction to be mined...')
-      await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-      log('Transaction mined.')
+    await page.click(XPath.text('button', 'Sign in'))
+    expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
 
-      await waitForExpect(async () => {
-        expect(
-          await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
-        ).to.be.true
-      })
+    log('First wallet signs...')
+    await firstSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('First wallet signed.')
 
-      await page.click(XPath.text('button', 'Sign out'))
+    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.switchWallet(1)
+
+    log('Second wallet signs...')
+    await secondSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('Second wallet signed.')
+
+    log('Waiting for the transaction to be mined...')
+    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    log('Transaction mined.')
+
+    await waitForExpect(async () => {
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
     })
 
-    it('Sign transaction from 2 wallets with closed page', async () => {
-      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
-      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+    await page.click(XPath.text('button', 'Sign out'))
+  })
 
-      await page.click(XPath.text('button', 'Sign in'))
-      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+  it('Sign transaction from 2 wallets with page refresh', async () => {
+    await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+    await page.click(XPath.text('button', 'Connect with WalletConnect'))
 
-      await gnosisSiwePage.goto(GNOSIS_SAFE_URL)
-      await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
+    await page.click(XPath.text('button', 'Sign in'))
+    expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
 
-      log('First wallet signs...')
-      await firstSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('First wallet signed.')
+    await gnosisSiwePage.goto(GNOSIS_SAFE_URL)
+    await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
 
-      await metamask.disconnectApp('gnosis-safe.io')
-      await metamask.switchWallet(1)
+    log('First wallet signs...')
+    await firstSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('First wallet signed.')
 
-      await page.close()
-      log('Page closed.')
+    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.switchWallet(2)
 
-      log('Second wallet signs...')
-      await secondSign({
-        page: gnosisSiwePage,
-        context,
-      })
-      log('Second wallet signed.')
+    await page.reload()
+    await page.click(XPath.text('button', 'Connect with WalletConnect'))
+    log('Page reloaded.')
 
-      log('Waiting for the transaction to be mined...')
-      await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-      log('Transaction mined.')
+    log('Second wallet signs...')
+    await secondSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('Second wallet signed.')
 
-      log('Opening page again...')
-      page = await context.newPage()
-      await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
-      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+    log('Waiting for the transaction to be mined...')
+    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    log('Transaction mined.')
 
-      await waitForExpect(async () => {
-        expect(
-          await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
-        ).to.be.true
-      })
+    await waitForExpect(async () => {
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
+    })
+
+    await page.click(XPath.text('button', 'Sign out'))
+  })
+
+  it('Sign transaction from 2 wallets with closed page', async () => {
+    await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+    await page.click(XPath.text('button', 'Connect with WalletConnect'))
+
+    await page.click(XPath.text('button', 'Sign in'))
+    expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+
+    await gnosisSiwePage.goto(GNOSIS_SAFE_URL)
+    await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
+
+    log('First wallet signs...')
+    await firstSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('First wallet signed.')
+
+    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.switchWallet(1)
+
+    await page.close()
+    log('Page closed.')
+
+    log('Second wallet signs...')
+    await secondSign({
+      page: gnosisSiwePage,
+      context,
+    })
+    log('Second wallet signed.')
+
+    log('Waiting for the transaction to be mined...')
+    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    log('Transaction mined.')
+
+    log('Opening page again...')
+    page = await context.newPage()
+    await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
+    await page.click(XPath.text('button', 'Connect with WalletConnect'))
+
+    await waitForExpect(async () => {
+      expect(
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+      ).to.be.true
     })
   })
-}
+})
