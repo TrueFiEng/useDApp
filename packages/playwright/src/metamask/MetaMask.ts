@@ -6,7 +6,6 @@ import { XPath } from '../xpath'
 export const log = debug('usedapp:playwright')
 
 export class MetaMask {
-  private extensionId: string | undefined
   constructor(private page: Page) {}
 
   private extensionId: string | undefined = undefined
