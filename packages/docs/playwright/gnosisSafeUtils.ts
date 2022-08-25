@@ -32,7 +32,7 @@ export async function connectToMetamask({ page, context }: { page: Page; context
     await popupPage.click(XPath.text('button', 'Switch network'))
     log('Switched network')
   } catch (err) {
-    log('No switch network button')
+    // Ignore error if network is already connected.
   }
   await waitForExpect(() => {
     expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
