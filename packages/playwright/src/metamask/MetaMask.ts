@@ -104,16 +104,6 @@ export class MetaMask {
     log('Metamask activated.')
   }
 
-  async addWallet(privateKey: string) {
-    log('Adding wallet...')
-    await this.gotoMetamask()
-    await this.page.click(XPath.class('div', 'identicon__address-wrapper'))
-    await this.page.click(XPath.text('div', 'Import Account'))
-    await this.page.fill('#private-key-box', privateKey)
-    await this.page.click(XPath.text('button', 'Import'))
-    log('Wallet added.')
-  }
-
   async switchWallet(index: number) {
     log('Switching wallet...')
     await this.gotoMetamask()

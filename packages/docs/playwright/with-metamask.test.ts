@@ -121,8 +121,10 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
    *
    */
 
-  const DOCS_GNOSIS_OWNER_FIRST = process.env.DOCS_GNOSIS_OWNER_FIRST
-  const DOCS_GNOSIS_OWNER_SECOND = process.env.DOCS_GNOSIS_OWNER_SECOND
+  const DOCS_GNOSIS_OWNER_FIRST =
+    process.env.DOCS_GNOSIS_OWNER_FIRST ?? 'c3a7bf3b2cec0ef5bd7c11513e161beb780ba6d1167411c6fceb4419df91e85a'
+  const DOCS_GNOSIS_OWNER_SECOND =
+    process.env.DOCS_GNOSIS_OWNER_SECOND ?? '67cc2a4389ad0e99643b0692744c6fcf24282971a114799833dc5e3db803c46f'
 
   let page: Page
   let gnosisSiwePage: Page
@@ -156,8 +158,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
 
   before(async function () {
     if (!DOCS_GNOSIS_OWNER_FIRST || !DOCS_GNOSIS_OWNER_SECOND) this.skip()
-    await metamask.addWallet(DOCS_GNOSIS_OWNER_FIRST)
-    await metamask.addWallet(DOCS_GNOSIS_OWNER_SECOND)
+    await metamask.addAccount(DOCS_GNOSIS_OWNER_FIRST)
+    await metamask.addAccount(DOCS_GNOSIS_OWNER_SECOND)
   })
 
   it('Sign transaction from 2 wallets', async () => {
