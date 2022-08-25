@@ -1,6 +1,5 @@
-import { Contract } from '@ethersproject/contracts'
-import { utils } from 'ethers'
 import React from 'react'
+import { utils, Contract } from 'ethers'
 import { useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
 
 import { TransactionForm } from './TransactionForm'

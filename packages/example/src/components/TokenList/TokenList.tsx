@@ -6,7 +6,7 @@ import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
 import { toHttpPath } from '../../utils'
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
