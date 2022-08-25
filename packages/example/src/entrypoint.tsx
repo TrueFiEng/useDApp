@@ -13,7 +13,6 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
     ? process.env.MAINNET_URL.replace('mainnet', 'kovan')
     : getDefaultProvider('kovan'),
   [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
-  [Localhost.chainId]: process.env.LOCALHOST_URL || 'http://localhost:8545',
 }
 
 if (process.env.LOCALHOST_URL) {

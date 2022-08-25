@@ -96,12 +96,6 @@ jobs:
           DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
           DEBUG: usedapp*
         working-directory: packages/docs
-      - name: Upload recordings
-        uses: actions/upload-artifact@v1
-        if: always() # Can be helpful for failed tests as well.
-        with:
-          name: recordings
-          path: packages/frontend/playwright/recordings
   check-mixed-changesets:
     runs-on: ubuntu-latest
     steps:

@@ -12,7 +12,6 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
     ? process.env.NEXT_PUBLIC_MAINNET_URL.replace('mainnet', 'kovan')
     : getDefaultProvider('kovan'),
   [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
-  [Localhost.chainId]: process.env.NEXT_PUBLIC_LOCALHOST_URL || 'http://localhost:8545',
 }
 
 if (process.env.NEXT_PUBLIC_LOCALHOST_URL) {
