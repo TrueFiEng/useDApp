@@ -121,10 +121,8 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
    *
    */
 
-  const DOCS_GNOSIS_OWNER_FIRST =
-    process.env.DOCS_GNOSIS_OWNER_FIRST ?? 'c3a7bf3b2cec0ef5bd7c11513e161beb780ba6d1167411c6fceb4419df91e85a'
-  const DOCS_GNOSIS_OWNER_SECOND =
-    process.env.DOCS_GNOSIS_OWNER_SECOND ?? '67cc2a4389ad0e99643b0692744c6fcf24282971a114799833dc5e3db803c46f'
+  const DOCS_GNOSIS_OWNER_FIRST = process.env.DOCS_GNOSIS_OWNER_FIRST
+  const DOCS_GNOSIS_OWNER_SECOND = process.env.DOCS_GNOSIS_OWNER_SECOND
 
   let page: Page
   let gnosisSiwePage: Page
@@ -207,10 +205,6 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    // log('Waiting for the transaction to be mined...')
-    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    // log('Transaction mined.')
-
     await waitForExpect(async () => {
       expect(
         await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
@@ -251,10 +245,6 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    // log('Waiting for the transaction to be mined...')
-    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    // log('Transaction mined.')
-
     await waitForExpect(async () => {
       expect(
         await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
@@ -294,9 +284,9 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
-    // log('Waiting for the transaction to be mined...')
-    // await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
-    // log('Transaction mined.')
+    log('Waiting for the transaction to be mined...')
+    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    log('Transaction mined.')
 
     log('Opening page again...')
     page = await context.newPage()
