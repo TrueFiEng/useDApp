@@ -15,7 +15,7 @@ export class MetaMask {
     await this.page.goto('chrome://extensions')
     await this.page.click('#devMode')
     await this.page.waitForSelector('#extension-id')
-    const locator = await this.page.locator('#extension-id')
+    const locator = this.page.locator('#extension-id')
     const id = await locator.innerText()
     if (!id?.startsWith('ID: ')) throw new Error('Getting Metamask extension ID failed.')
     const extractedId = id.slice(4)
@@ -25,7 +25,7 @@ export class MetaMask {
   }
 
   async gotoMetamask() {
-    const metamaskId = await this.getExtensionId()
+    const metamaskId = this.extensionId ?? (await this.getExtensionId())
     const metamaskUrl = 'chrome-extension://' + metamaskId + '//home.html'
     await this.page.goto(metamaskUrl)
   }
@@ -93,14 +93,34 @@ export class MetaMask {
 
     await this.page.fill('#create-password', 'qwerty123')
     await this.page.fill('#confirm-password', 'qwerty123')
-    await this.page.check('xpath=//div[@role="checkbox"]')
+    await this.page.check('//div[@role="checkbox"]')
     await this.page.click(XPath.text('button', 'Create'))
     await this.page.click(XPath.text('button', 'Next'))
     await this.page.click(XPath.text('button', 'Remind me later')) // Recovery phrase.
 
-    await this.page.waitForSelector('xpath=//h2[contains(text(), "What\'s new")]', { state: 'visible' })
+    await this.page.waitForSelector('//h2[contains(text(), "What\'s new")]', { state: 'visible' })
 
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
+  }
+
+  async switchWallet(index: number) {
+    log('Switching wallet...')
+    await this.gotoMetamask()
+    await this.page.click('.account-menu__icon')
+    await this.page.click(`//div[contains(text(), "Account ${index + 1}")]`)
+
+    log('Wallet switched.')
+  }
+
+  async disconnectApp(app: string) {
+    log(`Disconnecting ${app}...`)
+    await this.gotoMetamask()
+    await this.page.click(`//button[@title='Account Options']`)
+    await this.page.click(XPath.text('span', 'Connected sites'))
+    const disconnectButton = this.page.locator(`//span[contains(text(), "${app}")]/ancestor::div[1]/ancestor::div[1]/a`)
+    await disconnectButton.click()
+    await this.page.click(XPath.text('button', 'Disconnect'))
+    log(`${app} disconnected.`)
   }
 }
