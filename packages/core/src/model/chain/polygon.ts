@@ -2,9 +2,15 @@ import { Chain } from '../../constants'
 
 export const Polygon: Chain = {
   chainId: 137,
-  chainName: 'Polygon',
+  chainName: 'Polygon Mainnet',
   isTestChain: false,
   isLocalChain: false,
+  rpcUrl: 'https://polygon-rpc.com/',
+  nativeCurrency: {
+    name: 'MATIC',
+    symbol: 'MATIC',
+    decimals: 18,
+  },
   multicallAddress: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
   getExplorerAddressLink: (address: string) => `https://polygonscan.com/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://polygonscan.com/tx/${transactionHash}`,
@@ -15,6 +21,12 @@ export const Mumbai: Chain = {
   chainName: 'Mumbai',
   isTestChain: true,
   isLocalChain: false,
+  rpcUrl: 'https://rpc-mumbai.maticvigil.com',
+  nativeCurrency: {
+    name: 'MATIC',
+    symbol: 'MATIC',
+    decimals: 18,
+  },
   multicallAddress: '0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc',
   getExplorerAddressLink: (address: string) => `https://mumbai.polygonscan.com/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://mumbai.polygonscan.com/tx/${transactionHash}`,

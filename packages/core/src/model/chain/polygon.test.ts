@@ -9,7 +9,7 @@ describe('Polygon Chain', () => {
   })
 
   it('getChainName', () => {
-    expect(Polygon.chainName).to.eq('Polygon')
+    expect(Polygon.chainName).to.eq('Polygon Mainnet')
     expect(Mumbai.chainName).to.eq('Mumbai')
   })
 
