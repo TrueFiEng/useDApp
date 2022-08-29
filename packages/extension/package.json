@@ -17,7 +17,7 @@
   "dependencies": {
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/address": "5.6.0",
-    "ethers": "5.6.2",
+    "ethers": "5.6.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "styled-components": "^5.2.1"

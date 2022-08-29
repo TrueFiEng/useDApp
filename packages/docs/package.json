@@ -16,9 +16,9 @@
     "typecheck": "tsc",
     "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
     "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
-    "lint:eslint": "eslint './src/examples/*.{ts,tsx}'",
-    "lint:prettier": "pnpm prettier './src/examples/*.{ts,tsx}'",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --timeout 60000"
+    "lint:eslint": "eslint './{src/examples,playwright}/**/*.{ts,tsx}'",
+    "lint:prettier": "pnpm prettier './{src/examples,playwright}/**/*.{ts,tsx}'",
+    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --bail"
   },
   "dependencies": {
     "@algolia/client-search": "^4.9.1",
@@ -39,7 +39,7 @@
     "clsx": "^1.1.1",
     "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "ethers": "5.6.2",
+    "ethers": "5.6.9",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "^2.1.2",
     "prism-react-renderer": "^1.2.1",
@@ -51,6 +51,7 @@
     "@babel/core": "^7.0.0-0",
     "@docusaurus/module-type-aliases": "2.0.0-beta.20",
     "@tsconfig/docusaurus": "^1.0.4",
+    "@types/debug": "^4.1.7",
     "@types/mocha": "^8.2.0",
     "@types/node": "^17.0.10",
     "@types/react": "17.0.1",
@@ -58,6 +59,7 @@
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@usedapp/playwright": "workspace:*",
+    "chai": "^4.2.0",
     "mocha": "^8.2.1",
     "playwright": "^1.20.2",
     "ts-node": "^10.7.0",

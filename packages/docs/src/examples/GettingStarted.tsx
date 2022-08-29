@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
+import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config, Goerli } from '@usedapp/core'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
@@ -10,6 +10,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
 
@@ -21,8 +22,11 @@ ReactDOM.render(
 )
 
 function App() {
-  const { account, deactivate } = useEthers()
+  const { account, deactivate, chainId } = useEthers()
   const etherBalance = useEtherBalance(account)
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
 
   return (
     <div>

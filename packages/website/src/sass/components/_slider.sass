@@ -1,0 +1,57 @@
+.slider
+  max-width: 100%
+  overflow: hidden
+
+.slider__list
+  display: flex
+  align-items: flex-start
+  max-width: 100%
+  overflow-x: auto
+  overflow-y: visible
+  scroll-snap-type: x mandatory
+  scroll-behavior: smooth
+  overflow-scrolling: touch
+  -webkit-overflow-scrolling: touch
+  scroll-snap-points-x: repeat(100px)
+  scroll-snap-type: mandatory
+
+.slider__item
+  display: flex
+  justify-content: center
+  align-items: center
+  scroll-snap-align: start
+
+.slider__item + .slider__item
+  margin-left: 16px
+
+.slider__link
+  filter: grayscale(1)
+  cursor: pointer
+  transition: $all
+
+.slider__link:hover
+  filter: grayscale(0)
+
+.slider__link:focus-visible
+  filter: grayscale(0)
+
+.slider__link:active
+  filter: grayscale(0) brightness(0.9)
+
+.slider__column
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-align: center
+
+.slider__image
+  height: 64px
+  max-width: 64px
+  object-fit: cover
+  border-radius: 32px
+
+.slider__text
+  margin-top: 16px
+  font-size: 12px
+  line-height: 18px
+  color: $dark

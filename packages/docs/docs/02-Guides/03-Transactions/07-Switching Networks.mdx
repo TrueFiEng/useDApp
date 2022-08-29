@@ -30,3 +30,42 @@ import { ExampleContainer } from '/src/examples/ExampleContainer';
 import SwitchingNetworks from '../../../example-loader.js!/src/examples/SwitchingNetworks.tsx'
 
 <ExampleContainer example={SwitchingNetworks}/>
+
+## Troubleshooting
+
+You might encounter these known errors thrown when using `switchNetwork`:
+
+- `Error: ChainId "xyz" does not have RPC url configured by default.`
+
+It means that there the network you are trying to switch to is known, but there is no stable public RPC endpoint configured in useDApp. Known networks are listed [here](https://github.com/TrueFiEng/useDApp/tree/master/packages/core/src/model/chain).
+
+[Here](https://github.com/TrueFiEng/useDApp/blob/87b6249e795c4241b089f51e6b6eea90dcb7885a/packages/core/src/model/chain/arbitrum.ts#L20-L31) is an example of a chain with known public RPC.
+
+[Here](https://github.com/TrueFiEng/useDApp/blob/87b6249e795c4241b089f51e6b6eea90dcb7885a/packages/core/src/model/chain/polygon.ts#L3-L11) is an example of a chain, which (at the time) did not have an RPC endpoint included in useDApp.
+
+Because of missing RPC endpoint, `switchNetwork` will throw this error because a network cannot be added automatically to a browser Wallet without an RPC endpoint.
+
+**Solution**
+
+If you have an RPC endpoint, you can supply it to useDApp config.
+
+Assuming we're working with `Polygon` without `rpcUrl`:
+
+```typescript
+import { Config, Polygon, DEFAULT_SUPPORTED_CHAINS } from '@usedapp/core'
+
+const myNetworks = [...DEFAULT_SUPPORTED_CHAINS]
+const polygon = myNetworks.find(chain => chain.chainId === Polygon.chainId)
+polygon.rpcUrl = 'https://polygon-rpc.com/'
+
+const config: Config = {
+  ...
+  networks: myNetworks
+}
+```
+
+- `Error: ChainId "xyz" not found in config.networks.`
+
+It means that the chain in question is not known to useDApp. You would have to provide the configuration yourself.
+
+For that, see the following instructions: [Include your custom chain in Config](https://usedapp-docs.netlify.app/docs/guides/connecting/custom%20chains/#include-your-custom-chain-in-config).
