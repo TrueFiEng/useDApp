@@ -3,10 +3,6 @@ import LocalStorage from '../helpers/LocalStorage'
 import { useConfig } from './useConfig'
 
 function getItem(key: string, storage: WindowLocalStorage['localStorage']) {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
   const item = storage.getItem(key)
   if (item !== null) {
     try {
