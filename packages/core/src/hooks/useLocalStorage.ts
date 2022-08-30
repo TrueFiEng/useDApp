@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
+import LocalStorage from '../helpers/LocalStorage'
 import { useConfig } from './useConfig'
 
 function getItem(key: string, storage: WindowLocalStorage['localStorage']) {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
   const item = storage.getItem(key)
   if (item !== null) {
     try {
@@ -27,7 +32,7 @@ function setItem(key: string, value: any, storage: WindowLocalStorage['localStor
  */
 export function useLocalStorage(key: string) {
   const {
-    localStorageOverride = typeof window !== 'undefined' ? window.localStorage : global.localStorage,
+    localStorageOverride = typeof window !== 'undefined' ? window.localStorage : new LocalStorage(),
   } = useConfig()
 
   const [value, setValue] = useState(() => getItem(key, localStorageOverride))
