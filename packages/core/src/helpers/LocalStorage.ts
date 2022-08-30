@@ -1,9 +1,10 @@
 export default class LocalStorage {
-  private data: { [key: string]: any } = {}
-  length = Object.keys(this.data).length
+  private data: { [key: string]: string } = {}
+  length = 0
 
   clear() {
     this.data = {}
+    this.length = 0
   }
 
   getItem(key: string): string | null {
@@ -11,16 +12,22 @@ export default class LocalStorage {
     return item || null
   }
 
-  key(index: number): string {
+  key(index: number): string | null {
     const keys = Object.keys(this.data)
-    return keys[index] || ''
+    return keys[index] || null
   }
 
   removeItem(key: string): void {
-    delete this.data[key]
+    if (this.data[key]) {
+      delete this.data[key]
+      this.length--
+    }
   }
 
-  setItem(key: string, value: any): void {
+  setItem(key: string, value: string): void {
+    if (!this.data[key]) {
+      this.length++
+    }
     this.data[key] = value
   }
 }
