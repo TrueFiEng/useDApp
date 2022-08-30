@@ -93,6 +93,10 @@ export type FullConfig = {
    * Refresh standard calls each time the n-th block is mined.
    */
   refresh?: number | 'never' | 'everyBlock'
+  /**
+   * Optional Local storage override for use in environments like React Native
+   */
+  localStorageOverride?: WindowLocalStorage['localStorage']
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
