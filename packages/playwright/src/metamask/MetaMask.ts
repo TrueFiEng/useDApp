@@ -40,6 +40,8 @@ export class MetaMask {
     await this.page.waitForSelector('.account-menu__icon')
     log('MetaMask account added.')
 
+    if (!pages.length) return
+
     for (const page of pages) {
       const title = await page.title()
       log('Connecting metamask to page: ' + title)

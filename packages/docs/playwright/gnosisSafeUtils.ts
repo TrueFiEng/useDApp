@@ -1,35 +1,35 @@
 import { BrowserContext, Page } from 'playwright'
 import waitForExpect from 'wait-for-expect'
 import { expect } from 'chai'
-import { XPath, waitForPopup } from '@usedapp/playwright'
+import { waitForPopup } from '@usedapp/playwright'
 import debug from 'debug'
 
-export const GNOSIS_SAFE_URL = 'https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home'
+export const GNOSIS_SAFE_URL = 'https://gnosis-safe.io/app/gor:0xA971C98755c3404Fc4458fcd98905980f68Af642/home'
 
 const log = debug('usedapp:docs:playwright')
 
 export async function initGnosisSafe({ page, url }: { page: Page; url: string }) {
   await page.goto(url)
-  await page.click(XPath.text('span', 'Accept all'))
-  await page.click(XPath.text('p', 'WalletConnect'))
-  await page.click(XPath.text('span', 'Continue'))
-  await page.click(XPath.text('span', 'Continue'))
-  await page.click(XPath.text('span', 'Continue'))
-  await page.click(XPath.text('span', 'Continue'))
-  await page.click(XPath.text('span', 'Continue'))
+  await page.click('//span[contains(text(), "Accept all")]')
+  await page.click('//p[contains(text(), "WalletConnect")]')
+  await page.click('//span[contains(text(), "Continue")]')
+  await page.click('//span[contains(text(), "Continue")]')
+  await page.click('//span[contains(text(), "Continue")]')
+  await page.click('//span[contains(text(), "Continue")]')
+  await page.click('//span[contains(text(), "Continue")]')
 }
 
 export async function connectToMetamask({ page, context }: { page: Page; context: BrowserContext }) {
   const popupPromise = waitForPopup(context)
-  await page.click(XPath.text('p', 'Connect Wallet'))
-  await page.click(XPath.text('span', 'Connect'))
-  await page.click(XPath.text('span', 'MetaMask'))
+  await page.click('//p[contains(text(), "Connect Wallet")]')
+  await page.click('//span[contains(text(), "Connect")]')
+  await page.click('//span[contains(text(), "MetaMask")]')
   const popupPage = await popupPromise
-  await popupPage.click(XPath.text('button', 'Next'))
+  await popupPage.click('//button[contains(text(), "Next")]')
   const pages = context.pages().length
-  await popupPage.click(XPath.text('button', 'Connect'))
+  await popupPage.click('//button[contains(text(), "Connect")]')
   try {
-    await popupPage.click(XPath.text('button', 'Switch network'))
+    await popupPage.click('//button[contains(text(), "Switch network")]')
     log('Switched network')
   } catch (err) {
     // Ignore error if network is already connected.
@@ -49,10 +49,10 @@ export async function connectToWalletConnect({ page }: { page: Page }) {
 
 export async function firstSign({ page, context }: { page: Page; context: BrowserContext }) {
   const popupPromise = waitForPopup(context)
-  await page.click(XPath.text('span', 'Submit'))
+  await page.click('//span[contains(text(), "Submit")]')
   const popupPage = await popupPromise
   await popupPage.click('//img[@alt="Scroll down"]')
-  await popupPage.click(XPath.text('button', 'Sign'))
+  await popupPage.click('//button[contains(text(), "Sign")]')
 }
 
 export async function secondSign({ page, context }: { page: Page; context: BrowserContext }) {
