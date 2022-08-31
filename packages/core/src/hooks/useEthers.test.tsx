@@ -7,8 +7,9 @@ import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork 
 import { useEthers } from './useEthers'
 
 import Ganache, { Server } from 'ganache'
+import { InjectedConnector } from '../providers/network/connectors/implementations'
 
-describe('useEthers', () => {
+describe.only('useEthers', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
@@ -47,7 +48,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new InjectedConnector(network2.provider))
         }, [])
 
         return useEthers()
@@ -66,7 +67,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(notConfiguerdNetwork.provider)
+          void activate(new InjectedConnector(notConfiguerdNetwork.provider))
         }, [])
 
         return useEthers()
@@ -84,7 +85,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new InjectedConnector(network2.provider))
         }, [])
 
         return useEthers()
@@ -107,13 +108,13 @@ describe('useEthers', () => {
     expect(result.current.isLoading).to.be.false
   })
 
-  describe('Websocket provider', () => {
+  describe.only('Websocket provider', () => {
     let ganacheServer: Server<'ethereum'>
     const wsPort = 18845
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
-      ganacheServer = Ganache.server({ server: { ws: true } })
+      ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
       await ganacheServer.listen(wsPort)
     })
 

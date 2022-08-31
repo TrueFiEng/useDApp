@@ -34,9 +34,8 @@ export type {
   State,
   StoredTransaction,
   StoredTransactions,
-  Network,
 } from './providers'
-export { DAppProvider, getStoredTransactionState, multicall, multicall2, useNetwork } from './providers'
+export { DAppProvider, getStoredTransactionState, multicall, multicall2 } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
   useBlockMeta,

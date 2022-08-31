@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
-import { ChainId, State, useConfig, useNetwork } from '../../..'
+import { ChainId, State, useConfig } from '../../..'
 import { useReadonlyNetworks } from '../../network'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
@@ -43,7 +43,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const { multicallVersion, fastMulticallEncoding } = useConfig()
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
-  const { reportError } = useNetwork()
+  const dispatchNetworksState = useUpdateNetworksState()
   const { isActive } = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
@@ -104,7 +104,13 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       callsOnThisChain,
       dispatchState,
       chainId,
-      reportError
+      (error) => {
+        dispatchNetworksState({
+          type: 'ADD_ERROR',
+          chainId,
+          error,
+        })
+      }
     )
     dispatchCalls({ type: 'UPDATE_CALLS', calls, updatedCalls, blockNumber, chainId })
   }

@@ -9,9 +9,6 @@ export type {
   MultiChainState,
 } from './providers'
 export {
-  NetworkProvider,
-  BlockNumberProvider,
-  BlockNumberContext,
   ConfigContext,
   ConfigProvider,
   MultiChainStateProvider,

@@ -16,11 +16,22 @@ export function BlockNumbersProvider({ children }: Props) {
   const { isActive } = useWindow()
 
   useEffect(() => {
+    let isMounted = true
     const onUnmount = Object.entries(networks).map(([chainId, provider]) =>
-      subscribeToNewBlock(provider, Number(chainId), dispatch, isActive)
+      subscribeToNewBlock(
+        provider,
+        Number(chainId),
+        (...args: Parameters<typeof dispatch>) => {
+          if (isMounted) {
+            dispatch(...args)
+          }
+        },
+        isActive
+      )
     )
 
     return () => {
+      isMounted = false
       onUnmount.forEach((fn) => fn())
     }
   }, [networks])

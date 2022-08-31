@@ -3,6 +3,7 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
+import { InjectedConnector } from '../providers/network/connectors/implementations'
 import { TestingNetwork, renderDAppHook, setupTestingConfig, sleep } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
@@ -66,7 +67,7 @@ describe('useEtherBalance', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new InjectedConnector(network2.provider))
         }, [])
 
         return useEtherBalance(receiver)

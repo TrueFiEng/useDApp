@@ -9,8 +9,8 @@ import { constants, providers, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
 
 describe('useCall Resilency tests', () => {
-  for (const multicallVersion of [1, 2] as const) {
-    for (const fastMulticallEncoding of [false, true] as const) {
+  for (const multicallVersion of [1] as const) {
+    for (const fastMulticallEncoding of [false] as const) {
       describe(`Multicall v${multicallVersion} configured: fastMulticallEncoding=${fastMulticallEncoding}`, () => {
         it('Other hooks work when one call reverts', async function () {
           if (multicallVersion === 1) this.skip() // This cannot work in multicall 1 as the whole batch reverts.
@@ -169,6 +169,7 @@ describe('useCall Resilency tests', () => {
             expect(result.current.firstChainBlockNumber).to.be.equal(2)
             expect(result.current.secondChainBlockNumber).to.be.equal(1)
             expect(result.current.chainId).to.be.equal(1337)
+            expect((result.current.error as any)?.error?.code).to.eq('SERVER_ERROR')
           })
 
           it('Continues to work when *primary* RPC endpoint fails', async () => {
