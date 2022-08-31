@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { AccountModal } from './AccountModal'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { InjectedConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/injected'
 
 const NETWORK_CONNECTIONS = {
   [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
@@ -33,7 +34,7 @@ export const Web3ReactConnectorButton = () => {
       bridge: 'https://bridge.walletconnect.org',
       qrcode: true,
     })
-    await activate(web3Connector)
+    await activate(new InjectedConnector(await web3Connector.getProvider()))
   }
 
   return (

@@ -8,6 +8,7 @@ import { TextInline } from '../typography/Text'
 import { Title } from '../typography/Title'
 import { Button } from '../components/base/Button'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import { InjectedConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/injected'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
@@ -21,7 +22,7 @@ export function WalletConnect() {
         infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
       })
       await provider.enable()
-      await activate(provider)
+      await activate(new InjectedConnector(provider))
     } catch (error) {
       console.error(error)
     }
