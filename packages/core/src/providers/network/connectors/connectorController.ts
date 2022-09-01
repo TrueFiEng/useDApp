@@ -108,9 +108,15 @@ export class ConnectorController {
       const errChainNotAddedYet = 4902 // Metamask error code
       if (error.code === errChainNotAddedYet) {
         const chain = DEFAULT_SUPPORTED_CHAINS?.find((chain) => chain.chainId === chainId)
-        if (chain?.rpcUrl) {
-          await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
-        }
+        if (!chain)
+          throw new Error(
+            `ChainId "${chainId}" not found in config.networks. See https://usedapp-docs.netlify.app/docs/Guides/Transactions/Switching%20Networks`
+          )
+        if (!chain.rpcUrl)
+          throw new Error(
+            `ChainId "${chainId}" does not have RPC url configured by default. See https://usedapp-docs.netlify.app/docs/Guides/Transactions/Switching%20Networks`
+          )
+        await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
       } else {
         throw error
       }

@@ -33,6 +33,7 @@ export class PortisConnector implements Connector {
   }
 
   async deactivate(): Promise<void> {
+    this.provider = undefined
     this.update.emit({ chainId: 0, accounts: [] })
   }
 }

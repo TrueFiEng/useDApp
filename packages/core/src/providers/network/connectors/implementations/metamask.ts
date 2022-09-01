@@ -1,4 +1,4 @@
-import { Connector, ConnectorPriority, Update } from '../connector'
+import { Connector, Update } from '../connector'
 import { providers } from 'ethers'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { Event } from '../../../../helpers/event'
@@ -27,17 +27,9 @@ export async function getMetamaskProvider() {
 }
 
 export class MetamaskConnector implements Connector {
-  static tag = 'metamask'
-
   public provider?: providers.Web3Provider
-  public priority = ConnectorPriority.Wallet
-  public name = 'Metamask'
 
   readonly update = new Event<Update>()
-
-  public getTag(): string {
-    return MetamaskConnector.tag
-  }
 
   private async init() {
     if (this.provider) return
@@ -46,22 +38,6 @@ export class MetamaskConnector implements Connector {
       return
     }
     this.provider = metamask
-  }
-
-  async connectEagerly(): Promise<void> {
-    await this.init()
-
-    if (!this.provider) {
-      return
-    }
-
-    try {
-      const chainId: string = await this.provider!.send('eth_chainId', [])
-      const accounts: string[] = await this.provider!.send('eth_accounts', [])
-      this.update.emit({ chainId: parseInt(chainId), accounts })
-    } catch (e) {
-      console.debug(e)
-    }
   }
 
   async activate(): Promise<void> {
@@ -81,6 +57,6 @@ export class MetamaskConnector implements Connector {
   }
 
   async deactivate(): Promise<void> {
-    this.update.emit({ chainId: 0, accounts: [] })
+    this.provider = undefined
   }
 }
