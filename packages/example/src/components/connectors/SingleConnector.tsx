@@ -19,7 +19,7 @@ interface ConnectorProps {
 
 export function SingleConnector({ name, connector }: ConnectorProps) {
   const { connector: activeConnector } = useConnector()
-  const { account, activate, deactivate, chainId } = useEthers()
+  const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
   const ethBalance = useEtherBalance(account, { chainId })
   const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
 
@@ -38,7 +38,7 @@ export function SingleConnector({ name, connector }: ConnectorProps) {
               <LoginButton onClick={deactivate}>Disconnect</LoginButton>
             </>
           ) : (
-            <LoginButton id={`${name}Button`} onClick={async () => activate(connector)}>
+            <LoginButton id={`${name}Button`} onClick={async () => activateBrowserWallet({ type: name })}>
               Connect
             </LoginButton>
           )}

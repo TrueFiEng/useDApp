@@ -10,7 +10,7 @@ type ExternalProvider = providers.ExternalProvider
 const Provider = providers.Provider
 const Web3Provider = providers.Web3Provider
 
-export type ActivateBrowserWallet = ({ type }?: {
+export type ActivateBrowserWallet = (arg: {
   type: string
 }) => void
 
@@ -72,6 +72,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         throw new Error(`Connector ${type} is not configured`)
       }
       await activate(connectors[type])
+      console.log('Setting autoConnectTag to', { type })
       setAutoConnectTag(type)
     },
     [activate, setAutoConnectTag, connectors]
