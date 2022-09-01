@@ -22,6 +22,11 @@ export interface SiweFetchers {
   signOut: () => Promise<void>
 }
 
+export interface UserData {
+  chainId?: number
+  address?: string
+}
+
 const failedAuthResponse = {
   loggedIn: false,
   message: undefined,
@@ -32,10 +37,16 @@ const failedNonceResponse = {
   ok: false,
 }
 
-export const getFetchers = (backendUrl: string): SiweFetchers => {
+export const getFetchers = (backendUrl: string, { chainId, address }: UserData): SiweFetchers => {
   return {
     getAuth: async () => {
-      const authRequest = await fetch(`${backendUrl}/siwe/me`, {
+      const url = new URL(`${backendUrl}/siwe/me`)
+      if (chainId && address) {
+        url.searchParams.set('chainId', String(chainId))
+        url.searchParams.set('address', address)
+      }
+
+      const authRequest = await fetch(String(url), {
         credentials: 'include',
       })
 
@@ -77,7 +88,14 @@ export const getFetchers = (backendUrl: string): SiweFetchers => {
       })
     },
     signOut: async () => {
-      await fetch(`${backendUrl}/siwe/signout`, {
+      const url = new URL(`${backendUrl}/siwe/signout`)
+      if (chainId && address) {
+        url.searchParams.set('chainId', String(chainId))
+        url.searchParams.set('address', address)
+      }
+
+      await fetch(String(url), {
+        method: 'POST',
         credentials: 'include',
       })
     },

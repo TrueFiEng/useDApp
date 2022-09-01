@@ -18,7 +18,7 @@ const config: Config = {
 
 ReactDOM.render(
   <DAppProvider config={config}>
-    <SiweProvider backendUrl={'https://fastify-siwe-example-backend.herokuapp.com'}>
+    <SiweProvider backendUrl={'http://localhost:5000'}>
       <App />
     </SiweProvider>
   </DAppProvider>,

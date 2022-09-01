@@ -115,7 +115,7 @@ const renderSiweHook = async <Tprops, TResult>(
   const { result, waitForNextUpdate, rerender, unmount } = await renderDAppHook<Tprops, TResult>(hook, {
     renderHook: {
       wrapper: (wrapperProps) => (
-        <SiweProvider backendUrl={''} api={options?.siweFetchers}>
+        <SiweProvider backendUrl={'http://localhost:5000'} api={options?.siweFetchers}>
           <UserWrapper {...wrapperProps} />
         </SiweProvider>
       ),
