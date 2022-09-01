@@ -34,7 +34,7 @@ export const Web3ReactConnectorButton = () => {
       bridge: 'https://bridge.walletconnect.org',
       qrcode: true,
     })
-    await activate(new InjectedConnector(await web3Connector.getProvider()))
+    await activate(await web3Connector.getProvider())
   }
 
   return (

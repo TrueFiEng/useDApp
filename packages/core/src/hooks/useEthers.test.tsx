@@ -47,7 +47,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(new InjectedConnector(network2.provider))
+          void activate(network2.provider)
         }, [])
 
         return useEthers()
@@ -66,7 +66,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(new InjectedConnector(notConfiguerdNetwork.provider))
+          void activate(notConfiguerdNetwork.provider)
         }, [])
 
         return useEthers()
@@ -84,7 +84,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(new InjectedConnector(network2.provider))
+          void activate(network2.provider)
         }, [])
 
         return useEthers()

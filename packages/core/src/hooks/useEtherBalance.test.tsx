@@ -67,7 +67,7 @@ describe('useEtherBalance', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(new InjectedConnector(network2.provider))
+          void activate(network2.provider)
         }, [])
 
         return useEtherBalance(receiver)

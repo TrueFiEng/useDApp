@@ -24,14 +24,14 @@ export function SingleConnector({ name, connector }: ConnectorProps) {
   const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
 
   const active = useMemo(
-    () => !!account && activeConnector?.connector.name === name, 
-    [account, activeConnector, name]
+    () => !!account && activeConnector?.connector === connector, 
+    [account, activeConnector]
   )
 
   return (
     <>
       <SectionRow>
-        <Title>{`${name} connector`}</Title>
+        <Title>{`${name.charAt(0).toUpperCase() + name.slice(1)} connector`}</Title>
         <Account>
           {active? (
             <>

@@ -3,16 +3,26 @@ import { getAddress } from 'ethers/lib/utils'
 import { Connector, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useReadonlyNetworkStates } from '../providers/network/readonlyNetworks/context'
+import { ActivateBrowserWallet } from '../providers/network/connectors/context'
 
 type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
+
+type MaybePromise<T> = Promise<T> | T
+
+type SupportedProviders =
+  | JsonRpcProvider
+  | ExternalProvider
+  | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
+  | Connector
 
 /**
  * @public
  */
 export type Web3Ethers = {
-  activate: (connector: Connector) => Promise<void>
+  activate: (provider: SupportedProviders) => Promise<void>
   /**
    * @deprecated
    */
@@ -24,7 +34,7 @@ export type Web3Ethers = {
   error?: Error
   library?: JsonRpcProvider
   active: boolean
-  activateBrowserWallet: () => void
+  activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
   /**
    * Switch to a different network.
@@ -132,7 +142,14 @@ export function useEthers(): Web3Ethers {
       error?.name === 'ChainIdError' ? undefined : provider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
-    activate,
+    activate: async (providerOrConnector: SupportedProviders) => {
+      if ('getProvider' in providerOrConnector) {
+        console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
+        await providerOrConnector.activate()
+        return activate(await providerOrConnector.getProvider())
+      }
+      return activate(providerOrConnector)
+    },
     activateBrowserWallet,
     deactivate,
 

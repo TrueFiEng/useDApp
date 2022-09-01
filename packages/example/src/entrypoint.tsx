@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom'
 import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum, Localhost } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
+import { CoinbaseWalletConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/conibaseWallet'
+import { MetamaskConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/metamask'
+import { PortisConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/portis'
+import { WalletConnectConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/walletConnect'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
@@ -19,12 +23,20 @@ if (process.env.LOCALHOST_URL) {
   readOnlyUrls[Localhost.chainId] = process.env.LOCALHOST_URL
 }
 
+const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
+
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls,
   multicallVersion: 2 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
+  connectors: {
+    'metamask': new MetamaskConnector(),
+    'walletConnect': new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
+    'coinbase': new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+    'portis': new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1)
+  }
 }
 
 ReactDOM.render(

@@ -1,13 +1,24 @@
-import { createContext, ReactNode, useCallback, useContext, useState } from 'react'
+import { providers } from 'ethers'
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { useConfig, useLocalStorage } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
-import { MetamaskConnector } from './implementations'
+import { InjectedConnector, MetamaskConnector } from './implementations'
+
+type JsonRpcProvider = providers.JsonRpcProvider
+type ExternalProvider = providers.ExternalProvider
+const Provider = providers.Provider
+const Web3Provider = providers.Web3Provider
+
+export type ActivateBrowserWallet = ({ type }?: {
+  type: string
+}) => void
 
 interface ConnectorContextValue {
   connector: ConnectorController | undefined
-  activate: (connector: Connector) => Promise<void>
+  activate: (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector) => Promise<void>
   deactivate: () => void 
-  activateBrowserWallet: () => void
+  activateBrowserWallet: ActivateBrowserWallet
   reportError: (error: Error) => void
   isLoading: boolean
 }
@@ -28,10 +39,18 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controller, setController] = useState<ConnectorController>()
   const [isLoading, setLoading] = useState(false)
+  const { connectors, autoConnect } = useConfig()
+  const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
 
   const activate = useCallback(
-    async (connector: Connector) => {
-      const controller = new ConnectorController(connector)
+    async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector) => {
+      let controller: ConnectorController
+      if ('activate' in providerOrConnector) {
+        controller = new ConnectorController(providerOrConnector)
+      } else {
+        const wrappedProvider = Provider.isProvider(providerOrConnector) ? providerOrConnector : new Web3Provider(providerOrConnector)
+        controller = new ConnectorController(new InjectedConnector(wrappedProvider))
+      }
       setLoading(true)
       try {
         await controller.activate()
@@ -47,15 +66,33 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
     [setController, setLoading]
   )
 
-  const activateBrowserWallet = useCallback(async () => {
-    await activate(new MetamaskConnector())
-  }, [activate])
+  const activateBrowserWallet: ActivateBrowserWallet = useCallback(
+    async ({ type } = { type: 'metamask' }) => {
+      if (!connectors[type]) {
+        throw new Error(`Connector ${type} is not configured`)
+      }
+      await activate(connectors[type])
+      setAutoConnectTag(type)
+    },
+    [activate, setAutoConnectTag, connectors]
+  )
+
+  useEffect(() => {
+    if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
+      activateBrowserWallet({ type: autoConnectTag })
+    }
+  }, [autoConnectTag, connectors, autoConnect])
 
   return (
     <ConnectorContext.Provider
       value={{
         connector: controller,
-        deactivate: () => controller?.deactivate(),
+        deactivate: async () => {
+          setAutoConnectTag(undefined)
+          setLoading(true)
+          await controller?.deactivate()
+          setLoading(false)
+        },
         reportError: (err) => {
           controller?.reportError(err)
         },
