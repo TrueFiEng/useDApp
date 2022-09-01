@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
+import LocalStorage from '../helpers/LocalStorage'
+import { useConfig } from './useConfig'
 
-function getItem(key: string) {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  const item = window.localStorage.getItem(key)
+function getItem(key: string, storage: WindowLocalStorage['localStorage']) {
+  const item = storage.getItem(key)
   if (item !== null) {
     try {
       return JSON.parse(item)
@@ -15,12 +13,12 @@ function getItem(key: string) {
   }
 }
 
-function setItem(key: string, value: any) {
+function setItem(key: string, value: any, storage: WindowLocalStorage['localStorage']) {
   if (value === undefined) {
-    window.localStorage.removeItem(key)
+    storage.removeItem(key)
   } else {
     const toStore = JSON.stringify(value)
-    window.localStorage.setItem(key, toStore)
+    storage.setItem(key, toStore)
     return JSON.parse(toStore)
   }
 }
@@ -29,17 +27,21 @@ function setItem(key: string, value: any) {
  * @internal Intended for internal use - use it on your own risk
  */
 export function useLocalStorage(key: string) {
-  const [value, setValue] = useState(() => getItem(key))
+  const {
+    localStorageOverride = typeof window !== 'undefined' ? window.localStorage : new LocalStorage(),
+  } = useConfig()
+
+  const [value, setValue] = useState(() => getItem(key, localStorageOverride))
 
   useEffect(() => {
-    setValue(getItem(key))
+    setValue(getItem(key, localStorageOverride))
   }, [key])
 
   useEffect(() => {
-    setItem(key, value)
+    setItem(key, value, localStorageOverride)
   }, [value])
 
-  // As value updating relies on useEffect, it takes mutliple rerenders to fully update the value.
-  // The third elemnt in the return array allows to get the immediate value stored in the localStorage.
-  return [value, setValue, () => getItem(key)] as const
+  // As value updating relies on useEffect, it takes multiple rerenders to fully update the value.
+  // The third element in the return array allows to get the immediate value stored in the localStorage.
+  return [value, setValue, () => getItem(key, localStorageOverride)] as const
 }
