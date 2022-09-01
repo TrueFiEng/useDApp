@@ -16,7 +16,7 @@ export function networkStatesReducer(prevState: NetworkStates, actions: Actions)
       newState[actions.chainId] = {
         nonStaticCalls: 0,
         ...newState[actions.chainId],
-        errors: [...newState[actions.chainId]?.errors ?? [], actions.error]
+        errors: [...(newState[actions.chainId]?.errors ?? []), actions.error],
       }
       return newState
     }

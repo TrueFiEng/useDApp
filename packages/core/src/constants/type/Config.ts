@@ -93,7 +93,7 @@ export type FullConfig = {
   /**
    * Refresh standard calls each time the n-th block is mined.
    */
-  refresh?: number | 'never' | 'everyBlock',
+  refresh?: number | 'never' | 'everyBlock'
   /**
    * Specify configuration of the wallets that can be used in the app
    */

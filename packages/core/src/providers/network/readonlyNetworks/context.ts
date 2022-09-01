@@ -4,7 +4,7 @@ import { ReadonlyNetworksModel } from './model'
 export const ReadonlyNetworksContext = createContext<ReadonlyNetworksModel>({
   providers: {},
   updateNetworkState: () => undefined,
-  networkStates: {}
+  networkStates: {},
 })
 
 export function useReadonlyNetworks() {

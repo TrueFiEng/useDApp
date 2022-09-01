@@ -2,7 +2,7 @@ import { ChainId } from '../../../constants'
 import type { providers } from 'ethers'
 
 export interface NetworkState {
-  nonStaticCalls: number,
+  nonStaticCalls: number
   errors: Error[]
 }
 
@@ -16,7 +16,7 @@ export type NetworkStates = {
 
 export interface ReadonlyNetworksModel {
   providers: Providers
-  updateNetworkState: (payload: Actions) => void,
+  updateNetworkState: (payload: Actions) => void
   networkStates: NetworkStates
 }
 

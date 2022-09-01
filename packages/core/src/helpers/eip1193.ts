@@ -1,10 +1,7 @@
 import { EventEmitter } from 'events'
-import { Connector, Update } from '../providers/network/connectors';
+import { Connector, Update } from '../providers/network/connectors'
 
-export function subscribeToProviderEvents(
-  connector: Connector,
-  onUpdate: (update: Partial<Update>) => void,
-) {
+export function subscribeToProviderEvents(connector: Connector, onUpdate: (update: Partial<Update>) => void) {
   const provider: EventEmitter | undefined = (connector.provider as any).provider
   if (provider?.on) {
     const onConnectListener = (): void => {

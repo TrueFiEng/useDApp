@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { AccountModal } from './AccountModal'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { InjectedConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/injected'
 
 const NETWORK_CONNECTIONS = {
   [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',

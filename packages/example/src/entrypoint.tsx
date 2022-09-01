@@ -31,11 +31,11 @@ const config: Config = {
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
   connectors: {
-    'metamask': new MetamaskConnector(),
-    'walletConnect': new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    'coinbase': new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
-    'portis': new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1)
-  }
+    metamask: new MetamaskConnector(),
+    walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
+    coinbase: new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
+  },
 }
 
 ReactDOM.render(

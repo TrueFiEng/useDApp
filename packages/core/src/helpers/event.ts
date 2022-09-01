@@ -1,18 +1,18 @@
-export type Effect = () => (() => void) | undefined | void;
+export type Effect = () => (() => void) | undefined | void
 
 /**
  * Effect that's been added to a specific Event.
  */
 interface MaterializedEffect {
-  effect: Effect,
+  effect: Effect
   cleanup: (() => void) | undefined
 }
 
 export interface ReadOnlyEvent<T> {
-  on: (cb: (data: T) => void) => (() => void)
+  on: (cb: (data: T) => void) => () => void
   off: (cb: (data: T) => void) => void
   emit: (data: T) => void
-  addEffect: (effect: Effect) => (() => void)
+  addEffect: (effect: Effect) => () => void
 }
 
 export class Event<T = void> implements ReadOnlyEvent<T> {
@@ -29,7 +29,7 @@ export class Event<T = void> implements ReadOnlyEvent<T> {
     this._listeners.add(callback)
 
     if (this.listenerCount() === 1) {
-      this._runEffects();
+      this._runEffects()
     }
 
     return () => this.off(callback)
@@ -39,16 +39,16 @@ export class Event<T = void> implements ReadOnlyEvent<T> {
     this._listeners.delete(callback)
 
     if (this.listenerCount() === 0) {
-      this._cleanupEffects();
+      this._cleanupEffects()
     }
   }
 
-  listenerCount () {
-    return this._listeners.size;
+  listenerCount() {
+    return this._listeners.size
   }
 
-  addEffect (effect: Effect): () => void {
-    const handle: MaterializedEffect = { effect, cleanup: undefined };
+  addEffect(effect: Effect): () => void {
+    const handle: MaterializedEffect = { effect, cleanup: undefined }
 
     if (this.listenerCount() > 0) {
       const cleanup = handle.effect()
@@ -57,12 +57,12 @@ export class Event<T = void> implements ReadOnlyEvent<T> {
       }
     }
 
-    this._effects.add(handle);
+    this._effects.add(handle)
     return () => {
       // eslint-disable-next-line no-unused-expressions
-      handle.cleanup?.();
-      this._effects.delete(handle);
-    };
+      handle.cleanup?.()
+      this._effects.delete(handle)
+    }
   }
 
   private async _trigger(listener: (data: T) => void, data: T) {
@@ -75,7 +75,7 @@ export class Event<T = void> implements ReadOnlyEvent<T> {
     }
   }
 
-  private _runEffects () {
+  private _runEffects() {
     for (const handle of Array.from(this._effects)) {
       const cleanup = handle.effect()
       if (typeof cleanup === 'function') {
@@ -84,11 +84,11 @@ export class Event<T = void> implements ReadOnlyEvent<T> {
     }
   }
 
-  private _cleanupEffects () {
+  private _cleanupEffects() {
     for (const handle of Array.from(this._effects)) {
       // eslint-disable-next-line no-unused-expressions
-      handle.cleanup?.();
-      handle.cleanup = undefined;
+      handle.cleanup?.()
+      handle.cleanup = undefined
     }
   }
 }

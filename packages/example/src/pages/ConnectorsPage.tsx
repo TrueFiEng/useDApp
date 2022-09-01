@@ -11,7 +11,9 @@ export const ConnectorPage = () => {
       <MainContent>
         <Container>
           <Section>
-            {Object.entries(connectors).map(([name, connector]) => <SingleConnector key={name} name={name} connector={connector} />)}
+            {Object.entries(connectors).map(([name, connector]) => (
+              <SingleConnector key={name} name={name} connector={connector} />
+            ))}
           </Section>
         </Container>
       </MainContent>

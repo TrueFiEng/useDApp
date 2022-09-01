@@ -58,13 +58,7 @@ export type Web3Ethers = {
     - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
 export function useEthers(): Web3Ethers {
-  const {
-    connector,
-    deactivate,
-    activate,
-    activateBrowserWallet,
-    isLoading,
-  } = useConnector()
+  const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
 
   const [activeConnectorChainId, setActiveConnectorChainId] = useState<number | undefined>()
   const [errors, setErrors] = useState<Error[]>([])
@@ -138,8 +132,7 @@ export function useEthers(): Web3Ethers {
   return {
     connector: undefined,
     library: provider,
-    chainId:
-      error?.name === 'ChainIdError' ? undefined : provider !== undefined ? chainId : readonlyNetwork?.chainId,
+    chainId: error?.name === 'ChainIdError' ? undefined : provider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {

@@ -24,13 +24,18 @@ export function useBlockNumber(): number | undefined {
 
     let isMounted = true
 
-    const readOnlyNetwork = chainId && readOnlyNetworks[chainId as unknown as ChainId]
+    const readOnlyNetwork = chainId && readOnlyNetworks[(chainId as unknown) as ChainId]
     if (readOnlyNetwork) {
-      const unsub =  subscribeToNewBlock(readOnlyNetwork, chainId, ({ blockNumber }) => {
-        if (isMounted) {
-          setBlockNumber(blockNumber)
-        }
-      }, isActive)
+      const unsub = subscribeToNewBlock(
+        readOnlyNetwork,
+        chainId,
+        ({ blockNumber }) => {
+          if (isMounted) {
+            setBlockNumber(blockNumber)
+          }
+        },
+        isActive
+      )
       return () => {
         isMounted = false
         unsub()

@@ -42,6 +42,6 @@ export {
   decodeCallResult,
   getChainMeta,
   getUniqueActiveCalls,
-  Event
+  Event,
 } from './helpers'
 export type { Update } from './providers'

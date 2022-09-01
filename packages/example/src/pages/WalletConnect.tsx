@@ -8,7 +8,6 @@ import { TextInline } from '../typography/Text'
 import { Title } from '../typography/Title'
 import { Button } from '../components/base/Button'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { InjectedConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/injected'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 

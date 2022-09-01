@@ -7,10 +7,10 @@ import { validateArguments } from '../../../helpers/validateArgument'
 import { Connector } from './connector'
 
 export interface ControllerUpdateInfo {
-  active: ConnectorController['active'],
-  accounts: ConnectorController['accounts'],
+  active: ConnectorController['active']
+  accounts: ConnectorController['accounts']
   chainId: ConnectorController['chainId']
-  blockNumber: ConnectorController['blockNumber'],
+  blockNumber: ConnectorController['blockNumber']
   errors: ConnectorController['errors']
 }
 
@@ -30,7 +30,7 @@ export class ConnectorController {
       chainId: this.chainId,
       accounts: this.accounts,
       blockNumber: this.blockNumber,
-      errors: this.errors
+      errors: this.errors,
     })
   }
 
@@ -81,7 +81,7 @@ export class ConnectorController {
         provider.off('block', listener)
       }
     })
-    
+
     this.emitUpdate()
   }
 

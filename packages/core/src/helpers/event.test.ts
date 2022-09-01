@@ -109,13 +109,16 @@ describe('Event', () => {
       num += 1
     })
 
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     event.on(() => {})
     expect(num).to.eq(1)
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     event.on(() => {})
     expect(num).to.eq(1)
 
     removeEffect()
 
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     event.on(() => {})
     expect(num).to.eq(1)
     event.addEffect(() => {

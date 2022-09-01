@@ -6,7 +6,6 @@ import { Localhost, Mainnet, Mumbai } from '../model'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 import Ganache, { Server } from 'ganache'
-import { InjectedConnector } from '../providers/network/connectors/implementations'
 
 describe('useEthers', () => {
   let network1: TestingNetwork

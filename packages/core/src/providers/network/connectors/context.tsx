@@ -3,21 +3,19 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 import { useConfig, useLocalStorage } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
-import { InjectedConnector, MetamaskConnector } from './implementations'
+import { InjectedConnector } from './implementations'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type ExternalProvider = providers.ExternalProvider
 const Provider = providers.Provider
 const Web3Provider = providers.Web3Provider
 
-export type ActivateBrowserWallet = (arg?: {
-  type: string
-}) => void
+export type ActivateBrowserWallet = (arg?: { type: string }) => void
 
 interface ConnectorContextValue {
   connector: ConnectorController | undefined
   activate: (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector) => Promise<void>
-  deactivate: () => void 
+  deactivate: () => void
   activateBrowserWallet: ActivateBrowserWallet
   reportError: (error: Error) => void
   isLoading: boolean
@@ -25,11 +23,15 @@ interface ConnectorContextValue {
 
 export const ConnectorContext = createContext<ConnectorContextValue>({
   connector: undefined,
+  //eslint-disable-next-line @typescript-eslint/no-empty-function
   activate: async () => {},
+  //eslint-disable-next-line @typescript-eslint/no-empty-function
   deactivate: () => {},
+  //eslint-disable-next-line @typescript-eslint/no-empty-function
   activateBrowserWallet: () => {},
+  //eslint-disable-next-line @typescript-eslint/no-empty-function
   reportError: () => {},
-  isLoading: false
+  isLoading: false,
 })
 
 export interface ConnectorContextProviderProps {
@@ -48,13 +50,15 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       if ('activate' in providerOrConnector) {
         controller = new ConnectorController(providerOrConnector)
       } else {
-        const wrappedProvider = Provider.isProvider(providerOrConnector) ? providerOrConnector : new Web3Provider(providerOrConnector)
+        const wrappedProvider = Provider.isProvider(providerOrConnector)
+          ? providerOrConnector
+          : new Web3Provider(providerOrConnector)
         controller = new ConnectorController(new InjectedConnector(wrappedProvider))
       }
       setLoading(true)
       try {
         await controller.activate()
-  
+
         setController(controller)
         setLoading(false)
       } catch (error) {
@@ -99,7 +103,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         },
         activate,
         activateBrowserWallet,
-        isLoading
+        isLoading,
       }}
     >
       {children}

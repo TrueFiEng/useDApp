@@ -44,7 +44,10 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   }))
   const [networkStates, dispatchNetworkState] = useReducer(networkStatesReducer, {
     ...fromEntries(
-      Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { nonStaticCalls: 0, errors: [] }])
+      Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [
+        chainId,
+        { nonStaticCalls: 0, errors: [] },
+      ])
     ),
   })
   const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
