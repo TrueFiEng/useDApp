@@ -1,5 +1,5 @@
 import { providers } from 'ethers'
-import { Event } from '../../../helpers/event'
+import { Event, ReadOnlyEvent } from '../../../helpers/event'
 
 export enum ConnectorPriority {
   ApiNode = 1,
@@ -19,7 +19,7 @@ export interface Connector {
 
   getTag(): string
 
-  update: Event<Update>
+  update: ReadOnlyEvent<Update>
 
   connectEagerly(): Promise<void>
 

@@ -8,7 +8,14 @@ interface MaterializedEffect {
   cleanup: (() => void) | undefined
 }
 
-export class Event<T = void> {
+export interface ReadOnlyEvent<T> {
+  on: (cb: (data: T) => void) => (() => void)
+  off: (cb: (data: T) => void) => void
+  emit: (data: T) => void
+  addEffect: (effect: Effect) => (() => void)
+}
+
+export class Event<T = void> implements ReadOnlyEvent<T> {
   private readonly _listeners = new Set<(data: T) => void>()
   private readonly _effects = new Set<MaterializedEffect>()
 
