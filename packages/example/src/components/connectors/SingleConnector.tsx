@@ -22,6 +22,7 @@ export function SingleConnector({ name, connector }: ConnectorProps) {
   const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
   const ethBalance = useEtherBalance(account, { chainId })
   const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
+  const nameCapitalized = useMemo(() => name.charAt(0).toUpperCase() + name.slice(1), [name])
 
   const active = useMemo(
     () => !!account && activeConnector?.connector === connector, 
@@ -31,14 +32,14 @@ export function SingleConnector({ name, connector }: ConnectorProps) {
   return (
     <>
       <SectionRow>
-        <Title>{`${name.charAt(0).toUpperCase() + name.slice(1)} connector`}</Title>
+        <Title>{`${nameCapitalized} connector`}</Title>
         <Account>
           {active? (
             <>
               <LoginButton onClick={deactivate}>Disconnect</LoginButton>
             </>
           ) : (
-            <LoginButton id={`${name}Button`} onClick={async () => activateBrowserWallet({ type: name })}>
+            <LoginButton id={`${nameCapitalized}Button`} onClick={async () => activateBrowserWallet({ type: name })}>
               Connect
             </LoginButton>
           )}
