@@ -95,3 +95,5 @@ export {
   getExplorerAddressLink,
   getExplorerTransactionLink,
 } from './helpers'
+export { MetamaskConnector } from './providers/network/connectors/implementations/metamask'
+export { InjectedConnector } from './providers/network/connectors/implementations/injected'

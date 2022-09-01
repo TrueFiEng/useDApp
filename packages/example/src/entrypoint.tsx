@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum, Localhost } from '@usedapp/core'
+import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum, Localhost, MetamaskConnector } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
-import { CoinbaseWalletConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/conibaseWallet'
-import { MetamaskConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/metamask'
-import { PortisConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/portis'
-import { WalletConnectConnector } from '@usedapp/core/dist/esm/src/providers/network/connectors/implementations/walletConnect'
+import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
+import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
+import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
