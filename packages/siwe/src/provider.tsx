@@ -13,7 +13,7 @@ export interface SiweContextValue {
   isLoading: boolean
   cancelLoading: () => void
   message: SiweMessage | undefined
-  error: any
+  error: Error | undefined
 }
 
 const SiweContext = createContext<SiweContextValue>({
@@ -50,7 +50,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState<SiweMessage | undefined>(undefined)
-  const [error, setError] = useState<any>(undefined)
+  const [error, setError] = useState<Error | undefined>(undefined)
   const {
     getNonce: getNonceRequest,
     getAuth: getAuthRequest,
@@ -63,7 +63,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     try {
       const { nonce } = await getNonceRequest()
       return nonce
-    } catch (err) {
+    } catch (err: any) {
       setError(err)
     }
   }
@@ -90,7 +90,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         setLoading(false)
       }
       setLoggedIn(false)
-    } catch (err) {
+    } catch (err: any) {
       setError(err)
       setLoggedIn(false)
       setLoading(false)
@@ -101,7 +101,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     setError(undefined)
     try {
       await signOutRequest()
-    } catch (err) {
+    } catch (err: any) {
       setError(err)
       clearStorage()
     } finally {
@@ -130,9 +130,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       const signer = library.getSigner()
       const nonce = await getNonceHandler()
 
-      if (!nonce) {
-        return
-      }
+      if (!nonce) return
 
       const message = new SiweMessage({
         domain: signInOptions?.domain ?? window.location.host,
@@ -149,13 +147,11 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         setError(err)
         setLoading(false)
       })
-      if (!signature) {
-        return
-      }
+      if (!signature) return
 
       try {
         await signInRequest({ signature, message })
-      } catch (err) {
+      } catch (err: any) {
         return setError(err)
       }
 
