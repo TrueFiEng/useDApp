@@ -58,8 +58,9 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       setLoading(true)
       try {
         if (silently) {
-          await controller.activate(connector => connector.connectEagerly())
-        } {
+          await controller.activate((connector) => connector.connectEagerly())
+        }
+        {
           await controller.activate()
         }
 
@@ -87,7 +88,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   useEffect(() => {
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
-      activate(connectors[autoConnectTag], true)
+      void activate(connectors[autoConnectTag], true)
     }
   }, [autoConnectTag, connectors, autoConnect])
 
