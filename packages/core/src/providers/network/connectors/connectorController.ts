@@ -110,6 +110,10 @@ export class ConnectorController {
     this.removeBlockEffect?.()
     this.clearSubscriptions?.()
     await this.connector.deactivate()
+    this.chainId = undefined
+    this.accounts = []
+    this.blockNumber = undefined
+    this.errors = []
     this.emitUpdate()
   }
 

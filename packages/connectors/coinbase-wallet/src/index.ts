@@ -55,7 +55,6 @@ export class CoinbaseWalletConnector implements Connector {
   }
 
   async deactivate(): Promise<void> {
-    this.update.emit({ chainId: 0, accounts: [] })
     this.provider = undefined
   }
 }

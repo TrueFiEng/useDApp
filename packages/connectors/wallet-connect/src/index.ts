@@ -17,6 +17,7 @@ export class WalletConnectConnector implements Connector {
     try {
       const walletConnectProvider = new WalletConnectProvider(this.opts)
       this.provider = new providers.Web3Provider(walletConnectProvider)
+      await (this.provider?.provider as WalletConnectProvider).enable()
     } catch (e) {
       console.log(e)
     }
@@ -36,7 +37,6 @@ export class WalletConnectConnector implements Connector {
   async activate(): Promise<void> {
     await this.init()
     try {
-      await (this.provider?.provider as WalletConnectProvider).enable()
       const chainId: string = await this.provider!.send('eth_chainId', [])
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
@@ -47,7 +47,6 @@ export class WalletConnectConnector implements Connector {
 
   async deactivate(): Promise<void> {
     this.provider = undefined
-    this.update.emit({ chainId: 0, accounts: [] })
   }
 }
 

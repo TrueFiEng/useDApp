@@ -79,7 +79,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       if (!connectors[type]) {
         throw new Error(`Connector ${type} is not configured`)
       }
-      await activate(connectors[type], true)
+      await activate(connectors[type])
       setAutoConnectTag(type)
     },
     [activate, setAutoConnectTag, connectors]
@@ -87,7 +87,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   useEffect(() => {
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
-      activate(connectors[autoConnectTag])
+      activate(connectors[autoConnectTag], true)
     }
   }, [autoConnectTag, connectors, autoConnect])
 
