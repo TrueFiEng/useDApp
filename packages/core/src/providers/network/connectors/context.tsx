@@ -62,7 +62,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         setController(controller)
         setLoading(false)
       } catch (error) {
-        controller.errors.push(error as any)
+        controller.reportError(error as any)
       } finally {
         setLoading(false)
       }
@@ -76,7 +76,6 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         throw new Error(`Connector ${type} is not configured`)
       }
       await activate(connectors[type])
-      console.log('Setting autoConnectTag to', { type })
       setAutoConnectTag(type)
     },
     [activate, setAutoConnectTag, connectors]

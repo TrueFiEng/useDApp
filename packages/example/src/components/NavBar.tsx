@@ -72,7 +72,7 @@ export function NavBar() {
             </SidebarLink>
             <SidebarLink activeClassName="active-page" to="/connectors">
               {' '}
-              Connector{' '}
+              Connectors{' '}
             </SidebarLink>
           </SidebarNavLinks>
         </SidebarNav>
