@@ -41,7 +41,7 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controller, setController] = useState<ConnectorController>()
   const [isLoading, setLoading] = useState(false)
-  const { connectors, autoConnect } = useConfig()
+  const { connectors, autoConnect, noMetamaskDeactivate } = useConfig()
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
 
   const activate = useCallback(
@@ -86,6 +86,10 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       activateBrowserWallet({ type: autoConnectTag })
     }
   }, [autoConnectTag, connectors, autoConnect])
+
+  useEffect(() => {
+    controller?.toggleNoMetamaskDeactivate(noMetamaskDeactivate)
+  }, [controller, noMetamaskDeactivate])
 
   return (
     <ConnectorContext.Provider

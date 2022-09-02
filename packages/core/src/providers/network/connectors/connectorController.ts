@@ -5,6 +5,7 @@ import { Event } from '../../../helpers/event'
 import { getAddNetworkParams } from '../../../helpers/getAddNetworkParams'
 import { validateArguments } from '../../../helpers/validateArgument'
 import { Connector } from './connector'
+import { MetamaskConnector } from './implementations'
 
 export interface ControllerUpdateInfo {
   active: ConnectorController['active']
@@ -12,6 +13,10 @@ export interface ControllerUpdateInfo {
   chainId: ConnectorController['chainId']
   blockNumber: ConnectorController['blockNumber']
   errors: ConnectorController['errors']
+}
+
+export interface ControllerConfig {
+  noMetamaskDeactivate?: boolean
 }
 
 export class ConnectorController {
@@ -24,6 +29,8 @@ export class ConnectorController {
   public blockNumber: number | undefined
   public errors: Error[] = []
 
+  private readonly _config: ControllerConfig = {}
+
   private emitUpdate() {
     this.updated.emit({
       active: this.active,
@@ -32,6 +39,10 @@ export class ConnectorController {
       blockNumber: this.blockNumber,
       errors: this.errors,
     })
+  }
+
+  public toggleNoMetamaskDeactivate(noMetamaskDeactivate?: boolean) {
+    this._config.noMetamaskDeactivate = noMetamaskDeactivate
   }
 
   private removeBlockEffect?: () => void
@@ -56,15 +67,24 @@ export class ConnectorController {
       throw new Error('Failed to activate connector')
     }
 
-    this.clearSubscriptions = subscribeToProviderEvents(this.connector, ({ chainId, accounts }) => {
-      if (chainId !== undefined) {
-        this.chainId = chainId
+    this.clearSubscriptions = subscribeToProviderEvents(
+      this.connector,
+      ({ chainId, accounts }) => {
+        if (chainId !== undefined) {
+          this.chainId = chainId
+        }
+        if (accounts !== undefined) {
+          this.accounts = accounts
+        }
+        this.emitUpdate()
+      },
+      () => {
+        if (this.connector instanceof MetamaskConnector && this._config.noMetamaskDeactivate) {
+          return
+        }
+        void this.deactivate()
       }
-      if (accounts !== undefined) {
-        this.accounts = accounts
-      }
-      this.emitUpdate()
-    })
+    )
 
     this.blockNumber = await provider.getBlockNumber()
     this.newBlock.emit(this.blockNumber)

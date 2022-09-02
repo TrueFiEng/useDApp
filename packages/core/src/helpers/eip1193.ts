@@ -1,7 +1,11 @@
 import { EventEmitter } from 'events'
 import { Connector, Update } from '../providers/network/connectors'
 
-export function subscribeToProviderEvents(connector: Connector, onUpdate: (update: Partial<Update>) => void) {
+export function subscribeToProviderEvents(
+  connector: Connector,
+  onUpdate: (update: Partial<Update>) => void,
+  onDisconnectListener: () => void
+) {
   const provider: EventEmitter | undefined = (connector.provider as any).provider
   if (provider?.on) {
     const onConnectListener = (): void => {
@@ -9,9 +13,6 @@ export function subscribeToProviderEvents(connector: Connector, onUpdate: (updat
     }
     provider.on('connect', onConnectListener)
 
-    const onDisconnectListener = (): void => {
-      void connector.deactivate()
-    }
     provider.on('disconnect', onDisconnectListener)
 
     const onChainChangedListener = (chainId: string): void => {
