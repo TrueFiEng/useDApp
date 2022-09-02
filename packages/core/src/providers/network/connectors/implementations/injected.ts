@@ -11,6 +11,19 @@ export class InjectedConnector implements Connector {
     this.provider = providers.Provider.isProvider(provider) ? provider : new providers.Web3Provider(provider)
   }
 
+  async connectEagerly(): Promise<void> {
+    if (!this.provider) {
+      return
+    }
+    try {
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
+      this.update.emit({ chainId: parseInt(chainId), accounts })
+    } catch (error) {
+      console.debug(error)
+    }
+  }
+
   async activate(): Promise<void> {
     if (!this.provider) {
       return

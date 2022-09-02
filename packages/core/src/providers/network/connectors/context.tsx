@@ -45,7 +45,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
 
   const activate = useCallback(
-    async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector) => {
+    async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector, silently = false) => {
       let controller: ConnectorController
       if ('activate' in providerOrConnector) {
         controller = new ConnectorController(providerOrConnector)
@@ -57,7 +57,11 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       }
       setLoading(true)
       try {
-        await controller.activate()
+        if (silently) {
+          await controller.activate(connector => connector.connectEagerly())
+        } {
+          await controller.activate()
+        }
 
         setController(controller)
         setLoading(false)
@@ -75,7 +79,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       if (!connectors[type]) {
         throw new Error(`Connector ${type} is not configured`)
       }
-      await activate(connectors[type])
+      await activate(connectors[type], true)
       setAutoConnectTag(type)
     },
     [activate, setAutoConnectTag, connectors]
@@ -83,7 +87,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   useEffect(() => {
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
-      activateBrowserWallet({ type: autoConnectTag })
+      activate(connectors[autoConnectTag])
     }
   }, [autoConnectTag, connectors, autoConnect])
 

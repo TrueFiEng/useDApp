@@ -60,8 +60,8 @@ export class ConnectorController {
     return this.connector.provider
   }
 
-  async activate() {
-    await this.connector.activate()
+  async activate(connectorActivator = (connector: Connector) => connector.activate()) {
+    await connectorActivator(this.connector)
     const provider = this.getProvider()
     if (!provider) {
       throw new Error('Failed to activate connector')

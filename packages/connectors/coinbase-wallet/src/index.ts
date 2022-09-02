@@ -22,6 +22,22 @@ export class CoinbaseWalletConnector implements Connector {
     this.provider = new providers.Web3Provider(coinbaseProvider as any)
   }
 
+  async connectEagerly(): Promise<void> {
+    await this.init()
+
+    if (!this.provider) {
+      return
+    }
+
+    try {
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
+      this.update.emit({ chainId: parseInt(chainId), accounts })
+    } catch (e) {
+      console.debug(e)
+    }
+  }
+
   async activate(): Promise<void> {
     await this.init()
 

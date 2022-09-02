@@ -11,6 +11,8 @@ export interface Connector {
 
   update: ReadOnlyEvent<Update>
 
+  connectEagerly(): Promise<void>
+
   activate(): Promise<void>
 
   deactivate(): Promise<void>

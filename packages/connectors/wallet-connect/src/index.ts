@@ -22,6 +22,17 @@ export class WalletConnectConnector implements Connector {
     }
   }
 
+  async connectEagerly(): Promise<void> {
+    await this.init()
+    try {
+      const chainId: string = await this.provider!.send('eth_chainId', [])
+      const accounts: string[] = await this.provider!.send('eth_accounts', [])
+      this.update.emit({ chainId: parseInt(chainId), accounts })
+    } catch (e) {
+      console.debug(e)
+    }
+  }
+
   async activate(): Promise<void> {
     await this.init()
     try {
