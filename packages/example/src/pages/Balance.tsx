@@ -14,7 +14,7 @@ export function Balance() {
   const { account, chainId } = useEthers()
   const userBalance = useEtherBalance(account, { chainId })
   const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
-  console.log('Balance page', { account, userBalance: userBalance?.toString(), chainId })
+  console.log('Balance page', { account, userBalance: userBalance?.toString(), chainId, stakingBalance: stakingBalance?.toString() })
 
   return (
     <MainContent>
