@@ -1,56 +1,56 @@
-name: Deploy
-on:
-  pull_request:
-    branches-ignore:
-      - 'changeset-release/*'
-  push:
-    branches:
-      - master
-jobs:
-  deploy-apps:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.14'
-      - run: npm i -g pnpm@7.1.9
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - name: Deploy usedapp-docs.netlify.app
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          enable-commit-comment: true
-          enable-pull-request-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          overwrites-pull-request-comment: true
-          production-deploy: ${{ github.event_name != 'pull_request' }}
-          publish-dir: packages/docs/build
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
-      - name: Deploy example.usedapp.io
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          enable-commit-comment: true
-          enable-pull-request-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          overwrites-pull-request-comment: true
-          production-deploy: ${{ github.event_name != 'pull_request' }}
-          publish-dir: packages/example/build
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
-      - name: Deploy usedapp.io
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          enable-commit-comment: true
-          enable-pull-request-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          overwrites-pull-request-comment: true
-          production-deploy: ${{ github.event_name != 'pull_request' }}
-          publish-dir: packages/website/dist
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_LANDING_SITE_ID }}
+# name: Deploy
+# on:
+#   pull_request:
+#     branches-ignore:
+#       - 'changeset-release/*'
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   deploy-apps:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Use Node.js
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: '16.14'
+#       - run: npm i -g pnpm@7.1.9
+#       - run: pnpm install --frozen-lockfile
+#       - run: pnpm build
+#       - name: Deploy usedapp-docs.netlify.app
+#         uses: nwtgck/actions-netlify@v1.2
+#         with:
+#           enable-commit-comment: true
+#           enable-pull-request-comment: true
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           overwrites-pull-request-comment: true
+#           production-deploy: ${{ github.event_name != 'pull_request' }}
+#           publish-dir: packages/docs/build
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
+#       - name: Deploy example.usedapp.io
+#         uses: nwtgck/actions-netlify@v1.2
+#         with:
+#           enable-commit-comment: true
+#           enable-pull-request-comment: true
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           overwrites-pull-request-comment: true
+#           production-deploy: ${{ github.event_name != 'pull_request' }}
+#           publish-dir: packages/example/build
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
+#       - name: Deploy usedapp.io
+#         uses: nwtgck/actions-netlify@v1.2
+#         with:
+#           enable-commit-comment: true
+#           enable-pull-request-comment: true
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           overwrites-pull-request-comment: true
+#           production-deploy: ${{ github.event_name != 'pull_request' }}
+#           publish-dir: packages/website/dist
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_LANDING_SITE_ID }}

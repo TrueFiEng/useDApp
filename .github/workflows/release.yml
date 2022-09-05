@@ -1,57 +1,57 @@
-name: Release
+# name: Release
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-        with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
-          # This allows the changesets/action step to override the default actions user,
-          # and allow CI jobs on commits coming from that step.
-          persist-credentials: false
+# jobs:
+#   release:
+#     name: Release
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Repo
+#         uses: actions/checkout@master
+#         with:
+#           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+#           fetch-depth: 0
+#           # This allows the changesets/action step to override the default actions user,
+#           # and allow CI jobs on commits coming from that step.
+#           persist-credentials: false
 
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@master
-        with:
-          node-version: 16.x
+#       - name: Setup Node.js 16.x
+#         uses: actions/setup-node@master
+#         with:
+#           node-version: 16.x
           
-      - name: Install package manager
-        run: npm i -g pnpm@7.1.9
+#       - name: Install package manager
+#         run: npm i -g pnpm@7.1.9
 
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+#       - name: Install Dependencies
+#         run: pnpm install --frozen-lockfile
 
-      - name: Set git user
-        run: |
-          git config user.name truefibot
-          git config user.email truebot.github@trusttoken.com
+#       - name: Set git user
+#         run: |
+#           git config user.name truefibot
+#           git config user.email truebot.github@trusttoken.com
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm run release
-          version: pnpm run version
-          commit: "🎉 Release new version"
-          title: "🎉 Release new version"
-          setupGitUser: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#       - name: Create Release Pull Request or Publish to npm
+#         id: changesets
+#         uses: changesets/action@v1
+#         with:
+#           # This expects you to have a script called release which does a build for your packages and calls changeset publish
+#           publish: pnpm run release
+#           version: pnpm run version
+#           commit: "🎉 Release new version"
+#           title: "🎉 Release new version"
+#           setupGitUser: false
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+#           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish dev version to npm
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-          pnpm -r --filter "@usedapp/*" exec ${PWD}/scripts/dev-version.sh
-          pnpm run build
-          pnpm -r publish --no-git-checks
+#       - name: Publish dev version to npm
+#         run: |
+#           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+#           pnpm -r --filter "@usedapp/*" exec ${PWD}/scripts/dev-version.sh
+#           pnpm run build
+#           pnpm -r publish --no-git-checks
