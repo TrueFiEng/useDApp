@@ -118,7 +118,7 @@ export const withMetamaskTest = (baseUrl: string) => {
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Ether balance:'))).to.be.true
-        })
+        }, 5000)
 
         await expectCurrentAddressToEq(new Wallet(defaultAccounts[0].secretKey).address)
 
