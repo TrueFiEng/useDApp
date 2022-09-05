@@ -104,8 +104,16 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
         modifiedArgs.push(modifiedOpts)
+        console.log({ args, args2: Object.values(args) })
 
-        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs))
+        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs), {
+          transactionRequest: {
+            to: contract.address,
+            value: opts.value,
+            data: contract.interface.encodeFunctionData(functionName, []),
+            // safeTxGas: 1000000,
+          },
+        })
         if (receipt?.logs) {
           const events = receipt.logs.reduce((accumulatedLogs, log) => {
             try {

@@ -3,7 +3,7 @@ import type { TransactionResponse, TransactionReceipt } from '@ethersproject/abs
 /**
  * @public
  */
-export type TransactionState = 'None' | 'PendingSignature' | 'Mining' | 'Success' | 'Fail' | 'Exception'
+export type TransactionState = 'None' | 'PendingSignature' | 'Mining' | 'Success' | 'Fail' | 'Exception' | 'GnosisSafe'
 
 /**
  * @public
