@@ -50,6 +50,7 @@ export class ConnectorController {
 
   constructor(public readonly connector: Connector) {
     connector.update.on(({ chainId, accounts }) => {
+      console.log('Connector controller on update', { chainId, accounts })
       this.chainId = chainId
       this.accounts = accounts
       this.emitUpdate()
