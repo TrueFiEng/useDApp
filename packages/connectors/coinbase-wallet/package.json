@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.3.0"
+    "@coinbase/wallet-sdk": "3.3.0"
   },
   "devDependencies": {
     "typescript": "^4.6.2",

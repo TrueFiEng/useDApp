@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@portis/web3": "^4.0.7"
+    "@portis/web3": "4.0.7"
   },
   "devDependencies": {
     "typescript": "^4.6.2",
