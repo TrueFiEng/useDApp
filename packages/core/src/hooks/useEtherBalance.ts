@@ -22,7 +22,7 @@ import { Contract } from 'ethers'
  */
 export function useEtherBalance(address: string | Falsy, queryParams: QueryParams = {}): BigNumber | undefined {
   const multicallAddress = useMulticallAddress(queryParams)
-  console.log('useEtherBalance', { address, multicallAddress })
+  console.log('useEtherBalance', { address, multicallAddress, queryParams: JSON.stringify(queryParams) })
   const { value: value } =
     useCall(
       multicallAddress &&
