@@ -63,6 +63,12 @@ jobs:
         run: |
           rm -rf .env.local
         working-directory: packages/example-next
+      - name: Upload recordings
+        uses: actions/upload-artifact@v1
+        if: always() # Can be helpful for failed tests as well.
+        with:
+          name: recordings
+          path: packages/example/playwright
   test-docs:
     runs-on: ubuntu-latest
     timeout-minutes: 25

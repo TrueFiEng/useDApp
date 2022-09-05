@@ -112,6 +112,8 @@ export const withMetamaskTest = (baseUrl: string) => {
       }
 
       it('Reads basic info', async () => {
+        await page.screenshot({ path: 'playwright/screen.png' })
+
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
