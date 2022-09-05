@@ -41,7 +41,8 @@ export interface ConnectorContextProviderProps {
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controller, setController] = useState<ConnectorController>()
   const [isLoading, setLoading] = useState(false)
-  const { connectors, autoConnect, noMetamaskDeactivate } = useConfig()
+  const config = useConfig()
+  const { connectors, autoConnect } = config
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
 
   const activate = useCallback(
@@ -93,8 +94,8 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   }, [autoConnectTag, connectors, autoConnect])
 
   useEffect(() => {
-    controller?.toggleNoMetamaskDeactivate(noMetamaskDeactivate)
-  }, [controller, noMetamaskDeactivate])
+    controller?.updateConfig(config)
+  }, [controller, config])
 
   return (
     <ConnectorContext.Provider

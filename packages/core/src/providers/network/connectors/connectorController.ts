@@ -1,9 +1,10 @@
 import { providers } from 'ethers'
-import { DEFAULT_SUPPORTED_CHAINS } from '../../../constants'
+import { DEFAULT_SUPPORTED_CHAINS, FullConfig } from '../../../constants'
 import { subscribeToProviderEvents } from '../../../helpers'
 import { Event } from '../../../helpers/event'
 import { getAddNetworkParams } from '../../../helpers/getAddNetworkParams'
 import { validateArguments } from '../../../helpers/validateArgument'
+import { DEFAULT_CONFIG } from '../../../model/config/default'
 import { Connector } from './connector'
 import { MetamaskConnector } from './implementations'
 
@@ -13,10 +14,6 @@ export interface ControllerUpdateInfo {
   chainId: ConnectorController['chainId']
   blockNumber: ConnectorController['blockNumber']
   errors: ConnectorController['errors']
-}
-
-export interface ControllerConfig {
-  noMetamaskDeactivate?: boolean
 }
 
 export class ConnectorController {
@@ -29,7 +26,7 @@ export class ConnectorController {
   public blockNumber: number | undefined
   public errors: Error[] = []
 
-  private readonly _config: ControllerConfig = {}
+  private _config: FullConfig = DEFAULT_CONFIG
 
   private emitUpdate() {
     this.updated.emit({
@@ -41,8 +38,11 @@ export class ConnectorController {
     })
   }
 
-  public toggleNoMetamaskDeactivate(noMetamaskDeactivate?: boolean) {
-    this._config.noMetamaskDeactivate = noMetamaskDeactivate
+  public updateConfig(config: Partial<FullConfig>) {
+    this._config = {
+      ...this._config,
+      ...config,
+    }
   }
 
   private removeBlockEffect?: () => void
@@ -131,7 +131,7 @@ export class ConnectorController {
     } catch (error: any) {
       const errChainNotAddedYet = 4902 // Metamask error code
       if (error.code === errChainNotAddedYet) {
-        const chain = DEFAULT_SUPPORTED_CHAINS?.find((chain) => chain.chainId === chainId)
+        const chain = (this._config.networks ?? DEFAULT_SUPPORTED_CHAINS).find((chain) => chain.chainId === chainId)
         if (!chain)
           throw new Error(
             `ChainId "${chainId}" not found in config.networks. See https://usedapp-docs.netlify.app/docs/Guides/Transactions/Switching%20Networks`
