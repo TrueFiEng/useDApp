@@ -132,6 +132,14 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     networks,
   ])
 
+  useEffect(() => {
+    console.log('MuliChainStateProvider chains', JSON.stringify(chains))
+  }, [chains])
+
+  useEffect(() => {
+    console.log('MuliChainStateProvider multicallAddresses', JSON.stringify(multicallAddresses))
+  }, [multicallAddresses])
+
   const provided = { chains, dispatchCalls }
 
   return <MultiChainStatesContext.Provider value={provided} children={children} />
