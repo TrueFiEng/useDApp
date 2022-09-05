@@ -5,6 +5,7 @@ import { BlockNumbersContext } from './context'
 import { blockNumberReducer } from '../common/reducer'
 import { subscribeToNewBlock } from '../common/subscribeToNewBlock'
 import { useWindow } from '../../window'
+import { useIsMounted } from '../../../hooks/useIsMounted'
 
 interface Props {
   children: ReactNode
@@ -14,15 +15,15 @@ export function BlockNumbersProvider({ children }: Props) {
   const networks = useReadonlyNetworks()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
   const { isActive } = useWindow()
+  const isMounted = useIsMounted()
 
   useEffect(() => {
-    let isMounted = true
     const onUnmount = Object.entries(networks).map(([chainId, provider]) =>
       subscribeToNewBlock(
         provider,
         Number(chainId),
         (...args: Parameters<typeof dispatch>) => {
-          if (isMounted) {
+          if (isMounted()) {
             dispatch(...args)
           }
         },
@@ -30,10 +31,7 @@ export function BlockNumbersProvider({ children }: Props) {
       )
     )
 
-    return () => {
-      isMounted = false
-      onUnmount.forEach((fn) => fn())
-    }
+    return () => onUnmount.forEach((fn) => fn())
   }, [networks])
 
   const debouncedState = useDebounce(state, 100)

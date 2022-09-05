@@ -4,6 +4,7 @@ import { subscribeToNewBlock, useReadonlyNetworks, useWindow } from '../provider
 import { useConnector } from '../providers/network/connectors'
 import { useChainId } from './useChainId'
 import { useDebounce } from './useDebounce'
+import { useIsMounted } from './useIsMounted'
 
 /**
  * Get the current block number.
@@ -16,13 +17,12 @@ export function useBlockNumber(): number | undefined {
   const { connector } = useConnector()
   const [blockNumber, setBlockNumber] = useState<number>()
   const { isActive } = useWindow()
+  const isMounted = useIsMounted()
 
   useEffect(() => {
     if (!isActive) {
       return
     }
-
-    let isMounted = true
 
     const readOnlyNetwork = chainId && readOnlyNetworks[(chainId as unknown) as ChainId]
     if (readOnlyNetwork) {
@@ -30,30 +30,24 @@ export function useBlockNumber(): number | undefined {
         readOnlyNetwork,
         chainId,
         ({ blockNumber }) => {
-          if (isMounted) {
+          if (isMounted()) {
             setBlockNumber(blockNumber)
           }
         },
         isActive
       )
-      return () => {
-        isMounted = false
-        unsub()
-      }
+      return () => unsub()
     }
 
     if (!connector) {
       return
     }
     const unsub = connector.newBlock.on((blockNumber) => {
-      if (isMounted) {
+      if (isMounted()) {
         setBlockNumber(blockNumber)
       }
     })
-    return () => {
-      isMounted = false
-      unsub()
-    }
+    return () => unsub()
   }, [isActive, readOnlyNetworks, connector, chainId])
 
   const debouncedBlockNumber = useDebounce(blockNumber, 100)
