@@ -13,7 +13,9 @@ export interface UseChainIdOptions {
  */
 export function useChainId(opts: UseChainIdOptions = {}) {
   const { connector } = useConnector()
-  const [chainId, setChainId] = useState<number>()
+
+  const { readOnlyChainId } = useConfig()
+  const [chainId, setChainId] = useState<number | undefined>(opts?.queryParams?.chainId ?? readOnlyChainId)
 
   useEffect(() => {
     if (!connector) {
@@ -24,7 +26,5 @@ export function useChainId(opts: UseChainIdOptions = {}) {
       setChainId(opts?.queryParams?.chainId ?? chainId ?? readOnlyChainId)
     })
   }, [connector])
-
-  const { readOnlyChainId } = useConfig()
-  return opts?.queryParams?.chainId ?? chainId ?? readOnlyChainId
+  return chainId
 }
