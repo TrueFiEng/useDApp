@@ -1,5 +1,5 @@
 import type { TransactionReceipt, TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
 import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
@@ -111,7 +111,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
           const onExecutionSuccess = async (txHash: string, _payment: number) => {
             if (txHash === safeTxHash) {
-              sleep(2000)
+              await sleep(1000)
               const { transactionHash: hash } = await (await getSafeTransactionPromise(chainId, safeTxHash)).json()
               if (!hash) {
                 await sleep(2000)
@@ -136,6 +136,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
               setState({ receipt, transaction, status: 'Success', chainId })
               gnosisSafeContract?.removeAllListeners()
             } else {
+              await sleep(1000)
               const checkResponse = await (await getSafeTransactionPromise(chainId, txHash)).json()
               const { nonce } = checkResponse
               if (Number(nonce) === Number(safeTx.nonce)) {
