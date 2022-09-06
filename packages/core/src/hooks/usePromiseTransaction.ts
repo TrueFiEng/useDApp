@@ -25,7 +25,7 @@ export async function estimateTransactionGasLimit(
   transactionRequest: TransactionRequest | undefined,
   signer: Signer | undefined,
   gasLimitBufferPercentage: number
-): Promise<BigNumber | undefined> {
+) {
   if (!signer || !transactionRequest) {
     return undefined
   }
@@ -73,7 +73,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
     return () => {
       gnosisSafeContract?.removeAllListeners()
     }
-  }, [])
+  }, [gnosisSafeContract])
 
   const resetState = useCallback(() => {
     setState({ status: 'None' })
@@ -109,7 +109,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
           const safeTxHash = calculateSafeTransactionHash(gnosisSafeContract, safeTx, chainId)
 
-          const onExecutionSuccess = async (txHash: string, _payment: number) => {
+          const onExecutionSuccess = async (txHash: string, _payment: BigNumber) => {
             if (txHash === safeTxHash) {
               await sleep(1000)
               const { transactionHash: hash } = await (await getSafeTransactionPromise(chainId, safeTxHash)).json()

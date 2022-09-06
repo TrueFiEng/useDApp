@@ -103,9 +103,9 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
         modifiedArgs.push(modifiedOpts)
 
-        let data: string | undefined = undefined
+        let safeTransactionData: string | undefined = undefined
         try {
-          data = contract.interface.encodeFunctionData(functionName, encodeFunctionDataArgs)
+          safeTransactionData = contract.interface.encodeFunctionData(functionName, encodeFunctionDataArgs)
         } catch (e) {
           console.error(e)
         }
@@ -113,7 +113,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           safeTransaction: {
             to: contract.address,
             value: opts?.value,
-            data,
+            data: safeTransactionData,
           },
         })
         if (receipt?.logs) {
