@@ -110,8 +110,8 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
 describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
   /**
-   * There is a safe with 3 wallets on Rinkeby network created for testing purposes.
-   * https://gnosis-safe.io/app/rin:0xF90d95CBB5316817ed3E2d9978660FaD111431c7/home
+   * There is a safe with 3 wallets on Goerli network created for testing purposes.
+   * https://gnosis-safe.io/app/gor:0xA971C98755c3404Fc4458fcd98905980f68Af642/home
    * Address1: 0x26d1B17858bDDEC866b644fD7392Ab92835E6Bc0
    * Address2: 0x259B75A99d55550d0A2EdE6D601FE3aFE7a14DE7
    * Address3: 0x8A6dbE810e48fdDACe34b53F46bce05EeFd7d53D
@@ -207,7 +207,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
 
     await waitForExpect(async () => {
       expect(
-        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xA971C98755c3404Fc4458fcd98905980f68Af642']`)
       ).to.be.true
     })
 
@@ -247,7 +247,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
 
     await waitForExpect(async () => {
       expect(
-        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xA971C98755c3404Fc4458fcd98905980f68Af642']`)
       ).to.be.true
     })
 
@@ -295,7 +295,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
 
     await waitForExpect(async () => {
       expect(
-        await page.isVisible(`//*[text()='Logged in with ' and text()='0xF90d95CBB5316817ed3E2d9978660FaD111431c7']`)
+        await page.isVisible(`//*[text()='Logged in with ' and text()='0xA971C98755c3404Fc4458fcd98905980f68Af642']`)
       ).to.be.true
     })
   })
