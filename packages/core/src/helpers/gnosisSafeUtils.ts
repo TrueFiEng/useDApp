@@ -26,7 +26,7 @@ export interface SafeTransaction extends MetaTransaction {
 
 export const buildSafeTransaction = (template: {
   to: string
-  value: BigNumber | number | string
+  value?: BigNumber | number | string
   data?: string
   operation?: number
   safeTxGas?: number | string
@@ -38,7 +38,7 @@ export const buildSafeTransaction = (template: {
 }): SafeTransaction => {
   return {
     to: template.to,
-    value: template.value,
+    value: template.value || 0,
     data: template.data || '0x',
     operation: template.operation || 0,
     safeTxGas: template.safeTxGas || 0,
@@ -73,8 +73,10 @@ export const calculateSafeTransactionHash = (
   return utils._TypedDataEncoder.hash({ verifyingContract: safe.address, chainId }, EIP712_SAFE_TX_TYPE, safeTx)
 }
 
-export const getSafeTransactionUrl = (chainId: number, safeTxHash: string) =>
-  `https://safe-transaction.${getChainById(chainId)?.chainName}.gnosis.io/api/v1/multisig-transactions/${safeTxHash}`
+export const getSafeTransactionPromise = (chainId: number, safeTxHash: string) =>
+  fetch(
+    `https://safe-transaction.${getChainById(chainId)?.chainName}.gnosis.io/api/v1/multisig-transactions/${safeTxHash}`
+  )
 
 export const isGnosisSafe = async (chainId: number, address: string) => {
   if (typeof fetch === 'undefined') return false

@@ -1,12 +1,12 @@
 import type { TransactionReceipt, TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
 import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
 import {
   buildSafeTransaction,
   calculateSafeTransactionHash,
-  getSafeTransactionUrl,
+  getSafeTransactionPromise,
   GNOSIS_SAFE_ABI,
   SafeTransaction,
 } from '../helpers/gnosisSafeUtils'
@@ -15,7 +15,7 @@ import { useEthers } from './useEthers'
 import { isGnosisSafe } from '../helpers/gnosisSafeUtils'
 
 interface PromiseTransactionOpts {
-  transactionRequest?: Partial<SafeTransaction>
+  safeTransaction?: Partial<SafeTransaction>
 }
 
 /**
@@ -67,83 +67,120 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
   const { addTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
+  let gnosisSafeContract: Contract | undefined = undefined
+
+  useEffect(() => {
+    return () => {
+      gnosisSafeContract?.removeAllListeners()
+    }
+  }, [])
 
   const resetState = useCallback(() => {
     setState({ status: 'None' })
   }, [setState])
 
   const promiseTransaction = useCallback(
-    async (transactionPromise: Promise<TransactionResponse>, { transactionRequest }: PromiseTransactionOpts = {}) => {
+    async (transactionPromise: Promise<TransactionResponse>, { safeTransaction }: PromiseTransactionOpts = {}) => {
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       let receipt: TransactionReceipt | undefined = undefined
-      setState({ status: 'PendingSignature', chainId })
       try {
+        setState({ status: 'PendingSignature', chainId })
+
         if (await isGnosisSafe(chainId, account ?? '')) {
           if (!library || !account) return
-          console.log('THIS IS A SAFE')
-          console.log({ transactionRequest })
-          setState({ status: 'GnosisSafe', chainId })
+          setState({ status: 'CollectingSignaturePool', chainId })
 
           let error: any = undefined
           transactionPromise.catch((err: any) => {
-            error = err
+            if (err?.message === 'Transaction was rejected') {
+              error = err
+            }
           })
 
-          const contract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
+          gnosisSafeContract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
 
           const safeTx = buildSafeTransaction({
-            to: transactionRequest?.to?.toString() ?? '',
-            nonce: await contract.nonce(),
-            value: BigNumber.from(transactionRequest?.value),
+            to: safeTransaction?.to ?? '',
+            value: safeTransaction?.value,
+            data: safeTransaction?.data,
+            nonce: await gnosisSafeContract.nonce(),
           })
 
-          console.log({ nonce: safeTx.nonce.toString() })
+          const safeTxHash = calculateSafeTransactionHash(gnosisSafeContract, safeTx, chainId)
 
-          const safeTxHash = calculateSafeTransactionHash(contract, safeTx, chainId)
-
-          console.log({ safeTxHash })
-
-          let response: Response | undefined = undefined
-          while (!response?.ok) {
-            await sleep(1000)
-            if (error) {
-              throw error
-            }
-            response = await fetch(getSafeTransactionUrl(chainId, safeTxHash))
-          }
-
-          // trunk-ignore(eslint/@typescript-eslint/no-unused-vars)
-          const onExecutionSuccess = async (txHash: string, payment: number) => {
-            console.log('onExecutionSuccess', { txHash, safeTxHash })
+          const onExecutionSuccess = async (txHash: string, _payment: number) => {
             if (txHash === safeTxHash) {
-              const successResponse = await (await fetch(getSafeTransactionUrl(chainId, safeTxHash))).json()
-              const hash = successResponse.transactionHash
+              sleep(2000)
+              const { transactionHash: hash } = await (await getSafeTransactionPromise(chainId, safeTxHash)).json()
+              if (!hash) {
+                await sleep(2000)
+                await onExecutionSuccess(txHash, _payment)
+                return
+              }
+
               transaction = await library.getTransaction(hash)
               const receipt = await transaction.wait()
-              addTransaction({
-                transaction: {
-                  ...transaction,
-                  chainId,
+
+              addNotification({
+                notification: {
+                  type: 'transactionSucceed',
+                  submittedAt: Date.now(),
+                  transaction,
+                  receipt,
+                  transactionName: options?.transactionName,
                 },
-                submittedAt: Date.now(),
-                transactionName: options?.transactionName,
+                chainId,
               })
+
               setState({ receipt, transaction, status: 'Success', chainId })
-              console.log({ transaction, receipt })
-              contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+              gnosisSafeContract?.removeAllListeners()
             } else {
-              const checkResponse = await (await fetch(getSafeTransactionUrl(chainId, txHash))).json()
+              const checkResponse = await (await getSafeTransactionPromise(chainId, txHash)).json()
               const { nonce } = checkResponse
-              console.log({ nonce })
               if (Number(nonce) === Number(safeTx.nonce)) {
-                console.log('FAILED')
-                setState({ status: 'Fail', chainId })
-                contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+                const { transactionHash: hash } = checkResponse
+                if (!hash) {
+                  await sleep(2000)
+                  await onExecutionSuccess(txHash, _payment)
+                  return
+                }
+
+                transaction = await library.getTransaction(hash)
+                receipt = await transaction.wait()
+
+                addNotification({
+                  notification: {
+                    type: 'transactionSucceed',
+                    submittedAt: Date.now(),
+                    transaction,
+                    receipt,
+                    transactionName: options?.transactionName,
+                  },
+                  chainId,
+                })
+                const errorMessage = 'On-chain rejection created'
+                setState({
+                  status: 'Fail',
+                  transaction,
+                  receipt,
+                  errorMessage,
+                  chainId,
+                })
+                gnosisSafeContract?.removeAllListeners()
               }
             }
           }
-          contract.on('ExecutionSuccess', onExecutionSuccess)
+          gnosisSafeContract.on('ExecutionSuccess', onExecutionSuccess)
+
+          while (!receipt) {
+            await sleep(1000)
+            if (error) {
+              gnosisSafeContract.removeAllListeners()
+              throw error
+            }
+          }
+          return receipt
         } else {
           transaction = await transactionPromise
           setState({ transaction, status: 'Mining', chainId })
@@ -160,7 +197,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           return receipt
         }
       } catch (e: any) {
-        console.error(e)
         const parsedErrorCode = parseInt(e.error?.data?.code ?? e.error?.code ?? e.data?.code ?? e.code)
         const errorCode = isNaN(parsedErrorCode) ? undefined : parsedErrorCode
         const errorHash = e?.error?.data?.originalError?.data ?? e?.error?.data

@@ -1,6 +1,6 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, providers } from 'ethers'
+import { Contract, Signer, providers, BigNumber } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
@@ -91,27 +91,29 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
 
-        const gasLimit = await estimateContractFunctionGasLimit(
-          contractWithSigner,
-          functionName,
-          args,
-          gasLimitBufferPercentage
-        )
+        const gasLimit =
+          (await estimateContractFunctionGasLimit(contractWithSigner, functionName, args, gasLimitBufferPercentage)) ??
+          BigNumber.from(0)
 
+        const encodeFunctionDataArgs = args.filter((arg) => !arg.to && !arg.value)
         const modifiedOpts = {
           gasLimit,
           ...opts,
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
         modifiedArgs.push(modifiedOpts)
-        console.log({ args, args2: Object.values(args) })
 
+        let data: string | undefined = undefined
+        try {
+          data = contract.interface.encodeFunctionData(functionName, encodeFunctionDataArgs)
+        } catch (e) {
+          console.error(e)
+        }
         const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs), {
-          transactionRequest: {
+          safeTransaction: {
             to: contract.address,
-            value: opts.value,
-            data: contract.interface.encodeFunctionData(functionName, []),
-            // safeTxGas: 1000000,
+            value: opts?.value,
+            data,
           },
         })
         if (receipt?.logs) {

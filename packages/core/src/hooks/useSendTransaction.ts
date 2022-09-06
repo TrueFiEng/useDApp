@@ -54,7 +54,7 @@ export function useSendTransaction(options?: TransactionOptions) {
           gasLimit,
         }),
         {
-          transactionRequest: {
+          safeTransaction: {
             to: transactionRequest.to,
             value: transactionRequest.value?.toString(),
           },
