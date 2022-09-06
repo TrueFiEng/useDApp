@@ -17,6 +17,7 @@ export async function initGnosisSafe({ page, url }: { page: Page; url: string })
   await page.click('//span[contains(text(), "Continue")]')
   await page.click('//span[contains(text(), "Continue")]')
   await page.click('//span[contains(text(), "Continue")]')
+  await page.click('//span[contains(text(), "Continue")]')
 }
 
 export async function connectToMetamask({ page, context }: { page: Page; context: BrowserContext }) {
