@@ -18,7 +18,7 @@ export async function getMetamaskProvider() {
     }) ?? (await detectEthereumProvider())
 
   if (!injectedProvider) {
-    window.open(GET_METAMASK_LINK)
+    console.log(`Metamask is not installed - you can get it under ${GET_METAMASK_LINK}`)
     return undefined
   }
 
@@ -60,7 +60,7 @@ export class MetamaskConnector implements Connector {
     await this.init()
 
     if (!this.provider) {
-      return
+      throw new Error('Could not activate connector')
     }
 
     try {
@@ -68,7 +68,8 @@ export class MetamaskConnector implements Connector {
       const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (e) {
-      console.debug(e)
+      console.log(e)
+      throw new Error('Could not activate connector')
     }
   }
 

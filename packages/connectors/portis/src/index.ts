@@ -39,6 +39,7 @@ export class PortisConnector implements Connector {
       this.update.emit({ chainId: this.chainId, accounts })
     } catch (e) {
       console.log(e)
+      throw new Error('Could not activate connector')
     }
   }
 

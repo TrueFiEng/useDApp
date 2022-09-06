@@ -42,7 +42,7 @@ export class CoinbaseWalletConnector implements Connector {
     await this.init()
 
     if (!this.provider) {
-      return
+      throw new Error('Could not activate connector')
     }
 
     try {
@@ -50,7 +50,8 @@ export class CoinbaseWalletConnector implements Connector {
       const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (e) {
-      console.debug(e)
+      console.log(e)
+      throw new Error('Could not activate connector')
     }
   }
 

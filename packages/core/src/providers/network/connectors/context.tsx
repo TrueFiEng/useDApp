@@ -60,8 +60,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       try {
         if (silently) {
           await controller.activate((connector) => connector.connectEagerly())
-        }
-        {
+        } else {
           await controller.activate()
         }
 
@@ -105,6 +104,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
           setAutoConnectTag(undefined)
           setLoading(true)
           await controller?.deactivate()
+          setController(undefined)
           setLoading(false)
         },
         reportError: (err) => {

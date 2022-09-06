@@ -15,6 +15,7 @@ export class InjectedConnector implements Connector {
     if (!this.provider) {
       return
     }
+
     try {
       const chainId: string = await this.provider!.send('eth_chainId', [])
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
@@ -26,7 +27,7 @@ export class InjectedConnector implements Connector {
 
   async activate(): Promise<void> {
     if (!this.provider) {
-      return
+      throw new Error('Could not activate connector')
     }
 
     try {
@@ -35,6 +36,7 @@ export class InjectedConnector implements Connector {
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (error) {
       console.log(error)
+      throw new Error('Could not activate connector')
     }
   }
 
