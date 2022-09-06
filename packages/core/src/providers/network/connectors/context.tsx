@@ -62,7 +62,6 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
           await controller.activate((connector) => connector.connectEagerly())
         }
         {
-          console.log('Activating controller')
           await controller.activate()
         }
 

@@ -10,6 +10,6 @@ import { useChainState } from './useChainState'
  */
 export function useMulticallAddress(queryParams: QueryParams = {}): string | undefined {
   const multiChainState = useContext(MultiChainStatesContext)
-  console.log('useMulticallAddress', { queryParams: JSON.stringify(queryParams), chainState: JSON.stringify(useChainState(queryParams)), multiChainState: JSON.stringify(multiChainState) })
+  console.log('useMulticallAddress', JSON.stringify({ queryParams: JSON.stringify(queryParams), chainState: JSON.stringify(useChainState(queryParams)), multiChainState: JSON.stringify(multiChainState) }))
   return useChainState(queryParams)?.multicallAddress
 }

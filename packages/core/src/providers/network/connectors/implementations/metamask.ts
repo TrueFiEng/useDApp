@@ -66,7 +66,6 @@ export class MetamaskConnector implements Connector {
     try {
       const chainId: string = await this.provider!.send('eth_chainId', [])
       const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
-      console.log('In metamask received data', { chainId, accounts })
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (e) {
       console.debug(e)
