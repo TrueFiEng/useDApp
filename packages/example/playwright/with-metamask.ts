@@ -14,7 +14,6 @@ import {
 import { BigNumber, utils, Wallet, providers } from 'ethers'
 import Ganache, { Server } from 'ganache'
 import { defaultAccounts } from 'ethereum-waffle'
-import { sleep } from '@usedapp/testing'
 
 const log = debug('usedapp:example:playwright')
 
@@ -112,11 +111,7 @@ export const withMetamaskTest = (baseUrl: string) => {
         expect(textContent).to.be.eq(address)
       }
 
-      it.only('Reads basic info', async () => {
-        await sleep(2000)
-
-        await page.screenshot({ path: `playwright/screen.png` })
-
+      it('Reads basic info', async () => {
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'ETH2 staking contract holds:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
