@@ -26,7 +26,7 @@ export class ConnectorController {
   public blockNumber: number | undefined
   public errors: Error[] = []
 
-  private _config: FullConfig = DEFAULT_CONFIG
+  private _config: FullConfig
 
   private emitUpdate() {
     this.updated.emit({
@@ -48,7 +48,8 @@ export class ConnectorController {
   private removeBlockEffect?: () => void
   private clearSubscriptions?: () => void
 
-  constructor(public readonly connector: Connector) {
+  constructor(public readonly connector: Connector, config: FullConfig = DEFAULT_CONFIG) {
+    this._config = { ...config }
     connector.update.on(({ chainId, accounts }) => {
       this.chainId = chainId
       this.accounts = accounts

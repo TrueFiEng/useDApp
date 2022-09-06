@@ -49,12 +49,12 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
     async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector, silently = false) => {
       let controller: ConnectorController
       if ('activate' in providerOrConnector) {
-        controller = new ConnectorController(providerOrConnector)
+        controller = new ConnectorController(providerOrConnector, config as any)
       } else {
         const wrappedProvider = Provider.isProvider(providerOrConnector)
           ? providerOrConnector
           : new Web3Provider(providerOrConnector)
-        controller = new ConnectorController(new InjectedConnector(wrappedProvider))
+        controller = new ConnectorController(new InjectedConnector(wrappedProvider), config as any)
       }
       setLoading(true)
       try {

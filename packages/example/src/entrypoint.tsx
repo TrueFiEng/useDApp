@@ -33,7 +33,10 @@ const config: Config = {
   connectors: {
     metamask: new MetamaskConnector(),
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    coinbase: new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
+    coinbase: new CoinbaseWalletConnector(
+      'useDapp example',
+      'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd'
+    ),
     portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
   },
 }

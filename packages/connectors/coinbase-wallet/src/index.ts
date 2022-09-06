@@ -9,7 +9,7 @@ export class CoinbaseWalletConnector implements Connector {
 
   readonly update = new Event<Update>()
 
-  constructor(private appName: string, private infuraKey: string) {}
+  constructor(private appName: string, private jsonRpcUrl: string) {}
 
   private async init() {
     if (this.provider) return
@@ -18,7 +18,7 @@ export class CoinbaseWalletConnector implements Connector {
       darkMode: false,
     })
 
-    const coinbaseProvider = coinbaseWallet.makeWeb3Provider(`https://mainnet.infura.io/v3/${this.infuraKey}`)
+    const coinbaseProvider = coinbaseWallet.makeWeb3Provider(this.jsonRpcUrl)
     this.provider = new providers.Web3Provider(coinbaseProvider as any)
   }
 
