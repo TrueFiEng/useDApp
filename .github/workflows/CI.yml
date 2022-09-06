@@ -5,23 +5,23 @@ on:
     branches:
       - master
 jobs:
-  # test:
-  #   strategy:
-  #     matrix:
-  #       node: ['14.x', '16.x']
-  #       os: [ubuntu-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node }}
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-  #     - run: pnpm run lint
-  #     - run: pnpm run build
-  #     - run: pnpm run test
+  test:
+    strategy:
+      matrix:
+        node: ['14.x', '16.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - run: pnpm run lint
+      - run: pnpm run build
+      - run: pnpm run test
   test-example:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -63,53 +63,47 @@ jobs:
         run: |
           rm -rf .env.local
         working-directory: packages/example-next
-      - name: Upload recordings
-        uses: actions/upload-artifact@v1
-        if: always() # Can be helpful for failed tests as well.
+  test-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
         with:
-          name: recordings
-          path: packages/example/playwright
-  # test-docs:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 25
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '16.x'
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-  #     - name: Build dependencies
-  #       run: |
-  #         set -e
-  #         cd core && pnpm run build && cd -
-  #         cd testing && pnpm run build && cd -
-  #         cd siwe && pnpm run build && cd -
-  #         cd coingecko && pnpm run build && cd -
-  #         cd playwright && pnpm run build && cd -
-  #       working-directory: packages
-  #     - name: Run playwright
-  #       run: |
-  #         set -e
-  #         pnpm run generate
-  #         yarn start &
-  #         sleep 15
-  #         xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
-  #       env:
-  #         MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
-  #         DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
-  #         DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
-  #         DEBUG: usedapp*
-  #       working-directory: packages/docs
-  # check-mixed-changesets:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '16.x'
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --filter="usedapp"
-  #     - run: pnpm changeset version
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Build dependencies
+        run: |
+          set -e
+          cd core && pnpm run build && cd -
+          cd testing && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
+          cd coingecko && pnpm run build && cd -
+          cd playwright && pnpm run build && cd -
+        working-directory: packages
+      - name: Run playwright
+        run: |
+          set -e
+          pnpm run generate
+          yarn start &
+          sleep 15
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
+          DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
+          DEBUG: usedapp*
+        working-directory: packages/docs
+  check-mixed-changesets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --filter="usedapp"
+      - run: pnpm changeset version

@@ -22,6 +22,7 @@ export function useChainId(opts: UseChainIdOptions = {}) {
       return
     }
 
+    setChainId(connector.chainId)
     return connector.updated.on(({ chainId }) => {
       setChainId(opts?.queryParams?.chainId ?? chainId ?? readOnlyChainId)
     })
