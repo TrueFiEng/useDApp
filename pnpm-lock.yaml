@@ -65,17 +65,6 @@ importers:
       react: 17.0.1
       typescript: 4.6.2
 
-  packages/connectors/coinbase-wallet:
-    specifiers:
-      '@coinbase/wallet-sdk': 3.3.0
-      '@usedapp/core': workspace:*
-      typescript: ^4.6.2
-    dependencies:
-      '@coinbase/wallet-sdk': 3.3.0
-    devDependencies:
-      '@usedapp/core': link:../../core
-      typescript: 4.6.2
-
   packages/connectors/portis:
     specifiers:
       '@portis/web3': 4.0.7
@@ -302,7 +291,6 @@ importers:
       '@types/react-router': ^5.1.18
       '@types/react-router-dom': 4.2.6
       '@types/styled-components': ^5.1.7
-      '@usedapp/coinbase-connector': workspace:*
       '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
       '@usedapp/playwright': workspace:*
@@ -351,7 +339,6 @@ importers:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/units': 5.6.0
       '@types/styled-components': 5.1.24
-      '@usedapp/coinbase-connector': link:../connectors/coinbase-wallet
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
       '@usedapp/portis-connector': link:../connectors/portis
@@ -420,7 +407,6 @@ importers:
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.1
       '@types/styled-components': ^5.1.7
-      '@usedapp/coinbase-connector': workspace:*
       '@usedapp/core': workspace:*
       '@usedapp/example': workspace:*
       '@usedapp/portis-connector': workspace:*
@@ -437,7 +423,6 @@ importers:
       styled-components: ^5.2.1
       typescript: ^4.6.2
     dependencies:
-      '@usedapp/coinbase-connector': link:../connectors/coinbase-wallet
       '@usedapp/core': link:../core
       '@usedapp/example': link:../example
       '@usedapp/portis-connector': link:../connectors/portis
@@ -2448,32 +2433,6 @@ packages:
       exec-sh: 0.3.6
       minimist: 1.2.5
     dev: true
-
-  /@coinbase/wallet-sdk/3.3.0:
-    resolution: {integrity: sha512-Prmxs5eYRxe5i+kDSsny97oPG4Pa5PhLmNDx8f7UQrvlPowGy5Tg0gHOqCie6ck2shVMdW8sKJ+RCLIRZ9kIjA==}
-    engines: {node: '>= 10.0.0'}
-    dependencies:
-      '@metamask/safe-event-emitter': 2.0.0
-      bind-decorator: 1.0.11
-      bn.js: 5.2.1
-      buffer: 6.0.3
-      clsx: 1.1.1
-      eth-block-tracker: 4.4.3
-      eth-json-rpc-filters: 4.2.2
-      eth-rpc-errors: 4.0.2
-      js-sha256: 0.9.0
-      json-rpc-engine: 6.1.0
-      keccak: 3.0.2
-      preact: 10.10.6
-      qs: 6.10.3
-      rxjs: 6.6.7
-      stream-browserify: 3.0.0
-      util: 0.12.4
-    transitivePeerDependencies:
-      - '@babel/core'
-      - encoding
-      - supports-color
-    dev: false
 
   /@coinbase/wallet-sdk/3.5.0:
     resolution: {integrity: sha512-xdYMpz98gNwhOnSCh7Rm+qziI/K7LnPJnqHI93sZIRiRGtRTtDihcxjVxV2s1rj9NsYjC5jcKiOEgm8VqIK8Tg==}
@@ -8777,6 +8736,7 @@ packages:
 
   /bind-decorator/1.0.11:
     resolution: {integrity: sha512-yzkH0uog6Vv/vQ9+rhSKxecnqGUZHYncg7qS7voz3Q76+TAi1SGiOKk2mlOvusQnFz9Dc4BC/NMkeXu11YgjJg==}
+    dev: true
 
   /bindings/1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
@@ -12176,6 +12136,7 @@ packages:
     resolution: {integrity: sha512-n+Re6Gu8XGyfFy1it0AwbD1x0MUzspQs0D5UiPs1fFPCr6WAwZM+vbIhXheBFrpgosqN9bs5PqlB4Q61U/QytQ==}
     dependencies:
       fast-safe-stringify: 2.1.1
+    dev: true
 
   /eth-rpc-errors/4.0.3:
     resolution: {integrity: sha512-Z3ymjopaoft7JDoxZcEb3pwdGh7yiYMhOwm2doUt6ASXlMavpNlK6Cre0+IMl2VSGyEU9rkiperQhp5iRxn5Pg==}
@@ -15301,10 +15262,6 @@ packages:
     resolution: {integrity: sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==}
     dev: true
 
-  /js-sha256/0.9.0:
-    resolution: {integrity: sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==}
-    dev: false
-
   /js-sha3/0.8.0:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
 
@@ -18401,6 +18358,7 @@ packages:
 
   /preact/10.10.6:
     resolution: {integrity: sha512-w0mCL5vICUAZrh1DuHEdOWBjxdO62lvcO++jbzr8UhhYcTbFkpegLH9XX+7MadjTl/y0feoqwQ/zAnzkc/EGog==}
+    dev: true
 
   /preact/10.4.1:
     resolution: {integrity: sha512-WKrRpCSwL2t3tpOOGhf2WfTpcmbpxaWtDbdJdKdjd0aEiTkvOmS4NBkG6kzlaAHI9AkQ3iVqbFWM3Ei7mZ4o1Q==}
@@ -18678,6 +18636,7 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
+    dev: true
 
   /qs/6.2.3:
     resolution: {integrity: sha1-HPyyXBCpsrSDBT/zn138kjOQjP4=}
@@ -19789,6 +19748,7 @@ packages:
     engines: {npm: '>=2.0.0'}
     dependencies:
       tslib: 1.14.1
+    dev: true
 
   /rxjs/7.5.5:
     resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}

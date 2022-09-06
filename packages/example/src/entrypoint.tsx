@@ -1,10 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, Ropsten, Kovan, Config, Arbitrum, Localhost, MetamaskConnector } from '@usedapp/core'
+import {
+  Mainnet,
+  DAppProvider,
+  Ropsten,
+  Kovan,
+  Config,
+  Arbitrum,
+  Localhost,
+  MetamaskConnector,
+  CoinbaseWalletConnector,
+} from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
-import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
@@ -33,11 +42,8 @@ const config: Config = {
   connectors: {
     metamask: new MetamaskConnector(),
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    coinbase: new CoinbaseWalletConnector(
-      'useDapp example',
-      'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd'
-    ),
-    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
+    coinbase: new CoinbaseWalletConnector(),
+    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet'),
   },
 }
 

@@ -1,9 +1,8 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { Arbitrum, Config, DAppProvider, Kovan, Localhost, Mainnet, MetamaskConnector, Ropsten } from '@usedapp/core'
+import { Arbitrum, Config, DAppProvider, Kovan, Localhost, Mainnet, MetamaskConnector, CoinbaseWalletConnector, Ropsten } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
-import { CoinbaseWalletConnector } from '@usedapp/coinbase-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
@@ -32,8 +31,8 @@ const config: Config = {
   connectors: {
     metamask: new MetamaskConnector(),
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    coinbase: new CoinbaseWalletConnector('useDapp example', 'd8df2cb7844e4a54ab0a782f608749dd'),
-    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet', 1),
+    coinbase: new CoinbaseWalletConnector(),
+    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet'),
   },
 }
 

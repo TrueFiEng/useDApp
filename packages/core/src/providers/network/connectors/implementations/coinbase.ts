@@ -1,25 +1,43 @@
-import { Connector } from '@usedapp/core'
+import { Connector, Update } from '../connector'
 import { providers } from 'ethers'
-import { Event, Update } from '@usedapp/core/dist/cjs/src/internal'
+import detectEthereumProvider from '@metamask/detect-provider'
+import { Event } from '../../../../helpers/event'
 
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
+const GET_COINBASE_LINK = 'https://www.coinbase.com/wallet'
+
+export async function getCoinbaseProvider() {
+  if (!window.ethereum) {
+    window.open(GET_COINBASE_LINK)
+    return undefined
+  }
+
+  const injectedProviders: any[] = (window?.ethereum as any).providers || []
+  const injectedProvider: any =
+    injectedProviders.find((provider) => {
+      return provider.isWalletLink ?? false
+    }) ?? (await detectEthereumProvider())
+
+  if (!injectedProvider || !injectedProvider.isWalletLink) {
+    console.log(`Coinbase wallet is not installed - you can get it under ${GET_COINBASE_LINK}`)
+    return undefined
+  }
+
+  const provider = new providers.Web3Provider(injectedProvider, 'any')
+  return provider
+}
 
 export class CoinbaseWalletConnector implements Connector {
   public provider?: providers.Web3Provider
 
   readonly update = new Event<Update>()
 
-  constructor(private appName: string, private jsonRpcUrl: string) {}
-
   private async init() {
     if (this.provider) return
-    const coinbaseWallet = new CoinbaseWalletSDK({
-      appName: this.appName,
-      darkMode: false,
-    })
-
-    const coinbaseProvider = coinbaseWallet.makeWeb3Provider(this.jsonRpcUrl)
-    this.provider = new providers.Web3Provider(coinbaseProvider as any)
+    const metamask = await getCoinbaseProvider()
+    if (!metamask) {
+      return
+    }
+    this.provider = metamask
   }
 
   async connectEagerly(): Promise<void> {
