@@ -84,7 +84,11 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
-        const hasOpts = args.length > (contract.interface?.getFunction(functionName).inputs.length ?? 0)
+        const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
+        if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
+          throw new Error('Invalid number of arguments.')
+        }
+        const hasOpts = args.length > numberOfArgs
 
         const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 
@@ -95,25 +99,17 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           (await estimateContractFunctionGasLimit(contractWithSigner, functionName, args, gasLimitBufferPercentage)) ??
           BigNumber.from(0)
 
-        const encodeFunctionDataArgs = args.filter((arg) => !arg.to && !arg.value)
         const modifiedOpts = {
           gasLimit,
           ...opts,
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
-        modifiedArgs.push(modifiedOpts)
 
-        let safeTransactionData: string | undefined = undefined
-        try {
-          safeTransactionData = contract.interface.encodeFunctionData(functionName, encodeFunctionDataArgs)
-        } catch (e) {
-          console.error(e)
-        }
-        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs), {
+        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
           safeTransaction: {
             to: contract.address,
             value: opts?.value,
-            data: safeTransactionData,
+            data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
           },
         })
         if (receipt?.logs) {

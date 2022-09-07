@@ -71,13 +71,8 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    await result.current.send()
+    await expect(result.current.send()).to.be.rejectedWith('Invalid number of arguments.')
     await waitForCurrent((val) => val.state !== undefined)
-
-    expect(result.current.state.status).to.eq('Exception')
-    if (result.current.state.status === 'Exception') {
-      expect(result.current.state.errorMessage).to.eq('missing argument: passed to contract')
-    }
   })
 
   it('exception (when transaction reverts)', async () => {
