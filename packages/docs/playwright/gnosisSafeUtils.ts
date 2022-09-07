@@ -12,12 +12,15 @@ export async function initGnosisSafe({ page, url }: { page: Page; url: string })
   await page.goto(url)
   await page.click('//span[contains(text(), "Accept all")]')
   await page.click('//p[contains(text(), "WalletConnect")]')
-  await page.click('//span[contains(text(), "Continue")]')
-  await page.click('//span[contains(text(), "Continue")]')
-  await page.click('//span[contains(text(), "Continue")]')
-  await page.click('//span[contains(text(), "Continue")]')
-  await page.click('//span[contains(text(), "Continue")]')
-  await page.click('//span[contains(text(), "Continue")]')
+  // click continue button while it's there
+  try {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      await page.click('//span[contains(text(), "Continue")]', { timeout: 2000 })
+    }
+  } catch (e) {
+    // the button is not there - ignore
+  }
 }
 
 export async function connectToMetamask({ page, context }: { page: Page; context: BrowserContext }) {
