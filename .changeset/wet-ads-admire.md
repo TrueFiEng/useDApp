@@ -1,5 +1,5 @@
 ---
-"@usedapp/core": patch
+'@usedapp/core': minor
 ---
 
 🎈 Integrate usePromiseTransaction with Gnosis Safe
