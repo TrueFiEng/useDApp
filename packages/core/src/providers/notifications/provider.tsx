@@ -3,6 +3,7 @@ import { useEthers } from '../../hooks'
 import { NotificationsContext } from './context'
 import { AddNotificationPayload, DEFAULT_NOTIFICATIONS, RemoveNotificationPayload } from './model'
 import { notificationReducer } from './reducer'
+import { useIsMounted } from '../../hooks/useIsMounted'
 import { nanoid } from 'nanoid'
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 export function NotificationsProvider({ children }: Props) {
   const [notifications, dispatch] = useReducer(notificationReducer, DEFAULT_NOTIFICATIONS)
+  const isMounted = useIsMounted()
   const { chainId, account } = useEthers()
 
   useEffect(() => {
@@ -30,22 +32,26 @@ export function NotificationsProvider({ children }: Props) {
 
   const addNotification = useCallback(
     ({ notification, chainId }: AddNotificationPayload) => {
-      dispatch({
-        type: 'ADD_NOTIFICATION',
-        chainId,
-        notification: { ...notification, id: nanoid() },
-      })
+      if (isMounted()) {
+        dispatch({
+          type: 'ADD_NOTIFICATION',
+          chainId,
+          notification: { ...notification, id: nanoid() },
+        })
+      }
     },
     [dispatch]
   )
 
   const removeNotification = useCallback(
     ({ notificationId, chainId }: RemoveNotificationPayload) => {
-      dispatch({
-        type: 'REMOVE_NOTIFICATION',
-        chainId,
-        notificationId,
-      })
+      if (isMounted()) {
+        dispatch({
+          type: 'REMOVE_NOTIFICATION',
+          chainId,
+          notificationId,
+        })
+      }
     },
     [dispatch]
   )
