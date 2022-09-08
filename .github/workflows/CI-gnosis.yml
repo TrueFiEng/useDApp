@@ -1,4 +1,4 @@
-name: CI
+name: CI-gnosis
 on:
   workflow_dispatch:
   push:
