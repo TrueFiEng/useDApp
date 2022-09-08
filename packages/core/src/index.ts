@@ -34,9 +34,9 @@ export type {
   State,
   StoredTransaction,
   StoredTransactions,
-  Network,
 } from './providers'
-export { DAppProvider, getStoredTransactionState, multicall, multicall2, useNetwork } from './providers'
+export { DAppProvider, getStoredTransactionState, multicall, multicall2, useConnector } from './providers'
+export type { Connector } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
   useBlockMeta,
@@ -95,3 +95,6 @@ export {
   getExplorerAddressLink,
   getExplorerTransactionLink,
 } from './helpers'
+export { MetamaskConnector } from './providers/network/connectors/implementations/metamask'
+export { InjectedConnector } from './providers/network/connectors/implementations/injected'
+export { CoinbaseWalletConnector } from './providers/network/connectors/implementations/coinbase'
