@@ -8,6 +8,7 @@ import { useReadonlyNetworkStates } from '../providers/network/readonlyNetworks/
 import { ActivateBrowserWallet } from '../providers/network/connectors/context'
 
 type JsonRpcProvider = providers.JsonRpcProvider
+type Web3Provider = providers.Web3Provider
 type ExternalProvider = providers.ExternalProvider
 
 type MaybePromise<T> = Promise<T> | T
@@ -59,26 +60,33 @@ export type Web3Ethers = {
  */
 export function useEthers(): Web3Ethers {
   const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
+  const readonlyNetwork = useReadonlyNetwork()
 
-  const [activeConnectorChainId, setActiveConnectorChainId] = useState<number | undefined>()
   const [errors, setErrors] = useState<Error[]>([])
   const [account, setAccount] = useState<string | undefined>()
+  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | undefined>()
+  const [chainId, setChainId] = useState<number | undefined>()
 
   useEffect(() => {
-    if (!connector) {
+    if (!connector?.getProvider()) {
+      setAccount(undefined)
+      setProvider(readonlyNetwork?.provider as JsonRpcProvider | undefined)
+      setChainId(readonlyNetwork?.chainId)
+      setErrors([])
       return
     }
 
-    setActiveConnectorChainId(connector.chainId)
+    setChainId(connector.chainId)
     setErrors(connector.errors)
+    setProvider(connector.getProvider())
     if (connector.accounts[0]) {
       setAccount(getAddress(connector.accounts[0]))
     } else {
       setAccount(undefined)
     }
 
-    return connector?.updated.on(({ chainId, errors, accounts }) => {
-      setActiveConnectorChainId(chainId)
+    return connector.updated.on(({ chainId, errors, accounts }) => {
+      setChainId(chainId)
       setErrors(errors)
       if (accounts[0]) {
         setAccount(getAddress(accounts[0]))
@@ -97,7 +105,6 @@ export function useEthers(): Web3Ethers {
   const supportedChainIds = networks?.map((network) => network.chainId)
 
   useEffect(() => {
-    const chainId = activeConnectorChainId
     const isNotConfiguredChainId = chainId && configuredChainIds && configuredChainIds.indexOf(chainId) < 0
     const isUnsupportedChainId = chainId && supportedChainIds && supportedChainIds.indexOf(chainId) < 0
 
@@ -116,18 +123,7 @@ export function useEthers(): Web3Ethers {
     }
 
     setError(errors?.[errors.length - 1])
-  }, [activeConnectorChainId, errors, networkStates])
-
-  const readonlyNetwork = useReadonlyNetwork()
-  const { provider, chainId } = connector?.getProvider()
-    ? {
-        provider: connector.getProvider(),
-        chainId: activeConnectorChainId,
-      }
-    : {
-        provider: readonlyNetwork?.provider as JsonRpcProvider | undefined,
-        chainId: readonlyNetwork?.chainId,
-      }
+  }, [chainId, errors, networkStates])
 
   return {
     connector: undefined,
