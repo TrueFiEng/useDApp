@@ -37,17 +37,14 @@ const failedNonceResponse = {
   ok: false,
 }
 
-export const getFetchers = (backendUrl: string, { chainId, address }: UserData): SiweFetchers => {
+export const getFetchers = (backendUrl: string, { address, chainId }: UserData): SiweFetchers => {
   return {
     getAuth: async () => {
-      const url = new URL(`${backendUrl}/siwe/me`)
-      if (chainId && address) {
-        url.searchParams.set('chainId', String(chainId))
-        url.searchParams.set('address', address)
-      }
-
-      const authRequest = await fetch(String(url), {
+      const authRequest = await fetch(`${backendUrl}/siwe/me`, {
         credentials: 'include',
+        headers: {
+          Authorization: `${address}:${chainId}`,
+        },
       })
 
       if (!authRequest.ok) {
@@ -88,15 +85,12 @@ export const getFetchers = (backendUrl: string, { chainId, address }: UserData):
       })
     },
     signOut: async () => {
-      const url = new URL(`${backendUrl}/siwe/signout`)
-      if (chainId && address) {
-        url.searchParams.set('chainId', String(chainId))
-        url.searchParams.set('address', address)
-      }
-
-      await fetch(String(url), {
+      await fetch(`${backendUrl}/siwe/signout`, {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          Authorization: `${address}:${chainId}`,
+        },
       })
     },
   }
