@@ -79,14 +79,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       try {
         setState({ status: 'PendingSignature', chainId })
 
-        let isDefaultWallet = true
+        let isNonContractWallet = true
         try {
-          isDefaultWallet = (await library?.getCode(account ?? '').then((code) => code === '0x')) ?? true
+          isNonContractWallet = (await library?.getCode(account ?? '').then((code) => code === '0x')) ?? true
         } catch (err: any) {
-          // ignore
+          console.debug(err)
         }
-        const result = isDefaultWallet
-          ? await handleDefaultWallet(transactionPromise)
+        const result = isNonContractWallet
+          ? await handleNonContractWallet(transactionPromise)
           : await handleContractWallet(transactionPromise, { safeTransaction })
         transaction = result?.transaction
         return result?.receipt
@@ -136,7 +136,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
     [chainId, setState, addTransaction, options]
   )
 
-  const handleDefaultWallet = async (transactionPromise: Promise<TransactionResponse>) => {
+  const handleNonContractWallet = async (transactionPromise: Promise<TransactionResponse>) => {
     if (!chainId) return
 
     const transaction = await transactionPromise
