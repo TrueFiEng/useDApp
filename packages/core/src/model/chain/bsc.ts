@@ -11,7 +11,7 @@ export const BSC: Chain = {
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',
-    decimals: 8,
+    decimals: 18,
   },
   getExplorerAddressLink: (address: string) => `https://bscscan.com/address/${address}`,
   getExplorerTransactionLink: (transactionHash: string) => `https://bscscan.com/tx/${transactionHash}`,
