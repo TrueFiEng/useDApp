@@ -169,6 +169,7 @@ describe('useCall Resilency tests', () => {
             expect(result.current.firstChainBlockNumber).to.be.equal(2)
             expect(result.current.secondChainBlockNumber).to.be.equal(1)
             expect(result.current.chainId).to.be.equal(1337)
+            expect((result.current.error as any)?.error?.code).to.eq('SERVER_ERROR')
           })
 
           it('Continues to work when *primary* RPC endpoint fails', async () => {

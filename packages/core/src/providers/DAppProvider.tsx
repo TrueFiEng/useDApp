@@ -1,15 +1,15 @@
 import { ReactNode, useMemo } from 'react'
 import { Config, Chain } from '../constants'
 import { ConfigProvider } from './config'
-import { BlockNumberProvider } from './blockNumber/blockNumber'
 import { MultiChainStateProvider } from './chainState'
 import { useConfig } from '../hooks'
 import { NotificationsProvider } from './notifications/provider'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
-import { NetworkProvider, ReadonlyNetworksProvider } from './network'
+import { ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
 import { WindowProvider } from './window'
+import { ConnectorContextProvider } from './network/connectors/context'
 
 export interface DAppProviderProps {
   children?: ReactNode
@@ -63,22 +63,20 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   ])
 
   return (
-    <WindowProvider>
-      <ReadonlyNetworksProvider>
-        <NetworkProvider>
-          <BlockNumberProvider>
-            <BlockNumbersProvider>
-              <LocalMulticallProvider>
-                <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
-                  <NotificationsProvider>
-                    <TransactionProvider>{children}</TransactionProvider>
-                  </NotificationsProvider>
-                </MultiChainStateProvider>
-              </LocalMulticallProvider>
-            </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </NetworkProvider>
-      </ReadonlyNetworksProvider>
-    </WindowProvider>
+    <ConnectorContextProvider>
+      <WindowProvider>
+        <ReadonlyNetworksProvider>
+          <BlockNumbersProvider>
+            <LocalMulticallProvider>
+              <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
+                <NotificationsProvider>
+                  <TransactionProvider>{children}</TransactionProvider>
+                </NotificationsProvider>
+              </MultiChainStateProvider>
+            </LocalMulticallProvider>
+          </BlockNumbersProvider>
+        </ReadonlyNetworksProvider>
+      </WindowProvider>
+    </ConnectorContextProvider>
   )
 }
