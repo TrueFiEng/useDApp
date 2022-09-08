@@ -127,7 +127,7 @@ interface Parameter {
   value: string
 }
 
-export const getSafeTransactionPromise = async (
+export const getSafeTransactionInfo = async (
   chainId: number,
   safeTxHash: string
 ): Promise<SafeTransactionJSON | null | undefined> => {
@@ -138,7 +138,8 @@ export const getSafeTransactionPromise = async (
       }.gnosis.io/api/v1/multisig-transactions/${safeTxHash}`
     )
     if (!response.ok) return null
-    return await response.json()
+    const safeTransactionInfo: unknown = await response.json()
+    return safeTransactionInfo as SafeTransactionJSON
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -166,7 +167,7 @@ export const waitForSafeTransaction = async (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onExecutionSuccess = async (txHash: string, _payment: BigNumber) => {
       await sleep(2000)
-      const safeTransactionJson = await getSafeTransactionPromise((await library.getNetwork()).chainId, txHash)
+      const safeTransactionJson = await getSafeTransactionInfo((await library.getNetwork()).chainId, txHash)
       if (safeTransactionJson === undefined) {
         return reject(new Error('Gnosis Safe API service is not available'))
       }
