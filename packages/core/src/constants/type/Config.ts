@@ -1,4 +1,5 @@
 import { Chain } from '../../constants'
+import { Connector } from '../../providers/network/connectors/connector'
 import { providers } from 'ethers'
 
 export type BaseProviderFactory = () => providers.BaseProvider
@@ -97,6 +98,12 @@ export type FullConfig = {
    * Optional Local storage override for use in environments like React Native
    */
   localStorageOverride?: WindowLocalStorage['localStorage']
+  /**
+   * Specify configuration of the wallets that can be used in the app
+   */
+  connectors: {
+    [key: string]: Connector
+  }
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
