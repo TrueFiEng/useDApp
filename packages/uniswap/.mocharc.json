@@ -1,6 +1,6 @@
 {
   "spec": "src/**/*.test.{ts,tsx}",
   "require": "ts-node/register",
-  "timeout": 10000,
+  "timeout": 20000,
   "file": "./src/test-setup.ts"
 }
