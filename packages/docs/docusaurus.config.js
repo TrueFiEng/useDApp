@@ -18,6 +18,7 @@ const config = {
 
   plugins: [
     './plugins/webpack-plugin.js',
+    './plugins/mdx-anchor-scroll.js',
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
