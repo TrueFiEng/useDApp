@@ -85,12 +85,16 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
         const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
+        const hasOpts = args.some(
+          (arg) => typeof arg === 'object' && (arg.to || arg.value || arg.gasLimit || arg.gasPrice)
+        )
         if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
           throw new Error(
-            `Invalid number of arguments for function "${functionName}". Expected: ${numberOfArgs}. Received: ${args.length}.`
+            `Invalid number of arguments for function "${functionName}". Expected: ${numberOfArgs}. Received: ${
+              args.length - (hasOpts ? 1 : 0)
+            }.`
           )
         }
-        const hasOpts = args.length > numberOfArgs
 
         const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
 

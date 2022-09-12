@@ -77,6 +77,23 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
   })
 
+  it('exception (bad arguments with opts)', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'approve'),
+      {
+        config,
+      }
+    )
+
+    await waitForNextUpdate()
+    await expect(
+      result.current.send({
+        gasLimit: 100000,
+      })
+    ).to.be.rejectedWith('Invalid number of arguments for function "approve". Expected: 2. Received: 0.')
+    await waitForCurrent((val) => val.state !== undefined)
+  })
+
   it('exception (when transaction reverts)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       // { gasLimitBufferPercentage: -10 } - to cause out of gas error
