@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hooks'
+import { useIsMounted } from '../../hooks/useIsMounted'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
@@ -16,6 +17,7 @@ export function TransactionProvider({ children }: Props) {
   const [storage, setStorage] = useLocalStorage(localStorage.transactionPath)
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
   const { addNotification } = useNotificationsContext()
+  const isMounted = useIsMounted()
 
   useEffect(() => {
     setStorage(transactions)
@@ -23,6 +25,9 @@ export function TransactionProvider({ children }: Props) {
 
   const addTransaction = useCallback(
     (payload: StoredTransaction) => {
+      if (!isMounted()) {
+        return
+      }
       dispatch({
         type: 'ADD_TRANSACTION',
         payload,
@@ -84,7 +89,9 @@ export function TransactionProvider({ children }: Props) {
         newTransactions.push(newTransaction)
       }
 
-      dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
+      if (isMounted()) {
+        dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
+      }
     }
 
     void updateTransactions()

@@ -5,6 +5,7 @@
       "mocha",
       "node"
     ],
+    "target": "ES2018",
     "outDir": "dist",
     "module": "commonjs",
     "composite": true,

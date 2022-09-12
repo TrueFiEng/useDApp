@@ -34,6 +34,8 @@
     "@types/styled-components": "^5.1.7",
     "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
+    "@usedapp/portis-connector": "workspace:*",
+    "@usedapp/wallet-connect-connector": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.1",
     "@web3-react/walletconnect-connector": "6.2.4",
     "debug": "^4.3.4",
