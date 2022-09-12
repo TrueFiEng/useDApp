@@ -1,8 +1,7 @@
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
-import { BigNumber, BigNumberish, Contract, ethers } from 'ethers'
+import { BigNumber, BigNumberish, Contract, Event } from 'ethers'
 import { utils, constants } from 'ethers'
 import { getChainById } from './chain'
-import { sleep } from './sleep'
 
 export const GNOSIS_SAFE_ABI = [
   'function nonce() view returns (uint256)',
@@ -74,72 +73,18 @@ export const calculateSafeTransactionHash = (
   return utils._TypedDataEncoder.hash({ verifyingContract: safe.address, chainId }, EIP712_SAFE_TX_TYPE, safeTx)
 }
 
-interface SafeTransactionJSON {
-  safe: string
-  to: string
-  value: string
-  data: string
-  operation: number
-  gasToken: string
-  safeTxGas: number
-  baseGas: number
-  gasPrice: string
-  refundReceiver: string
-  nonce: number
-  executionDate: string | null
-  submissionDate: string
-  modified: string
-  blockNumber: number | null
-  transactionHash: string | null
-  safeTxHash: string
-  executor: string | null
-  isExecuted: boolean
-  isSuccessful: boolean | null
-  ethGasPrice: string | null
-  maxFeePerGas: string | null
-  maxPriorityFeePerGas: string | null
-  gasUsed: number | null
-  fee: string | string
-  origin: string
-  dataDecoded: DataDecoded | null
-  confirmationsRequired: number | null
-  confirmations: Confirmation[]
-  trusted: boolean
-  signatures: string | null
-}
-
-interface Confirmation {
-  owner: string
-  submissionDate: string
-  transactionHash?: any
-  signature: string
-  signatureType: string
-}
-
-interface DataDecoded {
-  method: string
-  parameters: Parameter[]
-}
-
-interface Parameter {
-  name: string
-  type: string
-  value: string
-}
-
-export const getSafeTransactionInfo = async (
-  chainId: number,
-  safeTxHash: string
-): Promise<SafeTransactionJSON | null | undefined> => {
+export const getLatestNonce = async (chainId: number, safeAddress: string): Promise<number | null | undefined> => {
   try {
     const response = await fetch(
       `https://safe-transaction.${
         getChainById(chainId)?.chainName
-      }.gnosis.io/api/v1/multisig-transactions/${safeTxHash}`
+      }.gnosis.io/api/v1/safes/${safeAddress}/all-transactions?limit=1&executed=false&queued=true`
     )
     if (!response.ok) return null
-    const safeTransactionInfo: unknown = await response.json()
-    return safeTransactionInfo as SafeTransactionJSON
+    const allTransactions = await response.json()
+    const latestNonce = allTransactions?.results?.[0]?.nonce
+    if (!latestNonce) return null
+    return latestNonce
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -149,14 +94,14 @@ export const getSafeTransactionInfo = async (
 export const waitForSafeTransaction = async (
   transactionPromise: Promise<TransactionResponse>,
   contract: Contract,
-  library: ethers.providers.JsonRpcProvider,
+  chainId: number,
   safeTx: SafeTransaction
 ): Promise<{
   transaction: TransactionResponse
   receipt: TransactionReceipt
   rejected: boolean
 }> => {
-  const safeTxHash = calculateSafeTransactionHash(contract, safeTx, (await library.getNetwork()).chainId)
+  const safeTxHash = calculateSafeTransactionHash(contract, safeTx, chainId)
 
   return new Promise((resolve, reject) => {
     void transactionPromise.catch((err: any) => {
@@ -164,34 +109,23 @@ export const waitForSafeTransaction = async (
         reject(err)
       }
     })
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onExecutionSuccess = async (txHash: string, _payment: BigNumber) => {
-      await sleep(2000)
-      const safeTransactionJson = await getSafeTransactionInfo((await library.getNetwork()).chainId, txHash)
-      if (safeTransactionJson === undefined) {
-        return reject(new Error('Gnosis Safe API service is not available'))
-      }
 
+    const onExecutionSuccess = async (txHash: string, _payment: BigNumber, event: Event) => {
       if (txHash === safeTxHash) {
-        const hash = safeTransactionJson?.transactionHash
-        if (!hash) return
+        contract.removeListener('ExecutionSuccess', onExecutionSuccess)
 
-        const transaction = await library.getTransaction(hash)
-        const receipt = await transaction.wait()
+        const transaction = await event.getTransaction()
+        const receipt = await event.getTransactionReceipt()
 
-        contract.removeAllListeners()
         resolve({ transaction, receipt, rejected: false })
       } else {
-        const nonce = safeTransactionJson?.nonce
+        const currentNonce = await contract.nonce()
 
-        if (nonce === Number(safeTx.nonce)) {
-          const hash = safeTransactionJson?.transactionHash
-          if (!hash) return
+        if (Number(currentNonce) > Number(safeTx.nonce)) {
+          contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+          const transaction = await event.getTransaction()
+          const receipt = await event.getTransactionReceipt()
 
-          const transaction = await library.getTransaction(hash)
-          const receipt = await transaction.wait()
-
-          contract.removeAllListeners()
           resolve({
             transaction,
             receipt,

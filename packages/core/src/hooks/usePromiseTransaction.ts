@@ -3,9 +3,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
 import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
-import { buildSafeTransaction, GNOSIS_SAFE_ABI, SafeTransaction } from '../helpers/gnosisSafeUtils'
+import { buildSafeTransaction, getLatestNonce, GNOSIS_SAFE_ABI, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 interface PromiseTransactionOpts {
   safeTransaction?: Partial<SafeTransaction>
@@ -52,6 +53,17 @@ export async function estimateContractFunctionGasLimit(
   }
 }
 
+/**
+ * @internal
+ */
+async function isNonContractWallet(library: JsonRpcProvider | undefined, address: string | undefined) {
+  if (!library || !address) {
+    return true
+  }
+  const code = await library.getCode(address)
+  return code === '0x'
+}
+
 const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
@@ -79,13 +91,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       try {
         setState({ status: 'PendingSignature', chainId })
 
-        let isNonContractWallet = true
-        try {
-          isNonContractWallet = (await library?.getCode(account ?? '').then((code) => code === '0x')) ?? true
-        } catch (err: any) {
-          console.debug(err)
-        }
-        const result = isNonContractWallet
+        const result = (await isNonContractWallet(library, account))
           ? await handleNonContractWallet(transactionPromise)
           : await handleContractWallet(transactionPromise, { safeTransaction })
         transaction = result?.transaction
@@ -164,20 +170,24 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
     gnosisSafeContract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
 
+    const latestNonce = await getLatestNonce(chainId, account)
+
     const safeTx = buildSafeTransaction({
       to: safeTransaction?.to ?? '',
       value: safeTransaction?.value,
       data: safeTransaction?.data,
-      nonce: await gnosisSafeContract.nonce(),
+      nonce: latestNonce ? latestNonce + 1 : await gnosisSafeContract.nonce(),
     })
 
     const { transaction, receipt, rejected } = await waitForSafeTransaction(
       transactionPromise,
       gnosisSafeContract,
-      library,
+      chainId,
       safeTx
     )
+
     if (rejected) {
+      const errorMessage = 'On-chain rejection created'
       addNotification({
         notification: {
           type: 'transactionSucceed',
@@ -188,7 +198,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         },
         chainId,
       })
-      const errorMessage = 'On-chain rejection created'
       setState({
         status: 'Fail',
         transaction,
