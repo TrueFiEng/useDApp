@@ -9,7 +9,8 @@
     "skipLibCheck": true
   },
   "include": [
-    "src"
+    "src",
+    "playwright"
   ],
   "references": [
     {

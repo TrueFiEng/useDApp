@@ -1,0 +1,136 @@
+.section--start
+  padding-top: 56px
+
+  &::before
+    content: ''
+    position: absolute
+    left: 50%
+    bottom: 0
+    width: 100%
+    height: 100%
+    background-image: url('/img/backgrounds/start__background.jpg')
+    background-size: 100% 95%
+    background-position: 50% 100%
+    background-repeat: no-repeat
+    transform: translateX(-50%)
+
+  +media(l)
+    padding-top: 24px
+
+    &::before
+      background-size: 150% 95%
+
+  @media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi)
+    &::before
+      background-image: url('/img/backgrounds/start__background@2x.jpg')
+
+.start
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-align: center
+
+.start__header
+  position: relative
+  width: 100%
+  max-width: 100%
+  pointer-events: none
+  user-select: none
+
+.start__sliding-header
+  display: flex
+  column-gap: 64px
+  row-gap: 32px
+  width: fit-content
+  margin: 0 auto
+  transition: $all
+  pointer-events: none
+  user-select: none
+
+  +media(l)
+    column-gap: 24px
+
+.start__button
+  font-size: 56px
+  line-height: 72px
+  color: $light
+  letter-spacing: unset
+  white-space: nowrap
+  transition: $all
+
+  +media(l)
+    font-size: 28px
+    line-height: 36px
+
+  +media(xs)
+    font-size: 24px
+    line-height: 32px
+
+.start__button:hover
+  color: $black
+
+.start__button:focus-visible
+  color: $black
+
+.start__button::before
+  opacity: 0
+  transition: opacity $transition-duration ease
+
+.start__button--active::before
+  opacity: 1
+
+.start__subtitle
+  font-size: 32px
+  line-height: 72px
+  margin-top: 24px
+  text-align: center
+
+  +media(l)
+    font-size: 28px
+
+  +media(s)
+    font-size: 18px
+    line-height: 24px
+
+.start__link
+  margin: 24px auto 0
+
+.start__terminals
+  position: relative
+  width: 100%
+  max-width: 832px
+  height: 510px
+  margin: 54px auto 0
+  overflow: hidden
+
+  +media(l)
+    margin: 62px auto 0
+    max-width: 540px
+    height: 296px
+
+  +media(s)
+    margin: 52px auto 0
+    max-width: 100%
+    height: 220px
+
+.start__terminal
+  position: absolute
+  left: 50%
+  top: 50%
+  width: 100%
+  max-width: 100%
+  height: 100%
+  max-height: 100%
+  border-radius: 8px 8px 0 0
+  transform: translate(-50%, 50%)
+  transition: $all-xl
+  object-fit: cover
+
+.start__terminal--active
+  transform: translate(-50%, -50%)
+
+.start__terminal .terminal__confetti
+  opacity: 0
+
+.start__terminal.start__terminal--active .terminal__confetti
+  opacity: 1

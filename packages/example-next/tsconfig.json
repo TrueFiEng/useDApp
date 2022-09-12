@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [
+      "mocha"
+    ],
     "module": "commonjs",
     "target": "ES2018",
     "allowJs": true,

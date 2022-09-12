@@ -32,8 +32,7 @@
     "@ethersproject/providers": "5.6.2",
     "@usedapp/core": "workspace:*",
     "@usedapp/uniswap": "workspace:*",
-    "ethereum-waffle": "4.0.0-alpha.27",
-    "ethers": "5.6.2",
+    "ethers": "5.6.9",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },

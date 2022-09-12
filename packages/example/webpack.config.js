@@ -25,7 +25,8 @@ module.exports = {
       ],
     }),
     new DefinePlugin({
-      'process.env.MAINNET_URL': process.env.MAINNET_URL ? JSON.stringify(process.env.MAINNET_URL) : undefined
+      'process.env.MAINNET_URL': process.env.MAINNET_URL ? JSON.stringify(process.env.MAINNET_URL) : undefined,
+      'process.env.LOCALHOST_URL': JSON.stringify(process.env.LOCALHOST_URL)
     })
   ].filter(Boolean),
   module: {
@@ -61,7 +62,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    host: '0.0.0.0',
+    host: 'localhost',
     stats: 'errors-only',
     overlay: true,
     hot: true,

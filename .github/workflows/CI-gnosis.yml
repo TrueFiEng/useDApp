@@ -1,0 +1,44 @@
+name: CI-gnosis
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  # Same as `test-docs` on regular CI, but picks only tests with Gnosis safe to be run on master only.
+  # In order to run Gnosis safe tests on every PR, we would have to either:
+  # - Figure out a way to run Gnosis safe (with UI) locally,
+  # - or create multiple safes on testnets so that simultaneous job runs do not interfere with each other.
+  test-docs-gnosis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Build dependencies
+        run: |
+          set -e
+          cd core && pnpm run build && cd -
+          cd testing && pnpm run build && cd -
+          cd siwe && pnpm run build && cd -
+          cd coingecko && pnpm run build && cd -
+          cd playwright && pnpm run build && cd -
+        working-directory: packages
+      - name: Run playwright
+        run: |
+          set -e
+          pnpm run generate
+          yarn start &
+          sleep 15
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright -g "with Gnosis Safe"
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
+          DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
+          DEBUG: usedapp*
+        working-directory: packages/docs

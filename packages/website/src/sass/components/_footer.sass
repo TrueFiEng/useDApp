@@ -1,0 +1,110 @@
+.footer
+  padding-top: 68px
+  padding-bottom: 56px
+  border-top: 1px solid transparentize($white, 0.8)
+  background-color: $footer-background
+
+  +media(l)
+    padding-top: 56px
+    padding-bottom: 56px
+
+  +media(s)
+    padding-top: 24px
+    padding-bottom: 32px
+
+.footer__logo
+  display: flex
+  align-items: center
+  height: 32px
+  margin: 0 auto
+  width: fit-content
+  color: $white
+
+.footer__logo-image
+  width: 32px
+  height: 32px
+  color: inherit
+
+.footer__logo-text
+  margin-left: 8px
+  font-size: 20px
+  line-height: 24px
+  font-weight: 700
+  letter-spacing: -0.03em
+  color: inherit
+
+.footer__navigation
+  width: fit-content
+  margin: 40px auto 0
+
+.footer__list
+  +media(s)
+    flex-wrap: wrap
+    justify-content: center
+    column-gap: 16px
+    row-gap: 16px
+
+.footer__item + .footer__item
+  margin-left: 48px
+
+  +media(s)
+    margin-left: 0
+
+.footer__link
+  padding: 0 8px
+  color: $white
+
+.footer__link.navigation__link--active
+  text-stroke: 0.04em $white
+  -webkit-text-stroke: 0.04em $white
+
+.footer__link:hover
+  border-color: $white
+
+.footer__link:focus-visible
+  border-color: $white
+
+.footer__link--active,
+.footer__link:active
+  text-stroke: 0.04em $white
+  -webkit-text-stroke: 0.04em $white
+
+.copyrights
+  display: flex
+  width: 100%
+  justify-content: center
+  align-items: center
+  margin: 48px auto 0
+  column-gap: 40px
+  row-gap: 12px
+
+  +media(s)
+    flex-direction: column
+    margin: 40px auto 0
+
+.copyrights__created
+  display: flex
+  align-items: center
+  column-gap: 24px
+  row-gap: 12px
+  color: transparentize($white, 0.5)
+
+.copyrights__text
+  font-size: 14px
+  line-height: 16px
+  color: inherit
+
+.copyrights__link
+  width: 100px
+  color: inherit
+  transition: $all
+
+.copyrights__link:hover
+  color: $white
+
+.copyrights__link:focus-visible
+  color: $white
+
+.copyrights__link:active
+  color: $white
+  opacity: 0.9

@@ -5,7 +5,6 @@ import { Config } from '../constants'
 import { Localhost, Mainnet, Mumbai } from '../model'
 import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
-
 import Ganache, { Server } from 'ganache'
 
 describe('useEthers', () => {
@@ -109,16 +108,20 @@ describe('useEthers', () => {
 
   describe('Websocket provider', () => {
     let ganacheServer: Server<'ethereum'>
+    let provider: providers.WebSocketProvider
     const wsPort = 18845
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
-      ganacheServer = Ganache.server({ server: { ws: true } })
+      ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
       await ganacheServer.listen(wsPort)
+      provider = new providers.WebSocketProvider(wsUrl)
     })
 
     after(async () => {
       await ganacheServer.close()
+      // disrupting the connection forcefuly so websocket server can be properly shutdown
+      await provider.destroy()
     })
 
     it('works with a websocket provider', async () => {
@@ -126,7 +129,7 @@ describe('useEthers', () => {
         config: {
           readOnlyChainId: Mumbai.chainId,
           readOnlyUrls: {
-            [Mumbai.chainId]: new providers.WebSocketProvider(wsUrl),
+            [Mumbai.chainId]: provider,
           },
         },
       })

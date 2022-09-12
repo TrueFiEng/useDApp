@@ -54,7 +54,8 @@ export const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
     setShowTransactionStatus(true)
     clearTimeout(timer)
 
-    if (transaction.status != 'Mining') setTimer(setTimeout(() => setShowTransactionStatus(false), 5000))
+    if (transaction.status !== 'Mining' && transaction.status !== 'CollectingSignaturePool')
+      setTimer(setTimeout(() => setShowTransactionStatus(false), 5000))
   }, [transaction])
 
   return (
@@ -72,6 +73,14 @@ export const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
           <StatusBlock
             color="black"
             text="Transaction is being mined"
+            icon={<SpinnerIcon />}
+            key={transaction?.chainId + transaction.status}
+          />
+        )}
+        {showTransactionStatus && transaction.status === 'CollectingSignaturePool' && (
+          <StatusBlock
+            color="black"
+            text="Waiting for wallet owners to sign the transaction"
             icon={<SpinnerIcon />}
             key={transaction?.chainId + transaction.status}
           />
