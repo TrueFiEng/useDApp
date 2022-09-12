@@ -1,6 +1,6 @@
-import {BigNumber, Contract, Wallet} from 'ethers'
-import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils';
-import chai, { expect } from 'chai'
+import { BigNumber, Contract, Wallet } from 'ethers'
+import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils'
+import { expect } from 'chai'
 import { useUniswapPrice } from './useUniswapPrice'
 import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
 import { compareAddress, Config } from '@usedapp/core'
@@ -27,15 +27,14 @@ describe('useUniswapPrice', () => {
     await pair.mint(deployer.address)
   }
 
-  function sortAddress(tokenA: string, tokenB: string) {
-    return compareAddress(tokenA, tokenB) === -1 ? [tokenA, tokenB] : [tokenB, tokenA]
+  function sortContracts(tokenA: Contract, tokenB: Contract) {
+    return compareAddress(tokenA.address, tokenB.address) === -1 ? [tokenA, tokenB] : [tokenB, tokenA]
   }
 
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
     deployer = network1.wallets[0]
-    tokenA = await deployMockToken(deployer)
-    tokenB = await deployMockToken(deployer)
+    ;[tokenA, tokenB] = sortContracts(await deployMockToken(deployer), await deployMockToken(deployer))
     ;({ factory, pair } = await deployUniswapV2Pair(deployer, tokenA, tokenB))
     // RATIO = tokenAReserve / tokenBReserve = 5
     await addLiquidity(MOCK_TOKEN_INITIAL_BALANCE, MOCK_TOKEN_INITIAL_BALANCE.div(RATIO))
@@ -47,17 +46,14 @@ describe('useUniswapPrice', () => {
   })
 
   it('compute pair address by using CREATE2', async () => {
-    const [token0Addr, token1Addr] = sortAddress(tokenA.address, tokenB.address)
-    const salt = solidityKeccak256(['bytes'], [solidityPack(['address', 'address'], [token0Addr, token1Addr])])
+    const salt = solidityKeccak256(['bytes'], [solidityPack(['address', 'address'], [tokenA.address, tokenB.address])])
     const computedAddress = getCreate2Address(factory.address, salt, INIT_CODE_HASH)
     expect(computedAddress).to.equal(pair.address)
   })
 
   it('get price', async () => {
-    const [token0Addr] = sortAddress(tokenA.address, tokenB.address)
-
     // base/quote (e.g. ETH/DAI): price of baseToken in quoteToken = quoteTokenReserve / baseTokenReserve
-    const [numerator, denominator] = tokenA.address === token0Addr ? [ONE, RATIO] : [RATIO, ONE]
+    const [numerator, denominator] = [ONE, RATIO]
     const price = numerator.mul(EXP_SCALE).div(denominator)
 
     const { result, waitForCurrent } = await renderDAppHook(

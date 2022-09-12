@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
 import { compareAddress, useContractCall } from '@usedapp/core'
-import {BigNumber} from 'ethers'
-import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils';
+import { BigNumber } from 'ethers'
+import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils'
 
 /**
  * function`getReserves` of UniswapV2Pair returns uint112 type,
@@ -18,13 +18,15 @@ import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/u
 export function useUniswapPrice(
   baseCurrency: string,
   quoteCurrency: string,
-  overrides?: { factory?: string; initCodeHash?:string; digits?: number }
+  overrides?: { factory?: string; initCodeHash?: string; digits?: number }
 ): BigNumber | undefined {
   const digits = overrides?.digits || 18
-  
+
   const [token0, token1] = useMemo(() => {
     // token0 is smaller than token1
-    return compareAddress(baseCurrency, quoteCurrency) === -1 ? [baseCurrency, quoteCurrency] : [quoteCurrency, baseCurrency]
+    return compareAddress(baseCurrency, quoteCurrency) === -1
+      ? [baseCurrency, quoteCurrency]
+      : [quoteCurrency, baseCurrency]
   }, [baseCurrency, quoteCurrency])
 
   const pair = getCreate2Address(
@@ -43,8 +45,6 @@ export function useUniswapPrice(
         }
     ) ?? []
 
-
-    
   return useMemo(() => {
     if (!reserve0 || !reserve1) return
     const [numerator, denominator] = token0 === baseCurrency ? [reserve1, reserve0] : [reserve0, reserve1]
