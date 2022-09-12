@@ -95,6 +95,7 @@ jobs:
           DEBUG: usedapp*
         working-directory: packages/docs
   check-mixed-changesets:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
