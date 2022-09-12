@@ -52,7 +52,13 @@ export function useSendTransaction(options?: TransactionOptions) {
         signer.sendTransaction({
           ...transactionRequest,
           gasLimit,
-        })
+        }),
+        {
+          safeTransaction: {
+            to: transactionRequest.to,
+            value: transactionRequest.value?.toString(),
+          },
+        }
       )
     }
   }
