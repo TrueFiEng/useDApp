@@ -1,12 +1,11 @@
-import { BigNumber, Contract, Wallet } from 'ethers'
-import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils'
-import { expect } from 'chai'
-import { useUniswapPrice } from './useUniswapPrice'
-import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
 import { compareAddress, Config } from '@usedapp/core'
-import { renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
-import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '@usedapp/testing'
+import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE, renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
+import { expect } from 'chai'
+import { BigNumber, Contract, Wallet } from 'ethers'
+import { getCreate2Address, solidityKeccak256, solidityPack } from 'ethers/lib/utils'
+import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
 import { deployUniswapV2Pair } from '../utils/deployMockUniswapV2Pair'
+import { useUniswapPrice } from './useUniswapPrice'
 
 describe('useUniswapPrice', () => {
   let network1: TestingNetwork

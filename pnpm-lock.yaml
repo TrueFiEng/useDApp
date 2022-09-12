@@ -596,7 +596,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^4.10.0
       '@typescript-eslint/parser': ^4.10.0
       '@usedapp/core': workspace:*
-      '@usedapp/uniswap': workspace:*
       chai: ^4.2.0
       eslint: 7.22.0
       ethers: 5.6.9
@@ -612,7 +611,6 @@ importers:
       '@ethersproject/contracts': 5.6.0
       '@ethersproject/providers': 5.6.2
       '@usedapp/core': link:../core
-      '@usedapp/uniswap': link:../uniswap
       ethers: 5.6.9
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
@@ -8441,7 +8439,7 @@ packages:
   /axios/0.21.4_debug@4.3.2:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: true
@@ -8449,7 +8447,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13109,7 +13107,7 @@ packages:
       - encoding
     dev: false
 
-  /follow-redirects/1.14.9_debug@4.3.4:
+  /follow-redirects/1.14.9:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -13117,8 +13115,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dependencies:
-      debug: 4.3.4_supports-color@6.1.0
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -14382,7 +14378,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -14392,7 +14388,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -20515,7 +20511,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 8.3.0
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1
@@ -20531,7 +20527,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 8.3.0
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1
@@ -20547,7 +20543,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 8.3.0
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1

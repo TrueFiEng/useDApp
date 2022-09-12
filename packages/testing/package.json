@@ -31,7 +31,6 @@
     "@ethersproject/contracts": "5.6.0",
     "@ethersproject/providers": "5.6.2",
     "@usedapp/core": "workspace:*",
-    "@usedapp/uniswap": "workspace:*",
     "ethers": "5.6.9",
     "react": "17.0.1",
     "react-dom": "17.0.1"
