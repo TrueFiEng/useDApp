@@ -6,7 +6,7 @@ import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 
-describe('useContractFunction', () => {
+describe.only('useContractFunction', () => {
   let token: Contract
   let config: Config
   let network1: TestingNetwork
@@ -71,9 +71,7 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    await expect(result.current.send()).to.be.rejectedWith(
-      'Invalid number of arguments for function "approve". Expected: 2. Received: 0.'
-    )
+    await expect(result.current.send()).to.be.rejectedWith('Invalid number of arguments for function "approve".')
     await waitForCurrent((val) => val.state !== undefined)
   })
 
@@ -90,7 +88,7 @@ describe('useContractFunction', () => {
       result.current.send({
         gasLimit: 100000,
       })
-    ).to.be.rejectedWith('Invalid number of arguments for function "approve". Expected: 2. Received: 0.')
+    ).to.be.rejectedWith('Invalid number of arguments for function "approve".')
     await waitForCurrent((val) => val.state !== undefined)
   })
 
