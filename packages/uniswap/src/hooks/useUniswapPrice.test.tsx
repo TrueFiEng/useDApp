@@ -1,5 +1,11 @@
 import { compareAddress, Config } from '@usedapp/core'
-import { deployMockToken, MOCK_TOKEN_INITIAL_BALANCE, renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
+import {
+  deployMockToken,
+  MOCK_TOKEN_INITIAL_BALANCE,
+  renderDAppHook,
+  setupTestingConfig,
+  TestingNetwork,
+} from '@usedapp/testing'
 import { expect } from 'chai'
 import { BigNumber, Contract, Wallet } from 'ethers'
 import { getCreate2Address, solidityKeccak256, solidityPack } from 'ethers/lib/utils'
