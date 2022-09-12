@@ -86,7 +86,9 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
       if (contract) {
         const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
         if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
-          throw new Error('Invalid number of arguments.')
+          throw new Error(
+            `Invalid number of arguments for function "${functionName}". Expected: ${numberOfArgs}. Received: ${args.length}.`
+          )
         }
         const hasOpts = args.length > numberOfArgs
 
