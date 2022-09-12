@@ -71,7 +71,7 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    await expect(result.current.send()).to.be.rejectedWith('Invalid number of arguments.')
+    await expect(result.current.send()).to.be.rejectedWith('Invalid number of arguments for function "approve". Expected: 2. Received: 0.')
     await waitForCurrent((val) => val.state !== undefined)
   })
 
