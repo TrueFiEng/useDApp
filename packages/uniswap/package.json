@@ -33,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@usedapp/core": "workspace:*",
+    "react": "17.0.1",
     "eslint": "7.22.0",
     "prettier": "2.1.2",
     "ts-node": "^10.7.0",

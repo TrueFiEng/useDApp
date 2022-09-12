@@ -11,7 +11,7 @@ import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/u
  * If there is no direct path or unconnected, the call returns `undefined`
  *
  * @param baseCurrency address of base token (e.g ETH address)
- * @param quoteCurrency address of quate token (e.g DAI address)
+ * @param quoteCurrency address of quote token (e.g DAI address)
  * @param overrides optional factory address (For Sushiswap, default Uniswap V2 Factory)
  * @returns peek price
  */
