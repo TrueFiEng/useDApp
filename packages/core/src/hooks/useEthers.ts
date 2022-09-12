@@ -58,7 +58,7 @@ export type Web3Ethers = {
     - `async deactivate()` - function that disconnects wallet
     - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
-export function useEthers(debug = false): Web3Ethers {
+export function useEthers(): Web3Ethers {
   const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
   const readonlyNetwork = useReadonlyNetwork()
 
