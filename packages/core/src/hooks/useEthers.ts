@@ -1,6 +1,6 @@
 import { providers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
-import { Connector, useConnector } from '../providers/network/connectors'
+import { Connector, ConnectorController, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 import { useEffect, useState } from 'react'
@@ -62,10 +62,10 @@ export function useEthers(): Web3Ethers {
   const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
   const readonlyNetwork = useReadonlyNetwork()
 
-  const [errors, setErrors] = useState<Error[]>([])
-  const [account, setAccount] = useState<string | undefined>()
-  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | undefined>()
-  const [chainId, setChainId] = useState<number | undefined>()
+  const [errors, setErrors] = useState<Error[]>(connector?.errors ?? [])
+  const [account, setAccount] = useState<string | undefined>(getAccount(connector))
+  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | undefined>(connector?.getProvider())
+  const [chainId, setChainId] = useState<number | undefined>(connector?.chainId)
 
   useEffect(() => {
     if (!connector?.getProvider()) {
@@ -79,11 +79,7 @@ export function useEthers(): Web3Ethers {
     setChainId(connector.chainId)
     setErrors(connector.errors)
     setProvider(connector.getProvider())
-    if (connector.accounts[0]) {
-      setAccount(getAddress(connector.accounts[0]))
-    } else {
-      setAccount(undefined)
-    }
+    setAccount(getAccount(connector))
 
     return connector.updated.on(({ chainId, errors, accounts }) => {
       setChainId(chainId)
@@ -152,4 +148,11 @@ export function useEthers(): Web3Ethers {
       await connector?.switchNetwork(chainId)
     },
   }
+}
+
+const getAccount = (connector: ConnectorController | undefined) => {
+  if (connector?.accounts[0]) {
+    return getAddress(connector.accounts[0])
+  }
+  return undefined
 }
