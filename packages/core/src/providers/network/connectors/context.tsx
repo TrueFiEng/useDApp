@@ -90,7 +90,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
       void activate(connectors[autoConnectTag], true)
     }
-  }, [autoConnectTag, connectors, autoConnect])
+  }, [])
 
   useEffect(() => {
     controller?.updateConfig(config)
