@@ -3,7 +3,7 @@
   "name": "useDApp DevTools",
   "description": "Developer tools for useDApp",
   "version": "1.0",
-  "homepage_url": "https://github.com/ethworks/usedapp",
+  "homepage_url": "https://github.com/TrueFiEng/useDApp",
   "permissions": ["storage", "http://*/*", "https://*/*", "<all_urls>"],
   "icons": {
     "16": "icons/icon.svg",
