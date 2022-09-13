@@ -4,6 +4,7 @@ import { Event } from '../../../../helpers/event'
 
 export class InjectedConnector implements Connector {
   public provider?: providers.Web3Provider | providers.JsonRpcProvider
+  public readonly name = 'Injected'
 
   readonly update = new Event<Update>()
 

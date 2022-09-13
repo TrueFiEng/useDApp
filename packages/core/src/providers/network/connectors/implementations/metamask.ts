@@ -28,6 +28,7 @@ export async function getMetamaskProvider() {
 
 export class MetamaskConnector implements Connector {
   public provider?: providers.Web3Provider
+  public readonly name = 'Metamask'
 
   readonly update = new Event<Update>()
 

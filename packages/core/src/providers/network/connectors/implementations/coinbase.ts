@@ -28,6 +28,7 @@ export async function getCoinbaseProvider() {
 
 export class CoinbaseWalletConnector implements Connector {
   public provider?: providers.Web3Provider
+  public readonly name = 'CoinbaseWallet'
 
   readonly update = new Event<Update>()
 

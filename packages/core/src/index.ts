@@ -36,7 +36,7 @@ export type {
   StoredTransactions,
 } from './providers'
 export { DAppProvider, getStoredTransactionState, multicall, multicall2, useConnector } from './providers'
-export type { Connector } from './providers'
+export type { Connector, ConnectorController } from './providers'
 export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
 export {
   useBlockMeta,
