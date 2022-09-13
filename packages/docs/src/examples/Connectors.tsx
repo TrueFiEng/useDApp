@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import {
   Mainnet,
   DAppProvider,
-  Ropsten,
-  Kovan,
   Config,
   Arbitrum,
   MetamaskConnector,
@@ -15,7 +13,7 @@ import {
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
-import { connectorType } from './helpers'
+import { Goerli } from '@site/../core/dist/cjs/src'
 
 const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
 
@@ -23,8 +21,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    [Ropsten.chainId]: getDefaultProvider('ropsten'),
-    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
     [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
   },
   connectors: {
@@ -67,7 +64,7 @@ export function App() {
     <div>
       <div>Account: {account}</div>
       <div>Chain id: {chainId}</div>
-      <div>Connected with: {connectorType(connector)}</div>
+      <div>Connected with: {connector?.connector?.name ?? 'None'}</div>
       <div>
         <button onClick={() => deactivate()}> Disconnect </button>
       </div>

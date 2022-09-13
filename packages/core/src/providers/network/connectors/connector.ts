@@ -9,6 +9,8 @@ export interface Update {
 export interface Connector {
   provider?: providers.Web3Provider | providers.JsonRpcProvider
 
+  name: string
+
   update: ReadOnlyEvent<Update>
 
   connectEagerly(): Promise<void>

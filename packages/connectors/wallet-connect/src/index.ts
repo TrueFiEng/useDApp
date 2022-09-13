@@ -7,6 +7,7 @@ import type { IWalletConnectProviderOptions } from '@walletconnect/types'
 
 export class WalletConnectConnector implements Connector {
   public provider?: providers.Web3Provider
+  public readonly name = 'WalletConnect'
 
   readonly update = new Event<Update>()
 

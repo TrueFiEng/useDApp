@@ -198,9 +198,9 @@ importers:
       '@usedapp/coingecko': workspace:*
       '@usedapp/core': workspace:*
       '@usedapp/playwright': workspace:*
-      '@usedapp/portis-connector': 1.0.0-dev.0de1fa4
+      '@usedapp/portis-connector': workspace:*
       '@usedapp/siwe': workspace:*
-      '@usedapp/wallet-connect-connector': 1.0.0-dev.0de1fa4
+      '@usedapp/wallet-connect-connector': workspace:*
       '@walletconnect/web3-provider': ^1.7.5
       buffer: ^6.0.3
       chai: ^4.2.0
@@ -233,9 +233,9 @@ importers:
       '@metamask/jazzicon': 2.0.0
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
-      '@usedapp/portis-connector': 1.0.0-dev.0de1fa4_kfkfku3thxw5okeal7vjxpimfy
+      '@usedapp/portis-connector': link:../connectors/portis
       '@usedapp/siwe': link:../siwe
-      '@usedapp/wallet-connect-connector': 1.0.0-dev.0de1fa4_kfkfku3thxw5okeal7vjxpimfy
+      '@usedapp/wallet-connect-connector': link:../connectors/wallet-connect
       '@walletconnect/web3-provider': 1.7.5_@babel+core@7.17.5
       buffer: 6.0.3
       clsx: 1.1.1
@@ -4322,21 +4322,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@portis/web3/4.0.7_@babel+core@7.17.5:
-    resolution: {integrity: sha512-p/mPjjspIDPGpn2LsMP8HaQlS1OwksPYgpJUbMkwty2xCpJ8CU1xZjqc5rsFDGbCJEwC0jlpVx26jVkoBSoJ3A==}
-    dependencies:
-      ethereumjs-util: 5.2.0
-      penpal: 3.0.7
-      pocket-js-core: 0.0.3
-      web3-provider-engine: 16.0.1_@babel+core@7.17.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@resolver-engine/core/0.3.3:
     resolution: {integrity: sha512-eB8nEbKDJJBi5p5SrvrvILn4a0h42bKtbCTri3ZxCGt6UvoQyp7HnGOfki944bUjBSHKK3RvgfViHn+kqdXtnQ==}
     dependencies:
@@ -6886,36 +6871,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@usedapp/portis-connector/1.0.0-dev.0de1fa4_kfkfku3thxw5okeal7vjxpimfy:
-    resolution: {integrity: sha512-aR0dEPg7gcAwVCgFxRrkFkouCC0osF7mZOlO8jYXSPfYlF0mmWt/Y3wSl1L7sa3Ds5U34qwGWfxkT2uWxfv5AQ==}
-    peerDependencies:
-      '@usedapp/core': '*'
-    dependencies:
-      '@portis/web3': 4.0.7_@babel+core@7.17.5
-      '@usedapp/core': link:packages/core
-    transitivePeerDependencies:
-      - '@babel/core'
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /@usedapp/wallet-connect-connector/1.0.0-dev.0de1fa4_kfkfku3thxw5okeal7vjxpimfy:
-    resolution: {integrity: sha512-BPg/jPy0A2AXimlYnbsZcjBl8TZ1adsFnSF59niH+nwrfk0+CI0lYSug79MoCsxGpCgF0MZTZuc31uL83E/O7w==}
-    peerDependencies:
-      '@usedapp/core': '*'
-    dependencies:
-      '@usedapp/core': link:packages/core
-      '@walletconnect/web3-provider': 1.7.8_@babel+core@7.17.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@walletconnect/browser-utils/1.7.4:
     resolution: {integrity: sha512-YAM+PyRdJb6WZMUDHPAjlYAad6NrgQypmKiC9iKZhcgcYuFIkbY+tRx+Lp7WAXeZS8TsORagi+Sl4T+MnsRzxA==}
     dependencies:
@@ -7319,23 +7274,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/web3-provider/1.7.8_@babel+core@7.17.5:
-    resolution: {integrity: sha512-2VxGo7KPfQTWRJ+rygt3ok/u04InkVE+H9LBIF/RMUwcwyGf2nsP3CcYZVcg3yYpacgN7bAZCersCEYwU8AeeA==}
-    dependencies:
-      '@walletconnect/client': 1.8.0
-      '@walletconnect/http-connection': 1.8.0
-      '@walletconnect/qrcode-modal': 1.8.0
-      '@walletconnect/types': 1.8.0
-      '@walletconnect/utils': 1.8.0
-      web3-provider-engine: 16.0.1_@babel+core@7.17.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@walletconnect/window-getters/1.0.0:
     resolution: {integrity: sha512-xB0SQsLaleIYIkSsl43vm8EwETpBzJ2gnzk7e0wMF3ktqiTGS6TFHxcprMl5R44KKh4tCcHCJwolMCaDSwtAaA==}
     dev: false
@@ -7578,7 +7516,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
 
   /@webpack-cli/info/1.4.1_webpack-cli@4.9.2:
     resolution: {integrity: sha512-PKVGmazEq3oAo46Q63tpMr4HipI3OPfP7LiNOEJg963RMgT0rqheag28NCML0o3GIzA3DmxP1ZIAv9oTX1CUIA==}
@@ -7586,7 +7524,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
 
   /@webpack-cli/serve/1.6.1_ljueac44ujss5jcejzoycyjmea:
     resolution: {integrity: sha512-gNGTiTrjEVQ0OcVnzsRSqTxaBSr+dmTfm+qJsCDluky8uhdLWep7Gcr62QsAKHTMxjCS/8nEITsmFAhfIx+QSw==}
@@ -7597,7 +7535,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
 
   /@xtuc/ieee754/1.2.0:
@@ -8618,7 +8556,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.3_uh3is6e5v5hotr6z3q3do3qix4
+      styled-components: 5.3.3_w7o5yyljkiidx2s2nzb26ottzu
     dev: false
 
   /babel-plugin-syntax-jsx/6.18.0:
@@ -9205,7 +9143,7 @@ packages:
       minipass-pipeline: 1.2.4
       mkdirp: 1.0.4
       p-map: 4.0.0
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 3.0.2
       ssri: 8.0.1
       tar: 6.1.11
@@ -13044,17 +12982,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.14.9_debug@4.3.4:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
     engines: {node: '>=4.0'}
@@ -13176,7 +13103,7 @@ packages:
       memfs: 3.4.1
       minimatch: 3.0.4
       schema-utils: 2.7.0
-      semver: 7.3.5
+      semver: 7.3.7
       tapable: 1.1.3
       typescript: 4.6.2
       webpack: 4.46.0_webpack-cli@4.9.2
@@ -14327,7 +14254,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -18447,6 +18374,15 @@ packages:
   /progress/2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
+
+  /promise-inflight/1.0.1:
+    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dev: true
 
   /promise-inflight/1.0.1_bluebird@3.7.2:
     resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
@@ -22591,6 +22527,7 @@ packages:
       webpack-bundle-analyzer: 4.5.0
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
+    dev: true
 
   /webpack-cli/4.9.2_trrcpmpuvnar5ryzalwrwfpz2u:
     resolution: {integrity: sha512-m3/AACnBBzK/kMTcxWHcZFPrw/eQuY4Df1TxvIWfWM2x7mRqBQCqKEd96oCUa9jkapLBaFfRce33eGDb4Pr7YQ==}
@@ -22626,7 +22563,6 @@ packages:
       webpack: 4.46.0_webpack-cli@4.9.2
       webpack-dev-server: 3.11.3_wruvbxbxznejtxbdxokfuvupnq
       webpack-merge: 5.8.0
-    dev: true
 
   /webpack-dev-middleware/3.7.3_webpack@4.46.0:
     resolution: {integrity: sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==}
@@ -22696,7 +22632,7 @@ packages:
       supports-color: 6.1.0
       url: 0.11.0
       webpack: 4.46.0_webpack-cli@4.9.2
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-dev-middleware: 3.7.3_webpack@4.46.0
       webpack-log: 2.0.0
       ws: 6.2.2
@@ -22847,7 +22783,7 @@ packages:
       tapable: 1.1.3
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
       watchpack: 1.7.5
-      webpack-cli: 4.9.2_e7cjc4oap7xsa5kgee5jv3ow7u
+      webpack-cli: 4.9.2_trrcpmpuvnar5ryzalwrwfpz2u
       webpack-sources: 1.4.3
     transitivePeerDependencies:
       - supports-color

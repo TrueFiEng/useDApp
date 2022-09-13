@@ -6,6 +6,7 @@ import Portis, { INetwork, IOptions } from '@portis/web3'
 export class PortisConnector implements Connector {
   public provider?: providers.Web3Provider
   public portis: Portis | undefined
+  public readonly name = 'Portis'
 
   readonly update = new Event<Update>()
 
