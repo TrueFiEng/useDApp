@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import { DAppProvider, useEthers, useContractFunction, Config, Goerli, Kovan, Rinkeby, Ropsten } from '@usedapp/core'
 import { getDefaultProvider, utils } from 'ethers'
@@ -29,7 +29,7 @@ export function App() {
     return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
   }
 
-  const WrapEtherComponent = () => {
+  const WrapEtherComponent = useCallback(() => {
     const wethAddress = WETH_ADDRESSES[chainId]
     const wethInterface = new utils.Interface(WethAbi)
     const contract = new Contract(wethAddress, wethInterface) as any
@@ -50,7 +50,7 @@ export function App() {
         <p>Status: {status}</p>
       </div>
     )
-  }
+  }, [chainId])
 
   return <div>{!account ? <MetamaskConnect /> : <WrapEtherComponent />}</div>
 }
