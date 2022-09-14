@@ -73,7 +73,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='3']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
 
       const popupPromise = waitForPopup(context)
