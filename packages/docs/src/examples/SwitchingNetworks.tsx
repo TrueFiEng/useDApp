@@ -1,6 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Goerli } from '@usedapp/core'
+import {
+  DAppProvider,
+  useSendTransaction,
+  useEthers,
+  Config,
+  Goerli,
+  Kovan,
+  Rinkeby,
+  Ropsten,
+  Mainnet,
+} from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
@@ -8,6 +18,9 @@ const config: Config = {
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
     [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [Ropsten.chainId]: getDefaultProvider('ropsten'),
   },
 }
 
