@@ -8,7 +8,9 @@
     "sourceMap": true,
     "declarationMap": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "moduleResolution": "node"
   },
   "include": [
     "src"

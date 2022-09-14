@@ -1,4 +1,4 @@
-import { Connector, Update } from '../connector'
+import { Connector, ConnectorUpdateData } from '../connector'
 import { providers } from 'ethers'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { Event } from '../../../../helpers/event'
@@ -30,7 +30,7 @@ export class MetamaskConnector implements Connector {
   public provider?: providers.Web3Provider
   public readonly name = 'Metamask'
 
-  readonly update = new Event<Update>()
+  readonly update = new Event<ConnectorUpdateData>()
 
   private async init() {
     if (this.provider) return
