@@ -1,7 +1,7 @@
 import { providers } from 'ethers'
 import { ReadOnlyEvent } from '../../../helpers/event'
 
-export interface Update {
+export interface ConnectorUpdateData {
   chainId: number
   accounts: string[]
 }
@@ -11,7 +11,7 @@ export interface Connector {
 
   name: string
 
-  update: ReadOnlyEvent<Update>
+  update: ReadOnlyEvent<ConnectorUpdateData>
 
   connectEagerly(): Promise<void>
 

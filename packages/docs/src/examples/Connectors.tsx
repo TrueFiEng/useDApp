@@ -5,6 +5,7 @@ import {
   DAppProvider,
   Config,
   Arbitrum,
+  Goerli,
   MetamaskConnector,
   CoinbaseWalletConnector,
   useEthers,
@@ -13,7 +14,6 @@ import {
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
-import { Goerli } from '@site/../core/dist/cjs/src'
 
 const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
 

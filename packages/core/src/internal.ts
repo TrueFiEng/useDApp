@@ -44,4 +44,4 @@ export {
   getUniqueActiveCalls,
   Event,
 } from './helpers'
-export type { Update } from './providers'
+export type { ConnectorUpdateData as Update } from './providers'

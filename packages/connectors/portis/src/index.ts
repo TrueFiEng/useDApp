@@ -1,6 +1,6 @@
 import { Connector } from '@usedapp/core'
 import { providers } from 'ethers'
-import { Event, Update } from '@usedapp/core/dist/cjs/src/internal'
+import { ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 import Portis, { INetwork, IOptions } from '@portis/web3'
 
 export class PortisConnector implements Connector {
@@ -8,7 +8,7 @@ export class PortisConnector implements Connector {
   public portis: Portis | undefined
   public readonly name = 'Portis'
 
-  readonly update = new Event<Update>()
+  readonly update = new ConnectorEvent<ConnectorUpdateData>()
 
   constructor(
     private dappId: string,

@@ -1,6 +1,6 @@
 import { Connector } from '@usedapp/core'
 import { providers } from 'ethers'
-import { Event, Update } from '@usedapp/core/dist/cjs/src/internal'
+import { ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import type { IWalletConnectProviderOptions } from '@walletconnect/types'
@@ -9,7 +9,7 @@ export class WalletConnectConnector implements Connector {
   public provider?: providers.Web3Provider
   public readonly name = 'WalletConnect'
 
-  readonly update = new Event<Update>()
+  readonly update = new ConnectorEvent<ConnectorUpdateData>()
 
   constructor(private opts: IWalletConnectProviderOptions) {}
 
