@@ -45,15 +45,13 @@ jobs:
           commit: "🎉 Release new version"
           title: "🎉 Release new version"
           setupGitUser: false
-        output:
-          published: ${{ steps.changesets.outputs.published }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Deploy usedapp-docs.netlify.app
         uses: nwtgck/actions-netlify@v1.2
-        if: steps.changesets.outputs.published
+        if: steps.changesets.outputs.published == 'true'
         with:
           enable-commit-comment: true
           enable-pull-request-comment: true
