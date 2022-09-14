@@ -1,13 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Goerli } from '@usedapp/core'
+import {
+  DAppProvider,
+  useSendTransaction,
+  useEthers,
+  Config,
+  Goerli,
+  Kovan,
+  Rinkeby,
+  Ropsten,
+} from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
-  readOnlyChainId: Mainnet.chainId,
+  readOnlyChainId: Goerli.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider('mainnet'),
     [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [Ropsten.chainId]: getDefaultProvider('ropsten'),
   },
 }
 
@@ -22,6 +33,9 @@ export function App() {
   const { chainId, switchNetwork, activateBrowserWallet, account } = useEthers()
   const { sendTransaction, state } = useSendTransaction()
 
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
+  }
   const status = state.status
   const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
@@ -33,16 +47,8 @@ export function App() {
     <>
       <div>Current chain: {chainId}</div>
       <div>
-        {
-          <button onClick={() => switchNetwork(Mainnet.chainId)} disabled={chainId === Mainnet.chainId}>
-            Switch to Mainnet
-          </button>
-        }{' '}
-        {
-          <button onClick={() => switchNetwork(Goerli.chainId)} disabled={chainId === Goerli.chainId}>
-            Switch to Goerli
-          </button>
-        }
+        {<button onClick={() => switchNetwork(Ropsten.chainId)}>Switch to Ropsten</button>}{' '}
+        {<button onClick={() => switchNetwork(Goerli.chainId)}>Switch to Goerli</button>}
       </div>
       <hr />
       <div>

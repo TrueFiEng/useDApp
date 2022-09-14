@@ -1,13 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, ChainId } from '@usedapp/core'
+import {
+  DAppProvider,
+  useSendTransaction,
+  useEthers,
+  Config,
+  Goerli,
+  Kovan,
+  Rinkeby,
+  Ropsten,
+} from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
-  readOnlyChainId: Mainnet.chainId,
+  readOnlyChainId: Goerli.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [Ropsten.chainId]: getDefaultProvider('ropsten'),
   },
   gasLimitBufferPercentage: 10, // The percentage by which the transaction may exceed the estimated gas limit.
 }
@@ -20,11 +32,12 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { chainId } = useEthers()
+  const { chainId, account } = useEthers()
   const { sendTransaction, state } = useSendTransaction()
 
-  // We prevent the example from running on Mainnet so that the users do not use real Ether without realizing.
-  const disabled = chainId === ChainId.Mainnet
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
+  }
   const status = state.status
   const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
@@ -32,18 +45,12 @@ export function App() {
     void sendTransaction({ to: address, value: 1 })
   }
 
-  const { account } = useEthers()
-
-  const WalletContent = () => {
-    return disabled ? (
-      <p>Please change the network from Mainnet to proceed.</p>
-    ) : (
-      <div>
-        <button onClick={() => send()}>Send ether</button>
-        <p>Status: {status}</p>
-      </div>
-    )
-  }
+  const WalletContent = () => (
+    <div>
+      <button onClick={() => send()}>Send ether</button>
+      <p>Status: {status}</p>
+    </div>
+  )
 
   return (
     <div>
