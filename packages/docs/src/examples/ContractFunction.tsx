@@ -25,9 +25,6 @@ ReactDOM.render(
 
 export function App() {
   const { account, chainId } = useEthers()
-  if (!config.readOnlyUrls[chainId]) {
-    return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
-  }
 
   const WrapEtherComponent = useCallback(() => {
     const wethAddress = WETH_ADDRESSES[chainId]
@@ -51,6 +48,10 @@ export function App() {
       </div>
     )
   }, [chainId])
+
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
+  }
 
   return <div>{!account ? <MetamaskConnect /> : <WrapEtherComponent />}</div>
 }
