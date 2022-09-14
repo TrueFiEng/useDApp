@@ -1,13 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { DAppProvider, useEthers, useTransactions, useContractFunction } from '@usedapp/core'
-import { utils } from 'ethers'
+import {
+  DAppProvider,
+  useEthers,
+  useTransactions,
+  useContractFunction,
+  Config,
+  Goerli,
+  Kovan,
+  Rinkeby,
+  Ropsten,
+} from '@usedapp/core'
+import { getDefaultProvider, utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
+import { WethAbi, WETH_ADDRESSES } from './constants/Weth'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
+const config: Config = {
+  readOnlyChainId: Goerli.chainId,
+  readOnlyUrls: {
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [Ropsten.chainId]: getDefaultProvider('ropsten'),
+  },
+}
+
 ReactDOM.render(
-  <DAppProvider config={{}}>
+  <DAppProvider config={config}>
     <App />
   </DAppProvider>,
   document.getElementById('root')
@@ -16,7 +36,9 @@ ReactDOM.render(
 export function App() {
   const { transactions } = useTransactions()
   const { account, chainId } = useEthers()
-  const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Goerli, Kovan, Rinkeby or Ropsten testnet.</p>
+  }
 
   const WrapEtherComponent = () => {
     const wethAddress = WETH_ADDRESSES[chainId]
@@ -55,9 +77,5 @@ export function App() {
     )
   }
 
-  const ChainFilter = () => {
-    return isSupportedChain ? <WrapEtherComponent /> : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
-  }
-
-  return <div>{!account ? <MetamaskConnect /> : <ChainFilter />}</div>
+  return <div>{!account ? <MetamaskConnect /> : <WrapEtherComponent />}</div>
 }
