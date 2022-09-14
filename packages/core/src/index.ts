@@ -94,7 +94,7 @@ export {
   getChainName,
   getExplorerAddressLink,
   getExplorerTransactionLink,
-  Event as ConnectorEvent
+  Event as ConnectorEvent,
 } from './helpers'
 export { MetamaskConnector } from './providers/network/connectors/implementations/metamask'
 export { InjectedConnector } from './providers/network/connectors/implementations/injected'
