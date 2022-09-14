@@ -42,6 +42,4 @@ export {
   decodeCallResult,
   getChainMeta,
   getUniqueActiveCalls,
-  Event,
 } from './helpers'
-export type { ConnectorUpdateData as Update } from './providers'
