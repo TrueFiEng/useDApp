@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Goerli } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
+import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Goerli, ChainId } from '@usedapp/core'
+import { getDefaultProvider, utils } from 'ethers'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -22,11 +22,13 @@ export function App() {
   const { chainId, switchNetwork, activateBrowserWallet, account } = useEthers()
   const { sendTransaction, state } = useSendTransaction()
 
+  const disabled = chainId !== ChainId.Goerli
+
   const status = state.status
   const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
   const send = () => {
-    void sendTransaction({ to: address, value: 1 })
+    void sendTransaction({ to: address, value: utils.parseEther('0.001') })
   }
 
   const WalletContent = () => (
@@ -47,8 +49,14 @@ export function App() {
       <hr />
       <div>
         <div>Account: {account ?? 'not connected'}</div>
-        <button onClick={() => send()}>Send ether</button>
-        <p>Status: {status}</p>
+        {disabled ? (
+          <p>Please change the network to Goerli to proceed.</p>
+        ) : (
+          <>
+            <button onClick={() => send()}>Send ether</button>
+            <p>Status: {status}</p>
+          </>
+        )}
         {state.errorMessage && <p>Error: {state.errorMessage}</p>}
       </div>
     </>

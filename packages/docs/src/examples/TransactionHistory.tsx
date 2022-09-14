@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { DAppProvider, useEthers, useTransactions, useContractFunction } from '@usedapp/core'
-import { utils } from 'ethers'
+import { DAppProvider, useEthers, useTransactions, useContractFunction, Config, Goerli, Mainnet } from '@usedapp/core'
+import { getDefaultProvider, utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
+import { WethAbi, WETH_ADDRESSES } from './constants/Weth'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
+const config: Config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+  },
+}
+
 ReactDOM.render(
-  <DAppProvider config={{}}>
+  <DAppProvider config={config}>
     <App />
   </DAppProvider>,
   document.getElementById('root')
@@ -16,7 +24,9 @@ ReactDOM.render(
 export function App() {
   const { transactions } = useTransactions()
   const { account, chainId } = useEthers()
-  const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
 
   const WrapEtherComponent = () => {
     const wethAddress = WETH_ADDRESSES[chainId]
@@ -25,6 +35,9 @@ export function App() {
 
     const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
     const { status } = state
+    useEffect(() => {
+      console.log({ state })
+    }, [state])
 
     const wrapEther = () => {
       void send({ value: 1 })
@@ -37,27 +50,29 @@ export function App() {
         <p>Transactions</p>
         {transactions.length !== 0 && (
           <table>
-            <th>Name</th>
-            <th>Block hash</th>
-            <th>Date</th>
-            {transactions.map((transaction) => {
-              return (
-                <tr>
-                  <td>{transaction.transactionName}</td>
-                  <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
-                  <td>{new Date(transaction.submittedAt).toDateString()}</td>
-                </tr>
-              )
-            })}
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Block hash</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((transaction) => {
+                return (
+                  <tr key={transaction.transaction.hash}>
+                    <td>{transaction.transactionName}</td>
+                    <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
+                    <td>{new Date(transaction.submittedAt).toDateString()}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
           </table>
         )}
       </div>
     )
   }
 
-  const ChainFilter = () => {
-    return isSupportedChain ? <WrapEtherComponent /> : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
-  }
-
-  return <div>{!account ? <MetamaskConnect /> : <ChainFilter />}</div>
+  return <div>{!account ? <MetamaskConnect /> : <WrapEtherComponent />}</div>
 }

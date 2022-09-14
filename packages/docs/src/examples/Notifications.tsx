@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { DAppProvider, useEthers, useContractFunction, useNotifications, Config } from '@usedapp/core'
-import { utils } from 'ethers'
+import { DAppProvider, useEthers, useContractFunction, useNotifications, Config, Goerli, Mainnet } from '@usedapp/core'
+import { getDefaultProvider, utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import { WethAbi, WETH_ADDRESSES, SUPPORTED_TEST_CHAINS } from './constants/Weth'
+import { WethAbi, WETH_ADDRESSES } from './constants/Weth'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+  },
   notifications: {
     expirationPeriod: 0,
   },
@@ -22,7 +27,6 @@ ReactDOM.render(
 export function App() {
   const { notifications } = useNotifications()
   const { account, chainId } = useEthers()
-  const isSupportedChain = SUPPORTED_TEST_CHAINS.includes(chainId)
 
   const WrapEtherComponent = () => {
     const wethAddress = WETH_ADDRESSES[chainId]
@@ -32,8 +36,12 @@ export function App() {
     const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
     const { status } = state
 
+    useEffect(() => {
+      console.log({ state })
+    }, [state])
+
     const wrapEther = () => {
-      void send({ value: 1 })
+      void send({ value: utils.parseEther('0.001') })
     }
 
     return (
@@ -43,25 +51,29 @@ export function App() {
         <p>Notifications</p>
         {notifications.length !== 0 && (
           <table>
-            <th>Type</th>
-            <th>Date</th>
-            {notifications.map((notification) => {
-              return (
-                <tr>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {notifications.map((notification) => (
+                <tr key={notification.id}>
                   <td>{notification.type}</td>
                   <td>{new Date(notification.submittedAt).toDateString()}</td>
                 </tr>
-              )
-            })}
+              ))}
+            </tbody>
           </table>
         )}
       </div>
     )
   }
 
-  const ChainFilter = () => {
-    return isSupportedChain ? <WrapEtherComponent /> : <p>Set network to: Ropsten, Kovan, Rinkeby or Goerli</p>
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
   }
 
-  return <div>{!account ? <MetamaskConnect /> : <ChainFilter />}</div>
+  return <div>{!account ? <MetamaskConnect /> : <WrapEtherComponent />}</div>
 }

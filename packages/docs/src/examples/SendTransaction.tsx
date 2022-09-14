@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, ChainId } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
+import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, ChainId, Goerli } from '@usedapp/core'
+import { getDefaultProvider, utils } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
-  gasLimitBufferPercentage: 10, // The percentage by which the transaction may exceed the estimated gas limit.
 }
 
 ReactDOM.render(
@@ -20,19 +20,23 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { chainId } = useEthers()
+  const { chainId, account } = useEthers()
   const { sendTransaction, state } = useSendTransaction()
+  useEffect(() => {
+    console.log({ state })
+  }, [state])
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
 
   // We prevent the example from running on Mainnet so that the users do not use real Ether without realizing.
   const disabled = chainId === ChainId.Mainnet
   const status = state.status
-  const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
+  const address = '0x1A02609Db6f9eB0e55812EBae4387c7F7B874A09'
 
   const send = () => {
-    void sendTransaction({ to: address, value: 1 })
+    void sendTransaction({ to: address, value: utils.parseEther('0.001') })
   }
-
-  const { account } = useEthers()
 
   const WalletContent = () => {
     return disabled ? (
