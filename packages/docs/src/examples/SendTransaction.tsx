@@ -1,15 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  DAppProvider,
-  useSendTransaction,
-  useEthers,
-  Config,
-  Goerli,
-  Kovan,
-  Rinkeby,
-  Ropsten,
-} from '@usedapp/core'
+import { DAppProvider, useSendTransaction, useEthers, Config, Goerli, Kovan, Rinkeby, Ropsten } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { MetamaskConnect } from './components/MetamaskConnect'
 
