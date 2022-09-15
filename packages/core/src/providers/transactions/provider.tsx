@@ -3,7 +3,7 @@ import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hoo
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
-import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
+import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, UpdatedTransaction } from './model'
 import { transactionReducer } from './reducer'
 
 interface Props {
@@ -33,7 +33,6 @@ export function TransactionProvider({ children }: Props) {
         payload,
       })
       if (payload.receipt) {
-        if (!chainId) return
         const type = payload.receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
         addNotification({
           notification: {
@@ -43,7 +42,7 @@ export function TransactionProvider({ children }: Props) {
             receipt: payload.receipt,
             transactionName: payload.transactionName,
           },
-          chainId,
+          chainId: payload.transaction.chainId,
         })
         return
       }
@@ -60,6 +59,29 @@ export function TransactionProvider({ children }: Props) {
     [dispatch]
   )
 
+  const updateTransaction = useCallback(
+    (payload: UpdatedTransaction) => {
+      if (!isMounted()) {
+        return
+      }
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        payload,
+      })
+      const type = payload.receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
+      addNotification({
+        notification: {
+          type,
+          submittedAt: Date.now(),
+          transaction: payload.transaction,
+          receipt: payload.receipt,
+          transactionName: payload.transactionName,
+        },
+        chainId: payload.transaction.chainId,
+      })
+    },
+    [dispatch]
+  )
   useEffect(() => {
     const updateTransactions = async () => {
       if (!chainId || !library || !blockNumber) {
@@ -104,6 +126,8 @@ export function TransactionProvider({ children }: Props) {
         newTransactions.push(newTransaction)
       }
 
+      console.log({ newTransactions })
+
       if (isMounted()) {
         dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
       }
@@ -112,7 +136,9 @@ export function TransactionProvider({ children }: Props) {
     void updateTransactions()
   }, [chainId, library, blockNumber])
 
-  return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />
+  return (
+    <TransactionsContext.Provider value={{ transactions, addTransaction, updateTransaction }} children={children} />
+  )
 }
 
 function shouldCheck(blockNumber: number, tx: StoredTransaction): boolean {

@@ -69,7 +69,7 @@ const isDroppedAndReplaced = (e: any) =>
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
-  const { addTransaction } = useTransactionsContext()
+  const { addTransaction, updateTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
   let gnosisSafeContract: Contract | undefined = undefined
@@ -157,6 +157,13 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       transactionName: options?.transactionName,
     })
     const receipt = await transaction.wait()
+    updateTransaction({
+      transaction: {
+        ...transaction,
+        chainId: chainId,
+      },
+      receipt,
+    })
     setState({ receipt, transaction, status: 'Success', chainId })
     return { transaction, receipt }
   }
