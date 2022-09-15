@@ -15,6 +15,11 @@ export interface StoredTransaction {
 /**
  * @public
  */
+export type UpdatedTransaction = Omit<StoredTransaction, 'submittedAt'> & { receipt: TransactionReceipt }
+
+/**
+ * @public
+ */
 export function getStoredTransactionState(transaction: StoredTransaction) {
   if (transaction.receipt) {
     return transaction.receipt.status === 0 ? 'Fail' : 'Success'

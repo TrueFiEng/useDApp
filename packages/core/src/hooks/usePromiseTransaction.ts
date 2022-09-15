@@ -69,7 +69,7 @@ const isDroppedAndReplaced = (e: any) =>
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
-  const { addTransaction } = useTransactionsContext()
+  const { addTransaction, updateTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
   let gnosisSafeContract: Contract | undefined = undefined
@@ -157,6 +157,13 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       transactionName: options?.transactionName,
     })
     const receipt = await transaction.wait()
+    updateTransaction({
+      transaction: {
+        ...transaction,
+        chainId: chainId,
+      },
+      receipt,
+    })
     setState({ receipt, transaction, status: 'Success', chainId })
     return { transaction, receipt }
   }
@@ -188,15 +195,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
     if (rejected) {
       const errorMessage = 'On-chain rejection created'
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({
         status: 'Fail',
@@ -206,15 +212,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         chainId,
       })
     } else {
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({ receipt, transaction, status: 'Success', chainId })
     }
