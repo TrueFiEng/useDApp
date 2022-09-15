@@ -37,8 +37,8 @@ ReactDOM.render(
 )
 
 const WrapEtherComponent = () => {
-  const { chainId } = useEthers()
   const { notifications } = useNotifications()
+  const { chainId } = useEthers()
   const wethAddress = WETH_ADDRESSES[chainId]
   const wethInterface = new utils.Interface(WethAbi)
   const contract = new Contract(wethAddress, wethInterface) as any
@@ -57,20 +57,16 @@ const WrapEtherComponent = () => {
       <p>Notifications</p>
       {notifications.length !== 0 && (
         <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {notifications.map((notification) => (
-              <tr key={notification.id}>
+          <th>Type</th>
+          <th>Date</th>
+          {notifications.map((notification) => {
+            return (
+              <tr>
                 <td>{notification.type}</td>
                 <td>{new Date(notification.submittedAt).toDateString()}</td>
               </tr>
-            ))}
-          </tbody>
+            )
+          })}
         </table>
       )}
     </div>

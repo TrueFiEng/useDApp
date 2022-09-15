@@ -32,7 +32,6 @@ ReactDOM.render(
   </DAppProvider>,
   document.getElementById('root')
 )
-
 const WrapEtherComponent = () => {
   const { transactions } = useTransactions()
   const { chainId } = useEthers()
@@ -54,24 +53,18 @@ const WrapEtherComponent = () => {
       <p>Transactions</p>
       {transactions.length !== 0 && (
         <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Block hash</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction) => {
-              return (
-                <tr key={transaction.transaction.hash}>
-                  <td>{transaction.transactionName}</td>
-                  <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
-                  <td>{new Date(transaction.submittedAt).toDateString()}</td>
-                </tr>
-              )
-            })}
-          </tbody>
+          <th>Name</th>
+          <th>Block hash</th>
+          <th>Date</th>
+          {transactions.map((transaction) => {
+            return (
+              <tr>
+                <td>{transaction.transactionName}</td>
+                <td>{transaction.receipt?.blockHash ?? 'Pending...'}</td>
+                <td>{new Date(transaction.submittedAt).toDateString()}</td>
+              </tr>
+            )
+          })}
         </table>
       )}
     </div>
