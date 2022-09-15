@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage, useBlockNumber, useConfig } from '../../hooks'
+import { useEthers, useLocalStorage, useConfig } from '../../hooks'
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { useNotificationsContext } from '../notifications/context'
 import { TransactionsContext } from './context'
@@ -12,7 +12,6 @@ interface Props {
 
 export function TransactionProvider({ children }: Props) {
   const { chainId, library } = useEthers()
-  const blockNumber = useBlockNumber()
   const { localStorage } = useConfig()
   const [storage, setStorage] = useLocalStorage(localStorage.transactionPath)
   const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
@@ -84,9 +83,9 @@ export function TransactionProvider({ children }: Props) {
   )
   useEffect(() => {
     const updateTransactions = async () => {
-      if (!chainId || !library || !blockNumber) {
-        return
-      }
+      if (!chainId || !library) return
+
+      const blockNumber = await library.getBlockNumber()
 
       const checkTransaction = async (tx: StoredTransaction) => {
         if (tx.receipt || !shouldCheck(blockNumber, tx)) {
@@ -132,7 +131,7 @@ export function TransactionProvider({ children }: Props) {
     }
 
     void updateTransactions()
-  }, [chainId, library, blockNumber])
+  }, [chainId, library])
 
   return (
     <TransactionsContext.Provider value={{ transactions, addTransaction, updateTransaction }} children={children} />
