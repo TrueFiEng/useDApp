@@ -188,15 +188,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
     if (rejected) {
       const errorMessage = 'On-chain rejection created'
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({
         status: 'Fail',
@@ -206,15 +205,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         chainId,
       })
     } else {
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({ receipt, transaction, status: 'Success', chainId })
     }

@@ -32,6 +32,21 @@ export function TransactionProvider({ children }: Props) {
         type: 'ADD_TRANSACTION',
         payload,
       })
+      if (payload.receipt) {
+        if (!chainId) return
+        const type = payload.receipt.status === 0 ? 'transactionFailed' : 'transactionSucceed'
+        addNotification({
+          notification: {
+            type,
+            submittedAt: Date.now(),
+            transaction: payload.transaction,
+            receipt: payload.receipt,
+            transactionName: payload.transactionName,
+          },
+          chainId,
+        })
+        return
+      }
       addNotification({
         notification: {
           type: 'transactionStarted',

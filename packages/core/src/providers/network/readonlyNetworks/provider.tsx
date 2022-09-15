@@ -43,30 +43,25 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
     ...providerOverrides,
   }))
   const [networkStates, dispatchNetworkState] = useReducer(networkStatesReducer, {
-    ...fromEntries(
-      Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [
-        chainId,
-        { nonStaticCalls: 0, errors: [] },
-      ])
-    ),
+    ...fromEntries(Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { errors: [] }])),
   })
-  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
-    pollingInterval,
-    pollingIntervals,
-  ])
+  const getPollingInterval = useCallback(
+    (chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval,
+    [pollingInterval, pollingIntervals]
+  )
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
   }, Object.entries(readOnlyUrls).flat())
 
   useEffect(() => {
-    for (const [chainId, { nonStaticCalls }] of Object.entries(networkStates)) {
-      const provider = providers[(chainId as unknown) as ChainId]
+    for (const [chainId] of Object.entries(readOnlyUrls)) {
+      const provider = providers[chainId as unknown as ChainId]
       if (provider && !isWebSocketProvider(provider)) {
-        provider.polling = isActive && nonStaticCalls > 0
+        provider.polling = isActive
       }
     }
-  }, [networkStates, isActive])
+  }, [isActive, providers, readOnlyUrls])
 
   useEffect(() => {
     for (const [chainId, provider] of Object.entries(providers)) {
