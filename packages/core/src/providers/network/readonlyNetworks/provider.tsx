@@ -45,10 +45,10 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   const [networkStates, dispatchNetworkState] = useReducer(networkStatesReducer, {
     ...fromEntries(Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { errors: [] }])),
   })
-  const getPollingInterval = useCallback(
-    (chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval,
-    [pollingInterval, pollingIntervals]
-  )
+  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+    pollingInterval,
+    pollingIntervals,
+  ])
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
@@ -56,7 +56,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
 
   useEffect(() => {
     for (const [chainId] of Object.entries(readOnlyUrls)) {
-      const provider = providers[chainId as unknown as ChainId]
+      const provider = providers[(chainId as unknown) as ChainId]
       if (provider && !isWebSocketProvider(provider)) {
         provider.polling = isActive
       }
