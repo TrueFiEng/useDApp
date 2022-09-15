@@ -126,8 +126,6 @@ export function TransactionProvider({ children }: Props) {
         newTransactions.push(newTransaction)
       }
 
-      console.log({ newTransactions })
-
       if (isMounted()) {
         dispatch({ type: 'UPDATE_TRANSACTIONS', chainId, transactions: newTransactions })
       }
