@@ -2,7 +2,7 @@
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { Chain } from '../../../components/RainbowKitProvider/RainbowKitChainContext';
 import { isIOS } from '../../../utils/isMobile';
-import { Wallet } from '../../Wallet';
+import { RainbowKitConnector, Wallet } from '../../Wallet';
 
 export interface CoinbaseOptions {
   appName: string;
@@ -94,7 +94,7 @@ export const coinbase = ({ appName, chains }: CoinbaseOptions): Wallet => {
                 },
               },
             }),
-      };
+      } as RainbowKitConnector;
     },
   };
 };
