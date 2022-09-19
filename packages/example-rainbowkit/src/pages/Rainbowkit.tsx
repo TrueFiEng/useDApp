@@ -6,7 +6,8 @@ export function RainbowkitPage() {
   return (
     <MainContent>
       <Container>
-        <ConnectButton />
+        <div>lol</div>
+        {/* <ConnectButton /> */}
       </Container>
     </MainContent>
   )

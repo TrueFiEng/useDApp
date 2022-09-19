@@ -17,6 +17,10 @@ import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
+import { getDefaultWallets, RainbowKitProvider } from '@usedapp/rainbowkit'
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
   [Ropsten.chainId]: process.env.MAINNET_URL
@@ -51,11 +55,31 @@ const config: Config = {
   },
 }
 
+const { chains, provider } = configureChains(
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [publicProvider()]
+)
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  chains,
+})
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+})
+
 ReactDOM.render(
   <React.StrictMode>
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <DAppProvider config={config}>
+          <App />
+        </DAppProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   </React.StrictMode>,
   document.getElementById('root')
 )
