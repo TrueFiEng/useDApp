@@ -46,6 +46,7 @@
     "@usedapp/core": "*"
   },
   "devDependencies": {
+    "@walletconnect/ethereum-provider": "^1.8.0",
     "@vanilla-extract/esbuild-plugin": "2.1.0",
     "esbuild": "0.15.8",
     "postcss-prefix-selector": "1.16.0",

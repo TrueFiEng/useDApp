@@ -4,6 +4,7 @@ import { Chain } from '../../../components/RainbowKitProvider/RainbowKitChainCon
 import { isAndroid } from '../../../utils/isMobile';
 import { Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
+import type WalletConnectProvider from '@walletconnect/ethereum-provider'
 
 export interface MetaMaskOptions {
   chains: Chain[];
@@ -65,7 +66,7 @@ export const metaMask = ({
           });
 
       const getUri = async () => {
-        const { uri } = (await connector.getProvider()).connector;
+        const { uri } = (await connector.getProvider() as WalletConnectProvider).connector;
 
         return isAndroid()
           ? uri
