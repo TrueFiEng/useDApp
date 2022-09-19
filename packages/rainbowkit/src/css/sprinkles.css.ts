@@ -7,6 +7,7 @@ import {
   defineProperties,
   RequiredConditionalValue,
 } from '@vanilla-extract/sprinkles';
+import type {} from '@vanilla-extract/private';
 
 import './reset.css';
 
