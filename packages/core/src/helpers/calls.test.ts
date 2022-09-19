@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { Contract, utils } from 'ethers'
+import { Contract } from 'ethers'
 import { Interface } from 'ethers/lib/utils'
 import { Call, RawCallResult } from '../../src'
 import { decodeCallResult } from './calls'
+import { ErrorAbi } from '../constants/abi/common'
 
 describe('decodeCallResult', () => {
   const erc20Abi = ['function name() view returns (string)']
@@ -22,7 +23,7 @@ describe('decodeCallResult', () => {
     const errorMessage = 'Testing error message'
     const errorResult: RawCallResult = {
       success: false,
-      value: new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage]),
+      value: ErrorAbi.encodeFunctionData('Error', [errorMessage]),
     }
     const { value, error } = decodeCallResult(call, errorResult) || {}
     expect(value).to.be.undefined

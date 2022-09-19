@@ -9,6 +9,7 @@ import { ERC20Mock, MultiCall2 } from '../../../constants'
 import { RawCall } from './callsReducer'
 import { multicall2Factory } from './multicall2'
 import { sendEmptyTx } from '../../../testing/utils/sendEmptyTx'
+import { ErrorAbi } from '../../../constants/abi/common'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
@@ -144,7 +145,7 @@ describe('Multicall2', () => {
         expect(value).to.equal(BigNumber.from(10000))
         expect(success).to.be.true
         ;({ value, success } = result[calls[1].address]![calls[1].data] || {})
-        const decodedValue = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value!)[0]
+        const decodedValue = ErrorAbi.decodeFunctionData('Error', value!)[0]
         expect(decodedValue).to.equal('ERC20: transfer amount exceeds balance')
         expect(success).to.be.false
         ;({ value, success } = result[calls[2].address]![calls[2].data] || {})

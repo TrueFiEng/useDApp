@@ -1,9 +1,9 @@
-import { utils } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { ChainId } from '../constants/chainId'
+import { ErrorAbi } from '../constants/abi/common'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -119,7 +119,7 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
         error: undefined,
       }
     } else {
-      const errorMessage: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0]
+      const errorMessage: string = ErrorAbi.decodeFunctionData('Error', value)[0]
       return {
         value: undefined,
         error: new Error(errorMessage),
