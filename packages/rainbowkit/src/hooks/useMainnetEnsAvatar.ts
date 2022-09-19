@@ -1,7 +1,8 @@
+import type { FetchEnsAvatarResult } from '@wagmi/core';
 import { useEnsAvatar } from 'wagmi';
 import { useMainnet } from './useMainnet';
 
-export function useMainnetEnsAvatar(addressOrName: string | undefined) {
+export function useMainnetEnsAvatar(addressOrName: string | undefined): FetchEnsAvatarResult | undefined {
   const { chainId, enabled } = useMainnet();
 
   const { data: ensAvatar } = useEnsAvatar({
