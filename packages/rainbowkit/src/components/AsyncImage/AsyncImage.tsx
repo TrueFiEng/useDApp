@@ -75,7 +75,7 @@ export function AsyncImage({
                 backgroundRepeat: 'no-repeat',
                 opacity: src ? 1 : 0,
               }),
-        }}
+        } as React.CSSProperties & { touchCallout?: string; }}
         width="full"
       />
       {borderColor ? (
