@@ -59,10 +59,11 @@
     "ethers": "^5.0.0",
     "nock": "^13.2.4",
     "postcss": "^8.4.4",
-    "react": "^18.1.0",
+    "react": "17.0.1",
     "vitest": "^0.5.0",
     "typescript": "^4.6.2",
-    "wagmi": "0.6.6"
+    "wagmi": "0.6.6",
+    "@types/react": "17.0.1"
   },
   "dependencies": {
     "@vanilla-extract/css": "1.7.0",
