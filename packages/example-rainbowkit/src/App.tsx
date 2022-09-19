@@ -17,6 +17,7 @@ import { Multichain } from './pages/Multichain'
 import { WalletConnect } from './pages/WalletConnect'
 import { ENSExample } from './components/ENS/ENSExample'
 import { ConnectorPage } from './pages/ConnectorsPage'
+import { RainbowkitPage } from './pages/Rainbowkit'
 
 export function App() {
   return (
@@ -37,6 +38,7 @@ export function App() {
           <Route exact path="/multichain" component={Multichain} />
           <Route exact path="/wallet-connect" component={WalletConnect} />
           <Route exact path="/connectors" component={ConnectorPage} />
+          <Route exact path="/rainbowkit" component={RainbowkitPage} />
           <Redirect exact from="/" to="/balance" />
         </Switch>
       </BrowserRouter>
