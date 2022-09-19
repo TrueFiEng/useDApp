@@ -44,7 +44,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const dispatchNetworksState = useUpdateNetworksState()
-  const { isActive } = useWindow()
+  const isActive = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})

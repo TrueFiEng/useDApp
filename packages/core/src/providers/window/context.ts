@@ -3,11 +3,7 @@ import { createContext, useContext } from 'react'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export const WindowContext = createContext<{
-  isActive: boolean
-}>({
-  isActive: true,
-})
+export const WindowContext = createContext<boolean>(true)
 
 /**
  * @internal

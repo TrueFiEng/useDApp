@@ -37,7 +37,7 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
   const { readOnlyUrls = {}, pollingInterval, pollingIntervals } = useConfig()
-  const { isActive } = useWindow()
+  const isActive = useWindow()
   const [providers, setProviders] = useState<Providers>(() => ({
     ...getProvidersFromConfig(readOnlyUrls),
     ...providerOverrides,
