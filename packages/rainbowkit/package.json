@@ -64,7 +64,8 @@
     "typescript": "^4.6.2",
     "wagmi": "0.6.6",
     "@wagmi/core": "^0.4.2",
-    "@types/react": "17.0.1"
+    "@types/react": "17.0.1",
+    "@types/react-dom": "17.0.1"
   },
   "dependencies": {
     "@vanilla-extract/css": "1.7.0",
