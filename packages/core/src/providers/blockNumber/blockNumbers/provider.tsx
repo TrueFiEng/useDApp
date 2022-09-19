@@ -14,7 +14,7 @@ interface Props {
 export function BlockNumbersProvider({ children }: Props) {
   const networks = useReadonlyNetworks()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
-  const { isActive } = useWindow()
+  const isActive = useWindow()
   const isMounted = useIsMounted()
 
   useEffect(() => {
