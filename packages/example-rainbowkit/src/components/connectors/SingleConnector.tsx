@@ -9,7 +9,6 @@ import { formatEther } from '@ethersproject/units'
 import { Label } from '../../typography/Label'
 import { TextInline } from '../../typography/Text'
 import { Button } from '../base/Button'
-import { useUpdateConfig } from '@usedapp/core'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
@@ -20,24 +19,12 @@ interface ConnectorProps {
 
 export function SingleConnector({ name, connector }: ConnectorProps) {
   const { connector: activeConnector } = useConnector()
-  const updateConfig = useUpdateConfig()
   const { account, activateBrowserWallet, deactivate, chainId } = useEthers()
   const ethBalance = useEtherBalance(account, { chainId })
   const stakingBalance = useEtherBalance(STAKING_CONTRACT, { chainId })
   const nameCapitalized = useMemo(() => name.charAt(0).toUpperCase() + name.slice(1), [name])
 
   const active = useMemo(() => !!account && activeConnector?.connector === connector, [account, activeConnector])
-
-  useEffect(() => {
-    updateConfig({
-      onConnect: () => {
-        console.log('Connected')
-      },
-      onDisconnect: () => {
-        console.log('Disconnected')
-      },
-    })
-  }, [updateConfig])
 
   return (
     <>
