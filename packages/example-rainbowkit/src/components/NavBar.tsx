@@ -74,6 +74,10 @@ export function NavBar() {
               {' '}
               Connectors{' '}
             </SidebarLink>
+            <SidebarLink activeClassName="active-page" to="/rainbowkit">
+              {' '}
+              Rainbowkit{' '}
+            </SidebarLink>
           </SidebarNavLinks>
         </SidebarNav>
       </SidebarContainer>
