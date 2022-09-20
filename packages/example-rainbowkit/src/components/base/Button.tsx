@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { BorderRad, Colors, Fonts, Transitions } from '../../global/styles'
 
 export const Button = styled.button`
+  padding: 10px;
+  z-index: 100;
   display: grid;
   grid-auto-flow: column;
   grid-column-gap: 8px;

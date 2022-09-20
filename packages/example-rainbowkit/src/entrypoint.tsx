@@ -58,7 +58,7 @@ const config: Config = {
 }
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.goerli],
   [publicProvider()]
 )
 
