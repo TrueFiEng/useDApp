@@ -52,6 +52,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      react: path.resolve('./node_modules/react'),
+      wagmi: path.resolve('./node_modules/wagmi'),
+    }
   },
   output: {
     filename: '[name].[hash].js',

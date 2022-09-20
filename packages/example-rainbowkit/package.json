@@ -32,7 +32,6 @@
     "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
     "@usedapp/rainbowkit": "workspace:*",
-    "@rainbow-me/rainbowkit": "0.6.0",
     "wagmi": "0.6.6",
     "ethers": "5.6.9",
     "@usedapp/portis-connector": "workspace:*",

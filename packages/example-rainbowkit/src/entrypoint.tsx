@@ -17,10 +17,9 @@ import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
-import '@rainbow-me/rainbowkit/dist/index.css'
+import '@usedapp/rainbowkit/dist/index.css'
 
-// import { getDefaultWallets, RainbowKitProvider } from '@usedapp/rainbowkit'
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { getDefaultWallets, RainbowKitProvider } from '@usedapp/rainbowkit'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 
