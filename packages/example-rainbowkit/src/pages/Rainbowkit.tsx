@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import { Container, MainContent } from '../components/base/base'
-import { ConnectButton } from '@usedapp/rainbowkit'
+// import { ConnectButton } from '@usedapp/rainbowkit'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export function RainbowkitPage() {
   return (
     <MainContent>
       <Container>
-        <div>lol</div>
-        {/* <ConnectButton /> */}
+        <ConnectButton />
       </Container>
     </MainContent>
   )
