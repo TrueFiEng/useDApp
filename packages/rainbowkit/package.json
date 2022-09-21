@@ -19,7 +19,7 @@
     "node": ">=12.4"
   },
   "scripts": {
-    "build": "node build.js",
+    "build": "pnpm typegen && node build.js",
     "build:watch": "node build.js --watch",
     "dev": "pnpm build:watch & pnpm typegen:watch",
     "prepare": "MINIFY_CSS=true pnpm build",
@@ -67,6 +67,7 @@
     "typescript": "^4.6.2",
     "wagmi": "0.6.6",
     "@wagmi/core": "^0.4.2",
+    "@metamask/detect-provider": "^1.2.0",
     "@types/react": "17.0.1",
     "@types/react-dom": "17.0.1"
   },
