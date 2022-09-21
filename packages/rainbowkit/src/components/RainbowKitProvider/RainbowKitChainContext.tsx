@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useMemo } from 'react';
-import { Chain as WagmiChain } from 'wagmi';
+import { Chain as UsedappChain } from 'wagmi';
 import { provideRainbowKitChains } from './provideRainbowKitChains';
 
 export interface RainbowKitChain {
@@ -10,7 +10,7 @@ export interface RainbowKitChain {
 
 // This type is a combination of wagmi and RainbowKit chain types to make
 // it easier for consumers to define their chain config in a single place.
-export type Chain = WagmiChain & RainbowKitChain;
+export type Chain = UsedappChain & RainbowKitChain;
 
 interface RainbowKitChainContextValue {
   chains: RainbowKitChain[];

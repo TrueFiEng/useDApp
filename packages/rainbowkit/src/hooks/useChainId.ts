@@ -1,6 +1,6 @@
-import { useNetwork } from 'wagmi';
+import { useEthers } from '@usedapp/core';
 
 export function useChainId(): number | null {
-  const { chain: activeChain } = useNetwork();
-  return activeChain?.id ?? null;
+  const { chainId } = useEthers();
+  return chainId ?? null;
 }

@@ -1,15 +1,11 @@
-import { useEnsName } from 'wagmi';
-import { useMainnet } from './useMainnet';
-import type { FetchEnsNameResult } from '@wagmi/core';
+import { useLookupAddress } from '@usedapp/core'
+import { useMainnet } from './useMainnet'
 
-export function useMainnetEnsName(address: string | undefined): FetchEnsNameResult | undefined {
-  const { chainId, enabled } = useMainnet();
+export function useMainnetEnsName(address: string | undefined): string | undefined {
+  const { enabled } = useMainnet()
+  if (!enabled) return undefined
 
-  const { data: ensName } = useEnsName({
-    address,
-    chainId,
-    enabled,
-  });
+  const { ens: ensName } = useLookupAddress(address)
 
-  return ensName;
+  return ensName ?? undefined
 }

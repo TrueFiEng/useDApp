@@ -1,6 +1,6 @@
 import { providers } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAccount, useProvider } from 'wagmi';
+import { useEthers } from '@usedapp/core';
 import { useChainId } from '../hooks/useChainId';
 import { createTransactionStore, TransactionStore } from './transactionStore';
 
@@ -17,8 +17,8 @@ export function TransactionStoreProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const provider = useProvider<providers.BaseProvider>();
-  const { address } = useAccount();
+  const { library , account } = useEthers();
+  const provider = library as providers.BaseProvider;
   const chainId = useChainId();
 
   // Use existing store if it exists, or lazily create one
@@ -32,12 +32,12 @@ export function TransactionStoreProvider({
     store.setProvider(provider);
   }, [store, provider]);
 
-  // Wait for pending transactions whenever address or chainId changes
+  // Wait for pending transactions whenever account or chainId changes
   useEffect(() => {
-    if (address && chainId) {
-      store.waitForPendingTransactions(address, chainId);
+    if (account && chainId) {
+      store.waitForPendingTransactions(account, chainId);
     }
-  }, [store, address, chainId]);
+  }, [store, account, chainId]);
 
   return (
     <TransactionStoreContext.Provider value={store}>

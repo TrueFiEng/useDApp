@@ -1,4 +1,4 @@
-import { useAccount } from 'wagmi';
+import { useEthers } from '@usedapp/core';
 import { useAuthenticationStatus } from '../components/RainbowKitProvider/AuthenticationContext';
 
 export type ConnectionStatus =
@@ -9,9 +9,9 @@ export type ConnectionStatus =
 
 export function useConnectionStatus(): ConnectionStatus {
   const authenticationStatus = useAuthenticationStatus();
-  const { isConnected } = useAccount();
+  const { account } = useEthers();
 
-  if (!isConnected) {
+  if (!account) {
     return 'disconnected';
   }
 

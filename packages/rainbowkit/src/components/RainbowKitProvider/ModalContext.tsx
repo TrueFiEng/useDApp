@@ -6,12 +6,13 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
+import { useUpdateConfig, useConfig } from '@usedapp/core';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import { AccountModal } from '../AccountModal/AccountModal';
 import { ChainModal } from '../ChainModal/ChainModal';
 import { ConnectModal } from '../ConnectModal/ConnectModal';
 import { useAuthenticationStatus } from './AuthenticationContext';
+import { useEthers } from '../../../../core/src/hooks/useEthers';
 
 function useModalStateValue() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -62,8 +63,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
   } = useModalStateValue();
 
   const connectionStatus = useConnectionStatus();
-  const { chain } = useNetwork();
-  const chainSupported = !chain?.unsupported;
+  const { chainId } = useEthers();
+  const { readOnlyUrls } = useConfig();
+  const chainSupported = readOnlyUrls && chainId && readOnlyUrls[chainId];
 
   interface CloseModalsOptions {
     keepConnectModalOpen?: boolean;
@@ -80,7 +82,8 @@ export function ModalProvider({ children }: ModalProviderProps) {
   }
 
   const isUnauthenticated = useAuthenticationStatus() === 'unauthenticated';
-  useAccount({
+  const updateConfig = useUpdateConfig();
+  updateConfig({
     onConnect: () => closeModals({ keepConnectModalOpen: isUnauthenticated }),
     onDisconnect: () => closeModals(),
   });

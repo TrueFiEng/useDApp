@@ -1,7 +1,11 @@
-import { Chain, useProvider, chain as wagmiChains } from 'wagmi';
+import { Mainnet, useConfig } from '@usedapp/core'
 
-export function useMainnet() {
-  const chainId = wagmiChains.mainnet.id;
+export function useMainnet(): {
+  chainId: number
+  enabled: boolean
+} {
+  const chainId = Mainnet.chainId
+  const { readOnlyUrls } = useConfig()
 
   // Because the generic for 'useProvider' is defaulting to 'unknown'
   // and the return type is being resolved as 'any', we're having to
@@ -9,9 +13,7 @@ export function useMainnet() {
   // than necessary in case the manual typing is ever incorrect.
   // If we're unable to resolve a list of chains, or the chains are
   // an invalid type, we'll silently bail out.
-  const provider = useProvider();
-  const chains = Array.isArray(provider.chains) ? provider.chains : [];
-  const enabled = chains?.some(chain => chain?.id === chainId);
+  const enabled = readOnlyUrls ? !!readOnlyUrls[chainId] : false
 
-  return { chainId, enabled };
+  return { chainId, enabled }
 }

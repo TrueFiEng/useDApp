@@ -1,15 +1,11 @@
-import type { FetchEnsAvatarResult } from '@wagmi/core';
-import { useEnsAvatar } from 'wagmi';
-import { useMainnet } from './useMainnet';
+import { useEnsAvatar } from '@usedapp/core'
+import { useMainnet } from './useMainnet'
 
-export function useMainnetEnsAvatar(addressOrName: string | undefined): FetchEnsAvatarResult | undefined {
-  const { chainId, enabled } = useMainnet();
+export function useMainnetEnsAvatar(address: string | undefined): string | undefined {
+  const { enabled } = useMainnet()
+  if (!enabled) return undefined
 
-  const { data: ensAvatar } = useEnsAvatar({
-    addressOrName,
-    chainId,
-    enabled,
-  });
+  const { ensAvatar } = useEnsAvatar(address)
 
-  return ensAvatar;
+  return ensAvatar ?? undefined
 }

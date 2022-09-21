@@ -1,5 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
-import { useAccount, useBalance, useNetwork } from 'wagmi';
+// import { useAccount, useBalance, useNetwork } from 'wagmi';
+import { useEthers, useEtherBalance, useConfig } from '@usedapp/core';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import { useMainnetEnsAvatar } from '../../hooks/useMainnetEnsAvatar';
 import { useMainnetEnsName } from '../../hooks/useMainnetEnsName';
@@ -59,16 +60,17 @@ export function ConnectButtonRenderer({
   children,
 }: ConnectButtonRendererProps) {
   const mounted = useIsMounted();
-  const { address } = useAccount();
-  const ensAvatar = useMainnetEnsAvatar(address);
-  const ensName = useMainnetEnsName(address);
-  const { data: balanceData } = useBalance({ addressOrName: address });
-  const { chain: activeChain } = useNetwork();
+  const { account, chainId } = useEthers();
+  const ensAvatar = useMainnetEnsAvatar(account);
+  const ensName = useMainnetEnsName(account);
+  const balance = useEtherBalance(account);
+  const { networks, readOnlyUrls } = useConfig();
+  const activeChain = networks?.find((network) => network.chainId === chainId);
   const rainbowkitChainsById = useRainbowKitChainsById();
   const authenticationStatus = useAuthenticationStatus() ?? undefined;
 
-  const rainbowKitChain = activeChain
-    ? rainbowkitChainsById[activeChain.id]
+  const rainbowKitChain = chainId
+    ? rainbowkitChainsById[chainId]
     : undefined;
   const chainIconUrl = rainbowKitChain?.iconUrl ?? undefined;
   const chainIconBackground = rainbowKitChain?.iconBackground ?? undefined;
@@ -80,9 +82,9 @@ export function ConnectButtonRenderer({
     useRecentTransactions().some(({ status }) => status === 'pending') &&
     showRecentTransactions;
 
-  const displayBalance = balanceData
-    ? `${abbreviateETHBalance(parseFloat(balanceData.formatted))} ${
-        balanceData.symbol
+  const displayBalance = balance
+    ? `${abbreviateETHBalance(parseFloat(balance.toString()))} ${
+        'ETH'
       }`
     : undefined;
 
@@ -95,16 +97,16 @@ export function ConnectButtonRenderer({
   return (
     <>
       {children({
-        account: address
+        account: account
           ? {
-              address,
-              balanceDecimals: balanceData?.decimals,
-              balanceFormatted: balanceData?.formatted,
-              balanceSymbol: balanceData?.symbol,
+              address: account,
+              balanceDecimals: 2,
+              balanceFormatted: balance?.toString(),
+              balanceSymbol: 'ETH',
               displayBalance,
               displayName: ensName
                 ? formatENS(ensName)
-                : formatAddress(address),
+                : formatAddress(account),
               ensAvatar: ensAvatar ?? undefined,
               ensName: ensName ?? undefined,
               hasPendingTransactions,
@@ -117,9 +119,9 @@ export function ConnectButtonRenderer({
               hasIcon: Boolean(chainIconUrl),
               iconBackground: chainIconBackground,
               iconUrl: resolvedChainIconUrl,
-              id: activeChain.id,
-              name: activeChain.name,
-              unsupported: activeChain.unsupported,
+              id: activeChain.chainId,
+              name: activeChain.chainName,
+              unsupported: (readOnlyUrls && chainId) ? !readOnlyUrls[chainId] : true,
             }
           : undefined,
         chainModalOpen,

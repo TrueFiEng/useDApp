@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { useAccount } from 'wagmi';
+import { useEthers, useUpdateConfig } from '@usedapp/core';
 
 export type AuthenticationStatus =
   | 'loading'
@@ -55,7 +55,8 @@ export function RainbowKitAuthenticationProvider<Message = unknown>({
 }: RainbowKitAuthenticationProviderProps<Message>) {
   // When the wallet is disconnected, we want to tell the auth
   // adapter that the user session is no longer active.
-  useAccount({
+  const updateConfig = useUpdateConfig();
+  updateConfig({
     onDisconnect: () => {
       adapter.signOut();
     },
@@ -66,16 +67,16 @@ export function RainbowKitAuthenticationProvider<Message = unknown>({
   // wallet), we immediately sign them out using the auth adapter.
   // This is because our UX is designed to present connection + auth
   // as a single state, so we need to ensure these states are in sync.
-  const { isDisconnected } = useAccount();
+  const { account } = useEthers();
   const onceRef = useRef(false);
   useEffect(() => {
     if (onceRef.current) return;
     onceRef.current = true;
 
-    if (isDisconnected && status === 'authenticated') {
+    if (!account && status === 'authenticated') {
       adapter.signOut();
     }
-  }, [status, adapter, isDisconnected]);
+  }, [status, adapter, account]);
 
   return (
     <AuthenticationContext.Provider
