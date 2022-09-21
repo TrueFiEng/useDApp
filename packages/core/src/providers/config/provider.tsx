@@ -1,4 +1,4 @@
-import { ReactNode, useReducer } from 'react'
+import React, { ReactNode, useReducer } from 'react'
 import pickBy from 'lodash.pickby'
 import { Config, FullConfig } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'

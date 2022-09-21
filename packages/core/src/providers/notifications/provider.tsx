@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useReducer } from 'react'
+import React, { ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { useEthers } from '../../hooks'
 import { NotificationsContext } from './context'
 import { AddNotificationPayload, DEFAULT_NOTIFICATIONS, RemoveNotificationPayload } from './model'

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import React, { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { providers } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { utils } from 'ethers'
 import { getChainById } from '../helpers'
 import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'

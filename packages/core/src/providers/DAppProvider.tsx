@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { Config, Chain } from '../constants'
 import { ConfigProvider } from './config'
 import { MultiChainStateProvider } from './chainState'

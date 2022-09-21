@@ -1,5 +1,5 @@
 import { providers } from 'ethers'
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useConfig, useLocalStorage } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'

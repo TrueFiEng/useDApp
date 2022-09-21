@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react'
+import React, { ReactNode, useState, useEffect } from 'react'
 import { WindowContext } from './context'
 
 interface Props {

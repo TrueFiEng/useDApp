@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useReducer } from 'react'
+import React, { ReactNode, useEffect, useReducer } from 'react'
 import { useDebounce } from '../../../hooks'
 import { useReadonlyNetworks } from '../../network'
 import { BlockNumbersContext } from './context'
