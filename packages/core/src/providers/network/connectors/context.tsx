@@ -1,5 +1,5 @@
 import { providers } from 'ethers'
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useConfig, useLocalStorage } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
@@ -42,8 +42,14 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   const [controller, setController] = useState<ConnectorController>()
   const [isLoading, setLoading] = useState(false)
   const config = useConfig()
-  const { connectors, autoConnect } = config
+  const { connectors, autoConnect, onConnect, onDisconnect } = config
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
+
+  useEffect(() => {
+    if (controller && onConnect) {
+      onConnect()
+    }
+  }, [controller, onConnect])
 
   const activate = useCallback(
     async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector, silently = false) => {
@@ -106,6 +112,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
           await controller?.deactivate()
           setController(undefined)
           setLoading(false)
+          onDisconnect?.()
         },
         reportError: (err) => {
           controller?.reportError(err)

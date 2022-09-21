@@ -104,6 +104,14 @@ export type FullConfig = {
   connectors: {
     [key: string]: Connector
   }
+  /**
+   * xdd
+   */
+  onConnect?: () => void
+  /**
+   * xdd
+   */
+  onDisconnect?: () => void
 }
 
 /* eslint-disable @typescript-eslint/ban-types  */
