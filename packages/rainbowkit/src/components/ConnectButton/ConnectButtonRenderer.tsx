@@ -1,5 +1,4 @@
 import React, { ReactNode, useContext } from 'react';
-// import { useAccount, useBalance, useNetwork } from 'wagmi';
 import { useEthers, useEtherBalance, useConfig } from '@usedapp/core';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import { useMainnetEnsAvatar } from '../../hooks/useMainnetEnsAvatar';
@@ -21,6 +20,8 @@ import { ShowRecentTransactionsContext } from '../RainbowKitProvider/ShowRecentT
 import { abbreviateETHBalance } from './abbreviateETHBalance';
 import { formatAddress } from './formatAddress';
 import { formatENS } from './formatENS';
+import { formatEther } from 'ethers/lib/utils';
+import { BigNumber } from 'ethers';
 
 const noop = () => {};
 
@@ -83,7 +84,7 @@ export function ConnectButtonRenderer({
     showRecentTransactions;
 
   const displayBalance = balance
-    ? `${abbreviateETHBalance(parseFloat(balance.toString()))} ${
+    ? `${abbreviateETHBalance(parseFloat(formatEther(balance)))} ${
         'ETH'
       }`
     : undefined;
@@ -100,8 +101,8 @@ export function ConnectButtonRenderer({
         account: account
           ? {
               address: account,
-              balanceDecimals: 2,
-              balanceFormatted: balance?.toString(),
+              balanceDecimals: 4,
+              balanceFormatted: formatEther(balance ?? BigNumber.from('0')),
               balanceSymbol: 'ETH',
               displayBalance,
               displayName: ensName
