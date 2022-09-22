@@ -1,4 +1,4 @@
-import { Connector } from 'wagmi';
+import { Connector } from '@usedapp/core';
 
 export type InstructionStepName = 'install' | 'create' | 'scan' | 'refresh';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAccount, useBalance, useDisconnect } from 'wagmi';
+import { useEthers, useEtherBalance } from '@usedapp/core';
 import { useMainnetEnsAvatar } from '../../hooks/useMainnetEnsAvatar';
 import { useMainnetEnsName } from '../../hooks/useMainnetEnsName';
 import { Dialog } from '../Dialog/Dialog';
@@ -12,13 +12,12 @@ export interface AccountModalProps {
 }
 
 export function AccountModal({ onClose, open }: AccountModalProps) {
-  const { address } = useAccount();
-  const { data: balanceData } = useBalance({ addressOrName: address });
-  const ensAvatar = useMainnetEnsAvatar(address);
-  const ensName = useMainnetEnsName(address);
-  const { disconnect } = useDisconnect();
+  const { account, deactivate } = useEthers();
+  const balance = useEtherBalance(account);
+  const ensAvatar = useMainnetEnsAvatar(account);
+  const ensName = useMainnetEnsName(account);
 
-  if (!address) {
+  if (!account) {
     return null;
   }
 
@@ -26,16 +25,16 @@ export function AccountModal({ onClose, open }: AccountModalProps) {
 
   return (
     <>
-      {address && (
+      {account && (
         <Dialog onClose={onClose} open={open} titleId={titleId}>
           <DialogContent bottomSheetOnMobile padding="0">
             <ProfileDetails
-              address={address}
-              balanceData={balanceData}
+              address={account}
+              balance={balance}
               ensAvatar={ensAvatar}
               ensName={ensName}
               onClose={onClose}
-              onDisconnect={disconnect}
+              onDisconnect={deactivate}
             />
           </DialogContent>
         </Dialog>

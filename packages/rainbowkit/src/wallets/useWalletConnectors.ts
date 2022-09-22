@@ -1,112 +1,84 @@
-import { Connector, useConnect } from 'wagmi';
-import { flatten } from '../utils/flatten';
-import { indexBy } from '../utils/indexBy';
-import { isNotNullish } from '../utils/isNotNullish';
-import {
-  useInitialChainId,
-  useRainbowKitChains,
-} from './../components/RainbowKitProvider/RainbowKitChainContext';
-import { WalletInstance } from './Wallet';
-import { addRecentWalletId, getRecentWalletIds } from './recentWalletIds';
+import { useEthers, Connector, ConnectorController, useConfig } from '@usedapp/core'
+import { flatten } from '../utils/flatten'
+import { indexBy } from '../utils/indexBy'
+import { isNotNullish } from '../utils/isNotNullish'
+import { useInitialChainId, useRainbowKitChains } from './../components/RainbowKitProvider/RainbowKitChainContext'
+import { WalletInstance } from './Wallet'
+import { addRecentWalletId, getRecentWalletIds } from './recentWalletIds'
 
 export interface WalletConnector extends WalletInstance {
-  ready?: boolean;
-  connect?: ReturnType<typeof useConnect>['connectAsync'];
-  onConnecting?: (fn: () => void) => void;
-  showWalletConnectModal?: () => void;
-  recent: boolean;
+  ready?: boolean
+  connect?: ReturnType<typeof useEthers>['activateBrowserWallet']
+  onConnecting?: (fn: () => void) => void
+  showWalletConnectModal?: () => void
+  recent: boolean
 }
 
 export function useWalletConnectors(): WalletConnector[] {
-  const rainbowKitChains = useRainbowKitChains();
-  const intialChainId = useInitialChainId();
-  const { connectAsync, connectors: defaultConnectors_untyped } = useConnect();
-  const defaultConnectors = defaultConnectors_untyped as Connector[];
+  const rainbowKitChains = useRainbowKitChains()
+  const intialChainId = useInitialChainId()
+  const { activateBrowserWallet } = useEthers()
+  const { connectors } = useConfig()
+  const defaultConnectors = Object.values(connectors) as Connector[]
 
   async function connectWallet(walletId: string, connector: Connector) {
-    const walletChainId = await connector.getChainId();
-    const result = await connectAsync({
-      chainId:
-        // The goal here is to ensure users are always on a supported chain when connecting.
-        // If an `initialChain` prop was provided to RainbowKitProvider, use that.
-        intialChainId ??
-        // Otherwise, if the wallet is already on a supported chain, use that to avoid a chain switch prompt.
-        rainbowKitChains.find(({ id }) => id === walletChainId)?.id ??
-        // Finally, fall back to the first chain provided to RainbowKitProvider.
-        rainbowKitChains[0]?.id,
-      connector,
-    });
-
-    if (result) {
-      addRecentWalletId(walletId);
-    }
-
-    return result;
+    const name = connector.name
+    void activateBrowserWallet({ type: name.charAt(0).toLowerCase() + name.slice(1) })
   }
 
   const walletInstances = flatten(
-    defaultConnectors.map(connector => {
+    defaultConnectors.map((connector) => {
       // @ts-expect-error
-      return (connector._wallets as WalletInstance[]) ?? [];
+      return (connector._wallets as WalletInstance[]) ?? []
     })
-  ).sort((a, b) => a.index - b.index);
+  ).sort((a, b) => a.index - b.index)
 
-  const walletInstanceById = indexBy(
-    walletInstances,
-    walletInstance => walletInstance.id
-  );
+  const walletInstanceById = indexBy(walletInstances, (walletInstance) => walletInstance.id)
 
-  const MAX_RECENT_WALLETS = 3;
+  const MAX_RECENT_WALLETS = 3
   const recentWallets: WalletInstance[] = getRecentWalletIds()
-    .map(walletId => walletInstanceById[walletId])
+    .map((walletId) => walletInstanceById[walletId])
     .filter(isNotNullish)
-    .slice(0, MAX_RECENT_WALLETS);
+    .slice(0, MAX_RECENT_WALLETS)
 
   const groupedWallets: WalletInstance[] = [
     ...recentWallets,
-    ...walletInstances.filter(
-      walletInstance => !recentWallets.includes(walletInstance)
-    ),
-  ];
+    ...walletInstances.filter((walletInstance) => !recentWallets.includes(walletInstance)),
+  ]
 
-  const walletConnectors: WalletConnector[] = [];
+  const walletConnectors: WalletConnector[] = []
 
   groupedWallets.forEach((wallet: WalletInstance) => {
     if (!wallet) {
-      return;
+      return
     }
 
-    const recent = recentWallets.includes(wallet);
+    const recent = recentWallets.includes(wallet)
 
     walletConnectors.push({
       ...wallet,
       connect: () => connectWallet(wallet.id, wallet.connector),
       groupName: recent ? 'Recent' : wallet.groupName,
       onConnecting: (fn: () => void) =>
-        wallet.connector.on('message', ({ type }) =>
-          type === 'connecting' ? fn() : undefined
-        ),
-      ready: (wallet.installed ?? true) && wallet.connector.ready,
+        wallet.connector.update.on('message', ({ type }) => (type === 'connecting' ? fn() : undefined)),
+      ready: (wallet.installed ?? true) && wallet.connector,
       recent,
       showWalletConnectModal: wallet.walletConnectModalConnector
         ? async () => {
             try {
-              await connectWallet(
-                wallet.id,
-                wallet.walletConnectModalConnector!
-              );
+              await connectWallet(wallet.id, wallet.walletConnectModalConnector!)
             } catch (err) {
               // @ts-expect-error
-              const isUserRejection = err.name === 'UserRejectedRequestError';
+              const isUserRejection = err.name === 'UserRejectedRequestError'
 
               if (!isUserRejection) {
-                throw err;
+                throw err
               }
             }
           }
         : undefined,
-    });
-  });
+    })
+  })
 
-  return walletConnectors;
+  return walletConnectors
 }

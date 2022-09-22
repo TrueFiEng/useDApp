@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useEthers, useConfig, useConnector, Chain } from '@usedapp/core';
 import { isMobile } from '../../utils/isMobile';
 import { AsyncImage } from '../AsyncImage/AsyncImage';
 import { Box, BoxProps } from '../Box/Box';
@@ -23,15 +23,16 @@ export interface ChainModalProps {
 }
 
 export function ChainModal({ onClose, open }: ChainModalProps) {
-  const { chain: activeChain } = useNetwork();
-  const { chains, error: networkError, switchNetwork } = useSwitchNetwork();
-  const { disconnect } = useDisconnect();
-  const { connector: activeConnector } = useAccount();
+  const { chainId, deactivate, switchNetwork, error: networkError } = useEthers();
+  const { networks, readOnlyUrls } = useConfig();
+  const activeChain = networks?.find(x => x.chainId === chainId);
+  const chains = networks?.filter(chain => Object.keys(readOnlyUrls ?? {}).includes(chain.chainId.toString())) as Chain[];
+  const { connector: activeConnector } = useConnector();
   const [switchingToChain, setSwitchingToChain] = useState<number | null>();
   const titleId = 'rk_chain_modal_title';
   const mobile = isMobile();
   const rainbowkitChainsById = useRainbowKitChainsById();
-  const unsupportedChain = activeChain?.unsupported ?? false;
+  const unsupportedChain = (readOnlyUrls && chainId) ? !readOnlyUrls[chainId] : false;
   const chainIconSize = mobile ? '36' : '28';
 
   const stopSwitching = useCallback(() => {
@@ -49,11 +50,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
       onClose();
     };
 
-    let provider: any;
-    activeConnector?.getProvider?.().then(provider_ => {
-      provider = provider_;
-      provider.on('chainChanged', stopSwitching);
-    });
+    const provider = activeConnector.getProvider();
 
     return () => {
       provider?.removeListener('chainChanged', stopSwitching);
@@ -68,7 +65,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
 
   const { appName } = useContext(AppContext);
 
-  if (!activeChain || !activeChain?.id) {
+  if (!activeChain) {
     return null;
   }
 
@@ -104,24 +101,24 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
           )}
           <Box display="flex" flexDirection="column" gap="4" padding="2">
             {switchNetwork ? (
-              chains.map((chain, idx) => {
-                const isCurrentChain = chain.id === activeChain?.id;
-                const switching = chain.id === switchingToChain;
-                const rainbowKitChain = rainbowkitChainsById[chain.id];
+              chains.map((chain: Chain, idx: number) => {
+                const isCurrentChain = chain.chainId === chainId;
+                const switching = chain.chainId === switchingToChain;
+                const rainbowKitChain = rainbowkitChainsById[chain.chainId];
                 const chainIconSize: BoxProps['width'] = mobile ? '36' : '28';
                 const chainIconUrl = rainbowKitChain?.iconUrl;
                 const chainIconBackground = rainbowKitChain?.iconBackground;
 
                 return (
-                  <Fragment key={chain.id}>
+                  <Fragment key={chain.chainId}>
                     <MenuButton
                       currentlySelected={isCurrentChain}
                       onClick={
                         isCurrentChain
                           ? undefined
                           : () => {
-                              setSwitchingToChain(chain.id);
-                              switchNetwork(chain.id);
+                              setSwitchingToChain(chain.chainId);
+                              switchNetwork(chain.chainId);
                             }
                       }
                     >
@@ -142,7 +139,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                             {chainIconUrl ? (
                               <Box height="full" marginRight="8">
                                 <AsyncImage
-                                  alt={chain.name}
+                                  alt={chain.chainName}
                                   background={chainIconBackground}
                                   borderRadius="full"
                                   height={chainIconSize}
@@ -151,7 +148,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                                 />
                               </Box>
                             ) : null}
-                            <div>{chain.name}</div>
+                            <div>{chain.chainName}</div>
                           </Box>
                           {isCurrentChain && (
                             <Box
@@ -228,7 +225,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
             {unsupportedChain && (
               <>
                 <Box background="generalBorderDim" height="1" marginX="8" />
-                <MenuButton onClick={() => disconnect()}>
+                <MenuButton onClick={() => deactivate()}>
                   <Box
                     color="error"
                     fontFamily="body"

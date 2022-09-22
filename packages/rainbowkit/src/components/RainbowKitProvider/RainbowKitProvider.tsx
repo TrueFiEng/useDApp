@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext } from 'react';
-import { useAccount } from 'wagmi';
+import { useUpdateConfig } from '@usedapp/core';
 import { cssStringFromTheme } from '../../css/cssStringFromTheme';
 import { largeScreenMinWidth, ThemeVars } from '../../css/sprinkles.css';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -81,7 +81,8 @@ export function RainbowKitProvider({
 }: RainbowKitProviderProps) {
   usePreloadImages();
 
-  useAccount({ onDisconnect: clearWalletConnectDeepLink });
+  const updateConfig = useUpdateConfig();
+  updateConfig({ onDisconnect: clearWalletConnectDeepLink });
 
   if (typeof theme === 'function') {
     throw new Error(
