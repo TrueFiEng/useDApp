@@ -7,5 +7,9 @@ export type HookResult = {
 }
 
 export const getResultProperty = <T extends HookResult>(result: RenderResult<T>, property: keyof T) => {
-  return result.current?.[property]?.value[0]
+  return result.current?.[property]?.value?.[0]
+}
+
+export const getResultPropertyError = <T extends HookResult>(result: RenderResult<T>, property: keyof T) => {
+  return result.current?.[property]?.error
 }
