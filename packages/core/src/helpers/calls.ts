@@ -111,18 +111,25 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
     return undefined
   }
   const { value, success } = result
-  if (success) {
-    return {
-      value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
-        ReturnType<T['functions'][MN]>
-      >,
-      error: undefined,
+  try {
+    if (success) {
+      return {
+        value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
+          ReturnType<T['functions'][MN]>
+        >,
+        error: undefined,
+      }
+    } else {
+      const errorMessage: string = tryDecodeErrorData(value, call.contract.interface) ?? 'Unknown error'
+      return {
+        value: undefined,
+        error: new Error(errorMessage),
+      }
     }
-  } else {
-    const errorMessage: string = tryDecodeErrorData(value, call.contract.interface) ?? 'Unknown error'
+  } catch (error) {
     return {
       value: undefined,
-      error: new Error(errorMessage),
+      error: error as Error,
     }
   }
 }
