@@ -1,21 +1,25 @@
-import { Contract } from 'ethers'
+import { Contract, ethers, getDefaultProvider, utils } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'
 import {
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
-  getResultPropery,
+  getResultProperty,
   renderDAppHook,
   setupTestingConfig,
+  getResultPropertyError,
 } from '../testing'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
+import { errorsContractABI } from '../constants/abi/errors'
+import { Config } from '../constants/type/Config'
+import { Goerli } from '../model/chain/ethereum'
 
 describe('useCall', () => {
-  for (const multicallVersion of [1, 2] as const) {
+  for (const multicallVersion of [2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
@@ -54,6 +58,126 @@ describe('useCall', () => {
         await waitForCurrent((val) => val !== undefined)
         expect(result.current?.value).to.be.undefined
         expect(typeof result.current?.error?.message).to.eq('string')
+      })
+
+      // it('Goerli', async () => {
+      //   // const { config, network1 } = await setupTestingConfig({ multicallVersion })
+      //   const provider = getDefaultProvider('goerli')
+      //   const config: Config = {
+      //     readOnlyChainId: Goerli.chainId,
+      //     readOnlyUrls: {
+      //       [Goerli.chainId]: provider,
+      //     },
+      //     multicallVersion,
+      //   }
+
+      //   const contractInterface = new utils.Interface(errorsContractABI.abi)
+      //   const contract = new ethers.Contract('0x84248f22880d8F2Dbe2ea6d276f4b51d3B210291', contractInterface, provider)
+
+      //   const { result, waitForCurrent } = await renderDAppHook(
+      //     () =>
+      //       useCall({
+      //         contract: contract,
+      //         method: 'doRevertWithOne',
+      //         args: [],
+      //       }),
+      //     {
+      //       config,
+      //     }
+      //   )
+      //   await waitForCurrent((val) => val !== undefined)
+      //   expect(result.current?.value).to.be.undefined
+      //   // expect(result.current?.error?.message).to.eq('Revert cause')
+      // })
+
+      it('Returns information about missing cause message', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const errorsContract = await deployContract(network1.deployer, errorsContractABI)
+
+        const { result, waitForCurrent } = await renderDAppHook(
+          () => {
+            const revert = useCall({
+              contract: errorsContract,
+              method: 'doRevertWithoutMessage',
+              args: [],
+            })
+            const requireFail = useCall({
+              contract: errorsContract,
+              method: 'doRequireFailWithoutMessage',
+              args: [],
+            })
+
+            return { revert, requireFail }
+          },
+          {
+            config,
+          }
+        )
+        await waitForCurrent(({ revert, requireFail }) => !!(revert && requireFail))
+        expect(getResultProperty(result, 'revert')).to.be.undefined
+        expect(getResultProperty(result, 'requireFail')).to.be.undefined
+        expect(getResultPropertyError(result, 'revert')?.message).to.eq('Call reverted without a cause message')
+        expect(getResultPropertyError(result, 'requireFail')?.message).to.eq('Call reverted without a cause message')
+      })
+
+      it('Returns revert cause message', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const errorsContract = await deployContract(network1.deployer, errorsContractABI)
+
+        const { result, waitForCurrent } = await renderDAppHook(
+          () => {
+            const revertCall = useCall({
+              contract: errorsContract,
+              method: 'doRevert',
+              args: [],
+            })
+            const requireFailCall = useCall({
+              contract: errorsContract,
+              method: 'doRequireFail',
+              args: [],
+            })
+
+            return { revertCall, requireFailCall }
+          },
+          {
+            config,
+          }
+        )
+        await waitForCurrent(({ revertCall, requireFailCall }) => !!(revertCall && requireFailCall))
+        expect(getResultProperty(result, 'revertCall')).to.be.undefined
+        expect(getResultProperty(result, 'requireFailCall')).to.be.undefined
+        expect(getResultPropertyError(result, 'revertCall')?.message).to.eq('Revert cause')
+        expect(getResultPropertyError(result, 'requireFailCall')?.message).to.eq('Require cause')
+      })
+
+      it.only('Returns panic code', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const errorsContract = await deployContract(network1.deployer, errorsContractABI)
+
+        const { result, waitForCurrent } = await renderDAppHook(
+          () => {
+            const assertFailCall = useCall({
+              contract: errorsContract,
+              method: 'doThrow',
+              args: [],
+            })
+            const panicCall = useCall({
+              contract: errorsContract,
+              method: 'doPanic',
+              args: [],
+            })
+
+            return { assertFailCall, panicCall }
+          },
+          {
+            config,
+          }
+        )
+        await waitForCurrent(({ assertFailCall, panicCall }) => !!(assertFailCall && panicCall))
+        expect(getResultProperty(result, 'assertFailCall')).to.be.undefined
+        expect(getResultProperty(result, 'panicCall')).to.be.undefined
+        expect(getResultPropertyError(result, 'assertFailCall')?.message).to.eq('panic code 1')
+        expect(getResultPropertyError(result, 'panicCall')?.message).to.eq('panic code 18')
       })
 
       it('multichain calls return correct initial balances', async () => {
@@ -132,14 +256,14 @@ describe('useCall', () => {
 
         await waitForCurrent(({ balance, block }) => !!(balance && block))
         expect(result.error).to.be.undefined
-        expect(getResultPropery(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
-        expect(getResultPropery(result, 'block')).to.eq(blockNumber)
+        expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+        expect(getResultProperty(result, 'block')).to.eq(blockNumber)
 
         await network1.mineBlock()
 
         await waitForExpect(() => {
-          expect(getResultPropery(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
-          expect(getResultPropery(result, 'block')).to.eq(blockNumber + 1)
+          expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+          expect(getResultProperty(result, 'block')).to.eq(blockNumber + 1)
         })
       })
 
@@ -178,20 +302,20 @@ describe('useCall', () => {
 
         await waitForCurrent(({ block1, block2 }) => !!(block1 && block2))
         expect(result.error).to.be.undefined
-        expect(getResultPropery(result, 'block1')).to.eq(blockNumber)
-        expect(getResultPropery(result, 'block2')).to.eq(blockNumber)
+        expect(getResultProperty(result, 'block1')).to.eq(blockNumber)
+        expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
         await network1.mineBlock()
 
         await waitForCurrent(({ block1 }) => block1 !== undefined && block1.value[0].toNumber() === blockNumber + 1)
-        expect(getResultPropery(result, 'block1')).to.eq(blockNumber + 1)
-        expect(getResultPropery(result, 'block2')).to.eq(blockNumber)
+        expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 1)
+        expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
         await network1.mineBlock()
 
         await waitForExpect(() => {
-          expect(getResultPropery(result, 'block1')).to.eq(blockNumber + 2)
-          expect(getResultPropery(result, 'block2')).to.eq(blockNumber + 2)
+          expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 2)
+          expect(getResultProperty(result, 'block2')).to.eq(blockNumber + 2)
         })
 
         for (let i = 0; i < 3; i++) {
@@ -199,8 +323,8 @@ describe('useCall', () => {
         }
 
         await waitForExpect(() => {
-          expect(getResultPropery(result, 'block1')).to.eq(blockNumber + 5)
-          const block2 = getResultPropery(result, 'block2').toNumber()
+          expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 5)
+          const block2 = getResultProperty(result, 'block2').toNumber()
           // we don't actually know when the update is gonna happen - both possibilities are possible
           expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
         })
