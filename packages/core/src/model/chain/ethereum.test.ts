@@ -7,7 +7,7 @@ describe('Ethereum Chain', () => {
     expect(Mainnet.chainId).to.equal(1)
     expect(Ropsten.chainId).to.equal(3)
     expect(Rinkeby.chainId).to.equal(4)
-    expect(Goerli.chainId).to.equal(5)
+    expect(Goerli.chainId).to.equal(420)
     expect(Kovan.chainId).to.equal(42)
   })
 

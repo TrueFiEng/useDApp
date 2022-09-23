@@ -44,7 +44,7 @@ export const Rinkeby: Chain = {
 }
 
 export const Goerli: Chain = {
-  chainId: 5,
+  chainId: 420,
   chainName: 'Goerli',
   isTestChain: true,
   isLocalChain: false,
