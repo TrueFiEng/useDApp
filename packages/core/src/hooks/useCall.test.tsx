@@ -154,10 +154,10 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'assertFailCall')).to.be.undefined
         expect(getResultProperty(result, 'panicCall')).to.be.undefined
         expect(getResultPropertyError(result, 'assertFailCall')?.message).to.eq(
-          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 1'
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 0x01'
         )
         expect(getResultPropertyError(result, 'panicCall')?.message).to.eq(
-          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 18'
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 0x12'
         )
       })
 
