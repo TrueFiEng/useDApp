@@ -4,6 +4,7 @@ import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/typ
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { ChainId } from '../constants/chainId'
+import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -110,25 +111,48 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
     return undefined
   }
   const { value, success } = result
-  try {
-    if (success) {
-      return {
-        value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
-          ReturnType<T['functions'][MN]>
-        >,
-        error: undefined,
-      }
-    } else {
-      const errorMessage: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value)[0]
-      return {
-        value: undefined,
-        error: new Error(errorMessage),
-      }
+  if (success) {
+    return {
+      value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
+        ReturnType<T['functions'][MN]>
+      >,
+      error: undefined,
     }
-  } catch (error) {
+  } else {
+    const errorMessage: string = tryDecodeErrorData(value, call.contract.interface) ?? 'Unknown error'
     return {
       value: undefined,
-      error: error as Error,
+      error: new Error(errorMessage),
     }
+  }
+}
+
+function tryDecodeErrorData(data: string, contractInterface: utils.Interface): string | undefined {
+  if (data === '0x') {
+    return 'Call reverted without a cause message'
+  }
+
+  if (data.startsWith('0x08c379a0')) {
+    // decode Error(string)
+    const content = `0x${data.substring(10)}`
+    const reason: string = utils.defaultAbiCoder.decode(['string'], content)[0]
+    if (reason.startsWith('VM Exception')) {
+      return defaultMulticall1ErrorMessage
+    }
+    return reason
+  }
+
+  if (data.startsWith('0x4e487b71')) {
+    // decode Panic(uint)
+    const content = `0x${data.substring(10)}`
+    const code = utils.defaultAbiCoder.decode(['uint'], content)
+    return `panic code ${code[0]}`
+  }
+
+  try {
+    const errorInfo = contractInterface.parseError(data)
+    return `error ${errorInfo.name}`
+  } catch (e) {
+    console.error(e)
   }
 }

@@ -1,4 +1,4 @@
-import { Contract, ethers, getDefaultProvider, utils } from 'ethers'
+import { Contract } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'
 import {
@@ -15,11 +15,10 @@ import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
-import { Config } from '../constants/type/Config'
-import { Goerli } from '../model/chain/ethereum'
+import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
 
 describe('useCall', () => {
-  for (const multicallVersion of [2] as const) {
+  for (const multicallVersion of [1, 2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
@@ -60,37 +59,7 @@ describe('useCall', () => {
         expect(typeof result.current?.error?.message).to.eq('string')
       })
 
-      // it('Goerli', async () => {
-      //   // const { config, network1 } = await setupTestingConfig({ multicallVersion })
-      //   const provider = getDefaultProvider('goerli')
-      //   const config: Config = {
-      //     readOnlyChainId: Goerli.chainId,
-      //     readOnlyUrls: {
-      //       [Goerli.chainId]: provider,
-      //     },
-      //     multicallVersion,
-      //   }
-
-      //   const contractInterface = new utils.Interface(errorsContractABI.abi)
-      //   const contract = new ethers.Contract('0x84248f22880d8F2Dbe2ea6d276f4b51d3B210291', contractInterface, provider)
-
-      //   const { result, waitForCurrent } = await renderDAppHook(
-      //     () =>
-      //       useCall({
-      //         contract: contract,
-      //         method: 'doRevertWithOne',
-      //         args: [],
-      //       }),
-      //     {
-      //       config,
-      //     }
-      //   )
-      //   await waitForCurrent((val) => val !== undefined)
-      //   expect(result.current?.value).to.be.undefined
-      //   // expect(result.current?.error?.message).to.eq('Revert cause')
-      // })
-
-      it('Returns information about missing cause message', async () => {
+      it('returns information about missing cause message', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const errorsContract = await deployContract(network1.deployer, errorsContractABI)
 
@@ -116,11 +85,15 @@ describe('useCall', () => {
         await waitForCurrent(({ revert, requireFail }) => !!(revert && requireFail))
         expect(getResultProperty(result, 'revert')).to.be.undefined
         expect(getResultProperty(result, 'requireFail')).to.be.undefined
-        expect(getResultPropertyError(result, 'revert')?.message).to.eq('Call reverted without a cause message')
-        expect(getResultPropertyError(result, 'requireFail')?.message).to.eq('Call reverted without a cause message')
+        expect(getResultPropertyError(result, 'revert')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'Call reverted without a cause message'
+        )
+        expect(getResultPropertyError(result, 'requireFail')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'Call reverted without a cause message'
+        )
       })
 
-      it('Returns revert cause message', async () => {
+      it('returns revert cause message', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const errorsContract = await deployContract(network1.deployer, errorsContractABI)
 
@@ -146,11 +119,15 @@ describe('useCall', () => {
         await waitForCurrent(({ revertCall, requireFailCall }) => !!(revertCall && requireFailCall))
         expect(getResultProperty(result, 'revertCall')).to.be.undefined
         expect(getResultProperty(result, 'requireFailCall')).to.be.undefined
-        expect(getResultPropertyError(result, 'revertCall')?.message).to.eq('Revert cause')
-        expect(getResultPropertyError(result, 'requireFailCall')?.message).to.eq('Require cause')
+        expect(getResultPropertyError(result, 'revertCall')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'Revert cause'
+        )
+        expect(getResultPropertyError(result, 'requireFailCall')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'Require cause'
+        )
       })
 
-      it.only('Returns panic code', async () => {
+      it('returns panic code', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const errorsContract = await deployContract(network1.deployer, errorsContractABI)
 
@@ -176,8 +153,46 @@ describe('useCall', () => {
         await waitForCurrent(({ assertFailCall, panicCall }) => !!(assertFailCall && panicCall))
         expect(getResultProperty(result, 'assertFailCall')).to.be.undefined
         expect(getResultProperty(result, 'panicCall')).to.be.undefined
-        expect(getResultPropertyError(result, 'assertFailCall')?.message).to.eq('panic code 1')
-        expect(getResultPropertyError(result, 'panicCall')?.message).to.eq('panic code 18')
+        expect(getResultPropertyError(result, 'assertFailCall')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 1'
+        )
+        expect(getResultPropertyError(result, 'panicCall')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 18'
+        )
+      })
+
+      it('returns custom error name', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const errorsContract = await deployContract(network1.deployer, errorsContractABI)
+
+        const { result, waitForCurrent } = await renderDAppHook(
+          () => {
+            const revertWithOne = useCall({
+              contract: errorsContract,
+              method: 'doRevertWithOne',
+              args: [],
+            })
+            const revertWithTwo = useCall({
+              contract: errorsContract,
+              method: 'doRevertWithTwo',
+              args: [],
+            })
+
+            return { revertWithOne, revertWithTwo }
+          },
+          {
+            config,
+          }
+        )
+        await waitForCurrent(({ revertWithOne, revertWithTwo }) => !!(revertWithOne && revertWithTwo))
+        expect(getResultProperty(result, 'revertWithOne')).to.be.undefined
+        expect(getResultProperty(result, 'revertWithTwo')).to.be.undefined
+        expect(getResultPropertyError(result, 'revertWithOne')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'error One'
+        )
+        expect(getResultPropertyError(result, 'revertWithTwo')?.message).to.eq(
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'error Two'
+        )
       })
 
       it('multichain calls return correct initial balances', async () => {
