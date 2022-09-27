@@ -449,7 +449,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify(args)}`
+            `Invalid contract call: address=${token.address} method=balanceOf args=[123]`
           )
         })
 
@@ -469,7 +469,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify([])}`
+            `Invalid contract call: address=${token.address} method=balanceOf args=[]`
           )
         })
 
@@ -490,7 +490,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify(args)}`
+            `Invalid contract call: address=${token.address} method=balanceOf args=["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]`
           )
         })
       })
