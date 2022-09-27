@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Contract } from 'ethers'
 import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
-import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
+import { CallResult, decodeCallResult, encodeCallData, getInvalidCallErrorMessage, isValidCall } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useChainId } from './useChainId'
 import { useConfig } from './useConfig'
@@ -79,22 +79,43 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
-  const rawCalls = useMemo(
-    () =>
-      calls.map((call) =>
-        chainId !== undefined
-          ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
-          : undefined
-      ),
-    [
-      JSON.stringify(
-        calls.map(
-          (call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args }
-        )
-      ),
-      chainId,
-    ]
-  )
+  const { rawCalls, invalidCalls } = useMemo(() => {
+    const { validCalls, invalidCalls } = calls.reduce(
+      (acc, call) => {
+        if (!call) return acc
+        if (isValidCall(call)) {
+          acc.validCalls.push(call)
+        } else {
+          acc.invalidCalls.push(call)
+        }
+        return acc
+      },
+      { validCalls: [] as Call[], invalidCalls: [] as Call[] }
+    )
+
+    const rawCalls = validCalls.map((call) =>
+      chainId !== undefined
+        ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
+        : undefined
+    )
+    return { rawCalls, invalidCalls }
+  }, [
+    JSON.stringify(
+      calls.map(
+        (call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args }
+      )
+    ),
+    chainId,
+  ])
   const results = useRawCalls(rawCalls)
-  return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
+  return useMemo(
+    () => [
+      ...results.map((result, idx) => decodeCallResult(calls[idx], result)),
+      ...invalidCalls.map((call) => ({
+        value: undefined,
+        error: new Error(getInvalidCallErrorMessage(call)),
+      })),
+    ],
+    [results]
+  )
 }

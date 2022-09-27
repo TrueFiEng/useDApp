@@ -20,51 +20,45 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export type InvalidRawCall = Omit<RawCall, 'data'> & {
-  errorMessage: string
-}
-
-/**
- * @internal Intended for internal use - use it on your own risk
- */
-function getInvalidRawCall(call: Call, chainId: number): InvalidRawCall {
-  const { contract, method, args } = call
-
-  return {
-    address: contract.address,
-    chainId,
-    errorMessage: `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`,
-  }
-}
-
-/**
- * @internal Intended for internal use - use it on your own risk
- */
-export function encodeCallData(
-  call: Call | Falsy,
-  chainId: number,
-  queryParams: QueryParams = {}
-): RawCall | InvalidRawCall | Falsy {
+export function isValidCall(call: Call | Falsy) {
   if (!call) {
-    return undefined
+    return false
   }
   const { contract, method, args } = call
   if (!contract.address || !method) {
-    return getInvalidRawCall(call, chainId)
+    return false
   }
-  try {
-    const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
-    const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
 
-    return {
-      address: contract.address,
-      data: contract.interface.encodeFunctionData(method, args),
-      chainId,
-      isStatic,
-      refreshPerBlocks,
-    }
-  } catch {
-    return getInvalidRawCall(call, chainId)
+  try {
+    contract.interface.encodeFunctionData(method, args)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+export function getInvalidCallErrorMessage(call: Call) {
+  const { contract, method, args } = call
+  return `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`
+}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+export function encodeCallData(call: Call, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+  const { contract, method, args } = call
+  const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
+  const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
+
+  return {
+    address: contract.address,
+    data: contract.interface.encodeFunctionData(method, args),
+    chainId,
+    isStatic,
+    refreshPerBlocks,
   }
 }
 
