@@ -6,24 +6,35 @@
 Error: One of the calls reverted in Multicall v1.
 ```
 
-The chain used has not Multicall v2 address passed into the `Config`.
-Using version 1 of Multicall is not recommended, as it is not as efficient as version 2
-and failing one of the calls will cause the whole batch to fail.
+One of the calls has failed on the blockchain.
+It might have ended up with a revert, or with some other error (e.g. division by zero).
 
-You can provide the Multicall v2 address of your chain into the `Config` to use it.
+With Multicall v2, we are able to decode more information from a failing call, including decoding Solidity [Custom Errors](https://blog.soliditylang.org/2021/04/21/custom-errors/).
+
+In order to use Multicall v2, specify this in the config:
 
 ```ts
 const config: Config = {
-  ...
+  multicallVersion: 2 as const,
+}
+```
+
+If useDApp does not have a Multicall v2 address for the chain you're using, you can provide it in the `Config`:
+
+```ts
+const config: Config = {
+  multicallVersion: 2 as const,
   multicallAddresses: {
     [ChainId]: MulticallV2Address,
   },
 }
 ```
 
+With Multicall v2, you will have more information that might direct you to the root issue of a failing call.
+
 ## Type mismatch when building
 
-If when building an app you see errors about type mismatch in ``@ethersproject``. 
+If when building an app you see errors about type mismatch in ``@ethersproject``.
 
 For example:
 
