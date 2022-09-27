@@ -4,6 +4,7 @@ import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
 import { utils } from 'ethers'
+import { InvalidRawCall } from '../helpers'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -15,11 +16,11 @@ import { utils } from 'ethers'
  * @param calls List of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
  * @returns list of multicall calls. See {@link RawCallResult} and {@link useRawCall}.
  */
-export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
+export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
 
   useEffect(() => {
-    const filteredCalls = calls.filter((call) => !!call && call.isValid !== false) as RawCall[]
+    const filteredCalls = calls.filter((call) => !!call && (call as InvalidRawCall).isValid !== false) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
@@ -54,14 +55,14 @@ export function useRawCall(call: RawCall | Falsy) {
   return useRawCalls([call])[0]
 }
 
-function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
+function extractCallResult(chains: MultiChainState, call: RawCall | InvalidRawCall): RawCallResult {
   const chainId = call.chainId
   if (chainId !== undefined) {
     const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
     if (rawCallResult) {
       return rawCallResult
     }
-    if (call.isValid === false) {
+    if ((call as InvalidRawCall).isValid === false) {
       return {
         success: false,
         value: call.data,

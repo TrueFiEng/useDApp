@@ -17,7 +17,20 @@ export function warnOnInvalidCall(call: Call | Falsy) {
   console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
 }
 
-function getInvalidRawCall(call: Call, chainId: number): RawCall {
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+export interface InvalidRawCall {
+  chainId: ChainId
+  address: string
+  data: string
+  isValid: boolean
+}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ */
+function getInvalidRawCall(call: Call, chainId: number): InvalidRawCall {
   const { contract, method, args } = call
 
   return {
@@ -31,7 +44,11 @@ function getInvalidRawCall(call: Call, chainId: number): RawCall {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function encodeCallData(call: Call | Falsy, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+export function encodeCallData(
+  call: Call | Falsy,
+  chainId: number,
+  queryParams: QueryParams = {}
+): RawCall | InvalidRawCall | Falsy {
   if (!call) {
     return undefined
   }
