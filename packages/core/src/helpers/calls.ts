@@ -20,11 +20,8 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export interface InvalidRawCall {
-  chainId: ChainId
-  address: string
-  data: string
-  isValid: boolean
+export type InvalidRawCall = Omit<RawCall, 'data'> & {
+  errorMessage: string
 }
 
 /**
@@ -35,9 +32,8 @@ function getInvalidRawCall(call: Call, chainId: number): InvalidRawCall {
 
   return {
     address: contract.address,
-    data: `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`,
     chainId,
-    isValid: false,
+    errorMessage: `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`,
   }
 }
 

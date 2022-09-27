@@ -20,7 +20,7 @@ export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCal
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
 
   useEffect(() => {
-    const filteredCalls = calls.filter((call) => !!call && !(errorString in call)) as RawCall[]
+    const filteredCalls = calls.filter((call) => !!call && !('errorMessage' in call)) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
@@ -51,21 +51,22 @@ export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCal
  *   `success` - boolean indicating whether call was successful or not,
  *   `value` - encoded result when success is `true` or encoded error message when success is `false`.
  */
-export function useRawCall(call: RawCall | Falsy) {
+export function useRawCall(call: RawCall | InvalidRawCall | Falsy) {
   return useRawCalls([call])[0]
 }
 
 function extractCallResult(chains: MultiChainState, call: RawCall | InvalidRawCall): RawCallResult {
   const chainId = call.chainId
   if (chainId !== undefined) {
-    const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
+    const rawCallResult =
+      'data' in call ? chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data] : undefined
     if (rawCallResult) {
       return rawCallResult
     }
-    if ((call as InvalidRawCall).isValid === false) {
+    if ('errorMessage' in call) {
       return {
         success: false,
-        value: call.data,
+        value: call.errorMessage,
       }
     }
     const error = chains[chainId]?.value?.error as any
