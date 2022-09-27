@@ -15,6 +15,7 @@ export interface RawCall {
   isStatic?: boolean
   lastUpdatedBlockNumber?: number
   refreshPerBlocks?: number
+  isValid?: boolean
 }
 
 /**

@@ -19,7 +19,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
 
   useEffect(() => {
-    const filteredCalls = calls.filter(Boolean) as RawCall[]
+    const filteredCalls = calls.filter((call) => !!call && call.isValid !== false) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
@@ -60,6 +60,12 @@ function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResul
     const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
     if (rawCallResult) {
       return rawCallResult
+    }
+    if (call.isValid === false) {
+      return {
+        success: false,
+        value: call.data,
+      }
     }
     const error = chains[chainId]?.value?.error as any
     if (error) {

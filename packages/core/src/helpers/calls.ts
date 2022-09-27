@@ -17,6 +17,17 @@ export function warnOnInvalidCall(call: Call | Falsy) {
   console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
 }
 
+function getInvalidRawCall(call: Call, chainId: number): RawCall {
+  const { contract, method, args } = call
+
+  return {
+    address: contract.address,
+    data: `Invalid contract call: address=${contract.address} method=${method} args=${args}`,
+    chainId,
+    isValid: false,
+  }
+}
+
 /**
  * @internal Intended for internal use - use it on your own risk
  */
@@ -26,8 +37,7 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
   }
   const { contract, method, args } = call
   if (!contract.address || !method) {
-    warnOnInvalidCall(call)
-    return undefined
+    return getInvalidRawCall(call, chainId)
   }
   try {
     const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
@@ -41,8 +51,7 @@ export function encodeCallData(call: Call | Falsy, chainId: number, queryParams:
       refreshPerBlocks,
     }
   } catch {
-    warnOnInvalidCall(call)
-    return undefined
+    return getInvalidRawCall(call, chainId)
   }
 }
 
@@ -137,6 +146,10 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
 function tryDecodeErrorData(data: string, contractInterface: utils.Interface): string | undefined {
   if (data === '0x') {
     return 'Call reverted without a cause message'
+  }
+
+  if (data.startsWith('Invalid contract call')) {
+    return data
   }
 
   if (data.startsWith('0x08c379a0')) {
