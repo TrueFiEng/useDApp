@@ -22,7 +22,7 @@ function getInvalidRawCall(call: Call, chainId: number): RawCall {
 
   return {
     address: contract.address,
-    data: `Invalid contract call: address=${contract.address} method=${method} args=${args}`,
+    data: `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`,
     chainId,
     isValid: false,
   }
