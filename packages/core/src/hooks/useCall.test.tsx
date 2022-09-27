@@ -1,4 +1,4 @@
-import { Contract } from 'ethers'
+import { constants, Contract } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'
 import {
@@ -9,10 +9,11 @@ import {
   renderDAppHook,
   setupTestingConfig,
   getResultPropertyError,
+  TestingNetwork,
 } from '../testing'
 import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
+import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
@@ -419,6 +420,71 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
 
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+      })
+
+      describe('Invalid arguments', () => {
+        let network1: TestingNetwork
+        let config: Config
+        let token: Contract
+
+        before(async () => {
+          ;({ config, network1 } = await setupTestingConfig())
+          token = await deployMockToken(network1.deployer)
+        })
+
+        it('Returns error with invalid argument type', async () => {
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args: [123],
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error).to.exist
+        })
+
+        it('Returns error if too few arguments', async () => {
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args: [],
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error).to.exist
+        })
+
+        it('Returns error if too many arguments', async () => {
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args: [constants.AddressZero, constants.AddressZero],
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error).to.exist
+        })
       })
     })
   }
