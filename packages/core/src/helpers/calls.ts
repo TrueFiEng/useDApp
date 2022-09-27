@@ -26,7 +26,7 @@ export function validateCall(call: Call | Falsy) {
   }
   const { contract, method, args } = call
   if (!contract.address || !method) {
-    throw new Error('Invalid contract call')
+    throw new Error('Missing contract address or method name')
   }
 
   try {
