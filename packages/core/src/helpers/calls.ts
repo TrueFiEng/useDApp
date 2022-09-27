@@ -20,29 +20,21 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function isValidCall(call: Call | Falsy) {
+export function validateCall(call: Call | Falsy) {
   if (!call) {
-    return false
+    throw new Error('Call is falsy')
   }
   const { contract, method, args } = call
   if (!contract.address || !method) {
-    return false
+    throw new Error('Invalid contract call')
   }
 
   try {
     contract.interface.encodeFunctionData(method, args)
-    return true
-  } catch (e) {
-    return false
+    return call
+  } catch (err: any) {
+    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.address}": ${err.message}`)
   }
-}
-
-/**
- * @internal Intended for internal use - use it on your own risk
- */
-export function getInvalidCallErrorMessage(call: Call) {
-  const { contract, method, args } = call
-  return `Invalid contract call: address=${contract.address} method=${method} args=${JSON.stringify(args)}`
 }
 
 /**

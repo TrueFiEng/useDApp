@@ -449,7 +449,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=[123]`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.6.1) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.6.4)`
           )
         })
 
@@ -469,7 +469,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=[]`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
           )
         })
 
@@ -490,7 +490,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call: address=${token.address} method=balanceOf args=["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
           )
         })
       })
