@@ -20,7 +20,7 @@ export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCal
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
 
   useEffect(() => {
-    const filteredCalls = calls.filter((call) => !!call && (call as InvalidRawCall).isValid !== false) as RawCall[]
+    const filteredCalls = calls.filter((call) => !!call && !(errorString in call)) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
