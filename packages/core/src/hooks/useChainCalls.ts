@@ -1,7 +1,6 @@
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
-import { InvalidRawCall } from '../helpers'
 
 /**
  * Makes multiple calls to specific contracts and returns corresponding values. The hook will cause the component to refresh when values change.
@@ -11,7 +10,7 @@ import { InvalidRawCall } from '../helpers'
  * @param calls list of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
  * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
  */
-export function useChainCalls(calls: (RawCall | InvalidRawCall | Falsy)[]) {
+export function useChainCalls(calls: (RawCall | Falsy)[]) {
   const results = useRawCalls(calls)
   return results.map((result) => result?.value)
 }
@@ -24,6 +23,6 @@ export function useChainCalls(calls: (RawCall | InvalidRawCall | Falsy)[]) {
  * @param call a single call, also see {@link RawCall}. A call can be `Falsy`, as it is important to keep the same ordering of hooks even if in a given render cycle there might be not enough information to perform a call.
  * @returns encoded result or Falsy value if call didn't return yet or an error occurred.
  */
-export function useChainCall(call: RawCall | InvalidRawCall | Falsy) {
+export function useChainCall(call: RawCall | Falsy) {
   return useChainCalls([call])[0]
 }

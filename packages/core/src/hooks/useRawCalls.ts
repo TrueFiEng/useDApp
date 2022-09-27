@@ -4,7 +4,6 @@ import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
 import { utils } from 'ethers'
-import { InvalidRawCall } from '../helpers'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -16,11 +15,11 @@ import { InvalidRawCall } from '../helpers'
  * @param calls List of calls, also see {@link RawCall}. Calls need to be in the same order across component renders.
  * @returns list of multicall calls. See {@link RawCallResult} and {@link useRawCall}.
  */
-export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCallResult[] {
+export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
   const { dispatchCalls, chains } = useContext(MultiChainStatesContext)
 
   useEffect(() => {
-    const filteredCalls = calls.filter((call) => !!call && !('errorMessage' in call)) as RawCall[]
+    const filteredCalls = calls.filter(Boolean) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
@@ -51,23 +50,16 @@ export function useRawCalls(calls: (RawCall | InvalidRawCall | Falsy)[]): RawCal
  *   `success` - boolean indicating whether call was successful or not,
  *   `value` - encoded result when success is `true` or encoded error message when success is `false`.
  */
-export function useRawCall(call: RawCall | InvalidRawCall | Falsy) {
+export function useRawCall(call: RawCall | Falsy) {
   return useRawCalls([call])[0]
 }
 
-function extractCallResult(chains: MultiChainState, call: RawCall | InvalidRawCall): RawCallResult {
+function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
   const chainId = call.chainId
   if (chainId !== undefined) {
-    const rawCallResult =
-      'data' in call ? chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data] : undefined
+    const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
     if (rawCallResult) {
       return rawCallResult
-    }
-    if ('errorMessage' in call) {
-      return {
-        success: false,
-        value: call.errorMessage,
-      }
     }
     const error = chains[chainId]?.value?.error as any
     if (error) {
