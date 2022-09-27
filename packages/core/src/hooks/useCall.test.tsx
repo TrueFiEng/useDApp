@@ -433,12 +433,13 @@ describe('useCall', () => {
         })
 
         it('Returns error with invalid argument type', async () => {
+          const args = [123]
           const { result, waitForCurrent } = await renderDAppHook(
             () =>
               useCall({
                 contract: token,
                 method: 'balanceOf',
-                args: [123],
+                args,
               }),
             {
               config,
@@ -447,7 +448,9 @@ describe('useCall', () => {
           await waitForCurrent((val) => val !== undefined)
 
           expect(result.current?.value).to.be.undefined
-          expect(result.current?.error).to.exist
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify(args)}`
+          )
         })
 
         it('Returns error if too few arguments', async () => {
@@ -465,16 +468,19 @@ describe('useCall', () => {
           await waitForCurrent((val) => val !== undefined)
 
           expect(result.current?.value).to.be.undefined
-          expect(result.current?.error).to.exist
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify([])}`
+          )
         })
 
         it('Returns error if too many arguments', async () => {
+          const args = [constants.AddressZero, constants.AddressZero]
           const { result, waitForCurrent } = await renderDAppHook(
             () =>
               useCall({
                 contract: token,
                 method: 'balanceOf',
-                args: [constants.AddressZero, constants.AddressZero],
+                args,
               }),
             {
               config,
@@ -483,7 +489,9 @@ describe('useCall', () => {
           await waitForCurrent((val) => val !== undefined)
 
           expect(result.current?.value).to.be.undefined
-          expect(result.current?.error).to.exist
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call: address=${token.address} method=balanceOf args=${JSON.stringify(args)}`
+          )
         })
       })
     })
