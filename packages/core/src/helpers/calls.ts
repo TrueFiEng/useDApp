@@ -20,10 +20,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function validateCall(call: Call | Falsy) {
-  if (!call) {
-    throw new Error('Call is falsy')
-  }
+export function validateCall(call: Call): Call {
   const { contract, method, args } = call
   if (!contract.address || !method) {
     throw new Error('Missing contract address or method name')
@@ -40,7 +37,10 @@ export function validateCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function encodeCallData(call: Call, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+export function encodeCallData(call: Call | Falsy, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+  if (!call) {
+    return undefined
+  }
   const { contract, method, args } = call
   const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
   const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined

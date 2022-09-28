@@ -82,6 +82,10 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const { rawCalls, invalidCallResults } = useMemo(() => {
     const { validCalls, invalidCallResults } = calls.reduce(
       (acc, call) => {
+        if (!call) {
+          acc.invalidCallResults.push(undefined)
+          return acc
+        }
         try {
           acc.validCalls.push(validateCall(call))
         } catch (error: any) {
