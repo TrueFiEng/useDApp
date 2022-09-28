@@ -127,4 +127,10 @@ describe('useRawCall', () => {
     expect(result.current!.success).to.eq(true)
     expect(result.current!.value).to.eq(SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
+
+  it('should not throw error when call is Falsy', async () => {
+    const { result } = await renderDAppHook(() => useRawCall(null))
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
+  })
 })

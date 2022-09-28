@@ -422,6 +422,12 @@ describe('useCall', () => {
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
       })
 
+      it('should not throw error when call is Falsy', async () => {
+        const { result } = await renderDAppHook(() => useCall(null))
+        expect(result.error).to.be.undefined
+        expect(result.current).to.be.undefined
+      })
+
       describe('Invalid arguments', () => {
         let network1: TestingNetwork
         let config: Config
