@@ -147,10 +147,6 @@ function tryDecodeErrorData(data: string, contractInterface: utils.Interface): s
     return 'Call reverted without a cause message'
   }
 
-  if (data.startsWith('Invalid contract call')) {
-    return data
-  }
-
   if (data.startsWith('0x08c379a0')) {
     // decode Error(string)
     const reason: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', data)[0]
