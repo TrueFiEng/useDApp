@@ -9,9 +9,10 @@ import {
   renderDAppHook,
   setupTestingConfig,
   getResultPropertyError,
+  TestingNetwork,
 } from '../testing'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
+import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
@@ -425,6 +426,79 @@ describe('useCall', () => {
         const { result } = await renderDAppHook(() => useCall(null))
         expect(result.error).to.be.undefined
         expect(result.current).to.be.undefined
+      })
+
+      describe('Invalid arguments', () => {
+        let network1: TestingNetwork
+        let config: Config
+        let token: Contract
+
+        before(async () => {
+          ;({ config, network1 } = await setupTestingConfig())
+          token = await deployMockToken(network1.deployer)
+        })
+
+        it('Returns error with invalid argument type', async () => {
+          const args = [123]
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args,
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.6.1) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+          )
+        })
+
+        it('Returns error if too few arguments', async () => {
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args: [],
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+          )
+        })
+
+        it('Returns error if too many arguments', async () => {
+          const args = [constants.AddressZero, constants.AddressZero]
+          const { result, waitForCurrent } = await renderDAppHook(
+            () =>
+              useCall({
+                contract: token,
+                method: 'balanceOf',
+                args,
+              }),
+            {
+              config,
+            }
+          )
+          await waitForCurrent((val) => val !== undefined)
+
+          expect(result.current?.value).to.be.undefined
+          expect(result.current?.error?.message).to.eq(
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+          )
+        })
       })
 
       it('keeps calls order', async () => {
