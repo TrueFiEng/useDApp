@@ -438,7 +438,7 @@ describe('useCall', () => {
               args: ['invalid'],
             }
 
-            return useCalls([validCall, null, validCall, invalidCall])
+            return useCalls([validCall, null, invalidCall, validCall])
           },
           {
             config,
