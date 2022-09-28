@@ -421,7 +421,7 @@ describe('useCall', () => {
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
       })
 
-      it('keeps calls order on fist and next renders', async () => {
+      it('keeps calls order on first and next renders', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const doublerContract = await deployContract(network1.deployer, doublerContractABI)
 
