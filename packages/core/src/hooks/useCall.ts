@@ -79,21 +79,24 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
-  const { rawCalls, invalidCallResults } = useMemo(() => {
-    const { validCalls, invalidCallResults } = calls.reduce(
+  const { rawCalls, invalidCallResults, isValidArray } = useMemo(() => {
+    const { validCalls, invalidCallResults, isValidArray } = calls.reduce(
       (acc, call) => {
         if (!call) {
           acc.invalidCallResults.push(undefined)
+          acc.isValidArray.push(false)
           return acc
         }
         try {
           acc.validCalls.push(validateCall(call))
+          acc.isValidArray.push(true)
         } catch (error: any) {
           acc.invalidCallResults.push({ value: undefined, error })
+          acc.isValidArray.push(false)
         }
         return acc
       },
-      { validCalls: [] as Call[], invalidCallResults: [] as CallResult<any, any>[] }
+      { validCalls: [] as Call[], invalidCallResults: [] as CallResult<any, any>[], isValidArray: [] as boolean[] }
     )
 
     const rawCalls = validCalls.map((call) =>
@@ -101,7 +104,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
         ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
         : undefined
     )
-    return { rawCalls, invalidCallResults }
+    return { rawCalls, invalidCallResults, isValidArray }
   }, [
     JSON.stringify(
       calls.map(
@@ -111,7 +114,18 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
     chainId,
   ])
   const results = useRawCalls(rawCalls)
-  return useMemo(() => [...results.map((result, idx) => decodeCallResult(calls[idx], result)), ...invalidCallResults], [
-    results,
-  ])
+  return useMemo(() => {
+    const result = isValidArray.reduce(
+      ({ merged, invalidCallResults, results }, isValid, idx) => {
+        if (isValid) {
+          merged.push(decodeCallResult(calls[idx], results.shift()))
+        } else {
+          merged.push(invalidCallResults.shift())
+        }
+        return { merged, invalidCallResults, results }
+      },
+      { merged: [] as any[], invalidCallResults: [...invalidCallResults], results: [...results] }
+    )
+    return result.merged
+  }, [results])
 }

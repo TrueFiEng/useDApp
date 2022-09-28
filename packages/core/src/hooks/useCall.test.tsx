@@ -1,4 +1,4 @@
-import { constants, Contract } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { useCall } from '..'
 import { expect } from 'chai'
 import {
@@ -9,14 +9,13 @@ import {
   renderDAppHook,
   setupTestingConfig,
   getResultPropertyError,
-  TestingNetwork,
 } from '../testing'
-import { BigNumber } from 'ethers'
 import { deployContract } from 'ethereum-waffle'
-import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
+import { BlockNumberContract, reverterContractABI, doublerContractABI } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
+import { useCalls } from './useCall'
 
 describe('useCall', () => {
   for (const multicallVersion of [1, 2] as const) {
@@ -428,77 +427,62 @@ describe('useCall', () => {
         expect(result.current).to.be.undefined
       })
 
-      describe('Invalid arguments', () => {
-        let network1: TestingNetwork
-        let config: Config
-        let token: Contract
+      it('keeps calls order', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const doublerContract = await deployContract(network1.deployer, doublerContractABI)
 
-        before(async () => {
-          ;({ config, network1 } = await setupTestingConfig())
-          token = await deployMockToken(network1.deployer)
-        })
-
-        it('Returns error with invalid argument type', async () => {
-          const args = [123]
-          const { result, waitForCurrent } = await renderDAppHook(
-            () =>
-              useCall({
-                contract: token,
-                method: 'balanceOf',
-                args,
-              }),
-            {
-              config,
+        const { result, waitForCurrent, rerender } = await renderDAppHook(
+          ({ num }: { num: number }) => {
+            const validCall = {
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
             }
-          )
-          await waitForCurrent((val) => val !== undefined)
-
-          expect(result.current?.value).to.be.undefined
-          expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.6.1) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.6.4)`
-          )
-        })
-
-        it('Returns error if too few arguments', async () => {
-          const { result, waitForCurrent } = await renderDAppHook(
-            () =>
-              useCall({
-                contract: token,
-                method: 'balanceOf',
-                args: [],
-              }),
-            {
-              config,
+            const invalidCall = {
+              contract: doublerContract,
+              method: 'double',
+              args: ['invalid'],
             }
-          )
-          await waitForCurrent((val) => val !== undefined)
 
-          expect(result.current?.value).to.be.undefined
-          expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
-          )
-        })
+            return useCalls([validCall, invalidCall, validCall, invalidCall])
+          },
+          {
+            config,
+            renderHook: {
+              initialProps: {
+                num: 2,
+              },
+            },
+          }
+        )
+        await waitForCurrent((val) => val !== undefined && val.every(Boolean))
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[0]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
+        expect(result.current[1]?.error?.message).to.eq(
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+        )
+        expect(result.current[2]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[2]?.error).to.be.undefined
+        expect(result.current[3]?.value).to.be.undefined
+        expect(result.current[3]?.error?.message).to.eq(
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+        )
 
-        it('Returns error if too many arguments', async () => {
-          const args = [constants.AddressZero, constants.AddressZero]
-          const { result, waitForCurrent } = await renderDAppHook(
-            () =>
-              useCall({
-                contract: token,
-                method: 'balanceOf',
-                args,
-              }),
-            {
-              config,
-            }
-          )
-          await waitForCurrent((val) => val !== undefined)
-
-          expect(result.current?.value).to.be.undefined
-          expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
-          )
-        })
+        rerender({ num: 3 })
+        await waitForCurrent((val) => val !== undefined && val.every(Boolean))
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[0]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
+        expect(result.current[1]?.error?.message).to.eq(
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+        )
+        expect(result.current[2]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[2]?.error).to.be.undefined
+        expect(result.current[3]?.value).to.be.undefined
+        expect(result.current[3]?.error?.message).to.eq(
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+        )
       })
     })
   }
