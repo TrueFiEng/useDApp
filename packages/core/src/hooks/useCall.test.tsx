@@ -449,24 +449,26 @@ describe('useCall', () => {
             },
           }
         )
-        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[2]?.value)
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
         expect(result.current[0]?.error).to.be.undefined
-        expect(result.current[0]?.value[0]).to.eq(BigNumber.from(4))
-        expect(result.current[1]).to.be.undefined
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[1]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
         expect(result.current[2]?.error).to.be.undefined
-        expect(result.current[2]?.value[0]).to.eq(BigNumber.from(4))
+        expect(result.current[2]?.value).to.be.undefined
         expect(result.current[3]?.error).to.be.undefined
-        expect(result.current[3]?.value).to.be.undefined
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
 
         rerender({ num: 3 })
-        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[2]?.value)
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
         expect(result.current[0]?.error).to.be.undefined
-        expect(result.current[0]?.value[0]).to.eq(BigNumber.from(6))
-        expect(result.current[1]).to.be.undefined
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[1]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
         expect(result.current[2]?.error).to.be.undefined
-        expect(result.current[2]?.value[0]).to.eq(BigNumber.from(6))
+        expect(result.current[2]?.value).to.be.undefined
         expect(result.current[3]?.error).to.be.undefined
-        expect(result.current[3]?.value).to.be.undefined
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
       })
     })
   }
