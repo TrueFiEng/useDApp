@@ -1,5 +1,5 @@
 import { Contract } from 'ethers'
-import { useCall } from '..'
+import { useCall, useCalls } from '..'
 import { expect } from 'chai'
 import {
   deployMockToken,
@@ -419,6 +419,56 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
 
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+      })
+
+      it('keeps calls order on first and next renders', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+        const doublerContract = await deployContract(network1.deployer, doublerContractABI)
+
+        const { result, waitForCurrent, rerender } = await renderDAppHook(
+          ({ num }: { num: number }) => {
+            const validCall = {
+              contract: doublerContract,
+              method: 'double',
+              args: [num],
+            }
+            const invalidCall = {
+              contract: doublerContract,
+              method: 'double',
+              args: ['invalid'],
+            }
+
+            return useCalls([validCall, null, invalidCall, validCall])
+          },
+          {
+            config,
+            renderHook: {
+              initialProps: {
+                num: 2,
+              },
+            },
+          }
+        )
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
+        expect(result.current[0]?.error).to.be.undefined
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[1]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
+        expect(result.current[2]?.error).to.be.undefined
+        expect(result.current[2]?.value).to.be.undefined
+        expect(result.current[3]?.error).to.be.undefined
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
+
+        rerender({ num: 3 })
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
+        expect(result.current[0]?.error).to.be.undefined
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[1]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
+        expect(result.current[2]?.error).to.be.undefined
+        expect(result.current[2]?.value).to.be.undefined
+        expect(result.current[3]?.error).to.be.undefined
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
       })
     })
   }
