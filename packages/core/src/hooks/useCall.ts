@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Contract } from 'ethers'
 import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
-import { CallResult, decodeCallResult, encodeCallData, validateCall } from '../helpers'
+import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useChainId } from './useChainId'
 import { useConfig } from './useConfig'
@@ -79,53 +79,37 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
-  const { rawCalls, invalidCallResults, isValidArray } = useMemo(() => {
-    const { validCalls, invalidCallResults, isValidArray } = calls.reduce(
-      (acc, call) => {
-        if (!call) {
-          acc.invalidCallResults.push(undefined)
-          acc.isValidArray.push(false)
-          return acc
-        }
-        try {
-          acc.validCalls.push(validateCall(call))
-          acc.isValidArray.push(true)
-        } catch (error: any) {
-          acc.invalidCallResults.push({ value: undefined, error })
-          acc.isValidArray.push(false)
-        }
-        return acc
-      },
-      { validCalls: [] as Call[], invalidCallResults: [] as CallResult<any, any>[], isValidArray: [] as boolean[] }
-    )
+  const potentialRawCalls = useMemo(
+    () =>
+      calls.map((call) =>
+        chainId !== undefined
+          ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
+          : undefined
+      ),
+    [
+      JSON.stringify(
+        calls.map(
+          (call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args }
+        )
+      ),
+      chainId,
+    ]
+  )
 
-    const rawCalls = validCalls.map((call) =>
-      chainId !== undefined
-        ? encodeCallData(call, chainId, { ...queryParams, refresh: queryParams.refresh ?? refresh })
-        : undefined
-    )
-    return { rawCalls, invalidCallResults, isValidArray }
-  }, [
-    JSON.stringify(
-      calls.map(
-        (call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args }
-      )
-    ),
-    chainId,
-  ])
+  const rawCalls = useMemo(
+    () => potentialRawCalls.map((potentialCall) => (potentialCall instanceof Error ? undefined : potentialCall)),
+    [potentialRawCalls]
+  )
+
   const results = useRawCalls(rawCalls)
-  return useMemo(() => {
-    const result = isValidArray.reduce(
-      ({ merged, invalidCallResults, results }, isValid, idx) => {
-        if (isValid) {
-          merged.push(decodeCallResult(calls[idx], results.shift()))
-        } else {
-          merged.push(invalidCallResults.shift())
+  return useMemo(
+    () =>
+      results.map((result, idx) => {
+        if (potentialRawCalls[idx] instanceof Error) {
+          return { value: undefined, error: potentialRawCalls[idx] as Error }
         }
-        return { merged, invalidCallResults, results }
-      },
-      { merged: [] as any[], invalidCallResults: [...invalidCallResults], results: [...results] }
-    )
-    return result.merged
-  }, [results])
+        return decodeCallResult(calls[idx], result)
+      }),
+    [results]
+  )
 }

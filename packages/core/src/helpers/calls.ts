@@ -36,10 +36,24 @@ export function validateCall(call: Call): Call {
 
 /**
  * @internal Intended for internal use - use it on your own risk
+ * @returns
+ * One of these:
+ * - a RawCall, if encoding is successful.
+ * - Falsy, if there is no call to encode.
+ * - an Error, if encoding fails (e.g. because of mismatched arguments).
  */
-export function encodeCallData(call: Call | Falsy, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+export function encodeCallData(
+  call: Call | Falsy,
+  chainId: number,
+  queryParams: QueryParams = {}
+): RawCall | Falsy | Error {
   if (!call) {
     return undefined
+  }
+  try {
+    validateCall(call)
+  } catch (e: any) {
+    return e
   }
   const { contract, method, args } = call
   const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
