@@ -85,16 +85,11 @@ describe('useRawCall', () => {
   it('returns correct initial balance for mainnet', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
-        useRawCall(
-          encodeCallData(
-            {
-              contract: token,
-              args: [network1.deployer.address],
-              method: 'balanceOf',
-            },
-            network1.chainId
-          )
-        ),
+        useRawCall({
+          address: token.address,
+          data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
+          chainId: network1.chainId,
+        }),
       {
         config,
       }
@@ -108,16 +103,11 @@ describe('useRawCall', () => {
   it('returns correct initial balance for other chain', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
-        useRawCall(
-          encodeCallData(
-            {
-              contract: secondToken,
-              args: [network2.deployer.address],
-              method: 'balanceOf',
-            },
-            network2.chainId
-          )
-        ),
+        useRawCall({
+          address: secondToken.address,
+          data: secondToken.interface.encodeFunctionData('balanceOf', [network2.deployer.address]),
+          chainId: network2.chainId,
+        }),
       {
         config,
       }
