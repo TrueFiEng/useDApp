@@ -422,7 +422,8 @@ describe('useCall', () => {
       })
 
       it('should not throw error when call is Falsy', async () => {
-        const { result } = await renderDAppHook(() => useCall(null))
+        const { result, waitForNextUpdate } = await renderDAppHook(() => useCall(null))
+        await waitForNextUpdate()
         expect(result.error).to.be.undefined
         expect(result.current).to.be.undefined
       })
@@ -517,7 +518,7 @@ describe('useCall', () => {
               args: ['invalid'],
             }
 
-            return useCalls([validCall, invalidCall, null, validCall])
+            return useCalls([validCall, null, invalidCall, validCall])
           },
           {
             config,
@@ -528,34 +529,35 @@ describe('useCall', () => {
             },
           }
         )
-        await waitForCurrent((val) => val !== undefined && val.every(Boolean))
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
         expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
         expect(result.current[0]?.error).to.be.undefined
+
+        expect(result.current[1]?.error).to.be.undefined
         expect(result.current[1]?.value).to.be.undefined
-        expect(result.current[1]?.error?.message).to.eq(
+
+        expect(result.current[2]?.value).to.be.undefined
+        expect(result.current[2]?.error?.message).to.eq(
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
-        expect(result.current[2]?.value?.[0]).to.eq(BigNumber.from(4))
-        expect(result.current[2]?.error).to.be.undefined
-        expect(result.current[3]?.value).to.be.undefined
-        expect(result.current[3]?.error?.message).to.eq(
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[3]?.error).to.be.undefined
+
+        rerender({ num: 3 })
+        await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
+        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[0]?.error).to.be.undefined
+        
+        expect(result.current[1]?.error).to.be.undefined
+        expect(result.current[1]?.value).to.be.undefined
+
+        expect(result.current[2]?.value).to.be.undefined
+        expect(result.current[2]?.error?.message).to.eq(
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
 
-        rerender({ num: 3 })
-        await waitForCurrent((val) => val !== undefined && val.every(Boolean))
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
-        expect(result.current[0]?.error).to.be.undefined
-        expect(result.current[1]?.value).to.be.undefined
-        expect(result.current[1]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
-        )
-        expect(result.current[2]?.value?.[0]).to.eq(BigNumber.from(6))
-        expect(result.current[2]?.error).to.be.undefined
-        expect(result.current[3]?.value).to.be.undefined
-        expect(result.current[3]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
-        )
+        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[3]?.error).to.be.undefined
       })
     })
   }
