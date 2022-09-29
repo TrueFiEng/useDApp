@@ -20,29 +20,51 @@ export function warnOnInvalidCall(call: Call | Falsy) {
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function encodeCallData(call: Call | Falsy, chainId: number, queryParams: QueryParams = {}): RawCall | Falsy {
+export function validateCall(call: Call): Call {
+  const { contract, method, args } = call
+  if (!contract.address || !method) {
+    throw new Error('Missing contract address or method name')
+  }
+
+  try {
+    contract.interface.encodeFunctionData(method, args)
+    return call
+  } catch (err: any) {
+    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.address}": ${err.message}`)
+  }
+}
+
+/**
+ * @internal Intended for internal use - use it on your own risk
+ * @returns
+ * One of these:
+ * - a RawCall, if encoding is successful.
+ * - Falsy, if there is no call to encode.
+ * - an Error, if encoding fails (e.g. because of mismatched arguments).
+ */
+export function encodeCallData(
+  call: Call | Falsy,
+  chainId: number,
+  queryParams: QueryParams = {}
+): RawCall | Falsy | Error {
   if (!call) {
     return undefined
   }
-  const { contract, method, args } = call
-  if (!contract.address || !method) {
-    warnOnInvalidCall(call)
-    return undefined
-  }
   try {
-    const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
-    const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
+    validateCall(call)
+  } catch (e: any) {
+    return e
+  }
+  const { contract, method, args } = call
+  const isStatic = queryParams.isStatic ?? queryParams.refresh === 'never'
+  const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
 
-    return {
-      address: contract.address,
-      data: contract.interface.encodeFunctionData(method, args),
-      chainId,
-      isStatic,
-      refreshPerBlocks,
-    }
-  } catch {
-    warnOnInvalidCall(call)
-    return undefined
+  return {
+    address: contract.address,
+    data: contract.interface.encodeFunctionData(method, args),
+    chainId,
+    isStatic,
+    refreshPerBlocks,
   }
 }
 
