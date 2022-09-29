@@ -8,7 +8,6 @@ import {
   setupTestingConfig,
   TestingNetwork,
 } from '../testing'
-import { encodeCallData } from '../helpers'
 import { BigNumber } from 'ethers'
 import { useChainCall } from './useChainCalls'
 import { Config } from '../constants'

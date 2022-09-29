@@ -2,7 +2,6 @@ import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'
-import { encodeCallData } from '../helpers'
 import {
   TestingNetwork,
   deployMockToken,
