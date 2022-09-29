@@ -547,7 +547,7 @@ describe('useCall', () => {
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
         expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
         expect(result.current[0]?.error).to.be.undefined
-        
+
         expect(result.current[1]?.error).to.be.undefined
         expect(result.current[1]?.value).to.be.undefined
 
