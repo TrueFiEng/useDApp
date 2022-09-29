@@ -501,7 +501,7 @@ describe('useCall', () => {
         })
       })
 
-      it('keeps calls order', async () => {
+      it('keeps calls order on first and next renders', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const doublerContract = await deployContract(network1.deployer, doublerContractABI)
 
