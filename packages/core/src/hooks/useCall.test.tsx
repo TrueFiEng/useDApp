@@ -1,5 +1,5 @@
 import { BigNumber, constants, Contract } from 'ethers'
-import { useCall } from '..'
+import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
   deployMockToken,
@@ -16,7 +16,6 @@ import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } 
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
-import { useCalls } from './useCall'
 
 describe('useCall', () => {
   for (const multicallVersion of [1, 2] as const) {
@@ -518,7 +517,7 @@ describe('useCall', () => {
               args: ['invalid'],
             }
 
-            return useCalls([validCall, invalidCall, validCall, invalidCall])
+            return useCalls([validCall, invalidCall, null, validCall])
           },
           {
             config,
