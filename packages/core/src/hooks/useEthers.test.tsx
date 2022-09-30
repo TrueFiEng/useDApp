@@ -112,6 +112,58 @@ describe('useEthers', () => {
     expect(result.current.isLoading).to.be.false
   })
 
+  it('return signer if library is type of JsonRpcProvider', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
+
+    await waitForCurrent((val) => !!val.isLoading)
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.JsonRpcProvider)
+    expect(signer).to.be.instanceOf(providers.JsonRpcSigner)
+  })
+
+  it('cannot get signer if library is type of FallbackProvider', async () => {
+    const configWithFallbackProvider: Config = {
+      ...config,
+      readOnlyUrls: {
+        [network1.chainId]: new providers.FallbackProvider([network1.provider]),
+      },
+    }
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config: configWithFallbackProvider }
+    )
+
+    await waitForCurrent((val) => !!val.isLoading)
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)
+    expect(signer).to.be.undefined
+  })
+
   describe('Websocket provider', () => {
     let ganacheServer: Server<'ethereum'>
     let provider: providers.WebSocketProvider
