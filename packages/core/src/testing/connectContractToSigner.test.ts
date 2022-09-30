@@ -1,6 +1,6 @@
 import { Config, ERC20Interface, useEthers } from '..'
 import { expect } from 'chai'
-import { Contract } from 'ethers'
+import { Contract, providers } from 'ethers'
 import { renderDAppHook } from './renderDAppHook'
 import { connectContractToSigner } from '../hooks/useContractFunction'
 import { setupTestingConfig, TestingNetwork } from './utils'
@@ -38,8 +38,10 @@ describe('connectContractToSigner', () => {
     await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 
-    const connectedContract = connectContractToSigner(token, undefined, library?.getSigner())
+    const signer = library instanceof providers.JsonRpcProvider ? library.getSigner() : undefined
 
-    expect(connectedContract.signer).to.be.deep.eq(library?.getSigner())
+    const connectedContract = connectContractToSigner(token, undefined, signer)
+
+    expect(connectedContract.signer).to.be.deep.eq(signer)
   })
 })
