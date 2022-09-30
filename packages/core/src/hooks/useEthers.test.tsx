@@ -128,7 +128,7 @@ describe('useEthers', () => {
     await waitForCurrent((val) => !!val.isLoading)
 
     const provider = result.current.library
-    const signer = provider instanceof providers.JsonRpcProvider ? provider.getSigner() : undefined
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.be.instanceOf(providers.JsonRpcProvider)
@@ -157,7 +157,7 @@ describe('useEthers', () => {
     await waitForCurrent((val) => !!val.isLoading)
 
     const provider = result.current.library
-    const signer = provider instanceof providers.JsonRpcProvider ? provider.getSigner() : undefined
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)

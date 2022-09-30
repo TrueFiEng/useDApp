@@ -48,7 +48,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           }
         }
 
-        const signer = library instanceof JsonRpcProvider ? library.getSigner() : undefined
+        const signer = library && 'getSigner' in library ? library.getSigner() : undefined
         if (!signer) {
           setLocalMulticallState(LocalMulticallState.Error)
           return

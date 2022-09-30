@@ -38,7 +38,7 @@ describe('connectContractToSigner', () => {
     await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 
-    const signer = library instanceof providers.JsonRpcProvider ? library.getSigner() : undefined
+    const signer = library && 'getSigner' in library ? library.getSigner() : undefined
 
     const connectedContract = connectContractToSigner(token, undefined, signer)
 

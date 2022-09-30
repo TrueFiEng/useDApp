@@ -28,6 +28,6 @@ export const getSignerFromOptions = (
     mnemonicPhraseSigner ||
     encryptedJsonSigner ||
     optionsSigner ||
-    (library instanceof providers.JsonRpcProvider ? library.getSigner() : undefined)
+    (library && 'getSigner' in library ? library.getSigner() : undefined)
   )
 }
