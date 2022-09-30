@@ -1,5 +1,5 @@
 import { useEthers } from '@usedapp/core'
-import { Contract, utils } from 'ethers'
+import { Contract, ethers, providers, utils } from 'ethers'
 import React, { useEffect, ReactNode, useState, useCallback } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
@@ -130,7 +130,8 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       if (!account || !chainId || !library) {
         return
       }
-      const signer = library.getSigner()
+      const signer = ('getSigner' in library) ? library.getSigner() : undefined
+      if (!signer) return
       const nonce = await getNonceRequestHandler()
 
       if (!nonce) {
