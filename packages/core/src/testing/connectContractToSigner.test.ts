@@ -1,6 +1,6 @@
 import { Config, ERC20Interface, useEthers } from '..'
 import { expect } from 'chai'
-import { Contract, providers } from 'ethers'
+import { Contract } from 'ethers'
 import { renderDAppHook } from './renderDAppHook'
 import { connectContractToSigner } from '../hooks/useContractFunction'
 import { setupTestingConfig, TestingNetwork } from './utils'

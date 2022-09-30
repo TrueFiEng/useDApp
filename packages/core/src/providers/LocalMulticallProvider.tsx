@@ -5,7 +5,6 @@ import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage 
 import multicallABI from '../constants/abi/MultiCall.json'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { deployContract } from '../helpers/contract'
-import { JsonRpcProvider } from '@ethersproject/providers'
 
 interface LocalMulticallProps {
   children: ReactNode
