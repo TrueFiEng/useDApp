@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { getDefaultProvider, providers, Wallet } from 'ethers'
+import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet, Mumbai } from '../model'
