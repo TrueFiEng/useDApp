@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const bobaExplorerUrl = 'https://blockexplorer.boba.network'
 
 export const Boba: Chain = {
   chainId: 288,
@@ -7,9 +10,17 @@ export const Boba: Chain = {
   isLocalChain: false,
   multicallAddress: '0x344696b815742A3E31181207e027e5110e2A0f74',
   rpcUrl: 'https://mainnet.boba.network',
-  getExplorerAddressLink: (address: string) => `https://blockexplorer.boba.network/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://blockexplorer.boba.network/tx/${transactionHash}`,
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrl: bobaExplorerUrl,
+  getExplorerAddressLink: getAddressLink(bobaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(bobaExplorerUrl),
 }
+
+const bobaRinkebyExplorerUrl = 'https://blockexplorer.rinkeby.boba.network'
 
 export const BobaRinkeby: Chain = {
   chainId: 28,
@@ -18,9 +29,14 @@ export const BobaRinkeby: Chain = {
   isLocalChain: false,
   multicallAddress: '0xC8Ad85fF276fbC1aDF627D9dff0AfD8bdc4C3492',
   rpcUrl: 'https://rinkeby.boba.network',
-  getExplorerAddressLink: (address: string) => `https://blockexplorer.rinkeby.boba.network/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://blockexplorer.rinkeby.boba.network/tx/${transactionHash}`,
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrl: bobaExplorerUrl,
+  getExplorerAddressLink: getAddressLink(bobaRinkebyExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(bobaRinkebyExplorerUrl),
 }
 
 export default {

@@ -15,6 +15,7 @@ export const Harmony: Chain = {
     symbol: 'ONE',
     decimals: 18,
   },
+  blockExplorerUrl: harmonyExplorerUrl,
   getExplorerAddressLink: getAddressLink(harmonyExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(harmonyExplorerUrl),
 }

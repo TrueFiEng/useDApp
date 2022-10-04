@@ -33,6 +33,7 @@ export const FantomTestnet: Chain = {
     symbol: 'FTM',
     decimals: 18,
   },
+  blockExplorerUrl: fantomTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(fantomTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(fantomTestnetExplorerUrl),
 }

@@ -15,6 +15,7 @@ export const Songbird: Chain = {
     symbol: 'SGB',
     decimals: 18,
   },
+  blockExplorerUrl: songbirdExplorerUrl,
   getExplorerAddressLink: getAddressLink(songbirdExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(songbirdExplorerUrl),
 }

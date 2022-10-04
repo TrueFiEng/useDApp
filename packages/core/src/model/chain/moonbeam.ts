@@ -15,6 +15,7 @@ export const Moonbeam: Chain = {
     symbol: 'GLMR',
     decimals: 18,
   },
+  blockExplorerUrl: moonbeamExplorerUrl,
   getExplorerAddressLink: getAddressLink(moonbeamExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(moonbeamExplorerUrl),
 }

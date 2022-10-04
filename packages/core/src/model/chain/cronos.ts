@@ -15,6 +15,7 @@ export const Cronos: Chain = {
     symbol: 'CRO',
     decimals: 18,
   },
+  blockExplorerUrl: cronosExplorerUrl,
   getExplorerAddressLink: getAddressLink(cronosExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(cronosExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const CronosTestnet: Chain = {
     symbol: 'tCRO',
     decimals: 18,
   },
+  blockExplorerUrl: cronosTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(cronosTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(cronosTestnetExplorerUrl),
 }

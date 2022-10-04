@@ -15,6 +15,7 @@ export const Stardust: Chain = {
     symbol: 'STARDUST',
     decimals: 18,
   },
+  blockExplorerUrl: stardustExplorerUrl,
   getExplorerAddressLink: getAddressLink(stardustExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(stardustExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const Andromeda: Chain = {
     symbol: 'METIS',
     decimals: 18,
   },
+  blockExplorerUrl: andromedaExplorerUrl,
   getExplorerAddressLink: getAddressLink(andromedaExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(andromedaExplorerUrl),
 }

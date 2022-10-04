@@ -16,6 +16,7 @@ export const BSC: Chain = {
     symbol: 'BNB',
     decimals: 18,
   },
+  blockExplorerUrl: bscExplorerUrl,
   getExplorerAddressLink: getAddressLink(bscExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(bscExplorerUrl),
 }
@@ -34,6 +35,7 @@ export const BSCTestnet: Chain = {
     symbol: 'BNB',
     decimals: 18,
   },
+  blockExplorerUrl: bscTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(bscTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(bscTestnetExplorerUrl),
 }

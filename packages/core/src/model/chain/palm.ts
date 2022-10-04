@@ -15,6 +15,7 @@ export const Palm: Chain = {
     symbol: 'PALM',
     decimals: 18,
   },
+  blockExplorerUrl: palmExplorerUrl,
   getExplorerAddressLink: getAddressLink(palmExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(palmExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const PalmTestnet: Chain = {
     symbol: 'PALM',
     decimals: 18,
   },
+  blockExplorerUrl: palmTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(palmTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(palmTestnetExplorerUrl),
 }

@@ -15,6 +15,7 @@ export const Theta: Chain = {
     symbol: 'TFUEL',
     decimals: 18,
   },
+  blockExplorerUrl: thetaExplorerUrl,
   getExplorerAddressLink: getAddressLink(thetaExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(thetaExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const ThetaTestnet: Chain = {
     symbol: 'TFUEL',
     decimals: 18,
   },
+  blockExplorerUrl: thetaTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(thetaTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(thetaTestnetExplorerUrl),
 }

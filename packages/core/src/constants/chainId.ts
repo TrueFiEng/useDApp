@@ -45,6 +45,7 @@ import {
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
   OasisSapphireTestnet,
+  Astar,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)

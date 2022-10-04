@@ -15,6 +15,7 @@ export const xDai: Chain = {
     symbol: 'xDai',
     decimals: 18,
   },
+  blockExplorerUrl: xDaiExplorerUrl,
   getExplorerAddressLink: getAddressLink(xDaiExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(xDaiExplorerUrl),
 }

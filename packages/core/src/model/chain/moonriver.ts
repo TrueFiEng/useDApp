@@ -15,6 +15,7 @@ export const Moonriver: Chain = {
     symbol: 'MOVR',
     decimals: 18,
   },
+  blockExplorerUrl: moonriverExplorerUrl,
   getExplorerAddressLink: getAddressLink(moonriverExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(moonriverExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const MoonbaseAlpha: Chain = {
     symbol: 'DEV',
     decimals: 18,
   },
+  blockExplorerUrl: moonbaseAlphaExplorerUrl,
   getExplorerAddressLink: getAddressLink(moonbaseAlphaExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(moonbaseAlphaExplorerUrl),
 }

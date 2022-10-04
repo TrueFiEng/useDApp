@@ -15,6 +15,7 @@ export const OasisEmerald: Chain = {
     symbol: 'ROSE',
     decimals: 18,
   },
+  blockExplorerUrl: oasisEmeraldExplorerUrl,
   getExplorerAddressLink: getAddressLink(oasisEmeraldExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(oasisEmeraldExplorerUrl),
 }
@@ -33,6 +34,7 @@ export const OasisEmeraldTestnet: Chain = {
     symbol: 'ROSE',
     decimals: 18,
   },
+  blockExplorerUrl: oasisEmeraldTestnetExplorerUrl,
   getExplorerAddressLink: getAddressLink(oasisEmeraldTestnetExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(oasisEmeraldTestnetExplorerUrl),
 }
@@ -51,6 +53,7 @@ export const OasisSapphireTestnet: Chain = {
     symbol: 'ROSE',
     decimals: 18,
   },
+  blockExplorerUrl: oasisSapphireExplorerUrl,
   getExplorerAddressLink: getAddressLink(oasisSapphireExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(oasisSapphireExplorerUrl),
 }
