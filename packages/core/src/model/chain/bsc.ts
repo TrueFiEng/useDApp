@@ -10,7 +10,7 @@ export const BSC: Chain = {
   isLocalChain: false,
   multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   multicall2Address: '0xc50f4c1e81c873b2204d7eff7069ffec6fbe136d',
-  rpcUrl: 'https://bsc-dataseed.binance.org/',
+  rpcUrl: 'https://bsc-dataseed.binance.org',
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',

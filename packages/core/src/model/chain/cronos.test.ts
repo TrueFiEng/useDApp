@@ -32,8 +32,6 @@ describe('Cronos Chain', () => {
 
   it('getExplorerTransactionLink', () => {
     expect(Cronos.getExplorerTransactionLink(TEST_TX)).to.eq(`https://cronoscan.com/tx/${TEST_TX}`)
-    expect(CronosTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://testnet.cronoscan.com/tx/${TEST_TX}`
-    )
+    expect(CronosTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(`https://testnet.cronoscan.com/tx/${TEST_TX}`)
   })
 })
