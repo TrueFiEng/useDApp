@@ -26,14 +26,14 @@ describe('Cronos Chain', () => {
   it('getExplorerAddressLink', () => {
     expect(Cronos.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://cronoscan.com/address/${TEST_ADDRESS}`)
     expect(CronosTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://cronos.crypto.org/explorer/testnet3/address/${TEST_ADDRESS}`
+      `https://testnet.cronoscan.com/address/${TEST_ADDRESS}`
     )
   })
 
   it('getExplorerTransactionLink', () => {
     expect(Cronos.getExplorerTransactionLink(TEST_TX)).to.eq(`https://cronoscan.com/tx/${TEST_TX}`)
     expect(CronosTestnet.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://cronos.crypto.org/explorer/testnet3/tx/${TEST_TX}`
+      `https://testnet.cronoscan.com/tx/${TEST_TX}`
     )
   })
 })

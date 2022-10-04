@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const songbirdExplorerUrl = 'https://songbird-explorer.flare.network'
 
 export const Songbird: Chain = {
   chainId: 19,
@@ -6,7 +9,12 @@ export const Songbird: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x60351436cf80A31EA6C3B261C784d3C127dBD6f1',
-  getExplorerAddressLink: (address: string) => `https://songbird-explorer.flare.network/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://songbird-explorer.flare.network/tx/${transactionHash}`,
+  rpcUrl: 'https://songbird.towolabs.com/rpc',
+  nativeCurrency: {
+    name: 'SGB',
+    symbol: 'SGB',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(songbirdExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(songbirdExplorerUrl),
 }

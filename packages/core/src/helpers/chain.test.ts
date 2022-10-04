@@ -9,7 +9,7 @@ describe('chain', () => {
 
   it('returns correct chain name from id', () => {
     const mainnetName = getChainName(mainnet)
-    expect(mainnetName).to.eq('Mainnet')
+    expect(mainnetName).to.eq('Ethereum Mainnet')
   })
 
   it('tells correct if chain is test', () => {

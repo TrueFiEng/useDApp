@@ -1,15 +1,22 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const xDaiExplorerUrl = 'https://blockscout.com/poa/xdai'
 
 export const xDai: Chain = {
   chainId: 100,
   chainName: 'xDai',
   isTestChain: false,
   isLocalChain: false,
-  rpcUrl: 'https://rpc.gnosischain.com/',
+  rpcUrl: 'https://rpc.gnosischain.com',
   multicallAddress: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
-  getExplorerAddressLink: (address: string) => `https://blockscout.com/poa/xdai/address/${address}/transactions`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://blockscout.com/poa/xdai/tx/${transactionHash}/internal-transactions`,
+  nativeCurrency: {
+    name: 'xDai',
+    symbol: 'xDai',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(xDaiExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(xDaiExplorerUrl),
 }
 
 // xdai alias

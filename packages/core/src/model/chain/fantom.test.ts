@@ -23,6 +23,11 @@ describe('Fantom Chain', () => {
     expect(FantomTestnet.isLocalChain).to.be.false
   })
 
+  it('rpcUrl', () => {
+    expect(Fantom.rpcUrl).to.eq('https://www.ankr.com/rpc/fantom')
+    expect(FantomTestnet.rpcUrl).to.eq('https://rpc.testnet.fantom.network')
+  })
+
   it('getExplorerAddressLink', () => {
     expect(Fantom.getExplorerAddressLink(TEST_ADDRESS)).to.eq(`https://ftmscan.com/address/${TEST_ADDRESS}`)
     expect(FantomTestnet.getExplorerAddressLink(TEST_ADDRESS)).to.eq(

@@ -12,7 +12,7 @@ describe('Ethereum Chain', () => {
   })
 
   it('getChainName', () => {
-    expect(Mainnet.chainName).to.eq('Mainnet')
+    expect(Mainnet.chainName).to.eq('Ethereum Mainnet')
     expect(Ropsten.chainName).to.eq('Ropsten')
     expect(Kovan.chainName).to.eq('Kovan')
     expect(Rinkeby.chainName).to.eq('Rinkeby')

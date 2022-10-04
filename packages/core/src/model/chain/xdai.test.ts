@@ -25,19 +25,19 @@ describe('xDai Chain', () => {
 
   it('getExplorerAddressLink', () => {
     expect(xDai.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://blockscout.com/poa/xdai/address/${TEST_ADDRESS}/transactions`
+      `https://blockscout.com/poa/xdai/address/${TEST_ADDRESS}`
     )
     expect(Gnosis.getExplorerAddressLink(TEST_ADDRESS)).to.eq(
-      `https://blockscout.com/poa/xdai/address/${TEST_ADDRESS}/transactions`
+      `https://blockscout.com/poa/xdai/address/${TEST_ADDRESS}`
     )
   })
 
   it('getExplorerTransactionLink', () => {
     expect(xDai.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://blockscout.com/poa/xdai/tx/${TEST_TX}/internal-transactions`
+      `https://blockscout.com/poa/xdai/tx/${TEST_TX}`
     )
     expect(Gnosis.getExplorerTransactionLink(TEST_TX)).to.eq(
-      `https://blockscout.com/poa/xdai/tx/${TEST_TX}/internal-transactions`
+      `https://blockscout.com/poa/xdai/tx/${TEST_TX}`
     )
   })
 })

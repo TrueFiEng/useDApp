@@ -9,8 +9,8 @@ describe('BSC Chain', () => {
   })
 
   it('getChainName', () => {
-    expect(BSC.chainName).to.eq('BSC')
-    expect(BSCTestnet.chainName).to.eq('BSCTestnet')
+    expect(BSC.chainName).to.eq('Smart Chain')
+    expect(BSCTestnet.chainName).to.eq('Smart Chain - Testnet')
   })
 
   it('isTestChain', () => {
@@ -21,6 +21,11 @@ describe('BSC Chain', () => {
   it('isLocalChain', () => {
     expect(BSC.isLocalChain).to.be.false
     expect(BSCTestnet.isLocalChain).to.be.false
+  })
+
+  it('rpcUrl', () => {
+    expect(BSC.rpcUrl).to.eq('https://bsc-dataseed.binance.org')
+    expect(BSCTestnet.rpcUrl).to.eq('https://data-seed-prebsc-1-s1.binance.org:8545')
   })
 
   it('getExplorerAddressLink', () => {
