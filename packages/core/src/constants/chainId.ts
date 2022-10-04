@@ -44,7 +44,6 @@ import {
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
-  OasisSapphireTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -81,7 +80,6 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Mumbai,
   OasisEmerald,
   OasisEmeraldTestnet,
-  OasisSapphireTestnet,
   Songbird,
   Theta,
   ThetaTestnet,
