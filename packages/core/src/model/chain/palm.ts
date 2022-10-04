@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const palmExplorerUrl = 'https://explorer.palm.io'
 
 export const Palm: Chain = {
   chainId: 11297108109,
@@ -6,9 +9,17 @@ export const Palm: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
-  getExplorerAddressLink: (address: string) => `https://explorer.palm.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer.palm.io/tx/${transactionHash}`,
+  rpcUrl: 'https://palm-mainnet.public.blastapi.io',
+  nativeCurrency: {
+    name: 'PALM',
+    symbol: 'PALM',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(palmExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(palmExplorerUrl),
 }
+
+const palmTestnetExplorerUrl = 'https://explorer.palm-uat.xyz'
 
 export const PalmTestnet: Chain = {
   chainId: 11297108099,
@@ -16,8 +27,14 @@ export const PalmTestnet: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
-  getExplorerAddressLink: (address: string) => `https://explorer.palm-uat.xyz/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer.palm-uat.xyz/tx/${transactionHash}`,
+  rpcUrl: 'https://palm-testnet.public.blastapi.io',
+  nativeCurrency: {
+    name: 'PALM',
+    symbol: 'PALM',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(palmTestnetExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(palmTestnetExplorerUrl),
 }
 
 export default { Palm, PalmTestnet }

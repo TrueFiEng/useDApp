@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const moonriverExplorerUrl = 'https://moonriver.moonscan.io'
 
 export const Moonriver: Chain = {
   chainId: 1285,
@@ -6,11 +9,17 @@ export const Moonriver: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
-  getExplorerAddressLink: (address: string) =>
-    `https://blockscout.moonriver.moonbeam.network/address/${address}/transactions`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://blockscout.moonriver.moonbeam.network/tx/${transactionHash}/internal-transactions`,
+  rpcUrl: 'https://rpc.moonriver.moonbeam.network',
+  nativeCurrency: {
+    name: 'MOVR',
+    symbol: 'MOVR',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(moonriverExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(moonriverExplorerUrl),
 }
+
+const moonbaseAlphaExplorerUrl = 'https://moonbase.moonscan.io'
 
 export const MoonbaseAlpha: Chain = {
   chainId: 1287,
@@ -18,8 +27,14 @@ export const MoonbaseAlpha: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
-  getExplorerAddressLink: (address: string) => `https://moonbase.moonscan.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://moonbase.moonscan.io/tx/${transactionHash}`,
+  rpcUrl: 'https://rpc.testnet.moonbeam.network',
+  nativeCurrency: {
+    name: 'DEV',
+    symbol: 'DEV',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(moonbaseAlphaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(moonbaseAlphaExplorerUrl),
 }
 
 export default { Moonriver }

@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const stardustExplorerUrl = 'https://stardust-explorer.metis.io'
 
 export const Stardust: Chain = {
   chainId: 588,
@@ -6,9 +9,17 @@ export const Stardust: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xaF9D4DC0698d8FD9f41387ecb08D9976079B8086',
-  getExplorerAddressLink: (address: string) => `https://stardust-explorer.metis.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://stardust-explorer.metis.io/tx/${transactionHash}`,
+  rpcUrl: 'https://stardust-explorer.metis.io/api/eth-rpc',
+  nativeCurrency: {
+    name: 'Stardust',
+    symbol: 'STARDUST',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(stardustExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(stardustExplorerUrl),
 }
+
+const andromedaExplorerUrl = 'https://andromeda-explorer.metis.io'
 
 export const Andromeda: Chain = {
   chainId: 1088,
@@ -16,8 +27,14 @@ export const Andromeda: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x1a2AFb22B8A90A77a93e80ceA61f89D04e05b796',
-  getExplorerAddressLink: (address: string) => `https://andromeda-explorer.metis.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://andromeda-explorer.metis.io/tx/${transactionHash}`,
+  rpcUrl: 'https://andromeda.metis.io/?owner=1088',
+  nativeCurrency: {
+    name: 'METIS',
+    symbol: 'METIS',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(andromedaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(andromedaExplorerUrl),
 }
 
 export default { Stardust, Andromeda }

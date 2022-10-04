@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const moonbeamExplorerUrl = 'https://moonscan.io'
 
 export const Moonbeam: Chain = {
   chainId: 1284,
@@ -6,9 +9,14 @@ export const Moonbeam: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x47152C4dCE75C77Bc9E52F5AAa2a20117971C365',
-  getExplorerAddressLink: (address: string) => `https://blockscout.moonbeam.network/address/${address}/transactions`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://blockscout.moonbeam.network/tx/${transactionHash}/internal-transactions`,
+  rpcUrl: 'https://rpc.api.moonbeam.network',
+  nativeCurrency: {
+    name: 'GLMR',
+    symbol: 'GLMR',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(moonbeamExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(moonbeamExplorerUrl),
 }
 
 export default { Moonbeam }

@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const thetaExplorerUrl = 'https://explorer.thetatoken.org'
 
 export const Theta: Chain = {
   chainId: 361,
@@ -6,9 +9,17 @@ export const Theta: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xe2ec58a54f3ab2714eddbae87533793011f1e14e',
-  getExplorerAddressLink: (address: string) => `https://explorer.thetatoken.org/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer.thetatoken.org/tx/${transactionHash}`,
+  rpcUrl: 'https://eth-rpc-api.thetatoken.org/rpc',
+  nativeCurrency: {
+    name: 'TFUEL',
+    symbol: 'TFUEL',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(thetaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(thetaExplorerUrl),
 }
+
+const thetaTestnetExplorerUrl = 'https://testnet-explorer.thetatoken.org'
 
 export const ThetaTestnet: Chain = {
   chainId: 365,
@@ -16,9 +27,14 @@ export const ThetaTestnet: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xf822bf2e728e264c58d7618022addd9cbc780350',
-  getExplorerAddressLink: (address: string) => `https://testnet-explorer.thetatoken.org/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://testnet-explorer.thetatoken.org/tx/${transactionHash}`,
+  rpcUrl: 'https://eth-rpc-api-testnet.thetatoken.org/rpc',
+  nativeCurrency: {
+    name: 'TFUEL',
+    symbol: 'TFUEL',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(thetaTestnetExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(thetaTestnetExplorerUrl),
 }
 
 export default {
