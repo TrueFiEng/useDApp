@@ -1,5 +1,5 @@
 import { Chain } from '../../constants'
-import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink';
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
 
 const astarExplorerUrl = 'https://blockscout.com/astar'
 
