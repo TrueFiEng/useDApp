@@ -23,7 +23,7 @@ const fantomTestnetExplorerUrl = 'https://testnet.ftmscan.com'
 
 export const FantomTestnet: Chain = {
   chainId: 4002,
-  chainName: 'FantomTestnet',
+  chainName: 'Fantom Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xA01917aF773b703717C25C483a619e9218343531',

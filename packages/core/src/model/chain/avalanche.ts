@@ -26,7 +26,7 @@ const testExplorerUrl = 'https://testnet.snowtrace.io'
 
 export const AvalancheTestnet: Chain = {
   chainId: 43113,
-  chainName: 'AvalancheTestnet',
+  chainName: 'Avalanche Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a',

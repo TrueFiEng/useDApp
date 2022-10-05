@@ -24,7 +24,7 @@ const cronosTestnetExplorerUrl = 'https://testnet.cronoscan.com'
 
 export const CronosTestnet: Chain = {
   chainId: 338,
-  chainName: 'CronosTestnet',
+  chainName: 'Cronos Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x6a8c1ba309136D78245f1F0a14790239b71a9577',

@@ -44,6 +44,10 @@ import {
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
+  Boba,
+  BobaTestnet,
+  OptimismRedditTestnet,
+  OptimismRedditTestnet2,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)

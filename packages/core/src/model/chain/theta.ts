@@ -24,7 +24,7 @@ const thetaTestnetExplorerUrl = 'https://testnet-explorer.thetatoken.org'
 
 export const ThetaTestnet: Chain = {
   chainId: 365,
-  chainName: 'ThetaTestnet',
+  chainName: 'Theta Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xf822bf2e728e264c58d7618022addd9cbc780350',

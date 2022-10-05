@@ -24,7 +24,7 @@ const bobaRinkebyExplorerUrl = 'https://blockexplorer.rinkeby.boba.network'
 
 export const BobaRinkeby: Chain = {
   chainId: 28,
-  chainName: 'BobaRinkeby',
+  chainName: 'Boba Rinkeby',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xC8Ad85fF276fbC1aDF627D9dff0AfD8bdc4C3492',
