@@ -17,7 +17,8 @@ import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
-  [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+  // [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+  [Mainnet.chainId]: 'https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
   [Ropsten.chainId]: 'https://eth-ropsten.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
   [Kovan.chainId]: 'https://eth-kovan.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
   // [Ropsten.chainId]: process.env.MAINNET_URL
