@@ -19,6 +19,7 @@ import {
   secondSign,
   connectToWalletConnect,
 } from './gnosisSafeUtils'
+import { Optimism } from '@usedapp/core'
 
 const log = debug('usedapp:docs:playwright')
 
@@ -84,6 +85,25 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
       })
+    })
+
+    it('Add new network to Metamask', async () => {
+      await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+      })
+
+      const popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Switch to Optimism'))
+      const popupPage = await popupPromise
+      await popupPage.click(XPath.text('a', 'View all'))
+
+      expect(await popupPage.isVisible(`//*[text()='${Optimism.chainName}']`)).to.be.true
+      expect(await popupPage.isVisible(`//*[text()='${Optimism.rpcUrl}']`)).to.be.true
+      expect(await popupPage.isVisible(`//*[text()='${Optimism.chainId}']`)).to.be.true
+      expect(await popupPage.isVisible(`//*[text()='${Optimism.nativeCurrency.symbol}']`)).to.be.true
+      expect(await popupPage.isVisible(`//*[text()='${Optimism.blockExplorerUrl}']`)).to.be.true
     })
   })
 
