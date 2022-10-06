@@ -11,8 +11,8 @@ export const xDai: Chain = {
   rpcUrl: 'https://rpc.gnosischain.com',
   multicallAddress: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   nativeCurrency: {
-    name: 'xDai',
-    symbol: 'xDai',
+    name: 'xDAI',
+    symbol: 'xDAI',
     decimals: 18,
   },
   blockExplorerUrl: xDaiExplorerUrl,

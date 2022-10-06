@@ -15,7 +15,7 @@ export const Avalanche: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
-  rpcUrl: 'https://rpc.ankr.com/avalanche',
+  rpcUrl: 'https://api.avax.network/ext/bc/C/rpc',
   nativeCurrency: avax,
   blockExplorerUrl: avalancheExplorerUrl,
   getExplorerAddressLink: getAddressLink(avalancheExplorerUrl),

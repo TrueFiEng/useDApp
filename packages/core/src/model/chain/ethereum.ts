@@ -9,7 +9,7 @@ const kovanEtherscanUrl = 'https://kovan.etherscan.io'
 
 export const Mainnet: Chain = {
   chainId: 1,
-  chainName: 'Ethereum Mainnet',
+  chainName: 'Mainnet',
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',

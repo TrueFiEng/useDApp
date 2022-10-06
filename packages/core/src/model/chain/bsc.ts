@@ -10,7 +10,7 @@ export const BSC: Chain = {
   isLocalChain: false,
   multicallAddress: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   multicall2Address: '0xc50f4c1e81c873b2204d7eff7069ffec6fbe136d',
-  rpcUrl: 'https://bsc-dataseed.binance.org',
+  rpcUrl: 'https://bsc-dataseed1.binance.org',
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',
@@ -25,14 +25,14 @@ const bscTestnetExplorerUrl = 'https://testnet.bscscan.com'
 
 export const BSCTestnet: Chain = {
   chainId: 97,
-  chainName: 'Smart Chain - Testnet',
+  chainName: 'Smart Chain Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
   rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   nativeCurrency: {
-    name: 'BNB',
-    symbol: 'BNB',
+    name: 'tBNB',
+    symbol: 'tBNB',
     decimals: 18,
   },
   blockExplorerUrl: bscTestnetExplorerUrl,

@@ -1,7 +1,7 @@
 import { Chain } from '../../constants'
 import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
 
-const bobaExplorerUrl = 'https://blockexplorer.boba.network'
+const bobaExplorerUrl = 'https://bobascan.com'
 
 export const Boba: Chain = {
   chainId: 288,

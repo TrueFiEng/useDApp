@@ -5,7 +5,7 @@ const velasExplorerUrl = 'https://evmexplorer.velas.com'
 
 export const Velas: Chain = {
   chainId: 106,
-  chainName: 'Velas Mainnet',
+  chainName: 'Velas',
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x55c77eEba2b891c7f940cE4C3d9Fcd6915c12082',
@@ -29,7 +29,7 @@ export const VelasTestnet: Chain = {
   isLocalChain: false,
   multicallAddress: '0x649DEa474f0Ca0FDb276098d1A4c8BA62b4abC83',
   multicall2Address: '0x65f4f071505912dbC9dCCF3a51542374a43D6a5A',
-  rpcUrl: 'https://evmexplorer.testnet.velas.com/rpc',
+  rpcUrl: 'https://api.testnet.velas.com',
   nativeCurrency: {
     name: 'VLX',
     symbol: 'VLX',

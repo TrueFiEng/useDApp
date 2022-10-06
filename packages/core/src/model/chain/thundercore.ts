@@ -5,7 +5,7 @@ const thunderCoreExplorerUrl = 'https://viewblock.io/thundercore'
 
 export const ThunderCore: Chain = {
   chainId: 108,
-  chainName: 'ThunderCore Mainnet',
+  chainName: 'ThunderCore',
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x3017086DeEf56679e267F67F66c4415109b7A97f',

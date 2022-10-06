@@ -9,7 +9,7 @@ export const Moonriver: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xa9177F8d98DAaB74C24715Ba0A81b73654710523',
-  rpcUrl: 'https://rpc.moonriver.moonbeam.network',
+  rpcUrl: 'https://rpc.api.moonriver.moonbeam.network',
   nativeCurrency: {
     name: 'MOVR',
     symbol: 'MOVR',
@@ -28,7 +28,7 @@ export const MoonbaseAlpha: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x4E2cfca20580747AdBA58cd677A998f8B261Fc21',
-  rpcUrl: 'https://rpc.testnet.moonbeam.network',
+  rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
   nativeCurrency: {
     name: 'DEV',
     symbol: 'DEV',

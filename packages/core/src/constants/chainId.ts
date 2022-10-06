@@ -44,6 +44,7 @@ import {
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
+  ArbitrumGoerli,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -54,6 +55,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   AvalancheTestnet,
   Arbitrum,
   ArbitrumRinkeby,
+  ArbitrumGoerli,
   Aurora,
   AuroraTestnet,
   Mainnet,

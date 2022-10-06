@@ -9,7 +9,7 @@ export const Palm: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x99a73dfE34578348fb81BD078201C0BA84E9c840',
-  rpcUrl: 'https://palm-mainnet.public.blastapi.io',
+  rpcUrl: 'https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b',
   nativeCurrency: {
     name: 'PALM',
     symbol: 'PALM',

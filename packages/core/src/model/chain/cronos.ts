@@ -28,10 +28,10 @@ export const CronosTestnet: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x6a8c1ba309136D78245f1F0a14790239b71a9577',
-  rpcUrl: 'https://evm-t3.cronos.org',
+  rpcUrl: 'https://cronos-testnet-3.crypto.org:8545',
   nativeCurrency: {
-    name: 'tCRO',
-    symbol: 'tCRO',
+    name: 'TCRO',
+    symbol: 'TCRO',
     decimals: 18,
   },
   blockExplorerUrl: cronosTestnetExplorerUrl,

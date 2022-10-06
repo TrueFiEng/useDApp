@@ -30,8 +30,8 @@ export const ArbitrumGoerli: Chain = {
   multicallAddress: '0x108B25170319f38DbED14cA9716C54E5D1FF4623',
   rpcUrl: 'https://goerli-rollup.arbitrum.io/rpc',
   nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
+    name: 'AGOR',
+    symbol: 'AGOR',
     decimals: 18,
   },
   blockExplorerUrl: arbitrumGoerliExplorerUrl,

@@ -5,7 +5,7 @@ const oasisEmeraldExplorerUrl = 'https://explorer.emerald.oasis.dev'
 
 export const OasisEmerald: Chain = {
   chainId: 42262,
-  chainName: 'Oasis Emerald ParaTime Mainnet',
+  chainName: 'Oasis Emerald',
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xA1513CE1a147BB84E04cD61d877d598C018a460F',
@@ -24,7 +24,7 @@ const oasisEmeraldTestnetExplorerUrl = 'https://testnet.explorer.emerald.oasis.d
 
 export const OasisEmeraldTestnet: Chain = {
   chainId: 42261,
-  chainName: 'Oasis Emerald ParaTime Testnet',
+  chainName: 'Oasis Emerald Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xB2929229096d2ee6850c4d3906ef2d1f1330cdc7',
@@ -43,7 +43,7 @@ const oasisSapphireExplorerUrl = 'https://explorer.sapphire.oasis.dev'
 
 export const OasisSapphireTestnet: Chain = {
   chainId: 23295,
-  chainName: 'Oasis Sapphire ParaTime Testnet',
+  chainName: 'Oasis Sapphire Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xB2929229096d2ee6850c4d3906ef2d1f1330cdc7',

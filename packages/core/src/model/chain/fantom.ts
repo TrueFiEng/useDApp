@@ -9,7 +9,7 @@ export const Fantom: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xdc85396592f0F466224390771C861EE3957a3ff4',
-  rpcUrl: 'https://www.ankr.com/rpc/fantom',
+  rpcUrl: 'https://rpc.ftm.tools',
   nativeCurrency: {
     name: 'Fantom',
     symbol: 'FTM',

@@ -9,10 +9,10 @@ export const Stardust: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xaF9D4DC0698d8FD9f41387ecb08D9976079B8086',
-  rpcUrl: 'https://stardust-explorer.metis.io/api/eth-rpc',
+  rpcUrl: 'https://stardust.metis.io/?owner=588',
   nativeCurrency: {
-    name: 'Stardust',
-    symbol: 'STARDUST',
+    name: 'METIS',
+    symbol: 'METIS',
     decimals: 18,
   },
   blockExplorerUrl: stardustExplorerUrl,

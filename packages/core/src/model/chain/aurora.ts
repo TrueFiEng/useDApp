@@ -1,7 +1,7 @@
 import { Chain } from '../../constants'
 import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
 
-const auroraExplorerUrl = 'https://explorer.mainnet.aurora.dev'
+const auroraExplorerUrl = 'https://aurorascan.dev'
 
 export const Aurora: Chain = {
   chainId: 1313161554,
@@ -21,7 +21,7 @@ export const Aurora: Chain = {
   getExplorerTransactionLink: getTransactionLink(auroraExplorerUrl),
 }
 
-const auroraTestnetExplorerUrl = 'https://explorer.testnet.aurora.dev'
+const auroraTestnetExplorerUrl = 'https://testnet.aurorascan.dev'
 
 export const AuroraTestnet: Chain = {
   chainId: 1313161555,
