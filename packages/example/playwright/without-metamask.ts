@@ -99,6 +99,8 @@ export const withoutMetamaskTest = (baseUrl: string) => {
       it.only('Check if all chains were loaded', async () => {
         await page.goto(`${baseUrl}multichain`)
 
+        await sleep(15000)
+
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
