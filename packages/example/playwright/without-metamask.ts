@@ -82,7 +82,7 @@ export const withoutMetamaskTest = (baseUrl: string) => {
       })
     })
 
-    describe.only('Mulltichain', () => {
+    describe('Mulltichain', () => {
       it('Reads the chain names', async () => {
         await page.goto(`${baseUrl}multichain`)
 
@@ -96,7 +96,7 @@ export const withoutMetamaskTest = (baseUrl: string) => {
         })
       })
 
-      it('Check if all chains were loaded', async () => {
+      it.only('Check if all chains were loaded', async () => {
         await page.goto(`${baseUrl}multichain`)
 
         await waitForExpect(async () => {
