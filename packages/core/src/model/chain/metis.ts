@@ -9,6 +9,7 @@ export const Stardust: Chain = {
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xaF9D4DC0698d8FD9f41387ecb08D9976079B8086',
+  // RPC URL source: https://chainlist.org/
   rpcUrl: 'https://stardust.metis.io/?owner=588',
   nativeCurrency: {
     name: 'METIS',
@@ -28,6 +29,7 @@ export const Andromeda: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x1a2AFb22B8A90A77a93e80ceA61f89D04e05b796',
+  // RPC URL source: https://chainlist.org/
   rpcUrl: 'https://andromeda.metis.io/?owner=1088',
   nativeCurrency: {
     name: 'METIS',
