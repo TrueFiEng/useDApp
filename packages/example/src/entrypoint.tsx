@@ -18,12 +18,14 @@ import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-  [Ropsten.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'ropsten')
-    : getDefaultProvider('ropsten'),
-  [Kovan.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'kovan')
-    : getDefaultProvider('kovan'),
+  [Ropsten.chainId]: 'https://eth-ropsten.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
+  [Kovan.chainId]: 'https://eth-kovan.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
+  // [Ropsten.chainId]: process.env.MAINNET_URL
+  //   ? process.env.MAINNET_URL.replace('mainnet', 'ropsten')
+  //   : getDefaultProvider('ropsten'),
+  // [Kovan.chainId]: process.env.MAINNET_URL
+  //   ? process.env.MAINNET_URL.replace('mainnet', 'kovan')
+  //   : getDefaultProvider('kovan'),
   [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
 }
 
