@@ -270,7 +270,7 @@ export const withMetamaskTest = (baseUrl: string) => {
       })
     })
 
-    describe('Mulltichain', () => {
+    describe.only('Mulltichain', () => {
       it('Reads the chain names', async () => {
         await page.goto(`${baseUrl}multichain`)
 
