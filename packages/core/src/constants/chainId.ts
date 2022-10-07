@@ -4,6 +4,7 @@ import {
   Hardhat,
   Arbitrum,
   ArbitrumRinkeby,
+  ArbitrumGoerli,
   Avalanche,
   AvalancheTestnet,
   Aurora,
@@ -44,7 +45,7 @@ import {
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
-  ArbitrumGoerli,
+  Sepolia,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -82,6 +83,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Mumbai,
   OasisEmerald,
   OasisEmeraldTestnet,
+  Sepolia,
   Songbird,
   Theta,
   ThetaTestnet,
@@ -101,6 +103,7 @@ export enum ChainId {
   Ropsten = 3,
   Rinkeby = 4,
   Goerli = 5,
+  Sepolia = 11155111,
   ThunderCoreTestnet = 18,
   Cronos = 25,
   CronosTestnet = 338,
@@ -136,6 +139,7 @@ export enum ChainId {
   Optimism = 10,
   Arbitrum = 42161,
   ArbitrumRinkeby = 421611,
+  ArbitrumGoerli = 421613,
   Aurora = 1313161554,
   AuroraTestnet = 1313161555,
   Velas = 106,

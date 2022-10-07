@@ -3,30 +3,25 @@ import ReactDOM from 'react-dom'
 import {
   Mainnet,
   DAppProvider,
-  Ropsten,
-  Kovan,
   Config,
   Arbitrum,
   Localhost,
   MetamaskConnector,
   CoinbaseWalletConnector,
+  Goerli,
+  Sepolia,
 } from '@usedapp/core'
 import { App } from './App'
-import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
+import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
-  // [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-  [Mainnet.chainId]: 'https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
-  [Ropsten.chainId]: 'https://eth-ropsten.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
-  [Kovan.chainId]: 'https://eth-kovan.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
-  // [Ropsten.chainId]: process.env.MAINNET_URL
-  //   ? process.env.MAINNET_URL.replace('mainnet', 'ropsten')
-  //   : getDefaultProvider('ropsten'),
-  // [Kovan.chainId]: process.env.MAINNET_URL
-  //   ? process.env.MAINNET_URL.replace('mainnet', 'kovan')
-  //   : getDefaultProvider('kovan'),
+  [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+  [Goerli.chainId]: process.env.MAINNET_URL
+    ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
+    : getDefaultProvider('goerli'),
+  [Sepolia.chainId]: 'https://rpc.sepolia.org',
   [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
 }
 
@@ -39,7 +34,7 @@ const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls,
-  multicallVersion: 2 as const,
+  multicallVersion: 1 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
   connectors: {

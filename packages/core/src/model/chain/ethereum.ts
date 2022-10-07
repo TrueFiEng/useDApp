@@ -6,6 +6,7 @@ const ropstenEtherscanUrl = 'https://ropsten.etherscan.io'
 const rinkebyEtherscanUrl = 'https://rinkeby.etherscan.io'
 const goerliEtherscanUrl = 'https://goerli.etherscan.io'
 const kovanEtherscanUrl = 'https://kovan.etherscan.io'
+const sepoliaEtherscanUrl = 'https://sepolia.etherscan.io'
 
 export const Mainnet: Chain = {
   chainId: 1,
@@ -92,10 +93,29 @@ export const Kovan: Chain = {
   getExplorerTransactionLink: getTransactionLink(kovanEtherscanUrl),
 }
 
+export const Sepolia: Chain = {
+  chainId: 11155111,
+  chainName: 'Sepolia',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0x6a19Dbfc67233760E0fF235b29158bE45Cc53765',
+  multicall2Address: '0xeFd9FF5a8cea47Cd6a6B1b2c3f21aC9475265A21',
+  rpcUrl: 'https://rpc.sepolia.org',
+  blockExplorerUrl: sepoliaEtherscanUrl,
+  nativeCurrency: {
+    name: 'Sepolia Ether',
+    symbol: 'SepoliaETH',
+    decimals: 18,
+  },
+  getExplorerAddressLink: getAddressLink(sepoliaEtherscanUrl),
+  getExplorerTransactionLink: getTransactionLink(sepoliaEtherscanUrl),
+}
+
 export default {
   Mainnet,
   Ropsten,
   Rinkeby,
   Goerli,
   Kovan,
+  Sepolia,
 }
