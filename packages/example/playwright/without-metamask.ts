@@ -92,7 +92,7 @@ export const withoutMetamaskTest = (baseUrl: string) => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Goerli'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Optimism'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'OptimismGoerli'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism Goerli'))).to.be.true
         })
       })
 
