@@ -1,19 +1,27 @@
 import { ReactNode } from 'react'
 import { Layout } from './Layout'
-import { Arbitrum, Config, DAppProvider, Kovan, Localhost, Mainnet, MetamaskConnector, CoinbaseWalletConnector, Ropsten } from '@usedapp/core'
+import {
+  Config,
+  DAppProvider,
+  Localhost,
+  Mainnet,
+  MetamaskConnector,
+  CoinbaseWalletConnector,
+  Goerli,
+  Optimism,
+  OptimismGoerli,
+} from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
-  [Mainnet.chainId]: process.env.NEXT_PUBLIC_MAINNET_URL || getDefaultProvider('mainnet'),
-  [Ropsten.chainId]: process.env.NEXT_PUBLIC_MAINNET_URL
-    ? process.env.NEXT_PUBLIC_MAINNET_URL.replace('mainnet', 'ropsten')
-    : getDefaultProvider('ropsten'),
-  [Kovan.chainId]: process.env.NEXT_PUBLIC_MAINNET_URL
-    ? process.env.NEXT_PUBLIC_MAINNET_URL.replace('mainnet', 'kovan')
-    : getDefaultProvider('kovan'),
-  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+  [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+  [Goerli.chainId]: process.env.MAINNET_URL
+    ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
+    : getDefaultProvider('goerli'),
+  [Optimism.chainId]: 'https://mainnet.optimism.io',
+  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
 }
 
 if (process.env.NEXT_PUBLIC_LOCALHOST_URL) {
@@ -25,7 +33,7 @@ const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls,
-  multicallVersion: 2 as const,
+  multicallVersion: 1 as const,
   fastMulticallEncoding: true,
   noMetamaskDeactivate: true,
   connectors: {

@@ -90,13 +90,13 @@ export const withoutMetamaskTest = (baseUrl: string) => {
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Goerli'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'OptimismGoerli'))).to.be.true
         })
       })
 
-      it.only('Check if all chains were loaded', async () => {
+      it('Check if all chains were loaded', async () => {
         await page.goto(`${baseUrl}multichain`)
 
         await sleep(15000)

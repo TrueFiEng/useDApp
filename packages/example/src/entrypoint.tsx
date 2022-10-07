@@ -4,12 +4,12 @@ import {
   Mainnet,
   DAppProvider,
   Config,
-  Arbitrum,
   Localhost,
   MetamaskConnector,
   CoinbaseWalletConnector,
   Goerli,
-  Sepolia,
+  OptimismGoerli,
+  Optimism,
 } from '@usedapp/core'
 import { App } from './App'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
@@ -21,8 +21,8 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
   [Goerli.chainId]: process.env.MAINNET_URL
     ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
     : getDefaultProvider('goerli'),
-  [Sepolia.chainId]: 'https://rpc.sepolia.org',
-  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
+  [Optimism.chainId]: 'https://mainnet.optimism.io',
+  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
 }
 
 if (process.env.LOCALHOST_URL) {
