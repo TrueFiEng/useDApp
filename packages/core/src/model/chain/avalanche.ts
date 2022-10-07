@@ -15,9 +15,9 @@ export const Avalanche: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
-  rpcUrl: 'https://rpc.ankr.com/avalanche',
-  blockExplorerUrl: avalancheExplorerUrl,
+  rpcUrl: 'https://api.avax.network/ext/bc/C/rpc',
   nativeCurrency: avax,
+  blockExplorerUrl: avalancheExplorerUrl,
   getExplorerAddressLink: getAddressLink(avalancheExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(avalancheExplorerUrl),
 }
@@ -26,7 +26,7 @@ const testExplorerUrl = 'https://testnet.snowtrace.io'
 
 export const AvalancheTestnet: Chain = {
   chainId: 43113,
-  chainName: 'AvalancheTestnet',
+  chainName: 'Avalanche Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a',

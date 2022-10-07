@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const cronosExplorerUrl = 'https://cronoscan.com'
 
 export const Cronos: Chain = {
   chainId: 25,
@@ -6,19 +9,34 @@ export const Cronos: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0x0fA4d452693F2f45D28c4EC4d20b236C4010dA74',
-  getExplorerAddressLink: (address: string) => `https://cronoscan.com/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://cronoscan.com/tx/${transactionHash}`,
+  rpcUrl: 'https://evm.cronos.org',
+  nativeCurrency: {
+    name: 'CRO',
+    symbol: 'CRO',
+    decimals: 18,
+  },
+  blockExplorerUrl: cronosExplorerUrl,
+  getExplorerAddressLink: getAddressLink(cronosExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(cronosExplorerUrl),
 }
+
+const cronosTestnetExplorerUrl = 'https://testnet.cronoscan.com'
 
 export const CronosTestnet: Chain = {
   chainId: 338,
-  chainName: 'CronosTestnet',
+  chainName: 'Cronos Testnet',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x6a8c1ba309136D78245f1F0a14790239b71a9577',
-  getExplorerAddressLink: (address: string) => `https://cronos.crypto.org/explorer/testnet3/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://cronos.crypto.org/explorer/testnet3/tx/${transactionHash}`,
+  rpcUrl: 'https://cronos-testnet-3.crypto.org:8545',
+  nativeCurrency: {
+    name: 'TCRO',
+    symbol: 'TCRO',
+    decimals: 18,
+  },
+  blockExplorerUrl: cronosTestnetExplorerUrl,
+  getExplorerAddressLink: getAddressLink(cronosTestnetExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(cronosTestnetExplorerUrl),
 }
 
 export default {
