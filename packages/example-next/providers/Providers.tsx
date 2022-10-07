@@ -20,12 +20,8 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
   [Goerli.chainId]: process.env.MAINNET_URL
     ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
     : getDefaultProvider('goerli'),
-  [Optimism.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'optimism')
-    : 'https://mainnet.optimism.io',
-  [OptimismGoerli.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'optimism-goerli')
-    : 'https://goerli.optimism.io',
+  [Optimism.chainId]: 'https://mainnet.optimism.io',
+  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
 }
 
 if (process.env.NEXT_PUBLIC_LOCALHOST_URL) {
