@@ -82,7 +82,7 @@ export const withoutMetamaskTest = (baseUrl: string) => {
       })
     })
 
-    describe.only('Mulltichain', () => {
+    describe('Mulltichain', () => {
       it('Reads the chain names', async () => {
         await page.goto(`${baseUrl}multichain`)
 
@@ -90,9 +90,9 @@ export const withoutMetamaskTest = (baseUrl: string) => {
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Goerli'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'OptimismGoerli'))).to.be.true
         })
       })
 
