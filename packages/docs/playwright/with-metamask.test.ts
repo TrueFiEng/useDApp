@@ -92,7 +92,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
       })
 
       const popupPromise = waitForPopup(context)
@@ -106,11 +106,16 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       ).to.be.false
 
       await popupPage.click(XPath.text('a', 'View all'))
-      expect(await popupPage.isVisible(`//*[text()='${Optimism.chainName}']`)).to.be.true
-      expect(await popupPage.isVisible(`//*[text()='${Optimism.rpcUrl}']`)).to.be.true
-      expect(await popupPage.isVisible(`//*[text()='${Optimism.chainId}']`)).to.be.true
-      expect(await popupPage.isVisible(`//*[text()='${Optimism.nativeCurrency.symbol}']`)).to.be.true
-      expect(await popupPage.isVisible(`//*[text()='${Optimism.blockExplorerUrl}']`)).to.be.true
+      await waitForExpect(async () => {
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.chainName}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.rpcUrl}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.chainId}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.nativeCurrency.symbol}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.blockExplorerUrl}']`)).to.be.true
+      })
+      await popupPage.click(XPath.text('button', 'Close'))
+      await popupPage.click(XPath.text('button', 'Approve'))
+      await popupPage.click(XPath.text('button', 'Cancel'))
     })
   })
 
