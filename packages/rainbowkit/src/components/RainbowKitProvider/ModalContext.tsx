@@ -7,13 +7,12 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useUpdateConfig, useConfig, useConnector, useConnectorWrapper } from '@usedapp/core';
+import { useUpdateConfig, useConfig, useConnector, useConnectorWrapper, useEthers } from '@usedapp/core';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import { AccountModal } from '../AccountModal/AccountModal';
 import { ChainModal } from '../ChainModal/ChainModal';
 import { ConnectModal } from '../ConnectModal/ConnectModal';
 import { useAuthenticationStatus } from './AuthenticationContext';
-import { useEthers } from '../../../../core/src/hooks/useEthers';
 
 function useModalStateValue() {
   const [isModalOpen, setModalOpen] = useState(false);
