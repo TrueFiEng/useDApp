@@ -63,10 +63,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
   } = useModalStateValue();
 
   const connectionStatus = useConnectionStatus();
-  const { connector } = useConnector();
-  const wrappedConnector = useConnectorWrapper();
-  const { chainId, account, connector: useEthersConnector } = useEthers(1);
-  console.log({ chainId, account, connector, connectorChainId: connector?.chainId, wrappedConnector, useEthersConnector });
+  const { chainId } = useEthers();
   const { readOnlyUrls } = useConfig();
   const chainSupported = !!(readOnlyUrls && chainId && readOnlyUrls[chainId]);
 

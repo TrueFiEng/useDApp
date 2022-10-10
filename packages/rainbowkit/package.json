@@ -11,7 +11,7 @@
     "./styles.css": "./dist/index.css"
   },
   "main": "./dist/index.js",
-  "types": "./dist/rainbowkit/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "sideEffects": [
     "src/css/reset.css.ts"
   ],
