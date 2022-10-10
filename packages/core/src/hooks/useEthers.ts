@@ -10,6 +10,7 @@ import { ActivateBrowserWallet, ConnectorContext } from '../providers/network/co
 type JsonRpcProvider = providers.JsonRpcProvider
 type Web3Provider = providers.Web3Provider
 type ExternalProvider = providers.ExternalProvider
+type FallBackProvider = providers.FallbackProvider
 
 type MaybePromise<T> = Promise<T> | T
 
@@ -33,7 +34,7 @@ export type Web3Ethers = {
   chainId?: number
   account?: string
   error?: Error
-  library?: JsonRpcProvider
+  library?: JsonRpcProvider | FallBackProvider
   active: boolean
   activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
@@ -69,13 +70,15 @@ export function useEthers(id?: number): Web3Ethers {
 
   const [errors, setErrors] = useState<Error[]>(connector?.errors ?? [])
   const [account, setAccount] = useState<string | undefined>(getAccount(connector))
-  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | undefined>(connector?.getProvider())
+  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | FallBackProvider | undefined>(
+    connector?.getProvider()
+  )
   const [chainId, setChainId] = useState<number | undefined>(connector?.chainId)
 
   useEffect(() => {
     if (!connector?.getProvider()) {
       setAccount(undefined)
-      setProvider(readonlyNetwork?.provider as JsonRpcProvider | undefined)
+      setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallBackProvider | undefined)
       setChainId(readonlyNetwork?.chainId)
       setErrors([])
       return

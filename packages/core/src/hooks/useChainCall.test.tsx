@@ -8,7 +8,6 @@ import {
   setupTestingConfig,
   TestingNetwork,
 } from '../testing'
-import { encodeCallData } from '../helpers'
 import { BigNumber } from 'ethers'
 import { useChainCall } from './useChainCalls'
 import { Config } from '../constants'
@@ -27,17 +26,14 @@ describe('useChainCall', () => {
   })
 
   it('initial test balance to be correct', async () => {
-    const callData = {
-      contract: token,
-      method: 'balanceOf',
-      args: [network1.deployer.address],
+    const call = {
+      address: token.address,
+      data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
+      chainId: network1.chainId,
     }
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => useChainCall(encodeCallData(callData, network1.chainId)),
-      {
-        config,
-      }
-    )
+    const { result, waitForCurrent } = await renderDAppHook(() => useChainCall(call), {
+      config,
+    })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
@@ -61,16 +57,11 @@ describe('useChainCall', () => {
   ) => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
-        useChainCall(
-          encodeCallData(
-            {
-              contract,
-              method: 'balanceOf',
-              args,
-            },
-            chainId
-          )
-        ),
+        useChainCall({
+          address: contract.address,
+          data: contract.interface.encodeFunctionData('balanceOf', args),
+          chainId,
+        }),
       {
         config,
       }

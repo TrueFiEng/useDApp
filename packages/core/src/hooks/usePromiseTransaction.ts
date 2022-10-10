@@ -6,7 +6,7 @@ import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
 import { buildSafeTransaction, getLatestNonce, GNOSIS_SAFE_ABI, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, FallbackProvider } from '@ethersproject/providers'
 
 interface PromiseTransactionOpts {
   safeTransaction?: Partial<SafeTransaction>
@@ -56,7 +56,10 @@ export async function estimateContractFunctionGasLimit(
 /**
  * @internal
  */
-async function isNonContractWallet(library: JsonRpcProvider | undefined, address: string | undefined) {
+async function isNonContractWallet(
+  library: JsonRpcProvider | FallbackProvider | undefined,
+  address: string | undefined
+) {
   if (!library || !address) {
     return true
   }

@@ -1,26 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  DAppProvider,
-  useSendTransaction,
-  useEthers,
-  Config,
-  Goerli,
-  Kovan,
-  Rinkeby,
-  Ropsten,
-  Mainnet,
-} from '@usedapp/core'
+import { DAppProvider, useSendTransaction, useEthers, Config, Goerli, Mainnet, Optimism } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Optimism.chainId]: getDefaultProvider('optimism'),
     [Goerli.chainId]: getDefaultProvider('goerli'),
-    [Kovan.chainId]: getDefaultProvider('kovan'),
-    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
-    [Ropsten.chainId]: getDefaultProvider('ropsten'),
   },
 }
 
@@ -49,6 +37,11 @@ export function App() {
         {
           <button onClick={() => switchNetwork(Mainnet.chainId)} disabled={chainId === Mainnet.chainId}>
             Switch to Mainnet
+          </button>
+        }{' '}
+        {
+          <button onClick={() => switchNetwork(Optimism.chainId)} disabled={chainId === Optimism.chainId}>
+            Switch to Optimism
           </button>
         }{' '}
         {

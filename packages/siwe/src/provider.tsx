@@ -130,7 +130,8 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       if (!account || !chainId || !library) {
         return
       }
-      const signer = library.getSigner()
+      const signer = 'getSigner' in library ? library.getSigner() : undefined
+      if (!signer) return
       const nonce = await getNonceRequestHandler()
 
       if (!nonce) {

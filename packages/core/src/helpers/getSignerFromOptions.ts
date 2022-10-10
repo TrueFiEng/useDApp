@@ -3,11 +3,12 @@ import { TransactionOptions } from '../model'
 
 type BaseProvider = providers.BaseProvider
 type JsonRpcProvider = providers.JsonRpcProvider
+type FallbackProvider = providers.FallbackProvider
 
 export const getSignerFromOptions = (
   provider: BaseProvider,
   options?: TransactionOptions,
-  library?: JsonRpcProvider
+  library?: JsonRpcProvider | FallbackProvider
 ) => {
   const privateKey = options && 'privateKey' in options && options.privateKey
   const mnemonicPhrase = options && 'mnemonicPhrase' in options && options.mnemonicPhrase
@@ -22,5 +23,11 @@ export const getSignerFromOptions = (
 
   const optionsSigner = options && 'signer' in options && options.signer
 
-  return privateKeySigner || mnemonicPhraseSigner || encryptedJsonSigner || optionsSigner || library?.getSigner()
+  return (
+    privateKeySigner ||
+    mnemonicPhraseSigner ||
+    encryptedJsonSigner ||
+    optionsSigner ||
+    (library && 'getSigner' in library ? library.getSigner() : undefined)
+  )
 }

@@ -19,6 +19,8 @@ import {
   secondSign,
   connectToWalletConnect,
 } from './gnosisSafeUtils'
+import { Optimism } from '@usedapp/core'
+import { sleep } from './sleep'
 
 const log = debug('usedapp:docs:playwright')
 
@@ -84,6 +86,36 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
       })
+    })
+
+    it('Add new network to Metamask', async () => {
+      await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
+
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
+      })
+
+      const popupPromise = waitForPopup(context)
+      await page.click(XPath.text('button', 'Switch to Optimism'))
+      const popupPage = await popupPromise
+
+      await sleep(2000) // Wait for the popup to be fully loaded.
+      expect(
+        // if this link is visible, then the network does not match metamask records
+        await popupPage.isVisible(`//a[@href='https://metamask.zendesk.com/hc/en-us/articles/360057142392']`)
+      ).to.be.false
+
+      await popupPage.click(XPath.text('a', 'View all'))
+      await waitForExpect(async () => {
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.chainName}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.rpcUrl}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.chainId}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.nativeCurrency.symbol}']`)).to.be.true
+        expect(await popupPage.isVisible(`//*[text()='${Optimism.blockExplorerUrl}']`)).to.be.true
+      })
+      await popupPage.click(XPath.text('button', 'Close'))
+      await popupPage.click(XPath.text('button', 'Approve'))
+      await popupPage.click(XPath.text('button', 'Cancel'))
     })
   })
 
