@@ -75,13 +75,13 @@ const wagmiClient = createClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <DAppProvider config={config}>
-          <App />
-        </DAppProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <DAppProvider config={config}>
+      <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains}>
+            <App />
+          </RainbowKitProvider>
+      </WagmiConfig>
+    </DAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

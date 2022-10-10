@@ -3,9 +3,9 @@ import { getAddress } from 'ethers/lib/utils'
 import { Connector, ConnectorController, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useReadonlyNetworkStates } from '../providers/network/readonlyNetworks/context'
-import { ActivateBrowserWallet } from '../providers/network/connectors/context'
+import { ActivateBrowserWallet, ConnectorContext } from '../providers/network/connectors/context'
 
 type JsonRpcProvider = providers.JsonRpcProvider
 type Web3Provider = providers.Web3Provider
@@ -58,8 +58,13 @@ export type Web3Ethers = {
     - `async deactivate()` - function that disconnects wallet
     - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
-export function useEthers(): Web3Ethers {
+export function useEthers(id?: number): Web3Ethers {
   const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
+  const connectorContext = useContext(ConnectorContext)
+  if(id) {
+    console.log(`useEthers(${id}) ${connector}`)
+    console.log(connectorContext)
+  }
   const readonlyNetwork = useReadonlyNetwork()
 
   const [errors, setErrors] = useState<Error[]>(connector?.errors ?? [])
@@ -148,6 +153,11 @@ export function useEthers(): Web3Ethers {
       await connector?.switchNetwork(chainId)
     },
   }
+}
+
+export const useConnectorWrapper = () => {
+  const { connector } = useConnector()
+  return connector
 }
 
 const getAccount = (connector: ConnectorController | undefined) => {

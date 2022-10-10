@@ -86,6 +86,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       if (!connectors[type]) {
         throw new Error(`Connector ${type} is not configured`)
       }
+      console.log('activateBrowserWallet', type)
       await activate(connectors[type])
       setAutoConnectTag(type)
     },
@@ -93,8 +94,13 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   )
 
   useEffect(() => {
+    console.log('Mounting connector context provider')
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
+      console.log('Silently activating', autoConnectTag)
       void activate(connectors[autoConnectTag], true)
+    }
+    return () => {
+      console.log('Umounting connector ontext provider')
     }
   }, [])
 
@@ -102,9 +108,12 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
     controller?.updateConfig(config)
   }, [controller, config])
 
+  console.log('ConnectorContextProvider')
+  console.log(controller)
+
   return (
     <ConnectorContext.Provider
-      value={{
+      value={useMemo(() => ({
         connector: controller,
         deactivate: async () => {
           setAutoConnectTag(undefined)
@@ -120,7 +129,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         activate,
         activateBrowserWallet,
         isLoading,
-      }}
+      }), [controller, onDisconnect, activate, activateBrowserWallet, isLoading])}
     >
       {children}
     </ConnectorContext.Provider>

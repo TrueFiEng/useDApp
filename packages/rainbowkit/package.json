@@ -11,7 +11,7 @@
     "./styles.css": "./dist/index.css"
   },
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/rainbowkit/src/index.d.ts",
   "sideEffects": [
     "src/css/reset.css.ts"
   ],
@@ -22,8 +22,6 @@
     "build": "pnpm typegen && node build.js",
     "build:watch": "node build.js --watch",
     "dev": "pnpm build:watch & pnpm typegen:watch",
-    "prepare": "MINIFY_CSS=true pnpm build",
-    "prebuild": "pnpm typegen",
     "typecheck": "pnpm tsc --noEmit",
     "typegen": "tsc --emitDeclarationOnly",
     "typegen:watch": "tsc --emitDeclarationOnly --watch"

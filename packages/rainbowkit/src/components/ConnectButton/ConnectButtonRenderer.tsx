@@ -60,7 +60,7 @@ export function ConnectButtonRenderer({
   children,
 }: ConnectButtonRendererProps) {
   const mounted = useIsMounted();
-  const { account, chainId } = useEthers();
+  const { account, chainId } = useEthers(2);
   const ensAvatar = useMainnetEnsAvatar(account);
   const ensName = useMainnetEnsName(account);
   const balance = useEtherBalance(account);

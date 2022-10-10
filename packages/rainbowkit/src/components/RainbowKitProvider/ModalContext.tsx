@@ -3,10 +3,11 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
-import { useUpdateConfig, useConfig } from '@usedapp/core';
+import { useUpdateConfig, useConfig, useConnector, useConnectorWrapper } from '@usedapp/core';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import { AccountModal } from '../AccountModal/AccountModal';
 import { ChainModal } from '../ChainModal/ChainModal';
@@ -63,30 +64,35 @@ export function ModalProvider({ children }: ModalProviderProps) {
   } = useModalStateValue();
 
   const connectionStatus = useConnectionStatus();
-  const { chainId } = useEthers();
+  const { connector } = useConnector();
+  const wrappedConnector = useConnectorWrapper();
+  const { chainId, account, connector: useEthersConnector } = useEthers(1);
+  console.log({ chainId, account, connector, connectorChainId: connector?.chainId, wrappedConnector, useEthersConnector });
   const { readOnlyUrls } = useConfig();
-  const chainSupported = readOnlyUrls && chainId && readOnlyUrls[chainId];
+  const chainSupported = !!(readOnlyUrls && chainId && readOnlyUrls[chainId]);
 
   interface CloseModalsOptions {
     keepConnectModalOpen?: boolean;
   }
 
-  function closeModals({
-    keepConnectModalOpen = false,
-  }: CloseModalsOptions = {}) {
-    if (!keepConnectModalOpen) {
-      closeConnectModal();
-    }
-    closeAccountModal();
-    closeChainModal();
-  }
-
   const isUnauthenticated = useAuthenticationStatus() === 'unauthenticated';
   const updateConfig = useUpdateConfig();
-  updateConfig({
-    onConnect: () => closeModals({ keepConnectModalOpen: isUnauthenticated }),
-    onDisconnect: () => closeModals(),
-  });
+  useEffect(() => {
+    function closeModals({
+      keepConnectModalOpen = false,
+    }: CloseModalsOptions = {}) {
+      if (!keepConnectModalOpen) {
+        closeConnectModal();
+      }
+      closeAccountModal();
+      closeChainModal();
+    }
+
+    updateConfig({
+      onConnect: () => closeModals({ keepConnectModalOpen: isUnauthenticated }),
+      onDisconnect: () => closeModals(),
+    });
+  }, [isUnauthenticated]);
 
   return (
     <ModalContext.Provider
