@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useAccount, useBalance, useEnsAvatar, useEnsName } from 'wagmi';
+import { useEthers, useEnsAvatar, useEtherBalance, useLookupAddress } from '@usedapp/core';
 import { isMobile } from '../../utils/isMobile';
 import { Avatar } from '../Avatar/Avatar';
 import { Box } from '../Box/Box';
@@ -14,12 +14,13 @@ import { ShowRecentTransactionsContext } from '../RainbowKitProvider/ShowRecentT
 import { Text } from '../Text/Text';
 import { TxList } from '../Txs/TxList';
 import { ProfileDetailsAction } from './ProfileDetailsAction';
+import { utils } from 'ethers';
 
 interface ProfileDetailsProps {
-  address: ReturnType<typeof useAccount>['address'];
-  balanceData: ReturnType<typeof useBalance>['data'];
-  ensAvatar: ReturnType<typeof useEnsAvatar>['data'];
-  ensName: ReturnType<typeof useEnsName>['data'];
+  address: ReturnType<typeof useEthers>['account'];
+  balanceData: ReturnType<typeof useEtherBalance>;
+  ensAvatar: ReturnType<typeof useEnsAvatar>['ensAvatar'];
+  ensName: ReturnType<typeof useLookupAddress>['ens'];
   onClose: () => void;
   onDisconnect: () => void;
 }
@@ -56,9 +57,9 @@ export function ProfileDetails({
   }
 
   const accountName = ensName ? formatENS(ensName) : formatAddress(address);
-  const ethBalance = balanceData?.formatted;
+  const ethBalance = balanceData?.toString();
   const displayBalance = ethBalance
-    ? abbreviateETHBalance(parseFloat(ethBalance))
+    ? abbreviateETHBalance(parseFloat(utils.formatEther(ethBalance)))
     : undefined;
   const titleId = 'rk_profile_title';
   const mobile = isMobile();
@@ -119,7 +120,7 @@ export function ProfileDetails({
                     size={mobile ? '16' : '14'}
                     weight="semibold"
                   >
-                    {displayBalance} {balanceData.symbol}
+                    {displayBalance} ETH
                   </Text>
                 </Box>
               )}

@@ -10,6 +10,8 @@ import {
   Goerli,
   OptimismGoerli,
   Optimism,
+  Polygon,
+  Arbitrum,
 } from '@usedapp/core'
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
@@ -29,6 +31,8 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
     : getDefaultProvider('goerli'),
   [Optimism.chainId]: 'https://mainnet.optimism.io',
   [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
+  [Polygon.chainId]: 'https://polygon-rpc.com',
+  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc'
 }
 
 if (process.env.LOCALHOST_URL) {

@@ -1,9 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
-// import { useAccount, useBalance, useNetwork } from 'wagmi';
-import { useEthers, useEtherBalance, useConfig } from '@usedapp/core';
+import { useEthers, useEtherBalance, useConfig, useEnsAvatar, useLookupAddress } from '@usedapp/core';
 import { useIsMounted } from '../../hooks/useIsMounted';
-import { useMainnetEnsAvatar } from '../../hooks/useMainnetEnsAvatar';
-import { useMainnetEnsName } from '../../hooks/useMainnetEnsName';
 import { useRecentTransactions } from '../../transactions/useRecentTransactions';
 import { useAsyncImage } from '../AsyncImage/useAsyncImage';
 import {
@@ -21,6 +18,7 @@ import { ShowRecentTransactionsContext } from '../RainbowKitProvider/ShowRecentT
 import { abbreviateETHBalance } from './abbreviateETHBalance';
 import { formatAddress } from './formatAddress';
 import { formatENS } from './formatENS';
+import { utils } from 'ethers';
 
 const noop = () => {};
 
@@ -61,8 +59,8 @@ export function ConnectButtonRenderer({
 }: ConnectButtonRendererProps) {
   const mounted = useIsMounted();
   const { account, chainId } = useEthers();
-  const ensAvatar = useMainnetEnsAvatar(account);
-  const ensName = useMainnetEnsName(account);
+  const { ensAvatar } = useEnsAvatar(account);
+  const { ens: ensName } = useLookupAddress(account);
   const balance = useEtherBalance(account);
   const { networks, readOnlyUrls } = useConfig();
   const activeChain = networks?.find((network) => network.chainId === chainId);
@@ -83,7 +81,7 @@ export function ConnectButtonRenderer({
     showRecentTransactions;
 
   const displayBalance = balance
-    ? `${abbreviateETHBalance(parseFloat(balance.toString()))} ${
+    ? `${abbreviateETHBalance(parseFloat(utils.formatEther(balance)))} ${
         'ETH'
       }`
     : undefined;
