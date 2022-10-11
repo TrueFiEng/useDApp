@@ -1,46 +1,50 @@
 import React from 'react'
-import { Container, MainContent } from '../components/base/base'
-import { ConnectButton, useAccountModal, useChainModal, useConnectModal } from '@usedapp/rainbowkit'
-import { Button } from '../components/base/Button'
-import { AccountButton } from '../components/account/AccountButton'
+import { Container, MainContent, Section, SectionRow, ContentBlock, ContentRow } from '../components/base/base'
+import { Title } from '../typography/Title'
+import { Label } from '../typography/Label'
+import { TextInline } from '../typography/Text'
+import { ConnectButton } from '@usedapp/rainbowkit'
+import { formatEther } from '@ethersproject/units'
+import { useEthers, useEtherBalance } from '@usedapp/core'
 
 export function RainbowkitPage() {
-  const { openConnectModal } = useConnectModal()
-  const { openAccountModal } = useAccountModal()
-  const { openChainModal } = useChainModal()
+  const { account, chainId } = useEthers()
+  const userBalance = useEtherBalance(account, { chainId })
 
   return (
     <MainContent>
-      <div
-        style={{
-          marginLeft: '300px',
-        }}
-      >
-        <Container>
-          <AccountButton />
-          <br />
-          <ConnectButton />
-          <br />
-          {openConnectModal && (
-            <Button onClick={openConnectModal} type="button">
-              Open Connect Modal
-            </Button>
-          )}
-          <br />
-          {openAccountModal && (
-            <Button onClick={openAccountModal} type="button">
-              Open Account Modal
-            </Button>
-          )}
-          <br />
-          {openChainModal && (
-            <Button onClick={openChainModal} type="button">
-              Open Chain Modal
-            </Button>
-          )}
-          <br />
-        </Container>
-      </div>
+      <Container>
+        <Section>
+          <SectionRow>
+            <Title>Rainbowkit</Title>
+            <ConnectButton />
+          </SectionRow>
+          <ContentBlock>
+            {!account && !userBalance && (
+              <ContentRow>
+                <Label>Account:</Label> <TextInline id="balance-page-account">Not connected</TextInline>
+              </ContentRow>
+            )}
+            {account && (
+              <ContentRow>
+                <Label>Account:</Label> <TextInline id="balance-page-account">{account}</TextInline>
+              </ContentRow>
+            )}
+            {userBalance && (
+              <ContentRow>
+                <Label>Ether balance:</Label>{' '}
+                <TextInline id="balance-page-balance">{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
+              </ContentRow>
+            )}
+            {account && chainId && (
+              <ContentRow>
+                <Label>Current chain id:</Label>{' '}
+                <TextInline id="balance-page-chainid">{chainId}</TextInline>
+              </ContentRow>
+            )}
+          </ContentBlock>
+        </Section>
+      </Container>
     </MainContent>
   )
 }
