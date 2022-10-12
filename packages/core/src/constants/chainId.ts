@@ -46,12 +46,18 @@ import {
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
   Sepolia,
+  xDai,
+  OasisSapphireTestnet,
+  Boba,
+  Astar,
+  BobaRinkeby,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
 export const DEFAULT_SUPPORTED_CHAINS = [
   Localhost,
   Hardhat,
+  Astar,
   Avalanche,
   AvalancheTestnet,
   Arbitrum,
@@ -66,6 +72,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Kovan,
   BSC,
   BSCTestnet,
+  Boba,
+  BobaRinkeby,
   Cronos,
   CronosTestnet,
   Fantom,
@@ -83,6 +91,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Mumbai,
   OasisEmerald,
   OasisEmeraldTestnet,
+  OasisSapphireTestnet,
   Sepolia,
   Songbird,
   Theta,
@@ -96,6 +105,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
+  xDai,
 ]
 
 export enum ChainId {
@@ -146,4 +156,7 @@ export enum ChainId {
   VelasTestnet = 111,
   ZkSyncTestnet = 280,
   ArbitrumRedditTestnet = 5391184,
+  Astar = 592,
+  Boba = 288,
+  BobaRinkeby = 28,
 }

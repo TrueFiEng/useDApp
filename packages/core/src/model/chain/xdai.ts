@@ -21,7 +21,7 @@ export const xDai: Chain = {
 }
 
 // xdai alias
-export const Gnosis = {
+export const Gnosis: Chain = {
   ...xDai,
   chainName: 'Gnosis',
 }
