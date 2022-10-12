@@ -16,7 +16,6 @@ import {
 import { App } from './App'
 import { getDefaultProvider } from 'ethers'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
-import { PortisConnector } from '@usedapp/portis-connector'
 
 import '@usedapp/rainbowkit/dist/index.css'
 
@@ -30,7 +29,6 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
     ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
     : getDefaultProvider('goerli'),
   [Optimism.chainId]: 'https://mainnet.optimism.io',
-  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
   [Polygon.chainId]: 'https://polygon-rpc.com',
   [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc'
 }
@@ -43,8 +41,6 @@ if (process.env.LOCALHOST_URL) {
   readOnlyUrls[Localhost.chainId] = process.env.LOCALHOST_URL
 }
 
-const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
-
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls,
@@ -54,8 +50,7 @@ const config: Config = {
   connectors: {
     metamask: new MetamaskConnector(),
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    coinbase: new CoinbaseWalletConnector(),
-    portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet'),
+    coinbase: new CoinbaseWalletConnector()
   },
 }
 

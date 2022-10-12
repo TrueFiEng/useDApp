@@ -57,7 +57,6 @@ export {
   useContractFunction,
   useEtherBalance,
   useEthers,
-  useConnectorWrapper,
   useGasPrice,
   useLookupAddress,
   useMulticallAddress,

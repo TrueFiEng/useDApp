@@ -82,7 +82,7 @@ export function ConnectButtonRenderer({
 
   const displayBalance = balance
     ? `${abbreviateETHBalance(parseFloat(utils.formatEther(balance)))} ${
-        'ETH'
+        activeChain?.nativeCurrency?.symbol ??'ETH'
       }`
     : undefined;
 
@@ -100,7 +100,7 @@ export function ConnectButtonRenderer({
               address: account,
               balanceDecimals: 2,
               balanceFormatted: balance?.toString(),
-              balanceSymbol: 'ETH',
+              balanceSymbol: activeChain?.nativeCurrency?.symbol ?? 'ETH',
               displayBalance,
               displayName: ensName
                 ? formatENS(ensName)

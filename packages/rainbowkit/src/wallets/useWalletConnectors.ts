@@ -42,6 +42,7 @@ export function useWalletConnectors(): WalletConnector[] {
 
   async function connectWallet(walletId: string, connector: Connector) {
     await activate(connector);
+    addRecentWalletId(walletId);
     if (controller) {
       if (initialChainId && controller.chainId !== initialChainId) {
         await controller.switchNetwork(initialChainId);
@@ -49,7 +50,6 @@ export function useWalletConnectors(): WalletConnector[] {
       const walletChainId = controller.chainId;
       if (walletChainId && !rainbowKitChains.find(({ id }) => id === walletChainId)) {
         await controller.switchNetwork(rainbowKitChains[0].id);
-        addRecentWalletId(walletId);
       }
     }
   }
@@ -74,14 +74,14 @@ export function useWalletConnectors(): WalletConnector[] {
       return;
     }
 
-    const recent = recentWallets.includes(wallet);
+    const recent = getRecentWalletIds().includes(wallet.name);
 
     walletConnectors.push({
       ...rainbowKitConnectorsMap[wallet.name],
       connector: wallet as any,
       index: walletIndices[wallet.name],
       connect: () => connectWallet(wallet.name, wallet),
-      groupName: 'Recent',
+      groupName: wallet.name === 'Metamask' ? 'Popular' : 'More',
       ready: true,
       recent,
       showWalletConnectModal: wallet.name === 'WalletConnect'

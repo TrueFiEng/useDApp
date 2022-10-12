@@ -153,11 +153,6 @@ export function useEthers(): Web3Ethers {
   }
 }
 
-export const useConnectorWrapper = () => {
-  const { connector } = useConnector()
-  return connector
-}
-
 const getAccount = (connector: ConnectorController | undefined) => {
   if (connector?.accounts[0]) {
     return getAddress(connector.accounts[0])

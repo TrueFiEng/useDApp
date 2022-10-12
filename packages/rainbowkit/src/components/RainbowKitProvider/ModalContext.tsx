@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useUpdateConfig, useConfig, useConnector, useConnectorWrapper, useEthers } from '@usedapp/core';
+import { useUpdateConfig, useConfig, useEthers } from '@usedapp/core';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import { AccountModal } from '../AccountModal/AccountModal';
 import { ChainModal } from '../ChainModal/ChainModal';
