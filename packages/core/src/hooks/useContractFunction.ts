@@ -95,14 +95,14 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
 
-        const gasLimit =
+        const modifiedOpts = opts
+
+        if(!modifiedOpts.gasLimit) {
+          modifiedOpts.gasLimit =
           (await estimateContractFunctionGasLimit(contractWithSigner, functionName, args, gasLimitBufferPercentage)) ??
           BigNumber.from(0)
-
-        const modifiedOpts = {
-          gasLimit,
-          ...opts,
         }
+        
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
 
         const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
