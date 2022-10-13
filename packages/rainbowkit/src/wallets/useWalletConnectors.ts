@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { Connector, useConfig, useConnector, useEthers } from '@usedapp/core';
+import type { WalletConnectConnector } from '@usedapp/wallet-connect-connector';
 import { isNotNullish } from '../utils/isNotNullish';
 import {
   useInitialChainId,
@@ -6,7 +8,6 @@ import {
 } from './../components/RainbowKitProvider/RainbowKitChainContext';
 import { Wallet, WalletInstance } from './Wallet';
 import { addRecentWalletId, getRecentWalletIds } from './recentWalletIds';
-import { useMemo } from 'react';
 import { metaMask } from './walletConnectors/metaMask/metaMask';
 import { coinbase } from './walletConnectors/coinbase/coinbase';
 import { walletConnect } from './walletConnectors/walletConnect/walletConnect';
@@ -20,7 +21,7 @@ export interface WalletConnector extends WalletInstance {
   groupName: string;
 }
 
-const rainbowKitConnectorsMap: Record<string, Wallet> = {
+const rainbowKitWalletsMap: Record<string, Wallet> = {
   'Metamask': metaMask({ chains: [] }),
   'CoinbaseWallet': coinbase({ chains: [], appName: 'Does not matter anyway' }),
   'WalletConnect': walletConnect({ chains: [] })
@@ -76,8 +77,16 @@ export function useWalletConnectors(): WalletConnector[] {
 
     const recent = getRecentWalletIds().includes(wallet.name);
 
+    const getUriObject = () => {
+      return wallet.name === 'WalletConnect' ? { getUri: async () => {
+        return (wallet as WalletConnectConnector).getUri();
+      } } : undefined
+    }
+
     walletConnectors.push({
-      ...rainbowKitConnectorsMap[wallet.name],
+      ...rainbowKitWalletsMap[wallet.name],
+      mobile: getUriObject(),
+      qrCode: getUriObject(),
       connector: wallet as any,
       index: walletIndices[wallet.name],
       connect: () => connectWallet(wallet.name, wallet),

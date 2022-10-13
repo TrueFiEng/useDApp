@@ -8,7 +8,6 @@ import {
   MetamaskConnector,
   CoinbaseWalletConnector,
   Goerli,
-  OptimismGoerli,
   Optimism,
   Polygon,
   Arbitrum,

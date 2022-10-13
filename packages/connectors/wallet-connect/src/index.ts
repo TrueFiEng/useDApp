@@ -10,15 +10,16 @@ export class WalletConnectConnector implements Connector {
   public readonly name = 'WalletConnect'
 
   readonly update = new ConnectorEvent<ConnectorUpdateData>()
-  private walletConnectProvider?: WalletConnectProvider
+  private readonly walletConnectProvider: WalletConnectProvider
 
-  constructor(private opts: IWalletConnectProviderOptions) {}
+  constructor(private opts: IWalletConnectProviderOptions) {
+    this.walletConnectProvider = new WalletConnectProvider(this.opts)
+  }
 
   private async init() {
     if (this.provider) return
-    this.walletConnectProvider = new WalletConnectProvider(this.opts)
     this.provider = new providers.Web3Provider(this.walletConnectProvider)
-    await (this.provider?.provider as WalletConnectProvider).enable()
+    await this.walletConnectProvider.enable()
   }
 
   async connectEagerly(): Promise<void> {
@@ -35,9 +36,9 @@ export class WalletConnectConnector implements Connector {
   async activate(): Promise<void> {
     try {
       await this.init()
-      const chainId: string = await this.provider!.send('eth_chainId', [])
-      const accounts: string[] = await this.provider!.send('eth_accounts', [])
-      this.update.emit({ chainId: parseInt(chainId), accounts })
+      const chainId: number = this.walletConnectProvider.chainId
+      const accounts: string[] = this.walletConnectProvider.accounts
+      this.update.emit({ chainId, accounts })
     } catch (e) {
       console.log(e)
       throw new Error('Could not activate connector')
@@ -47,6 +48,10 @@ export class WalletConnectConnector implements Connector {
   async deactivate(): Promise<void> {
     this.walletConnectProvider?.disconnect()
     this.provider = undefined
+  }
+
+  getUri(): string {
+    return this.walletConnectProvider.connector.uri
   }
 }
 
