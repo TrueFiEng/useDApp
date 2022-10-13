@@ -1,5 +1,5 @@
 import { providers } from 'ethers'
-import React, { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useConfig, useLocalStorage } from '../../../hooks'
 import { Connector } from './connector'
 import { ConnectorController } from './connectorController'
@@ -104,23 +104,26 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   return (
     <ConnectorContext.Provider
-      value={useMemo(() => ({
-        connector: controller,
-        deactivate: async () => {
-          setAutoConnectTag(undefined)
-          setLoading(true)
-          await controller?.deactivate()
-          setController(undefined)
-          setLoading(false)
-          onDisconnect?.()
-        },
-        reportError: (err) => {
-          controller?.reportError(err)
-        },
-        activate,
-        activateBrowserWallet,
-        isLoading,
-      }), [controller, onDisconnect, activate, activateBrowserWallet, isLoading])}
+      value={useMemo(
+        () => ({
+          connector: controller,
+          deactivate: async () => {
+            setAutoConnectTag(undefined)
+            setLoading(true)
+            await controller?.deactivate()
+            setController(undefined)
+            setLoading(false)
+            onDisconnect?.()
+          },
+          reportError: (err) => {
+            controller?.reportError(err)
+          },
+          activate,
+          activateBrowserWallet,
+          isLoading,
+        }),
+        [controller, onDisconnect, activate, activateBrowserWallet, isLoading]
+      )}
     >
       {children}
     </ConnectorContext.Provider>

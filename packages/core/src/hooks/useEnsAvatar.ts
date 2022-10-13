@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useEthers } from './useEthers'
-import { useIsMounted } from './useIsMounted';
+import { useIsMounted } from './useIsMounted'
 
 /**
  * `useEnsAvatar` is a hook that is used to retrieve the ENS avatar for a specific address.

@@ -29,7 +29,7 @@ const readOnlyUrls: Config['readOnlyUrls'] = {
     : getDefaultProvider('goerli'),
   [Optimism.chainId]: 'https://mainnet.optimism.io',
   [Polygon.chainId]: 'https://polygon-rpc.com',
-  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc'
+  [Arbitrum.chainId]: 'https://arb1.arbitrum.io/rpc',
 }
 
 if (process.env.LOCALHOST_URL) {
@@ -49,7 +49,7 @@ const config: Config = {
   connectors: {
     metamask: new MetamaskConnector(),
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
-    coinbase: new CoinbaseWalletConnector()
+    coinbase: new CoinbaseWalletConnector(),
   },
 }
 

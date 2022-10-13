@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react'
-import { useEtherBalance, Connector, useEthers, useConnector, useConfig } from '@usedapp/core'
+import React, { useMemo } from 'react'
+import { useEtherBalance, Connector, useEthers, useConnector } from '@usedapp/core'
 import { ContentBlock, ContentRow, SectionRow } from '../base/base'
 import { Title } from '../../typography/Title'
 import styled from 'styled-components'

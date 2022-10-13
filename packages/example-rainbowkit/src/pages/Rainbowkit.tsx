@@ -38,8 +38,7 @@ export function RainbowkitPage() {
             )}
             {account && chainId && (
               <ContentRow>
-                <Label>Current chain id:</Label>{' '}
-                <TextInline id="balance-page-chainid">{chainId}</TextInline>
+                <Label>Current chain id:</Label> <TextInline id="balance-page-chainid">{chainId}</TextInline>
               </ContentRow>
             )}
           </ContentBlock>
