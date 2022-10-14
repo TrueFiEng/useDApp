@@ -17,7 +17,7 @@ export type PollingIntervals = {
 }
 
 /**
- * useDApp configuration
+ * useDApp configuration.
  * @public
  */
 export interface FullConfig {
