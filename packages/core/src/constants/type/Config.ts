@@ -17,7 +17,7 @@ export type PollingIntervals = {
 }
 
 /**
- * useDapp configuration.
+ * useDApp configuration
  * @public
  */
 export interface FullConfig {
@@ -140,7 +140,7 @@ type RecursivePartial<Object, Keys extends {}> = {
 
 /**
  * useDapp configuration.
- * @public
+ * @ignore
  */
 export type Config = RecursivePartial<
   FullConfig,

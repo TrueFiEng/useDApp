@@ -33,7 +33,7 @@ export interface LogQueryParams extends QueryParams {
    *
    * **Default value:** `0` (the genesis block)
    *
-   * See {@link BlockTag} and {@link https://docs.ethers.io/v5/api/providers/types/#providers-Filter}
+   * See {@link https://docs.ethers.io/v5/api/providers/types/#providers-BlockTag} and {@link https://docs.ethers.io/v5/api/providers/types/#providers-Filter}
    */
   fromBlock?: BlockTag
 

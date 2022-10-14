@@ -43,7 +43,7 @@ const hooks = [
 /**
  * Can be linked to under API Reference / Constants page.
  */
-const constatnts = ['ChainId']
+const constants = ['ChainId']
 
 const ahref = (title: string, link: string) => `[${title}](${link})`
 // const ahref = (title: string, link: string) =>  `<a href="${link}">${title}</a>`
@@ -57,7 +57,7 @@ const createLink = (value: string) => {
   }
   if (hooks.includes(value)) return ahref(value, hooksLink(value))
   if (models.includes(value)) return ahref(value, modelsLink(value))
-  if (constatnts.includes(value)) return ahref(value, constantsLink(value))
+  if (constants.includes(value)) return ahref(value, constantsLink(value))
   throw new Error(`Could not find how to link to "${value}".`)
 }
 
