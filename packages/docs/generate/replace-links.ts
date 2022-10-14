@@ -51,7 +51,8 @@ const ahref = (title: string, link: string) => `[${title}](${link})`
 const createLink = (value: string) => {
   if (value.startsWith('http')) {
     const url = new URL(value)
-    const title = url.hash.replace('#', '') || url.pathname.split('/').at(-1) || url.hostname
+    const splittedBySlash = url.pathname.split('/')
+    const title = url.hash.replace('#', '') || splittedBySlash[splittedBySlash.length - 1] || url.hostname
     return ahref((title || value) as string, value)
   }
   if (hooks.includes(value)) return ahref(value, hooksLink(value))
