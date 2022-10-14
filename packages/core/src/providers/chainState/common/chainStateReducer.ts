@@ -1,7 +1,7 @@
 import { ChainState } from './model'
 
 /**
- * @public
+ * @ignore
  */
 export interface State {
   [chainId: number]:

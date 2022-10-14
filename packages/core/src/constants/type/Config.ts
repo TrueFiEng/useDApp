@@ -20,13 +20,20 @@ export type PollingIntervals = {
  * useDapp configuration.
  * @public
  */
-export type FullConfig = {
+export interface FullConfig {
   /**
    * ChainId of a chain you want to connect to by default in a read-only mode
    */
   readOnlyChainId?: number
   /**
    * Mapping of ChainId's to node URLs to use in read-only mode.
+   * @Example
+   * {
+   *   ...
+   *   readOnlyUrls: {
+   *     [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934'
+   *   }
+   * }
    */
   readOnlyUrls?: NodeUrls
   /**
@@ -38,25 +45,33 @@ export type FullConfig = {
    */
   multicallVersion: 1 | 2
   /**
+   * When set to `true` improves performance by using own written encoders and decoders for multicall data.
    * @experimental
+   * @defaultValue false
    */
   fastMulticallEncoding?: boolean
   /**
+   * Don't listen on `disconnect` event from Metamask. Might be useful in dealing with [this Metamask bug](https://github.com/MetaMask/metamask-extension/issues/13375).
    * @experimental
+   * @defaultValue false
    */
   noMetamaskDeactivate?: boolean
   /**
+   * List of intended supported chains. If a user tries to connect to an unsupported chain an error value will be returned by useEthers.
    * @deprecated
+   * @defaultValue [ChainId.Mainnet, ChainId.Goerli, ChainId.Kovan, ChainId.Rinkeby, ChainId.Ropsten, ChainId.xDai]
    */
   supportedChains?: number[]
   /**
    * List of intended supported chain configs.
-   * If a user tries to connect to an unsupported chain an error value will be returned by useEthers.
-   * @default DEFAULT_SUPPORTED_CHAINS
+   * If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
+   * Check the full list in {@link https://github.com/TrueFiEng/useDApp/tree/master/packages/core/src/model/chain}
+   * @defaultValue DEFAULT_SUPPORTED_CHAINS // [Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]
    */
   networks?: Chain[]
   /**
-   * Default polling interval for a new block.
+   * Default polling interval [ms] for a new block.
+   * @defaultValue 15000
    */
   pollingInterval: number
 
@@ -65,12 +80,19 @@ export type FullConfig = {
    */
   pollingIntervals?: PollingIntervals
 
+  /**
+   * @ignore
+   */
   notifications: {
     checkInterval: number
     expirationPeriod: number
   }
   /**
    * Paths to locations in local storage.
+   * @defaultValue
+   * {
+   *   transactionPath: 'transactions'
+   * }
    */
   localStorage: {
     transactionPath: string
@@ -88,6 +110,7 @@ export type FullConfig = {
   bufferGasLimitPercentage?: number
   /**
    * Enables reconnecting to last used provider when user revisits the page.
+   * @defaultValue true
    */
   autoConnect: boolean
   /**
@@ -100,6 +123,10 @@ export type FullConfig = {
   localStorageOverride?: WindowLocalStorage['localStorage']
   /**
    * Specify configuration of the wallets that can be used in the app
+   * @defaultValue
+   * {
+   *  metamask: new MetamaskConnector(),
+   * }
    */
   connectors: {
     [key: string]: Connector

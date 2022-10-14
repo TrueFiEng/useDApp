@@ -3,7 +3,7 @@ import { TokenInfo } from '@uniswap/token-lists'
 import { useEthers } from './useEthers'
 
 /**
- * @public
+ * @ignore
  */
 export interface TokenList {
   name: string

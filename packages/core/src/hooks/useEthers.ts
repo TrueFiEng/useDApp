@@ -21,7 +21,7 @@ type SupportedProviders =
   | Connector
 
 /**
- * @public
+ * @ignore
  */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>

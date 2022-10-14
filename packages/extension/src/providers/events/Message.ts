@@ -1,8 +1,19 @@
 // NOTE: If you modify this file please ensure consistency with
 // packages/core/src/providers/devtools.ts
 
+/**
+ * Represents a single call on the blockchain that can be included in multicall.
+ *
+ * @public
+ */
 export interface ChainCall {
+  /**
+   * address of a contract to call
+   */
   address: string
+  /**
+   * calldata of the call that encodes function call
+   */
   data: string
 }
 

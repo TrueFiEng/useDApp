@@ -59,6 +59,28 @@ export function encodeFilterData(
 }
 
 /**
+ * Result of a [useLogs](./02-Hooks.mdx#uselogs) query.
+ *
+ * It is `undefined` when the query didn't return yet or one of the following objects:
+ *
+ * - `{ value: DetailedEventRecord[], error: undefined }`, if the query succeeded,
+ * - `{ value: undefined, error: Error }`, if the query failed.
+ *
+ * Type `DetailedEventRecord` represents a single event (log) on a typed contract:
+ *
+ * ```typescript
+ * type DetailedEventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = {
+ *   data: EventRecord<T, EN>
+ *   blockNumber: number
+ *   blockHash: string
+ *   transactionIndex: number
+ *   transactionHash: string
+ *   removed: boolean
+ * }
+ * ```
+ *
+ * Additional resources related to events can be found [here](https://docs.soliditylang.org/en/latest/abi-spec.html#events).
+ *
  * @public
  */
 export type LogsResult<T extends TypedContract, EN extends ContractEventNames<T>> =
