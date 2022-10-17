@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useMemo, useReducer } from 'react'
 import { useDebouncePair, useBlockNumbers } from '../../../hooks'
 import { MultiChainStatesContext } from './context'
-import { ChainId, State, useConfig, useNetwork } from '../../..'
-import { useReadonlyNetworks } from '../../network'
+import { ChainId, State, useConfig } from '../../..'
+import { useConnector, useReadonlyNetworks } from '../../network'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
@@ -43,12 +43,12 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const { multicallVersion, fastMulticallEncoding } = useConfig()
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
-  const { reportError } = useNetwork()
-  const { isActive } = useWindow()
+  const dispatchNetworksState = useUpdateNetworksState()
+  const isActive = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
-  const updateNetworks = useUpdateNetworksState()
+  const { reportError } = useConnector()
 
   const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding ?? false)
 
@@ -90,12 +90,6 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       return
     }
 
-    updateNetworks({
-      type: 'UPDATE_NON_STATIC_CALLS_COUNT',
-      chainId,
-      count: calls.filter((call) => !call.isStatic && call.chainId === chainId).length,
-    })
-
     performMulticall(
       provider,
       multicall,
@@ -104,7 +98,13 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       callsOnThisChain,
       dispatchState,
       chainId,
-      reportError
+      (error) => {
+        dispatchNetworksState({
+          type: 'ADD_ERROR',
+          chainId,
+          error,
+        })
+      }
     )
     dispatchCalls({ type: 'UPDATE_CALLS', calls, updatedCalls, blockNumber, chainId })
   }

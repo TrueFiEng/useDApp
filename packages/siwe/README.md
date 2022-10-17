@@ -12,7 +12,7 @@ For detailed feature walkthrough checkout [documentation](https://usedapp-docs.n
 
 ## Contributing
 
-Contributions are always welcome, no matter how large or small. Before contributing, please read the [code of conduct](https://github.com/EthWorks/useDapp/blob/master/CODE_OF_CONDUCT.md) and [contribution policy](https://github.com/EthWorks/useDapp/blob/master/CONTRIBUTION.md).
+Contributions are always welcome, no matter how large or small. Before contributing, please read the [code of conduct](https://github.com/TrueFiEng/useDApp/blob/master/CODE_OF_CONDUCT.md) and [contribution policy](https://github.com/TrueFiEng/useDApp/blob/master/CONTRIBUTION.md).
 
 ### Before you issue pull request:
 

@@ -1,6 +1,6 @@
-import type { TransactionResponse } from '@ethersproject/abstract-provider'
+import type { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
-import { StoredTransaction } from '../..'
+import { StoredTransaction, UpdatedTransaction } from './model'
 import { transactionReducer } from './reducer'
 
 describe('transactionsReducer', () => {
@@ -12,6 +12,27 @@ describe('transactionsReducer', () => {
 
     expect(transactionReducer({}, { type: 'ADD_TRANSACTION', payload: transaction })).to.deep.eq({
       1: [transaction],
+    })
+  })
+
+  it('updateTransaction', () => {
+    const transaction: StoredTransaction = {
+      transaction: { chainId: 1 } as TransactionResponse,
+      submittedAt: 10,
+    }
+
+    const state = transactionReducer({}, { type: 'ADD_TRANSACTION', payload: transaction })
+    expect(state).to.deep.eq({
+      1: [transaction],
+    })
+
+    const updatedTransaction: UpdatedTransaction = {
+      ...transaction,
+      receipt: { status: 1 } as TransactionReceipt,
+    }
+
+    expect(transactionReducer(state, { type: 'UPDATE_TRANSACTION', payload: updatedTransaction })).to.deep.eq({
+      1: [updatedTransaction],
     })
   })
 

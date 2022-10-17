@@ -2,10 +2,9 @@ import { expect } from 'chai'
 import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
-import { Localhost, Mainnet, Mumbai } from '../model'
-import { createMockProvider, renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
+import { Mainnet, Mumbai } from '../model'
+import { renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
-
 import Ganache, { Server } from 'ganache'
 
 describe('useEthers', () => {
@@ -61,22 +60,28 @@ describe('useEthers', () => {
   })
 
   it('throws error if trying to use not configured network', async () => {
-    const notConfiguerdNetwork = await createMockProvider({ chainId: Localhost.chainId })
+    const configWithNotConfiguredNetworks: Config = {
+      ...config,
+      readOnlyUrls: {
+        [network1.chainId]: network1.provider,
+      },
+    }
+
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(notConfiguerdNetwork.provider)
+          void activate(network2.provider)
         }, [])
 
         return useEthers()
       },
-      { config }
+      { config: configWithNotConfiguredNetworks }
     )
 
     await waitForCurrent((val) => !!val.error)
     expect(result.current.error).not.to.be.undefined
-    expect(result.current.error?.toString()).to.include(`Not configured chain id: ${Localhost.chainId}`)
+    expect(result.current.error?.toString()).to.include(`Not configured chain id: ${network2.chainId}`)
   })
 
   it('returns correct provider after activation', async () => {
@@ -107,18 +112,74 @@ describe('useEthers', () => {
     expect(result.current.isLoading).to.be.false
   })
 
+  it('return signer if library is type of JsonRpcProvider', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
+
+    await waitForCurrent((val) => !!val.isLoading)
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.JsonRpcProvider)
+    expect(signer).to.be.instanceOf(providers.JsonRpcSigner)
+  })
+
+  it('cannot get signer if library is type of FallbackProvider', async () => {
+    const configWithFallbackProvider: Config = {
+      ...config,
+      readOnlyUrls: {
+        [network1.chainId]: new providers.FallbackProvider([network1.provider]),
+      },
+    }
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config: configWithFallbackProvider }
+    )
+
+    await waitForCurrent((val) => !!val.isLoading)
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)
+    expect(signer).to.be.undefined
+  })
+
   describe('Websocket provider', () => {
     let ganacheServer: Server<'ethereum'>
+    let provider: providers.WebSocketProvider
     const wsPort = 18845
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
-      ganacheServer = Ganache.server({ server: { ws: true } })
+      ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
       await ganacheServer.listen(wsPort)
+      provider = new providers.WebSocketProvider(wsUrl)
     })
 
     after(async () => {
       await ganacheServer.close()
+      // disrupting the connection forcefuly so websocket server can be properly shutdown
+      await provider.destroy()
     })
 
     it('works with a websocket provider', async () => {
@@ -126,7 +187,7 @@ describe('useEthers', () => {
         config: {
           readOnlyChainId: Mumbai.chainId,
           readOnlyUrls: {
-            [Mumbai.chainId]: new providers.WebSocketProvider(wsUrl),
+            [Mumbai.chainId]: provider,
           },
         },
       })

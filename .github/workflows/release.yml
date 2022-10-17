@@ -49,6 +49,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Deploy usedapp-docs.netlify.app
+        uses: nwtgck/actions-netlify@v1.2
+        if: steps.changesets.outputs.published == 'true'
+        with:
+          enable-commit-comment: true
+          enable-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          overwrites-pull-request-comment: true
+          production-deploy: ${{ github.event_name != 'pull_request' }}
+          publish-dir: packages/docs/build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
+
       - name: Publish dev version to npm
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc

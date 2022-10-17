@@ -2,11 +2,11 @@ import { Actions, NetworkStates } from './model'
 
 export function networkStatesReducer(prevState: NetworkStates, actions: Actions): NetworkStates {
   switch (actions.type) {
-    case 'UPDATE_NON_STATIC_CALLS_COUNT': {
+    case 'ADD_ERROR': {
       const newState = { ...prevState }
       newState[actions.chainId] = {
         ...newState[actions.chainId],
-        nonStaticCalls: actions.count,
+        errors: [...(newState[actions.chainId]?.errors ?? []), actions.error],
       }
       return newState
     }

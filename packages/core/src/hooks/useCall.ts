@@ -79,7 +79,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
-  const rawCalls = useMemo(
+  const potentialRawCalls = useMemo(
     () =>
       calls.map((call) =>
         chainId !== undefined
@@ -95,6 +95,21 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
       chainId,
     ]
   )
+
+  const rawCalls = useMemo(
+    () => potentialRawCalls.map((potentialCall) => (potentialCall instanceof Error ? undefined : potentialCall)),
+    [potentialRawCalls]
+  )
+
   const results = useRawCalls(rawCalls)
-  return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
+  return useMemo(
+    () =>
+      results.map((result, idx) => {
+        if (potentialRawCalls[idx] instanceof Error) {
+          return { value: undefined, error: potentialRawCalls[idx] as Error }
+        }
+        return decodeCallResult(calls[idx], result)
+      }),
+    [results]
+  )
 }

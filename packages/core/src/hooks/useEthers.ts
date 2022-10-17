@@ -1,21 +1,24 @@
 import { providers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
-import { getAddNetworkParams } from '../helpers/getAddNetworkParams'
-import { validateArguments } from '../helpers/validateArgument'
-import { useNetwork } from '../providers'
+import { Connector, ConnectorController, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 import { useEffect, useState } from 'react'
+import { useReadonlyNetworkStates } from '../providers/network/readonlyNetworks/context'
+import { ActivateBrowserWallet } from '../providers/network/connectors/context'
 
 type JsonRpcProvider = providers.JsonRpcProvider
+type Web3Provider = providers.Web3Provider
 type ExternalProvider = providers.ExternalProvider
+type FallBackProvider = providers.FallbackProvider
 
-type MaybePromise<T> = Promise<T> | any
+type MaybePromise<T> = Promise<T> | T
 
 type SupportedProviders =
   | JsonRpcProvider
   | ExternalProvider
   | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
+  | Connector
 
 /**
  * @public
@@ -31,9 +34,9 @@ export type Web3Ethers = {
   chainId?: number
   account?: string
   error?: Error
-  library?: JsonRpcProvider
+  library?: JsonRpcProvider | FallBackProvider
   active: boolean
-  activateBrowserWallet: () => void
+  activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
   /**
    * Switch to a different network.
@@ -49,7 +52,7 @@ export type Web3Ethers = {
  * @returns {} Object with the following:
     - `account: string` - current user account (or *undefined* if not connected)
     - `chainId: ChainId` - current chainId (or *undefined* if not connected)
-    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/EthWorks/useDapp/tree/master/packages/example) (or `undefined` if not connected)
+    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/TrueFiEng/useDApp/tree/master/packages/example) (or `undefined` if not connected)
     - `active: boolean` - returns if provider is connected (read or write mode)
     - `activateBrowserWallet()` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - `async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)` - function that allows to connect to a wallet
@@ -57,16 +60,45 @@ export type Web3Ethers = {
     - `error?: Error` - an error that occurred during connecting (e.g. connection is broken, unsupported network)
  */
 export function useEthers(): Web3Ethers {
-  const {
-    network: { provider: networkProvider, chainId, accounts, errors },
-    deactivate,
-    activate,
-    activateBrowserWallet,
-    isLoading,
-  } = useNetwork()
+  const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
+  const readonlyNetwork = useReadonlyNetwork()
+
+  const [errors, setErrors] = useState<Error[]>(connector?.errors ?? [])
+  const [account, setAccount] = useState<string | undefined>(getAccount(connector))
+  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | FallBackProvider | undefined>(
+    connector?.getProvider()
+  )
+  const [chainId, setChainId] = useState<number | undefined>(connector?.chainId)
+
+  useEffect(() => {
+    if (!connector?.getProvider()) {
+      setAccount(undefined)
+      setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallBackProvider | undefined)
+      setChainId(readonlyNetwork?.chainId)
+      setErrors([])
+      return
+    }
+
+    setChainId(connector.chainId)
+    setErrors(connector.errors)
+    setProvider(connector.getProvider())
+    setAccount(getAccount(connector))
+
+    return connector.updated.on(({ chainId, errors, accounts }) => {
+      setChainId(chainId)
+      setErrors(errors)
+      if (accounts[0]) {
+        setAccount(getAddress(accounts[0]))
+      } else {
+        setAccount(undefined)
+      }
+    })
+  }, [connector])
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
+
+  const networkStates = useReadonlyNetworkStates()
 
   const configuredChainIds = Object.keys(readOnlyUrls || {}).map((chainId) => parseInt(chainId, 10))
   const supportedChainIds = networks?.map((network) => network.chainId)
@@ -81,47 +113,21 @@ export function useEthers(): Web3Ethers {
       setError(chainIdError)
       return
     }
-    setError(errors[errors.length - 1])
-  }, [chainId, errors])
 
-  const readonlyNetwork = useReadonlyNetwork()
-  const provider = networkProvider ?? (readonlyNetwork?.provider as JsonRpcProvider)
-
-  const switchNetwork = async (chainId: number) => {
-    validateArguments({ chainId }, { chainId: 'number' })
-
-    if (!provider) {
-      throw new Error('Provider not connected.')
-    }
-
-    try {
-      await provider.send('wallet_switchEthereumChain', [{ chainId: `0x${chainId.toString(16)}` }])
-    } catch (error: any) {
-      const errChainNotAddedYet = 4902 // Metamask error code
-      if (error.code === errChainNotAddedYet) {
-        const chain = networks?.find((chain) => chain.chainId === chainId)
-        if (!chain)
-          throw new Error(
-            `ChainId "${chainId}" not found in config.networks. See https://usedapp-docs.netlify.app/docs/Guides/Transactions/Switching%20Networks`
-          )
-        if (!chain.rpcUrl)
-          throw new Error(
-            `ChainId "${chainId}" does not have RPC url configured by default. See https://usedapp-docs.netlify.app/docs/Guides/Transactions/Switching%20Networks`
-          )
-        await provider.send('wallet_addEthereumChain', [getAddNetworkParams(chain)])
-      } else {
-        throw error
+    for (const networkState of Object.values(networkStates)) {
+      if (networkState.errors.length > 0) {
+        setError(networkState.errors[networkState.errors.length - 1])
+        return
       }
     }
-  }
 
-  const account = accounts[0] ? getAddress(accounts[0]) : undefined
+    setError(errors?.[errors.length - 1])
+  }, [chainId, errors, networkStates])
 
   return {
     connector: undefined,
     library: provider,
-    chainId:
-      error?.name === 'ChainIdError' ? undefined : networkProvider !== undefined ? chainId : readonlyNetwork?.chainId,
+    chainId: error?.name === 'ChainIdError' ? undefined : provider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
     activate: async (providerOrConnector: SupportedProviders) => {
@@ -141,6 +147,15 @@ export function useEthers(): Web3Ethers {
 
     error,
     isLoading,
-    switchNetwork,
+    switchNetwork: async (chainId: number) => {
+      await connector?.switchNetwork(chainId)
+    },
   }
+}
+
+const getAccount = (connector: ConnectorController | undefined) => {
+  if (connector?.accounts[0]) {
+    return getAddress(connector.accounts[0])
+  }
+  return undefined
 }

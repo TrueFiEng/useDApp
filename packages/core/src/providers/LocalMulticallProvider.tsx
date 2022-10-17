@@ -47,7 +47,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           }
         }
 
-        const signer = library.getSigner()
+        const signer = library && 'getSigner' in library ? library.getSigner() : undefined
         if (!signer) {
           setLocalMulticallState(LocalMulticallState.Error)
           return

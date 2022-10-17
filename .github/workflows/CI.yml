@@ -75,13 +75,7 @@ jobs:
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
-        run: |
-          set -e
-          cd core && pnpm run build && cd -
-          cd testing && pnpm run build && cd -
-          cd siwe && pnpm run build && cd -
-          cd coingecko && pnpm run build && cd -
-          cd playwright && pnpm run build && cd -
+        run: pnpm run build
         working-directory: packages
       - name: Run playwright
         run: |
@@ -92,11 +86,10 @@ jobs:
           xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
-          DOCS_GNOSIS_OWNER_FIRST: ${{ secrets.DOCS_GNOSIS_OWNER_FIRST }}
-          DOCS_GNOSIS_OWNER_SECOND: ${{ secrets.DOCS_GNOSIS_OWNER_SECOND }}
           DEBUG: usedapp*
         working-directory: packages/docs
   check-mixed-changesets:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
