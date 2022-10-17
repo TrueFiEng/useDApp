@@ -81,7 +81,12 @@ export interface FullConfig {
   pollingIntervals?: PollingIntervals
 
   /**
-   * @ignore
+   * Notifications options.
+   * @defaultValue
+   * {
+   *   checkInterval: 500,
+   *   expirationPeriod: 5000,
+   * }
    */
   notifications: {
     checkInterval: number
@@ -140,7 +145,6 @@ type RecursivePartial<Object, Keys extends {}> = {
 
 /**
  * useDapp configuration.
- * @ignore
  */
 export type Config = RecursivePartial<
   FullConfig,
