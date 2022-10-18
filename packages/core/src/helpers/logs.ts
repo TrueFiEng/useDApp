@@ -59,7 +59,7 @@ export function encodeFilterData(
 }
 
 /**
- * Result of a [useLogs](./02-Hooks.mdx#uselogs) query.
+ * Result of a {@link useLogs} query.
  *
  * It is `undefined` when the query didn't return yet or one of the following objects:
  *

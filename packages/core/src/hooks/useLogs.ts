@@ -7,7 +7,7 @@ import { LogQueryParams } from '../constants/type/QueryParams'
 
 /**
  * Represents a filter of logs emitted on a typed contract.
- * To be used with the [useLogs](./02-Hooks.mdx#uselogs) hook.
+ * To be used with the {@link useLogs} hook.
  *
  * @public
  * @example

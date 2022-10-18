@@ -114,7 +114,7 @@ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions)
 }
 
 /**
- * Result of a [useCall](./02-Hooks.mdx#usecall) query.
+ * Result of a {@link useCall} query.
  *
  * It is `undefined` when call didn't return yet or a object `{ value, error }` if it did.
  *
