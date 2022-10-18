@@ -46,7 +46,7 @@ export interface FullConfig {
    */
   multicallVersion: 1 | 2
   /**
-   * When set to `true` improves performance by using own written encoders and decoders for multicall data.
+   * When set to `true`, improves performance by using optimized encoders and decoders for multicall data.
    * @experimental
    * @defaultValue false
    */
