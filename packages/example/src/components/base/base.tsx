@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { BorderRad, Colors, Gradients, Shadows, Transitions } from '../../global/styles'
 import { Title } from '../../typography/Title'
 
+interface SidebarProps {
+  showSidebar: boolean;
+}
+
 export const Page = styled.div`
   display: flex;
   position: relative;
@@ -89,7 +93,9 @@ export const ContentBlock = styled.div`
   padding: 32px 32px;
 `
 
-export const Sidebar = styled.header`
+export const Sidebar = styled.header<SidebarProps>`
+  transform: ${(props) => (props.showSidebar ? `translateX(0%)` : `translateX(-100%)`)};
+  transition: transform 0.2s ease-in-out;
   display: flex;
   position: fixed;
   left: 0;
@@ -192,4 +198,28 @@ export const SidebarLinkDescription = styled.span`
   color: ${Colors.Gray[600]};
   font-size: 10px;
   text-transform: none;
+`
+
+export const MenuIconContainer = styled.div`
+  background-color: ${Colors.White};
+  box-shadow: ${Shadows.notification};
+  border-radius: 100%;
+  cursor: pointer;
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`
+
+export const SidebarMenuIconContainer = styled.div<SidebarProps>`
+  position: fixed;
+  transition: all 0.2s ease-in-out;
+  left: ${(props) => (props.showSidebar ? `calc(100% - 20px)` : `calc(100% + 16px)`)};
+  top: 16px;
 `
