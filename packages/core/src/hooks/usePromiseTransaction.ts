@@ -6,7 +6,7 @@ import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
 import { buildSafeTransaction, getLatestNonce, GNOSIS_SAFE_ABI, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, FallbackProvider } from '@ethersproject/providers'
 
 interface PromiseTransactionOpts {
   safeTransaction?: Partial<SafeTransaction>
@@ -56,7 +56,10 @@ export async function estimateContractFunctionGasLimit(
 /**
  * @internal
  */
-async function isNonContractWallet(library: JsonRpcProvider | undefined, address: string | undefined) {
+async function isNonContractWallet(
+  library: JsonRpcProvider | FallbackProvider | undefined,
+  address: string | undefined
+) {
   if (!library || !address) {
     return true
   }
@@ -69,7 +72,7 @@ const isDroppedAndReplaced = (e: any) =>
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None' })
-  const { addTransaction } = useTransactionsContext()
+  const { addTransaction, updateTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
   let gnosisSafeContract: Contract | undefined = undefined
@@ -157,6 +160,13 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       transactionName: options?.transactionName,
     })
     const receipt = await transaction.wait()
+    updateTransaction({
+      transaction: {
+        ...transaction,
+        chainId: chainId,
+      },
+      receipt,
+    })
     setState({ receipt, transaction, status: 'Success', chainId })
     return { transaction, receipt }
   }
@@ -188,15 +198,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
     if (rejected) {
       const errorMessage = 'On-chain rejection created'
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({
         status: 'Fail',
@@ -206,15 +215,14 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         chainId,
       })
     } else {
-      addNotification({
-        notification: {
-          type: 'transactionSucceed',
-          submittedAt: Date.now(),
-          transaction,
-          receipt,
-          transactionName: options?.transactionName,
+      addTransaction({
+        transaction: {
+          ...transaction,
+          chainId: chainId,
         },
-        chainId,
+        receipt,
+        submittedAt: Date.now(),
+        transactionName: options?.transactionName,
       })
       setState({ receipt, transaction, status: 'Success', chainId })
     }

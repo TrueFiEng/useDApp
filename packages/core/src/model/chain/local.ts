@@ -6,6 +6,7 @@ export const Localhost: Chain = {
   isTestChain: true,
   isLocalChain: true,
   multicallAddress: '',
+  rpcUrl: 'http://localhost:8545',
   getExplorerAddressLink: () => '',
   getExplorerTransactionLink: () => '',
 }
@@ -16,6 +17,7 @@ export const Hardhat: Chain = {
   isTestChain: true,
   isLocalChain: true,
   multicallAddress: '',
+  rpcUrl: 'http://localhost:8545',
   getExplorerAddressLink: () => '',
   getExplorerTransactionLink: () => '',
 }

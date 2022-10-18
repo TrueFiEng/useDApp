@@ -44,11 +44,10 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   const networks = useReadonlyNetworks()
   const blockNumbers = useBlockNumbers()
   const dispatchNetworksState = useUpdateNetworksState()
-  const { isActive } = useWindow()
+  const isActive = useWindow()
 
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
-  const updateNetworks = useUpdateNetworksState()
   const { reportError } = useConnector()
 
   const multicall = (multicallVersion === 1 ? multicall1Factory : multicall2Factory)(fastMulticallEncoding ?? false)
@@ -90,12 +89,6 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
       reportError(new Error(`Missing multicall address for chain id ${chainId}`))
       return
     }
-
-    updateNetworks({
-      type: 'UPDATE_NON_STATIC_CALLS_COUNT',
-      chainId,
-      count: calls.filter((call) => !call.isStatic && call.chainId === chainId).length,
-    })
 
     performMulticall(
       provider,

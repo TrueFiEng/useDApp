@@ -1,6 +1,6 @@
 {
   "watchExtensions": "ts",
   "extension": "ts",
-  "timeout": 120000,
+  "timeout": 180000,
   "file": "./playwright/test-setup.ts"
 }

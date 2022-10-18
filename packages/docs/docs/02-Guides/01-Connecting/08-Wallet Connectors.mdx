@@ -1,0 +1,103 @@
+# Wallet Connectors
+
+> **_NOTE:_**  Wallet Connectors are available since `@useDApp/core` version `1.2.0`.
+
+By default `activateBrowserWallet` function connects to Metamask. But `useDApp` supports a set of other connectors you can use to connect to other wallets. The core package (`@usedapp/core`) is shipped with `MetamaskConnector` and `CoinbaseWalletConnector`. You can also install `@usedapp/walletconnect-connector` package to use `WalletConnectConnector` and `@usedapp/portis-connector` for `PortisConnector`. To make use of connectors, you have to properly configure them in the `useDApp` config.
+
+```tsx
+  import { Mainnet, MetamaskConnector, CoinbaseWalletConnector } from '@usedapp/core'
+  import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
+  import { PortisConnector } from '@usedapp/portis-connector'
+
+  const PORTIS_DAPP_ID = 'e36dbbe4-d25d-4db2-bfa8-cb80eb87d1f0'
+
+  const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls,
+    connectors: {
+      metamask: new MetamaskConnector(),
+      coinbase: new CoinbaseWalletConnector(),
+      walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
+      portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet'),
+    },
+  }
+```
+
+And then you can use them in your app:
+
+```tsx
+  export function App() {
+    const { activateBrowserWallet, account, deactivate } = useEthers()
+
+    if (!account) {
+      <div>
+        <button onClick={() => activateBrowserWallet({ type: 'metamask' })}> Connect Metamask </button>
+        <button onClick={() => activateBrowserWallet({ type: 'coinbase' })}> Connect Coinbase Wallet </button>
+        <button onClick={() => activateBrowserWallet({ type: 'walletConnect' })}> Connect Wallet Connect </button>
+        <button onClick={() => activateBrowserWallet({ type: 'portis' })}> Connect Portis </button>
+      </div>
+    }
+
+    return (
+      <div>
+        <div>Account: {account}</div>
+        <div>
+          <button onClick={() => deactivate()}> Disconnect </button>
+        </div>
+      </div>
+    )
+  }
+```
+
+Please note that when creating `connectors` object in config you don't necessarily have to name them as provided in the example. That's only the name you can refer via to the specific connector in `activateBrowserWallet` function. The following is also valid:
+
+```tsx
+  const config: Config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls,
+    connectors: {
+      myWalletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
+    },
+  }
+```
+
+And then in the app:
+
+```tsx
+  export function App() {
+    const { activateBrowserWallet, account, deactivate } = useEthers()
+
+    if (!account) {
+      <div>
+        <button onClick={() => activateBrowserWallet({ type: 'myWalletConnect' })}> Connect </button>
+      </div>
+    }
+
+    return (
+      <div>
+        <div>Account: {account}</div>
+        <div>
+          <button onClick={() => deactivate()}> Disconnect </button>
+        </div>
+      </div>
+    )
+  }
+```
+
+By default `activateBrowserWallet` looks for the connector which has tag `metamask`. The default value for `connectors` object in `config` is:
+
+```tsx
+  const config: Config = {
+    ...,
+    connectors: {
+      metamask: new MetamaskConnector(),
+    },
+  }
+```
+
+## Example
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import Connectors from '../../../example-loader.js!/src/examples/Connectors.tsx'
+
+<ExampleContainer example={Connectors}/>
