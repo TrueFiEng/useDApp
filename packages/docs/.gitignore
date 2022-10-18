@@ -21,6 +21,7 @@ yarn-error.log*
 
 # Auto generated docs
 02-Hooks.mdx
+03-Models.mdx
 generate/*.gen.json
 
 # dotenv files

@@ -6,7 +6,16 @@ import { LogsResult, decodeLogs, encodeFilterData } from '../helpers'
 import { LogQueryParams } from '../constants/type/QueryParams'
 
 /**
+ * Represents a filter of logs emitted on a typed contract.
+ * To be used with the {@link useLogs} hook.
+ *
  * @public
+ * @example
+ * const filter: TypedFilter = {
+ *   contract: token,
+ *   event: 'Transfer',
+ *   args: [null, deployer.address],
+ * }
  */
 export interface TypedFilter<
   T extends TypedContract = Contract,
