@@ -67,7 +67,7 @@ export interface FullConfig {
    * List of intended supported chain configs.
    * If a user tries to connect to an unsupported chain an error value will be returned by `useEthers`.
    * Check the full list in {@link https://github.com/TrueFiEng/useDApp/tree/master/packages/core/src/model/chain}
-   * @defaultValue DEFAULT_SUPPORTED_CHAINS // [Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]
+   * @defaultValue DEFAULT_SUPPORTED_CHAINS // [Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan, ...]
    */
   networks?: Chain[]
   /**
