@@ -96,8 +96,14 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const opts = hasOpts ? args[args.length - 1] : undefined
 
         const gasLimit =
-          (await estimateContractFunctionGasLimit(contractWithSigner, functionName, args, gasLimitBufferPercentage)) ??
-          BigNumber.from(0)
+          typeof opts === 'object' && Object.prototype.hasOwnProperty.call(opts, 'gasLimit')
+            ? opts.gasLimit
+            : (await estimateContractFunctionGasLimit(
+                contractWithSigner,
+                functionName,
+                args,
+                gasLimitBufferPercentage
+              )) ?? BigNumber.from(0)
 
         const modifiedOpts = {
           gasLimit,
