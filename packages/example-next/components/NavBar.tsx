@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SidebarContainer } from '@usedapp/example'
 import {
   Sidebar,
@@ -13,7 +13,7 @@ import StyledLink from './StyledLink'
 
 export function NavBar() {
   return (
-    <Sidebar>
+    <Sidebar showSidebar>
       <SidebarContainer id="test">
         <SidebarNav>
           <ToMain href="/">
