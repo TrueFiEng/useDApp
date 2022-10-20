@@ -12,13 +12,10 @@ import {
   ToMain,
   ToMainBottom,
 } from './base/base'
-import {
-  MenuIcon
-} from './base/MenuIcon';
+import { MenuIcon } from './base/MenuIcon'
 
 export function NavBar() {
-
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(true)
 
   return (
     <Sidebar showSidebar={showSidebar}>
@@ -26,7 +23,7 @@ export function NavBar() {
         <SidebarNav>
           <SidebarMenuIconContainer showSidebar={showSidebar}>
             <MenuIconContainer onClick={() => setShowSidebar(!showSidebar)}>
-              <MenuIcon/>
+              <MenuIcon />
             </MenuIconContainer>
           </SidebarMenuIconContainer>
           <ToMain href="/">

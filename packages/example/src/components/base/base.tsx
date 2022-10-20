@@ -4,7 +4,7 @@ import { BorderRad, Colors, Gradients, Shadows, Transitions } from '../../global
 import { Title } from '../../typography/Title'
 
 interface SidebarProps {
-  showSidebar: boolean;
+  showSidebar: boolean
 }
 
 export const Page = styled.div`
