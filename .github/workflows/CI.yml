@@ -99,5 +99,6 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --filter="usedapp"
+      - run: git rev-parse --short HEAD
       - run: pnpm changeset status
       - run: pnpm changeset version
