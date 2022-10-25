@@ -89,7 +89,7 @@ jobs:
           DEBUG: usedapp*
         working-directory: packages/docs
   check-mixed-changesets:
-    timeout-minutes: 1
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -99,9 +99,4 @@ jobs:
           node-version: '16.x'
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --filter="usedapp"
-      - run: git status
-      - run: git branch
-      - run: git merge-base main HEAD
-      - run: git merge-base master HEAD
-      - run: pnpm changeset status
       - run: pnpm changeset version
