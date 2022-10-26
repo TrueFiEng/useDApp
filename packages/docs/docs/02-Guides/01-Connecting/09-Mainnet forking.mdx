@@ -1,4 +1,4 @@
-# Tenderly fork
+# Mainnet forking
 
 In some cases, you may want to connect to a network using a different `chainId` than its default. For example, your application is supposed to support the Mainnet network and forked Mainnet chain using [Tenderly](https://docs.tenderly.co/simulations-and-forks/simulation-api/testing/local-tests-on-top-of-mainnet-data-in-the-cloud/first-usage-of-tenderly-apis-in-tests), so the forked Mainnet should be accessible by a different number than the default `chainId` of the Mainnet, but the default for both networks it is the same which causes some problems.
 
@@ -14,7 +14,8 @@ const config: Config = {
     1337: 'https://rpc.tenderly.co/fork/[your-mainnet-fork-id]',
   },
   multicallAddresses: {
-    1337: Mainnet.multicall2Address ?? '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+    [Mainnet.chainId]: Mainnet.multicall2Address as string,
+    1337: Mainnet.multicall2Address as string,
   },
   multicallVersion: 2 as const,
 }
@@ -39,7 +40,8 @@ const config: Config = {
     1337: customProvider,
   },
   multicallAddresses: {
-    1337: Mainnet.multicall2Address ?? '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+    [Mainnet.chainId]: Mainnet.multicall2Address as string,
+    1337: Mainnet.multicall2Address as string,
   },
   multicallVersion: 2 as const,
 }
