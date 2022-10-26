@@ -24,7 +24,7 @@ In this case, we want to have our forked Mainnet chain available on `chainId`: `
 
 ## Solution
 
-We can create a custom provider with overridden chainId:
+We can create a custom provider with overridden `chainId`:
 
 ```tsx
 const customProvider = new providers.StaticJsonRpcProvider('https://rpc.tenderly.co/fork/xxx', {
