@@ -4,4 +4,4 @@ In order to reduce the number of calls, we can use the Multicall contract. Multi
 
 ---
 
-Now that we have explained the basics of DApps, let's dive into what would be the [requirements of a well functioning dApp](./DApp%20Requirements).
+Now that we have explained the basics of DApps and what a Multicall is, let's dive into what would be the [requirements of a well functioning dApp](./DApp%20Requirements).

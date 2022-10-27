@@ -28,4 +28,10 @@ Typical DApp interacts with a lot of smart contracts. So, in order to keep the d
 
 Not only do the frequent requests to an API provider spike up your bill, but it also slows down the app for the user.
 
+## Summary
+
+We've learned what is a DApp, and how it connects to the blockchain.
+
+We now see that there is a potential problem with too many requests to API providers.
+
 👉 Next, let's learn about [Multicall](./Multicall) and see if how can use it to our advantage.
