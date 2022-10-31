@@ -296,7 +296,7 @@ export const withMetamaskTest = (baseUrl: string) => {
     })
 
     describe('Connectors', () => {
-      it.only('Can connect to WalletConnect', async () => {
+      it('Can connect to WalletConnect', async () => {
         await page.goto(`${baseUrl}connectors`)
 
         let pagesNumber = context.pages().length
