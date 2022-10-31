@@ -2,4 +2,4 @@
 '@usedapp/core': patch
 ---
 
-activateBrowserWallet check options type in runtime
+Safely handle invalid runtime parameters in `activateBrowserWallet`
