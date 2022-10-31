@@ -76,7 +76,14 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   )
 
   const activateBrowserWallet: ActivateBrowserWallet = useCallback(
-    async ({ type } = { type: 'metamask' }) => {
+    async (options) => {
+      // done for backward compatibility.
+      // If the options object has more than one key or is empty object or is undefined,
+      // it's not a valid option and will be ignored
+      if (!options || Object.keys(options).length !== 1) {
+        options = { type: 'metamask' }
+      }
+      const { type } = options
       if (!connectors[type]) {
         throw new Error(`Connector ${type} is not configured`)
       }
