@@ -296,7 +296,7 @@ export const withMetamaskTest = (baseUrl: string) => {
     })
 
     describe('Connectors', () => {
-      it('Can connect to WalletConnect', async () => {
+      it.only('Can connect to WalletConnect', async () => {
         await page.goto(`${baseUrl}connectors`)
 
         let pagesNumber = context.pages().length
@@ -312,7 +312,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         const ambirePage = context.pages()[context.pages().length - 1]
         pagesNumber = context.pages().length
-        await ambirePage.click(XPath.text('button', 'Metamask'))
+        await ambirePage.click('svg[class="AddAccount_metamask__37zA-"]')
 
         // waiting for the metamask page to open
         await waitForExpect(() => {
