@@ -312,7 +312,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         const ambirePage = context.pages()[context.pages().length - 1]
         pagesNumber = context.pages().length
-        await ambirePage.click('svg[class="AddAccount_metamask__37zA-"]')
+        await ambirePage.click(XPath.svgWithClass('AddAccount_metamask'))
 
         // waiting for the metamask page to open
         await waitForExpect(() => {
