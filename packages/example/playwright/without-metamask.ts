@@ -100,10 +100,10 @@ export const withoutMetamaskTest = (baseUrl: string) => {
         await page.goto(`${baseUrl}multichain`)
 
         await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Chain id:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block:', 2))).to.be.true
         })
       })
     })
