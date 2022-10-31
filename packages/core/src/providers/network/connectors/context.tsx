@@ -78,9 +78,9 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   const activateBrowserWallet: ActivateBrowserWallet = useCallback(
     async (options) => {
       // done for backward compatibility.
-      // If the options object has more than one key or is empty object or is undefined,
+      // If the options object looks like an event object or is undefined,
       // it's not a valid option and will be ignored
-      if (!options || Object.keys(options).length !== 1) {
+      if (!options || typeof (options as any).preventDefault === 'function') {
         options = { type: 'metamask' }
       }
       const { type } = options
