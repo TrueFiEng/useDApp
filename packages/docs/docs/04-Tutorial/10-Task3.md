@@ -84,10 +84,10 @@ The only difference between the `TransferComponent` and the `WithdrawComponent` 
 In the `TransferComponent` component:
 
 ```diff
+- // TODO: transfer `value` WETH to `address`
 + send(address, utils.parseEther(value));
 + setValue('');
 + setAddress('');
-- // TODO: transfer `value` WETH to `address`
 ```
 
 Update the rest of the TODO sections in the same way as in the `DepositComponent` and `WithdrawComponent`.
