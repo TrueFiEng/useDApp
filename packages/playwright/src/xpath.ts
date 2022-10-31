@@ -10,4 +10,8 @@ export class XPath {
   static class(element: keyof HTMLElementTagNameMap, text: string) {
     return `//${element}[contains(@class, ${text})]`
   }
+
+  static svgWithClass(text: string) {
+    return `//*[local-name()="svg" and contains(@class, "${text}")]`
+  }
 }
