@@ -41,3 +41,34 @@
 p {
   margin: 0;
 }
+
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .button-grid > * {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 801px) and (max-width: 1000px) {
+  .button-grid > * {
+    width: 40%;
+  }
+}
+
+@media only screen and (min-width: 1001px) and (max-width: 1200px) {
+  .button-grid > * {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .button-grid > * {
+    width: 40%;
+  }
+}

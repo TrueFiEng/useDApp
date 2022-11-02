@@ -71,13 +71,25 @@ describe('useContractFunction', () => {
     )
 
     await waitForNextUpdate()
-    await result.current.send()
+    await expect(result.current.send()).to.be.rejectedWith('Invalid number of arguments for function "approve".')
     await waitForCurrent((val) => val.state !== undefined)
+  })
 
-    expect(result.current.state.status).to.eq('Exception')
-    if (result.current.state.status === 'Exception') {
-      expect(result.current.state.errorMessage).to.eq('missing argument: passed to contract')
-    }
+  it('exception (bad arguments with opts)', async () => {
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
+      () => useContractFunction(token, 'approve'),
+      {
+        config,
+      }
+    )
+
+    await waitForNextUpdate()
+    await expect(
+      result.current.send({
+        gasLimit: 100000,
+      })
+    ).to.be.rejectedWith('Invalid number of arguments for function "approve".')
+    await waitForCurrent((val) => val.state !== undefined)
   })
 
   it('exception (when transaction reverts)', async () => {

@@ -1,9 +1,10 @@
 {
   "name": "@usedapp/portis-connector",
-  "version": "0.0.1",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "repository": "git@github.com:EthWorks/useDApp.git",
+  "version": "1.0.0",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
+  "repository": "git@github.com:TrueFiEng/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
   "publishConfig": {
@@ -20,7 +21,9 @@
     "@usedapp/core": "*"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
     "test": "true",
     "lint": "true",
     "lint:fix": "true"

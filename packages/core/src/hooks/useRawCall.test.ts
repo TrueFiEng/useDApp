@@ -2,7 +2,6 @@ import { Contract } from 'ethers'
 import { expect } from 'chai'
 import { utils } from 'ethers'
 import { RawCall } from '..'
-import { encodeCallData } from '../helpers'
 import {
   TestingNetwork,
   deployMockToken,
@@ -85,16 +84,11 @@ describe('useRawCall', () => {
   it('returns correct initial balance for mainnet', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
-        useRawCall(
-          encodeCallData(
-            {
-              contract: token,
-              args: [network1.deployer.address],
-              method: 'balanceOf',
-            },
-            network1.chainId
-          )
-        ),
+        useRawCall({
+          address: token.address,
+          data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
+          chainId: network1.chainId,
+        }),
       {
         config,
       }
@@ -108,16 +102,11 @@ describe('useRawCall', () => {
   it('returns correct initial balance for other chain', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
-        useRawCall(
-          encodeCallData(
-            {
-              contract: secondToken,
-              args: [network2.deployer.address],
-              method: 'balanceOf',
-            },
-            network2.chainId
-          )
-        ),
+        useRawCall({
+          address: secondToken.address,
+          data: secondToken.interface.encodeFunctionData('balanceOf', [network2.deployer.address]),
+          chainId: network2.chainId,
+        }),
       {
         config,
       }
@@ -126,5 +115,11 @@ describe('useRawCall', () => {
     expect(result.error).to.be.undefined
     expect(result.current!.success).to.eq(true)
     expect(result.current!.value).to.eq(SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+  })
+
+  it('should not throw error when call is Falsy', async () => {
+    const { result } = await renderDAppHook(() => useRawCall(null))
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
   })
 })

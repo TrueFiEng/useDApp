@@ -8,11 +8,36 @@ import { useChainId } from './useChainId'
 import { useConfig } from './useConfig'
 
 /**
+ * Represents a single call to a contract that can be included in multicall.
+ *
+ * Typechecking:
+ *
+ * If you want a variable of type Call to be type checked you need to pass a typechain contract type as in below example
+ *
+ * ```tsx
+ * const typedCall: Call<ERC20> = { contract: ERC20Contract, method: 'name', args: [] }
+ * ```
+ *
+ * If you also supply a method name in type arguments will also be type checked
+ *
+ * ```tsx
+ * const typedCall: Call<ERC20, 'name'> = { contract: ERC20Contract, method: 'name', args: [] }
+ * ```
+ *
  * @public
  */
 export interface Call<T extends TypedContract = Contract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
+  /**
+   * contract instance, see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
+   */
   contract: T
+  /**
+   * function name
+   */
   method: MN
+  /**
+   * arguments for the function
+   */
   args: Params<T, MN>
 }
 
@@ -79,7 +104,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
-  const rawCalls = useMemo(
+  const potentialRawCalls = useMemo(
     () =>
       calls.map((call) =>
         chainId !== undefined
@@ -95,6 +120,21 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
       chainId,
     ]
   )
+
+  const rawCalls = useMemo(
+    () => potentialRawCalls.map((potentialCall) => (potentialCall instanceof Error ? undefined : potentialCall)),
+    [potentialRawCalls]
+  )
+
   const results = useRawCalls(rawCalls)
-  return useMemo(() => results.map((result, idx) => decodeCallResult(calls[idx], result)), [results])
+  return useMemo(
+    () =>
+      results.map((result, idx) => {
+        if (potentialRawCalls[idx] instanceof Error) {
+          return { value: undefined, error: potentialRawCalls[idx] as Error }
+        }
+        return decodeCallResult(calls[idx], result)
+      }),
+    [results]
+  )
 }

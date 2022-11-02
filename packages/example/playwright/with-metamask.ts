@@ -276,9 +276,9 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Goerli'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism Goerli'))).to.be.true
         })
       })
 
@@ -312,7 +312,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         const ambirePage = context.pages()[context.pages().length - 1]
         pagesNumber = context.pages().length
-        await ambirePage.click(XPath.text('button', 'Metamask'))
+        await ambirePage.click(XPath.svgWithClass('AddAccount_metamask'))
 
         // waiting for the metamask page to open
         await waitForExpect(() => {

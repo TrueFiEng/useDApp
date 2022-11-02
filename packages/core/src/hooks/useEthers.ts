@@ -1,6 +1,6 @@
 import { providers } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
-import { Connector, useConnector } from '../providers/network/connectors'
+import { Connector, ConnectorController, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import { ActivateBrowserWallet } from '../providers/network/connectors/context'
 type JsonRpcProvider = providers.JsonRpcProvider
 type Web3Provider = providers.Web3Provider
 type ExternalProvider = providers.ExternalProvider
+type FallBackProvider = providers.FallbackProvider
 
 type MaybePromise<T> = Promise<T> | T
 
@@ -20,7 +21,7 @@ type SupportedProviders =
   | Connector
 
 /**
- * @public
+ * useEthers return type.
  */
 export type Web3Ethers = {
   activate: (provider: SupportedProviders) => Promise<void>
@@ -33,7 +34,7 @@ export type Web3Ethers = {
   chainId?: number
   account?: string
   error?: Error
-  library?: JsonRpcProvider
+  library?: JsonRpcProvider | FallBackProvider
   active: boolean
   activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
@@ -51,7 +52,7 @@ export type Web3Ethers = {
  * @returns {} Object with the following:
     - `account: string` - current user account (or *undefined* if not connected)
     - `chainId: ChainId` - current chainId (or *undefined* if not connected)
-    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/EthWorks/useDapp/tree/master/packages/example) (or `undefined` if not connected)
+    - `library: Web3Provider` - an instance of ethers [Web3Provider](https://github.com/TrueFiEng/useDApp/tree/master/packages/example) (or `undefined` if not connected)
     - `active: boolean` - returns if provider is connected (read or write mode)
     - `activateBrowserWallet()` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - `async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)` - function that allows to connect to a wallet
@@ -62,15 +63,17 @@ export function useEthers(): Web3Ethers {
   const { connector, deactivate, activate, activateBrowserWallet, isLoading } = useConnector()
   const readonlyNetwork = useReadonlyNetwork()
 
-  const [errors, setErrors] = useState<Error[]>([])
-  const [account, setAccount] = useState<string | undefined>()
-  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | undefined>()
-  const [chainId, setChainId] = useState<number | undefined>()
+  const [errors, setErrors] = useState<Error[]>(connector?.errors ?? [])
+  const [account, setAccount] = useState<string | undefined>(getAccount(connector))
+  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | FallBackProvider | undefined>(
+    connector?.getProvider()
+  )
+  const [chainId, setChainId] = useState<number | undefined>(connector?.chainId)
 
   useEffect(() => {
     if (!connector?.getProvider()) {
       setAccount(undefined)
-      setProvider(readonlyNetwork?.provider as JsonRpcProvider | undefined)
+      setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallBackProvider | undefined)
       setChainId(readonlyNetwork?.chainId)
       setErrors([])
       return
@@ -79,11 +82,7 @@ export function useEthers(): Web3Ethers {
     setChainId(connector.chainId)
     setErrors(connector.errors)
     setProvider(connector.getProvider())
-    if (connector.accounts[0]) {
-      setAccount(getAddress(connector.accounts[0]))
-    } else {
-      setAccount(undefined)
-    }
+    setAccount(getAccount(connector))
 
     return connector.updated.on(({ chainId, errors, accounts }) => {
       setChainId(chainId)
@@ -152,4 +151,11 @@ export function useEthers(): Web3Ethers {
       await connector?.switchNetwork(chainId)
     },
   }
+}
+
+const getAccount = (connector: ConnectorController | undefined) => {
+  if (connector?.accounts[0]) {
+    return getAddress(connector.accounts[0])
+  }
+  return undefined
 }

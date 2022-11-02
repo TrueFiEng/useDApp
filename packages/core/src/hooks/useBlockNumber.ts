@@ -16,7 +16,7 @@ export function useBlockNumber(): number | undefined {
   const readOnlyNetworks = useReadonlyNetworks()
   const { connector } = useConnector()
   const [blockNumber, setBlockNumber] = useState<number>()
-  const { isActive } = useWindow()
+  const isActive = useWindow()
   const isMounted = useIsMounted()
 
   useEffect(() => {

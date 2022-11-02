@@ -1,4 +1,7 @@
 import { Chain } from '../../constants'
+import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
+
+const harmonyExplorerUrl = 'https://blockscout.com/poa/xdai'
 
 export const Harmony: Chain = {
   chainId: 1666600000,
@@ -6,8 +9,15 @@ export const Harmony: Chain = {
   isTestChain: false,
   isLocalChain: false,
   multicallAddress: '0xFE4980f62D708c2A84D3929859Ea226340759320',
-  getExplorerAddressLink: (address: string) => `https://explorer.harmony.one/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) => `https://explorer.harmony.one/tx/${transactionHash}`,
+  rpcUrl: 'https://api.harmony.one',
+  nativeCurrency: {
+    name: 'ONE',
+    symbol: 'ONE',
+    decimals: 18,
+  },
+  blockExplorerUrl: harmonyExplorerUrl,
+  getExplorerAddressLink: getAddressLink(harmonyExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(harmonyExplorerUrl),
 }
 
 export default { Harmony }

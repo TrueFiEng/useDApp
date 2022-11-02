@@ -1,8 +1,40 @@
 # Troubleshooting
 
+## Error in Multicall v1
+
+```
+Error: One of the calls reverted in Multicall v1.
+```
+
+One of the calls has failed on the blockchain.
+It might have ended up with a revert, or with some other error (e.g. division by zero).
+
+With Multicall v2, we are able to decode more information from a failing call, including decoding Solidity [Custom Errors](https://blog.soliditylang.org/2021/04/21/custom-errors/).
+
+In order to use Multicall v2, specify this in the config:
+
+```ts
+const config: Config = {
+  multicallVersion: 2 as const,
+}
+```
+
+If useDApp does not have a Multicall v2 address for the chain you're using, you can provide it in the `Config`:
+
+```ts
+const config: Config = {
+  multicallVersion: 2 as const,
+  multicallAddresses: {
+    [ChainId]: MulticallV2Address,
+  },
+}
+```
+
+With Multicall v2, you will have more information that might direct you to the root issue of a failing call.
+
 ## Type mismatch when building
 
-If when building an app you see errors about type mismatch in ``@ethersproject``. 
+If when building an app you see errors about type mismatch in ``@ethersproject``.
 
 For example:
 
@@ -11,7 +43,7 @@ For example:
   yarn run v1.22.10
   $ tsc --noEmit && rimraf build && webpack --mode production --progress
   src/components/Transactions/Forms.tsx:12:52 - error TS2345: Argument of type 'Interface' is not assignable to parameter of type 'ContractInterface'.
-    Property 'getError' is missing in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/abi/lib/interface").Interface' but required in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface").Interface'.
+    Property 'getError' is missing in type 'import("github.com/TrueFiEng/useDApp/packages/example/node_modules/@ethersproject/abi/lib/interface").Interface' but required in type 'import("github.com/TrueFiEng/useDApp/packages/example/node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface").Interface'.
 
   12 const contract = new Contract(wethContractAddress, wethInterface)
                                                         ~~~~~~~~~~~~~

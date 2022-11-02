@@ -1,5 +1,35 @@
 # @usedapp/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 389756b: Adding connectors for the most popular wallets
+- 6a8403d: 🎈 Integrate usePromiseTransaction with Gnosis Safe
+
+### Patch Changes
+
+- 1d29f26: fix: add `rpcUrl` to xdai
+- 708933e: 🪟 Return boolean instead of object in window provider
+- 66fdce7: Add name field to connector interface
+- f349458: 📕 Sync usePromiseTransaction status and useNotification timing
+- 8278dad: 🫘 Return error from useCall with invalid arguments
+- 8235db2: 🐛 General update of chain models
+- ea63260: Remove unnecessary wallets peer deps
+- e89b3d6: 📀 Add own local storage implementation
+- 4f24a4c: Add Polygon/Mumbai `rpcUrl`
+- 0b16c93: useEthers sync account and library
+- 1709a8f: Fast initialize useEthers
+- 2db3062: 🧀 Remove duplicate calls for same data
+- 76ed855: Fix connectors cjs issue
+- 539be0d: 🍎 Add Optimism mainnet and testnets native currencies
+- 14c271f: ⛽ Avoid calling estimateGas in useContractFunction when gasLimit is passed explicitly
+- 3389c51: 😼 Add FallBackProvider type for library in useEthers
+- 50d1ac2: Safely handle invalid runtime parameters in `activateBrowserWallet`
+- 5e88952: 🚎 Add more detailed errors and docs around network switching
+- ddbfb1a: fix: change BNB decimals on BSC from 8 to 18
+- c3ffe57: 🤖 Make useCall error descriptive in different cases
+
 ## 1.1.5
 
 ### Patch Changes

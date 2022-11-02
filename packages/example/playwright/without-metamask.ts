@@ -90,9 +90,9 @@ export const withoutMetamaskTest = (baseUrl: string) => {
 
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Mainnet'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Ropsten'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Kovan'))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Arbitrum'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Goerli'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism'))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Optimism Goerli'))).to.be.true
         })
       })
 
@@ -100,10 +100,10 @@ export const withoutMetamaskTest = (baseUrl: string) => {
         await page.goto(`${baseUrl}multichain`)
 
         await waitForExpect(async () => {
-          expect(await page.isVisible(XPath.text('span', 'Chain id:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 4))).to.be.true
-          expect(await page.isVisible(XPath.text('span', 'Current block:', 4))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Chain id:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block timestamp:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current difficulty:', 2))).to.be.true
+          expect(await page.isVisible(XPath.text('span', 'Current block:', 2))).to.be.true
         })
       })
     })

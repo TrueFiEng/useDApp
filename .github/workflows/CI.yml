@@ -75,13 +75,7 @@ jobs:
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - name: Build dependencies
-        run: |
-          set -e
-          cd core && pnpm run build && cd -
-          cd testing && pnpm run build && cd -
-          cd siwe && pnpm run build && cd -
-          cd coingecko && pnpm run build && cd -
-          cd playwright && pnpm run build && cd -
+        run: pnpm run build
         working-directory: packages
       - name: Run playwright
         run: |
@@ -95,6 +89,7 @@ jobs:
           DEBUG: usedapp*
         working-directory: packages/docs
   check-mixed-changesets:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
