@@ -43,7 +43,7 @@ export const getFetchers = (backendUrl: string, { address, chainId }: UserData):
       const authRequest = await fetch(`${backendUrl}/siwe/me`, {
         credentials: 'include',
         headers: {
-          Authorization: `${address}:${chainId}`,
+          multichain: `${address}:${chainId}`,
         },
       })
 
@@ -89,7 +89,7 @@ export const getFetchers = (backendUrl: string, { address, chainId }: UserData):
         method: 'POST',
         credentials: 'include',
         headers: {
-          Authorization: `${address}:${chainId}`,
+          multichain: `${address}:${chainId}`,
         },
       })
     },
