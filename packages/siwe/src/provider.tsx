@@ -132,7 +132,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
 
       const nonce = await getNonceHandler()
       if (!nonce) return
- 
+
       const message = new SiweMessage({
         domain: signInOptions?.domain ?? window.location.host,
         address: await signer.getAddress(),
