@@ -129,10 +129,10 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       }
       const signer = 'getSigner' in library ? library.getSigner() : undefined
       if (!signer) return
-      
+
       const nonce = await getNonceHandler()
       if (!nonce) return
-
+ 
       const message = new SiweMessage({
         domain: signInOptions?.domain ?? window.location.host,
         address: await signer.getAddress(),
