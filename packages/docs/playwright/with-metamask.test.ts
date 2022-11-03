@@ -148,7 +148,6 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       let popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Sign'))
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
         expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
       })
 
@@ -159,14 +158,16 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Sign'))
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
         expect(await page.isVisible(`//*[text()='ChainId: ' and text()='1']`)).to.be.true
+      })
+      await page.click(XPath.text('button', 'Sign out'))
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
       })
 
       await metamask.switchToNetwork('Goerli Test Network')
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Logged in with ']`)).to.be.true
         expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
       })
     })

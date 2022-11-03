@@ -65,6 +65,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       return nonce
     } catch (err: any) {
       setError(err)
+      setLoading(false)
     }
   }
 
@@ -77,19 +78,21 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       if (res.loggedIn) {
         const siweMessage = res.message as SiweMessage
         setMessage(siweMessage)
-        setLoading(false)
         setLoggedIn(true)
-        return
+      } else {
+        setMessage(undefined)
+        setLoggedIn(false)
       }
+
       if (localStorage.getItem('getMessageHash')) {
         const siweMessage = new SiweMessage(JSON.parse(localStorage.getItem('siweMessage') as string))
         void createMultiSigListener({
           message: siweMessage,
         })
-      } else {
-        setLoading(false)
+        return
       }
-      setLoggedIn(false)
+
+      setLoading(false)
     } catch (err: any) {
       setError(err)
       setLoggedIn(false)
@@ -130,6 +133,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       const signer = 'getSigner' in library ? library.getSigner() : undefined
       if (!signer) return
 
+      setLoading(true)
       const nonce = await getNonceHandler()
       if (!nonce) return
 
@@ -143,7 +147,6 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         nonce,
       })
 
-      setLoading(true)
       const signature = await signer.signMessage(message.prepareMessage()).catch((err) => {
         setError(err)
         setLoading(false)
