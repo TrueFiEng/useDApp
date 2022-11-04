@@ -10,14 +10,13 @@ export class WalletConnectConnector implements Connector {
   public readonly name = 'WalletConnect'
 
   readonly update = new ConnectorEvent<ConnectorUpdateData>()
-  private readonly walletConnectProvider: WalletConnectProvider
+  private walletConnectProvider: WalletConnectProvider | undefined
 
-  constructor(private opts: IWalletConnectProviderOptions) {
-    this.walletConnectProvider = new WalletConnectProvider(this.opts)
-  }
+  constructor(private opts: IWalletConnectProviderOptions) {}
 
   private async init() {
     if (this.provider) return
+    this.walletConnectProvider = new WalletConnectProvider(this.opts)
     this.provider = new providers.Web3Provider(this.walletConnectProvider)
     await this.walletConnectProvider.enable()
   }
