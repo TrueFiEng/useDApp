@@ -15,7 +15,6 @@ export class WalletConnectConnector implements Connector {
   constructor(private opts: IWalletConnectProviderOptions) {}
 
   private async init() {
-    if (this.provider) return
     this.walletConnectProvider = new WalletConnectProvider(this.opts)
     this.provider = new providers.Web3Provider(this.walletConnectProvider)
     await this.walletConnectProvider.enable()
