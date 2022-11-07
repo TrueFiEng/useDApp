@@ -38,6 +38,11 @@ export interface ConnectorContextProviderProps {
   children?: ReactNode
 }
 
+export interface ActivateOptions {
+  silently?: boolean
+  onSuccess?: () => void
+}
+
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controller, setController] = useState<ConnectorController>()
   const [isLoading, setLoading] = useState(false)
@@ -46,7 +51,10 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
 
   const activate = useCallback(
-    async (providerOrConnector: JsonRpcProvider | ExternalProvider | Connector, silently = false) => {
+    async (
+      providerOrConnector: JsonRpcProvider | ExternalProvider | Connector,
+      { silently, onSuccess }: ActivateOptions = { silently: false }
+    ) => {
       let controller: ConnectorController
       if ('activate' in providerOrConnector) {
         controller = new ConnectorController(providerOrConnector, config as any)
@@ -66,6 +74,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
         setController(controller)
         setLoading(false)
+        onSuccess?.()
       } catch (error) {
         controller.reportError(error as any)
       } finally {
@@ -87,15 +96,20 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       if (!connectors[type]) {
         throw new Error(`Connector ${type} is not configured`)
       }
-      await activate(connectors[type])
-      setAutoConnectTag(type)
+      await activate(connectors[type], {
+        onSuccess: () => {
+          setAutoConnectTag(type)
+        },
+      })
     },
     [activate, setAutoConnectTag, connectors]
   )
 
   useEffect(() => {
     if (autoConnect && autoConnectTag && connectors[autoConnectTag]) {
-      void activate(connectors[autoConnectTag], true)
+      void activate(connectors[autoConnectTag], {
+        silently: true,
+      })
     }
   }, [])
 

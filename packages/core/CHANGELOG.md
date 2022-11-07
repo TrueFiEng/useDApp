@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.1
+
+### Patch Changes
+
+- a8e4a94: Fix issue with not being able to open WalletConnect modal again after closing it
+
 ## 1.2.0
 
 ### Minor Changes
