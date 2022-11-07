@@ -78,22 +78,13 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
 
-      let popupPromise = waitForPopup(context)
+      const popupPromise = waitForPopup(context)
       await page.click(XPath.text('button', 'Switch to Goerli'))
-      let popupPage = await popupPromise
+      const popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
-      })
-
-      popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Mainnet'))
-      popupPage = await popupPromise
-      await popupPage.click(XPath.text('button', 'Switch network'))
-
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='1']`)).to.be.true
       })
     })
 
@@ -153,10 +144,10 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       let popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Sign'))
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='1']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
       })
 
-      await metamask.switchToNetwork('Goerli Test Network')
+      await metamask.switchToNetwork('Ethereum Mainnet')
       await sleep(1000)
 
       popupPromise = waitForPopup(context)
@@ -164,18 +155,18 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Sign'))
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='1']`)).to.be.true
       })
       await page.click(XPath.text('button', 'Sign out'))
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
       })
 
-      await metamask.switchToNetwork('Ethereum Mainnet')
+      await metamask.switchToNetwork('Goerli Test Network')
       await sleep(1000)
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='1']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
       })
     })
   })
