@@ -91,6 +91,10 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     it('Add new network to Metamask', async () => {
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
+      await waitForExpect(async () => {
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
+      })
+
       const popupPromise = waitForPopup(context)
       await page.click(XPath.text('button', 'Switch to Optimism'))
       const popupPage = await popupPromise
