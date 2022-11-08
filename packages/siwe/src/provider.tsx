@@ -36,7 +36,7 @@ export interface SignInOptions {
 }
 
 export interface SiweProviderProps {
-  backendUrl: string
+  backendUrl?: string
   children?: ReactNode
   api?: SiweFetchers
 }
