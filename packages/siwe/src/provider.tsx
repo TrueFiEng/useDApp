@@ -72,9 +72,8 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const getAuthHandler = async () => {
     setLoading(true)
     setError(undefined)
-    let res: AuthResponse | undefined = undefined
     try {
-      res = await getAuthRequest()
+      const res: AuthResponse = await getAuthRequest()
       if (res.loggedIn) {
         const siweMessage = res.message as SiweMessage
         setMessage(siweMessage)
