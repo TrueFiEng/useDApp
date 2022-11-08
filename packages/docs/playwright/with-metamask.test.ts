@@ -152,9 +152,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       await metamask.switchToNetwork('Ethereum Mainnet')
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
-      })
+      await sleep(1000)
 
       popupPromise = waitForPopup(context)
       await page.click(XPath.text('button', 'Sign in'))
@@ -169,9 +167,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       await metamask.switchToNetwork('Goerli Test Network')
-      await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
-      })
+      await sleep(1000)
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
