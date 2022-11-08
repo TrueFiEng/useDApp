@@ -153,7 +153,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
 
       await metamask.switchToNetwork('Ethereum Mainnet')
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='1']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
       })
 
       popupPromise = waitForPopup(context)
