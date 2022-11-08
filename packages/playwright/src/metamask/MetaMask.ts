@@ -65,7 +65,7 @@ export class MetaMask {
     log('Metamask account connected to pages.')
   }
 
-  async switchToNetwork(network: 'Ethereum Mainnet' | 'Localhost 8545') {
+  async switchToNetwork(network: 'Ethereum Mainnet' | 'Localhost 8545' | 'Goerli Test Network') {
     log('Switching network...')
     await this.gotoMetamask()
     await this.page.click('.network-display--clickable') // Network popup menu on the top right.
