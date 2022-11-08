@@ -56,7 +56,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     getAuth: getAuthRequest,
     signIn: signInRequest,
     signOut: signOutRequest,
-  } = api ?? getFetchers(backendUrl, { chainId, address: account })
+  } = api ?? getFetchers(backendUrl ?? '', { chainId, address: account })
 
   const getNonceHandler = async () => {
     setError(undefined)
