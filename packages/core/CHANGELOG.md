@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.2
+
+### Patch Changes
+
+- 840e14e: Change Goerli Optimism block explorer to etherscan
+
 ## 1.2.1
 
 ### Patch Changes
