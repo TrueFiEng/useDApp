@@ -166,6 +166,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         chainId: chainId,
       },
       receipt,
+      transactionName: options?.transactionName,
     })
     setState({ receipt, transaction, status: 'Success', chainId })
     return { transaction, receipt }
