@@ -18,6 +18,7 @@ import {
   initGnosisSafe,
   secondSign,
   connectToWalletConnect,
+  waitForTransaction,
 } from './gnosisSafeUtils'
 import { Optimism } from '@usedapp/core'
 import { sleep } from './sleep'
@@ -272,6 +273,10 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
+    log('Waiting for transaction to be mined...')
+    await waitForTransaction({ page: gnosisSiwePage })
+    log('Transaction mined.')
+
     await waitForExpect(async () => {
       expect(
         await page.isVisible(`//*[text()='Logged in with ' and text()='0xA971C98755c3404Fc4458fcd98905980f68Af642']`)
@@ -312,6 +317,10 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('Second wallet signed.')
 
+    log('Waiting for transaction to be mined...')
+    await waitForTransaction({ page: gnosisSiwePage })
+    log('Transaction mined.')
+
     await waitForExpect(async () => {
       expect(
         await page.isVisible(`//*[text()='Logged in with ' and text()='0xA971C98755c3404Fc4458fcd98905980f68Af642']`)
@@ -345,15 +354,14 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     log('Page closed.')
 
     log('Second wallet signs...')
-
     await secondSign({
       page: gnosisSiwePage,
       context,
     })
     log('Second wallet signed.')
 
-    log('Waiting for the transaction to be mined...')
-    await gnosisSiwePage.waitForSelector(XPath.text('div', 'Transaction successfully executed'), { timeout: 90000 })
+    log('Waiting for transaction to be mined...')
+    await waitForTransaction({ page: gnosisSiwePage })
     log('Transaction mined.')
 
     log('Opening page again...')

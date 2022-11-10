@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Mainnet, DAppProvider, useEthers, Config, Goerli } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
 import { SiweProvider, useSiwe } from '@usedapp/siwe'
 
 // Regular import crashes the app with "Buffer is not defined" error.
@@ -11,8 +10,8 @@ import { AccountIcon } from './components/AccountIcon'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/fb8e136826194e17957732a5167af494',
+    [Goerli.chainId]: 'https://goerli.infura.io/v3/fb8e136826194e17957732a5167af494',
   },
 }
 
