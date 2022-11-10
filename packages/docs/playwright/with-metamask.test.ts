@@ -262,7 +262,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.disconnectApp('app.safe.global')
     await metamask.switchWallet(1)
 
     log('Second wallet signs...')
@@ -298,7 +298,7 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.disconnectApp('app.safe.global')
     await metamask.switchWallet(2)
 
     await page.reload()
@@ -338,13 +338,14 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     })
     log('First wallet signed.')
 
-    await metamask.disconnectApp('gnosis-safe.io')
+    await metamask.disconnectApp('app.safe.global')
     await metamask.switchWallet(1)
 
     await page.close()
     log('Page closed.')
 
     log('Second wallet signs...')
+
     await secondSign({
       page: gnosisSiwePage,
       context,
