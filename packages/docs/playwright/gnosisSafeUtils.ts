@@ -18,7 +18,7 @@ export async function initGnosisSafe({ page, url }: { page: Page; url: string })
     // the button is not there - ignore
   }
 
-  await page.click('//*[contains(text(), "WalletConnect")]')
+  await page.click(XPath.text('*', 'WalletConnect'))
 
   // click continue button while it's there
   try {
@@ -38,9 +38,9 @@ export async function connectToMetamask({ page, context }: { page: Page; context
   await page.click('button:has-text("MetaMask")')
 
   const popupPage = await popupPromise
-  await popupPage.click('//button[contains(text(), "Next")]')
+  await popupPage.click(XPath.text('button', 'Next'))
   const pages = context.pages().length
-  await popupPage.click('//button[contains(text(), "Connect")]')
+  await popupPage.click(XPath.text('button', 'Connect'))
 
   await waitForExpect(() => {
     expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
@@ -73,7 +73,7 @@ export async function firstSign({ page, context }: { page: Page; context: Browse
   await page.click(XPath.text('button', 'Submit'))
   const popupPage = await popupPromise
   await popupPage.click('//img[@alt="Scroll down"]')
-  await popupPage.click('//button[contains(text(), "Sign")]')
+  await popupPage.click(XPath.text('button', 'Sign'))
 }
 
 export async function secondSign({ page, context }: { page: Page; context: BrowserContext }) {
@@ -88,20 +88,20 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   const popupPromise = waitForPopup(context)
   await page.click(XPath.text('button', 'Submit'))
   const popupPage = await popupPromise
-  await popupPage.click('//button[contains(text(), "Confirm")]')
+  await popupPage.click(XPath.text('button', 'Confirm'))
 }
 
 export async function waitForTransaction({ page }: { page: Page }) {
   log('Processing transaction')
   await sleep(2000)
   await waitForExpect(async () => {
-    expect(await page.isVisible(`//*[contains(text(), "Processing")]`)).to.be.false
+    expect(await page.isVisible(XPath.text('*', 'Processing'))).to.be.false
   })
   log('Transaction processed')
   await sleep(2000)
   log('Indexing transaction')
   await waitForExpect(async () => {
-    expect(await page.isVisible(`//*[contains(text(), "Indexing")]`)).to.be.false
+    expect(await page.isVisible(XPath.text('*', 'Indexing'))).to.be.false
   })
   log('Transaction indexed')
 }
