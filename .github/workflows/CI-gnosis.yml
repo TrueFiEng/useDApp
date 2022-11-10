@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - /.*[Gg]nosis.*/
 jobs:
   # Same as `test-docs` on regular CI, but picks only tests with Gnosis safe to be run on master only.
   # In order to run Gnosis safe tests on every PR, we would have to either:
