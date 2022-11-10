@@ -70,7 +70,7 @@ export async function connectToWalletConnect({ page }: { page: Page }) {
 
 export async function firstSign({ page, context }: { page: Page; context: BrowserContext }) {
   const popupPromise = waitForPopup(context)
-  await page.click(XPath.text('button', 'Submit'))
+  await page.click('button:has-text("Submit")')
   const popupPage = await popupPromise
   await popupPage.click('//img[@alt="Scroll down"]')
   await popupPage.click(XPath.text('button', 'Sign'))
@@ -86,7 +86,7 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   await page.click('//*[contains(text(), "View") and contains(text(), "transaction")]')
   await page.click(XPath.text('button', 'Confirm'))
   const popupPromise = waitForPopup(context)
-  await page.click(XPath.text('button', 'Submit'))
+  await page.click('button:has-text("Submit")')
   const popupPage = await popupPromise
   await popupPage.click(XPath.text('button', 'Confirm'))
 }
