@@ -90,3 +90,18 @@ export async function secondSign({ page, context }: { page: Page; context: Brows
   const popupPage = await popupPromise
   await popupPage.click('//button[contains(text(), "Confirm")]')
 }
+
+export async function waitForTransaction({ page }: { page: Page }) {
+  log('Processing transaction')
+  await sleep(2000)
+  await waitForExpect(async () => {
+    expect(await page.isVisible(`//*[contains(text(), "Processing")]`)).to.be.false
+  })
+  log('Transaction processed')
+  await sleep(2000)
+  log('Indexing transaction')
+  await waitForExpect(async () => {
+    expect(await page.isVisible(`//*[contains(text(), "Indexing")]`)).to.be.false
+  })
+  log('Transaction indexed')
+}
