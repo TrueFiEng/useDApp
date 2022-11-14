@@ -257,10 +257,18 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
 
     log('First wallet signs...')
-    await firstSign({
-      page: gnosisSiwePage,
-      context,
-    })
+    try {
+      await firstSign({
+        page: gnosisSiwePage,
+        context,
+      })
+    } catch (e) {
+      log('First wallet failed to sign. Trying again...')
+      await page.reload()
+      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+      await page.click(XPath.text('button', 'Sign in'))
+      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+    }
     log('First wallet signed.')
 
     await metamask.disconnectApp('app.safe.global')
@@ -297,10 +305,18 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
 
     log('First wallet signs...')
-    await firstSign({
-      page: gnosisSiwePage,
-      context,
-    })
+    try {
+      await firstSign({
+        page: gnosisSiwePage,
+        context,
+      })
+    } catch (e) {
+      log('First wallet failed to sign. Trying again...')
+      await page.reload()
+      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+      await page.click(XPath.text('button', 'Sign in'))
+      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+    }
     log('First wallet signed.')
 
     await metamask.disconnectApp('app.safe.global')
@@ -341,10 +357,18 @@ describe(`Browser: ${browserType.name()} with Gnosis Safe`, () => {
     await gnosisSiwePage.click(XPath.text('p', 'WalletConnect'))
 
     log('First wallet signs...')
-    await firstSign({
-      page: gnosisSiwePage,
-      context,
-    })
+    try {
+      await firstSign({
+        page: gnosisSiwePage,
+        context,
+      })
+    } catch (e) {
+      log('First wallet failed to sign. Trying again...')
+      await page.reload()
+      await page.click(XPath.text('button', 'Connect with WalletConnect'))
+      await page.click(XPath.text('button', 'Sign in'))
+      expect(await page.isVisible(`//*[text()='Loading...']`)).to.be.true
+    }
     log('First wallet signed.')
 
     await metamask.disconnectApp('app.safe.global')
