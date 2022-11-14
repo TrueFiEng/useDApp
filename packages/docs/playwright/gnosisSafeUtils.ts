@@ -13,6 +13,7 @@ export async function initGnosisSafe({ page, url }: { page: Page; url: string })
   await page.goto(url)
   await page.click(XPath.text('button', 'Accept all'))
   try {
+    // Try to close the popup with info about the new Safe app version
     await page.click('//*[local-name()="svg" and @data-testid="CloseIcon"]', { timeout: 2000 })
   } catch (e) {
     // the button is not there - ignore
@@ -56,7 +57,7 @@ export async function connectToMetamask({ page, context }: { page: Page; context
       expect(context.pages().length).to.be.eq(pages - 1) // Wait for the popup to be closed automatically.
     })
   } catch (e) {
-    // the button is not there - ignore
+    // There is no need to switch the network - ignore
   }
 }
 
