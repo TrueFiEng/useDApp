@@ -15,7 +15,6 @@
 
 First build the source code:
 
-
 1. Clone the repository
 2. `pnpm install` - install dependencies
 3. `cd packages/extension` - navigate to the extension folder
