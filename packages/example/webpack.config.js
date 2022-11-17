@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const { DefinePlugin } = require('webpack')
+const { DefinePlugin, EnvironmentPlugin } = require('webpack')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -27,7 +27,10 @@ module.exports = {
     new DefinePlugin({
       'process.env.MAINNET_URL': process.env.MAINNET_URL ? JSON.stringify(process.env.MAINNET_URL) : undefined,
       'process.env.LOCALHOST_URL': JSON.stringify(process.env.LOCALHOST_URL)
-    })
+    }),
+    new EnvironmentPlugin({
+      ...process.env,
+    }),
   ].filter(Boolean),
   module: {
     rules: [
