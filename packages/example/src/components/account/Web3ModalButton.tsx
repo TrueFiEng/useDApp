@@ -3,39 +3,39 @@ import { useEthers, shortenAddress, useLookupAddress } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
 import styled from 'styled-components'
-import Web3Modal from 'web3modal'
-// import '@web3modal/ui'
-// import SignClient from '@walletconnect/sign-client'
-import { ConfigCtrl, ModalCtrl } from '@web3modal/core'
-import type { W3mModal } from '@web3modal/ui'
-
 import { AccountModal } from './AccountModal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+// import Web3Modal from 'web3modal'
+// import WalletConnectProvider from '@walletconnect/web3-provider'
+
+import '@web3modal/ui'
+// import SignClient from '@walletconnect/sign-client'
+// import { ConfigCtrl, ModalCtrl } from '@web3modal/core'
+// import type { W3mModal } from '@web3modal/ui'
 
 // 1. Get projectID at https://cloud.walletconnect.com
 console.log('process.env.PUBLIC_PROJECT_ID', process.env.PUBLIC_PROJECT_ID)
 if (!process.env.PUBLIC_PROJECT_ID) throw new Error('You need to provide PUBLIC_PROJECT_ID env variable')
 
 // 2. Configure sign client
-let signClient: SignClient | undefined = undefined
-const namespaces = {
-  eip155: {
-    methods: ['eth_sign'],
-    chains: ['eip155:1'],
-    events: ['accountsChanged'],
-  },
-}
+// let signClient: SignClient | undefined = undefined
+// const namespaces = {
+//   eip155: {
+//     methods: ['eth_sign'],
+//     chains: ['eip155:1'],
+//     events: ['accountsChanged'],
+//   },
+// }
 
-async function configureSignClient() {
-  signClient = await SignClient.init({ projectId: process.env.PUBLIC_PROJECT_ID })
-}
+// async function configureSignClient() {
+// signClient = await SignClient.init({ projectId: process.env.PUBLIC_PROJECT_ID })
+// }
 
 // 3. Configure web3modal
-ConfigCtrl.setConfig({
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  theme: 'light' as const,
-  accentColor: 'orange' as const,
-})
+// ConfigCtrl.setConfig({
+//   projectId: process.env.PUBLIC_PROJECT_ID,
+//   theme: 'light' as const,
+//   accentColor: 'orange' as const,
+// })
 
 export const Web3ModalButton = () => {
   const { account, activate, deactivate } = useEthers()
@@ -60,21 +60,21 @@ export const Web3ModalButton = () => {
         },
         package: null,
       },
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          bridge: 'https://bridge.walletconnect.org',
-          infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
-        },
-      },
+      // walletconnect: {
+      //   package: WalletConnectProvider,
+      //   options: {
+      //     bridge: 'https://bridge.walletconnect.org',
+      //     infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
+      //   },
+      // },
     }
 
-    const web3Modal = new Web3Modal({
-      providerOptions,
-    })
+    // const web3Modal = new Web3Modal({
+    //   providerOptions,
+    // })
     try {
-      const provider = await web3Modal.connect()
-      await activate(provider)
+      // const provider = await web3Modal.connect()
+      // await activate(provider)
       setActivateError('')
     } catch (error: any) {
       setActivateError(error.message)
@@ -102,7 +102,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      'w3m-modal': Partial<W3mModal>
+      // 'w3m-modal': Partial<W3mModal>
     }
   }
 }
