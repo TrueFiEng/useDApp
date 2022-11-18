@@ -35,9 +35,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: [/\.tsx?$/, /\.ts?$/, /\.js?$/],
         loader: 'esbuild-loader',
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         options: {
           loader: 'tsx',
           target: 'es2018',

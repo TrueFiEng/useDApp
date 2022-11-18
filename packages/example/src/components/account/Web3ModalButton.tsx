@@ -4,45 +4,64 @@ import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
 import styled from 'styled-components'
 import { AccountModal } from './AccountModal'
-// import Web3Modal from 'web3modal'
-// import WalletConnectProvider from '@walletconnect/web3-provider'
+import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
 import '@web3modal/ui'
-// import SignClient from '@walletconnect/sign-client'
-// import { ConfigCtrl, ModalCtrl } from '@web3modal/core'
-// import type { W3mModal } from '@web3modal/ui'
+import SignClient from '@walletconnect/sign-client'
+import { ConfigCtrl, ModalCtrl } from '@web3modal/core'
+import type { W3mModal } from '@web3modal/ui'
 
 // 1. Get projectID at https://cloud.walletconnect.com
 console.log('process.env.PUBLIC_PROJECT_ID', process.env.PUBLIC_PROJECT_ID)
 if (!process.env.PUBLIC_PROJECT_ID) throw new Error('You need to provide PUBLIC_PROJECT_ID env variable')
 
 // 2. Configure sign client
-// let signClient: SignClient | undefined = undefined
-// const namespaces = {
-//   eip155: {
-//     methods: ['eth_sign'],
-//     chains: ['eip155:1'],
-//     events: ['accountsChanged'],
-//   },
-// }
+let signClient: SignClient | undefined = undefined
+const namespaces = {
+  eip155: {
+    methods: ['eth_sign'],
+    chains: ['eip155:1'],
+    events: ['accountsChanged'],
+  },
+}
 
-// async function configureSignClient() {
-// signClient = await SignClient.init({ projectId: process.env.PUBLIC_PROJECT_ID })
-// }
+async function configureSignClient() {
+  signClient = await SignClient.init({ projectId: process.env.PUBLIC_PROJECT_ID })
+}
 
 // 3. Configure web3modal
-// ConfigCtrl.setConfig({
-//   projectId: process.env.PUBLIC_PROJECT_ID,
-//   theme: 'light' as const,
-//   accentColor: 'orange' as const,
-// })
+ConfigCtrl.setConfig({
+  projectId: process.env.PUBLIC_PROJECT_ID,
+  theme: 'light' as const,
+  accentColor: 'orange' as const,
+})
 
 export const Web3ModalButton = () => {
+  const [initializing, setInitializing] = useState(true)
+  async function onOpenModal() {
+    console.log('onOpenModal')
+    if (signClient) {
+      const { uri, approval } = await signClient.connect({ requiredNamespaces: namespaces })
+      if (uri) {
+        ModalCtrl.open({ uri, standaloneChains: namespaces.eip155.chains })
+        await approval()
+        ModalCtrl.close()
+      }
+    }
+  }
+
+  async function onInitialize() {
+    await configureSignClient()
+    setInitializing(false)
+  }
+
   const { account, activate, deactivate } = useEthers()
   const { ens } = useLookupAddress(account)
   const [showModal, setShowModal] = useState(false)
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
+
   useEffect(() => {
     if (error && account) {
       setActivateError(error.message)
@@ -51,39 +70,30 @@ export const Web3ModalButton = () => {
     setActivateError('')
   }, [error, account])
 
-  const activateProvider = async () => {
-    const providerOptions = {
-      injected: {
-        display: {
-          name: 'Metamask',
-          description: 'Connect with the provider in your Browser',
-        },
-        package: null,
-      },
-      // walletconnect: {
-      //   package: WalletConnectProvider,
-      //   options: {
-      //     bridge: 'https://bridge.walletconnect.org',
-      //     infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
-      //   },
-      // },
-    }
+  useEffect(() => {
+    void onInitialize()
+  }, [])
 
-    // const web3Modal = new Web3Modal({
-    //   providerOptions,
-    // })
+  const activateProvider = async () => {
+    const web3Modal = new Web3Modal()
     try {
-      // const provider = await web3Modal.connect()
-      // await activate(provider)
+      const provider = await web3Modal.connect()
+      await activate(provider)
       setActivateError('')
     } catch (error: any) {
       setActivateError(error.message)
     }
   }
 
+  if (initializing) {
+    return <div>Initializing...</div>
+  }
+
   return (
     <Account>
-      <ErrorWrapper>{activateError}</ErrorWrapper>
+      <LoginButton onClick={onOpenModal}>Connect</LoginButton>
+      <w3m-modal></w3m-modal>
+      {/* <ErrorWrapper>{activateError}</ErrorWrapper>
       {showModal && <AccountModal setShowModal={setShowModal} />}
       {account ? (
         <>
@@ -91,8 +101,8 @@ export const Web3ModalButton = () => {
           <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
         </>
       ) : (
-        <LoginButton onClick={activateProvider}>Connect</LoginButton>
-      )}
+        <LoginButton onClick={onOpenModal}>Connect</LoginButton>
+      )} */}
     </Account>
   )
 }
@@ -102,7 +112,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      // 'w3m-modal': Partial<W3mModal>
+      'w3m-modal': Partial<W3mModal>
     }
   }
 }
