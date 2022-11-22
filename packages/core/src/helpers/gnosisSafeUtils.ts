@@ -1,4 +1,4 @@
-import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
+import { TransactionResponse, TransactionReceipt, TransactionRequest } from '@ethersproject/abstract-provider'
 import { BigNumber, BigNumberish, Contract, Event } from 'ethers'
 import { utils, constants } from 'ethers'
 import { getChainById } from './chain'
@@ -63,6 +63,13 @@ const EIP712_SAFE_TX_TYPE = {
     { type: 'address', name: 'refundReceiver' },
     { type: 'uint256', name: 'nonce' },
   ],
+}
+
+export const sanitizeTransactionRequest = (transactionRequest: TransactionRequest): TransactionRequest => {
+  return {
+    ...transactionRequest,
+    data: transactionRequest.data ?? '0x' // Non-empty data string is required on Gnosis Safe side.
+  }
 }
 
 export const calculateSafeTransactionHash = (
