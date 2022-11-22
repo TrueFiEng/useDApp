@@ -68,7 +68,7 @@ const EIP712_SAFE_TX_TYPE = {
 export const sanitizeTransactionRequest = (transactionRequest: TransactionRequest): TransactionRequest => {
   return {
     ...transactionRequest,
-    data: transactionRequest.data ?? '0x' // Non-empty data string is required on Gnosis Safe side.
+    data: transactionRequest.data ?? '0x', // Non-empty data string is required on Gnosis Safe side.
   }
 }
 
