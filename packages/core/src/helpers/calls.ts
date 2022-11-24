@@ -114,12 +114,17 @@ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions)
 }
 
 /**
- * Result of a multicall call.
+ * Result of a {@link useCall} query.
+ *
+ * It is `undefined` when call didn't return yet or a object `{ value, error }` if it did.
+ *
+ * - `value:` `any[] | undefined` - array of results or undefined if error occurred,
+ * - `error`: `Error | undefined` - encountered error or undefined if call was successful.
+ *
  * @public
  */
 export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
-  | { value: Awaited<ReturnType<T['functions'][MN]>>; error: undefined }
-  | { value: undefined; error: Error }
+  | { value: Awaited<ReturnType<T['functions'][MN]> | undefined>; error: Error | undefined }
   | undefined
 
 /**

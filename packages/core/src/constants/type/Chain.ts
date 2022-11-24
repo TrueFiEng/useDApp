@@ -1,7 +1,9 @@
 /**
+ * Represents the chain type.
+ *
  * @public
  */
-export type Chain = {
+export interface Chain {
   /**
    * The ID of the chain. Every chain has a unique chainId.
    */

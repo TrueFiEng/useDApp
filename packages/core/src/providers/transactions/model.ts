@@ -1,8 +1,5 @@
 import type { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
 
-/**
- * @public
- */
 export interface StoredTransaction {
   transaction: TransactionResponse
   submittedAt: number
@@ -12,9 +9,6 @@ export interface StoredTransaction {
   originalTransaction?: TransactionResponse
 }
 
-/**
- * @public
- */
 export type UpdatedTransaction = Omit<StoredTransaction, 'submittedAt'> & { receipt: TransactionReceipt }
 
 /**
@@ -27,9 +21,6 @@ export function getStoredTransactionState(transaction: StoredTransaction) {
   return 'Mining'
 }
 
-/**
- * @public
- */
 export type StoredTransactions = {
   [chainId: number]: StoredTransaction[]
 }

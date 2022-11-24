@@ -30,13 +30,27 @@ function encodeCallData(call: ContractCall | Falsy, chainId: ChainId): RawCall |
 }
 
 /**
+ * Represents a single call to a contract that can be included in multicall.
+ *
  * @public
  * @deprecated Use {@link useCall} instead.
  */
 export interface ContractCall {
+  /**
+   * ABI of a contract, see [Interface](https://docs.ethers.io/v5/api/utils/abi/interface/)
+   */
   abi: utils.Interface
+  /**
+   * address of a contract to call
+   */
   address: string
+  /**
+   * function name
+   */
   method: string
+  /**
+   * arguments for the function
+   */
   args: any[]
 }
 
