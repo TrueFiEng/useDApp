@@ -16,4 +16,4 @@ If you have any feature requests or bug reports, you can [create an issue on Git
 
 You can also ask questions or share insights on [Discord](https://discord.com/invite/cSSmtdq7jr).
 
-Good luck! :)
+Good luck! 🙂

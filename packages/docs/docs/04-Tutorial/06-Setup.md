@@ -71,4 +71,4 @@ Open `http://localhost:3000` in your browser. You should see the following page:
 
 ![image](./starting-page.png)
 
-Now we're ready to start building our DApp!
+Next, we will [look into configuration](./Config) of our DApp.
