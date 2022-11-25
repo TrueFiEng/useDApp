@@ -2,12 +2,13 @@
 
 Now we'll get some hands on experience on building simple DApp using useDApp! In order to complete the tutorial, you'll need:
 
-- git
-- node version 16 or higher
-- yarn
-- Metamask installed in your browser
+- [git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/)
+  - It is recommended to use [LTS or Maintenance version](https://github.com/nodejs/release#release-schedule)
+- [yarn](https://classic.yarnpkg.com/)
+- [Metamask](https://metamask.io/download/) installed in your browser
 
-The first step is to clone the repo that is prepared specififaclly for this tutorial.
+The first step is to clone the repo that is prepared specifically for this tutorial.
 
 ```bash
 git clone https://github.com/yivlad/useDApp-tutorial.git
@@ -19,7 +20,7 @@ Go to the repo root directory:
 cd useDApp-tutorial
 ```
 
-Install all dependecies:
+Install all dependencies:
 
 ```bash
 yarn
@@ -39,25 +40,26 @@ The repo is a yarn workspaces monorepo. Under the `packages` directory you can f
 Let's build both packages:
 
 ```bash
+# In the root of the repository
 yarn build
 ```
 
 Next you'll need to have 3 terminal windows open.
 
 - In the first one, run `yarn start-ganache` from the `packages/contracts` directory. This will start a local blockchain node on port `8545`.
-- We'll use the second terminal window to interact with the local blockhain node via the CLI. Go to the `@simple-dapp/contracts` package.
+- We'll use the second terminal window to interact with the local blockchain node via the CLI. Go to the `@simple-dapp/contracts` package.
 
 ```bash
 cd packages/contracts
 ```
 
-Let's first deploy the `WETH10` contract to the local blockhain node we started in the previous step.
+Let's first deploy the `WETH10` contract to the local blockchain node we started in the previous step.
 
 ```bash
 yarn deploy-local
 ```
 
-Next let's get some funds to be able to send transactions. First we need to get our address. Go to your brower and open Metamask. Copy your address. Then go back to the terminal window and run:
+Next let's get some funds to be able to send transactions. First we need to get our address. Go to your browser and open Metamask. Copy your address. Then go back to the terminal window and run:
 
 ```bash
 yarn get-funds INSERT_YOUR_ADDRESS_HERE
@@ -66,6 +68,7 @@ yarn get-funds INSERT_YOUR_ADDRESS_HERE
 - In the third terminal window, go to the `packages/frontend` directory and run `yarn start`. This will start the `React` app on port `3000`.
 
 Open `http://localhost:3000` in your browser. You should see the following page:
+
 ![image](./starting-page.png)
 
 Now we're ready to start building our DApp!

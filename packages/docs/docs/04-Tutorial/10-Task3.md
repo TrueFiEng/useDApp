@@ -37,7 +37,7 @@ And then in the `DepositComponent` component:
   const { send, state } = useContractFunction(weth10Contract, 'deposit');
 ```
 
-The `useContractFunction` hook returns an object with two properties: `send` and `state`. The `send` function is used to send a transaction. The `state` object contains a variety of fileds with information about the transaction, but we'll only use the `status` field in this task. The `status` field can have one of the following values: `None`, `PendingSignature`, `Mining`, `Success`, `Fail`, `Exception`, `CollectingSignaturePool`. The last one is used for sending transactions with  wallets.
+The `useContractFunction` hook returns an object with two properties: `send` and `state`. The `send` function is used to send a transaction. The `state` object contains a variety of fields with information about the transaction, but we'll only use the `status` field in this task. The `status` field can have one of the following values: `None`, `PendingSignature`, `Mining`, `Success`, `Fail`, `Exception`, `CollectingSignaturePool`. The last one is used for sending transactions with  wallets.
 
 Let's now update the `handleDeposit` function to use the `send` function:
 
@@ -65,7 +65,7 @@ Let's also ensure that the user doesn't send a second transaction before the fir
 
 ## WithdrawComponent
 
-The `WithdrawComponent` is very similar to the `DepositComponent`. The only difference is that we're calling the `withdraw` function instead of the `deposit` function. The `withdraw` function takes one argument - the amount of WETH10 we want to withdraw. We also don't neeed to pass in the `overrides` object this time beacuse we're not sending any ether along the transaction (but note that your account we'll still get charged the gas fee).
+The `WithdrawComponent` is very similar to the `DepositComponent`. The only difference is that we're calling the `withdraw` function instead of the `deposit` function. The `withdraw` function takes one argument - the amount of WETH10 we want to withdraw. We also don't need to pass in the `overrides` object this time because we're not sending any ether along the transaction (but note that your account we'll still get charged the gas fee).
 
 In the `WithdrawComponent` component:
 

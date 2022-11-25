@@ -1,6 +1,6 @@
 # Task 1
 
-In the first task we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modyfing two files: `packages/frontend/src/components/AccountButton.tsx` and `packages/frontend/src/components/AccountModal.tsx`. Let's start with the `AccountButton.tsx` file.
+In the first task we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modifying two files: `packages/frontend/src/components/AccountButton.tsx` and `packages/frontend/src/components/AccountModal.tsx`. Let's start with the `AccountButton.tsx` file.
 
 ## AccountButton.tsx
 
