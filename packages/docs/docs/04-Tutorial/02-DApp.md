@@ -26,7 +26,7 @@ In case of mainnet, a block is mined approximately every 15 seconds. That means 
 Typical DApp interacts with a lot of smart contracts. So, in order to keep the data synced, we need to make a lot of calls. And despite the read-only calls in Ethereum protocol are free, we still need some kind of external service like Infura or Alchemy. And both of those charge some money for the calls.
 
 ![image](./infura-pricing.png)
-<p align = "center"> <b> Pricing on Infura </b> </p>
+<p align = "center"> <b> Pricing on Infura as of November 2022 </b> </p>
 
 Not only do the frequent requests to an API provider spike up your bill, but it also slows down the app for the user.
 
