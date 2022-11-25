@@ -12,9 +12,11 @@ When calling an Ethereum node, we differintiate between two types of calls: read
 
 | Read-only calls | Write calls |
 | --- | --- |
-| Free | Have to pay gas fee |
+| Free [^1] | Have to pay gas fee |
 | Can only read the state of blockchain | Can modify the state of blockhain |
 | Doesn't need to be signed | Needs to be signed (for instance using a wallet) |
+
+[^1]: Ethereum API provider (such as Infura or Alchemy) fees may apply. See [this blog post](https://medium.com/truefieng/whats-new-in-usedapp-1-1-49fdbdf912b5) to learn more about how useDApp minimizes API provider costs. 
 
 ## Blockchain state
 
