@@ -92,6 +92,8 @@ In the `TransferComponent` component:
 
 Update the rest of the TODO sections in the same way as in the `DepositComponent` and `WithdrawComponent`.
 
-## Summary
+## That's it!
 
 Congratulations! Now you're able to send transactions to the blockchain using useDApp.
+
+You can head on to the [last page](./Summary) to summarize what we've learned.
