@@ -8,4 +8,4 @@ A good DApp should:
 - **Have consistent state** - The state we display should be consistently taken from a single block - we should not present information taken from different blocks, in order to avoid inconsistencies or conflicting data
 - **Be efficient** - We should not spam the blockchain API provider. Not only would that spike up our bill, but also slow down the app for the user.
 
-Sounds like work? Not necessarily - [useDApp does it all](./useDapp%20does%20it%20all) - automatically!
+Sounds like work? Not necessarily - [useDApp does it all](./how%20usedapp%20helps%20you) - automatically!

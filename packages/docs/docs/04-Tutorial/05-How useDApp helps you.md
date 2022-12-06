@@ -1,4 +1,4 @@
-# useDApp does it all!
+# How useDApp helps you
 
 useDApp supports all of the [requirements](./DApp%20Requirements) of a well functioning DApp - in a moment we will find out how we can use that power to your advantage.
 
