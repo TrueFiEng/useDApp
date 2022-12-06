@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.2.3
+
+### Patch Changes
+
+- 1ad724c: Keep transactionName in notifications after the transaction is mined
+- 6a06d7e: 🧤 Add non-empty data string in Send Transaction for restoring Gnosis Safe integration
+
 ## 1.2.2
 
 ### Patch Changes
