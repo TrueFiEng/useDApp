@@ -7,6 +7,7 @@ import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/conte
 import { ChainId } from '../constants'
 import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 import { providers } from 'ethers'
+import { sanitizeTransactionRequest } from '../helpers/gnosisSafeUtils'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -49,10 +50,12 @@ export function useSendTransaction(options?: TransactionOptions) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
 
       return promiseTransaction(
-        signer.sendTransaction({
-          ...transactionRequest,
-          gasLimit,
-        }),
+        signer.sendTransaction(
+          sanitizeTransactionRequest({
+            ...transactionRequest,
+            gasLimit,
+          })
+        ),
         {
           safeTransaction: {
             to: transactionRequest.to,

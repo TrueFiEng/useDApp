@@ -1,5 +1,13 @@
 # @usedapp/siwe
 
+## 2.0.1
+
+### Patch Changes
+
+- 14b9f68: ⛓ Allow to use multichain
+- Updated dependencies [840e14e]
+  - @usedapp/core@1.2.2
+
 ## 2.0.0
 
 ### Patch Changes
