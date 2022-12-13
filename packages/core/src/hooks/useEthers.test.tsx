@@ -142,10 +142,7 @@ describe('useEthers', () => {
         [network1.chainId]: new providers.FallbackProvider([network1.provider]),
       },
     }
-    const { result, waitForCurrent } = await renderDAppHook(
-      useEthers,
-      { config: configWithFallbackProvider }
-    )
+    const { result, waitForCurrent } = await renderDAppHook(useEthers, { config: configWithFallbackProvider })
 
     await waitForCurrent((val) => {
       return val.library instanceof providers.FallbackProvider
