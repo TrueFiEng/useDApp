@@ -1,8 +1,8 @@
-# Task 2
+# Exercise 2
 
-In this task we'll learn how to read blockchain state using useDApp.
+In this exercise we'll learn how to read blockchain state using useDApp.
 
-In the application we're building, go to the second tab. This tab has a small table in which WETH balances for specific addresses should be displayed. The first row is your own address, and the address for the second row was selected arbitrarily. In this task you'll need to modify the `packages/frontend/src/components/Task2.tsx` file.
+In the application we're building, go to the second tab. This tab has a small table in which WETH balances for specific addresses should be displayed. The first row is your own address, and the address for the second row was selected arbitrarily. In this exercise you'll need to modify the `packages/frontend/src/components/Exercise2.tsx` file.
 
 Let's start with something we already know how to do - getting the current account address. We'll use the `useEthers` hook to get the `account` variable.
 
@@ -33,7 +33,7 @@ Now let's get the `WETH10` contract address for the current chain.
 
 ```ts
 const { chainId } = useEthers();
-const weth10Address = weth10Addresses[chainId];
+const weth10Address = chainId && weth10Addresses[chainId];
 ```
 
 Now create an `ethers` contract instance for the `WETH10` contract. You'll need the `WETH10ABI` object from the `@simple-dapp/contracts` package ([what's ABI?](https://docs.ethers.io/v5/api/utils/abi/)) and optionally the `WETH10` contract type - this will allow you to get type hints for the contract methods.
@@ -46,7 +46,7 @@ import { Contract, utils } from 'ethers';
 And now in the BalancesTableRow component:
 
 ```ts
-const weth10Contract = chainId && new Contract(weth10Addresses[chainId], WETH10ABI.abi) as WETH10;
+const weth10Contract = new Contract(weth10Address, WETH10ABI.abi) as WETH10;
 ```
 
 Now we're ready to make the first call to the blockchain. We'll use the `useCall` hook.
