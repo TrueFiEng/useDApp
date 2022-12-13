@@ -143,18 +143,13 @@ describe('useEthers', () => {
       },
     }
     const { result, waitForCurrent } = await renderDAppHook(
-      () => {
-        const { activate } = useEthers()
-        useEffect(() => {
-          void activate(network1.provider)
-        }, [])
-
-        return useEthers()
-      },
+      useEthers,
       { config: configWithFallbackProvider }
     )
 
-    await waitForCurrent((val) => !!val.isLoading)
+    await waitForCurrent((val) => {
+      return val.library instanceof providers.FallbackProvider
+    })
 
     const provider = result.current.library
     const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
@@ -218,7 +213,7 @@ describe('useEthers', () => {
 
     after(async () => {
       await ganacheServer.close()
-      // disrupting the connection forcefuly so websocket server can be properly shutdown
+      // disrupting the connection forcefully so websocket server can be properly shutdown
       await provider.destroy()
     })
 
