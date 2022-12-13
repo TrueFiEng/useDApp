@@ -46,6 +46,8 @@ import {
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
   Sepolia,
+  RootstockMainnet,
+  RootstockTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -96,6 +98,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   VelasTestnet,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
+  RootstockMainnet,
+  RootstockTestnet,
 ]
 
 export enum ChainId {
@@ -146,4 +150,6 @@ export enum ChainId {
   VelasTestnet = 111,
   ZkSyncTestnet = 280,
   ArbitrumRedditTestnet = 5391184,
+  RootstockMainnet = 30,
+  RootstockTestnet = 31,
 }
