@@ -46,8 +46,14 @@ yarn build
 
 Next you'll need to have 3 terminal windows open.
 
-- In the first one, run `yarn start-ganache` from the `packages/contracts` directory. This will start a local blockchain node on port `8545`.
-- We'll use the second terminal window to interact with the local blockchain node via the CLI. Go to the `@simple-dapp/contracts` package.
+In the first one, run `yarn start-ganache` from the `packages/contracts` directory. This will start a local blockchain node on port `8545`.
+
+```bash
+cd packages/contracts
+yarn start-ganache
+```
+
+We'll use the second terminal window to interact with the local blockchain node via the CLI. Go to the `packages/contracts` directory.
 
 ```bash
 cd packages/contracts
@@ -65,7 +71,12 @@ Next let's get some funds to be able to send transactions. First we need to get 
 yarn get-funds INSERT_YOUR_ADDRESS_HERE
 ```
 
-- In the third terminal window, go to the `packages/frontend` directory and run `yarn start`. This will start the `React` app on port `3000`.
+In the third terminal window, go to the `packages/frontend` directory and run `yarn start`. This will start the `React` app on port `3000`.
+
+```bash
+cd package/frontend
+yarn start
+```
 
 Open `http://localhost:3000` in your browser. You should see the following page:
 

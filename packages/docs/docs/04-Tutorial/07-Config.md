@@ -34,4 +34,4 @@ Next we'll wrap our app in the `DAppProvider` component and pass in the config o
 </DAppProvider>
 ```
 
-Now we're ready to [start implementing](./Task1) actual features in our DApp!
+Now we're ready to [start implementing](./Exercise1) actual features in our DApp!
