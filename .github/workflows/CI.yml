@@ -97,6 +97,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
+      - run: git clean -fdx
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --filter="usedapp"
       - run: pnpm changeset version
