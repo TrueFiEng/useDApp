@@ -1,6 +1,6 @@
-# Task 1
+# Exercise 1
 
-In the first task we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modifying two files: `packages/frontend/src/components/AccountButton.tsx` and `packages/frontend/src/components/AccountModal.tsx`. Let's start with the `AccountButton.tsx` file.
+In the first exercise we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modifying two files: `packages/frontend/src/components/AccountButton.tsx` and `packages/frontend/src/components/AccountModal.tsx`. Let's start with the `AccountButton.tsx` file.
 
 ## AccountButton.tsx
 
@@ -53,7 +53,7 @@ import { shortenAddress, useEtherBalance, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 ```
 
-We can the current account address the same way as in the `AccountButton.tsx` file, but this time we'll also want to get the `deactivate` function which allows us to disconnect from the wallet.
+We can get the current account address the same way as in the `AccountButton.tsx` file, but this time we'll also want to get the `deactivate` function which allows us to disconnect from the wallet.
 
 ```ts
 const { account, deactivate } = useEthers();
@@ -90,7 +90,7 @@ Let's now implement functionality for the disconnect button. We'll use the `deac
 + deactivate();
 ```
 
-The last thing to do in this task is to allow the user to copy the account address by pressing the copy button.
+The last thing to do in this exercise is to allow the user to copy the account address by pressing the copy button.
 
 ```diff
 - // TODO: Copy address of the current user to clipboard
@@ -99,4 +99,4 @@ The last thing to do in this task is to allow the user to copy the account addre
 + }
 ```
 
-This concludes the first task. You should now be able to connect your DApp to MetaMask.
+This concludes the first exercise. You should now be able to connect your DApp to MetaMask.
