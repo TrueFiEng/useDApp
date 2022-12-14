@@ -89,6 +89,93 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
   const promiseTransaction = useCallback(
     async (transactionPromise: Promise<TransactionResponse>, { safeTransaction }: PromiseTransactionOpts = {}, transactionRequest?: TransactionRequest) => {
+
+
+      const handleNonContractWallet = async (transactionPromise: Promise<TransactionResponse>) => {
+        if (!chainId) return
+
+        const transaction = await transactionPromise
+
+        setState({ transaction, status: 'Mining', chainId })
+        addTransaction({
+          transaction: {
+            ...transaction,
+            chainId: chainId,
+          },
+          submittedAt: Date.now(),
+          transactionName: options?.transactionName,
+        })
+        const receipt = await transaction.wait()
+        updateTransaction({
+          transaction: {
+            ...transaction,
+            chainId: chainId,
+          },
+          receipt,
+          transactionName: options?.transactionName,
+        })
+        setState({ receipt, transaction, status: 'Success', chainId })
+        return { transaction, receipt }
+      }
+
+      const handleContractWallet = async (
+        transactionPromise: Promise<TransactionResponse>,
+        { safeTransaction }: PromiseTransactionOpts = {}
+      ) => {
+        if (!chainId || !library || !account) return
+        setState({ status: 'CollectingSignaturePool', chainId })
+
+        gnosisSafeContract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
+
+        const latestNonce = await getLatestNonce(chainId, account)
+
+        const safeTx = buildSafeTransaction({
+          to: safeTransaction?.to ?? '',
+          value: safeTransaction?.value,
+          data: safeTransaction?.data,
+          nonce: latestNonce ? latestNonce + 1 : await gnosisSafeContract.nonce(),
+        })
+
+        const { transaction, receipt, rejected } = await waitForSafeTransaction(
+          transactionPromise,
+          gnosisSafeContract,
+          chainId,
+          safeTx
+        )
+
+        if (rejected) {
+          const errorMessage = 'On-chain rejection created'
+          addTransaction({
+            transaction: {
+              ...transaction,
+              chainId: chainId,
+            },
+            receipt,
+            submittedAt: Date.now(),
+            transactionName: options?.transactionName,
+          })
+          setState({
+            status: 'Fail',
+            transaction,
+            receipt,
+            errorMessage,
+            chainId,
+          })
+        } else {
+          addTransaction({
+            transaction: {
+              ...transaction,
+              chainId: chainId,
+            },
+            receipt,
+            submittedAt: Date.now(),
+            transactionName: options?.transactionName,
+          })
+          setState({ receipt, transaction, status: 'Success', chainId })
+        }
+        return { transaction, receipt }
+      }
+
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
@@ -150,93 +237,9 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         return undefined
       }
     },
-    [chainId, setState, addTransaction, options]
+    [chainId, addNotification, options?.transactionName, library, account]
   )
 
-  const handleNonContractWallet = async (transactionPromise: Promise<TransactionResponse>) => {
-    if (!chainId) return
-
-    const transaction = await transactionPromise
-
-    setState({ transaction, status: 'Mining', chainId })
-    addTransaction({
-      transaction: {
-        ...transaction,
-        chainId: chainId,
-      },
-      submittedAt: Date.now(),
-      transactionName: options?.transactionName,
-    })
-    const receipt = await transaction.wait()
-    updateTransaction({
-      transaction: {
-        ...transaction,
-        chainId: chainId,
-      },
-      receipt,
-      transactionName: options?.transactionName,
-    })
-    setState({ receipt, transaction, status: 'Success', chainId })
-    return { transaction, receipt }
-  }
-
-  const handleContractWallet = async (
-    transactionPromise: Promise<TransactionResponse>,
-    { safeTransaction }: PromiseTransactionOpts = {}
-  ) => {
-    if (!chainId || !library || !account) return
-    setState({ status: 'CollectingSignaturePool', chainId })
-
-    gnosisSafeContract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
-
-    const latestNonce = await getLatestNonce(chainId, account)
-
-    const safeTx = buildSafeTransaction({
-      to: safeTransaction?.to ?? '',
-      value: safeTransaction?.value,
-      data: safeTransaction?.data,
-      nonce: latestNonce ? latestNonce + 1 : await gnosisSafeContract.nonce(),
-    })
-
-    const { transaction, receipt, rejected } = await waitForSafeTransaction(
-      transactionPromise,
-      gnosisSafeContract,
-      chainId,
-      safeTx
-    )
-
-    if (rejected) {
-      const errorMessage = 'On-chain rejection created'
-      addTransaction({
-        transaction: {
-          ...transaction,
-          chainId: chainId,
-        },
-        receipt,
-        submittedAt: Date.now(),
-        transactionName: options?.transactionName,
-      })
-      setState({
-        status: 'Fail',
-        transaction,
-        receipt,
-        errorMessage,
-        chainId,
-      })
-    } else {
-      addTransaction({
-        transaction: {
-          ...transaction,
-          chainId: chainId,
-        },
-        receipt,
-        submittedAt: Date.now(),
-        transactionName: options?.transactionName,
-      })
-      setState({ receipt, transaction, status: 'Success', chainId })
-    }
-    return { transaction, receipt }
-  }
 
   return { promiseTransaction, state, resetState }
 }
