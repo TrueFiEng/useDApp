@@ -19,8 +19,8 @@ const { account, activateBrowserWallet } = useEthers();
 Modify the `onConnect` function to use the `activateBrowserWallet` function:
 
 ```ts
-const onConnect = async () => {
-  await activateBrowserWallet();
+const onConnect = () => {
+  activateBrowserWallet();
 };
 ```
 

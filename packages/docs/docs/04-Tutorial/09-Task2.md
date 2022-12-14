@@ -29,13 +29,6 @@ Next let's implement the logic in `BalancesTableRow` component. We'll need the a
 import { weth10Addresses } from '../shared/weth10addresses';
 ```
 
-Now let's get the `WETH10` contract address for the current chain.
-
-```ts
-const { chainId } = useEthers();
-const weth10Address = weth10Addresses[chainId];
-```
-
 Now create an `ethers` contract instance for the `WETH10` contract. You'll need the `WETH10ABI` object from the `@simple-dapp/contracts` package ([what's ABI?](https://docs.ethers.io/v5/api/utils/abi/)) and optionally the `WETH10` contract type - this will allow you to get type hints for the contract methods.
 
 ```ts
@@ -46,6 +39,7 @@ import { Contract, utils } from 'ethers';
 And now in the BalancesTableRow component:
 
 ```ts
+const { chainId } = useEthers();
 const weth10Contract = chainId && new Contract(weth10Addresses[chainId], WETH10ABI.abi) as WETH10;
 ```
 
