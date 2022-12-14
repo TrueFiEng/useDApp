@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Contract } from 'ethers'
+import { useDeepMemo } from '@gooddollar/usedeepmemo'
 import { ContractEventNames, Falsy, EventParams, TypedContract } from '../model/types'
 import { useRawLogs } from './useRawLogs'
 import { LogsResult, decodeLogs, encodeFilterData } from '../helpers'
@@ -48,5 +49,9 @@ export function useLogs<T extends TypedContract = Contract, EN extends ContractE
     blockHash,
   ])
   const result = useRawLogs(rawFilter instanceof Error ? undefined : rawFilter, queryParams)
-  return useMemo(() => decodeLogs(filter, rawFilter instanceof Error ? rawFilter : result), [result, filter, rawFilter])
+  return useDeepMemo(() => decodeLogs(filter, rawFilter instanceof Error ? rawFilter : result), [
+    result,
+    filter,
+    rawFilter,
+  ])
 }

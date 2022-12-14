@@ -1,4 +1,5 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useContext, useEffect } from 'react'
+import { useDeepMemo } from '@gooddollar/usedeepmemo'
 import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
@@ -24,7 +25,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return useMemo(
+  return useDeepMemo(
     () =>
       calls.map((call) => {
         return call ? extractCallResult(chains, call) : undefined

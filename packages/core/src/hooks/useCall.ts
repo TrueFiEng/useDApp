@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Contract } from 'ethers'
+import { useDeepMemo } from '@gooddollar/usedeepmemo'
 import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
@@ -127,7 +128,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   )
 
   const results = useRawCalls(rawCalls)
-  return useMemo(
+  return useDeepMemo(
     () =>
       results.map((result, idx) => {
         if (potentialRawCalls[idx] instanceof Error) {

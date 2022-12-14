@@ -3,7 +3,7 @@ import { getAddress } from 'ethers/lib/utils'
 import { Connector, ConnectorController, useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 import { useReadonlyNetwork } from './useReadonlyProvider'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useReadonlyNetworkStates } from '../providers/network/readonlyNetworks/context'
 import { ActivateBrowserWallet } from '../providers/network/connectors/context'
 
@@ -122,7 +122,20 @@ export function useEthers(): Web3Ethers {
     }
 
     setError(errors?.[errors.length - 1])
-  }, [chainId, errors, networkStates])
+  }, [chainId, errors, networkStates, configuredChainIds, supportedChainIds])
+
+  const switchNetwork = useCallback(async (chainId: number) => {
+    await connector?.switchNetwork(chainId)
+  },[connector])
+
+  const activateCallback = useCallback(async (providerOrConnector: SupportedProviders) => {
+    if ('getProvider' in providerOrConnector) {
+      console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
+      await providerOrConnector.activate()
+      return activate(await providerOrConnector.getProvider())
+    }
+    return activate(providerOrConnector)
+  },[activate])
 
   return {
     connector: undefined,
@@ -130,14 +143,7 @@ export function useEthers(): Web3Ethers {
     chainId: error?.name === 'ChainIdError' ? undefined : provider !== undefined ? chainId : readonlyNetwork?.chainId,
     account,
     active: !!provider,
-    activate: async (providerOrConnector: SupportedProviders) => {
-      if ('getProvider' in providerOrConnector) {
-        console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
-        await providerOrConnector.activate()
-        return activate(await providerOrConnector.getProvider())
-      }
-      return activate(providerOrConnector)
-    },
+    activate: activateCallback,
     activateBrowserWallet,
     deactivate,
 
@@ -147,9 +153,7 @@ export function useEthers(): Web3Ethers {
 
     error,
     isLoading,
-    switchNetwork: async (chainId: number) => {
-      await connector?.switchNetwork(chainId)
-    },
+    switchNetwork
   }
 }
 
