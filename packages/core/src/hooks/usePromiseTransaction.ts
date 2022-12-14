@@ -88,12 +88,20 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
   }, [setState])
 
   const promiseTransaction = useCallback(
-    async (transactionPromise: Promise<TransactionResponse>, { safeTransaction }: PromiseTransactionOpts = {}) => {
+    async (transactionPromise: Promise<TransactionResponse>, { safeTransaction }: PromiseTransactionOpts = {}, transactionRequest?: TransactionRequest) => {
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
         setState({ status: 'PendingSignature', chainId })
-
+        addNotification({
+          notification: {
+            type: "transactionPendingSignature",
+            submittedAt: Date.now(),            
+            transactionName: options?.transactionName,
+            transactionRequest
+          },
+          chainId: chainId,
+        })
         const result = (await isNonContractWallet(library, account))
           ? await handleNonContractWallet(transactionPromise)
           : await handleContractWallet(transactionPromise, { safeTransaction })

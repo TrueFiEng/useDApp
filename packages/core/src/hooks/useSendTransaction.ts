@@ -61,7 +61,8 @@ export function useSendTransaction(options?: TransactionOptions) {
             to: transactionRequest.to,
             value: transactionRequest.value?.toString(),
           },
-        }
+        },
+        transactionRequest
       )
     }
   }
