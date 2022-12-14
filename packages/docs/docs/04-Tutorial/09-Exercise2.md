@@ -1,8 +1,8 @@
-# Task 2
+# Exercise 2
 
-In this task we'll learn how to read blockchain state using useDApp.
+In this exercise we'll learn how to read blockchain state using useDApp.
 
-In the application we're building, go to the second tab. This tab has a small table in which WETH balances for specific addresses should be displayed. The first row is your own address, and the address for the second row was selected arbitrarily. In this task you'll need to modify the `packages/frontend/src/components/Task2.tsx` file.
+In the application we're building, go to the second tab. This tab has a small table in which WETH balances for specific addresses should be displayed. The first row is your own address, and the address for the second row was selected arbitrarily. In this exercise you'll need to modify the `packages/frontend/src/components/Exercise2.tsx` file.
 
 Let's start with something we already know how to do - getting the current account address. We'll use the `useEthers` hook to get the `account` variable.
 
