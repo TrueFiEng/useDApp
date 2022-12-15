@@ -1,6 +1,6 @@
 # What is a DApp
 
-DApp stands for Decentralized APPlication. It is an application that can typically operate without the central server, typically through the use of smart contracts, that run on a decentralized computing, blockchain or other distributed ledger system. The most known DApp is [Uniswap](https://app.uniswap.org) - a decentralized exchange (DEX) that enables users to trade cryptocurrencies without any involvement with a centralized third part. It is built on top of [Ethereum blockchain](https://ethereum.org).
+DApp stands for Decentralized APPlication. It is an application that can typically operate without the central server, typically through the use of smart contracts, that run on a decentralized computing, blockchain or other distributed ledger system. One of the most known DApps is [Uniswap](https://app.uniswap.org) - a decentralized exchange (DEX) that enables users to trade cryptocurrencies without any involvement with a centralized third part. It is built on top of the [Ethereum blockchain](https://ethereum.org).
 
 In this tutorial, you will learn a lot of stuff about how decentralized applications work. But the most import thing you'll learn how to build one on your own! We'll have some smart contracts and will create a DApp that will interact with these smart contracts. The main goal of the tutorial is to get to know `useDApp` - a library with a collection of react hooks that helps you to interact with the EVM-based blockchains.
 
