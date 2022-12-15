@@ -1,15 +1,20 @@
 # Configuring useDApp
 
-Before we start implementing actual features, we have to configure `useDApp` environment. We'll do it in the `packages/frontend/src/index.tsx` file. Let's import stuff that we'll need:
+In a moment we will implement a fully-functioning useDApp-powered dApp.
+We will go through the steps to connect to a blockchain, read its state and interact with it.
 
-```ts
+Before we start implementing actual features, we have to configure `useDApp` environment.
+
+👉 Let's import stuff that we'll need:
+
+```ts title="packages/frontend/src/index.tsx"
 import { Config, DAppProvider, Goerli, Localhost } from '@usedapp/core';
 import { getDefaultProvider } from 'ethers';
 ```
 
 Then create a `useDApp` config object:
 
-```ts
+```ts title="packages/frontend/src/index.tsx"
 const config: Config = {
   readOnlyChainId: Goerli.chainId,
   readOnlyUrls: {
@@ -28,7 +33,7 @@ Please refer to the [API reference](../03-API%20Reference/03-Models.mdx#config) 
 
 Next we'll wrap our app in the `DAppProvider` component and pass in the config object. To do that replace `<App />` component with this code:
 
-```tsx
+```tsx title="packages/frontend/src/index.tsx"
 <DAppProvider config={config}>
   <App />
 </DAppProvider>
