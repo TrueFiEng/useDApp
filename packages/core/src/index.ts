@@ -70,7 +70,7 @@ export {
   useRawCall,
   useRawCalls,
   useResolveName,
-  useSigner
+  useSigner,
 } from './hooks'
 export type {
   CurrencyFormatOptions,

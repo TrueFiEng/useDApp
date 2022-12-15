@@ -30,8 +30,8 @@ export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfi
     multicallVersion,
     pollingInterval: 100,
     connectors: {
-      'metamask': new MetamaskConnector()
-    }
+      metamask: new MetamaskConnector(),
+    },
   }
 
   return {
