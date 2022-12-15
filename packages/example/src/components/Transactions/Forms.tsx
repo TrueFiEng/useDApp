@@ -1,6 +1,6 @@
 import React from 'react'
-import { utils, Contract } from 'ethers'
-import { useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
+import { utils, Contract, BigNumber } from 'ethers'
+import { Mainnet, useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
 
 import { TransactionForm } from './TransactionForm'
 
@@ -8,12 +8,16 @@ import { Weth10 } from '../../../gen/types/Weth10'
 import WethAbi from '../../abi/Weth10.json'
 
 const wethInterface = new utils.Interface(WethAbi.abi)
-const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
-const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+const wethContractAddresses = {
+  [Mainnet.chainId]:'0xA243FEB70BaCF6cD77431269e68135cf470051b4'
+}
 
 export const DepositEth = () => {
-  const { account } = useEthers()
+  const { account, chainId } = useEthers()
   const etherBalance = useEtherBalance(account)
+  const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined;
+
+  const contract = wethContractAddress && new Contract(wethContractAddress, wethInterface) as Weth10
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
@@ -27,9 +31,10 @@ export const DepositEth = () => {
 }
 
 export const WithdrawEth = () => {
-  const { account } = useEthers()
-  const wethBalance = useTokenBalance(wethContractAddress, account)
-
+  const { account, chainId } = useEthers()
+  const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined;
+  const wethBalance = wethContractAddress && useTokenBalance(wethContractAddress, account)
+  const contract = wethContractAddress && new Contract(wethContractAddress, wethInterface) as Weth10
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
@@ -38,7 +43,7 @@ export const WithdrawEth = () => {
 
   return (
     <TransactionForm
-      balance={wethBalance}
+      balance={BigNumber.from(wethBalance)}
       send={withdrawEther}
       title="Unwrap Ether"
       ticker="WETH"
