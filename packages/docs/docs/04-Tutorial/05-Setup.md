@@ -6,11 +6,11 @@ In this chapter we'll finally get some hands on experience on building simple DA
 
 To be able to follow this tutorial you'll need to have the following installed on your machine:
 
-- [git](https://git-scm.com/)
+- [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/)
   - It is recommended to use [LTS or Maintenance version](https://github.com/nodejs/release#release-schedule)
-- [yarn](https://classic.yarnpkg.com/)
-- [Metamask](https://metamask.io/download/) installed in your browser
+- [Yarn](https://classic.yarnpkg.com/)
+- [MetaMask](https://metamask.io/download/) installed in your browser
 
 ## Building the project
 
