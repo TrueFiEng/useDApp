@@ -1,5 +1,6 @@
 import { Config } from '../../constants'
 import { Mainnet } from '../../model'
+import { MetamaskConnector } from '../../providers/network/connectors/implementations'
 import { createMockProvider } from './createMockProvider'
 import { SECOND_TEST_CHAIN_ID } from './deployMockToken'
 
@@ -28,6 +29,9 @@ export const setupTestingConfig = async ({ multicallVersion }: SetupTestingConfi
     },
     multicallVersion,
     pollingInterval: 100,
+    connectors: {
+      'metamask': new MetamaskConnector()
+    }
   }
 
   return {
