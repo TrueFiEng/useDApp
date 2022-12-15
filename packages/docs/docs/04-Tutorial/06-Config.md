@@ -22,7 +22,7 @@ const config: Config = {
 
 1. `readOnlyChainId` - the default chainId. We'll use Goerli test network as our default chain.
 2. `readOnlyUrls` - RPC endpoints or provides for all chains we want to use. We'll use Goerli test network and our local blockchain node. Note that we can use `getDefaultProvider` from `ethers` to get a free provider for some chains. In case of local blockchain node we just pass in the URL - we setup a node on `http://localhost:8545` in previous steps.
-3. `multicallVersion` - the version of the `Multicall` contract to use. We'll use version 2 because it provides a better error handling experience for the developer.
+3. `multicallVersion` - the version of the [Multicall](../02-Guides/02-Reading/05-Multicall.md) contract to use. We'll use version 2 because it provides a better error handling experience for the developer.
 
 Please refer to the [API reference](../03-API%20Reference/03-Models.mdx#config) for more details on the `Config` object.
 

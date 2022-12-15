@@ -10,7 +10,7 @@ You can use `pollingInterval` in useDApp Config in order to fine-tune the refres
 
 - useDApp ensures the DApp **has consistent state** - All the data displayed comes from a single block, ensuring there is no inconsistencies or conflicting data displayed to the end user.
 
-- useDApp helps make a DApp **efficient**, by utilizing the [Multicall](./Multicall) contract to limit requests to API providers. Additionally, the data is fetched only if it is required in the visible (rendered) part of the UI.
+- useDApp helps make a DApp **efficient**, by utilizing the [Multicall](../02-Guides/02-Reading/05-Multicall.md) contract to limit requests to API providers. Additionally, the data is fetched only if it is required in the visible (rendered) part of the UI.
 
 :::info
 During local development with a local blockchain node (such as Hardhat or Ganache), useDApp can automatically deploy a [Multicall](./Multicall) contract to ease and speed up development.

@@ -33,7 +33,3 @@ const config: Config = {
   multicallVersion: 2 as const,
 }
 ```
-
----
-
-Now that we have explained the basics of DApps and what a Multicall is, let's dive into what would be the [requirements of a well functioning dApp](./DApp%20Requirements).

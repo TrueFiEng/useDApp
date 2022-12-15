@@ -38,4 +38,6 @@ We've learned what is a DApp, and how it connects to the blockchain.
 
 We now see that there is a potential problem with too many requests to API providers.
 
-👉 Next, let's learn about [Multicall](./Multicall) and see if how can use it to our advantage.
+---
+
+Now that we have explained the basics of DApps, let's dive into what would be the [requirements of a well functioning dApp](./DApp%20Requirements).
