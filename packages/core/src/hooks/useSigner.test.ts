@@ -15,7 +15,6 @@ describe('useSigner', () => {
   }
 
   before(async () => {
-    ;({ config } = await setupTestingConfig())
     address = Wallet.createRandom().address
     window.ethereum = {
       request: async ({ method }: RequestParams) => {
@@ -29,6 +28,14 @@ describe('useSigner', () => {
 
   after(() => {
     delete window.ethereum
+  })
+
+  beforeEach(async () => {
+    ;({ config } = await setupTestingConfig())
+  })
+
+  afterEach(() => {
+    window.localStorage.clear()
   })
 
   it('signer defined', async () => {
