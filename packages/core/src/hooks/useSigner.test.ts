@@ -33,7 +33,7 @@ describe('useSigner', () => {
     delete window.ethereum
   })
 
-  it('signer defined', async () => {
+  it.only('signer defined', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const { activateBrowserWallet, account, error } = useEthers()
@@ -53,7 +53,7 @@ describe('useSigner', () => {
       { config }
     )
 
-    await waitForCurrent((val) => val.account !== undefined)
+    await waitForCurrent((val) => val.account !== undefined && val.signer !== undefined)
 
     expect(result.error).to.be.undefined
     expect(result.current.signer).to.not.be.undefined
@@ -61,8 +61,6 @@ describe('useSigner', () => {
   })
 
   it('signer undefined', async () => {
-    ;({ config, network1 } = await setupTestingConfig())
-    config.readOnlyUrls ? (config.readOnlyUrls[1] = new FallbackProvider([network1.provider])) : null
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const signer = useSigner()
