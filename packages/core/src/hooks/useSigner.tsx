@@ -7,7 +7,7 @@ import { JsonRpcSigner } from '@ethersproject/providers'
  * @returns a JsonRpcSigner if one is available in the provider. 'undefined' otherwise.
  */
 export function useSigner(): JsonRpcSigner | undefined {
-  const { library, account } = useEthers()
+  const { library } = useEthers()
   const [signer, setSigner] = useState<JsonRpcSigner | undefined>()
 
   useEffect(() => {
