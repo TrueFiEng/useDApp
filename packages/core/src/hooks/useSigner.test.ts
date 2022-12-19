@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { BigNumber, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
-import { renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
+import { renderDAppHook, setupTestingConfig, sleep } from '../testing'
 import { useEthers } from './useEthers'
 import { useSigner } from './useSigner'
 
