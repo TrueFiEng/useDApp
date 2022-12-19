@@ -1,4 +1,3 @@
-import { FallbackProvider } from '@ethersproject/providers'
 import { expect } from 'chai'
 import { BigNumber, Wallet } from 'ethers'
 import { useEffect } from 'react'
@@ -10,14 +9,13 @@ import { useSigner } from './useSigner'
 describe('useSigner', () => {
   let address: string
   let config: Config
-  let network1: TestingNetwork
   interface RequestParams {
     method: string
     params: any[]
   }
 
   before(async () => {
-    ;({ config, network1 } = await setupTestingConfig())
+    ;({ config } = await setupTestingConfig())
     address = Wallet.createRandom().address
     window.ethereum = {
       request: async ({ method }: RequestParams) => {
@@ -33,7 +31,7 @@ describe('useSigner', () => {
     delete window.ethereum
   })
 
-  it.only('signer defined', async () => {
+  it('signer defined', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const { activateBrowserWallet, account, error } = useEthers()
