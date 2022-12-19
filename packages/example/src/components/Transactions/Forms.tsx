@@ -57,7 +57,7 @@ export const WithdrawEth = () => {
 
   return (
     <TransactionForm
-      balance={BigNumber.from(wethBalance)}
+      balance={wethBalance !== undefined ? BigNumber.from(wethBalance) : BigNumber.from('0')}
       send={withdrawEther}
       title="Unwrap Ether"
       ticker="WETH"
