@@ -1,6 +1,6 @@
 import { useEthers } from './useEthers'
 import { useState, useEffect } from 'react'
-import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
+import { JsonRpcSigner } from '@ethersproject/providers'
 
 /**
  * Returns a signer.
@@ -11,9 +11,9 @@ export function useSigner(): JsonRpcSigner | undefined {
   const [signer, setSigner] = useState<JsonRpcSigner | undefined>()
 
   useEffect(() => {
-    if (library !== undefined && 'getSigner' in library) setSigner((library as JsonRpcProvider).getSigner())
+    if (library !== undefined && 'getSigner' in library) setSigner(library.getSigner())
     else setSigner(undefined)
-  }, [account, library])
+  }, [library])
 
   return signer
 }
