@@ -10,7 +10,7 @@ import { useSigner } from './useSigner'
 describe('useSigner', () => {
   let address: string
   let config: Config
-  let network1 : TestingNetwork
+  let network1: TestingNetwork
   interface RequestParams {
     method: string
     params: any[]
@@ -34,7 +34,6 @@ describe('useSigner', () => {
   })
 
   it('signer defined', async () => {
-  
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
         const { activateBrowserWallet, account, error } = useEthers()
@@ -43,11 +42,11 @@ describe('useSigner', () => {
         useEffect(() => {
           const t = setTimeout(() => {
             activateBrowserWallet()
-          }, 100);
+          }, 100)
           return () => {
             clearTimeout(t)
-          };
-        }, []);
+          }
+        }, [])
 
         return { signer, error, account }
       },
@@ -63,12 +62,15 @@ describe('useSigner', () => {
 
   it('signer undefined', async () => {
     ;({ config, network1 } = await setupTestingConfig())
-    config.readOnlyUrls ? config.readOnlyUrls[1] = new FallbackProvider([network1.provider]) : null;
-    const { result, waitForCurrent } = await renderDAppHook(() => {
-      const signer = useSigner();
-      const {isLoading} = useEthers();
-      return {signer, isLoading};
-    }, { config })
+    config.readOnlyUrls ? (config.readOnlyUrls[1] = new FallbackProvider([network1.provider])) : null
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const signer = useSigner()
+        const { isLoading } = useEthers()
+        return { signer, isLoading }
+      },
+      { config }
+    )
     await waitForCurrent((val) => val.isLoading == false)
     expect(result.error).to.be.undefined
     expect(result.current.signer).to.eq(undefined)
