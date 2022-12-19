@@ -47,7 +47,7 @@ export const DepositEth = () => {
 export const WithdrawEth = () => {
   const { account, chainId } = useEthers()
   const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined
-  const wethBalance = wethContractAddress && useTokenBalance(wethContractAddress, account)
+  const wethBalance = useTokenBalance(wethContractAddress, account)
   const contract = wethContractAddress && (new Contract(wethContractAddress, wethInterface) as Weth10)
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
