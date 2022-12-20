@@ -215,7 +215,7 @@ describe('useEthers', () => {
       await provider.destroy()
     })
 
-    it.only('works with a websocket provider', async () => {
+    it('works with a websocket provider', async () => {
       const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
         config: {
           readOnlyChainId: Mumbai.chainId,
