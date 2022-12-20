@@ -27,7 +27,7 @@ const wethContractAddresses = {
   [Goerli.chainId]: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
   [Ropsten.chainId]: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
   [Optimism.chainId]: '0x4200000000000000000000000000000000000006',
-  [OptimismGoerli.chainId]: '0x09bADef78f92F20fd5f7a402dbb1d25d4901aAb2'
+  [OptimismGoerli.chainId]: '0x09bADef78f92F20fd5f7a402dbb1d25d4901aAb2',
 }
 
 export const DepositEth = () => {
