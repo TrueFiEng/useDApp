@@ -2,7 +2,7 @@
 
 The [Multicall](https://github.com/makerdao/multicall) Smart Contract developed by [MakerDAO](https://makerdao.com/) allows us to make a single call to the contract and get the results of multiple calls.
 
-![image](./multicall.png)
+![image](./assets/multicall.png)
 
 The contract is deployed on Mainnet, all major Testnets and a lot of other EVM-compatible chains.
 
@@ -33,7 +33,3 @@ const config: Config = {
   multicallVersion: 2 as const,
 }
 ```
-
----
-
-Now that we have explained the basics of DApps and what a Multicall is, let's dive into what would be the [requirements of a well functioning dApp](./DApp%20Requirements).
