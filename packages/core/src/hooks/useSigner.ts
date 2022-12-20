@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { JsonRpcSigner } from '@ethersproject/providers'
 
 /**
- * Returns a signer.
+ * Returns a signer if an external wallet is connected.
  * @public
  * @returns a JsonRpcSigner if one is available in the provider. `undefined` otherwise.
  */
