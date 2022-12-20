@@ -172,6 +172,7 @@ describe('useEthers', () => {
 
     after(() => {
       delete window.ethereum
+      window.localStorage.clear()
     })
 
     it('Sets error if user rejects request', async () => {
