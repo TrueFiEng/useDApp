@@ -128,7 +128,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
   )
 
   const results = useRawCalls(rawCalls)
-  return useDeepMemo(
+  return useMemo(
     () =>
       results.map((result, idx) => {
         if (potentialRawCalls[idx] instanceof Error) {

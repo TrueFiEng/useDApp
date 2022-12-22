@@ -25,7 +25,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return useDeepMemo(
+  return useMemo(
     () =>
       calls.map((call) => {
         return call ? extractCallResult(chains, call) : undefined
