@@ -4,6 +4,7 @@ import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
 import { utils } from 'ethers'
+import { useDeepMemo } from '@gooddollar/usedeepmemo'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -24,7 +25,7 @@ export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
     return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
   }, [JSON.stringify(calls), dispatchCalls])
 
-  return useMemo(
+  return useDeepMemo(
     () =>
       calls.map((call) => {
         return call ? extractCallResult(chains, call) : undefined

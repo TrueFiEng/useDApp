@@ -1,4 +1,4 @@
-import { BigNumber, constants, Contract } from 'ethers'
+import { BigNumber, constants, Contract, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
@@ -10,12 +10,17 @@ import {
   setupTestingConfig,
   getResultPropertyError,
   TestingNetwork,
+  IdentityWrapper,
+  sleep,
 } from '../testing'
 import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
+import { renderHook } from '@testing-library/react-hooks'
+import { DAppProvider } from '../providers'
+import { createContext, ReactPropTypes, useContext, useEffect, useState } from 'react'
 
 describe('useCall', () => {
   for (const multicallVersion of [1, 2] as const) {
@@ -558,6 +563,77 @@ describe('useCall', () => {
 
         expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
         expect(result.current[3]?.error).to.be.undefined
+      })
+      it.only('usedeepmemo ???', async () => {
+        const { config, network1 } = await setupTestingConfig({ multicallVersion })
+
+        const doublerContract = await deployContract(network1.deployer, doublerContractABI)
+        const token = await deployMockToken(network1.deployer);
+
+        const addresses: string[] = [];
+        for(let i = 0; i < 3; i++) addresses.push(Wallet.createRandom().address);
+
+        let childRerenders = 0;
+        let parentRerenders = 0;
+        const CounterContext = createContext<(() => void) | undefined>(undefined);
+
+        const Child = ({ children }: { children: React.ReactNode }) => {
+          const [counter, setCounter] = useState(0);
+
+          const result = useCall({
+            contract: token,
+            method: 'balanceOf',
+            args: [addresses[counter % 3]]
+          });
+          childRerenders++;
+
+          return (
+            <CounterContext.Provider value={() => setCounter(x => x + 1)}>
+              <div> {result?.value[0]} </div>
+              {children}
+            </CounterContext.Provider>
+          )
+        }
+
+        const Parent = ({ children }: { children: React.ReactNode }) => {
+          const result = useCall({
+            contract: doublerContract,
+            method: 'double',
+            args: [5]
+          }, {refresh: 'never'});
+          parentRerenders++;
+
+          return (
+            <div>
+              {result?.value[0]}
+              <Child>
+                {children}
+              </Child>
+            </div>
+          )
+        }
+        const { result, waitForCurrent } = await renderDAppHook(() => {
+          const update = useContext(CounterContext)
+          return {
+            update
+          }
+        }, {
+          renderHook: {
+            wrapper: ({ children }: { children: React.ReactNode }) => {
+              return (
+                <Parent>
+                  {children}
+                </Parent>
+              )
+            }
+          }
+        })
+
+        await waitForCurrent(c => !!c.update)
+        result.current.update?.();
+        await sleep(1000);
+        expect(childRerenders).to.equal(4)
+        expect(parentRerenders).to.equal(3)
       })
     })
   }
