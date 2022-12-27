@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { formatEther } from '@ethersproject/units'
 import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config, Goerli } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
-import { MetamaskConnect } from './components/MetamaskConnect'
 
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
@@ -21,17 +20,24 @@ ReactDOM.render(
 )
 
 export function App() {
-  const { account, chainId } = useEthers()
+  const { account, chainId, activateBrowserWallet, deactivate } = useEthers()
   const etherBalance = useEtherBalance(account)
-  if (!config.readOnlyUrls[chainId]) {
+  if (chainId && !config.readOnlyUrls[chainId]) {
     return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
+
+  const ConnectButton = () => {
+    // 'account' being undefined means that we are not connected.
+    if(account) return <button onClick={() => deactivate()}>Disconnect</button>
+    else return <button onClick={() => activateBrowserWallet()}>Connect</button>
   }
 
   return (
     <div>
-      <MetamaskConnect />
+      <ConnectButton/>
       {etherBalance && (
         <div className="balance">
+          <br />
           Ether balance:
           <p className="bold">{formatEther(etherBalance)} ETH</p>
         </div>

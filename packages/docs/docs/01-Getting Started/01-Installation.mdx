@@ -12,19 +12,6 @@ To get started, add the following npm package `@usedapp/core` and its peer depen
 npm install @usedapp/core ethers
 ```
 
-## Example
-
-Below is a simple example:
-
-import { ExampleContainer } from '/src/examples/ExampleContainer';
-import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted.tsx'
-
-<ExampleContainer example={GettingStarted}/>
-
-Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/TrueFiEng/useDApp/tree/master/packages/example).
-
-Let's go over it step by step.
-
 ## Setup
 
 The first thing you need to do is set up **DAppProvider** with optional config and wrap your whole App in it. You can read about config [here](/docs/API%20Reference/Models#config).
@@ -35,9 +22,9 @@ The first thing you need to do is set up **DAppProvider** with optional config a
   </DAppProvider>
 ```
 
-## Connecting to a network
+## Connecting to a browser wallet
 
-Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks "Connect" button.
+Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks the "Connect" button.
 
 ```jsx
   export function App() {
@@ -56,3 +43,14 @@ Then you need to activate the provider using **activateBrowserWallet**. It's bes
 After the activation (i.e. user connects to a wallet like MetaMask) the component will show the user's address.
 
 If you need to use another connector than a browser wallet, use the `activate` method from `useEthers`. See the [web3-react](https://github.com/NoahZinsmeister/web3-react/tree/v6/docs#overview) doc for that one.
+
+## Example
+
+Below is a simple example:
+
+import { ExampleContainer } from '/src/examples/ExampleContainer';
+import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted.tsx'
+
+<ExampleContainer example={GettingStarted}/>
+
+A more comprehensive example is available [here](https://usedapp-example.netlify.app/), with source code available [here](https://github.com/TrueFiEng/useDApp/tree/master/packages/example).
