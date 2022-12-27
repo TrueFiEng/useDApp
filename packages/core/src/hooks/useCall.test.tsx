@@ -1,4 +1,4 @@
-import { BigNumber, constants, Contract, Wallet } from 'ethers'
+import { BigNumber, constants, Contract } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
@@ -10,17 +10,12 @@ import {
   setupTestingConfig,
   getResultPropertyError,
   TestingNetwork,
-  IdentityWrapper,
-  sleep,
 } from '../testing'
 import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
-import { renderHook } from '@testing-library/react-hooks'
-import { DAppProvider } from '../providers'
-import { createContext, ReactPropTypes, useContext, useEffect, useState } from 'react'
 
 describe('useCall', () => {
   for (const multicallVersion of [1, 2] as const) {
