@@ -19,17 +19,18 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
+const ConnectButton = () => {
+  const { account, deactivate, activateBrowserWallet } = useEthers()
+  // 'account' being undefined means that we are not connected.
+  if (account) return <button onClick={() => deactivate()}>Disconnect</button>
+  else return <button onClick={() => activateBrowserWallet()}>Connect</button>
+}
+
 export function App() {
-  const { account, chainId, activateBrowserWallet, deactivate } = useEthers()
+  const { account, chainId } = useEthers()
   const etherBalance = useEtherBalance(account)
   if (chainId && !config.readOnlyUrls[chainId]) {
     return <p>Please use either Mainnet or Goerli testnet.</p>
-  }
-
-  const ConnectButton = () => {
-    // 'account' being undefined means that we are not connected.
-    if (account) return <button onClick={() => deactivate()}>Disconnect</button>
-    else return <button onClick={() => activateBrowserWallet()}>Connect</button>
   }
 
   return (
