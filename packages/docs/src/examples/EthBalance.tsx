@@ -28,13 +28,13 @@ export function App() {
 
   const ConnectButton = () => {
     // 'account' being undefined means that we are not connected.
-    if(account) return <button onClick={() => deactivate()}>Disconnect</button>
+    if (account) return <button onClick={() => deactivate()}>Disconnect</button>
     else return <button onClick={() => activateBrowserWallet()}>Connect</button>
   }
 
   return (
     <div>
-      <ConnectButton/>
+      <ConnectButton />
       {etherBalance && (
         <div className="balance">
           <br />

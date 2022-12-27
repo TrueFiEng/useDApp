@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { formatEther } from '@ethersproject/units'
-import { Mainnet, DAppProvider, useTokenBalance, useEthers, Config, Goerli } from '@usedapp/core'
+import { Mainnet, DAppProvider, useTokenBalance, useEthers, Config } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
@@ -9,7 +9,7 @@ const DAI = '0x6b175474e89094c44da98b954eedeac495271d0f'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: getDefaultProvider('mainnet')
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
   },
 }
 
@@ -29,13 +29,13 @@ export function TokenBalance() {
 
   const ConnectButton = () => {
     // 'account' being undefined means that we are not connected.
-    if(account) return <button onClick={() => deactivate()}>Disconnect</button>
+    if (account) return <button onClick={() => deactivate()}>Disconnect</button>
     else return <button onClick={() => activateBrowserWallet()}>Connect</button>
   }
 
   return (
     <div>
-      <ConnectButton/>
+      <ConnectButton />
       {daiBalance && (
         <div className="balance">
           Dai balance:
