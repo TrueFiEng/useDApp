@@ -6,7 +6,6 @@ import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useChainId } from './useChainId'
 import { useConfig } from './useConfig'
-import {useDeepMemo} from '@gooddollar/usedeepmemo'
 
 /**
  * Represents a single call to a contract that can be included in multicall.
