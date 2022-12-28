@@ -103,6 +103,7 @@ export class ConnectorController {
       }
     })
 
+    this.active = true
     this.emitUpdate()
   }
 

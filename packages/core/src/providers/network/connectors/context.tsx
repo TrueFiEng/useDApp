@@ -65,6 +65,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         controller = new ConnectorController(new InjectedConnector(wrappedProvider), config as any)
       }
       setLoading(true)
+      setController(controller)
       try {
         if (silently) {
           await controller.activate((connector) => connector.connectEagerly())
@@ -72,7 +73,6 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
           await controller.activate()
         }
 
-        setController(controller)
         setLoading(false)
         onSuccess?.()
       } catch (error) {

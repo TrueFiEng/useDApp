@@ -21,9 +21,7 @@ import GettingStarted from '../../example-loader.js!/src/examples/GettingStarted
 
 <ExampleContainer example={GettingStarted}/>
 
-Example is available [here](https://usedapp-example.netlify.app/), and full example code is available [here](https://github.com/TrueFiEng/useDApp/tree/master/packages/example).
-
-Let's go over it step by step.
+A more comprehensive example is available [here](https://usedapp-example.netlify.app/), with source code available [here](https://github.com/TrueFiEng/useDApp/tree/master/packages/example). Let's now go through the provided example in more details.
 
 ## Setup
 
@@ -35,9 +33,9 @@ The first thing you need to do is set up **DAppProvider** with optional config a
   </DAppProvider>
 ```
 
-## Connecting to a network
+## Connecting to a browser wallet
 
-Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks "Connect" button.
+Then you need to activate the provider using **activateBrowserWallet**. It's best to do when the user clicks the "Connect" button.
 
 ```jsx
   export function App() {
