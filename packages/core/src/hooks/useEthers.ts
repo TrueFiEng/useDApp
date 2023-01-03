@@ -86,7 +86,7 @@ export function useEthers(): Web3Ethers {
 
     return connector.updated.on(({ chainId, errors, accounts }) => {
       setChainId(chainId)
-      setErrors(errors)
+      setErrors([...errors])
       if (accounts[0]) {
         setAccount(getAddress(accounts[0]))
       } else {
