@@ -2,15 +2,17 @@
 
 In this part we'll learn how to send transactions to the blockchain using useDApp.
 
-In the application we're building, go to the third tab. The tab has three small forms. The exercise is to wire up the UI so we're able to interact with the `WETH10` via those forms. In this exercise you'll need to modify the `packages/frontend/src/components/Exercise3.tsx` file.
+In the application we're building, go to the third tab. The tab has three small forms. The exercise is to wire up the UI so we're able to interact with the `WETH10` via those forms. In this exercise you'll need to modify the `Exercise3.tsx` file.
 
-Each form is extracted to a separate component. Let's start with `DepositComponent`.
+Each form is extracted to a separate component.
+
+👉 Let's start with `DepositComponent`.
 
 ## DepositComponent
 
 We'll use the same pattern of creating an `ethers` contract instance as in the previous exercise. First we need to add few more imports to the top of our file.
 
-```ts
+```ts title="packages/frontend/src/components/Exercise3.tsx"
 import { useEthers } from '@usedapp/core';
 import { WETH10ABI, WETH10 } from '@simple-dapp/contracts';
 import { Contract, utils } from 'ethers';
@@ -18,7 +20,7 @@ import { Contract, utils } from 'ethers';
 
 And then in the `DepositComponent` component:
 
-```ts
+```ts title="packages/frontend/src/components/Exercise3.tsx"
 const { chainId } = useEthers();
 const weth10Address = chainId && weth10Addresses[chainId];
 const weth10Contract = new Contract(weth10Address, WETH10ABI.abi) as WETH10;
@@ -33,7 +35,7 @@ Next we need to implement logic for sending a transaction when the user clicks t
 
 And then in the `DepositComponent` component:
 
-```ts
+```ts title="packages/frontend/src/components/Exercise3.tsx"
   const { send, state } = useContractFunction(weth10Contract, 'deposit');
 ```
 
