@@ -24,8 +24,7 @@ export function useLookupAddress(address: string | undefined, rave: boolean = fa
   const [ens, setENS] = useState<string | null>()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  const rave = new Contract('0x14Ffd1Fa75491595c6FD22De8218738525892101', [{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}], provider);
-
+  
   useEffect(() => {
     let mounted = true
 
@@ -34,8 +33,9 @@ export function useLookupAddress(address: string | undefined, rave: boolean = fa
       try {
 	setIsLoading(true)
 	if (rave) {
+	  const raveContract = new Contract('0x14Ffd1Fa75491595c6FD22De8218738525892101', [{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}], provider);
 	  // this call will fail anyway if the chain isn't Fantom, so we don't need an extra chainId check
-	  const resolved = await rave.getName(address, 0)
+	  const resolved = await raveContract.getName(address, 0)
           if (!mounted) return
           setENS(resolved)
 	} else {
