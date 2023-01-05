@@ -49,20 +49,18 @@ export function useSendTransaction(options?: TransactionOptions) {
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
 
-      return promiseTransaction(
-        signer.sendTransaction(
-          sanitizeTransactionRequest({
-            ...transactionRequest,
-            gasLimit,
-          })
-        ),
-        {
-          safeTransaction: {
-            to: transactionRequest.to,
-            value: transactionRequest.value?.toString(),
-          },
-        }
-      )
+      const sanitizedTransaction = sanitizeTransactionRequest({
+        ...transactionRequest,
+        gasLimit,
+      })
+
+      return promiseTransaction(signer.sendTransaction(sanitizedTransaction), {
+        safeTransaction: {
+          to: sanitizedTransaction.to,
+          value: sanitizedTransaction.value?.toString(),
+          data: sanitizedTransaction.data?.toString(),
+        },
+      })
     }
   }
 
