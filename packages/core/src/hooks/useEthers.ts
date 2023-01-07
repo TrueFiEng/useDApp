@@ -124,18 +124,24 @@ export function useEthers(): Web3Ethers {
     setError(errors?.[errors.length - 1])
   }, [chainId, errors, networkStates, configuredChainIds, supportedChainIds])
 
-  const switchNetwork = useCallback(async (chainId: number) => {
-    await connector?.switchNetwork(chainId)
-  },[connector])
+  const switchNetwork = useCallback(
+    async (chainId: number) => {
+      await connector?.switchNetwork(chainId)
+    },
+    [connector]
+  )
 
-  const activateCallback = useCallback(async (providerOrConnector: SupportedProviders) => {
-    if ('getProvider' in providerOrConnector) {
-      console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
-      await providerOrConnector.activate()
-      return activate(await providerOrConnector.getProvider())
-    }
-    return activate(providerOrConnector)
-  },[activate])
+  const activateCallback = useCallback(
+    async (providerOrConnector: SupportedProviders) => {
+      if ('getProvider' in providerOrConnector) {
+        console.warn('Using web3-react connectors is deprecated and may lead to unexpected behavior.')
+        await providerOrConnector.activate()
+        return activate(await providerOrConnector.getProvider())
+      }
+      return activate(providerOrConnector)
+    },
+    [activate]
+  )
 
   return {
     connector: undefined,
@@ -153,7 +159,7 @@ export function useEthers(): Web3Ethers {
 
     error,
     isLoading,
-    switchNetwork
+    switchNetwork,
   }
 }
 
