@@ -18,8 +18,13 @@ function setItem(key: string, value: any, storage: WindowLocalStorage['localStor
     storage.removeItem(key)
   } else {
     const toStore = JSON.stringify(value)
-    storage.setItem(key, toStore)
-    return JSON.parse(toStore)
+    try {
+      storage.setItem(key, toStore)
+      return JSON.parse(toStore)
+    } catch (err) {
+      console.error('Error in localStorage', err)
+      storage.removeItem(key)
+    }
   }
 }
 
