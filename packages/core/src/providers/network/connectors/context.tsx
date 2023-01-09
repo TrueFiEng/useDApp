@@ -49,6 +49,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   const config = useConfig()
   const { connectors, autoConnect } = config
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
+  console.log({ type: 'ConnectorContextProvider', controller })
 
   const activate = useCallback(
     async (
@@ -65,6 +66,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         controller = new ConnectorController(new InjectedConnector(wrappedProvider), config as any)
       }
       setLoading(true)
+      console.log('Setting controller in activate', { controller })
       setController(controller)
       try {
         if (silently) {
@@ -124,8 +126,8 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         deactivate: async () => {
           setAutoConnectTag(undefined)
           setLoading(true)
-          await controller?.deactivate()
           setController(undefined)
+          await controller?.deactivate()
           setLoading(false)
         },
         reportError: (err) => {
