@@ -62,7 +62,18 @@ export class ConnectorController {
   }
 
   async activate(connectorActivator = (connector: Connector) => connector.activate()) {
+    // to prevent race condition with subscribeToProviderEvents
+    const connectorUnsubscribe = this.connector.update.on(({ chainId, accounts }) => {
+      if (chainId !== undefined) {
+        this.chainId = chainId
+      }
+      if (accounts !== undefined) {
+        this.accounts = accounts
+      }
+      this.emitUpdate()
+    })
     await connectorActivator(this.connector)
+    connectorUnsubscribe()
     const provider = this.getProvider()
     if (!provider) {
       throw new Error('Failed to activate connector')
