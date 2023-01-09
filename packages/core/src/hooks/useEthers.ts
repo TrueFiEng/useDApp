@@ -76,15 +76,14 @@ export function useEthers(): Web3Ethers {
       setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallBackProvider | undefined)
       setChainId(readonlyNetwork?.chainId)
       setErrors([])
-      return
+    } else {
+      setChainId(connector.chainId)
+      setErrors(connector.errors)
+      setProvider(connector.getProvider())
+      setAccount(getAccount(connector))
     }
 
-    setChainId(connector.chainId)
-    setErrors(connector.errors)
-    setProvider(connector.getProvider())
-    setAccount(getAccount(connector))
-
-    return connector.updated.on(({ chainId, errors, accounts }) => {
+    return connector?.updated.on(({ chainId, errors, accounts }) => {
       setChainId(chainId)
       setErrors([...errors])
       if (accounts[0]) {
@@ -92,8 +91,9 @@ export function useEthers(): Web3Ethers {
       } else {
         setAccount(undefined)
       }
+      setProvider(connector.getProvider())
     })
-  }, [connector])
+  }, [connector, connector?.getProvider()])
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)

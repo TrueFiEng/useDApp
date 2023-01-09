@@ -124,8 +124,8 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         deactivate: async () => {
           setAutoConnectTag(undefined)
           setLoading(true)
-          await controller?.deactivate()
           setController(undefined)
+          await controller?.deactivate()
           setLoading(false)
         },
         reportError: (err) => {
