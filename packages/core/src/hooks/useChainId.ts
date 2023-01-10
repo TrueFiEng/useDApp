@@ -1,7 +1,6 @@
 import { QueryParams } from '../constants/type/QueryParams'
 import { useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
-import { useEffect, useState } from 'react'
 
 export interface UseChainIdOptions {
   queryParams?: QueryParams
