@@ -63,9 +63,9 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
   ])
 
   return (
-    <ConnectorContextProvider>
-      <WindowProvider>
-        <ReadonlyNetworksProvider>
+    <WindowProvider>
+      <ReadonlyNetworksProvider>
+        <ConnectorContextProvider>
           <BlockNumbersProvider>
             <LocalMulticallProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
@@ -75,8 +75,8 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
               </MultiChainStateProvider>
             </LocalMulticallProvider>
           </BlockNumbersProvider>
-        </ReadonlyNetworksProvider>
-      </WindowProvider>
-    </ConnectorContextProvider>
+        </ConnectorContextProvider>
+      </ReadonlyNetworksProvider>
+    </WindowProvider>
   )
 }
