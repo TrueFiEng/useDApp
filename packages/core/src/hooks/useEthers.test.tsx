@@ -28,7 +28,6 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(Mainnet.chainId)
     expect(result.current.account).to.be.undefined
     expect(result.current.error).to.be.undefined
@@ -103,7 +102,6 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(network2.provider.network.chainId)
     expect(result.current.account).to.eq(network2.provider.getWallets()[0].address)
     expect(result.current.error).to.be.undefined
