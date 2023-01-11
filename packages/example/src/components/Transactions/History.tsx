@@ -96,6 +96,7 @@ const notificationContent: { [key in Notification['type']]: { title: string; ico
   transactionStarted: { title: 'Transaction started', icon: <ClockIcon /> },
   transactionSucceed: { title: 'Transaction succeed', icon: <CheckIcon /> },
   walletConnected: { title: 'Wallet connected', icon: <WalletIcon /> },
+  transactionPendingSignature: { title: 'Transaction pending signature', icon: <ClockIcon /> },
 }
 
 interface ListElementProps {
