@@ -1,12 +1,13 @@
 import type { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { BigNumber, Contract, errors, Signer, utils } from 'ethers'
-import { buildSafeTransaction, getLatestNonce, GNOSIS_SAFE_ABI, SafeTransaction } from '../helpers/gnosisSafeUtils'
+import { BigNumber, Contract, errors, Signer } from 'ethers'
+import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
 import { JsonRpcProvider, FallbackProvider } from '@ethersproject/providers'
+import { useGnosisSafeContract } from './useGnosisSafeContract'
 
 interface PromiseTransactionOpts {
   safeTransaction?: Partial<SafeTransaction>
@@ -75,13 +76,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
   const { addTransaction, updateTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
-  let gnosisSafeContract: Contract | undefined = undefined
-
-  useEffect(() => {
-    return () => {
-      gnosisSafeContract?.removeAllListeners()
-    }
-  }, [gnosisSafeContract])
+  const gnosisSafe = useGnosisSafeContract(account, library)
 
   const resetState = useCallback(() => {
     setState({ status: 'None' })
@@ -127,7 +122,10 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         if (!chainId || !library || !account) return
         setState({ status: 'CollectingSignaturePool', chainId })
 
-        gnosisSafeContract = new Contract(account, new utils.Interface(GNOSIS_SAFE_ABI), library)
+        const gnosisSafeContract = gnosisSafe.get()
+        if (!gnosisSafeContract) {
+          throw new Error("Couldn't create Gnosis Safe contract instance")
+        }
 
         const latestNonce = await getLatestNonce(chainId, account)
 
