@@ -295,7 +295,7 @@ export const withMetamaskTest = (baseUrl: string) => {
       })
     })
 
-    describe.skip('Connectors', () => {
+    describe('Connectors', () => {
       it('Can connect to WalletConnect', async () => {
         await page.goto(`${baseUrl}connectors`)
 
