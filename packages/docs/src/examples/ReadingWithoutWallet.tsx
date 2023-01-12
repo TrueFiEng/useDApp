@@ -1,5 +1,5 @@
 import { formatEther } from '@ethersproject/units'
-import { Config, DAppProvider, Mainnet, useEtherBalance } from '@usedapp/core'
+import { Config, DAppProvider, Goerli, Mainnet, useEtherBalance } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -7,17 +7,18 @@ import ReactDOM from 'react-dom'
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
 const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-      [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    },
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+  },
 }
 
 ReactDOM.render(
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>,
-    document.getElementById('root')
+  <DAppProvider config={config}>
+    <App />
+  </DAppProvider>,
+  document.getElementById('root')
 )
 
 export function App() {
@@ -25,14 +26,12 @@ export function App() {
 
   return (
     <div>
-      {etherBalance && 
-        (
-          <div className="balance">
-            Staking contract balance: 
-            <p className="bold">{formatEther(etherBalance)} ETH</p>
-          </div>
-        )
-      }
+      {etherBalance && (
+        <div className="balance">
+          Staking contract balance:
+          <p className="bold">{formatEther(etherBalance)} ETH</p>
+        </div>
+      )}
     </div>
   )
 }

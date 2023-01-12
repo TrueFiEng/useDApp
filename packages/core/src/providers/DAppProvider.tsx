@@ -1,14 +1,15 @@
 import { ReactNode, useMemo } from 'react'
 import { Config, Chain } from '../constants'
 import { ConfigProvider } from './config'
-import { BlockNumberProvider } from './blockNumber/blockNumber'
 import { MultiChainStateProvider } from './chainState'
 import { useConfig } from '../hooks'
 import { NotificationsProvider } from './notifications/provider'
 import { TransactionProvider } from './transactions/provider'
 import { LocalMulticallProvider } from './LocalMulticallProvider'
-import { NetworkProvider, ReadonlyNetworksProvider } from './network'
+import { ReadonlyNetworksProvider } from './network'
 import { BlockNumbersProvider } from './blockNumber/blockNumbers'
+import { WindowProvider } from './window'
+import { ConnectorContextProvider } from './network/connectors/context'
 
 export interface DAppProviderProps {
   children?: ReactNode
@@ -56,12 +57,15 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
     () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
     [networks, multicallVersion]
   )
-  const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
+  const multicallAddressesMerged = useMemo(() => ({ ...defaultAddresses, ...multicallAddresses }), [
+    defaultAddresses,
+    multicallAddresses,
+  ])
 
   return (
-    <ReadonlyNetworksProvider>
-      <NetworkProvider>
-        <BlockNumberProvider>
+    <WindowProvider>
+      <ReadonlyNetworksProvider>
+        <ConnectorContextProvider>
           <BlockNumbersProvider>
             <LocalMulticallProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddressesMerged}>
@@ -71,8 +75,8 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
               </MultiChainStateProvider>
             </LocalMulticallProvider>
           </BlockNumbersProvider>
-        </BlockNumberProvider>
-      </NetworkProvider>
-    </ReadonlyNetworksProvider>
+        </ConnectorContextProvider>
+      </ReadonlyNetworksProvider>
+    </WindowProvider>
   )
 }

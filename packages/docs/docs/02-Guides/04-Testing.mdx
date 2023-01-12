@@ -1,35 +1,94 @@
 # Testing
 
-Let's take ``useTokenAllowance`` as an example.
+Let's take ``useTokenAllowance`` hook as an example.
 
-To write a test, start with a setup code that will create a mock provider and test wallets.
+## Setup
+
+First of all we'll have to setup local ethereum node and create a provider for it. We should also have access to some accounts on this network with some funds on them. All this can be easily using the [Waffle](https://github.com/TrueFiEng/Waffle) testing library. You can install it using
+
+```bash npm2yarn
+npm install --save-dev ethereum-waffle 
+```
+
+And the code will look something this:
 
 ```tsx
+  import { MockProvider } from 'ethereum-waffle'
+
   const mockProvider = new MockProvider()
   const [deployer, spender] = mockProvider.getWallets()
 ```
 
-Before each test, deploy an ERC20 contract. It's important as otherwise the result of one
-test could break the other one.
+Next we need to deploy all the neccesary contracts and create a ``useDApp`` config object. ``useDApp`` requires ``Multicall`` contract to be deployed in order to be able to query blockchain. ``@usedapp/core`` package is shipped together with the ``Multicall`` object, that contains all the neccesary data for deployment.
 
 ```tsx
-  let token: Contract
+  import { MultiCall } from '@usedapp/core'
 
-  beforeEach(async () => {
-    const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
-    token = await deployContract(deployer, ERC20Mock, args)
-  })
+  const multicall = await deployContract(deployer, Multicall)
 ```
 
-After setup, we have to test the hook.
+Now we have to create a ``useDApp`` config object. Let's populate it with the following fields:
+  - `readOnlyChainId`: the default chain that ``useDApp`` queries.
+  - `readOnlyUrls`: this object contains info on how to access specific chains. In this case we're using the ``MockProvider`` object, so we'll pass it to the config object.
+  - `multicallAddresses`: addresses of ``Multicall`` contracts on specific chains. Here we'll use the address of the contract that we deployed before.
+
+```tsx
+  const chainId = (await mockProvider.getNetwork()).chainId
+  const config = {
+    readOnlyChainId: chainId,
+    readOnlyUrls: {
+      [chainId]: mockProvider
+    },
+    multicallAddresses: {
+      [chainId]: multicall.address
+    }
+  }
+```
+
+:::note
+
+You could also use the ``Multicall2`` contract. It is also exported from the ``@usedapp/core`` package. In this case you would also need to specify ``multicallVersion`` field in your ``config`` object (set it to `2`).
+
+:::
+
+The last step would be to deploy the mock ``ERC20`` token that we'll use in the tests. The ``@usedapp/core`` package exports the token contract that we'll use.
+
+```tsx
+  import { MockERC20 } from '@usedapp/core'
+
+  let token: Contract
+
+  const tokenArgs = [
+      'MOCKToken', // name of the token
+      'MOCK', // symbol of the token
+      deployer.address, // address of the token owner
+      utils.parseEther('10') // total supply of the token
+    ]
+
+  token = await deployContract(deployer, MockERC20)
+```
+
+Now we're ready to do the actual testing.
+
+## Testing
+
+To check if the hook reads data correctly, we need to prepare it first. We approve the spender so that we can check if our hook returns the correct value.
+
+To test the hook we need to render it using ``renderDAppHook``. It works like ``renderHook`` from the [react-testing-library](https://testing-library.com/docs/react-testing-library/intro/),
+but it wraps the hook with additional contexts used by ``useDApp``. You can also pass the ``config`` object to the ``renderDAppHook`` method - that works in the same way as passing ``config`` to the ``DAppProvider`` component in the regular dApp.
+
+React components are asynchronous. Reading data from the blockchain is also an async operation.
+To get the return value from the hook, wait for the result to be set. You can do it with ``waitForCurrent``.
+
+Then we can check if our result is correct. ``result.current`` is a value returned from our hook. It should be equal to 1 Ether.
 
 ```tsx
   await token.approve(spender.address, utils.parseEther('1'))
 
-  const { result, waitForCurrent } = await renderWeb3Hook(
+  const { result, waitForCurrent } = await renderDAppHook(
     () => useTokenAllowance(token.address, deployer.address, spender.address),
     {
-      mockProvider,
+      config,
     }
   )
   await waitForCurrent((val) => val !== undefined)
@@ -38,25 +97,14 @@ After setup, we have to test the hook.
   expect(result.current).to.eq(utils.parseEther('1'))
 ```
 
-To check if the hook reads data correctly, we need to prepare it first. We approve the spender so that we can check if our hook returns the correct value.
-
-To test the hook we need to render it using ``renderWeb3Hook``. It works like ``renderHook`` from the [react-testing-library](https://testing-library.com/docs/react-testing-library/intro/),
-but it wraps the hook into additional providers.
-
-React components are asynchronous. Reading data from the blockchain is also an async operation.
-To get the return value from the hook, wait for the result to be set. You can do it with ``waitForCurrent``.
-
-Then we can check if our result is correct. ``result.current`` is a value returned from our hook. It should be equal to 1 Ether.
-
 ## Full example
 
 ```tsx
-  import { MockProvider } from '@ethereum-waffle/provider'
-  import { Contract } from '@ethersproject/contracts'
-  import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
-  import { renderWeb3Hook } from '@usedapp/testing'
+  import type { Contract } from 'ethers'
+  import { useTokenAllowance, Config, MultiCall, ERC20Mock } from '@usedapp/core'
+  import { renderDAppHook } from '@usedapp/testing'
   import chai, { expect } from 'chai'
-  import { solidity, deployContract } from 'ethereum-waffle'
+  import { MockProvider, deployContract, solidity } from 'ethereum-waffle'
   import { utils } from 'ethers'
 
   chai.use(solidity)
@@ -64,20 +112,38 @@ Then we can check if our result is correct. ``result.current`` is a value return
   describe('useTokenAllowance', () => {
     const mockProvider = new MockProvider()
     const [deployer, spender] = mockProvider.getWallets()
+
     let token: Contract
+    let config: Config
 
     beforeEach(async () => {
-      const args = ['MOCKToken', 'MOCK', deployer.address, utils.parseEther("10")]
-      token = await deployContract(deployer, ERC20Mock, args)
+      const multicall = await deployContract(deployer, MultiCall)
+      const chainId = (await mockProvider.getNetwork()).chainId
+      config = {
+        readOnlyChainId: chainId,
+        readOnlyUrls: {
+          [chainId]: mockProvider
+        },
+        multicallAddresses: {
+          [chainId]: multicall.address
+        }
+      }
+      const tokenArgs = [
+        'MOCKToken',
+        'MOCK',
+        deployer.address,
+        utils.parseEther('10')
+      ]
+      token = await deployContract(deployer, ERC20Mock, tokenArgs)
     })
 
     it('returns current allowance', async () => {
       await token.approve(spender.address, utils.parseEther('1'))
 
-      const { result, waitForCurrent } = await renderWeb3Hook(
+      const { result, waitForCurrent } = await renderDAppHook(
         () => useTokenAllowance(token.address, deployer.address, spender.address),
         {
-          mockProvider,
+          config,
         }
       )
       await waitForCurrent((val) => val !== undefined)

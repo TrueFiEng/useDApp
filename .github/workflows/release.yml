@@ -25,15 +25,15 @@ jobs:
           node-version: 16.x
           
       - name: Install package manager
-        run: npm i -g pnpm@6.20.3
+        run: npm i -g pnpm@7.1.9
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Set git user
         run: |
-          git config user.name truefi-bot
-          git config user.email truefi-bot@trusttoken.com
+          git config user.name truefibot
+          git config user.email truebot.github@trusttoken.com
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -48,6 +48,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Deploy usedapp-docs.netlify.app
+        uses: nwtgck/actions-netlify@v1.2
+        if: steps.changesets.outputs.published == 'true'
+        with:
+          enable-commit-comment: true
+          enable-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          overwrites-pull-request-comment: true
+          production-deploy: ${{ github.event_name != 'pull_request' }}
+          publish-dir: packages/docs/build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
 
       - name: Publish dev version to npm
         run: |

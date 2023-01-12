@@ -1,20 +1,41 @@
-import { Contract } from '@ethersproject/contracts'
-import { utils } from 'ethers'
 import React from 'react'
-import { useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@usedapp/core'
+import { utils, Contract, BigNumber } from 'ethers'
+import {
+  Goerli,
+  Mainnet,
+  Optimism,
+  OptimismGoerli,
+  Rinkeby,
+  Ropsten,
+  useContractFunction,
+  useEtherBalance,
+  useEthers,
+  useTokenBalance,
+} from '@usedapp/core'
 
 import { TransactionForm } from './TransactionForm'
 
 import { Weth10 } from '../../../gen/types/Weth10'
 import WethAbi from '../../abi/Weth10.json'
 
-const wethInterface = new utils.Interface(WethAbi)
-const wethContractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
-const contract = new Contract(wethContractAddress, wethInterface) as Weth10
+const wethInterface = new utils.Interface(WethAbi.abi)
+
+// using weth9 addresses due to bigger usage
+const wethContractAddresses = {
+  [Mainnet.chainId]: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  [Rinkeby.chainId]: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  [Goerli.chainId]: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+  [Ropsten.chainId]: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  [Optimism.chainId]: '0x4200000000000000000000000000000000000006',
+  [OptimismGoerli.chainId]: '0x09bADef78f92F20fd5f7a402dbb1d25d4901aAb2',
+}
 
 export const DepositEth = () => {
-  const { account } = useEthers()
+  const { account, chainId } = useEthers()
   const etherBalance = useEtherBalance(account)
+  const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined
+
+  const contract = wethContractAddress && (new Contract(wethContractAddress, wethInterface) as Weth10)
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
@@ -28,9 +49,10 @@ export const DepositEth = () => {
 }
 
 export const WithdrawEth = () => {
-  const { account } = useEthers()
+  const { account, chainId } = useEthers()
+  const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined
   const wethBalance = useTokenBalance(wethContractAddress, account)
-
+  const contract = wethContractAddress && (new Contract(wethContractAddress, wethInterface) as Weth10)
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
@@ -39,7 +61,7 @@ export const WithdrawEth = () => {
 
   return (
     <TransactionForm
-      balance={wethBalance}
+      balance={wethBalance !== undefined ? BigNumber.from(wethBalance) : BigNumber.from('0')}
       send={withdrawEther}
       title="Unwrap Ether"
       ticker="WETH"

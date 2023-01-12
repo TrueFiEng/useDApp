@@ -1,0 +1,14 @@
+.section
+  position: relative
+  overflow: hidden
+
+  &::before,
+  &::after
+    pointer-events: none
+    user-select: none
+    z-index: 1
+    transition: $all
+
+.section .container
+  z-index: 2
+  position: relative

@@ -1,7 +1,13 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { TransactionOptions } from '../../src'
+import type { TransactionRequest } from '@ethersproject/abstract-provider'
+import { TransactionOptions } from '../model/TransactionOptions'
+import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
-import { usePromiseTransaction } from './usePromiseTransaction'
+import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
+import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/context'
+import { ChainId } from '../constants'
+import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
+import { providers } from 'ethers'
+import { sanitizeTransactionRequest } from '../helpers/gnosisSafeUtils'
 
 /**
  * Hook returns an object with three variables: `state`, `resetState`, and `sendTransaction`.
@@ -27,12 +33,38 @@ import { usePromiseTransaction } from './usePromiseTransaction'
  */
 export function useSendTransaction(options?: TransactionOptions) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
+
+  const config = useConfig()
+  const gasLimitBufferPercentage =
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
+
+  const providers = useReadonlyNetworks()
+  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    const signer = options?.signer || library?.getSigner()
+    const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+
     if (signer) {
-      await promiseTransaction(signer.sendTransaction(transactionRequest))
+      const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)
+
+      const sanitizedTransaction = sanitizeTransactionRequest({
+        ...transactionRequest,
+        gasLimit,
+      })
+
+      return promiseTransaction(
+        signer.sendTransaction(sanitizedTransaction),
+        {
+          safeTransaction: {
+            to: sanitizedTransaction.to,
+            value: sanitizedTransaction.value?.toString(),
+            data: sanitizedTransaction.data?.toString(),
+          },
+        },
+        transactionRequest
+      )
     }
   }
 

@@ -1,6 +1,8 @@
 name: Deploy
 on:
   pull_request:
+    branches-ignore:
+      - 'changeset-release/*'
   push:
     branches:
       - master
@@ -13,9 +15,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.14'
-      - run: npm i -g pnpm@6.20.3
+      - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+
       - name: Deploy usedapp-docs.netlify.app
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -28,6 +31,8 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
+        if: ${{ github.event_name == 'pull_request' }} # Deployed separately to production on release
+
       - name: Deploy example.usedapp.io
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -40,6 +45,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
+
       - name: Deploy usedapp.io
         uses: nwtgck/actions-netlify@v1.2
         with:

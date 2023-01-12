@@ -1,9 +1,10 @@
 import { expect } from 'chai'
+import { providers } from 'ethers'
 import { getProvidersFromConfig } from './provider'
-import { Kovan, Mainnet, Rinkeby } from '../../..'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { Kovan, Mainnet, Rinkeby, Localhost } from '../../../model/chain'
 import { MockProvider } from 'ethereum-waffle'
-import { Localhost } from '../../../model/chain/local'
+
+const JsonRpcProvider = providers.JsonRpcProvider
 
 describe('ReadonlyNetworksProvider', () => {
   it('getProvidersFromConfig creates provider for each network that has URL', async () => {

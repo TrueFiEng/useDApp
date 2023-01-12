@@ -1,86 +1,78 @@
-import * as fs from 'fs';
-import {CommentTag, DeclarationReflection, ParameterReflection, Application, TypeDocReader, TSConfigReader} from 'typedoc'
-import { replaceLinks } from './replace-links';
+import * as fs from 'fs'
+import { Application, TypeDocReader, TSConfigReader } from 'typedoc'
+import {
+  Child,
+  functionDescription,
+  functionSee,
+  title,
+  newLine,
+  parameters,
+  returns,
+  functionExamples,
+  isModel,
+  defaultValue,
+  text,
+  shortText,
+  examples,
+} from './helpers'
+import { interfaceFields } from './interface'
+import { replaceLinks } from './replace-links'
 
 const app = new Application()
-app.options.addReader(new TypeDocReader());
-app.options.addReader(new TSConfigReader());
+app.options.addReader(new TypeDocReader())
+app.options.addReader(new TSConfigReader())
 
 app.bootstrap({
-  entryPoints: ['../core/src/hooks'],
+  entryPoints: ['../core/src'],
   tsconfig: '../core/tsconfig.json',
   emit: false,
-});
+})
 
-const hooks = app.convert()
-const outFilename = 'docs/03-API Reference/02-Hooks.mdx'
-type Child = DeclarationReflection
+const project = app.convert()
+const hooksOutFilename = 'docs/03-API Reference/02-Hooks.mdx'
+const modelsOutFilename = 'docs/03-API Reference/03-Models.mdx'
 
-const isDeprecated = (child: Child) =>
-  child.signatures[0]?.comment?.tags?.some(tag => tag.tagName === 'deprecated')
-
-const newLine = (value: string | undefined) => value ? `${value}\n` : ''
-
-const title = (child: Child) => {
-  const value = isDeprecated(child) ?
-    `## <del>${child.name}</del>\n**Deprecated**: ${child.signatures[0]?.comment?.tags?.find(tag => tag.tagName === 'deprecated').text}`
-    : `## ${child.name}`
-  return newLine(value)
-}
-
-const description = (child: Child) => {
-  const shortText = child.signatures[0]?.comment?.shortText ?? ''
-  const text = child.signatures[0]?.comment?.text ?? ''
-  return `${newLine(shortText)}${text}`
-}
-
-const parameter = (value: ParameterReflection) => {
-  let type = value.type?.toString()
-  if (type === 'undefined | null | string | false | 0') type = 'string | Falsy' // Unwanted expansion on typedoc side.
-  const typeString = type ? `: ${type}` : ''
-  const description = value.comment?.shortText
-  return `- \`${value.name}${typeString}\` - ${description}`
-}
-
-const parameters = (child: Child) => {
-  const values = (child.signatures[0]?.parameters ?? [])
-    .filter(value => !!value.comment?.shortText) // Do not list parameters without any description.
-  if (values.length === 0) return undefined
-  return `\n**Parameters**\n` +
-    values.map(parameter).join('\n') + '\n'
-}
-
-const example = (value: CommentTag) => {
-  return '```tsx\n' + value.text + '\n```\n'
-}
-
-const examples = (child: Child) => {
-  const examples = child.signatures[0]?.comment?.tags?.filter(tag => tag.tagName === 'example') ?? []
-  if (examples.length === 0) return undefined
-  return `\n**Example**\n` +
-    examples.map(example).join('\n') + '\n'
-}
-
-const returns = (child: Child) => {
-  const value = child.signatures[0]?.comment?.returns
-  return value ? `\n**Returns**: ${value}` : undefined
-}
-
-const entry = (child: Child): string => {
+const hookModel = (child: Child): string => {
   return [
     title(child),
-    description(child),
+    functionDescription(child),
     parameters(child),
     returns(child),
-    examples(child),
-  ].map(newLine).join('')
+    functionExamples(child),
+    functionSee(child),
+  ]
+    .map(newLine)
+    .join('')
 }
 
-let content = hooks.children
-  .filter(child => child.flags.isPublic)
-  .filter(child => child.kindString === 'Function') // Only hooks.
-  .map(child => entry(child)).join('')
+const interfaceModel = (child: Child): string => {
+  return [title(child), shortText(child), interfaceFields(child), text(child), defaultValue(child), examples(child)]
+    .map(newLine)
+    .join('')
+}
 
+const typeOrClassModel = (child: Child): string => {
+  return [title(child), shortText(child), text(child), defaultValue(child), examples(child)].map(newLine).join('')
+}
 
-content = replaceLinks(content)
-fs.writeFileSync(outFilename, content)
+let hooksContent = project?.children
+  ?.filter((child) => child.flags.isPublic)
+  .filter((child) => child.kindString === 'Function' && child.name.startsWith('use')) // Only hooks.
+  .map((child) => hookModel(child))
+  .join('')
+hooksContent = replaceLinks(hooksContent)
+
+fs.writeFileSync(hooksOutFilename, hooksContent)
+
+const models = project?.children
+  ?.filter((child) => child.flags.isPublic && isModel(child))
+  .sort((a, b) => a.name.localeCompare(b.name))
+
+let modelsContent = models
+  ?.map((model) => (model.kindString === 'Interface' ? interfaceModel(model) : typeOrClassModel(model)))
+  .map(newLine)
+  .join('')
+
+modelsContent = replaceLinks(modelsContent)
+
+fs.writeFileSync(modelsOutFilename, modelsContent)

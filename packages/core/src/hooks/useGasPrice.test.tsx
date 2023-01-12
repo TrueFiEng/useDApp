@@ -1,15 +1,18 @@
-import { useGasPrice } from '../../src'
+import { Config, useGasPrice } from '../../src'
 import { expect } from 'chai'
-import { renderWeb3Hook, SECOND_TEST_CHAIN_ID } from '../../src/testing'
-import { MockProvider } from 'ethereum-waffle'
-import { ChainId } from '../constants/chainId'
+import { TestingNetwork, setupTestingConfig, renderDAppHook } from '../../src/testing'
 
 describe('useGasPrice', () => {
-  const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
+  let network1: TestingNetwork
+  let network2: TestingNetwork
+  let config: Config
+
+  before(async () => {
+    ;({ config, network1, network2 } = await setupTestingConfig())
+  })
 
   it('retrieves gas price', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(useGasPrice)
+    const { result, waitForCurrent } = await renderDAppHook(useGasPrice, { config })
     await waitForCurrent((val) => val !== undefined)
 
     expect(result.error).to.be.undefined
@@ -17,16 +20,13 @@ describe('useGasPrice', () => {
   })
 
   it('retrieves gas price for multi chain', async () => {
-    await testMultiChainUseGasPrice(ChainId.Localhost)
-    await testMultiChainUseGasPrice(SECOND_TEST_CHAIN_ID)
+    await testMultiChainUseGasPrice(network1.chainId)
+    await testMultiChainUseGasPrice(network2.chainId)
   })
 
   const testMultiChainUseGasPrice = async (chainId: number) => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useGasPrice({ chainId }), {
-      mockProvider: {
-        [ChainId.Localhost]: mockProvider,
-        [SECOND_TEST_CHAIN_ID]: secondMockProvider,
-      },
+    const { result, waitForCurrent } = await renderDAppHook(() => useGasPrice({ chainId }), {
+      config,
     })
 
     await waitForCurrent((val) => val !== undefined)

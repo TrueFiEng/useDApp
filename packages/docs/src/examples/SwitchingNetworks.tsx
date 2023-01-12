@@ -1,59 +1,69 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useSendTransaction, useEthers, Config, Rinkeby } from '@usedapp/core'
+import { DAppProvider, useSendTransaction, useEthers, Config, Goerli, Mainnet, Optimism } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
-    readOnlyChainId: Mainnet.chainId,
-    readOnlyUrls: {
-        [Mainnet.chainId]: getDefaultProvider('mainnet'),
-        [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
-    },
+  readOnlyChainId: Mainnet.chainId,
+  readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Optimism.chainId]: getDefaultProvider('optimism'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
+  },
 }
 
 ReactDOM.render(
-    <DAppProvider config={config}>
-        <App />
-    </DAppProvider>,
-    document.getElementById('root')
+  <DAppProvider config={config}>
+    <App />
+  </DAppProvider>,
+  document.getElementById('root')
 )
 
 export function App() {
-    const { chainId, switchNetwork, activateBrowserWallet, account } = useEthers()
-    const { sendTransaction, state } = useSendTransaction()
+  const { chainId, switchNetwork, activateBrowserWallet, account } = useEthers()
+  const { sendTransaction, state } = useSendTransaction()
 
-    const status = state.status
-    const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
+  const status = state.status
+  const address = '0xe13610d0a3e4303c70791773C5DF8Bb16de185d1'
 
-    const send = () => {
-        void sendTransaction({ to: address, value: 1 })
-    }
+  const send = () => {
+    void sendTransaction({ to: address, value: 1 })
+  }
 
-    const WalletContent = () => (
-        <>
-            <div>Current chain: {chainId}</div>
-            <div>
-                {<button onClick={() => switchNetwork(Mainnet.chainId)} disabled={chainId === Mainnet.chainId}>Switch to Mainnet</button>}
-                {' '}
-                {<button onClick={() => switchNetwork(Rinkeby.chainId)} disabled={chainId === Rinkeby.chainId}>Switch to Rinkeby</button>}
-            </div>
-            <hr/>
-            <div>
-                <div>Account: {account ?? 'not connected'}</div>
-                <button onClick={() => send()}>Send ether</button>
-                <p>Status: {status}</p>
-                {state.errorMessage && <p>Error: {state.errorMessage}</p>}
-            </div>
-        </>
-    )
+  const WalletContent = () => (
+    <>
+      <div>Current chain: {chainId}</div>
+      <div>
+        {
+          <button onClick={() => switchNetwork(Mainnet.chainId)} disabled={chainId === Mainnet.chainId}>
+            Switch to Mainnet
+          </button>
+        }{' '}
+        {
+          <button onClick={() => switchNetwork(Optimism.chainId)} disabled={chainId === Optimism.chainId}>
+            Switch to Optimism
+          </button>
+        }{' '}
+        {
+          <button onClick={() => switchNetwork(Goerli.chainId)} disabled={chainId === Goerli.chainId}>
+            Switch to Goerli
+          </button>
+        }
+      </div>
+      <hr />
+      <div>
+        <div>Account: {account ?? 'not connected'}</div>
+        <button onClick={() => send()}>Send ether</button>
+        <p>Status: {status}</p>
+        {state.errorMessage && <p>Error: {state.errorMessage}</p>}
+      </div>
+    </>
+  )
 
-    return (
-        <div>
-            {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
-            {account
-                ? <WalletContent />
-                : <p>Connect to wallet to interact with the example.</p>
-            }
-        </div>
-    )
+  return (
+    <div>
+      {!account && <button onClick={() => activateBrowserWallet()}>Connect</button>}
+      {account ? <WalletContent /> : <p>Connect to wallet to interact with the example.</p>}
+    </div>
+  )
 }

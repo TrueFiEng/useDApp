@@ -8,6 +8,7 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "docs",
-    "@usedapp/example"
+    "@usedapp/example",
+    "@usedapp/example-next"
   ]
 }

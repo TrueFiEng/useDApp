@@ -1,0 +1,86 @@
+.badge
+  display: flex
+  align-items: center
+  width: fit-content
+  height: 22px
+  padding: 0 8px
+  border-radius: 22px
+  background-color: $badge-background
+
+.badge__text
+  font-size: 14px
+  line-height: 18px
+  font-weight: 500
+  letter-spacing: 0.01em
+  color: $badge-text
+  white-space: nowrap
+
+  +media(xs)
+    font-size: 12px
+
+.badge__text--bold
+  font-weight: 700
+
+.badge__decoration
+  width: 12px
+  height: 12px
+  color: $badge-decoration
+
+.badge--large
+  height: 38px
+  padding: 0 12px
+
+.badge--uppercase .badge__text
+  text-transform: uppercase
+
+.badge--large .badge__text
+  font-size: 14px
+  line-height: 38px
+
+  +media(xs)
+    font-size: 12px
+
+.badge--large .badge__decoration
+  width: 14px
+  height: 14px
+
+.badge__decoration + .badge__decoration
+  margin-left: 2px
+
+.badge__decoration + .badge__text
+  margin-left: 10px
+
+.badge--link
+  cursor: pointer
+  transition: $all
+
+.badge--link:hover
+  background-color: $black
+
+.badge--link:active
+  background-color: $black
+  opacity: 0.9
+
+.badge--link:hover .badge__decoration
+  color: $white
+
+.badge--link:hover .badge__text
+  color: $white
+
+.badge--link:focus-visible
+  background-color: $black
+
+.badge--link:focus-visible .badge__decoration
+  color: $white
+
+.badge--link:focus-visible .badge__text
+  color: $white
+
+.badge--link:active
+  background-color: $black
+
+.badge--link:active .badge__decoration
+  color: $white
+
+.badge--link:active .badge__text
+  color: $white

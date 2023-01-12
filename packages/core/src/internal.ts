@@ -1,17 +1,16 @@
 // NOTE: This file serves as an internal API module. It is exported from the package, but use it on your own risk.
 
-export {
+export type {
   ChainCall,
   SingleChainState,
-  NetworkProvider,
-  BlockNumberProvider,
   Action,
   BlockNumberChanged,
-  BlockNumberContext,
   ChainStateAction,
+  MultiChainState,
+} from './providers'
+export {
   ConfigContext,
   ConfigProvider,
-  MultiChainState,
   MultiChainStateProvider,
   MultiChainStatesContext,
   blockNumberReducer,
@@ -24,6 +23,9 @@ export {
   useNotificationsContext,
   ReadonlyNetworksProvider,
   useReadonlyNetworks,
+  useWindow,
+  WindowProvider,
+  WindowContext,
 } from './providers'
 export {
   connectContractToSigner,

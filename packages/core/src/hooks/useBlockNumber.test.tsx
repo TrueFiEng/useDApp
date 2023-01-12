@@ -1,10 +1,11 @@
 import { expect } from 'chai'
 import { useBlockNumber } from '../../src'
-import { renderWeb3Hook } from '../../src/testing'
+import { renderDAppHook, setupTestingConfig } from '../../src/testing'
 
 describe('useBlockNumber', () => {
   it('retrieves block number', async () => {
-    const { result, waitForCurrentEqual } = await renderWeb3Hook(useBlockNumber)
+    const { config } = await setupTestingConfig()
+    const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
 
     await waitForCurrentEqual(1)
     expect(result.error).to.be.undefined
@@ -12,13 +13,14 @@ describe('useBlockNumber', () => {
   })
 
   it('updates the block number when a transaction gets mined', async () => {
-    const { result, waitForCurrentEqual, mineBlock } = await renderWeb3Hook(useBlockNumber)
-    await waitForCurrentEqual(1)
+    const { config, network1 } = await setupTestingConfig()
+    const { result, waitForCurrentEqual } = await renderDAppHook(useBlockNumber, { config })
+    const blockNumberFromProvider = await network1.provider.getBlockNumber()
+    await waitForCurrentEqual(blockNumberFromProvider)
 
-    await mineBlock()
+    await network1.mineBlock()
 
-    await waitForCurrentEqual(2)
+    await waitForCurrentEqual(blockNumberFromProvider + 1)
     expect(result.error).to.be.undefined
-    expect(result.current).to.be.equal(2)
   })
 })

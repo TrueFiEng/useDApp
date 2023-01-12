@@ -1,14 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {
-  Mainnet,
-  DAppProvider,
-  useEthers,
-  Config,
-  useEtherBalance
-} from '@usedapp/core'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+import { Mainnet, DAppProvider, useEthers, Config, useEtherBalance, Goerli } from '@usedapp/core'
+
+// Regular import crashes the app with "Buffer is not defined" error.
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
 import { formatEther } from '@ethersproject/units'
 import { getDefaultProvider } from 'ethers'
 import { AccountIcon } from './components/AccountIcon'
@@ -17,6 +13,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
 
@@ -28,56 +25,58 @@ ReactDOM.render(
 )
 
 function App() {
-    const { account, activate, deactivate } = useEthers()
-    const etherBalance = useEtherBalance(account)
-  
-    async function onConnect() {
-      try {
-        const provider = new WalletConnectProvider({
-          infuraId: '62687d1a985d4508b2b7a24827551934',
-        })
-        await provider.enable()
-        await activate(provider)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  const { account, activate, deactivate, chainId } = useEthers()
+  const etherBalance = useEtherBalance(account)
+  if (!config.readOnlyUrls[chainId]) {
+    return <p>Please use either Mainnet or Goerli testnet.</p>
+  }
 
-    const ConnectButton = () => (
-      <div>
-          <button onClick={onConnect}>Connect</button>
-      </div>
-    )
-  
-    const WalletConnectConnect = () => (
-      <div>
-        {account && (
+  async function onConnect() {
+    try {
+      const provider = new WalletConnectProvider({
+        infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
+      })
+      await provider.enable()
+      await activate(provider)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const ConnectButton = () => (
+    <div>
+      <button onClick={onConnect}>Connect</button>
+    </div>
+  )
+
+  const WalletConnectConnect = () => (
+    <div>
+      {account && (
         <div>
-            <div className="inline">
-                <AccountIcon account={account}/>
-                &nbsp;
-                <div className="account">{account}</div>
-            </div>
-            <br/>
-        </div>)}
-        {!account && <ConnectButton />}
-        {account && <button onClick={deactivate}>Disconnect</button>}
-        <br/>
-      </div>
-    )
-    
+          <div className="inline">
+            <AccountIcon account={account} />
+            &nbsp;
+            <div className="account">{account}</div>
+          </div>
+          <br />
+        </div>
+      )}
+      {!account && <ConnectButton />}
+      {account && <button onClick={deactivate}>Disconnect</button>}
+      <br />
+    </div>
+  )
+
   return (
     <div>
       <WalletConnectConnect />
-        {etherBalance && 
-        (
-          <div className="balance">
-            <br/>
-            Balance: 
-            <p className="bold">{formatEther(etherBalance)} ETH</p>
-          </div>
-        )
-        }
+      {etherBalance && (
+        <div className="balance">
+          <br />
+          Balance:
+          <p className="bold">{formatEther(etherBalance)} ETH</p>
+        </div>
+      )}
     </div>
   )
 }

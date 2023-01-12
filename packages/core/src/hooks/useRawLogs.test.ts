@@ -1,43 +1,42 @@
-import { MockProvider } from '@ethereum-waffle/provider'
-import { defaultAbiCoder } from '@ethersproject/abi'
-import { Filter, TransactionRequest } from '@ethersproject/abstract-provider'
-import { AddressZero } from '@ethersproject/constants'
-import { Contract } from '@ethersproject/contracts'
+import type { Filter, TransactionRequest } from '@ethersproject/abstract-provider'
+import { Contract, constants, BigNumber, ethers, utils } from 'ethers'
 import { expect } from 'chai'
-import { BigNumber, ethers } from 'ethers'
-import { getAddress, hexStripZeros } from 'ethers/lib/utils'
-import { ERC20MockInterface } from '../constants'
+import { Config, ERC20MockInterface } from '../constants'
 import {
   deployMockToken,
   MOCK_TOKEN_INITIAL_BALANCE,
-  renderWeb3Hook,
+  renderDAppHook,
   SECOND_MOCK_TOKEN_INITIAL_BALANCE,
-  SECOND_TEST_CHAIN_ID,
+  TestingNetwork,
+  setupTestingConfig,
 } from '../testing'
 import { useRawLogs } from './useRawLogs'
 import { useSendTransaction } from './useSendTransaction'
 
+const AddressZero = constants.AddressZero
+const { defaultAbiCoder, getAddress, hexStripZeros } = utils
+
 describe('useRawLogs', () => {
-  const mockProvider = new MockProvider()
-  const secondMockProvider = new MockProvider({ ganacheOptions: { _chainIdRpc: SECOND_TEST_CHAIN_ID } as any })
-  const [deployer, receiver] = mockProvider.getWallets()
-  const [secondDeployer] = secondMockProvider.getWallets()
-  const eventTopic = ethers.utils.id('Transfer(address,address,uint256)')
   let token: Contract
   let secondToken: Contract
+  let config: Config
+  let network1: TestingNetwork
+  let network2: TestingNetwork
+  const eventTopic = ethers.utils.id('Transfer(address,address,uint256)')
 
   beforeEach(async () => {
-    token = await deployMockToken(deployer)
-    secondToken = await deployMockToken(secondDeployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    token = await deployMockToken(network1.deployer)
+    secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
   async function sendToken(signer: ethers.Wallet, to: string, amount: BigNumber) {
-    const { result, waitForCurrent, waitForNextUpdate } = await renderWeb3Hook(
+    const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () =>
         useSendTransaction({
           signer,
         }),
-      { mockProvider }
+      { config }
     )
 
     await waitForNextUpdate()
@@ -48,7 +47,6 @@ describe('useRawLogs', () => {
       to: token.address,
       value: BigNumber.from(0),
       data: txData,
-      gasPrice: 0,
     }
 
     await result.current.sendTransaction(tx)
@@ -66,10 +64,10 @@ describe('useRawLogs', () => {
   }
 
   it('Can get only the recent token transfer log', async () => {
-    const blockNumber = await mockProvider.getBlockNumber()
+    const blockNumber = await network1.provider.getBlockNumber()
 
-    const from = deployer
-    const to = receiver
+    const from = network1.deployer
+    const to = network1.wallets[0]
 
     const fromAddress = from.address
     const toAddress = to.address
@@ -84,7 +82,7 @@ describe('useRawLogs', () => {
       topics: [eventTopic],
     }
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawLogs(filter), { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), { config })
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -103,8 +101,8 @@ describe('useRawLogs', () => {
   })
 
   it('Can get all token transfer logs', async () => {
-    const from = deployer
-    const to = receiver
+    const from = network1.deployer
+    const to = network1.wallets[0]
 
     const fromAddress = from.address
     const toAddress = to.address
@@ -119,7 +117,7 @@ describe('useRawLogs', () => {
       topics: [eventTopic],
     }
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawLogs(filter), { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), { config })
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -131,7 +129,7 @@ describe('useRawLogs', () => {
 
     expect(log1.topics[0]).to.equal(eventTopic, 'Event topic')
     expect(getAddress(extractAddress(log1.topics[1]))).to.equal(getAddress(AddressZero), 'From')
-    expect(getAddress(extractAddress(log1.topics[2]))).to.equal(getAddress(deployer.address), 'To')
+    expect(getAddress(extractAddress(log1.topics[2]))).to.equal(getAddress(network1.deployer.address), 'To')
 
     const decodedData1 = defaultAbiCoder.decode(['uint'], log1.data)
 
@@ -157,7 +155,7 @@ describe('useRawLogs', () => {
       topics: [eventTopic],
     }
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawLogs(filter), { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), { config })
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
@@ -168,7 +166,7 @@ describe('useRawLogs', () => {
 
     expect(log.topics[0]).to.equal(eventTopic, 'Event topic')
     expect(getAddress(extractAddress(log.topics[1]))).to.equal(getAddress(AddressZero), 'From')
-    expect(getAddress(extractAddress(log.topics[2]))).to.equal(getAddress(deployer.address), 'To')
+    expect(getAddress(extractAddress(log.topics[2]))).to.equal(getAddress(network1.deployer.address), 'To')
 
     const decodedData = defaultAbiCoder.decode(['uint'], log.data)
 
@@ -183,8 +181,11 @@ describe('useRawLogs', () => {
       topics: [eventTopic],
     }
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawLogs(filter), {
-      mockProvider: secondMockProvider,
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), {
+      config: {
+        ...config,
+        readOnlyChainId: network2.chainId,
+      },
     })
 
     await waitForCurrent((val) => val !== undefined)
@@ -196,7 +197,7 @@ describe('useRawLogs', () => {
 
     expect(log.topics[0]).to.equal(eventTopic, 'Event topic')
     expect(getAddress(extractAddress(log.topics[1]))).to.equal(getAddress(AddressZero), 'From')
-    expect(getAddress(extractAddress(log.topics[2]))).to.equal(getAddress(secondDeployer.address), 'To')
+    expect(getAddress(extractAddress(log.topics[2]))).to.equal(getAddress(network2.deployer.address), 'To')
 
     const decodedData = defaultAbiCoder.decode(['uint'], log.data)
 
@@ -211,7 +212,7 @@ describe('useRawLogs', () => {
       topics: [eventTopic],
     }
 
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useRawLogs(filter), { mockProvider })
+    const { result, waitForCurrent } = await renderDAppHook(() => useRawLogs(filter), { config })
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined

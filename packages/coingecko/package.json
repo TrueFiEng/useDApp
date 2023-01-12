@@ -1,10 +1,10 @@
 {
   "name": "@usedapp/coingecko",
-  "version": "1.0.2",
+  "version": "1.1.8",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
-  "repository": "git@github.com:EthWorks/useDApp.git",
+  "repository": "git@github.com:TrueFiEng/useDApp.git",
   "author": "Ethworks",
   "license": "MIT",
   "sideEffects": false,
@@ -27,25 +27,27 @@
     "@typescript-eslint/parser": "^4.10.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "7.19.0",
+    "eslint": "7.22.0",
     "jsdom": "^16.7.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
     "prettier": "^2.1.2",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.2",
+    "react": "17.0.1"
   },
   "dependencies": {
-    "@ethersproject/contracts": "^5.6.0",
-    "@ethersproject/providers": "^5.6.2",
     "@usedapp/core": "workspace:*",
-    "isomorphic-fetch": "^3.0.0",
-    "react": "^17.0.1"
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "ethers": "*"
   },
   "scripts": {
     "build": "yarn run build:esm && yarn run build:cjs",
     "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
-    "test": "mocha -r jsdom-global/register --exit",
+    "test": "mocha",
     "lint": "yarn lint:prettier --check && yarn lint:eslint",
     "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",

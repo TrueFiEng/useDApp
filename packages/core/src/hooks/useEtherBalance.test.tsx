@@ -3,7 +3,7 @@ import { Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
-import { TestingNetwork, renderDAppHook, setupTestingConfig, SECOND_TEST_CHAIN_ID } from '../testing'
+import { TestingNetwork, renderDAppHook, setupTestingConfig, sleep } from '../testing'
 import { useEtherBalance } from './useEtherBalance'
 import { useEthers } from './useEthers'
 
@@ -34,7 +34,7 @@ describe('useEtherBalance', () => {
     expect(result.current).to.eq(100)
   })
 
-  it('do not change static value when changing ether value', async () => {
+  it('does not change static value when changing ether value', async () => {
     const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver, { isStatic: true }), {
       config,
     })
@@ -44,6 +44,21 @@ describe('useEtherBalance', () => {
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
     expect(result.error).to.be.undefined
     expect(result.current).to.eq(100)
+  })
+
+  it('does change non-static value when changing ether value', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(() => useEtherBalance(receiver, { isStatic: false }), {
+      config,
+    })
+    await waitForCurrent((val) => val !== undefined)
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(100)
+    await sleep(1000)
+    await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
+    await sleep(1000)
+    await waitForCurrent((val) => val?.toString() === '200')
+    expect(result.error).to.be.undefined
+    expect(result.current).to.eq(200)
   })
 
   it('defaults to active read-write provider chain id', async () => {
@@ -75,7 +90,7 @@ describe('useEtherBalance', () => {
 
   it('explicitly specified chain id', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useEtherBalance(receiver, { chainId: SECOND_TEST_CHAIN_ID }),
+      () => useEtherBalance(receiver, { chainId: network2.chainId }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)

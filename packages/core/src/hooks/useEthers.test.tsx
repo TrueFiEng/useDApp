@@ -1,10 +1,11 @@
 import { expect } from 'chai'
-import { Wallet } from 'ethers'
+import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
-import { Mainnet } from '../model'
-import { renderDAppHook, SECOND_TEST_CHAIN_ID, setupTestingConfig, TestingNetwork } from '../testing'
+import { Mainnet, Mumbai } from '../model'
+import { renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
+import Ganache, { Server } from 'ganache'
 
 describe('useEthers', () => {
   let network1: TestingNetwork
@@ -27,7 +28,6 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(Mainnet.chainId)
     expect(result.current.account).to.be.undefined
     expect(result.current.error).to.be.undefined
@@ -55,7 +55,32 @@ describe('useEthers', () => {
 
     await waitForCurrent((val) => !!val.error)
     expect(result.current.error).not.to.be.undefined
-    expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${SECOND_TEST_CHAIN_ID}`)
+    expect(result.current.error?.toString()).to.include(`Unsupported chain id: ${network2.chainId}`)
+  })
+
+  it('throws error if trying to use not configured network', async () => {
+    const configWithNotConfiguredNetworks: Config = {
+      ...config,
+      readOnlyUrls: {
+        [network1.chainId]: network1.provider,
+      },
+    }
+
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network2.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config: configWithNotConfiguredNetworks }
+    )
+
+    await waitForCurrent((val) => !!val.error)
+    expect(result.current.error).not.to.be.undefined
+    expect(result.current.error?.toString()).to.include(`Not configured chain id: ${network2.chainId}`)
   })
 
   it('returns correct provider after activation', async () => {
@@ -77,12 +102,128 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(network2.provider.network.chainId)
     expect(result.current.account).to.eq(network2.provider.getWallets()[0].address)
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.eq(network2.provider)
     expect(result.current.active).to.be.true
     expect(result.current.isLoading).to.be.false
+  })
+
+  it('return signer if library is type of JsonRpcProvider', async () => {
+    const { result, waitForCurrent } = await renderDAppHook(
+      () => {
+        const { activate } = useEthers()
+        useEffect(() => {
+          void activate(network1.provider)
+        }, [])
+
+        return useEthers()
+      },
+      { config }
+    )
+
+    await waitForCurrent((val) => !!val.isLoading)
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.JsonRpcProvider)
+    expect(signer).to.be.instanceOf(providers.JsonRpcSigner)
+  })
+
+  it('cannot get signer if library is type of FallbackProvider', async () => {
+    const configWithFallbackProvider: Config = {
+      ...config,
+      readOnlyUrls: {
+        [network1.chainId]: new providers.FallbackProvider([network1.provider]),
+      },
+    }
+    const { result, waitForCurrent } = await renderDAppHook(useEthers, { config: configWithFallbackProvider })
+
+    await waitForCurrent((val) => {
+      return val.library instanceof providers.FallbackProvider
+    })
+
+    const provider = result.current.library
+    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+
+    expect(result.current.error).to.be.undefined
+    expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)
+    expect(signer).to.be.undefined
+  })
+
+  describe('Sets error if user rejects request', () => {
+    before(() => {
+      window.ethereum = {
+        request: async () => {
+          // 100ms delay to simulate a real provider
+          await sleep(100)
+          throw {
+            code: 4001,
+            message: 'User rejected the request.',
+          }
+        },
+      } as any // @metamask/detect-provider declares window.ethereum as an incorrect type
+    })
+
+    after(() => {
+      delete window.ethereum
+      window.localStorage.clear()
+    })
+
+    it('Sets error if user rejects request', async () => {
+      const { result, waitForCurrent } = await renderDAppHook(
+        () => {
+          const { activateBrowserWallet, error } = useEthers()
+          useEffect(() => {
+            setTimeout(() => {
+              // 100ms delay to simulate a user interaction
+              activateBrowserWallet()
+            }, 100)
+          }, [])
+
+          return error
+        },
+        { config }
+      )
+
+      await waitForCurrent((val) => !!val)
+      expect(result.current).to.be.instanceOf(Error)
+      expect(result.current?.message).to.eq('Could not activate connector: User rejected the request.')
+    })
+  })
+
+  describe('Websocket provider', () => {
+    let ganacheServer: Server<'ethereum'>
+    let provider: providers.WebSocketProvider
+    const wsPort = 18845
+    const wsUrl = `ws://localhost:${wsPort}`
+
+    before(async () => {
+      ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
+      await ganacheServer.listen(wsPort)
+      provider = new providers.WebSocketProvider(wsUrl)
+    })
+
+    after(async () => {
+      await ganacheServer.close()
+      // disrupting the connection forcefully so websocket server can be properly shutdown
+      await provider.destroy()
+    })
+
+    it('works with a websocket provider', async () => {
+      const { result, waitForCurrent } = await renderDAppHook(() => useEthers(), {
+        config: {
+          readOnlyChainId: Mumbai.chainId,
+          readOnlyUrls: {
+            [Mumbai.chainId]: provider,
+          },
+        },
+      })
+      await waitForCurrent((val) => !val.isLoading)
+      expect(result.error).to.be.undefined
+    })
   })
 })

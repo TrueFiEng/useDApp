@@ -8,16 +8,18 @@ import { AccountModal } from './AccountModal'
 
 export const AccountButton = () => {
   const { account, deactivate, activateBrowserWallet } = useEthers()
-  const ens = useLookupAddress()
+  const { ens } = useLookupAddress(account)
   const [showModal, setShowModal] = useState(false)
 
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
-    if (error) {
+    if (error && account) {
       setActivateError(error.message)
+      return
     }
-  }, [error])
+    setActivateError('')
+  }, [error, account])
 
   const activate = async () => {
     setActivateError('')

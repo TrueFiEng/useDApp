@@ -1,5 +1,5 @@
 import { QueryParams } from '../constants/type/QueryParams'
-import { useNetwork } from '../providers'
+import { useConnector } from '../providers/network/connectors'
 import { useConfig } from '../hooks'
 
 export interface UseChainIdOptions {
@@ -11,7 +11,8 @@ export interface UseChainIdOptions {
  * @internal Intended for internal use - use it on your own risk
  */
 export function useChainId(opts: UseChainIdOptions = {}) {
-  const { network } = useNetwork()
+  const { chainId } = useConnector()
   const { readOnlyChainId } = useConfig()
-  return opts?.queryParams?.chainId ?? network.chainId ?? readOnlyChainId
+
+  return opts?.queryParams?.chainId ?? chainId ?? readOnlyChainId
 }

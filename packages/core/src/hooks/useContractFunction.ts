@@ -1,26 +1,30 @@
-import { TransactionOptions } from '../../src'
-import { Contract } from '@ethersproject/contracts'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { TransactionOptions } from '../model/TransactionOptions'
+import { useConfig } from './useConfig'
+import { Contract, Signer, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
-import { usePromiseTransaction } from './usePromiseTransaction'
+import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers/lib/utils'
-import { ContractFunctionNames, Params, TypedContract } from '../model/types'
+import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
+import { TransactionReceipt } from '@ethersproject/abstract-provider'
+import { useReadonlyNetworks } from '../providers'
+import { ChainId } from '../constants'
+import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function connectContractToSigner(contract: Contract, options?: TransactionOptions, library?: JsonRpcProvider) {
+export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
   if (contract.signer) {
     return contract
   }
 
-  if (options?.signer) {
+  if (options && 'signer' in options) {
     return contract.connect(options.signer)
   }
 
-  if (library?.getSigner()) {
-    return contract.connect(library.getSigner())
+  if (librarySigner) {
+    return contract.connect(librarySigner)
   }
 
   throw new TypeError('No signer available in contract, options or library')
@@ -61,32 +65,75 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  * }
  */
 export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
-  contract: T,
+  contract: T | Falsy,
   functionName: FN,
   options?: TransactionOptions
 ) {
   const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const transactionChainId = (options && 'chainId' in options && options?.chainId) || chainId
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(transactionChainId, options)
   const [events, setEvents] = useState<LogDescription[] | undefined>(undefined)
 
+  const config = useConfig()
+  const gasLimitBufferPercentage =
+    options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
+
+  const providers = useReadonlyNetworks()
+  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
+
   const send = useCallback(
-    async (...args: Params<T, FN>): Promise<void> => {
-      const contractWithSigner = connectContractToSigner(contract, options, library)
-      const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
-      if (receipt?.logs) {
-        const events = receipt.logs.reduce((accumulatedLogs, log) => {
-          try {
-            return log.address.toLowerCase() === contract.address.toLowerCase()
-              ? [...accumulatedLogs, contract.interface.parseLog(log)]
-              : accumulatedLogs
-          } catch (_err) {
-            return accumulatedLogs
-          }
-        }, [] as LogDescription[])
-        setEvents(events)
+    async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
+      if (contract) {
+        const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
+        const hasOpts = args.length > numberOfArgs
+        if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
+          throw new Error(`Invalid number of arguments for function "${functionName}".`)
+        }
+
+        const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+
+        const contractWithSigner = connectContractToSigner(contract, options, signer)
+        const opts = hasOpts ? args[args.length - 1] : undefined
+
+        const gasLimit =
+          typeof opts === 'object' && Object.prototype.hasOwnProperty.call(opts, 'gasLimit')
+            ? opts.gasLimit
+            : (await estimateContractFunctionGasLimit(
+                contractWithSigner,
+                functionName,
+                args,
+                gasLimitBufferPercentage
+              )) ?? null
+
+        const modifiedOpts = {
+          gasLimit,
+          ...opts,
+        }
+        const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
+
+        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
+          safeTransaction: {
+            to: contract.address,
+            value: opts?.value,
+            data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
+          },
+        })
+        if (receipt?.logs) {
+          const events = receipt.logs.reduce((accumulatedLogs, log) => {
+            try {
+              return log.address.toLowerCase() === contract.address.toLowerCase()
+                ? [...accumulatedLogs, contract.interface.parseLog(log)]
+                : accumulatedLogs
+            } catch (_err) {
+              return accumulatedLogs
+            }
+          }, [] as LogDescription[])
+          setEvents(events)
+        }
+        return receipt
       }
     },
-    [contract, functionName, options, library]
+    [contract, functionName, options, provider, library, gasLimitBufferPercentage, promiseTransaction]
   )
 
   return { send, state, events, resetState }

@@ -1,29 +1,61 @@
-import { MockProvider } from '@ethereum-waffle/provider'
-import { Contract } from '@ethersproject/contracts'
+import { BigNumber, Contract } from 'ethers'
 import { useToken } from '..'
 import { expect } from 'chai'
-import { renderWeb3Hook, deployMockToken, MOCK_TOKEN_INITIAL_BALANCE } from '../testing'
+import type { Config } from '../constants'
+import {
+  renderDAppHook,
+  deployMockToken,
+  MOCK_TOKEN_INITIAL_BALANCE,
+  SECOND_MOCK_TOKEN_INITIAL_BALANCE,
+  TestingNetwork,
+  setupTestingConfig,
+} from '../testing'
 
 describe('useToken', async () => {
-  const mockProvider = new MockProvider()
-  const [deployer] = mockProvider.getWallets()
   let token: Contract
+  let secondToken: Contract
+  let config: Config
+  let network1: TestingNetwork
+  let network2: TestingNetwork
 
   beforeEach(async () => {
-    token = await deployMockToken(deployer)
+    ;({ config, network1, network2 } = await setupTestingConfig())
+    token = await deployMockToken(network1.deployer)
+    secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
   it('returns correct token constants', async () => {
-    const { result, waitForCurrent } = await renderWeb3Hook(() => useToken(token.address), {
-      mockProvider,
+    await testMultiChainUseToken(token)
+  })
+
+  it('setting chainId on query params returns correct token constants from non-default chain', async () => {
+    await testMultiChainUseToken(secondToken, SECOND_MOCK_TOKEN_INITIAL_BALANCE, network2.chainId)
+  })
+
+  it('should not throw error when token address is Falsy', async () => {
+    const { result } = await renderDAppHook(() => useToken(null), {
+      config,
+    })
+    expect(result.error).to.be.undefined
+    expect(result.current).to.be.undefined
+  })
+
+  const testMultiChainUseToken = async (
+    contract: Contract,
+    totalSupply: BigNumber = MOCK_TOKEN_INITIAL_BALANCE,
+    chainId?: number
+  ) => {
+    const { result, waitForCurrent } = await renderDAppHook(() => useToken(contract.address, { chainId }), {
+      config,
     })
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.deep.equal({
+    const res = {
       name: 'MOCKToken',
       symbol: 'MOCK',
       decimals: 18,
-      totalSupply: MOCK_TOKEN_INITIAL_BALANCE,
-    })
-  })
+      totalSupply,
+    }
+    expect(JSON.parse(JSON.stringify(result.current))).to.deep.equal(JSON.parse(JSON.stringify(res)))
+  }
 })

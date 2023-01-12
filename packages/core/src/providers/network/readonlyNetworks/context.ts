@@ -1,8 +1,20 @@
 import { createContext, useContext } from 'react'
-import { Providers } from './model'
+import { ReadonlyNetworksModel } from './model'
 
-export const ReadonlyNetworksContext = createContext<Providers>({})
+export const ReadonlyNetworksContext = createContext<ReadonlyNetworksModel>({
+  providers: {},
+  updateNetworkState: () => undefined,
+  networkStates: {},
+})
 
 export function useReadonlyNetworks() {
-  return useContext(ReadonlyNetworksContext)
+  return useContext(ReadonlyNetworksContext).providers
+}
+
+export function useUpdateNetworksState() {
+  return useContext(ReadonlyNetworksContext).updateNetworkState
+}
+
+export function useReadonlyNetworkStates() {
+  return useContext(ReadonlyNetworksContext).networkStates
 }

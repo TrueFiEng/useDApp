@@ -1,6 +1,7 @@
-import { BigNumber } from '@ethersproject/bignumber'
-import { Contract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { BigNumber } from 'ethers'
+import { Contract } from 'ethers'
+import type { providers } from 'ethers'
+import { encodeAggregate, decodeAggregate } from '../../../abi/multicall'
 import { RawCall } from './callsReducer'
 import { ChainState } from './model'
 
@@ -11,8 +12,13 @@ const ABI = [
 /**
  * @public
  */
+export const multicall1Factory = (fastEncoding: boolean) => (fastEncoding ? fastEncodingMulticall : multicall)
+
+/**
+ * @public
+ */
 export async function multicall(
-  provider: Provider,
+  provider: providers.Provider,
   address: string,
   blockNumber: number,
   requests: RawCall[]
@@ -25,6 +31,33 @@ export async function multicall(
     requests.map(({ address, data }) => [address, data]),
     { blockTag: blockNumber }
   )
+  return decodeResult(results, requests)
+}
+
+/**
+ * @public
+ */
+export async function fastEncodingMulticall(
+  provider: providers.Provider,
+  address: string,
+  blockNumber: number,
+  requests: RawCall[]
+): Promise<ChainState> {
+  if (requests.length === 0) {
+    return {}
+  }
+  const response = await provider.call(
+    {
+      to: address,
+      data: encodeAggregate(requests.map(({ address, data }) => [address, data])),
+    },
+    blockNumber
+  )
+  const [, results] = decodeAggregate(response)
+  return decodeResult(results, requests)
+}
+
+function decodeResult(results: string[], requests: RawCall[]) {
   const state: ChainState = {}
   for (let i = 0; i < requests.length; i++) {
     const { address, data } = requests[i]

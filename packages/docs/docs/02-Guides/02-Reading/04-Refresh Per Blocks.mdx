@@ -1,0 +1,67 @@
+# Refresh Per Blocks
+
+### Never
+
+To disable refreshing calls per block, just pass `refresh` parameter as `never` to config, it will fetch data only once.
+
+**Example**
+
+```tsx
+  import { Mainnet } from '@usedapp/core'
+
+  const config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+    refresh: 'never',
+  }
+```
+
+### Specified number of blocks
+
+To enable refreshing calls per specified number of blocks, just pass `refresh` parameter as specified number to config, it will refresh each 10 mined blocks.
+
+**Example**
+
+```tsx
+  import { Mainnet } from '@usedapp/core'
+
+  const config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+    refresh: 10,
+  }
+```
+
+### Every block
+
+If you want to have your calls refreshed per single, mined block just pass `refresh` parameter as `everyBlock` to config or just do not fill it.
+
+**Example**
+
+```tsx
+  import { Mainnet } from '@usedapp/core'
+
+  const config = {
+    readOnlyChainId: Mainnet.chainId,
+    readOnlyUrls: {
+      [Mainnet.chainId]: 'https://mainnet.infura.io/v3/62687d1a985d4508b2b7a24827551934',
+    },
+    refresh: 'everyBlock',
+  }
+```
+
+## Calls
+
+There is also possible to override call refreshing behaviour by adding `refresh` parameter to `queryParams`, example below:
+
+**Example**
+
+```tsx
+const firstBalance = useEtherBalance(account1, { refresh: 'never' }) // fetches only once
+const secondBalance = useEtherBalance(account2, { refresh: 10 }) // fetches every 10 blocks
+const thirdBalance = useEtherBalance(account3, { refresh: 'everyBlock' }) // fetches every single block
+```

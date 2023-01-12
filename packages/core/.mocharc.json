@@ -3,7 +3,6 @@
   "require": "@swc-node/register",
   "watchExtensions": "ts",
   "extension": "ts",
-  "timeout": 3000,
-  "file": "./src/testing/test-setup.ts",
-  "exit": true
+  "timeout": 10000,
+  "file": "./src/testing/test-setup.ts"
 }

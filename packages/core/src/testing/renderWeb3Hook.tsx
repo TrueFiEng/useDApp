@@ -1,16 +1,18 @@
-import { MockProvider } from '@ethereum-waffle/provider'
+import { MockProvider } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, NetworkProvider, MultiChainStateProvider } from '../providers'
+import { MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'
-import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
+import { deployMulticall, deployMulticall2, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
-import { ReadonlyNetworksProvider } from '../providers/network'
+import { ConnectorContextProvider, ReadonlyNetworksProvider } from '../providers/network'
 
 export interface renderWeb3HookOptions<Tprops> {
-  mockProvider?: MockProvider | Record<number /* ChainId */, MockProvider>
+  mockProvider?: MockProvider
+  readonlyMockProviders?: Record<number /* ChainId */, MockProvider>
   mockProviderOptions?: {
     pollingInterval?: number
   }
+  multicallVersion?: 1 | 2
   renderHook?: {
     initialProps?: Tprops
     wrapper?: React.ComponentClass<Tprops, any> | React.FunctionComponent<Tprops>
@@ -38,14 +40,13 @@ export const renderWeb3Hook = async <Tprops, TResult>(
 ) => {
   const providers: Record<number, MockProvider> = {}
   const multicallAddresses: Record<number, string> = {}
-  let defaultProvider = new MockProvider()
 
   const addSingleProvider = async (currentProvider: MockProvider) => {
     const { chainId } = await currentProvider.getNetwork()
-    currentProvider.pollingInterval = options?.mockProviderOptions?.pollingInterval ?? 200
     providers[chainId] = currentProvider
 
-    const mockMulticallAddresses = await deployMulticall(currentProvider, chainId)
+    const multicallDeployer = options?.multicallVersion === 2 ? deployMulticall2 : deployMulticall
+    const mockMulticallAddresses = await multicallDeployer(currentProvider, chainId)
     multicallAddresses[chainId] = mockMulticallAddresses[chainId]
     // In some occasions the block number lags behind.
     // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
@@ -54,32 +55,43 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     await currentProvider.getBlockNumber()
   }
 
-  const providerObject = options?.mockProvider || new MockProvider()
-  if (providerObject instanceof MockProvider) {
-    defaultProvider = providerObject
-    await addSingleProvider(providerObject)
-  } else {
-    for (const chainIdString in providerObject) {
-      const chainId = Number(chainIdString)
-      await addSingleProvider(providerObject[chainId])
-    }
+  const defaultProvider = options?.mockProvider || new MockProvider()
+  await addSingleProvider(defaultProvider)
+
+  const readOnlyProviders = options?.readonlyMockProviders ?? {}
+  for (const chainIdString in readOnlyProviders) {
+    const chainId = Number(chainIdString)
+    await addSingleProvider(readOnlyProviders[chainId])
+  }
+
+  if (Object.keys(readOnlyProviders).length === 0) {
+    const defaultReadOnlyProvider = new MockProvider()
+    await addSingleProvider(defaultReadOnlyProvider)
+    const { chainId } = await defaultReadOnlyProvider.getNetwork()
+    readOnlyProviders[chainId] = defaultReadOnlyProvider
   }
 
   const UserWrapper = options?.renderHook?.wrapper ?? IdentityWrapper
 
   const { result, waitForNextUpdate, rerender, unmount } = renderHook<Tprops, TResult>(hook, {
     wrapper: (wrapperProps) => (
-      <NetworkProvider providerOverride={defaultProvider}>
-        <ReadonlyNetworksProvider providerOverrides={providers}>
-          <BlockNumberProvider>
+      <ConfigProvider
+        config={{
+          readOnlyUrls: readOnlyProviders,
+          pollingInterval: options?.mockProviderOptions?.pollingInterval ?? 200,
+          multicallVersion: options?.multicallVersion,
+        }}
+      >
+        <ConnectorContextProvider>
+          <ReadonlyNetworksProvider providerOverrides={readOnlyProviders}>
             <BlockNumbersProvider>
               <MultiChainStateProvider multicallAddresses={multicallAddresses}>
                 <UserWrapper {...wrapperProps} />
               </MultiChainStateProvider>
             </BlockNumbersProvider>
-          </BlockNumberProvider>
-        </ReadonlyNetworksProvider>
-      </NetworkProvider>
+          </ReadonlyNetworksProvider>
+        </ConnectorContextProvider>
+      </ConfigProvider>
     ),
     initialProps: options?.renderHook?.initialProps,
   })
@@ -87,7 +99,9 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   return {
     result,
     defaultProvider,
-    mineBlock: async () => mineBlock(defaultProvider),
+    mineBlock: async () => {
+      await Promise.all([defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider)))
+    },
     rerender,
     unmount,
     // do not return the waitFor* functions from `renderHook` - they are not usable after using waitForNextUpdate().

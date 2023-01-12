@@ -1,6 +1,7 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
+import type { TransactionReceipt, TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 
 type NotificationPayload = { submittedAt: number } & (
+  | { type: 'transactionPendingSignature'; transactionName?: string; transactionRequest?: TransactionRequest }
   | { type: 'transactionStarted'; transaction: TransactionResponse; transactionName?: string }
   | {
       type: 'transactionSucceed'
@@ -19,32 +20,20 @@ type NotificationPayload = { submittedAt: number } & (
   | { type: 'walletConnected'; address: string }
 )
 
-/**
- * @public
- */
 export type Notification = { id: string } & NotificationPayload
 
-/**
- * @public
- */
 export type AddNotificationPayload = {
   chainId: number
   notification: NotificationPayload
 }
 
-/**
- * @public
- */
 export type RemoveNotificationPayload = {
   chainId: number
   notificationId: string
 }
 
-/**
- * @public
- */
 export type Notifications = {
-  [chainID: number]: Notification[]
+  [chainId: number]: Notification[]
 }
 
 /**

@@ -1,0 +1,31 @@
+{
+  "name": "@usedapp/portis-connector",
+  "version": "1.0.0",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
+  "repository": "git@github.com:TrueFiEng/useDApp.git",
+  "author": "Ethworks",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@portis/web3": "4.0.7"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2",
+    "@usedapp/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@usedapp/core": "*"
+  },
+  "scripts": {
+    "build": "pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
+    "test": "true",
+    "lint": "true",
+    "lint:fix": "true"
+  }
+}

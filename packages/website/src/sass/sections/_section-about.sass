@@ -1,0 +1,120 @@
+.section--about
+  padding-top: 66px
+  padding-bottom: 66px
+  background-color: $total-black
+
+  &::before
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background-image: linear-gradient($decorator-line-red 1px, transparent 1px), linear-gradient(90deg, $decorator-line-red 1px, transparent 1px)
+    background-size: 24px 24px
+    background-repeat: repeat
+    opacity: 0.4
+    transform: translateY(-5px)
+    mask-image: radial-gradient(black, transparent)
+    mask-size: 65% 65%
+    mask-position: 50% 50%
+    mask-repeat: no-repeat
+    z-index: 1
+    animation: gridAnimation 20s linear infinite
+
+  +media(l)
+    padding-top: 32px
+    padding-bottom: 32px
+
+  +media(s)
+    padding-top: 72px
+    padding-bottom: 72px
+
+.about__link
+  display: block
+  width: 100%
+  max-width: 152px
+  color: $white
+  margin: 0 auto
+  transition: $all
+
+.about__link:hover
+  color: $purple
+
+.about__link:focus-visible
+  color: $purple
+
+.about__link:active
+  color: $purple
+  filter: brightness(0.9)
+
+.about__loop-text
+  margin-top: 52px
+  font-size: 84px
+  line-height: 100px
+  letter-spacing: -0.03em
+  white-space: nowrap
+  color: $white
+  overflow: hidden
+
+  +media(l)
+    margin-top: 44px
+    font-size: 60px
+    line-height: 72px
+
+  +media(s)
+    margin-top: 32px
+    font-size: 42px
+    line-height: 52px
+
+.about__description
+  margin: 32px auto 0
+  max-width: 544px
+  font-size: 32px
+  line-height: 38px
+  color: $white
+  text-align: center
+
+  +media(l)
+    margin: 24px auto 0
+    font-size: 28px
+    line-height: 32px
+
+  +media(s)
+    margon: 32px auto 0
+    font-size: 18px
+    line-height: 24px
+
+.about__description-link
+  color: $purple
+  transition: $all
+
+.about__description-link:hover
+  color: $white
+
+.about__description-link:focus-visible
+  color: $white
+
+.about__description-link:active
+  color: $white
+  opacity: 0.9
+
+.about__socials
+  margin: 84px auto 0
+
+  +media(l)
+    margin: 44px auto 0
+
+  +media(s)
+    margin: 32px auto 0
+
+.about__social + .about__social
+  margin-left: 32px
+
+.about__socials .social__link
+  background-color: $white
+
+.about__socials .social__link,
+.about__socials .social__link:before
+  width: 32px
+  height: 32px

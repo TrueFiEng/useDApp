@@ -5,8 +5,13 @@
     "types": [
       "mocha"
     ],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "skipLibCheck": true
   },
+  "include": [
+    "src",
+    "playwright"
+  ],
   "references": [
     {
       "path": "../coingecko"

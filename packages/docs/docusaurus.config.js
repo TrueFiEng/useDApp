@@ -17,7 +17,15 @@ const config = {
   projectName: 'useDApp', // Usually your repo name.
 
   plugins: [
-    './plugins/webpack-plugin.js'
+    './plugins/webpack-plugin.js',
+    './plugins/mdx-anchor-scroll.js',
+    [
+      require.resolve("@cmfcmf/docusaurus-search-local"),
+      {
+        indexDocs: true,
+        indexBlog: false,
+      },
+    ],
   ],
 
   presets: [

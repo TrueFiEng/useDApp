@@ -1,7 +1,7 @@
 import { MultiCallABI } from '../constants'
 import { useMulticallAddress } from './useMulticallAddress'
 import { Falsy } from '../model/types'
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from 'ethers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useCall } from './useCall'
 import { Contract } from 'ethers'

@@ -1,4 +1,4 @@
-import { ERC20Interface } from '../constants'
+import { ERC20Interface, QueryParams } from '../constants'
 import { Falsy } from '../model/types'
 import { TokenInfo } from '../model/TokenInfo'
 import { Call, useCalls } from './useCall'
@@ -7,6 +7,7 @@ import { Contract } from 'ethers'
 /**
  * Returns name, symbol, decimals and token supply of a given token.
  * @param tokenAddress address of a token contract.
+ * @param queryParams see {@link QueryParams}.
  * @returns a token info object (see {@link TokenInfo}) or `undefined` if all four methods don't exist on a token.
  * @public
  * @example
@@ -22,14 +23,16 @@ import { Contract } from 'ethers'
  *   </>
  * ) : null
  */
-export function useToken(tokenAddress: string | Falsy): TokenInfo | undefined {
-  const partialCall = {
-    contract: new Contract(tokenAddress || '', ERC20Interface),
-    address: tokenAddress || '',
+export function useToken(tokenAddress: string | Falsy, queryParams: QueryParams = {}): TokenInfo | undefined {
+  const partialCall = tokenAddress && {
+    contract: new Contract(tokenAddress, ERC20Interface),
+    address: tokenAddress,
     args: [],
   }
-  const args = ['name', 'symbol', 'decimals', 'totalSupply'].map((method): Call => ({ ...partialCall, method }))
-  const [name, symbol, decimals, totalSupply] = useCalls(args)
+  const args = ['name', 'symbol', 'decimals', 'totalSupply'].map(
+    (method): Call | Falsy => partialCall && { ...partialCall, method }
+  )
+  const [name, symbol, decimals, totalSupply] = useCalls(args, queryParams)
 
   if (!name && !symbol && !decimals && !totalSupply) {
     return undefined

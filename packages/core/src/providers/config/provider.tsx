@@ -32,6 +32,8 @@ export function ConfigProvider({ config, children }: ConfigProviderProps) {
   const configWithDefaults: FullConfig = {
     ...DEFAULT_CONFIG,
     ...pickBy(config, noUndefined),
+    bufferGasLimitPercentage: undefined,
+    gasLimitBufferPercentage: config.gasLimitBufferPercentage ?? config.bufferGasLimitPercentage,
     notifications: {
       ...DEFAULT_CONFIG.notifications,
       ...pickBy(config.notifications, noUndefined),

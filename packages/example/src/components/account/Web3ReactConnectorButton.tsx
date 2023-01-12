@@ -15,15 +15,17 @@ const NETWORK_CONNECTIONS = {
 
 export const Web3ReactConnectorButton = () => {
   const { account, activate, deactivate } = useEthers()
-  const ens = useLookupAddress()
+  const { ens } = useLookupAddress(account)
   const [showModal, setShowModal] = useState(false)
   const [activateError, setActivateError] = useState('')
   const { error } = useEthers()
   useEffect(() => {
-    if (error) {
+    if (error && account) {
       setActivateError(error.message)
+      return
     }
-  }, [error])
+    setActivateError('')
+  }, [error, account])
 
   const activateProvider = async () => {
     const web3Connector = new WalletConnectConnector({

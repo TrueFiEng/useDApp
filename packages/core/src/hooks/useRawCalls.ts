@@ -3,6 +3,7 @@ import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
+import { utils } from 'ethers'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -55,5 +56,26 @@ export function useRawCall(call: RawCall | Falsy) {
 
 function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResult {
   const chainId = call.chainId
-  return chainId !== undefined ? chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data] : undefined
+  if (chainId !== undefined) {
+    const rawCallResult = chains[chainId]?.value?.state?.[call.address.toLowerCase()]?.[call.data]
+    if (rawCallResult) {
+      return rawCallResult
+    }
+    const error = chains[chainId]?.value?.error as any
+    if (error) {
+      const defaultErrorMessage = 'An error occurred'
+      const errorMessage =
+        error.error?.data?.message ??
+        error.error?.message ??
+        error.reason ??
+        error.data?.message ??
+        error.message ??
+        defaultErrorMessage
+      const value = new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage])
+      return {
+        success: false,
+        value,
+      }
+    }
+  }
 }
