@@ -1,26 +1,28 @@
-# Task 1
+# Exercise 1
 
-In the first task we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modifying two files: `packages/frontend/src/components/AccountButton.tsx` and `packages/frontend/src/components/AccountModal.tsx`. Let's start with the `AccountButton.tsx` file.
+In the first exercise we'll use the provided template to implement connecting our DApp to MetaMask. We'll be modifying two files: `AccountButton.tsx` and `AccountModal.tsx`.
+
+👉 Let's start with the first one.
 
 ## AccountButton.tsx
 
 This file contains the `AccountButton` component. It's a button that displays the current account address and allows the user to connect to a wallet. It also displays a modal with the account details when the user clicks on the button. Let's start by importing the `useEthers` hook from `useDApp`:
 
-```tsx
+```tsx title="packages/frontend/src/components/AccountButton.tsx"
 import { useEthers } from '@usedapp/core';
 ```
 
 Next we'll use the `useEthers` hook to get the current account address and the `activateBrowserWallet` function.
 
-```ts
+```ts title="packages/frontend/src/components/AccountButton.tsx"
 const { account, activateBrowserWallet } = useEthers();
 ```
 
 Modify the `onConnect` function to use the `activateBrowserWallet` function:
 
-```ts
-const onConnect = async () => {
-  await activateBrowserWallet();
+```ts title="packages/frontend/src/components/AccountButton.tsx"
+const onConnect = () => {
+  activateBrowserWallet();
 };
 ```
 
@@ -48,20 +50,20 @@ To print the shortened address we'll use the `shortenAddress` function from `use
 
 The next step will be to display the account details in the modal. We'll also add a button that allows the user to disconnect from the wallet. Let's start by making all the necessary imports:
 
-```ts
+```ts title="packages/frontend/src/components/AccountModal.tsx"
 import { shortenAddress, useEtherBalance, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 ```
 
-We can the current account address the same way as in the `AccountButton.tsx` file, but this time we'll also want to get the `deactivate` function which allows us to disconnect from the wallet.
+We can get the current account address the same way as in the `AccountButton.tsx` file, but this time we'll also want to get the `deactivate` function which allows us to disconnect from the wallet.
 
-```ts
+```ts title="packages/frontend/src/components/AccountModal.tsx"
 const { account, deactivate } = useEthers();
 ```
 
 Next get the current account balance. We can do that using the `useEtherBalance` hook:
 
-```ts
+```ts title="packages/frontend/src/components/AccountModal.tsx"
 const balance = useEtherBalance(account);
 ```
 
@@ -90,7 +92,7 @@ Let's now implement functionality for the disconnect button. We'll use the `deac
 + deactivate();
 ```
 
-The last thing to do in this task is to allow the user to copy the account address by pressing the copy button.
+The last thing to do in this exercise is to allow the user to copy the account address by pressing the copy button.
 
 ```diff
 - // TODO: Copy address of the current user to clipboard
@@ -99,4 +101,4 @@ The last thing to do in this task is to allow the user to copy the account addre
 + }
 ```
 
-This concludes the first task. You should now be able to connect your DApp to MetaMask.
+This concludes the first exercise. You should now be able to connect your DApp to MetaMask.

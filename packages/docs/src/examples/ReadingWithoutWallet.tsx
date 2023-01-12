@@ -1,5 +1,5 @@
 import { formatEther } from '@ethersproject/units'
-import { Config, DAppProvider, Mainnet, useEtherBalance } from '@usedapp/core'
+import { Config, DAppProvider, Goerli, Mainnet, useEtherBalance } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -10,6 +10,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
+    [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
 

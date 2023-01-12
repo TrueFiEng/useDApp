@@ -27,6 +27,7 @@ export class ConnectorController {
   public errors: Error[] = []
 
   private _config: FullConfig
+  private _connectorUnsubscribe: () => void | undefined
 
   private emitUpdate() {
     this.updated.emit({
@@ -50,7 +51,7 @@ export class ConnectorController {
 
   constructor(public readonly connector: Connector, config: FullConfig = DEFAULT_CONFIG) {
     this._config = { ...config }
-    connector.update.on(({ chainId, accounts }) => {
+    this._connectorUnsubscribe = connector.update.on(({ chainId, accounts }) => {
       this.chainId = chainId
       this.accounts = accounts
       this.emitUpdate()
@@ -103,6 +104,7 @@ export class ConnectorController {
       }
     })
 
+    this.active = true
     this.emitUpdate()
   }
 
@@ -110,6 +112,7 @@ export class ConnectorController {
     this.active = false
     this.removeBlockEffect?.()
     this.clearSubscriptions?.()
+    this._connectorUnsubscribe?.()
     await this.connector.deactivate()
     this.chainId = undefined
     this.accounts = []
