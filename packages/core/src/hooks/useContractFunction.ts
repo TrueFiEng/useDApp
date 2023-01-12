@@ -1,6 +1,6 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, providers, BigNumber } from 'ethers'
+import { Contract, Signer, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
@@ -103,7 +103,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
                 functionName,
                 args,
                 gasLimitBufferPercentage
-              )) ?? BigNumber.from(0)
+              )) ?? null
 
         const modifiedOpts = {
           gasLimit,
