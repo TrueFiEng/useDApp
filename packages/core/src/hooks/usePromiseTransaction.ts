@@ -72,14 +72,14 @@ const isDroppedAndReplaced = (e: any) =>
   e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
-  const [state, setState] = useState<TransactionStatus>({ status: 'None' })
+  const [state, setState] = useState<TransactionStatus>({ status: 'None', transactionName: options?.transactionName })
   const { addTransaction, updateTransaction } = useTransactionsContext()
   const { addNotification } = useNotificationsContext()
   const { library, account } = useEthers()
   const gnosisSafe = useGnosisSafeContract(account, library)
 
   const resetState = useCallback(() => {
-    setState({ status: 'None' })
+    setState(({ transactionName }) => ({ status: 'None', transactionName }))
   }, [setState])
 
   const promiseTransaction = useCallback(
@@ -93,11 +93,11 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
 
         const transaction = await transactionPromise
 
-        setState({ transaction, status: 'Mining', chainId })
+        setState((prevState) => ({ ...prevState, transaction, status: 'Mining' }))
         addTransaction({
           transaction: {
             ...transaction,
-            chainId: chainId,
+            chainId,
           },
           submittedAt: Date.now(),
           transactionName: options?.transactionName,
@@ -111,7 +111,13 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           receipt,
           transactionName: options?.transactionName,
         })
-        setState({ receipt, transaction, status: 'Success', chainId })
+        setState({
+          receipt,
+          transaction,
+          status: 'Success',
+          chainId,
+          transactionName: options?.transactionName,
+        })
         return { transaction, receipt }
       }
 
@@ -120,7 +126,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         { safeTransaction }: PromiseTransactionOpts = {}
       ) => {
         if (!chainId || !library || !account) return
-        setState({ status: 'CollectingSignaturePool', chainId })
+        setState({ status: 'CollectingSignaturePool', chainId, transactionName: options?.transactionName })
 
         const gnosisSafeContract = gnosisSafe.get()
         if (!gnosisSafeContract) {
@@ -160,6 +166,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             receipt,
             errorMessage,
             chainId,
+            transactionName: options?.transactionName,
           })
         } else {
           addTransaction({
@@ -171,7 +178,13 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             submittedAt: Date.now(),
             transactionName: options?.transactionName,
           })
-          setState({ receipt, transaction, status: 'Success', chainId })
+          setState({
+            receipt,
+            transaction,
+            status: 'Success',
+            chainId,
+            transactionName: options?.transactionName,
+          })
         }
         return { transaction, receipt }
       }
@@ -179,7 +192,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
-        setState({ status: 'PendingSignature', chainId })
+        setState({ status: 'PendingSignature', chainId, transactionName: options?.transactionName })
         addNotification({
           notification: {
             type: 'transactionPendingSignature',
@@ -218,21 +231,39 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
               chainId,
             })
 
-            setState({
+            setState((prevState) => ({
+              ...prevState,
               status,
               transaction: e.replacement,
               originalTransaction: transaction,
+              receipt: e.receipt,
+              transactionName: e.replacement?.transactionName,
+              errorMessage,
+              errorCode,
+              errorHash,
+              chainId,
+            }))
+          } else {
+            setState({
+              status: 'Fail',
+              transaction,
               receipt: e.receipt,
               errorMessage,
               errorCode,
               errorHash,
               chainId,
+              transactionName: options?.transactionName,
             })
-          } else {
-            setState({ status: 'Fail', transaction, receipt: e.receipt, errorMessage, errorCode, errorHash, chainId })
           }
         } else {
-          setState({ status: 'Exception', errorMessage, errorCode, errorHash, chainId })
+          setState({
+            status: 'Exception',
+            errorMessage,
+            errorCode,
+            errorHash,
+            chainId,
+            transactionName: options?.transactionName,
+          })
         }
         return undefined
       }
