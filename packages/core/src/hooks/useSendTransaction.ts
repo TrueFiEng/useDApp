@@ -54,13 +54,17 @@ export function useSendTransaction(options?: TransactionOptions) {
         gasLimit,
       })
 
-      return promiseTransaction(signer.sendTransaction(sanitizedTransaction), {
-        safeTransaction: {
-          to: sanitizedTransaction.to,
-          value: sanitizedTransaction.value?.toString(),
-          data: sanitizedTransaction.data?.toString(),
+      return promiseTransaction(
+        signer.sendTransaction(sanitizedTransaction),
+        {
+          safeTransaction: {
+            to: sanitizedTransaction.to,
+            value: sanitizedTransaction.value?.toString(),
+            data: sanitizedTransaction.data?.toString(),
+          },
         },
-      })
+        transactionRequest
+      )
     }
   }
 
