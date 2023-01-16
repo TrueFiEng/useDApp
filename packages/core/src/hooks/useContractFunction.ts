@@ -116,6 +116,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
             to: contract.address,
             value: opts?.value,
             data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
+            safeTxGas: gasLimit ?? undefined,
           },
         })
         if (receipt?.logs) {

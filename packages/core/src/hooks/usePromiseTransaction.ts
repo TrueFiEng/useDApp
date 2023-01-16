@@ -139,6 +139,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           to: safeTransaction?.to ?? '',
           value: safeTransaction?.value,
           data: safeTransaction?.data,
+          safeTxGas: safeTransaction?.safeTxGas,
           nonce: latestNonce ? latestNonce + 1 : await gnosisSafeContract.nonce(),
         })
 
