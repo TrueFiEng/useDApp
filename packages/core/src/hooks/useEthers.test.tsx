@@ -156,7 +156,7 @@ describe('useEthers', () => {
 
   describe('Sets error if user rejects request', () => {
     before(() => {
-      (window as any).ethereum = {
+      ;(window as any).ethereum = {
         request: async () => {
           // 100ms delay to simulate a real provider
           await sleep(100)
