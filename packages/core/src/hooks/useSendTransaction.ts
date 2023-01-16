@@ -61,6 +61,7 @@ export function useSendTransaction(options?: TransactionOptions) {
             to: sanitizedTransaction.to,
             value: sanitizedTransaction.value?.toString(),
             data: sanitizedTransaction.data?.toString(),
+            safeTxGas: sanitizedTransaction.gasLimit?.toString(),
           },
         },
         transactionRequest
