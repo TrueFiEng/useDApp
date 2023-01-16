@@ -16,7 +16,7 @@ describe('useSigner', () => {
 
   before(async () => {
     address = Wallet.createRandom().address
-    window.ethereum = {
+    ;(window as any).ethereum = {
       request: async ({ method }: RequestParams) => {
         await sleep(100)
         if (method === 'eth_requestAccounts' || method === 'eth_accounts') return [address]
@@ -27,7 +27,7 @@ describe('useSigner', () => {
   })
 
   after(() => {
-    delete window.ethereum
+    delete (window as any).ethereum
   })
 
   beforeEach(async () => {

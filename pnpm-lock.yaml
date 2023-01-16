@@ -94,7 +94,7 @@ importers:
       '@ethersproject/abi': 5.6.1
       '@ethersproject/abstract-provider': ^5.6.1
       '@ethersproject/providers': 5.6.2
-      '@metamask/detect-provider': ^1.2.0
+      '@metamask/detect-provider': ^2.0.0
       '@swc-node/register': ^1.4.2
       '@testing-library/react-hooks': ^5.0.3
       '@types/chai': ^4.2.14
@@ -131,7 +131,7 @@ importers:
       typescript: ^4.6.2
       wait-for-expect: ^3.0.2
     dependencies:
-      '@metamask/detect-provider': 1.2.0
+      '@metamask/detect-provider': 2.0.0
       '@uniswap/token-lists': 1.0.0-beta.27
       fetch-mock: 9.11.0
       lodash.merge: 4.6.2
@@ -4053,9 +4053,9 @@ packages:
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
 
-  /@metamask/detect-provider/1.2.0:
-    resolution: {integrity: sha512-ocA76vt+8D0thgXZ7LxFPyqw3H7988qblgzddTDA6B8a/yU0uKV42QR/DhA+Jh11rJjxW0jKvwb5htA6krNZDQ==}
-    engines: {node: '>= 10'}
+  /@metamask/detect-provider/2.0.0:
+    resolution: {integrity: sha512-sFpN+TX13E9fdBDh9lvQeZdJn4qYoRb/6QF2oZZK/Pn559IhCFacPMU1rMuqyXoFQF3JSJfii2l98B87QDPeCQ==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@metamask/jazzicon/2.0.0:
@@ -12982,6 +12982,17 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.14.9_debug@4.3.4:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
     engines: {node: '>=4.0'}
@@ -14254,7 +14265,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
