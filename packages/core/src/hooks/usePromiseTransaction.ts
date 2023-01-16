@@ -193,16 +193,18 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
-        setState({ status: 'PendingSignature', chainId, transactionName: options?.transactionName })
-        addNotification({
-          notification: {
-            type: 'transactionPendingSignature',
-            submittedAt: Date.now(),
-            transactionName: options?.transactionName,
-            transactionRequest,
-          },
-          chainId: chainId,
-        })
+        if (options?.enablePendingTransactionNotification) {
+          setState({ status: 'PendingSignature', chainId, transactionName: options?.transactionName })
+          addNotification({
+            notification: {
+              type: 'transactionPendingSignature',
+              submittedAt: Date.now(),
+              transactionName: options?.transactionName,
+              transactionRequest,
+            },
+            chainId: chainId,
+          })
+        }
         const result = (await isNonContractWallet(library, account))
           ? await handleNonContractWallet(transactionPromise)
           : await handleContractWallet(transactionPromise, { safeTransaction })
