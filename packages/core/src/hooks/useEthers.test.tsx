@@ -156,7 +156,7 @@ describe('useEthers', () => {
 
   describe('Sets error if user rejects request', () => {
     before(() => {
-      window.ethereum = {
+      ;(window as any).ethereum = {
         request: async () => {
           // 100ms delay to simulate a real provider
           await sleep(100)
@@ -165,11 +165,11 @@ describe('useEthers', () => {
             message: 'User rejected the request.',
           }
         },
-      } as any // @metamask/detect-provider declares window.ethereum as an incorrect type
+      } as any // @metamask/detect-provider declares (window as any).ethereum as an incorrect type
     })
 
     after(() => {
-      delete window.ethereum
+      delete (window as any).ethereum
       window.localStorage.clear()
     })
 
