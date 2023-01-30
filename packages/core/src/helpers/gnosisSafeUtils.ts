@@ -109,7 +109,7 @@ export const waitForSafeTransaction = async (
 }> => {
   const safeTxHash = calculateSafeTransactionHash(contract, safeTx, chainId)
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const onExecutionSuccess = async (txHash: string, _payment: BigNumber, event: Event) => {
       if (txHash === safeTxHash) {
         contract.removeListener('ExecutionSuccess', onExecutionSuccess)
