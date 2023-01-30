@@ -88,10 +88,9 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       { safeTransaction }: PromiseTransactionOpts = {},
       transactionRequest?: TransactionRequest
     ) => {
-      const handleNonContractWallet = async (transactionPromise: Promise<TransactionResponse>) => {
+      const handleNonContractWallet = async (transaction: TransactionResponse) => {
         if (!chainId) return
 
-        const transaction = await transactionPromise
 
         setState((prevState) => ({ ...prevState, transaction, status: 'Mining' }))
         addTransaction({
@@ -122,7 +121,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       }
 
       const handleContractWallet = async (
-        transactionPromise: Promise<TransactionResponse>,
         { safeTransaction }: PromiseTransactionOpts = {}
       ) => {
         if (!chainId || !library || !account) return
@@ -144,7 +142,6 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         })
 
         const { transaction, receipt, rejected } = await waitForSafeTransaction(
-          transactionPromise,
           gnosisSafeContract,
           chainId,
           safeTx
@@ -205,9 +202,10 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             chainId: chainId,
           })
         }
+        transaction = await transactionPromise;
         const result = (await isNonContractWallet(library, account))
-          ? await handleNonContractWallet(transactionPromise)
-          : await handleContractWallet(transactionPromise, { safeTransaction })
+          ? await handleNonContractWallet(transaction)
+          : await handleContractWallet({ safeTransaction })
         transaction = result?.transaction
         return result?.receipt
       } catch (e: any) {
