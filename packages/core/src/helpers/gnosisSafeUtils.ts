@@ -99,7 +99,6 @@ export const getLatestNonce = async (chainId: number, safeAddress: string): Prom
 }
 
 export const waitForSafeTransaction = async (
-  transactionPromise: Promise<TransactionResponse>,
   contract: Contract,
   chainId: number,
   safeTx: SafeTransaction
@@ -110,13 +109,7 @@ export const waitForSafeTransaction = async (
 }> => {
   const safeTxHash = calculateSafeTransactionHash(contract, safeTx, chainId)
 
-  return new Promise((resolve, reject) => {
-    void transactionPromise.catch((err: any) => {
-      if (err?.message === 'Transaction was rejected') {
-        reject(err)
-      }
-    })
-
+  return new Promise((resolve) => {
     const onExecutionSuccess = async (txHash: string, _payment: BigNumber, event: Event) => {
       if (txHash === safeTxHash) {
         contract.removeListener('ExecutionSuccess', onExecutionSuccess)
