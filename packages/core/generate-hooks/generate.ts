@@ -89,7 +89,7 @@ export const use${contractName} = {
     .map(fn => fn.split('(')[0])
     .map(fn => `${fn}: use${contractName}_${fn}`)
     .join(",\n  ")},
-  event: {
+  events: {
   ${Object.keys(Interface.events)
     .map(event => event.split('(')[0])
     .map(event => `  ${event}: use${contractName}_event_${event}`)
