@@ -3,7 +3,7 @@ import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerL
 
 const klaytnExplorerUrl = 'https://scope.klaytn.com/'
 
-export const klaytn: Chain = {
+export const Klaytn: Chain = {
   chainId: 8217,
   chainName: 'klaytn',
   isTestChain: false,
@@ -22,7 +22,7 @@ export const klaytn: Chain = {
 
 const klaytnTestnetExplorerUrl = 'https://baobab.scope.klaytn.com/'
 
-export const klaytnTestnet: Chain = {
+export const KlaytnTestnet: Chain = {
   chainId: 1001,
   chainName: 'klaytn Testnet',
   isTestChain: true,
@@ -39,4 +39,4 @@ export const klaytnTestnet: Chain = {
   getExplorerTransactionLink: getTransactionLink(klaytnTestnetExplorerUrl),
 }
 
-export default { klaytn, klaytnTestnet}
+export default { Klaytn, KlaytnTestnet}
