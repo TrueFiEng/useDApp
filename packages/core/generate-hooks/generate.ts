@@ -56,15 +56,45 @@ export const use${contractName}_${functionName} = (
     options
   )
 }
+
 `
       }
+    })
+
+    //write events
+    Object.keys(Interface.events).forEach((event) => {
+      const eventName = event.split('(')[0]
+      output += `
+export const use${contractName}_event_${eventName} = (
+  contractAddress: Falsy | string,
+  args: Falsy | TypedFilter<${contractName}, '${eventName}'>['args'],
+  queryParams: QueryParams = {}
+) => {
+  return useLogs(
+    contractAddress
+      && {
+        contract: new Contract(contractAddress, ${contractName}Interface),
+        event: '${eventName}',
+        args: args || [],
+      },
+    queryParams
+  )
+}
+
+`
     })
     output += `
 export const use${contractName} = {
   ${Object.keys(Interface.functions)
     .map(fn => fn.split('(')[0])
     .map(fn => `${fn}: use${contractName}_${fn}`)
+    .join(",\n  ")},
+  events: {
+  ${Object.keys(Interface.events)
+    .map(event => event.split('(')[0])
+    .map(event => `  ${event}: use${contractName}_event_${event}`)
     .join(",\n  ")}
+  }
 }
 `
     fs.writeFileSync(filename, output)
