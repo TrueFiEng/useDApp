@@ -113,7 +113,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   RootstockMainnet,
   RootstockTestnet,
   KlaytnTestnet,
-  Klaytn
+  Klaytn,
 ]
 
 export enum ChainId {

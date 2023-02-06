@@ -39,4 +39,4 @@ export const KlaytnTestnet: Chain = {
   getExplorerTransactionLink: getTransactionLink(klaytnTestnetExplorerUrl),
 }
 
-export default { Klaytn, KlaytnTestnet}
+export default { Klaytn, KlaytnTestnet }
