@@ -53,6 +53,8 @@ import {
   Sepolia,
   RootstockMainnet,
   RootstockTestnet,
+  KlaytnTestnet,
+  Klaytn,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -110,6 +112,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   ArbitrumRedditTestnet,
   RootstockMainnet,
   RootstockTestnet,
+  KlaytnTestnet,
+  Klaytn,
 ]
 
 export enum ChainId {
@@ -167,4 +171,6 @@ export enum ChainId {
   ArbitrumRedditTestnet = 5391184,
   RootstockMainnet = 30,
   RootstockTestnet = 31,
+  KlaytnTestnet = 1001,
+  Klaytn = 8217,
 }
