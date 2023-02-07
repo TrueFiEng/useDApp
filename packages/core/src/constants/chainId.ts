@@ -148,6 +148,8 @@ export enum ChainId {
   FantomTestnet = 4002,
   Avalanche = 43114,
   AvalancheTestnet = 43113,
+  Celo = 42220,
+  CeloAlfajores = 44787,
   Songbird = 19,
   Flare = 14,
   FlareCostonTestnet = 16,
