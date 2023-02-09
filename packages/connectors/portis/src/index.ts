@@ -40,9 +40,9 @@ export class PortisConnector implements Connector {
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
       const chainId: string = await this.provider!.send('eth_chainId', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
-      throw new Error('Could not activate connector')
+      throw new Error('Could not activate connector: ' + (e.message ?? ''))
     }
   }
 

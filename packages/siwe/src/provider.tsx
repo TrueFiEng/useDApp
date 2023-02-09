@@ -4,7 +4,7 @@ import React, { useEffect, ReactNode, useState, useCallback } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
 import { GNOSIS_SAFE_ABI } from './constants'
-import { SiweFetchers, getFetchers } from './requests'
+import { SiweFetchers, getFetchers, AuthResponse } from './requests'
 
 export interface SiweContextValue {
   signIn: (signInOptions?: SignInOptions) => void
@@ -13,7 +13,7 @@ export interface SiweContextValue {
   isLoading: boolean
   cancelLoading: () => void
   message: SiweMessage | undefined
-  error: any
+  error: Error | undefined
 }
 
 const SiweContext = createContext<SiweContextValue>({
@@ -40,7 +40,6 @@ export interface SiweProviderProps {
   children?: ReactNode
   api?: SiweFetchers
 }
-
 const clearStorage = () => {
   localStorage.removeItem('siweMessage')
   localStorage.removeItem('getMessageHash')
@@ -51,65 +50,65 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState<SiweMessage | undefined>(undefined)
-  const [error, setError] = useState<any>(undefined)
-  const { getNonce, getAuth, signIn, signOut } = api ?? getFetchers(backendUrl ?? '')
+  const [error, setError] = useState<Error | undefined>(undefined)
+  const {
+    getNonce: getNonceRequest,
+    getAuth: getAuthRequest,
+    signIn: signInRequest,
+    signOut: signOutRequest,
+  } = api ?? getFetchers(backendUrl ?? '', { chainId, address: account })
 
-  const getAuthRequestHandler = () => {
-    setLoading(true)
-    setError(undefined)
-    getAuth()
-      .then((res) => {
-        if (res.loggedIn) {
-          const siweMessage = res.message as SiweMessage
-          setMessage(siweMessage)
-          setLoading(false)
-          if (siweMessage.address !== account) {
-            setError(new Error('Account mismatch'))
-            return setLoggedIn(false)
-          }
-          if (siweMessage.chainId !== chainId) {
-            setError(new Error('ChainId mismatch'))
-            return setLoggedIn(false)
-          }
-          return setLoggedIn(true)
-        }
-        if (localStorage.getItem('getMessageHash')) {
-          const siweMessage = new SiweMessage(JSON.parse(localStorage.getItem('siweMessage') as string))
-          void createMultiSigListener({
-            message: siweMessage,
-          })
-        } else {
-          setLoading(false)
-        }
-        setLoggedIn(false)
-      })
-      .catch((err) => {
-        setError(err)
-        setLoggedIn(false)
-        setLoading(false)
-      })
-  }
-
-  const signOutRequestHandler = async () => {
+  const getNonceHandler = async () => {
     setError(undefined)
     try {
-      await signOut()
-    } catch (err) {
+      const { nonce } = await getNonceRequest()
+      return nonce
+    } catch (err: any) {
       setError(err)
-    } finally {
-      clearStorage()
-      setLoggedIn(false)
-      setMessage(undefined)
+      setLoading(false)
     }
   }
 
-  const getNonceRequestHandler = async () => {
+  const getAuthHandler = async () => {
+    setLoading(true)
     setError(undefined)
     try {
-      const { nonce } = await getNonce()
-      return nonce
-    } catch (err) {
+      const res: AuthResponse = await getAuthRequest()
+      if (res.loggedIn) {
+        const siweMessage = res.message as SiweMessage
+        setMessage(siweMessage)
+        setLoggedIn(true)
+      } else {
+        setMessage(undefined)
+        setLoggedIn(false)
+      }
+
+      if (localStorage.getItem('getMessageHash')) {
+        const siweMessage = new SiweMessage(JSON.parse(localStorage.getItem('siweMessage') as string))
+        void createMultiSigListener({
+          message: siweMessage,
+        })
+        return
+      }
+
+      setLoading(false)
+    } catch (err: any) {
       setError(err)
+      setLoggedIn(false)
+      setLoading(false)
+    }
+  }
+
+  const signOutHandler = async () => {
+    setError(undefined)
+    try {
+      await signOutRequest()
+    } catch (err: any) {
+      setError(err)
+      clearStorage()
+    } finally {
+      setLoggedIn(false)
+      setMessage(undefined)
     }
   }
 
@@ -122,21 +121,20 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     if (!account || !chainId) {
       return
     }
-    void getAuthRequestHandler()
+    void getAuthHandler()
   }, [account, chainId])
 
-  const handleSignIn = useCallback(
+  const signIn = useCallback(
     async (signInOptions?: SignInOptions) => {
       if (!account || !chainId || !library) {
         return
       }
       const signer = 'getSigner' in library ? library.getSigner() : undefined
       if (!signer) return
-      const nonce = await getNonceRequestHandler()
 
-      if (!nonce) {
-        return
-      }
+      setLoading(true)
+      const nonce = await getNonceHandler()
+      if (!nonce) return
 
       const message = new SiweMessage({
         domain: signInOptions?.domain ?? window.location.host,
@@ -148,18 +146,15 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         nonce,
       })
 
-      setLoading(true)
       const signature = await signer.signMessage(message.prepareMessage()).catch((err) => {
         setError(err)
         setLoading(false)
       })
-      if (!signature) {
-        return
-      }
+      if (!signature) return
 
       try {
-        await signIn({ signature, message })
-      } catch (err) {
+        await signInRequest({ signature, message })
+      } catch (err: any) {
         return setError(err)
       }
 
@@ -170,16 +165,16 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
         })
       }
 
-      void getAuthRequestHandler()
+      void getAuthHandler()
     },
     [account, chainId, library]
   )
 
-  const handleSignOut = useCallback(async () => {
+  const signOut = useCallback(async () => {
     if (!account || !chainId) {
       return
     }
-    await signOutRequestHandler()
+    await signOutHandler()
   }, [account, chainId])
 
   const createMultiSigListener = async ({ message }: { message: SiweMessage }) => {
@@ -192,17 +187,15 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
     }
 
     const onMultiSigSigned = async () => {
-      gnosisSafeContract.removeListener(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
-      localStorage.removeItem('getMessageHash')
-      localStorage.removeItem('siweMessage')
-      void getAuthRequestHandler()
+      clearStorage()
+      void getAuthHandler()
     }
     gnosisSafeContract.once(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
   }
 
   const value = {
-    signIn: handleSignIn,
-    signOut: handleSignOut,
+    signIn,
+    signOut,
     isLoggedIn,
     isLoading,
     cancelLoading,

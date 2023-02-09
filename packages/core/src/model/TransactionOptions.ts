@@ -13,6 +13,7 @@ export interface TransactionOptionsBase {
    * Gas estimation can be not accurate because the state of the blockchain can change between the time of estimation and the time of transaction mining.
    */
   gasLimitBufferPercentage?: number
+  enablePendingSignatureNotification?: boolean
 }
 
 export interface TransactionOptionsWithSigner {

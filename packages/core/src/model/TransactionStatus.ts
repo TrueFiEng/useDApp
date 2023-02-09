@@ -62,6 +62,7 @@ export interface TransactionStatus {
    * string that can contain one of `None` `PendingSignature` `Mining` `Success` `Fail` `Exception` `CollectingSignaturePool`
    */
   originalTransaction?: TransactionResponse
+  transactionName?: string
 }
 
 /**

@@ -37,7 +37,7 @@ export type {
 } from './providers'
 export { DAppProvider, getStoredTransactionState, multicall, multicall2, useConnector } from './providers'
 export type { Connector, ConnectorController, ConnectorUpdateData } from './providers'
-export type { TypedFilter, Call, ContractCall, Web3Ethers, TokenList } from './hooks'
+export type { TypedFilter, Call, ContractCall, TokenList } from './hooks'
 export {
   useBlockMeta,
   useLogs,
@@ -70,6 +70,7 @@ export {
   useRawCall,
   useRawCalls,
   useResolveName,
+  useSigner,
 } from './hooks'
 export type {
   CurrencyFormatOptions,
@@ -99,3 +100,4 @@ export {
 export { MetamaskConnector } from './providers/network/connectors/implementations/metamask'
 export { InjectedConnector } from './providers/network/connectors/implementations/injected'
 export { CoinbaseWalletConnector } from './providers/network/connectors/implementations/coinbase'
+export type { Web3Ethers } from './providers/network/connectors/context'
