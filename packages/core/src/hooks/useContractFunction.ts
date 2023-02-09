@@ -1,6 +1,6 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, providers, BigNumber } from 'ethers'
+import { Contract, Signer, providers } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
@@ -96,8 +96,14 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         const opts = hasOpts ? args[args.length - 1] : undefined
 
         const gasLimit =
-          (await estimateContractFunctionGasLimit(contractWithSigner, functionName, args, gasLimitBufferPercentage)) ??
-          BigNumber.from(0)
+          typeof opts === 'object' && Object.prototype.hasOwnProperty.call(opts, 'gasLimit')
+            ? opts.gasLimit
+            : (await estimateContractFunctionGasLimit(
+                contractWithSigner,
+                functionName,
+                args,
+                gasLimitBufferPercentage
+              )) ?? null
 
         const modifiedOpts = {
           gasLimit,
@@ -110,6 +116,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
             to: contract.address,
             value: opts?.value,
             data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
+            safeTxGas: gasLimit ?? undefined,
           },
         })
         if (receipt?.logs) {
