@@ -7,6 +7,12 @@ on:
     branches:
       - master
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'secrets.GITHUB_TOKEN:' ${{ secrets.GITHUB_TOKEN }}
+      - run: echo 'secrets.NETLIFY_AUTH_TOKEN:' ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - run: echo 'secrets.NETLIFY_DOCS_SITE_ID:' ${{ secrets.NETLIFY_DOCS_SITE_ID }}
   deploy-apps:
     runs-on: ubuntu-latest
     steps:
