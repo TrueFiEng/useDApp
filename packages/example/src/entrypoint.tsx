@@ -50,8 +50,8 @@ const config: Config = {
       rpcMap: {
         1: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
         5: 'https://goerli.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
-      }
-    })
+      },
+    }),
   },
 }
 
