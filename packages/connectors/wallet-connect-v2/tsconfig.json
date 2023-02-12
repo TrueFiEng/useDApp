@@ -1,0 +1,23 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "composite": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../../core"
+    }
+  ]
+}

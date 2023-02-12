@@ -14,6 +14,7 @@ import {
 import { App } from './App'
 import { WalletConnectConnector } from '@usedapp/wallet-connect-connector'
 import { PortisConnector } from '@usedapp/portis-connector'
+import { WalletConnectV2Connector } from '@usedapp/wallet-connect-v2-connector'
 import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
@@ -42,6 +43,15 @@ const config: Config = {
     walletConnect: new WalletConnectConnector({ infuraId: 'd8df2cb7844e4a54ab0a782f608749dd' }),
     coinbase: new CoinbaseWalletConnector(),
     portis: new PortisConnector(PORTIS_DAPP_ID, 'mainnet'),
+    walletConnectV2: new WalletConnectV2Connector({
+      projectId: 'bffbe493c0928ee125dc8f23e20167b7',
+      chains: [Mainnet, Goerli],
+      checkGnosisSafe: true,
+      rpcMap: {
+        1: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+        5: 'https://goerli.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+      }
+    })
   },
 }
 

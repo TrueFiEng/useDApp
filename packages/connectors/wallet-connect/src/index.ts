@@ -1,6 +1,5 @@
-import { Connector } from '@usedapp/core'
+import { Connector, ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 import { providers } from 'ethers'
-import { ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import type { IWalletConnectProviderOptions } from '@walletconnect/types'

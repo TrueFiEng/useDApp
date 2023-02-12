@@ -1,0 +1,33 @@
+{
+  "name": "@usedapp/wallet-connect-v2-connector",
+  "version": "1.0.1",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "types": "dist/esm/src/index.d.ts",
+  "repository": "git@github.com:TrueFiEng/useDApp.git",
+  "author": "TrueFiEng",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@walletconnect/sign-client": "^2.3.3",
+    "@walletconnect/universal-provider": "^2.3.3",
+    "@web3modal/standalone": "^2.1.1"
+  },
+  "devDependencies": {
+    "@usedapp/core": "workspace:*",
+    "typescript": "^4.6.2"
+  },
+  "peerDependencies": {
+    "@usedapp/core": "*"
+  },
+  "scripts": {
+    "build": "pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs",
+    "test": "true",
+    "lint": "true",
+    "lint:fix": "true"
+  }
+}
