@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Handshaking,
   Sidebar,
@@ -7,15 +7,25 @@ import {
   SidebarLink,
   SidebarNav,
   SidebarNavLinks,
+  SidebarMenuIconContainer,
+  MenuIconContainer,
   ToMain,
   ToMainBottom,
 } from './base/base'
+import { MenuIcon } from './base/MenuIcon'
 
 export function NavBar() {
+  const [showSidebar, setShowSidebar] = useState(true)
+
   return (
-    <Sidebar>
+    <Sidebar showSidebar={showSidebar}>
       <SidebarContainer>
         <SidebarNav>
+          <SidebarMenuIconContainer showSidebar={showSidebar}>
+            <MenuIconContainer onClick={() => setShowSidebar(!showSidebar)}>
+              <MenuIcon />
+            </MenuIconContainer>
+          </SidebarMenuIconContainer>
           <ToMain href="/">
             <span>useDapp</span>
             <ToMainBottom>

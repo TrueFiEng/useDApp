@@ -22,9 +22,9 @@ export const Celo: Chain = {
 
 const alfajoresExplorerUrl = 'https://alfajores.celoscan.io'
 
-export const Alfajores: Chain = {
+export const CeloAlfajores: Chain = {
   chainId: 44787,
-  chainName: 'Alfajores',
+  chainName: 'CeloAlfajores',
   isTestChain: true,
   isLocalChain: false,
   multicallAddress: '0x387ce7960b5DA5381De08Ea4967b13a7c8cAB3f6',
@@ -39,4 +39,4 @@ export const Alfajores: Chain = {
   getExplorerTransactionLink: getTransactionLink(alfajoresExplorerUrl),
 }
 
-export default { Celo, Alfajores }
+export default { Celo, CeloAlfajores }
