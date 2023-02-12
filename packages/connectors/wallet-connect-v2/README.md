@@ -1,1 +1,1 @@
-# WalletConnectConnector for useDApp
+# WalletConnectV2Connector for useDApp

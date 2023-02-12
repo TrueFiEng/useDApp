@@ -37,7 +37,7 @@ export class WalletConnectV2Connector implements Connector {
   private async init() {
     this.universalProvider = await UniversalProvider.init({
       projectId: this.opts.projectId,
-    });
+    })
   }
 
   async connectEagerly(): Promise<void> {
@@ -74,7 +74,7 @@ export class WalletConnectV2Connector implements Connector {
 
       this.universalProvider.on("display_uri", (uri: string) => {
         this.web3Modal?.openModal({ uri, standaloneChains: this.chains })
-      });
+      })
       await this.universalProvider.connect({
         namespaces: {
           eip155: {
@@ -84,7 +84,7 @@ export class WalletConnectV2Connector implements Connector {
             rpcMap: this.opts.rpcMap,
           },
         },
-      });
+      })
       this.web3Modal?.closeModal()
 
       const accounts = await this.universalProvider.request({ method: "eth_accounts" }) as string[]
@@ -119,7 +119,7 @@ export class WalletConnectV2Connector implements Connector {
         if (response.ok) {
           resolvedChainIds.push(chainId)
         }
-      } catch {}
+      } catch {} // eslint-disable-line no-empty
     }))
     if (resolvedChainIds.length > 0) {
       // if found on multiple chains, set the default to the first one
