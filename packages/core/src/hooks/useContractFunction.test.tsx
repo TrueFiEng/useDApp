@@ -28,7 +28,7 @@ describe('useContractFunction', () => {
 
   it('success', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         config,
       }
@@ -39,11 +39,12 @@ describe('useContractFunction', () => {
 
     expect(result.current.state.status).to.eq('Success')
     expect(await token.allowance(network1.deployer.address, spender.address)).to.eq(200)
+    expect(result.current.state.transactionName).to.eq('Approve')
   })
 
   it('events', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         config,
       }
@@ -60,11 +61,12 @@ describe('useContractFunction', () => {
     expect(event?.args['owner']).to.eq(network1.deployer.address)
     expect(event?.args['spender']).to.eq(spender.address)
     expect(event?.args['value']).to.eq(BigNumber.from(200))
+    expect(result.current?.state.transactionName).to.eq('Approve')
   })
 
   it('exception (bad arguments)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'approve'),
+      () => useContractFunction(token, 'approve', { transactionName: 'Approve' }),
       {
         config,
       }
@@ -95,7 +97,7 @@ describe('useContractFunction', () => {
   it('exception (when transaction reverts)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       // { gasLimitBufferPercentage: -10 } - to cause out of gas error
-      () => useContractFunction(token, 'transfer', { gasLimitBufferPercentage: -10 }),
+      () => useContractFunction(token, 'transfer', { gasLimitBufferPercentage: -10, transactionName: 'Approve' }),
       {
         config,
       }
@@ -106,6 +108,7 @@ describe('useContractFunction', () => {
     await waitForCurrent((val) => val.state !== undefined)
 
     expect(result.current.state.status).to.eq('Exception')
+    expect(result.current.state.transactionName).to.eq('Approve')
     expect(result.current.state.errorMessage).to.eq('transaction failed')
   })
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SidebarContainer } from '@usedapp/example'
 import {
   Sidebar,
@@ -8,14 +8,23 @@ import {
   ToMain,
   ToMainBottom,
   Handshaking,
+  MenuIconContainer,
+  SidebarMenuIconContainer,
+  MenuIcon
 } from '@usedapp/example'
 import StyledLink from './StyledLink'
 
 export function NavBar() {
+  const [showSidebar, setShowSidebar] = useState(true)
   return (
-    <Sidebar>
+    <Sidebar showSidebar={showSidebar}>
       <SidebarContainer id="test">
         <SidebarNav>
+          <SidebarMenuIconContainer showSidebar={showSidebar}>
+            <MenuIconContainer onClick={() => setShowSidebar(!showSidebar)}>
+              <MenuIcon />
+            </MenuIconContainer>
+          </SidebarMenuIconContainer>
           <ToMain href="/">
             <span>useDapp</span>
             <ToMainBottom>

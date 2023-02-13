@@ -6,12 +6,12 @@ import { Event } from '../../../../helpers/event'
 const GET_COINBASE_LINK = 'https://www.coinbase.com/wallet'
 
 export async function getCoinbaseProvider() {
-  if (!window.ethereum) {
+  if (!(window as any).ethereum) {
     window.open(GET_COINBASE_LINK)
     return undefined
   }
 
-  const injectedProviders: any[] = (window?.ethereum as any).providers || []
+  const injectedProviders: any[] = (window as any)?.ethereum.providers || []
   const injectedProvider: any =
     injectedProviders.find((provider) => {
       return provider.isWalletLink ?? false
@@ -68,9 +68,9 @@ export class CoinbaseWalletConnector implements Connector {
       const chainId: string = await this.provider!.send('eth_chainId', [])
       const accounts: string[] = await this.provider!.send('eth_requestAccounts', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
-      throw new Error('Could not activate connector')
+      throw new Error('Could not activate connector: ' + (e.message ?? ''))
     }
   }
 

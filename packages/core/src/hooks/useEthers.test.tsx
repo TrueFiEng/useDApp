@@ -3,7 +3,7 @@ import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet, Mumbai } from '../model'
-import { renderDAppHook, setupTestingConfig, TestingNetwork } from '../testing'
+import { renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 import Ganache, { Server } from 'ganache'
 
@@ -28,7 +28,6 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(Mainnet.chainId)
     expect(result.current.account).to.be.undefined
     expect(result.current.error).to.be.undefined
@@ -103,7 +102,6 @@ describe('useEthers', () => {
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.connector).to.be.undefined
     expect(result.current.chainId).to.eq(network2.provider.network.chainId)
     expect(result.current.account).to.eq(network2.provider.getWallets()[0].address)
     expect(result.current.error).to.be.undefined
@@ -142,19 +140,11 @@ describe('useEthers', () => {
         [network1.chainId]: new providers.FallbackProvider([network1.provider]),
       },
     }
-    const { result, waitForCurrent } = await renderDAppHook(
-      () => {
-        const { activate } = useEthers()
-        useEffect(() => {
-          void activate(network1.provider)
-        }, [])
+    const { result, waitForCurrent } = await renderDAppHook(useEthers, { config: configWithFallbackProvider })
 
-        return useEthers()
-      },
-      { config: configWithFallbackProvider }
-    )
-
-    await waitForCurrent((val) => !!val.isLoading)
+    await waitForCurrent((val) => {
+      return val.library instanceof providers.FallbackProvider
+    })
 
     const provider = result.current.library
     const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
@@ -162,6 +152,47 @@ describe('useEthers', () => {
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)
     expect(signer).to.be.undefined
+  })
+
+  describe('Sets error if user rejects request', () => {
+    before(() => {
+      ;(window as any).ethereum = {
+        request: async () => {
+          // 100ms delay to simulate a real provider
+          await sleep(100)
+          throw {
+            code: 4001,
+            message: 'User rejected the request.',
+          }
+        },
+      } as any // @metamask/detect-provider declares (window as any).ethereum as an incorrect type
+    })
+
+    after(() => {
+      delete (window as any).ethereum
+      window.localStorage.clear()
+    })
+
+    it('Sets error if user rejects request', async () => {
+      const { result, waitForCurrent } = await renderDAppHook(
+        () => {
+          const { activateBrowserWallet, error } = useEthers()
+          useEffect(() => {
+            setTimeout(() => {
+              // 100ms delay to simulate a user interaction
+              activateBrowserWallet()
+            }, 100)
+          }, [])
+
+          return error
+        },
+        { config }
+      )
+
+      await waitForCurrent((val) => !!val)
+      expect(result.current).to.be.instanceOf(Error)
+      expect(result.current?.message).to.eq('Could not activate connector: User rejected the request.')
+    })
   })
 
   describe('Websocket provider', () => {
@@ -178,7 +209,7 @@ describe('useEthers', () => {
 
     after(async () => {
       await ganacheServer.close()
-      // disrupting the connection forcefuly so websocket server can be properly shutdown
+      // disrupting the connection forcefully so websocket server can be properly shutdown
       await provider.destroy()
     })
 

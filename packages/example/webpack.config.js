@@ -41,6 +41,13 @@ module.exports = {
         },
       },
       {
+        test: /node_modules[\\/]@(walletconnect|web3modal)/,
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2018',
+        },
+      },
+      {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf|ico)$/,
         use: ['file-loader'],
       },

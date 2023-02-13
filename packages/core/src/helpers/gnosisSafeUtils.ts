@@ -1,4 +1,4 @@
-import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
+import { TransactionResponse, TransactionReceipt, TransactionRequest } from '@ethersproject/abstract-provider'
 import { BigNumber, BigNumberish, Contract, Event } from 'ethers'
 import { utils, constants } from 'ethers'
 import { getChainById } from './chain'
@@ -65,6 +65,13 @@ const EIP712_SAFE_TX_TYPE = {
   ],
 }
 
+export const sanitizeTransactionRequest = (transactionRequest: TransactionRequest): TransactionRequest => {
+  return {
+    ...transactionRequest,
+    data: transactionRequest.data ?? '0x', // Non-empty data string is required on Gnosis Safe side.
+  }
+}
+
 export const calculateSafeTransactionHash = (
   safe: Contract,
   safeTx: SafeTransaction,
@@ -92,7 +99,6 @@ export const getLatestNonce = async (chainId: number, safeAddress: string): Prom
 }
 
 export const waitForSafeTransaction = async (
-  transactionPromise: Promise<TransactionResponse>,
   contract: Contract,
   chainId: number,
   safeTx: SafeTransaction
@@ -103,13 +109,7 @@ export const waitForSafeTransaction = async (
 }> => {
   const safeTxHash = calculateSafeTransactionHash(contract, safeTx, chainId)
 
-  return new Promise((resolve, reject) => {
-    void transactionPromise.catch((err: any) => {
-      if (err?.message === 'Transaction was rejected') {
-        reject(err)
-      }
-    })
-
+  return new Promise((resolve) => {
     const onExecutionSuccess = async (txHash: string, _payment: BigNumber, event: Event) => {
       if (txHash === safeTxHash) {
         contract.removeListener('ExecutionSuccess', onExecutionSuccess)
