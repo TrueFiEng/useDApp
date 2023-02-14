@@ -1,5 +1,39 @@
 # @usedapp/core
 
+## 1.2.3
+
+### Patch Changes
+
+- 6f44b8a: Add celo blockchain main and testnet networks
+- 8b6242d: Add pending signature notification
+- 4536958: Add useSigner hook
+- 737d43c: Add queryParams to useToken hook
+- d2cba26: Fix enablePendingSignatureNotification option name
+- 0f8928d: Add contract events to generate-hooks output
+- a99f1a5: Set default gasLimit to null instead of 0
+- 248679b: Add celo chain ids
+- 2adbea1: Simplify useChainId hook
+- 05f1a7f: Fix writing to local storage crashing application
+- d641e77: Return connector errors in useEthers
+- cedd2c7: 🧪 Add Canto and CantoTest network
+- d4d03c7: Add Rave Names resolution to the useAddressLookup hook, but only if opted-into by the user.
+- 23fd07b: Add klaytn network
+- 1ad724c: Keep transactionName in notifications after the transaction is mined
+- 1138877: Fix race condition when initializing account
+- 936e7bf: Move useEthers logic to ConnectorContext
+- ab9b722: Add Rootstock Testnet and Mainnet networks
+- 67fffc2: Pass data to safeTransaction in useSendTransaction to correctly decode gnosis safe transactions
+- 5c476d6: Pass safeTxGas in useContractFunction
+- 0b53b92: Add safeTxGas field when using useSendTransaction with Gnosis
+- 6dbfc63: Transaction replacement error fix
+- d9d6536: Refactor usage of gnosis safe contract
+- 6a06d7e: 🧤 Add non-empty data string in Send Transaction for restoring Gnosis Safe integration
+- 9a005e0: Add Flare network
+- b6b9141: This patch serves to update the @metamask/detect-provider dependency to the latest version, resolving a bug related to the older version of that package. The bug was not critical and did not cause any build failures, but did result in some warnings in the console related to sourcemaps.
+- b069906: Update optimism goerli etherscan link
+- 0ae7b13: ➕ Add transaction name to state
+- b51c261: add flare testnet
+
 ## 1.2.2
 
 ### Patch Changes

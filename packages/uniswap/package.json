@@ -21,9 +21,7 @@
     "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'",
     "test": "mocha"
   },
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "peerDependencies": {
     "ethers": "*",
     "react": "*",
