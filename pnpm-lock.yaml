@@ -311,6 +311,7 @@ importers:
       '@usedapp/playwright': workspace:*
       '@usedapp/portis-connector': workspace:*
       '@usedapp/testing': workspace:*
+      '@usedapp/uniswap': workspace:*
       '@usedapp/wallet-connect-connector': workspace:*
       '@usedapp/wallet-connect-v2-connector': workspace:*
       '@walletconnect/web3-provider': ^1.7.1
@@ -358,6 +359,7 @@ importers:
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
       '@usedapp/portis-connector': link:../connectors/portis
+      '@usedapp/uniswap': link:../uniswap
       '@usedapp/wallet-connect-connector': link:../connectors/wallet-connect
       '@usedapp/wallet-connect-v2-connector': link:../connectors/wallet-connect-v2
       '@walletconnect/web3-provider': 1.7.4
@@ -652,6 +654,42 @@ importers:
       jsdom-global: 3.0.2_jsdom@16.7.0
       mocha: 8.4.0
       prettier: 2.1.2
+      typescript: 4.6.2
+
+  packages/uniswap:
+    specifiers:
+      '@types/chai-as-promised': ^7.1.3
+      '@types/mocha': ^8.2.0
+      '@types/react': 17.0.1
+      '@typescript-eslint/eslint-plugin': ^4.10.0
+      '@typescript-eslint/parser': ^4.10.0
+      '@usedapp/core': workspace:*
+      '@usedapp/testing': workspace:*
+      chai: ^4.2.0
+      chai-as-promised: ^7.1.1
+      eslint: 7.22.0
+      ethereum-waffle: 4.0.0-alpha.27
+      mocha: ^8.2.1
+      prettier: 2.1.2
+      react: 17.0.1
+      ts-node: ^10.7.0
+      typescript: ^4.6.2
+    devDependencies:
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 8.2.3
+      '@types/react': 17.0.1
+      '@typescript-eslint/eslint-plugin': 4.33.0_glyobjt4c3l2spbcp255qgbvye
+      '@typescript-eslint/parser': 4.33.0_5gpqlwp5hzjrncnuiiolpsczg4
+      '@usedapp/core': link:../core
+      '@usedapp/testing': link:../testing
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      eslint: 7.22.0
+      ethereum-waffle: 4.0.0-alpha.27_typescript@4.6.2
+      mocha: 8.4.0
+      prettier: 2.1.2
+      react: 17.0.1
+      ts-node: 10.7.0_typescript@4.6.2
       typescript: 4.6.2
 
   packages/website:
@@ -3303,6 +3341,19 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@ethereum-waffle/chai/4.0.0-alpha.27:
+    resolution: {integrity: sha512-fBQWIGf3aKqa9kGOWHNu6uYZ6btPdk41ute2XQwVF/WrkGNM/DLcibPMnqSw5Jck122zkasV42ui0n5gdhCPKQ==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      debug: 4.3.4
+      ethers: 5.6.9
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@ethereum-waffle/chai/4.0.4:
     resolution: {integrity: sha512-s8nWICE4J3izKnGGh45kiOY4Vn1QEpPZgGa4iJWKzLmd2dQGLKpIK8i/g+P7J8So4TCfanXPNtM2WfKgzSZNOA==}
     engines: {node: '>=10.0'}
@@ -3313,6 +3364,35 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - supports-color
+      - utf-8-validate
+    dev: true
+
+  /@ethereum-waffle/compiler/4.0.0-alpha.21_k25o3ehbvkwhnroiwh5ckaa7da:
+    resolution: {integrity: sha512-1+9S72b17cPVoiJ1+d2rwH4fLM0O5KMKGpKRZW0bIeMMw8+s4Y0e52NagAs3/3HSgjK3hSzsZcW9+Lnz4E/pnQ==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      ethers: 5.6.2
+      solc: '*'
+      typechain: ^8.0.0
+    dependencies:
+      '@ethersproject/abi': 5.6.4
+      '@ethersproject/bytes': 5.6.1
+      '@ethersproject/providers': 5.6.8
+      '@resolver-engine/imports': 0.3.3
+      '@resolver-engine/imports-fs': 0.3.3
+      '@typechain/ethers-v5': 10.0.0_hlkxsmuzi2vlqbmppo6fem2zqm
+      '@types/mkdirp': 0.5.2
+      '@types/node-fetch': 2.6.1
+      ethers: 5.6.9
+      mkdirp: 0.5.5
+      node-fetch: 2.6.7
+      solc: 0.6.12
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
       - utf-8-validate
     dev: true
 
@@ -3345,10 +3425,31 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@ethereum-waffle/ens/4.0.0-alpha.22:
+    resolution: {integrity: sha512-+kzLoTwuPqjDvaWjpN+avkRk1TGag9QGw5hmGffB8NB6f4GHlHTbCq2A/rj10ERBN9SW+IROM3I+ygdAOPeqGQ==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      ethers: 5.6.9
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: true
+
   /@ethereum-waffle/ens/4.0.1:
     resolution: {integrity: sha512-mdML2uvz/Owcb3VWu+rC45NPbk68avykkV7qgIEtyqzO5PcIhCyx6mULFEhqG9LK5vaGDm4HIQ/UyEH9lneOKQ==}
     engines: {node: '>=10.0'}
     dependencies:
+      ethers: 5.6.9
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: true
+
+  /@ethereum-waffle/mock-contract/4.0.0-alpha.21:
+    resolution: {integrity: sha512-7St9+K+dYlIwagZlkE7ry4Au9wuEh9AH/tpMQ6wfy92lpyBUsrzG1rft+lD/6oUJ7MpN8VI/xYAoU8tdjPkWJw==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      '@ethersproject/abi': 5.6.4
       ethers: 5.6.9
     transitivePeerDependencies:
       - bufferutil
@@ -3363,6 +3464,21 @@ packages:
       ethers: 5.6.9
     transitivePeerDependencies:
       - bufferutil
+      - utf-8-validate
+    dev: true
+
+  /@ethereum-waffle/provider/4.0.0-alpha.25:
+    resolution: {integrity: sha512-BzAUdgQ/PJdjr0T7JVU730+LOqoVstUvICldTo6/HSmsdjUwNxmxVDA28A3cfhV0tt6+u+4ej7VhcMjVmgY/fA==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      '@ethereum-waffle/ens': 4.0.0-alpha.22
+      '@ganache/ethereum-options': 0.1.4
+      debug: 4.3.4
+      ethers: 5.6.9
+      ganache: 7.0.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
       - utf-8-validate
     dev: true
 
@@ -10273,6 +10389,10 @@ packages:
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
+  /commander/3.0.2:
+    resolution: {integrity: sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==}
+    dev: true
+
   /commander/4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
     engines: {node: '>= 6'}
@@ -12681,6 +12801,26 @@ packages:
       scrypt-js: 3.0.1
       secp256k1: 4.0.3
       setimmediate: 1.0.5
+
+  /ethereum-waffle/4.0.0-alpha.27_typescript@4.6.2:
+    resolution: {integrity: sha512-4QeS4i8v1lBsF86AgWeLDqSXlArcqq6pfsfqV4rO2WfYIgSqw93C+av+Q16HBN286zDBI6bh6GjOkMVz6GnEQQ==}
+    engines: {node: '>=10.0'}
+    hasBin: true
+    dependencies:
+      '@ethereum-waffle/chai': 4.0.0-alpha.27
+      '@ethereum-waffle/compiler': 4.0.0-alpha.21_k25o3ehbvkwhnroiwh5ckaa7da
+      '@ethereum-waffle/mock-contract': 4.0.0-alpha.21
+      '@ethereum-waffle/provider': 4.0.0-alpha.25
+      ethers: 5.6.9
+      solc: 0.6.12
+      typechain: 8.1.0_typescript@4.6.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
 
   /ethereum-waffle/4.0.4_kwnzqwn322murajwjctnbaj77a:
     resolution: {integrity: sha512-7e5/mDxxmVKOI8oy9KHTjO2k75klf97SxS7Pw6oO+NZ2K+QjygMxMolonkQg5CDFhD63WLm4dpiqqxzBcqFeuQ==}
@@ -21134,6 +21274,21 @@ packages:
       smart-buffer: 4.2.0
     dev: true
 
+  /solc/0.6.12:
+    resolution: {integrity: sha512-Lm0Ql2G9Qc7yPP2Ba+WNmzw2jwsrd3u4PobHYlSOxaut3TtUbj9+5ZrT6f4DUpNPEoBaFUOEg9Op9C0mk7ge9g==}
+    engines: {node: '>=8.0.0'}
+    hasBin: true
+    dependencies:
+      command-exists: 1.2.9
+      commander: 3.0.2
+      fs-extra: 0.30.0
+      js-sha3: 0.8.0
+      memorystream: 0.3.1
+      require-from-string: 2.0.2
+      semver: 5.7.1
+      tmp: 0.0.33
+    dev: true
+
   /solc/0.8.12:
     resolution: {integrity: sha512-TU3anAhKWBQ/WrerJ9EcHrNwGOA1y5vIk5Flz7dBNamLDkX9VQTIwcKd3FiZsT0Ew8rSU7RTmJyGNHRGzP5TBA==}
     engines: {node: '>=10.0.0'}
@@ -22342,7 +22497,37 @@ packages:
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
       '@types/node': 17.0.21
-      acorn: 8.7.0
+      acorn: 8.7.1
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.6.2
+      v8-compile-cache-lib: 3.0.0
+      yn: 3.1.1
+    dev: true
+
+  /ts-node/10.7.0_typescript@4.6.2:
+    resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      acorn: 8.7.1
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
