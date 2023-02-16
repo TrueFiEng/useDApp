@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/wallet-connect-v2-connector",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -30,6 +30,6 @@
     "test": "true",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint": "pnpm run lint:eslint",
-    "lint:fix":"pnpm run lint:eslint --fix"
+    "lint:fix": "pnpm run lint:eslint --fix"
   }
 }
