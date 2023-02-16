@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.4
+
+### Patch Changes
+
+- 4acf8b6: Allow only ethers v5
+
 ## 1.2.3
 
 ### Patch Changes
