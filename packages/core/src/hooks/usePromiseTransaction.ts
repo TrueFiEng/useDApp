@@ -119,7 +119,10 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         return { transaction, receipt }
       }
 
-      const handleContractWallet = async ({ safeTransaction }: PromiseTransactionOpts = {}) => {
+      const handleContractWallet = async (
+        transactionPromise: Promise<TransactionResponse>,
+        { safeTransaction }: PromiseTransactionOpts = {}
+      ) => {
         if (!chainId || !library || !account) return
         setState({ status: 'CollectingSignaturePool', chainId, transactionName: options?.transactionName })
 
@@ -138,7 +141,12 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           nonce: latestNonce ? latestNonce + 1 : await gnosisSafeContract.nonce(),
         })
 
-        const { transaction, receipt, rejected } = await waitForSafeTransaction(gnosisSafeContract, chainId, safeTx)
+        const { transaction, receipt, rejected } = await waitForSafeTransaction(
+          transactionPromise,
+          gnosisSafeContract,
+          chainId,
+          safeTx
+        )
 
         if (rejected) {
           const errorMessage = 'On-chain rejection created'
@@ -195,12 +203,17 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             chainId: chainId,
           })
         }
-        transaction = await transactionPromise
-        const result = (await isNonContractWallet(library, account))
-          ? await handleNonContractWallet(transaction)
-          : await handleContractWallet({ safeTransaction })
-        transaction = result?.transaction
-        return result?.receipt
+        const isContractWallet = !(await isNonContractWallet(library, account))
+        if (isContractWallet) {
+          const result = await handleContractWallet(transactionPromise, { safeTransaction })
+          transaction = result?.transaction
+          return result?.receipt
+        } else {
+          transaction = await transactionPromise
+          const result = await handleNonContractWallet(transaction)
+          transaction = result?.transaction
+          return result?.receipt
+        }
       } catch (e: any) {
         const parsedErrorCode = parseInt(e.error?.data?.code ?? e.error?.code ?? e.data?.code ?? e.code)
         const errorCode = isNaN(parsedErrorCode) ? undefined : parsedErrorCode
