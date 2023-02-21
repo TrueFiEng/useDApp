@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.5
+
+### Patch Changes
+
+- d5056ed: Gnosis Safe fix state not updating
+
 ## 1.2.4
 
 ### Patch Changes
