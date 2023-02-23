@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.6
+
+### Patch Changes
+
+- 87b0a02: Clear error message on new transaction
+
 ## 1.2.5
 
 ### Patch Changes
