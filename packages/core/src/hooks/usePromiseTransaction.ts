@@ -91,7 +91,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       const handleNonContractWallet = async (transaction: TransactionResponse) => {
         if (!chainId) return
 
-        setState((prevState) => ({ ...prevState, transaction, status: 'Mining' }))
+        setState(({ transactionName }) => ({ transactionName, transaction, status: 'Mining' }))
         addTransaction({
           transaction: {
             ...transaction,
