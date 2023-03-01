@@ -191,8 +191,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
       if (!chainId) return
       let transaction: TransactionResponse | undefined = undefined
       try {
+        setState({ status: 'PendingSignature', chainId, transactionName: options?.transactionName })
         if (options?.enablePendingSignatureNotification) {
-          setState({ status: 'PendingSignature', chainId, transactionName: options?.transactionName })
           addNotification({
             notification: {
               type: 'transactionPendingSignature',
