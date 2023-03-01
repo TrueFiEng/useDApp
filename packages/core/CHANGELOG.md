@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.7
+
+### Patch Changes
+
+- 45dd6bd: Reenable pending signature status
+
 ## 1.2.6
 
 ### Patch Changes
