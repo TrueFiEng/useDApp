@@ -68,7 +68,7 @@ export const ConnectorContext = createContext<ConnectorContextValue>({
   activateBrowserWallet: () => {},
   //eslint-disable-next-line @typescript-eslint/no-empty-function
   reportError: () => {},
-  isLoading: false,
+  isLoading: true,
   setError: () => {
     throw new Error('Function not implemented.')
   },
@@ -89,7 +89,7 @@ export interface ActivateOptions {
 
 export function ConnectorContextProvider({ children }: ConnectorContextProviderProps) {
   const [controller, setController] = useState<ConnectorController>()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const config = useConfig()
   const { connectors, autoConnect } = config
   const [autoConnectTag, setAutoConnectTag] = useLocalStorage('usedapp:autoConnectTag')
