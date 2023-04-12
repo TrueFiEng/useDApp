@@ -30,6 +30,6 @@ export function useReadonlyNetwork(opts: UseReadonlyProviderOptions = {}): Reado
             chainId: chainId,
           }
         : undefined,
-    [chainId, providers[chainId]]
+    [chainId, providers[chainId as ChainId]]
   )
 }
