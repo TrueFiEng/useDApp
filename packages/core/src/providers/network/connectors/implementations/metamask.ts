@@ -44,7 +44,7 @@ export class MetamaskConnector implements Connector {
   async connectEagerly(): Promise<void> {
     await this.init()
 
-    if(!this.provider || (await this.provider.send('wallet_getPermissions', [])).length === 0) {
+    if (!this.provider || (await this.provider.send('wallet_getPermissions', [])).length === 0) {
       this.provider = undefined
       return
     }
