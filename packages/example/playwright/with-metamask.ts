@@ -325,9 +325,6 @@ export const withMetamaskTest = (baseUrl: string) => {
         await metamaskPage.click(XPath.text('button', 'Connect'))
         log('Metamask connected to the app.')
 
-        await ambirePage.click(XPath.class('div', 'checkbox-mark'))
-        await ambirePage.click(XPath.text('button', 'Done'))
-
         await waitForExpect(async () => {
           expect(await page.isVisible(XPath.text('span', 'Account:'))).to.be.true
           expect(await page.isVisible(XPath.text('span', 'Eth balance:'))).to.be.true
