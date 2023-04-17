@@ -1,11 +1,9 @@
 import { Chain } from '../../constants'
 import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
 
-
-
 const zksyncExplorerUrl = 'https://zksync2-mainnet.zkscan.io/'
 
-export const zkSync: Chain = {
+export const ZkSync: Chain = {
   chainId: 324,
   chainName: 'zkSync Era',
   isTestChain: false,
@@ -21,7 +19,6 @@ export const zkSync: Chain = {
   getExplorerAddressLink: getAddressLink(zksyncExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(zksyncExplorerUrl),
 }
-
 
 export const ZkSyncTestnet: Chain = {
   chainId: 280,
