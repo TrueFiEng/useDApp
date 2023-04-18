@@ -123,7 +123,7 @@ describe('useEthers', () => {
       { config }
     )
 
-    await waitForCurrent((val) => !!val.isLoading)
+    await waitForCurrent((val) => !val.isLoading)
 
     const provider = result.current.library
     const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
