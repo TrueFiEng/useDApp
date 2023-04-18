@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { ChainId } from '../constants'
 import { useReadonlyNetworks } from '../providers/network'
 import { useChainId } from './useChainId'
@@ -21,10 +22,14 @@ export interface ReadonlyNetwork {
 export function useReadonlyNetwork(opts: UseReadonlyProviderOptions = {}): ReadonlyNetwork | undefined {
   const chainId = useChainId({ queryParams: { chainId: opts.chainId } })
   const providers = useReadonlyNetworks()
-  return providers[chainId as ChainId] !== undefined && chainId !== undefined
-    ? {
-        provider: providers[chainId as ChainId]!,
-        chainId: chainId,
-      }
-    : undefined
+  return useMemo(
+    () =>
+      providers[chainId as ChainId] !== undefined && chainId !== undefined
+        ? {
+            provider: providers[chainId as ChainId]!,
+            chainId: chainId,
+          }
+        : undefined,
+    [chainId, providers[chainId as ChainId]]
+  )
 }

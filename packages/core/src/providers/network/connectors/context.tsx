@@ -232,7 +232,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       }
       setErrors([...errors])
     })
-  }, [controller, controller?.getProvider()])
+  }, [controller, controller?.getProvider(), readonlyNetwork])
 
   const { networks, readOnlyUrls } = useConfig()
   const [error, setError] = useState<Error | undefined>(undefined)
