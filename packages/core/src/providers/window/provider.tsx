@@ -12,6 +12,10 @@ export function WindowProvider({ children }: Props) {
   const [isActiveWindow, setActiveWindow] = useState(true)
 
   useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
     const visibilityChangeListener = () => {
       switch (document.visibilityState) {
         case 'hidden':
