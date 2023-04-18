@@ -189,6 +189,8 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
       void activate(connectors[autoConnectTag], {
         silently: true,
       })
+    } else {
+      setLoading(false)
     }
   }, [])
 
