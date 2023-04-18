@@ -1,5 +1,14 @@
 # @usedapp/core
 
+## 1.2.8
+
+### Patch Changes
+
+- 8716e44: Visibility state check document for existence
+- 2f08a7a: Prevent metamask ghost connect
+- 958cb84: Add ZkSync chain
+- b26772f: Add a readOnlyNetwork dependency to connector context
+
 ## 1.2.7
 
 ### Patch Changes
