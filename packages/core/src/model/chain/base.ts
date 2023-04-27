@@ -8,7 +8,7 @@ export const BaseGoerli: Chain = {
   chainName: 'Base Goerli',
   isTestChain: true,
   isLocalChain: false,
-  multicallAddress: '0x75F59534dd892c1f8a7B172D639FA854D529ada3',
+  multicallAddress: '0x1Be882bE320C2C21849891E441da4829a34e0627',
   rpcUrl: 'https://goerli.base.org',
   nativeCurrency: {
     name: 'Goerli Ether',
