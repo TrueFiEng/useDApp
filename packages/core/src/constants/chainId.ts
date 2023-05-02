@@ -50,6 +50,7 @@ import {
   Optimism,
   Velas,
   VelasTestnet,
+  BaseGoerli,
   ZkSync,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
@@ -121,7 +122,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   RootstockTestnet,
   KlaytnTestnet,
   Klaytn,
-  ScrollAlphaTestnet
+  BaseGoerli,
+  ScrollAlphaTestnet,
 ]
 
 export enum ChainId {
@@ -183,5 +185,6 @@ export enum ChainId {
   RootstockTestnet = 31,
   KlaytnTestnet = 1001,
   Klaytn = 8217,
+  BaseGoerli = 84531,
   ScrollAlpha = 534353,
 }
