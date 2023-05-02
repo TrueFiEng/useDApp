@@ -58,6 +58,7 @@ import {
   RootstockTestnet,
   KlaytnTestnet,
   Klaytn,
+  ScrollAlphaTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -120,6 +121,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   RootstockTestnet,
   KlaytnTestnet,
   Klaytn,
+  ScrollAlphaTestnet
 ]
 
 export enum ChainId {
@@ -181,4 +183,5 @@ export enum ChainId {
   RootstockTestnet = 31,
   KlaytnTestnet = 1001,
   Klaytn = 8217,
+  ScrollAlpha = 534353,
 }
