@@ -1,7 +1,7 @@
 import { Chain } from '../../constants'
 import { getAddressLink, getTransactionLink } from '../../helpers/chainExplorerLink'
 
-const scrollAlphaExplorerUrl = 'https://scroll.io/alpha/rollupscan'
+const scrollAlphaExplorerUrl = 'https://blockscout.scroll.io/'
 
 export const ScrollAlphaTestnet: Chain = {
   chainId: 534353,
