@@ -1,5 +1,12 @@
 # @usedapp/core
 
+## 1.2.9
+
+### Patch Changes
+
+- 0f7c559: ⛓ Add Scroll Alpha Testnet to chain ID
+- 56a7c5f: ⛓ Add Base Görli test chain
+
 ## 1.2.8
 
 ### Patch Changes
