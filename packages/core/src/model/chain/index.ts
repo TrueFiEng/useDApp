@@ -31,3 +31,7 @@ export * from './klaytn'
 export * from './celo'
 export * from './base'
 export * from './scroll'
+export * from './mantle'
+export * from './linea'
+
+

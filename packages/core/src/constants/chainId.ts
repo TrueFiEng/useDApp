@@ -5,6 +5,7 @@ import {
   Arbitrum,
   ArbitrumRinkeby,
   ArbitrumGoerli,
+  ArbitrumNova,
   Avalanche,
   AvalancheTestnet,
   Aurora,
@@ -60,6 +61,8 @@ import {
   KlaytnTestnet,
   Klaytn,
   ScrollAlphaTestnet,
+  LineaTestnet,
+  MantleTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -71,6 +74,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Arbitrum,
   ArbitrumRinkeby,
   ArbitrumGoerli,
+  ArbitrumNova,
   Aurora,
   AuroraTestnet,
   Mainnet,
@@ -124,6 +128,8 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   Klaytn,
   BaseGoerli,
   ScrollAlphaTestnet,
+  LineaTestnet,
+  MantleTestnet,
 ]
 
 export enum ChainId {
@@ -187,4 +193,7 @@ export enum ChainId {
   Klaytn = 8217,
   BaseGoerli = 84531,
   ScrollAlpha = 534353,
+  LineaTestnet = 59140,
+  ArbitrumNova = 42170,
+  MantleTestnet = 5001,
 }
