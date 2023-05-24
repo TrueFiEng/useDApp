@@ -59,8 +59,7 @@ export const Arbitrum: Chain = {
   getExplorerTransactionLink: getTransactionLink(arbiscanUrl),
 }
 
-
-const arbitrumNovaExplorerUrl = 'https://nova-explorer.arbitrum.io';
+const arbitrumNovaExplorerUrl = 'https://nova-explorer.arbitrum.io'
 
 export const ArbitrumNova: Chain = {
   chainId: 42170,
@@ -77,8 +76,7 @@ export const ArbitrumNova: Chain = {
   blockExplorerUrl: arbitrumNovaExplorerUrl,
   getExplorerAddressLink: getAddressLink(arbitrumNovaExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(arbitrumNovaExplorerUrl),
-};
-
+}
 
 export default {
   ArbitrumNova,
