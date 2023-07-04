@@ -11,9 +11,11 @@
     "access": "public"
   },
   "dependencies": {
+    "@walletconnect/encoding": "^1.0.2",
+    "@walletconnect/ethereum-provider": "^2.8.6",
+    "@walletconnect/modal": "^2.5.9",
     "@walletconnect/sign-client": "^2.3.3",
-    "@walletconnect/universal-provider": "^2.3.3",
-    "@web3modal/standalone": "^2.1.1"
+    "@walletconnect/universal-provider": "^2.3.3"
   },
   "devDependencies": {
     "@usedapp/core": "workspace:*",

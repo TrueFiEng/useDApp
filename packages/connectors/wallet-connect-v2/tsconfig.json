@@ -3,6 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "commonjs",
+    "lib": [
+      "ES2015",
+      "DOM"
+    ],
     "composite": true,
     "declaration": true,
     "sourceMap": true,
