@@ -16,16 +16,16 @@ export class WalletConnectV2Connector implements Connector {
   readonly update = new ConnectorEvent<ConnectorUpdateData>()
 
   private ethereumProvider: EthereumProvider | undefined
-  private readonly chains: string[]
+  private readonly chains: number[]
 
   constructor(private readonly opts: WalletConnectV2ConnectorOptions) {
-    this.chains = opts.chains.map((chain) => `eip155:${chain.chainId}`)
+    this.chains = opts.chains.map((chain) => chain.chainId)
   }
 
   private async init() {
     this.ethereumProvider = await EthereumProvider.init({
       projectId: this.opts.projectId,
-      chains: this.opts.chains.map(({ chainId }) => chainId),
+      chains: this.chains,
       showQrModal: true,
     })
   }
@@ -53,7 +53,7 @@ export class WalletConnectV2Connector implements Connector {
         throw new Error('Could not initialize connector')
       }
       await this.ethereumProvider.connect({
-        chains: this.opts.chains.map(({ chainId }) => chainId),
+        chains: this.chains,
       })
 
       const accounts = await this.ethereumProvider.request({ method: "eth_accounts" }) as string[]
