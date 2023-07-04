@@ -1,5 +1,11 @@
 # @usedapp/wallet-connect-v2-connector
 
+## 1.0.3
+
+### Patch Changes
+
+- 819e1bf: Use @wallectconnect/modal instead of @web3modal/standalone
+
 ## 1.0.2
 
 ### Patch Changes
