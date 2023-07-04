@@ -496,6 +496,7 @@ importers:
       prettier: ^2.0.5
       react: 17.0.1
       react-dom: 17.0.1
+      react-is: ^18.0.0
       react-refresh: ^0.10.0
       rimraf: ^3.0.2
       styled-components: ^5.2.1
@@ -510,7 +511,8 @@ importers:
       ethers: 5.6.9
       react: 17.0.1
       react-dom: 17.0.1_react@17.0.1
-      styled-components: 5.3.3_w7o5yyljkiidx2s2nzb26ottzu
+      react-is: 18.0.0
+      styled-components: 5.3.3_uh3is6e5v5hotr6z3q3do3qix4
     devDependencies:
       '@babel/core': 7.17.5
       '@storybook/addon-actions': 6.4.19_jb5fqug6nhxjm7eddfwacfdt5m
@@ -9428,7 +9430,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.3_w7o5yyljkiidx2s2nzb26ottzu
+      styled-components: 5.3.3_uh3is6e5v5hotr6z3q3do3qix4
     dev: false
 
   /babel-plugin-syntax-jsx/6.18.0:
@@ -13961,7 +13963,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
