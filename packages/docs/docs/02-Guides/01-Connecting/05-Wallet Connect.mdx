@@ -72,14 +72,14 @@ It is possible to create multiple instances of WalletConnectV2Connector, in case
 ```ts
 connectors: {
     ...
-    walletConnectV2-mainnet: new WalletConnectV2Connector({
+    walletConnectV2_mainnet: new WalletConnectV2Connector({
       projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
       chains: [Mainnet],
       rpcMap: {
         1: 'https://optimism.infura.io/v3/<YOUR_INFURA_KEY>',
       },
     }),
-    walletConnectV2-optimism: new WalletConnectV2Connector({
+    walletConnectV2_optimism: new WalletConnectV2Connector({
       projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
       chains: [Optimism],
       rpcMap: {
