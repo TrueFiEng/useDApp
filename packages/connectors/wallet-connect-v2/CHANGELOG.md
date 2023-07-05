@@ -1,5 +1,11 @@
 # @usedapp/wallet-connect-v2-connector
 
+## 1.0.4
+
+### Patch Changes
+
+- 9b69b70: Add Readme
+
 ## 1.0.3
 
 ### Patch Changes
