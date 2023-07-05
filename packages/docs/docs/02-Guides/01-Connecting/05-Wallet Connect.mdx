@@ -51,6 +51,7 @@ const handleConnectWalletConnect = () => {
 In WalletConnect v2 you must specify the supported chains by your dapp before connecting to the wallet. This can cause issues with some wallets. For instance, Gnosis Safe rejects connection attempts if:
 - the correct chain id is not specified, or
 - if there is more than one chain id specified. 
+
 The solution is to set only one chain id in the `chains` array in the connector config. For instance, if you want to support only Optimsim, you can do the following:
 
 ```ts
