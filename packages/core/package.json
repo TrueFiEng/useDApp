@@ -64,15 +64,15 @@
     "wait-for-expect": "^3.0.2"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs && yarn build:cli",
+    "build": "pnpm run build:esm && pnpm run build:cjs && pnpm build:cli",
     "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
     "build:cli": "tsc ./generate-hooks/generate-hooks.ts --outDir bin && chmod +x bin/*",
     "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
+    "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
+    "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test}/**/*.{ts,tsx}'"
+    "lint:prettier": "pnpm prettier './{src,test}/**/*.{ts,tsx}'"
   },
   "publishConfig": {
     "access": "public"

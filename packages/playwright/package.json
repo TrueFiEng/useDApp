@@ -6,8 +6,8 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "prettier --write ./src && yarn lint:eslint --fix",
+    "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
+    "lint:fix": "prettier --write ./src && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check ./src",
     "postinstall": "unzip -n metamask-chrome-10.12.4.zip -d ./metamask-chrome-10.12.4"
