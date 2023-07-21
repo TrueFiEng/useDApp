@@ -5,6 +5,7 @@
     "node": ">=10",
     "yarn": "^1.17.3"
   },
+  "packageManager": "pnpm@7.1.9",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "lint": "pnpm run -r lint",
