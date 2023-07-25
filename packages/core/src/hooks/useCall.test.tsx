@@ -1,4 +1,4 @@
-import { BigNumber, constants, Contract } from 'ethers'
+import { Contract, ZeroAddress } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
@@ -219,7 +219,7 @@ describe('useCall', () => {
         contract: Contract,
         args: string[],
         chainId: number,
-        endValue: BigNumber,
+        endValue: BigInt,
         // eslint-disable-next-line no-undef
         config: Awaited<ReturnType<typeof setupTestingConfig>>['config']
       ) => {
@@ -480,7 +480,7 @@ describe('useCall', () => {
         })
 
         it('Returns error if too many arguments', async () => {
-          const args = [constants.AddressZero, constants.AddressZero]
+          const args = [ZeroAddress, ZeroAddress]
           const { result, waitForCurrent } = await renderDAppHook(
             () =>
               useCall({
@@ -540,12 +540,12 @@ describe('useCall', () => {
         expect(result.current[2]?.error?.message).to.eq(
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(4))
         expect(result.current[3]?.error).to.be.undefined
 
         rerender({ num: 3 })
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[0]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[0]?.error).to.be.undefined
 
         expect(result.current[1]?.error).to.be.undefined
@@ -556,7 +556,7 @@ describe('useCall', () => {
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
 
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[3]?.error).to.be.undefined
       })
     })

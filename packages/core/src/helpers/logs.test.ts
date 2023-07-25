@@ -1,13 +1,10 @@
 import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
-import { constants } from 'ethers'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
-import { BigNumber, Contract, ethers } from 'ethers'
+import { Contract, id, zeroPadValue, ZeroAddress, toBeHex } from 'ethers'
 import { TypedFilter } from '../hooks'
 import { deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'
-
-const AddressZero = constants.AddressZero
 
 describe('encodeFilterData', () => {
   const mockProvider = new MockProvider()
@@ -74,7 +71,7 @@ describe('encodeFilterData', () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
-      args: [AddressZero, AddressZero, 10],
+      args: [ZeroAddress, ZeroAddress, 10],
     }
 
     const encodedFilterData = encodeFilterData(filter, 0, 'latest')
@@ -86,7 +83,7 @@ describe('encodeFilterData', () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
-      args: [AddressZero, AddressZero, null, AddressZero],
+      args: [ZeroAddress, ZeroAddress, null, ZeroAddress],
     }
 
     const encodedFilterData = encodeFilterData(filter, 0, 'latest')
@@ -163,11 +160,11 @@ describe('decodeLogs', () => {
       {
         address: token.address,
         topics: [
-          ethers.utils.id('Transfer2(address,address,uint256)'),
-          ethers.utils.hexZeroPad(AddressZero, 32),
-          ethers.utils.hexZeroPad(AddressZero, 32),
+          id('Transfer2(address,address,uint256)'),
+          zeroPadValue(ZeroAddress, 32),
+          zeroPadValue(ZeroAddress, 32),
         ],
-        data: ethers.utils.hexZeroPad(AddressZero, 32),
+        data: zeroPadValue(ZeroAddress, 32),
         blockHash: '0x0',
         blockNumber: 0,
         logIndex: 0,
@@ -190,9 +187,9 @@ describe('decodeLogs', () => {
       args: [],
     }
 
-    const from = AddressZero
+    const from = ZeroAddress
     const to = deployer.address
-    const value = BigNumber.from(1)
+    const value = BigInt(1)
     const blockHash = '0x0'
     const blockNumber = 1
     const logIndex = 2
@@ -203,12 +200,8 @@ describe('decodeLogs', () => {
     const logs: Log[] = [
       {
         address: token.address,
-        topics: [
-          ethers.utils.id('Transfer(address,address,uint256)'),
-          ethers.utils.hexZeroPad(from, 32),
-          ethers.utils.hexZeroPad(to, 32),
-        ],
-        data: ethers.utils.hexZeroPad(ethers.utils.hexlify(value), 32),
+        topics: [id('Transfer(address,address,uint256)'), zeroPadValue(from, 32), zeroPadValue(to, 32)],
+        data: zeroPadValue(toBeHex(value), 32),
         blockHash,
         blockNumber,
         logIndex,
@@ -218,12 +211,8 @@ describe('decodeLogs', () => {
       },
       {
         address: token.address,
-        topics: [
-          ethers.utils.id('Transfer(address,address,uint256)'),
-          ethers.utils.hexZeroPad(from, 32),
-          ethers.utils.hexZeroPad(to, 32),
-        ],
-        data: ethers.utils.hexZeroPad(ethers.utils.hexlify(value), 32),
+        topics: [id('Transfer(address,address,uint256)'), zeroPadValue(from, 32), zeroPadValue(to, 32)],
+        data: zeroPadValue(toBeHex(value), 32),
         blockHash,
         blockNumber,
         logIndex,

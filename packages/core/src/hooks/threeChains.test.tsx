@@ -1,9 +1,8 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
 import { MockProvider } from 'ethereum-waffle'
-import { Contract, providers, Wallet } from 'ethers'
+import { Contract, Provider, Wallet, ZeroAddress } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
-import { BigNumber, constants } from 'ethers'
 import { deployContract, solidity } from 'ethereum-waffle'
 import { doublerContractABI, MultiCall, timestampContractABI } from '../constants/abi'
 import { expect, use } from 'chai'
@@ -15,7 +14,7 @@ const FIRST_TEST_CHAIN_ID = 1337
 const THIRD_TEST_CHAIN_ID = 31338
 
 interface ChainData {
-  provider: providers.BaseProvider
+  provider: Provider
   deployer: Wallet
   mineBlock?: () => Promise<void>
   isBlockMining?: boolean
@@ -52,7 +51,7 @@ describe('useCall - three chains', () => {
     const mineBlock = async () => {
       if (!chains[chainId].isBlockMining) {
         chains[chainId].isBlockMining = true
-        const tx = await deployer.sendTransaction({ to: constants.AddressZero, value: 0 })
+        const tx = await deployer.sendTransaction({ to: ZeroAddress, value: 0 })
         await tx.wait()
         chains[chainId].isBlockMining = false
       }
@@ -97,7 +96,7 @@ describe('useCall - three chains', () => {
       { chainId }
     )
 
-  const useDoubler = (chainId: number) => (arr: BigNumber[] | undefined) =>
+  const useDoubler = (chainId: number) => (arr: BigInt[] | undefined) =>
     useCalls(
       arr === undefined
         ? []

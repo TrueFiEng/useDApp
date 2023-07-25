@@ -1,12 +1,12 @@
 import { ChainId } from '../../../constants'
-import type { providers } from 'ethers'
+import type { Provider } from 'ethers'
 
 export interface NetworkState {
   errors: Error[]
 }
 
 export type Providers = {
-  [chainId in ChainId]?: providers.BaseProvider
+  [chainId in ChainId]?: Provider
 }
 
 export type NetworkStates = {

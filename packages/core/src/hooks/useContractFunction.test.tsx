@@ -1,6 +1,6 @@
 import { Config, useContractFunction } from '../../src'
 import { expect } from 'chai'
-import { BigNumber, Contract, ethers, Wallet } from 'ethers'
+import { Contract, ethers, Wallet } from 'ethers'
 import { deployMockToken, setupTestingConfig, TestingNetwork } from '../../src/testing'
 import { renderDAppHook } from '../testing/renderDAppHook'
 
@@ -60,7 +60,7 @@ describe('useContractFunction', () => {
     expect(event?.name).to.eq('Approval')
     expect(event?.args['owner']).to.eq(network1.deployer.address)
     expect(event?.args['spender']).to.eq(spender.address)
-    expect(event?.args['value']).to.eq(BigNumber.from(200))
+    expect(event?.args['value']).to.eq(BigInt(200))
     expect(result.current?.state.transactionName).to.eq('Approve')
   })
 

@@ -1,12 +1,9 @@
-import { ethers, providers } from 'ethers'
+import { Wallet, type Provider, type JsonRpcProvider, type FallbackProvider } from 'ethers'
 import { TransactionOptions } from '../model'
 
-type BaseProvider = providers.BaseProvider
-type JsonRpcProvider = providers.JsonRpcProvider
-type FallbackProvider = providers.FallbackProvider
 
 export const getSignerFromOptions = (
-  provider: BaseProvider,
+  provider: Provider,
   options?: TransactionOptions,
   library?: JsonRpcProvider | FallbackProvider
 ) => {
@@ -15,11 +12,11 @@ export const getSignerFromOptions = (
   const json = options && 'json' in options && options.json
   const password = options && 'password' in options && options.password
 
-  const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
+  const privateKeySigner = privateKey && provider && new Wallet(privateKey, provider)
   const mnemonicPhraseSigner =
-    mnemonicPhrase && provider && ethers.Wallet.fromMnemonic(mnemonicPhrase).connect(provider)
+    mnemonicPhrase && provider && Wallet.fromPhrase(mnemonicPhrase).connect(provider)
   const encryptedJsonSigner =
-    json && password && provider && ethers.Wallet.fromEncryptedJsonSync(json, password).connect(provider)
+    json && password && provider && Wallet.fromEncryptedJsonSync(json, password).connect(provider)
 
   const optionsSigner = options && 'signer' in options && options.signer
 

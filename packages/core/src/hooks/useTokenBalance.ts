@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { Contract } from 'ethers'
 import { ERC20Interface } from '../constants'
 import { QueryParams } from '../constants/type/QueryParams'
@@ -25,7 +24,7 @@ export function useTokenBalance(
   tokenAddress: string | Falsy,
   address: string | Falsy,
   queryParams: QueryParams = {}
-): BigNumber | undefined {
+): BigInt | undefined {
   const { value: tokenBalance } =
     useCall(
       address &&

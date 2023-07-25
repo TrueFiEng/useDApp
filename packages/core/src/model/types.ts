@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { Contract, ContractTransaction } from "ethers"
+import { Contract, ContractTransaction, FunctionFragment } from "ethers"
 
 export type Falsy = false | 0 | '' | null | undefined
 

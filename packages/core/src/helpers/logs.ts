@@ -1,4 +1,4 @@
-import { utils } from 'ethers'
+import {type EventFragment} from 'ethers'
 import type { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { TypedFilter } from '../hooks/useLogs'
 import { Awaited, ContractEventNames, DetailedEventRecord, EventRecord, Falsy, TypedContract } from '../model/types'
@@ -31,8 +31,10 @@ export function encodeFilterData(
     warnOnInvalidFilter(filter)
     return undefined
   }
+  contract.getAddress
+
   try {
-    const encodedTopics = contract.interface.encodeFilterTopics((event as unknown) as utils.EventFragment, args)
+    const encodedTopics = contract.interface.encodeFilterTopics((event as unknown) as EventFragment, args)
 
     if (blockHash) {
       return {

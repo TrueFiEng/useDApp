@@ -1,11 +1,11 @@
 import { Chain } from '../../constants'
 import { Connector } from '../../providers/network/connectors/connector'
-import { providers } from 'ethers'
+import { Provider } from 'ethers'
 
-export type BaseProviderFactory = () => providers.BaseProvider
+export type BaseProviderFactory = () => Provider
 
 export type NodeUrls = {
-  [chainId: number]: string | providers.BaseProvider | BaseProviderFactory
+  [chainId: number]: string | Provider | BaseProviderFactory
 }
 
 export type MulticallAddresses = {

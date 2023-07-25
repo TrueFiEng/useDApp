@@ -1,14 +1,14 @@
-import { ContractFactory, ethers } from 'ethers'
+import { ContractFactory, type BytesLike, type JsonRpcSigner, type TransactionReceipt, type Interface } from 'ethers'
 
 interface ContractAbi {
-  abi: ethers.ContractInterface
-  bytecode: ethers.utils.BytesLike
+  abi: Interface,
+  bytecode: BytesLike
 }
 
 export async function deployContract(
   contractAbi: ContractAbi,
-  signer: ethers.providers.JsonRpcSigner
-): Promise<ethers.providers.TransactionReceipt> {
+  signer: JsonRpcSigner
+): Promise<TransactionReceipt> {
   const factory = new ContractFactory(contractAbi.abi, contractAbi.bytecode, signer)
   const contract = await factory.deploy()
   return await contract.deployTransaction.wait()
