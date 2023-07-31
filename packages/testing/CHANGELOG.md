@@ -1,5 +1,12 @@
 # @usedapp/testing
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [8dad4e5]
+  - @usedapp/core@1.2.10
+
 ## 1.1.15
 
 ### Patch Changes

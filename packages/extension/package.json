@@ -6,8 +6,8 @@
     "start": "webpack serve --mode development",
     "build:dev": "webpack --mode development",
     "build": "tsc --noEmit && rimraf build && webpack --mode production --progress",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "prettier --write . && yarn lint:eslint --fix",
+    "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
+    "lint:fix": "prettier --write . && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './{src,test}/**/*.{ts,tsx}'",
     "lint:prettier": "prettier --check .",
     "test": "mocha",
@@ -20,6 +20,7 @@
     "ethers": "5.6.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-is": "^18.0.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
