@@ -51,6 +51,7 @@ import {
   Velas,
   VelasTestnet,
   BaseGoerli,
+  Base,
   ZkSync,
   ZkSyncTestnet,
   ArbitrumRedditTestnet,
@@ -123,6 +124,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   KlaytnTestnet,
   Klaytn,
   BaseGoerli,
+  Base,
   ScrollAlphaTestnet,
 ]
 
@@ -186,5 +188,6 @@ export enum ChainId {
   KlaytnTestnet = 1001,
   Klaytn = 8217,
   BaseGoerli = 84531,
+  Base=8453,
   ScrollAlpha = 534353,
 }
