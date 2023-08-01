@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.11
+
+### Patch Changes
+
+- c112082: ⛓ Add Base Mainnet to chain ID
+
 ## 1.2.10
 
 ### Patch Changes
