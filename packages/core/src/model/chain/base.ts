@@ -22,7 +22,6 @@ export const BaseGoerli: Chain = {
 
 const baseUrl = 'https://basescan.org'
 
-
 export const Base: Chain = {
   chainId: 8453,
   chainName: 'Base',
@@ -40,4 +39,7 @@ export const Base: Chain = {
   getExplorerTransactionLink: getTransactionLink(baseUrl),
 }
 
-export default { BaseGoerli,Base}
+export default {
+  BaseGoerli,
+  Base,
+}

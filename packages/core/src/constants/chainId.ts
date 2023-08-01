@@ -188,6 +188,6 @@ export enum ChainId {
   KlaytnTestnet = 1001,
   Klaytn = 8217,
   BaseGoerli = 84531,
-  Base=8453,
+  Base = 8453,
   ScrollAlpha = 534353,
 }
