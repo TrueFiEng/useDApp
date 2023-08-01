@@ -31,7 +31,6 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
-        if: ${{ github.event_name == 'pull_request' }} # Deployed separately to production on release
 
       - name: Deploy example.usedapp.io
         uses: nwtgck/actions-netlify@v1.2

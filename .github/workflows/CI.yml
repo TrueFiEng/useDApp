@@ -81,9 +81,9 @@ jobs:
         run: |
           set -e
           pnpm run generate
-          yarn start &
+          pnpm start &
           sleep 15
-          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test:playwright
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
         env:
           MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
           DEBUG: usedapp*

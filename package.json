@@ -5,20 +5,20 @@
     "node": ">=10",
     "yarn": "^1.17.3"
   },
+  "packageManager": "pnpm@7.1.9",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "lint": "wsrun -c -s lint",
-    "lint:fix": "wsrun -c -s lint:fix",
+    "lint": "pnpm run -r lint",
+    "lint:fix": "pnpm run -r lint:fix",
     "build": "pnpm run -r build",
-    "test": "wsrun -e -c -s --exclude-missing test",
+    "test": "pnpm run -r test",
     "version": "pnpm changeset version && pnpm install",
     "release": "pnpm build && pnpm changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
     "ethers": "5.6.9",
-    "prettier": "2.1.2",
-    "wsrun": "^5.2.1"
+    "prettier": "2.1.2"
   },
   "resolutions": {
     "ethers": "5.6.9"

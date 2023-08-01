@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/testing",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "git@github.com:TrueFiEng/useDApp.git",
@@ -38,9 +38,9 @@
   "scripts": {
     "build": "tsc",
     "test": "true",
-    "lint": "yarn lint:prettier --check && yarn lint:eslint",
-    "lint:fix": "yarn lint:prettier --write && yarn lint:eslint --fix",
+    "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
+    "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",
     "lint:eslint": "eslint './{src,test,examples}/**/*.{ts,tsx}'",
-    "lint:prettier": "yarn prettier './{src,test,examples}/**/*.{ts,tsx}'"
+    "lint:prettier": "pnpm prettier './{src,test,examples}/**/*.{ts,tsx}'"
   }
 }

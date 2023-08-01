@@ -1,15 +1,6 @@
 # Wallet Connect
 
-In this tutorial, we will go through the steps of integrating WalletConnect into your dapp (you can read more about this wallet on: https://walletconnect.com/).
-
-## Example
-
-Below is a simple example:
-
-import { ExampleContainer } from '/src/examples/ExampleContainer'
-import WalletConnectExample from '../../../example-loader.js!/src/examples/WalletConnectExample.tsx'
-
-<ExampleContainer example={WalletConnectExample}/>
+In this tutorial, we will go through the steps of integrating WalletConnect into your dapp (you can read more about this wallet at: https://walletconnect.com/).
 
 ## Prerequisites
 
@@ -17,90 +8,85 @@ The tutorial assumes the user has already started with the basics of `useDApp`.
 
 See the [Getting Started](/docs) guide if you are a new user.
 
-Config Your DAppProvider before integrating WalletConnect.
+## WalletConnect v1 vs v2
 
-## Motivation
+[WalletConnect v1 has been shut down on June 28, 2023.](https://docs.walletconnect.com/2.0/advanced/migration-from-v1.x/overview) The only official WalletConnect version is now v2.
 
-By default, programatic API like Infura/Alchemy and MetaMask wallets are supported.
-This tutorial shows the way to use other wallet.
+`usedapp` provides `WalletConnectV2Connector` which is compatible with the changes. To use it, install `@usedapp/wallet-connect-v2-connector` package and add the following config to your dapp: 
 
-## Import necessary things:
+```ts
+connectors: {
+    ...
+    walletConnectV2: new WalletConnectV2Connector({
+      projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
+      chains: [Mainnet],
+      rpcMap: {
+        1: 'https://mainnet.infura.io/v3/<YOUR_INFURA_KEY>',
+      },
+    }),
+    ...
+  },
+```
 
-```tsx
-import WalletConnectProvider from '@walletconnect/web3-provider'
+Now you can connect to WalletConnect v2 by calling `activateBrowserWallet` with the connector name:
+
+```ts
 import { useEthers } from '@usedapp/core'
-```
 
-## Take 'activate' function
+...
 
-It allows us to activate custom provider (default is MetaMask).
+const { activateBrowserWallet } = useEthers()
 
-```tsx
-const { activate } = useEthers()
-```
+...
 
-## Write custom connect function
-
-It overrides current provider by WalletConnect one.
-
-```tsx
-async function onConnect() {
-  const provider = new WalletConnectProvider({
-    infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
-  })
-  await provider.enable()
-  activate(provider)
-}// change infuraId to yours
-```
-
-## Add connect function trigger
-
-It allows us to connect after clicking button.
-```tsx
-<button onClick={onConnect}>Connect</button>
-```
-
-## Create component which use your connect function
-
-Here is an example of complex usage:
-
-```tsx title="example/pages/WalletConnect.tsx"
-import React from 'react'
-import { useEthers } from '@usedapp/core'
-import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
-import { Label } from '../typography/Label'
-import { TextInline } from '../typography/Text'
-import { Title } from '../typography/Title'
-import { Button } from '../components/base/Button'
-import WalletConnectProvider from '@walletconnect/web3-provider'
-
-const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
-
-export function WalletConnect() {
-  const { activate } = useEthers()
-
-  async function onConnect() {
-    const provider = new WalletConnectProvider({
-      infuraId: 'd8df2cb7844e4a54ab0a782f608749dd',
-    })
-    await provider.enable()
-    activate(provider)
-  }
-
-  return (
-    <MainContent>
-      <Container>
-        <Section>
-          <SectionRow>
-            <Title>WalletConnect Usage Example</Title>
-            <Button onClick={onConnect}>Connect</Button>
-        </Section>
-      </Container>
-    </MainContent>
-  )
+const handleConnectWalletConnect = () => {
+    activateBrowserWallet({ type: 'walletConnectV2' })
 }
 ```
 
-## Summary
+## Known issues
 
-In this tutorial we created a simple DApp that allows us to connect with custom wallet. This demonstrates how to connect to WalletConnect in `useDApp`. 
+### Chain ID
+
+In WalletConnect v2 you must specify the supported chains by your dapp before connecting to the wallet. This can cause issues with some wallets. For instance, Gnosis Safe rejects connection attempts if:
+- the correct chain id is not specified, or
+- if there is more than one chain id specified. 
+
+The solution is to set only one chain id in the `chains` array in the connector config. For instance, if you want to support only Optimsim, you can do the following:
+
+```ts
+connectors: {
+    ...
+    walletConnectV2: new WalletConnectV2Connector({
+      projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
+      chains: [Optimism],
+      rpcMap: {
+        1: 'https://optimism.infura.io/v3/<YOUR_INFURA_KEY>',
+      },
+    }),
+    ...
+  },
+```
+
+It is possible to create multiple instances of WalletConnectV2Connector, in case your app needs to support Gnosis Safe on multiple chains:
+
+```ts
+connectors: {
+    ...
+    walletConnectV2_mainnet: new WalletConnectV2Connector({
+      projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
+      chains: [Mainnet],
+      rpcMap: {
+        1: 'https://optimism.infura.io/v3/<YOUR_INFURA_KEY>',
+      },
+    }),
+    walletConnectV2_optimism: new WalletConnectV2Connector({
+      projectId: <YOUR_WALLETCONNECT_PROJECT_ID>,
+      chains: [Optimism],
+      rpcMap: {
+        1: 'https://mainnet.infura.io/v3/<YOUR_INFURA_KEY>',
+      },
+    }),
+    ...
+  },
+```

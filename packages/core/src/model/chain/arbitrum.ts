@@ -59,7 +59,27 @@ export const Arbitrum: Chain = {
   getExplorerTransactionLink: getTransactionLink(arbiscanUrl),
 }
 
+const arbitrumNovaExplorerUrl = 'https://nova-explorer.arbitrum.io'
+
+export const ArbitrumNova: Chain = {
+  chainId: 42170,
+  chainName: 'Arbitrum Nova',
+  isTestChain: false,
+  isLocalChain: false,
+  multicallAddress: '0x4E74EBd9CABff51cE9a43EFe059bA8c5A28E4A14',
+  rpcUrl: 'https://nova.arbitrum.io/rpc',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrl: arbitrumNovaExplorerUrl,
+  getExplorerAddressLink: getAddressLink(arbitrumNovaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(arbitrumNovaExplorerUrl),
+}
+
 export default {
+  ArbitrumNova,
   ArbitrumRinkeby,
   Arbitrum,
 }

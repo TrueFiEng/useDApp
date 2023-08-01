@@ -1,5 +1,13 @@
 # @usedapp/core
 
+## 1.2.10
+
+### Patch Changes
+
+- 8dad4e5: ⛓ Add Linea Testnet to chain ID
+  ⛓ Add Mantle Testnet to chain ID
+  ⛓ Add Arbitrum Nova to chain ID
+
 ## 1.2.9
 
 ### Patch Changes
