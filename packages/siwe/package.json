@@ -22,7 +22,7 @@
   "peerDependencies": {
     "@usedapp/core": "*",
     "react": "*",
-    "ethers": "*"
+    "ethers": "6.7.0"
   },
   "dependencies": {
     "siwe": "^1.1.6"
