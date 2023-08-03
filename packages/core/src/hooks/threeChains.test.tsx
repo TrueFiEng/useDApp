@@ -1,24 +1,18 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import { MockProvider } from 'ethereum-waffle'
-import { Contract, providers, Wallet } from 'ethers'
+import { Contract, HDNodeWallet, JsonRpcSigner, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
-import { BigNumber, constants } from 'ethers'
-import { deployContract, solidity } from 'ethereum-waffle'
 import { doublerContractABI, MultiCall, timestampContractABI } from '../constants/abi'
-import { expect, use } from 'chai'
+import { expect } from 'chai'
 import { randomInt } from 'crypto'
-
-use(solidity)
+import { GanacheProvider } from "@ethers-ext/provider-ganache";
 
 const FIRST_TEST_CHAIN_ID = 1337
 const THIRD_TEST_CHAIN_ID = 31338
 
 interface ChainData {
-  provider: providers.BaseProvider
-  deployer: Wallet
-  mineBlock?: () => Promise<void>
-  isBlockMining?: boolean
+  provider: GanacheProvider
+  deployer: JsonRpcSigner
   mineBlockTimerId?: number
   timestampContract?: Contract
   doublerContract?: Contract
@@ -40,24 +34,6 @@ describe('useCall - three chains', () => {
     const entries = Object.entries(chains).map(([chainId, data]) => [chainId, data[prop]])
     const filteredEntries = entries.filter(([, value]) => value !== undefined)
     return Object.fromEntries(filteredEntries)
-  }
-
-  for (const chainId of chainIds) {
-    const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
-    const [deployer] = provider.getWallets()
-    chains[chainId] = {
-      provider,
-      deployer,
-    }
-    const mineBlock = async () => {
-      if (!chains[chainId].isBlockMining) {
-        chains[chainId].isBlockMining = true
-        const tx = await deployer.sendTransaction({ to: constants.AddressZero, value: 0 })
-        await tx.wait()
-        chains[chainId].isBlockMining = false
-      }
-    }
-    chains[chainId].mineBlock = mineBlock
   }
 
   beforeEach(async () => {

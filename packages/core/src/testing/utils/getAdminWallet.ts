@@ -1,5 +1,5 @@
-import { MockProvider } from 'ethereum-waffle'
+import { GanacheProvider } from "@ethers-ext/provider-ganache";
 
-export async function getAdminWallet(provider: MockProvider) {
-  return await provider.getWallets()[9]
+export async function getAdminWallet(provider: GanacheProvider) {
+  return (await provider.listAccounts())[9]
 }

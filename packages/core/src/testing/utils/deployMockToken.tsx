@@ -1,12 +1,14 @@
-import { BigNumber, utils, Wallet } from 'ethers'
-import { deployContract } from 'ethereum-waffle'
+import { Contract, ContractFactory, Wallet, parseEther } from 'ethers'
 import { ERC20Mock } from '../../constants'
 
-export const MOCK_TOKEN_INITIAL_BALANCE = utils.parseEther('10')
+export const MOCK_TOKEN_INITIAL_BALANCE = parseEther('10')
 export const SECOND_TEST_CHAIN_ID = 31337
-export const SECOND_MOCK_TOKEN_INITIAL_BALANCE = BigNumber.from(2000)
+export const SECOND_MOCK_TOKEN_INITIAL_BALANCE = BigInt(2000)
 
-export async function deployMockToken(deployer: Wallet, initialBalance?: BigNumber) {
+export async function deployMockToken(deployer: Wallet, initialBalance?: BigInt) {
   const args = ['MOCKToken', 'MOCK', deployer.address, initialBalance ?? MOCK_TOKEN_INITIAL_BALANCE]
-  return await deployContract(deployer, ERC20Mock, args)
+  const contractFactory = new ContractFactory(ERC20Mock.abi, ERC20Mock.bytecode, deployer)
+  const contract = await contractFactory.deploy(...args)
+  await contract.deploymentTransaction()?.wait();
+  return contract as any as Contract;
 }

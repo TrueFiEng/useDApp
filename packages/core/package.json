@@ -25,10 +25,11 @@
     "nanoid": "3.3.4"
   },
   "peerDependencies": {
-    "ethers": "^5",
+    "ethers": "6.7.0",
     "react": "*"
   },
   "devDependencies": {
+    "@ethers-ext/provider-ganache": "6.0.0-beta.2",
     "@ethersproject/abi": "5.6.1",
     "@ethersproject/abstract-provider": "^5.6.1",
     "@ethersproject/providers": "5.6.2",
@@ -48,9 +49,8 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "ethereum-waffle": "4.0.4",
-    "ethers": "5.6.9",
-    "ganache": "7.0.3",
+    "ethers": "6.7.0",
+    "ganache": "7.9.0",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
