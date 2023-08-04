@@ -113,12 +113,12 @@ describe('useEthers', () => {
   it('return signer if library is type of JsonRpcProvider', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
-        const { activate } = useEthers()
+        const { activate, library, error, isLoading } = useEthers()
         useEffect(() => {
           void activate(network1.provider)
         }, [])
 
-        return useEthers()
+        return { library, error, isLoading }
       },
       { config }
     )
