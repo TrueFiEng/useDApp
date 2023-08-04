@@ -70,6 +70,6 @@ describe('useUniswapPrice', () => {
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(price)
+    expect(result.current?.toString()).to.eq(price.toString())
   })
 })
