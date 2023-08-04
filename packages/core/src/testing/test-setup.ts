@@ -1,6 +1,5 @@
 import 'mock-local-storage'
 import chai from 'chai'
-import { solidity } from 'ethereum-waffle'
 import chaiAsPromised from 'chai-as-promised'
 
 let jsdomCleanup: any
@@ -10,5 +9,4 @@ before(() => {
 })
 after(() => jsdomCleanup?.())
 
-chai.use(solidity)
 chai.use(chaiAsPromised)

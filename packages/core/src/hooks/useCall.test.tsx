@@ -11,11 +11,11 @@ import {
   getResultPropertyError,
   TestingNetwork,
 } from '../testing'
-import { deployContract } from 'ethereum-waffle'
 import { BlockNumberContract, reverterContractABI, doublerContractABI, Config } from '../constants'
 import waitForExpect from 'wait-for-expect'
 import { errorsContractABI } from '../constants/abi/errors'
 import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
+import { deployContract } from '../testing/utils/deployContract'
 
 describe('useCall', () => {
   for (const multicallVersion of [1, 2] as const) {

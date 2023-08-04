@@ -13,7 +13,7 @@ import {
 } from '@usedapp/playwright'
 import { BigNumber, utils, Wallet, providers } from 'ethers'
 import Ganache, { Server } from 'ganache'
-import { defaultAccounts } from 'ethereum-waffle'
+import { defaultAccounts } from './constants'
 
 const log = debug('usedapp:example:playwright')
 

@@ -131,10 +131,9 @@ importers:
       chai-as-promised: ^7.1.1
       eslint: 7.22.0
       eslint-plugin-react-hooks: ^4.3.0
-      ethereum-waffle: 4.0.4
       ethers: 5.6.9
       fetch-mock: ^9.11.0
-      ganache: 7.0.3
+      ganache: 7.9.0
       jsdom: ^16.4.0
       jsdom-global: ^3.0.2
       lodash.merge: ^4.6.2
@@ -176,9 +175,8 @@ importers:
       chai-as-promised: 7.1.1_chai@4.3.6
       eslint: 7.22.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.22.0
-      ethereum-waffle: 4.0.4_typescript@4.6.2
       ethers: 5.6.9
-      ganache: 7.0.3
+      ganache: 7.9.0
       jsdom: 16.7.0
       jsdom-global: 3.0.2_jsdom@16.7.0
       mocha: 8.4.0
@@ -3480,7 +3478,7 @@ packages:
       ethers: 5.6.9
       mkdirp: 0.5.5
       node-fetch: 2.6.7
-      solc: 0.8.15
+      solc: 0.8.15_debug@4.3.4
       typechain: 8.1.0_typescript@4.6.2
     transitivePeerDependencies:
       - bufferutil
@@ -6520,6 +6518,15 @@ packages:
       node-gyp-build: 4.3.0
     dev: true
 
+  /@trufflesuite/uws-js-unofficial/20.10.0-unofficial.2:
+    resolution: {integrity: sha512-oQQlnS3oNeGsgS4K3KCSSavJgSb0W9D5ktZs4FacX9VbM7b+NlhjH96d6/G4fMrz+bc5MXRyco419on0X0dvRA==}
+    dependencies:
+      ws: 8.2.3_lfy3lj2jvemch5kgpjwtdixywm
+    optionalDependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
+    dev: true
+
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -6844,6 +6851,10 @@ packages:
     resolution: {integrity: sha512-uwc1x90yCKqGcIOAT6DwOSuxnrAbpkdPsUOZtwrXb4D/6wZs+6qG7QnIawDuZWg0sWpxl+ltIKCaLoMlna678w==}
     dev: true
 
+  /@types/lru-cache/5.1.1:
+    resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
+    dev: true
+
   /@types/mdast/3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
     dependencies:
@@ -7024,6 +7035,10 @@ packages:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
       '@types/node': 17.0.21
+
+  /@types/seedrandom/3.0.1:
+    resolution: {integrity: sha512-giB9gzDeiCeloIXDgzFBCgjj1k4WxcDrZtGl6h1IqmUPlxF+Nx8Ve+96QCyDZ/HseB/uvDsKbpib9hU5cU53pw==}
+    dev: true
 
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
@@ -8602,6 +8617,19 @@ packages:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
     dev: true
 
+  /abstract-level/1.0.3:
+    resolution: {integrity: sha512-t6jv+xHy+VYwc4xqZMn2Pa9DjcdzvzZmQGRjTFc8spIbRGHgBrEKbPq+rYXc7CCo0lxgYvSgKVg9qZAhpVQSjA==}
+    engines: {node: '>=12'}
+    dependencies:
+      buffer: 6.0.3
+      catering: 2.1.1
+      is-buffer: 2.0.5
+      level-supports: 4.0.1
+      level-transcoder: 1.0.1
+      module-error: 1.0.2
+      queue-microtask: 1.2.3
+    dev: true
+
   /abstract-leveldown/2.6.3:
     resolution: {integrity: sha512-2++wDf/DYqkPR3o5tbfdhF96EfMApo1GpPfzOsR/ZYXdkSmELlvOOEAl9iKkRsktMPHdGjO4rtkBpf2I7TiTeA==}
     dependencies:
@@ -10148,7 +10176,6 @@ packages:
     dependencies:
       node-gyp-build: 4.3.0
     dev: true
-    optional: true
 
   /builtin-status-codes/3.0.0:
     resolution: {integrity: sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==}
@@ -14166,17 +14193,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.14.9_debug@4.3.4:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
     engines: {node: '>=4.0'}
@@ -14527,6 +14543,28 @@ packages:
       bufferutil: 4.0.5
       utf-8-validate: 5.0.7
     dev: true
+
+  /ganache/7.9.0:
+    resolution: {integrity: sha512-KdsTZaAKqDXTNDMKnLzg0ngX8wnZKyVGm7HD03GIyUMVRuXI83s0CUEaGIDWRUWTQP7BE8sDh7QtbW+NoX4zrQ==}
+    hasBin: true
+    dependencies:
+      '@trufflesuite/uws-js-unofficial': 20.10.0-unofficial.2
+      '@types/bn.js': 5.1.0
+      '@types/lru-cache': 5.1.1
+      '@types/seedrandom': 3.0.1
+      abstract-level: 1.0.3
+      abstract-leveldown: 7.2.0
+      async-eventemitter: 0.2.4
+      emittery: 0.10.0
+    optionalDependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
+    dev: true
+    bundledDependencies:
+      - '@trufflesuite/bigint-buffer'
+      - keccak
+      - leveldown
+      - secp256k1
 
   /gauge/3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
@@ -15457,7 +15495,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -16837,6 +16875,19 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /level-supports/4.0.1:
+    resolution: {integrity: sha512-PbXpve8rKeNcZ9C1mUicC9auIYFyGpkV9/i6g76tLgANwWhtG2v7I4xNBUlkn3lE2/dZF3Pi0ygYGtLc4RXXdA==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /level-transcoder/1.0.1:
+    resolution: {integrity: sha512-t7bFwFtsQeD8cl8NIoQ2iwxA0CL/9IFw7/9gAjOonH0PWTTiRfY7Hq+Ejbsxh86tXobDQ6IOiddjNYIfOBs06w==}
+    engines: {node: '>=12'}
+    dependencies:
+      buffer: 6.0.3
+      module-error: 1.0.2
+    dev: true
+
   /level-ws/0.0.0:
     resolution: {integrity: sha512-XUTaO/+Db51Uiyp/t7fCMGVFOTdtLS/NIACxE/GHsij15mKzxksZifKVjlXDF41JMUP/oM1Oc4YNGdKnc3dVLw==}
     dependencies:
@@ -17823,6 +17874,11 @@ packages:
     dependencies:
       core-js: 3.21.1
       global: 4.4.0
+    dev: true
+
+  /module-error/1.0.2:
+    resolution: {integrity: sha512-0yuvsqSCv8LbaOKhnsQ/T5JhyFlCYLPXK3U2sgV10zoKQwzs/MyfuQUOZQ1V/6OCOJsK/TRgNVrPuPDqtdMFtA==}
+    engines: {node: '>=10'}
     dev: true
 
   /motion/10.16.2:
@@ -21804,7 +21860,7 @@ packages:
     dependencies:
       command-exists: 1.2.9
       commander: 8.3.0
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.14.9
       js-sha3: 0.8.0
       memorystream: 0.3.1
       semver: 5.7.1
@@ -23633,7 +23689,6 @@ packages:
     dependencies:
       node-gyp-build: 4.3.0
     dev: true
-    optional: true
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -24776,6 +24831,22 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: true
+
+  /ws/8.2.3_lfy3lj2jvemch5kgpjwtdixywm:
+    resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
     dev: true
 
   /ws/8.4.2:

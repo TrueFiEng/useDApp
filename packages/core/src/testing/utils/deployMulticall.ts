@@ -1,16 +1,18 @@
-import { deployContract, MockProvider } from 'ethereum-waffle'
+import { Web3Provider } from '@ethersproject/providers'
 import { MultiCall, MultiCall2 } from '../../constants'
+import { deployContract } from './deployContract'
+import { Signer } from 'ethers'
 
-export const deployMulticall = async (provider: MockProvider, chainId: number) => {
-  return deployMulticallBase(MultiCall, provider, chainId)
+export const deployMulticall = async (chainId: number, deployer: Signer) => {
+  return deployMulticallBase(MultiCall, chainId, deployer)
 }
 
-export const deployMulticall2 = async (provider: MockProvider, chainId: number) => {
-  return deployMulticallBase(MultiCall2, provider, chainId)
+export const deployMulticall2 = async (chainId: number, deployer: Signer) => {
+  return deployMulticallBase(MultiCall2, chainId, deployer)
 }
 
-const deployMulticallBase = async (contract: any, provider: MockProvider, chainId: number) => {
-  const multicall = await deployContract((await provider.getWallets())[0], {
+const deployMulticallBase = async (contract: any, chainId: number, deployer: Signer) => {
+  const multicall = await deployContract(deployer, {
     bytecode: contract.bytecode,
     abi: contract.abi,
   })

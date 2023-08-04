@@ -36,10 +36,13 @@ describe('useSendTransaction', () => {
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    await expect(await network1.provider.getTransaction(receipt!.transactionHash)).to.changeEtherBalances(
-      [network1.deployer, wallet1],
-      ['-10', '10']
-    )
+    const deployerBalanceBeforeTransaction = await network1.provider.getBalance(network1.deployer.address, receipt!.blockNumber - 1)
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
+    const deployerBalanceAfterTransaction = await network1.provider.getBalance(network1.deployer.address, receipt!.blockNumber)
+    const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
+    
+    expect(deployerBalanceBeforeTransaction).to.eq(deployerBalanceAfterTransaction.sub(10))
+    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.add(10))
   })
 
   it('sends with different signer', async () => {
@@ -143,7 +146,7 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     const tx = await network1.provider.getTransaction(receipt!.transactionHash)
-    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
+    
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -166,8 +169,13 @@ describe('useSendTransaction', () => {
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
-    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
+    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber - 1)
+    const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
+    const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
+    
+    expect(wallet1BalanceBeforeTransaction).to.eq(wallet1BalanceAfterTransaction.sub(10))
+    expect(wallet2BalanceBeforeTransaction).to.eq(wallet2BalanceAfterTransaction.add(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -196,8 +204,13 @@ describe('useSendTransaction', () => {
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
-    await expect(tx).to.changeEtherBalances([wallet1, wallet2], ['-10', '10'])
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
+    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber - 1)
+    const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
+    const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
+    
+    expect(wallet1BalanceBeforeTransaction).to.eq(wallet1BalanceAfterTransaction.sub(10))
+    expect(wallet2BalanceBeforeTransaction).to.eq(wallet2BalanceAfterTransaction.add(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
