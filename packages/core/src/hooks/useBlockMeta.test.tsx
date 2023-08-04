@@ -31,6 +31,7 @@ describe('useBlockMeta', () => {
     await sleep(1000)
     await network1.mineBlock()
     await waitForCurrent((val) => val.timestamp?.getTime() !== firstTimestamp?.getTime())
+    if (!firstTimestamp) throw new Error('firstTimestamp is undefined')
     expect(result.current.timestamp).to.be.greaterThan(firstTimestamp)
   })
 
@@ -45,6 +46,7 @@ describe('useBlockMeta', () => {
     await network1.wallets[0].sendTransaction({ to: receiver, value: 100 })
     await sleep(1000)
     await waitForCurrent((val) => val.timestamp?.getTime() !== firstTimestamp?.getTime())
+    if (!firstTimestamp) throw new Error('firstTimestamp is undefined')
     expect(result.current.timestamp).to.be.greaterThan(firstTimestamp)
   })
 

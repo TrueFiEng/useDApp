@@ -1,9 +1,8 @@
-import { Wallet } from 'ethers'
+import { Wallet, providers } from 'ethers'
 import { ChainId, MulticallAddresses } from '../../constants'
 import { deployMulticall, deployMulticall2 } from './deployMulticall'
 import { mineBlock } from './mineBlock'
 import Ganache from 'ganache'
-import { Web3Provider } from '@ethersproject/providers'
 
 export interface CreateMockProviderOptions {
   chainId?: ChainId
@@ -44,14 +43,16 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
   }
 }
 
-export class MockProvider extends Web3Provider {
+export class MockProvider extends providers.Web3Provider {
   private _wallets: Wallet[]
 
   constructor(opts: { chainId?: number } = {}) {
     const chainId = opts.chainId ?? ChainId.Mainnet
     const accounts = _generateRandomWallets()
     const ganache = Ganache.provider({
-      chain: { chainId }, wallet: { accounts },
+      chain: { chainId },
+      wallet: { accounts },
+      logging: { quiet: true },
     })
     super(ganache as any);
 
