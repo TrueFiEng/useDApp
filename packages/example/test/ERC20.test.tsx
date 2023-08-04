@@ -1,9 +1,13 @@
 import { Config, Mainnet } from '@usedapp/core'
-import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork } from '@usedapp/testing'
-import { expect } from 'chai'
+import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork, supportBigNumber } from '@usedapp/testing'
+import { expect, use } from 'chai'
 import { BigNumber, Contract, Wallet } from 'ethers'
 import { describe } from 'mocha'
 import { useERC20_balanceOf, useERC20_transfer } from '../gen/hooks/ERC20'
+
+use((chai, utils) => {
+  supportBigNumber(chai.Assertion, utils)
+})
 
 describe('Auto-generated hook: ERC20', () => {
   let network1: TestingNetwork
