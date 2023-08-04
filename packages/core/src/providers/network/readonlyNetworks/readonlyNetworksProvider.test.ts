@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { providers } from 'ethers'
 import { getProvidersFromConfig } from './provider'
 import { Kovan, Mainnet, Rinkeby, Localhost } from '../../../model/chain'
-import { MockProvider } from 'ethereum-waffle'
+import { MockProvider } from '../../../testing'
 
 const JsonRpcProvider = providers.JsonRpcProvider
 

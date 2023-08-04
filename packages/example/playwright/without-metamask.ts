@@ -4,8 +4,8 @@ import waitForExpect from 'wait-for-expect'
 import { headless, slowMo, XPath, addPageDiagnostics } from '@usedapp/playwright'
 import Ganache, { Server } from 'ganache'
 import debug from 'debug'
-import { defaultAccounts } from 'ethereum-waffle'
 import { sleep } from '@usedapp/testing'
+import { defaultAccounts } from './constants'
 
 const log = debug('usedapp:example:playwright')
 

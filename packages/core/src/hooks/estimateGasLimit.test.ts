@@ -1,7 +1,6 @@
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { Contract } from 'ethers'
-import { deployMockToken } from '../testing'
+import { MockProvider, deployMockToken } from '../testing'
 import { estimateContractFunctionGasLimit, estimateTransactionGasLimit } from './usePromiseTransaction'
 
 const BASE_TX_COST = 21000

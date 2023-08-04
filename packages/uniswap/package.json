@@ -21,28 +21,27 @@
     "lint:prettier": "pnpm prettier './{src,test}/**/*.{ts,tsx}'",
     "test": "mocha"
   },
-  "dependencies": {},
   "peerDependencies": {
+    "@usedapp/core": "*",
     "ethers": "^5",
-    "react": "*",
-    "@usedapp/core": "*"
+    "react": "*"
   },
   "devDependencies": {
+    "@types/chai-as-promised": "^7.1.3",
+    "@types/mocha": "^8.2.0",
+    "@types/node": "^20.4.7",
+    "@types/react": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@usedapp/core": "workspace:*",
-    "react": "17.0.1",
-    "eslint": "7.22.0",
-    "prettier": "2.1.2",
-    "ts-node": "^10.7.0",
-    "mocha": "^8.2.1",
-    "ethereum-waffle": "4.0.0-alpha.27",
-    "typescript": "^4.6.2",
+    "@usedapp/testing": "workspace:*",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "@types/chai-as-promised": "^7.1.3",
-    "@usedapp/testing": "workspace:*",
-    "@types/react": "17.0.1",
-    "@types/mocha": "^8.2.0"
+    "eslint": "7.22.0",
+    "mocha": "^8.2.1",
+    "prettier": "2.1.2",
+    "react": "17.0.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
   }
 }

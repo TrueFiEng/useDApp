@@ -3,7 +3,7 @@ import { providers, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet, Mumbai } from '../model'
-import { renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
+import { MockProvider, renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 import Ganache, { Server } from 'ganache'
 
@@ -113,12 +113,12 @@ describe('useEthers', () => {
   it('return signer if library is type of JsonRpcProvider', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () => {
-        const { activate } = useEthers()
+        const { activate, library, error, isLoading } = useEthers()
         useEffect(() => {
           void activate(network1.provider)
         }, [])
 
-        return useEthers()
+        return { library, error, isLoading }
       },
       { config }
     )
@@ -129,7 +129,7 @@ describe('useEthers', () => {
     const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
-    expect(result.current.library).to.be.instanceOf(providers.JsonRpcProvider)
+    expect(result.current.library).to.be.instanceOf(MockProvider)
     expect(signer).to.be.instanceOf(providers.JsonRpcSigner)
   })
 

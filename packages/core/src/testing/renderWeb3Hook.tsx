@@ -1,8 +1,7 @@
-import { MockProvider } from 'ethereum-waffle'
 import { renderHook } from '@testing-library/react-hooks'
 import { MultiChainStateProvider, ConfigProvider } from '../providers'
 import React from 'react'
-import { deployMulticall, deployMulticall2, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
+import { deployMulticall, deployMulticall2, getWaitUtils, IdentityWrapper, mineBlock, MockProvider } from './utils'
 import { BlockNumbersProvider } from '../providers/blockNumber/blockNumbers'
 import { ConnectorContextProvider, ReadonlyNetworksProvider } from '../providers/network'
 
@@ -46,7 +45,7 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     providers[chainId] = currentProvider
 
     const multicallDeployer = options?.multicallVersion === 2 ? deployMulticall2 : deployMulticall
-    const mockMulticallAddresses = await multicallDeployer(currentProvider, chainId)
+    const mockMulticallAddresses = await multicallDeployer(chainId, currentProvider.getAdminWallet())
     multicallAddresses[chainId] = mockMulticallAddresses[chainId]
     // In some occasions the block number lags behind.
     // It leads to a situation where we try to read state of a block before the multicall contract is deployed,
@@ -100,7 +99,9 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     result,
     defaultProvider,
     mineBlock: async () => {
-      await Promise.all([defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider)))
+      await Promise.all(
+        [defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider.getAdminWallet()))
+      )
     },
     rerender,
     unmount,

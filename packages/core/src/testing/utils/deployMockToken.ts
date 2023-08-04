@@ -1,6 +1,6 @@
 import { BigNumber, utils, Wallet } from 'ethers'
-import { deployContract } from 'ethereum-waffle'
 import { ERC20Mock } from '../../constants'
+import { deployContract } from './deployContract'
 
 export const MOCK_TOKEN_INITIAL_BALANCE = utils.parseEther('10')
 export const SECOND_TEST_CHAIN_ID = 31337

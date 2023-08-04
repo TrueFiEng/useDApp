@@ -1,10 +1,9 @@
 import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { constants } from 'ethers'
 import { expect } from 'chai'
-import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, Contract, ethers } from 'ethers'
 import { TypedFilter } from '../hooks'
-import { deployMockToken } from '../testing'
+import { MockProvider, deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'
 
 const AddressZero = constants.AddressZero

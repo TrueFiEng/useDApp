@@ -107,7 +107,7 @@ describe('useContractFunction', () => {
     await result.current.send(spender.address, 10)
     await waitForCurrent((val) => val.state !== undefined)
 
-    expect(result.current.state.status).to.eq('Exception')
+    expect(result.current.state.status).to.eq('Fail')
     expect(result.current.state.transactionName).to.eq('Approve')
     expect(result.current.state.errorMessage).to.eq('transaction failed')
   })

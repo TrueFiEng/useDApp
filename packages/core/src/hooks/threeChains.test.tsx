@@ -1,15 +1,12 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import { MockProvider } from 'ethereum-waffle'
 import { Contract, providers, Wallet } from 'ethers'
 import { useCall, useCalls } from './useCall'
-import { SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
+import { MockProvider, SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
 import { BigNumber, constants } from 'ethers'
-import { deployContract, solidity } from 'ethereum-waffle'
 import { doublerContractABI, MultiCall, timestampContractABI } from '../constants/abi'
-import { expect, use } from 'chai'
+import { expect } from 'chai'
 import { randomInt } from 'crypto'
-
-use(solidity)
+import { deployContract } from '../testing/utils/deployContract'
 
 const FIRST_TEST_CHAIN_ID = 1337
 const THIRD_TEST_CHAIN_ID = 31338
@@ -43,7 +40,7 @@ describe('useCall - three chains', () => {
   }
 
   for (const chainId of chainIds) {
-    const provider = new MockProvider({ ganacheOptions: { chain: { chainId } } })
+    const provider = new MockProvider({ chainId })
     const [deployer] = provider.getWallets()
     chains[chainId] = {
       provider,
