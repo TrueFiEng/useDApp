@@ -20,7 +20,7 @@
     "lint:eslint": "eslint './{src,test,playwright}/**/*.{ts,tsx}'",
     "lint:prettier": "pnpm prettier './{src,test,playwright}/**/*.{ts,tsx}'",
     "test": "mocha -r ts-node/register/transpile-only './test/**/*.test.{ts,tsx}'",
-    "test:playwright": "mocha -r ts-node/register/transpile-only './playwright/**/*.test.ts' --bail",
+    "test:playwright": "mocha -r ts-node/register/transpile-only -r playwright.setup.js './playwright/**/*.test.ts' --bail",
     "copy-files": "cp -r ./src/assets ./dist/cjs/src/assets && cp -r ./src/assets ./dist/esm/src/assets"
   },
   "files": [
