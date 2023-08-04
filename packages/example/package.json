@@ -33,9 +33,9 @@
     "@ethersproject/units": "5.6.0",
     "@types/styled-components": "^5.1.7",
     "@usedapp/coingecko": "workspace:*",
-    "@usedapp/uniswap": "workspace:*",
     "@usedapp/core": "workspace:*",
     "@usedapp/portis-connector": "workspace:*",
+    "@usedapp/uniswap": "workspace:*",
     "@usedapp/wallet-connect-connector": "workspace:*",
     "@usedapp/wallet-connect-v2-connector": "workspace:*",
     "@walletconnect/web3-provider": "^1.7.1",
@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@ethersproject/providers": "5.6.2",
+    "@playwright/test": "^1.36.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react": "^11.0.0",
