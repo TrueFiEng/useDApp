@@ -99,7 +99,9 @@ export const renderWeb3Hook = async <Tprops, TResult>(
     result,
     defaultProvider,
     mineBlock: async () => {
-      await Promise.all([defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider.getAdminWallet())))
+      await Promise.all(
+        [defaultProvider, ...Object.values(readOnlyProviders)].map((provider) => mineBlock(provider.getAdminWallet()))
+      )
     },
     rerender,
     unmount,

@@ -1,4 +1,3 @@
-import { Web3Provider } from '@ethersproject/providers'
 import { MultiCall, MultiCall2 } from '../../constants'
 import { deployContract } from './deployContract'
 import { Signer } from 'ethers'

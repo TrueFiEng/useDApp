@@ -19,19 +19,17 @@ export interface CreateMockProviderResult {
 }
 export type TestingNetwork = CreateMockProviderResult
 
-
 /**
  * Creates a MockProvider, with an option to override `chainId`.
  * Automatically deploys multicall.
  */
 export const createMockProvider = async (opts: CreateMockProviderOptions = {}): Promise<CreateMockProviderResult> => {
   const chainId = opts.chainId ?? ChainId.Mainnet
-  const provider = new MockProvider(opts);
-  const [deployer, ...wallets] = provider.getWallets();
+  const provider = new MockProvider(opts)
+  const [deployer, ...wallets] = provider.getWallets()
   const multicallAddresses = await (opts.multicallVersion === 2
     ? deployMulticall2(chainId, deployer)
-    : deployMulticall(chainId, deployer)
-  )
+    : deployMulticall(chainId, deployer))
 
   return {
     provider,
@@ -54,7 +52,7 @@ export class MockProvider extends providers.Web3Provider {
       wallet: { accounts },
       logging: { quiet: true },
     })
-    super(ganache as any);
+    super(ganache as any)
 
     this._wallets = accounts.map((a) => new Wallet(a.secretKey, this))
   }
@@ -67,7 +65,6 @@ export class MockProvider extends providers.Web3Provider {
     return this._wallets[0]
   }
 }
-
 
 const _generateRandomWallets = () => {
   const balance = '0x1ED09BEAD87C0378D8E6400000000' // 10^34

@@ -89,14 +89,14 @@ describe('useCall Resilency tests', () => {
           let miners: Wallet[]
           let config: Config
 
-          const balance = '0x1ED09BEAD87C0378D8E6400000000'; // 10^34
+          const balance = '0x1ED09BEAD87C0378D8E6400000000' // 10^34
           const privateKeys = [
             '0x29f3edee0ad3abf8e2699402e0e28cd6492c9be7eaab00d732a791c33552f797',
             '0x5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74',
             '0x50c8b3fc81e908501c8cd0a60911633acaca1a567d1be8e769c5ae7007b34b23',
             '0x706618637b8ca922f6290ce1ecd4c31247e9ab75cf0530a0ac95c0332173d7c5',
-          ];
-          const defaultAccounts = privateKeys.map(secretKey => ({balance, secretKey}));
+          ]
+          const defaultAccounts = privateKeys.map((secretKey) => ({ balance, secretKey }))
 
           beforeEach(async () => {
             ganacheServers = [

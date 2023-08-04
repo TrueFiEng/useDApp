@@ -1,6 +1,6 @@
 export const baseUrl = 'http://localhost:8080/'
 
-const balance = '0x1ED09BEAD87C0378D8E6400000000'; // 10^34
+const balance = '0x1ED09BEAD87C0378D8E6400000000' // 10^34
 
 const privateKeys = [
   '0x29f3edee0ad3abf8e2699402e0e28cd6492c9be7eaab00d732a791c33552f797',
@@ -12,8 +12,7 @@ const privateKeys = [
   '0x837fd366bc7402b65311de9940de0d6c0ba3125629b8509aebbfb057ebeaaa25',
   '0xba35c32f7cbda6a6cedeea5f73ff928d1e41557eddfd457123f6426a43adb1e4',
   '0x71f7818582e55456cb575eea3d0ce408dcf4cbbc3d845e86a7936d2f48f74035',
-  '0x03c909455dcef4e1e981a21ffb14c1c51214906ce19e8e7541921b758221b5ae'
-];
+  '0x03c909455dcef4e1e981a21ffb14c1c51214906ce19e8e7541921b758221b5ae',
+]
 
-export const defaultAccounts = privateKeys
-  .map(secretKey => ({balance, secretKey}));
+export const defaultAccounts = privateKeys.map((secretKey) => ({ balance, secretKey }))

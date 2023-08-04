@@ -36,13 +36,22 @@ describe('useSendTransaction', () => {
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const txReceipt = await network1.provider.getTransactionReceipt(receipt!.transactionHash);
+    const txReceipt = await network1.provider.getTransactionReceipt(receipt!.transactionHash)
     const txFee = txReceipt?.cumulativeGasUsed?.mul(txReceipt?.effectiveGasPrice)
-    const deployerBalanceBeforeTransaction = await network1.provider.getBalance(network1.deployer.address, receipt!.blockNumber - 1)
-    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
-    const deployerBalanceAfterTransaction = await network1.provider.getBalance(network1.deployer.address, receipt!.blockNumber)
+    const deployerBalanceBeforeTransaction = await network1.provider.getBalance(
+      network1.deployer.address,
+      receipt!.blockNumber - 1
+    )
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(
+      wallet1.address,
+      receipt!.blockNumber - 1
+    )
+    const deployerBalanceAfterTransaction = await network1.provider.getBalance(
+      network1.deployer.address,
+      receipt!.blockNumber
+    )
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
-    
+
     expect(deployerBalanceAfterTransaction).to.eq(deployerBalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
     expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.add(10))
   })
@@ -142,13 +151,10 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const tx = await network1.provider.getTransaction(receipt!.transactionHash)
-    
-
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
     expect(result.current.state.receipt?.from).to.eq(wallet1.address)
@@ -171,11 +177,17 @@ describe('useSendTransaction', () => {
     const txFee = receipt?.gasUsed.mul(receipt?.effectiveGasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
-    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber - 1)
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(
+      wallet1.address,
+      receipt!.blockNumber - 1
+    )
+    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(
+      wallet2.address,
+      receipt!.blockNumber - 1
+    )
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
     const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
-    
+
     expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
     expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction.add(10))
 
@@ -207,11 +219,17 @@ describe('useSendTransaction', () => {
     const txFee = receipt?.gasUsed.mul(receipt.effectiveGasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber - 1)
-    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber - 1)
+    const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(
+      wallet1.address,
+      receipt!.blockNumber - 1
+    )
+    const wallet2BalanceBeforeTransaction = await network1.provider.getBalance(
+      wallet2.address,
+      receipt!.blockNumber - 1
+    )
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
     const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
-    
+
     expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
     expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction.add(10))
 
