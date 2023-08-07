@@ -41,7 +41,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   const multicallAddresses: Record<number, string> = {}
 
   const addSingleProvider = async (currentProvider: MockProvider) => {
-    const { chainId } = await currentProvider.getNetwork()
+    const network = await currentProvider.getNetwork()
+    const chainId = Number(network.chainId)
     providers[chainId] = currentProvider
 
     const multicallDeployer = options?.multicallVersion === 2 ? deployMulticall2 : deployMulticall
@@ -66,7 +67,8 @@ export const renderWeb3Hook = async <Tprops, TResult>(
   if (Object.keys(readOnlyProviders).length === 0) {
     const defaultReadOnlyProvider = new MockProvider()
     await addSingleProvider(defaultReadOnlyProvider)
-    const { chainId } = await defaultReadOnlyProvider.getNetwork()
+    const network = await defaultReadOnlyProvider.getNetwork()
+    const chainId = Number(network.chainId)
     readOnlyProviders[chainId] = defaultReadOnlyProvider
   }
 

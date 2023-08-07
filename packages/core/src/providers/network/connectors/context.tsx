@@ -1,17 +1,10 @@
-import { providers } from 'ethers'
-import { getAddress } from 'ethers/lib/utils'
+import { getAddress, JsonRpcProvider, Provider, FallbackProvider, BrowserProvider } from 'ethers'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useConfig, useLocalStorage, useReadonlyNetwork } from '../../../hooks'
 import { useReadonlyNetworkStates } from '../readonlyNetworks/context'
-import { Connector } from './connector'
+import { Connector, isConnector } from './connector'
 import { ConnectorController } from './connectorController'
 import { InjectedConnector } from './implementations'
-
-type JsonRpcProvider = providers.JsonRpcProvider
-type ExternalProvider = providers.ExternalProvider
-type FallBackProvider = providers.FallbackProvider
-const Provider = providers.Provider
-type Web3Provider = providers.Web3Provider
 
 export type ActivateBrowserWallet = (arg?: { type: string }) => void
 
@@ -19,8 +12,7 @@ type MaybePromise<T> = Promise<T> | T
 
 type SupportedProviders =
   | JsonRpcProvider
-  | ExternalProvider
-  | { getProvider: () => MaybePromise<JsonRpcProvider | ExternalProvider>; activate: () => Promise<any> }
+  | { getProvider: () => MaybePromise<JsonRpcProvider>; activate: () => Promise<any> }
   | Connector
 
 export type Web3Ethers = {
@@ -33,7 +25,7 @@ export type Web3Ethers = {
   chainId?: number
   account?: string
   error?: Error
-  library?: JsonRpcProvider | FallBackProvider
+  library?: JsonRpcProvider | FallbackProvider
   active: boolean
   activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
@@ -96,16 +88,16 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   const activate = useCallback(
     async (
-      providerOrConnector: JsonRpcProvider | ExternalProvider | Connector,
+      providerOrConnector: JsonRpcProvider  | Connector,
       { silently, onSuccess }: ActivateOptions = { silently: false }
     ) => {
       let controller: ConnectorController
       if ('activate' in providerOrConnector) {
         controller = new ConnectorController(providerOrConnector, config as any)
       } else {
-        const wrappedProvider = Provider.isProvider(providerOrConnector)
-          ? providerOrConnector
-          : new providers.Web3Provider(providerOrConnector)
+        const wrappedProvider = isConnector(providerOrConnector)
+          ? providerOrConnector.provider
+          : providerOrConnector
         controller = new ConnectorController(new InjectedConnector(wrappedProvider), config as any)
       }
       setLoading(true)
@@ -202,7 +194,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   const [errors, setErrors] = useState<Error[]>(controller?.errors ?? [])
   const [account, setAccount] = useState<string | undefined>(getAccount(controller))
-  const [provider, setProvider] = useState<JsonRpcProvider | Web3Provider | FallBackProvider | undefined>(
+  const [provider, setProvider] = useState<JsonRpcProvider | BrowserProvider | FallbackProvider | undefined>(
     controller?.getProvider()
   )
   const [chainId, setChainId] = useState<number | undefined>(controller?.chainId)
@@ -210,7 +202,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
   useEffect(() => {
     if (!controller?.getProvider()) {
       setAccount(undefined)
-      setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallBackProvider | undefined)
+      setProvider(readonlyNetwork?.provider as JsonRpcProvider | FallbackProvider | undefined)
       setChainId(readonlyNetwork?.chainId)
       setErrors([])
     } else {

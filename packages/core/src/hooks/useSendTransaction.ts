@@ -1,4 +1,3 @@
-import type { TransactionRequest } from '@ethersproject/abstract-provider'
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
 import { useEthers } from './useEthers'
@@ -6,7 +5,7 @@ import { estimateTransactionGasLimit, usePromiseTransaction } from './usePromise
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks/context'
 import { ChainId } from '../constants'
 import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
-import { providers } from 'ethers'
+import { AbstractProvider, TransactionRequest } from 'ethers'
 import { sanitizeTransactionRequest } from '../helpers/gnosisSafeUtils'
 
 /**
@@ -44,7 +43,7 @@ export function useSendTransaction(options?: TransactionOptions) {
   const provider = (transactionChainId && providers[transactionChainId as ChainId])!
 
   const sendTransaction = async (transactionRequest: TransactionRequest) => {
-    const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+    const signer = getSignerFromOptions(provider as AbstractProvider, options, library)
 
     if (signer) {
       const gasLimit = await estimateTransactionGasLimit(transactionRequest, signer, gasLimitBufferPercentage)

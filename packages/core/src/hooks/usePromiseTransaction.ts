@@ -1,8 +1,7 @@
-import type { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { BigNumber, Contract, errors, Signer } from 'ethers'
+import { Contract, Signer, TransactionRequest } from 'ethers'
 import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
@@ -26,9 +25,9 @@ export async function estimateTransactionGasLimit(
   }
   try {
     const estimatedGas = transactionRequest.gasLimit
-      ? BigNumber.from(transactionRequest.gasLimit)
+      ? BigInt(transactionRequest.gasLimit)
       : await signer.estimateGas(transactionRequest)
-    return estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
+    return estimatedGas * BigInt(gasLimitBufferPercentage + 100) / BigInt(100)
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -43,10 +42,10 @@ export async function estimateContractFunctionGasLimit(
   functionName: string,
   args: any[],
   gasLimitBufferPercentage: number
-): Promise<BigNumber | undefined> {
+): Promise<BigInt | undefined> {
   try {
-    const estimatedGas = await contractWithSigner.estimateGas[functionName](...args)
-    const gasLimit = estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
+    const estimatedGas = await (contractWithSigner as any)[functionName].estimateGas(...args)
+    const gasLimit = estimatedGas * BigInt(gasLimitBufferPercentage + 100) / BigInt(100)
     return gasLimit
   } catch (err: any) {
     console.error(err)

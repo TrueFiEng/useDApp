@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
-    "ethers": "5.6.9",
+    "ethers": "6.7.0",
     "prettier": "2.1.2"
   },
   "resolutions": {
-    "ethers": "5.6.9"
+    "ethers": "6.7.0"
   },
   "devDependencies": {
     "eslint-plugin-no-only-tests": "^2.6.0"

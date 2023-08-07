@@ -1,4 +1,4 @@
-import { BigNumber, utils } from 'ethers'
+import { Interface, hexlify } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
@@ -60,7 +60,7 @@ export function encodeCallData(
   const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
 
   return {
-    address: contract.address,
+    address: contract.target as string,
     data: contract.interface.encodeFunctionData(method, args),
     chainId,
     isStatic,
@@ -161,14 +161,14 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
   }
 }
 
-function tryDecodeErrorData(data: string, contractInterface: utils.Interface): string | undefined {
+function tryDecodeErrorData(data: string, contractInterface: Interface): string | undefined {
   if (data === '0x') {
     return 'Call reverted without a cause message'
   }
 
   if (data.startsWith('0x08c379a0')) {
     // decode Error(string)
-    const reason: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', data)[0]
+    const reason: string = new Interface(['function Error(string)']).decodeFunctionData('Error', data)[0]
     if (reason.startsWith('VM Exception')) {
       return defaultMulticall1ErrorMessage
     }
@@ -177,13 +177,13 @@ function tryDecodeErrorData(data: string, contractInterface: utils.Interface): s
 
   if (data.startsWith('0x4e487b71')) {
     // decode Panic(uint)
-    const code: BigNumber = new utils.Interface(['function Panic(uint)']).decodeFunctionData('Panic', data)[0]
-    return `panic code ${code._hex}`
+    const code: bigint = new Interface(['function Panic(uint)']).decodeFunctionData('Panic', data)[0]
+    return `panic code 0x${code.toString(16)}`
   }
 
   try {
     const errorInfo = contractInterface.parseError(data)
-    return `error ${errorInfo.name}`
+    return `error ${errorInfo?.name}`
   } catch (e) {
     console.error(e)
   }

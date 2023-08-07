@@ -8,7 +8,7 @@ import {
 } from '@usedapp/testing'
 import { expect } from 'chai'
 import { BigNumber, Contract, Wallet } from 'ethers'
-import { getCreate2Address, solidityKeccak256, solidityPack } from 'ethers/lib/utils'
+import { getCreate2Address, solidityKeccak256, solidityPack } from 'ethers'
 import { INIT_CODE_HASH, UniswapV2Pair } from '../constants'
 import { deployUniswapV2Pair } from '../utils/deployMockUniswapV2Pair'
 import { useUniswapPrice } from './useUniswapPrice'

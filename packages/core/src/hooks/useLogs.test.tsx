@@ -1,9 +1,7 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider'
-import { constants } from 'ethers'
 import { Contract } from 'ethers'
 import { expect } from 'chai'
-import { BigNumber, ethers } from 'ethers'
-import { getAddress } from 'ethers/lib/utils'
+import { ethers, getAddress, ZeroAddress } from 'ethers'
 import { Config, ERC20MockInterface } from '../constants'
 import {
   TestingNetwork,
@@ -15,8 +13,6 @@ import {
 } from '../testing'
 import { useLogs } from './useLogs'
 import { useSendTransaction } from './useSendTransaction'
-
-const AddressZero = constants.AddressZero
 
 describe('useLogs', () => {
   let token: Contract
@@ -31,7 +27,7 @@ describe('useLogs', () => {
     secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  async function sendToken(signer: ethers.Wallet, to: string, amount: BigNumber) {
+  async function sendToken(signer: ethers.Wallet, to: string, amount: bigint) {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () =>
         useSendTransaction({
@@ -46,7 +42,7 @@ describe('useLogs', () => {
 
     const tx: TransactionRequest = {
       to: token.address,
-      value: BigNumber.from(0),
+      value: BigInt(0),
       data: txData,
     }
 
@@ -130,7 +126,7 @@ describe('useLogs', () => {
     // Mint transfer event
     const log1 = result.current!.value![0]
 
-    expect(getAddress(log1.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log1.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log1.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log1.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
 
@@ -168,7 +164,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
@@ -202,7 +198,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network2.deployer.address), 'To')
     expect(log.data['value']).to.equal(SECOND_MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
@@ -241,7 +237,7 @@ describe('useLogs', () => {
           {
             contract: token,
             event: 'Transfer',
-            args: [AddressZero],
+            args: [ZeroAddress],
           },
           {
             fromBlock: 0,
@@ -260,7 +256,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
@@ -294,7 +290,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })

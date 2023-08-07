@@ -2,7 +2,7 @@ import { encodeUint } from '../common'
 import { encodeCalls } from '../multicall2/encoder'
 import { ethersAbi } from './constants'
 
-const selector = ethersAbi.getSighash('aggregate')
+const selector = ethersAbi.getFunction('aggregate')?.selector
 
 export function encodeAggregate(calls: [string, string][]) {
   // function aggregate(tuple(address target, bytes callData)[] calls) public returns (tuple(uint256 blockNumber, bytes returnData)[])

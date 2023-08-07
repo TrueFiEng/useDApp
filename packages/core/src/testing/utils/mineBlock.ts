@@ -1,6 +1,6 @@
-import { Signer, constants } from 'ethers'
+import { Signer, ZeroAddress } from 'ethers'
 
 export const mineBlock = async (wallet: Signer) => {
-  const tx = await wallet.sendTransaction({ to: constants.AddressZero, value: 0 })
+  const tx = await wallet.sendTransaction({ to: ZeroAddress, value: 0 })
   await tx.wait()
 }

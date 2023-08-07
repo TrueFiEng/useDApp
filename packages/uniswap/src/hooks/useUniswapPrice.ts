@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
 import { compareAddress, useContractCall } from '@usedapp/core'
 import { BigNumber } from 'ethers'
-import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers/lib/utils'
+import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers'
 
 /**
  * function`getReserves` of UniswapV2Pair returns uint112 type,

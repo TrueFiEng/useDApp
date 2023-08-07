@@ -19,15 +19,15 @@ describe('connectContractToSigner', () => {
     expect(() => connectContractToSigner(token)).to.throw('No signer available in contract, options or library')
   })
 
-  it('noop if contract has signer', () => {
-    const signer = network1.provider.getSigner()
-    const connectedContract = token.connect(signer)
+  it('noop if contract has signer', async () => {
+    const signer = await network1.provider.getSigner()
+    const connectedContract = token.connect(signer) as Contract
 
     expect(connectContractToSigner(connectedContract).signer).to.eq(signer)
   })
 
-  it('takes signer from options', () => {
-    const signer = network1.provider.getSigner()
+  it('takes signer from options', async () => {
+    const signer = await network1.provider.getSigner()
     const connectedContract = connectContractToSigner(token, { signer })
 
     expect(connectedContract.signer).to.eq(signer)

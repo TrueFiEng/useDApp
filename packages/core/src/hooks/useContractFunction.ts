@@ -1,10 +1,10 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, providers } from 'ethers'
+import { Contract, Signer } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
-import { LogDescription } from 'ethers/lib/utils'
+import { LogDescription } from 'ethers'
 import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
 import { TransactionReceipt } from '@ethersproject/abstract-provider'
 import { useReadonlyNetworks } from '../providers'
@@ -16,15 +16,15 @@ import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
  */
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
   if (contract.signer) {
-    return contract
+    return contract as Contract
   }
 
   if (options && 'signer' in options) {
-    return contract.connect(options.signer)
+    return contract.connect(options.signer) as Contract
   }
 
   if (librarySigner) {
-    return contract.connect(librarySigner)
+    return contract.connect(librarySigner) as Contract
   }
 
   throw new TypeError('No signer available in contract, options or library')

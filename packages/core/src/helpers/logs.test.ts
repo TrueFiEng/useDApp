@@ -1,12 +1,9 @@
 import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
-import { constants } from 'ethers'
 import { expect } from 'chai'
-import { BigNumber, Contract, ethers } from 'ethers'
+import { Contract, ZeroAddress, ethers } from 'ethers'
 import { TypedFilter } from '../hooks'
 import { MockProvider, deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'
-
-const AddressZero = constants.AddressZero
 
 describe('encodeFilterData', () => {
   const mockProvider = new MockProvider()
@@ -21,14 +18,14 @@ describe('encodeFilterData', () => {
     expect(encodeFilterData(undefined)).to.be.undefined
   })
 
-  it('Returns FilterByBlockHash when blockHash is valid', () => {
+  it('Returns FilterByBlockHash when blockHash is valid', async () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
       args: [],
     }
 
-    const encodedFilterData = encodeFilterData(filter, undefined, undefined, '0x0') as FilterByBlockHash
+    const encodedFilterData = encodeFilterData(filter, undefined, undefined, '0x0')
 
     expect(encodedFilterData['blockHash']).to.not.be.undefined
   })
@@ -73,7 +70,7 @@ describe('encodeFilterData', () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
-      args: [AddressZero, AddressZero, 10],
+      args: [ZeroAddress, ZeroAddress, 10],
     }
 
     const encodedFilterData = encodeFilterData(filter, 0, 'latest')
@@ -85,7 +82,7 @@ describe('encodeFilterData', () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
-      args: [AddressZero, AddressZero, null, AddressZero],
+      args: [ZeroAddress, ZeroAddress, null, ZeroAddress],
     }
 
     const encodedFilterData = encodeFilterData(filter, 0, 'latest')
@@ -151,7 +148,7 @@ describe('decodeLogs', () => {
     expect(decodedLogs?.value).to.be.empty
   })
 
-  it('Returns an error when the event topic is a mismatch', () => {
+  it('Returns an error when the event topic is a mismatch', async () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
@@ -160,13 +157,13 @@ describe('decodeLogs', () => {
 
     const logs: Log[] = [
       {
-        address: token.address,
+        address: await token.getAddress(),
         topics: [
-          ethers.utils.id('Transfer2(address,address,uint256)'),
-          ethers.utils.hexZeroPad(AddressZero, 32),
-          ethers.utils.hexZeroPad(AddressZero, 32),
+          ethers.id('Transfer2(address,address,uint256)'),
+          ethers.zeroPadValue(ZeroAddress, 32),
+          ethers.zeroPadValue(ZeroAddress, 32),
         ],
-        data: ethers.utils.hexZeroPad(AddressZero, 32),
+        data: ethers.zeroPadValue(ZeroAddress, 32),
         blockHash: '0x0',
         blockNumber: 0,
         logIndex: 0,
@@ -182,16 +179,16 @@ describe('decodeLogs', () => {
     expect(decodedLogs?.error).to.be.a('Error')
   })
 
-  it('Works when passed valid logs', () => {
+  it('Works when passed valid logs', async () => {
     const filter: TypedFilter = {
       contract: token,
       event: 'Transfer',
       args: [],
     }
 
-    const from = AddressZero
+    const from = ZeroAddress
     const to = deployer.address
-    const value = BigNumber.from(1)
+    const value = BigInt(1)
     const blockHash = '0x0'
     const blockNumber = 1
     const logIndex = 2
@@ -201,13 +198,13 @@ describe('decodeLogs', () => {
 
     const logs: Log[] = [
       {
-        address: token.address,
+        address: await token.getAddress(),
         topics: [
-          ethers.utils.id('Transfer(address,address,uint256)'),
-          ethers.utils.hexZeroPad(from, 32),
-          ethers.utils.hexZeroPad(to, 32),
+          ethers.id('Transfer(address,address,uint256)'),
+          ethers.zeroPadValue(from, 32),
+          ethers.zeroPadValue(to, 32),
         ],
-        data: ethers.utils.hexZeroPad(ethers.utils.hexlify(value), 32),
+        data: ethers.zeroPadValue(ethers.hexlify(value.toString()), 32),
         blockHash,
         blockNumber,
         logIndex,
@@ -216,13 +213,13 @@ describe('decodeLogs', () => {
         removed,
       },
       {
-        address: token.address,
+        address: await token.getAddress(),
         topics: [
-          ethers.utils.id('Transfer(address,address,uint256)'),
-          ethers.utils.hexZeroPad(from, 32),
-          ethers.utils.hexZeroPad(to, 32),
+          ethers.id('Transfer(address,address,uint256)'),
+          ethers.zeroPadValue(from, 32),
+          ethers.zeroPadValue(to, 32),
         ],
-        data: ethers.utils.hexZeroPad(ethers.utils.hexlify(value), 32),
+        data: ethers.zeroPadValue(ethers.hexlify(value.toString()), 32),
         blockHash,
         blockNumber,
         logIndex,

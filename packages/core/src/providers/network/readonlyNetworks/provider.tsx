@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
-import { providers } from 'ethers'
+import { AbstractProvider, JsonRpcProvider } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
@@ -9,22 +9,19 @@ import { networkStatesReducer } from './reducer'
 import { useWindow } from '../../window'
 import { isWebSocketProvider } from '../../../helpers'
 
-const { Provider, StaticJsonRpcProvider } = providers
-type BaseProvider = providers.BaseProvider
-
 interface NetworkProviderProps {
   providerOverrides?: Providers
   children?: ReactNode
 }
 
-const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | BaseProvider | BaseProviderFactory) => {
-  if (Provider.isProvider(urlOrProviderOrProviderFunction)) {
-    return urlOrProviderOrProviderFunction
+const getProviderFromConfig = (urlOrProviderOrProviderFunction: string | AbstractProvider | BaseProviderFactory) => {
+  if (typeof urlOrProviderOrProviderFunction === 'string') {
+    return new JsonRpcProvider(urlOrProviderOrProviderFunction)
   }
   if (typeof urlOrProviderOrProviderFunction === 'function') {
     return urlOrProviderOrProviderFunction()
   }
-  return new StaticJsonRpcProvider(urlOrProviderOrProviderFunction)
+  return urlOrProviderOrProviderFunction
 }
 
 export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>

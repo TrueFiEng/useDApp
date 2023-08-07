@@ -1,11 +1,9 @@
-import { utils } from 'ethers'
+import { Interface } from 'ethers'
 import MultiCall from './MultiCall.json'
 import MultiCall2 from './MultiCall2.json'
 import ERC20 from './ERC20.json'
 import ERC20Mock from './ERC20Mock.json'
 import BlockNumberContract from './BlockNumber.json'
-
-const Interface = utils.Interface
 
 const MultiCallABI = new Interface(MultiCall.abi)
 

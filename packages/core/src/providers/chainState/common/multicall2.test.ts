@@ -1,8 +1,6 @@
-import { utils } from 'ethers'
-import { Contract } from 'ethers'
+import { AbiCoder, Contract, Interface } from 'ethers'
 import chai, { expect } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { BigNumber } from 'ethers'
 import { ERC20Mock, MultiCall2 } from '../../../constants'
 import { RawCall } from './callsReducer'
 import { multicall2Factory } from './multicall2'
@@ -11,8 +9,6 @@ import { MockProvider } from '../../../testing'
 import { deployContract } from '../../../testing/utils/deployContract'
 
 chai.use(chaiAsPromised)
-
-const Interface = utils.Interface
 
 describe('Multicall2', () => {
   const mockProvider = new MockProvider()
@@ -34,44 +30,44 @@ describe('Multicall2', () => {
       it('Retrieves token balance using tryAggregate', async () => {
         const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
         const call: RawCall = {
-          address: tokenContract.address,
+          address: await tokenContract.getAddress(),
           data,
-          chainId: mockProvider._network.chainId,
+          chainId: Number(mockProvider._network.chainId),
         }
 
         const blockNumber = await mockProvider.getBlockNumber()
-        const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-        const { value, success } = result[tokenContract.address]![data] || {}
+        const result = await multicall2(mockProvider, await multicallContract.getAddress(), blockNumber, [call])
+        const { value, success } = result[await tokenContract.getAddress()]![data] || {}
         expect(success).to.be.true
-        expect(BigNumber.from(value)).to.eq('10000')
+        expect(BigInt(value ?? 0)).to.eq('10000')
       })
 
       it('Fails to retrieve data on block number in the future', async () => {
         const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
         const call: RawCall = {
-          address: tokenContract.address,
+          address: await tokenContract.getAddress(),
           data,
-          chainId: mockProvider._network.chainId,
+          chainId: Number(mockProvider._network.chainId),
         }
 
         const blockNumber = (await mockProvider.getBlockNumber()) + 1
-        await expect(multicall2(mockProvider, multicallContract.address, blockNumber, [call])).to.be.eventually.rejected
+        await expect(multicall2(mockProvider, await multicallContract.getAddress(), blockNumber, [call])).to.be.eventually.rejected
       })
 
       it('Does not fail when retrieving data on block number from the past', async () => {
         const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
         const call: RawCall = {
-          address: tokenContract.address,
+          address: await tokenContract.getAddress(),
           data,
-          chainId: mockProvider._network.chainId,
+          chainId: Number(mockProvider._network.chainId),
         }
 
         await sendEmptyTx(deployer)
         const blockNumber = (await mockProvider.getBlockNumber()) - 1
-        const result = await multicall2(mockProvider, multicallContract.address, blockNumber, [call])
-        const { value, success } = result[tokenContract.address]![data] || {}
+        const result = await multicall2(mockProvider, await multicallContract.getAddress(), blockNumber, [call])
+        const { value, success } = result[await tokenContract.getAddress()]![data] || {}
         expect(success).to.be.true
-        expect(BigNumber.from(value)).to.eq('10000')
+        expect(BigInt(value ?? 0)).to.eq('10000')
       })
 
       it('Does not fail when doing multiple calls at once', async () => {
@@ -79,34 +75,34 @@ describe('Multicall2', () => {
 
         const calls: RawCall[] = [
           {
-            address: tokenContract.address,
+            address: await tokenContract.getAddress(),
             data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
-            chainId: mockProvider._network.chainId,
+            chainId: Number(mockProvider._network.chainId),
           },
           {
-            address: tokenContract.address,
+            address: await tokenContract.getAddress(),
             data: erc20Interface.encodeFunctionData('symbol', []),
-            chainId: mockProvider._network.chainId,
+            chainId: Number(mockProvider._network.chainId),
           },
           {
-            address: tokenContract.address,
-            data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
-            chainId: mockProvider._network.chainId,
+            address: await tokenContract.getAddress(),
+            data: erc20Interface.encodeFunctionData('balanceOf', [await tokenContract.getAddress()]),
+            chainId: Number(mockProvider._network.chainId),
           },
         ]
 
         const blockNumber = await mockProvider.getBlockNumber()
-        const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
+        const result = await multicall2(mockProvider, await multicallContract.getAddress(), blockNumber, calls)
 
         let { value, success } = result[calls[0].address]![calls[0].data] || {}
-        expect(value).to.equal(BigNumber.from(10000))
+        expect(value).to.equal(BigInt(10000))
         expect(success).to.be.true
         ;({ value, success } = result[calls[1].address]![calls[1].data] || {})
-        const decodedSymbol = utils.defaultAbiCoder.decode(['string'], value!)[0]
+        const decodedSymbol = new AbiCoder().decode(['string'], value!)[0]
         expect(decodedSymbol).to.equal('MOCK')
         expect(success).to.be.true
         ;({ value, success } = result[calls[2].address]![calls[2].data] || {})
-        expect(value).to.equal(BigNumber.from(0))
+        expect(value).to.equal(BigInt(0))
         expect(success).to.be.true
       })
 
@@ -115,39 +111,39 @@ describe('Multicall2', () => {
 
         const calls: RawCall[] = [
           {
-            address: tokenContract.address,
+            address: await tokenContract.getAddress(),
             data: erc20Interface.encodeFunctionData('balanceOf', [deployer.address]),
-            chainId: mockProvider._network.chainId,
+            chainId: Number(mockProvider._network.chainId),
           },
           // invalid one
           {
-            address: tokenContract.address,
+            address: await tokenContract.getAddress(),
             data: erc20Interface.encodeFunctionData('transferFrom', [
-              multicallContract.address,
+              await multicallContract.getAddress(),
               deployer.address,
-              BigNumber.from(10000),
+              BigInt(10000),
             ]),
-            chainId: mockProvider._network.chainId,
+            chainId: Number(mockProvider._network.chainId),
           },
           {
-            address: tokenContract.address,
-            data: erc20Interface.encodeFunctionData('balanceOf', [tokenContract.address]),
-            chainId: mockProvider._network.chainId,
+            address: await tokenContract.getAddress(),
+            data: erc20Interface.encodeFunctionData('balanceOf', [await tokenContract.getAddress()]),
+            chainId: Number(mockProvider._network.chainId),
           },
         ]
 
         const blockNumber = await mockProvider.getBlockNumber()
-        const result = await multicall2(mockProvider, multicallContract.address, blockNumber, calls)
+        const result = await multicall2(mockProvider, await multicallContract.getAddress(), blockNumber, calls)
 
         let { value, success } = result[calls[0].address]![calls[0].data] || {}
-        expect(value).to.equal(BigNumber.from(10000))
+        expect(value).to.equal(BigInt(10000))
         expect(success).to.be.true
         ;({ value, success } = result[calls[1].address]![calls[1].data] || {})
-        const decodedValue = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', value!)[0]
+        const decodedValue = new Interface(['function Error(string)']).decodeFunctionData('Error', value!)[0]
         expect(decodedValue).to.equal('ERC20: transfer amount exceeds balance')
         expect(success).to.be.false
         ;({ value, success } = result[calls[2].address]![calls[2].data] || {})
-        expect(value).to.equal(BigNumber.from(0))
+        expect(value).to.equal(BigInt(0))
         expect(success).to.be.true
       })
     })

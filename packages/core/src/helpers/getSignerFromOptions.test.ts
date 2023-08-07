@@ -1,15 +1,15 @@
-import { ethers, Wallet } from 'ethers'
+import { ethers, HDNodeWallet, Wallet } from 'ethers'
 import { setupTestingConfig, TestingNetwork } from '../testing'
 import { getSignerFromOptions } from './getSignerFromOptions'
 import { expect } from 'chai'
 
 describe('getSignerFromOptions', () => {
   let network1: TestingNetwork
-  let wallet1: Wallet
+  let wallet1: HDNodeWallet
 
   beforeEach(async () => {
     ;({ network1 } = await setupTestingConfig())
-    wallet1 = ethers.Wallet.fromMnemonic('radar blur cabbage chef fix engine embark joy scheme fiction master release')
+    wallet1 = ethers.Wallet.fromPhrase('radar blur cabbage chef fix engine embark joy scheme fiction master release')
   })
 
   it('returns signer for private key', () => {
@@ -23,7 +23,7 @@ describe('getSignerFromOptions', () => {
 
   it('returns signer for mnemonicPhrase', () => {
     const signer = getSignerFromOptions(network1.provider, {
-      mnemonicPhrase: wallet1.mnemonic.phrase,
+      mnemonicPhrase: wallet1.mnemonic?.phrase ?? '',
       chainId: 1,
     })
 

@@ -1,8 +1,6 @@
 import { expect } from 'chai'
-import { constants } from 'ethers'
+import { ZeroAddress } from 'ethers'
 import { Mainnet, Currency, FiatCurrency, NativeCurrency, Token } from '..'
-
-const AddressZero = constants.AddressZero
 
 describe('Currency', () => {
   it('can be constructed', () => {
@@ -29,7 +27,7 @@ describe('Currency', () => {
   })
 
   it('Token', () => {
-    const token = new Token('Fake Dai', 'FDI', Mainnet.chainId, AddressZero)
+    const token = new Token('Fake Dai', 'FDI', Mainnet.chainId, ZeroAddress)
     const formatted = token.format('123'.concat('0'.repeat(18)))
     expect(formatted).to.equal('123 FDI')
   })

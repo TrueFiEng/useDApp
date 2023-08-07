@@ -1,7 +1,7 @@
 import { encodeUint, bufPaddedLength, buffLength } from '../common'
 import { ethersAbi, falseEncoded, trueEncoded } from './constants'
 
-const selector = ethersAbi.getSighash('tryAggregate')
+const selector = ethersAbi.getFunction('tryAggregate')?.selector
 
 export function encodeCalls(start: string, calls: [string, string][]) {
   let res = start

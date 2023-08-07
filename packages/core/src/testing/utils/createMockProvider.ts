@@ -1,8 +1,8 @@
-import { Wallet, providers } from 'ethers'
+import { HDNodeWallet, Wallet } from 'ethers'
+import { GanacheProvider } from '@ethers-ext/provider-ganache'
 import { ChainId, MulticallAddresses } from '../../constants'
 import { deployMulticall, deployMulticall2 } from './deployMulticall'
 import { mineBlock } from './mineBlock'
-import Ganache from 'ganache'
 
 export interface CreateMockProviderOptions {
   chainId?: ChainId
@@ -15,7 +15,6 @@ export interface CreateMockProviderResult {
   wallets: Wallet[]
   deployer: Wallet
   chainId: ChainId
-  mineBlock: () => Promise<void>
 }
 export type TestingNetwork = CreateMockProviderResult
 
@@ -37,22 +36,20 @@ export const createMockProvider = async (opts: CreateMockProviderOptions = {}): 
     wallets,
     deployer,
     chainId,
-    mineBlock: () => mineBlock(deployer),
   }
 }
 
-export class MockProvider extends providers.Web3Provider {
+export class MockProvider extends GanacheProvider {
   private _wallets: Wallet[]
 
   constructor(opts: { chainId?: number } = {}) {
     const chainId = opts.chainId ?? ChainId.Mainnet
     const accounts = _generateRandomWallets()
-    const ganache = Ganache.provider({
+    super({
       chain: { chainId },
       wallet: { accounts },
       logging: { quiet: true },
     })
-    super(ganache as any)
 
     this._wallets = accounts.map((a) => new Wallet(a.secretKey, this))
   }
@@ -68,7 +65,7 @@ export class MockProvider extends providers.Web3Provider {
 
 const _generateRandomWallets = () => {
   const balance = '0x1ED09BEAD87C0378D8E6400000000' // 10^34
-  const wallets: Wallet[] = []
+  const wallets: HDNodeWallet[] = []
   for (let i = 0; i < 10; i++) {
     wallets.push(Wallet.createRandom())
   }

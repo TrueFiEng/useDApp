@@ -1,6 +1,5 @@
 import { expect } from 'chai'
-import { Contract, utils } from 'ethers'
-import { Interface } from 'ethers/lib/utils'
+import { Contract, Interface } from 'ethers'
 import { Call, RawCallResult } from '../../src'
 import { decodeCallResult } from './calls'
 
@@ -22,7 +21,7 @@ describe('decodeCallResult', () => {
     const errorMessage = 'Testing error message'
     const errorResult: RawCallResult = {
       success: false,
-      value: new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage]),
+      value: new Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage]),
     }
     const { value, error } = decodeCallResult(call, errorResult) || {}
     expect(value).to.be.undefined
@@ -36,7 +35,7 @@ describe('decodeCallResult', () => {
     }
     const { value, error } = decodeCallResult(call, result) || {}
     expect(value).to.be.undefined
-    expect(error?.message.startsWith('hex data is odd-length')).to.be.true
+    expect(error?.message.startsWith('invalid BytesLike value')).to.be.true
   })
 
   it('success', () => {

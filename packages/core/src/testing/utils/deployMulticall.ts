@@ -15,7 +15,7 @@ const deployMulticallBase = async (contract: any, chainId: number, deployer: Sig
     bytecode: contract.bytecode,
     abi: contract.abi,
   })
-  const multicallAddresses = { [chainId]: multicall.address }
+  const multicallAddresses = { [chainId]: await multicall.getAddress() }
 
   return multicallAddresses
 }
