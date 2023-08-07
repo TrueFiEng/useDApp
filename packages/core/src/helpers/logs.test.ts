@@ -188,7 +188,7 @@ describe('decodeLogs', () => {
 
     const from = ZeroAddress
     const to = deployer.address
-    const value = BigInt(1)
+    const value = '0x01'
     const blockHash = '0x0'
     const blockNumber = 1
     const logIndex = 2
@@ -204,7 +204,7 @@ describe('decodeLogs', () => {
           ethers.zeroPadValue(from, 32),
           ethers.zeroPadValue(to, 32),
         ],
-        data: ethers.zeroPadValue(ethers.hexlify(value.toString()), 32),
+        data: ethers.zeroPadValue(value, 32),
         blockHash,
         blockNumber,
         logIndex,
@@ -219,7 +219,7 @@ describe('decodeLogs', () => {
           ethers.zeroPadValue(from, 32),
           ethers.zeroPadValue(to, 32),
         ],
-        data: ethers.zeroPadValue(ethers.hexlify(value.toString()), 32),
+        data: ethers.zeroPadValue(value, 32),
         blockHash,
         blockNumber,
         logIndex,
