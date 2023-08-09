@@ -1,8 +1,7 @@
-import { HDNodeWallet, Wallet } from 'ethers'
+import { HDNodeWallet, Network, Wallet } from 'ethers'
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
 import { ChainId, MulticallAddresses } from '../../constants'
 import { deployMulticall, deployMulticall2 } from './deployMulticall'
-import { mineBlock } from './mineBlock'
 
 export interface CreateMockProviderOptions {
   chainId?: ChainId

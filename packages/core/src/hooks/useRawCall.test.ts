@@ -1,6 +1,5 @@
-import { Contract } from 'ethers'
+import { Contract, getAddress } from 'ethers'
 import { expect } from 'chai'
-import { utils } from 'ethers'
 import { RawCall } from '..'
 import {
   TestingNetwork,
@@ -28,7 +27,7 @@ describe('useRawCall', () => {
 
   it('can query ERC20 balance', async () => {
     const call: RawCall = {
-      address: token.address,
+      address: token.target as string,
       data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
       chainId: network1.chainId,
     }
@@ -44,23 +43,23 @@ describe('useRawCall', () => {
   it('Works for a different combinations of address casing', async () => {
     const calls: RawCall[] = [
       {
-        address: token.address.toLowerCase(),
+        address: (token.target as any).toLowerCase(),
         data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address.toLowerCase()]),
         chainId: network1.chainId,
       },
       {
-        address: token.address.toLowerCase(),
-        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(network1.deployer.address)]),
+        address: (token.target as any).toLowerCase(),
+        data: token.interface.encodeFunctionData('balanceOf', [getAddress(network1.deployer.address)]),
         chainId: network1.chainId,
       },
       {
-        address: utils.getAddress(token.address),
+        address: getAddress(token.target as any),
         data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address.toLowerCase()]),
         chainId: network1.chainId,
       },
       {
-        address: utils.getAddress(token.address),
-        data: token.interface.encodeFunctionData('balanceOf', [utils.getAddress(network1.deployer.address)]),
+        address: getAddress(token.target as any),
+        data: token.interface.encodeFunctionData('balanceOf', [getAddress(network1.deployer.address)]),
         chainId: network1.chainId,
       },
     ]
@@ -85,7 +84,7 @@ describe('useRawCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall({
-          address: token.address,
+          address:  (token.target as any),
           data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
           chainId: network1.chainId,
         }),
@@ -103,7 +102,7 @@ describe('useRawCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall({
-          address: secondToken.address,
+          address:  (secondToken.target as any),
           data: secondToken.interface.encodeFunctionData('balanceOf', [network2.deployer.address]),
           chainId: network2.chainId,
         }),

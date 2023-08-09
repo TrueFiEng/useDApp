@@ -22,7 +22,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
  */
 export function validateCall(call: Call): Call {
   const { contract, method, args } = call
-  if (!contract.address || !method) {
+  if (typeof contract.target !== 'string' || !method) {
     throw new Error('Missing contract address or method name')
   }
 
@@ -30,7 +30,7 @@ export function validateCall(call: Call): Call {
     contract.interface.encodeFunctionData(method, args)
     return call
   } catch (err: any) {
-    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.address}": ${err.message}`)
+    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.target}": ${err.message}`)
   }
 }
 

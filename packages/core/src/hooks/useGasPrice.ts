@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
@@ -10,13 +9,13 @@ import { QueryParams } from '../constants/type/QueryParams'
  * @public
  * @returns gas price of current network. `undefined` if not initialised.
  */
-export function useGasPrice(queryParams: QueryParams = {}): BigNumber | undefined {
+export function useGasPrice(queryParams: QueryParams = {}): BigInt | undefined {
   const { library } = useEthers()
   const providers = useReadonlyNetworks()
   const _blockNumber = useBlockNumber()
   const blockNumbers = useBlockNumbers()
 
-  const [gasPrice, setGasPrice] = useState<BigNumber | undefined>()
+  const [gasPrice, setGasPrice] = useState<BigInt | undefined>()
 
   const { chainId } = queryParams
 

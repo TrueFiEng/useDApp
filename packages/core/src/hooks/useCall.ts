@@ -26,19 +26,19 @@ import { useConfig } from './useConfig'
  *
  * @public
  */
-export interface Call<T extends TypedContract = Contract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
+export interface Call {
   /**
    * contract instance, see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
    */
-  contract: T
+  contract: Contract
   /**
    * function name
    */
-  method: MN
+  method: string
   /**
    * arguments for the function
    */
-  args: Params<T, MN>
+  args: any[]
 }
 
 /**
@@ -69,7 +69,7 @@ export interface Call<T extends TypedContract = Contract, MN extends ContractMet
  * }
  */
 export function useCall<T extends TypedContract, MN extends ContractMethodNames<T>>(
-  call: Call<T, MN> | Falsy,
+  call: Call | Falsy,
   queryParams: QueryParams = {}
 ): CallResult<T, MN> {
   return useCalls([call], queryParams)[0]
@@ -100,7 +100,7 @@ export function useCall<T extends TypedContract, MN extends ContractMethodNames<
  *   return results.map(result => result?.value?.[0])
  * }
  */
-export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}): CallResult<Contract, string>[] {
+export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {}) {
   const chainId = useChainId({ queryParams })
   const { refresh } = useConfig()
 
@@ -114,7 +114,7 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
     [
       JSON.stringify(
         calls.map(
-          (call) => call && { address: call.contract.address.toLowerCase(), method: call.method, args: call.args }
+          (call) => call && { address: (call.contract.target as any).toLowerCase(), method: call.method, args: call.args }
         )
       ),
       chainId,
