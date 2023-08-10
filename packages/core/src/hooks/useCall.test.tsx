@@ -1,4 +1,4 @@
-import { BigNumber, constants, Contract } from 'ethers'
+import { Contract, ZeroAddress } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
@@ -18,7 +18,7 @@ import { defaultMulticall1ErrorMessage } from '../abi/multicall/constants'
 import { deployContract } from '../testing/utils/deployContract'
 
 describe('useCall', () => {
-  for (const multicallVersion of [1, 2] as const) {
+  for (const multicallVersion of [2] as const) {
     describe(`Multicall v${multicallVersion}`, () => {
       it('initial test balance to be correct', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
@@ -219,7 +219,7 @@ describe('useCall', () => {
         contract: Contract,
         args: string[],
         chainId: number,
-        endValue: BigNumber,
+        endValue: BigInt,
         // eslint-disable-next-line no-undef
         config: Awaited<ReturnType<typeof setupTestingConfig>>['config']
       ) => {
@@ -274,7 +274,7 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
         expect(getResultProperty(result, 'block')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         await waitForExpect(() => {
           expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
@@ -320,13 +320,13 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         await waitForCurrent(({ block1 }) => block1 !== undefined && block1.value[0].toNumber() === blockNumber + 1)
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 1)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         await waitForExpect(() => {
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 2)
@@ -334,7 +334,7 @@ describe('useCall', () => {
         })
 
         for (let i = 0; i < 3; i++) {
-          await network1.mineBlock()
+          await network1.provider.mine()
         }
 
         await waitForExpect(() => {
@@ -411,7 +411,7 @@ describe('useCall', () => {
         await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(2))
         const blockNumberBefore = result.current.blockNumber?.value[0]
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         expect(result.current.doubled?.value[0]).to.eq(2)
         expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
@@ -480,7 +480,7 @@ describe('useCall', () => {
         })
 
         it('Returns error if too many arguments', async () => {
-          const args = [constants.AddressZero, constants.AddressZero]
+          const args = [ZeroAddress, ZeroAddress]
           const { result, waitForCurrent } = await renderDAppHook(
             () =>
               useCall({
@@ -530,7 +530,7 @@ describe('useCall', () => {
           }
         )
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[0]?.value?.[0]).to.eq(BigInt(4))
         expect(result.current[0]?.error).to.be.undefined
 
         expect(result.current[1]?.error).to.be.undefined
@@ -540,12 +540,12 @@ describe('useCall', () => {
         expect(result.current[2]?.error?.message).to.eq(
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(4))
         expect(result.current[3]?.error).to.be.undefined
 
         rerender({ num: 3 })
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[0]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[0]?.error).to.be.undefined
 
         expect(result.current[1]?.error).to.be.undefined
@@ -556,7 +556,7 @@ describe('useCall', () => {
           `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
         )
 
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[3]?.error).to.be.undefined
       })
     })

@@ -63,7 +63,7 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   useEffect(() => {
     for (const [chainId, provider] of Object.entries(providers)) {
       if (!isWebSocketProvider(provider)) {
-        provider._pollingInterval = getPollingInterval(Number(chainId))
+        // provider._pollingInterval = getPollingInterval(Number(chainId))
       }
     }
   }, [providers, getPollingInterval])

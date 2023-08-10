@@ -24,30 +24,40 @@ export function useBlockNumber(): number | undefined {
       return
     }
 
-    const readOnlyNetwork = chainId && readOnlyNetworks[(chainId as unknown) as ChainId]
-    if (readOnlyNetwork) {
-      const unsub = subscribeToNewBlock(
-        readOnlyNetwork,
-        chainId,
-        ({ blockNumber }) => {
+    let unsub: () => void | undefined;
+    (async () => {
+      const readOnlyNetwork = chainId && readOnlyNetworks[(chainId as unknown) as ChainId]
+      if (readOnlyNetwork) {
+        unsub = await subscribeToNewBlock(
+          readOnlyNetwork,
+          chainId,
+          ({ blockNumber }) => {
+            if (isMounted()) {
+              setBlockNumber(blockNumber)
+            }
+          },
+          isActive
+        )
+        if (!isMounted()) {
+          unsub?.()
+        }
+      } else {
+        if (!connector) {
+          return
+        }
+        unsub = connector.newBlock.on((blockNumber) => {
           if (isMounted()) {
             setBlockNumber(blockNumber)
           }
-        },
-        isActive
-      )
-      return () => unsub()
-    }
+        })
 
-    if (!connector) {
-      return
-    }
-    const unsub = connector.newBlock.on((blockNumber) => {
-      if (isMounted()) {
-        setBlockNumber(blockNumber)
+        if (!isMounted()) {
+          unsub?.()
+        }
       }
-    })
-    return () => unsub()
+    })();
+
+    return () => unsub?.()
   }, [isActive, readOnlyNetworks, connector, chainId])
 
   const debouncedBlockNumber = useDebounce(blockNumber, 100)

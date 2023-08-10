@@ -18,20 +18,29 @@ export function BlockNumbersProvider({ children }: Props) {
   const isMounted = useIsMounted()
 
   useEffect(() => {
-    const onUnmount = Object.entries(networks).map(([chainId, provider]) =>
-      subscribeToNewBlock(
-        provider,
-        Number(chainId),
-        (...args: Parameters<typeof dispatch>) => {
-          if (isMounted()) {
-            dispatch(...args)
-          }
-        },
-        isActive
-      )
-    )
+    let onUnmounts: (() => void)[] = []
 
-    return () => onUnmount.forEach((fn) => fn())
+    Object.entries(networks).forEach(([chainId, provider]) => {
+      (async () => {
+        const unsubscribe = await subscribeToNewBlock(
+          provider,
+          Number(chainId),
+          (...args: Parameters<typeof dispatch>) => {
+            if (isMounted()) {
+              dispatch(...args)
+            }
+          },
+          isActive
+        )
+        if (isMounted()) {
+          onUnmounts.push(unsubscribe)
+        } else {
+          unsubscribe()
+        }
+      })()
+    });
+
+    return () => onUnmounts.forEach((fn) => fn())
   }, [networks])
 
   const debouncedState = useDebounce(state, 100)

@@ -18,7 +18,7 @@ describe('useBlockNumber', () => {
     const blockNumberFromProvider = await network1.provider.getBlockNumber()
     await waitForCurrentEqual(blockNumberFromProvider)
 
-    await network1.mineBlock()
+    await network1.provider.mine()
 
     await waitForCurrentEqual(blockNumberFromProvider + 1)
     expect(result.error).to.be.undefined
