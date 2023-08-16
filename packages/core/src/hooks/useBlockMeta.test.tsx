@@ -29,7 +29,7 @@ describe('useBlockMeta', () => {
     const firstTimestamp = result.current.timestamp
 
     await sleep(1000)
-    await network1.mineBlock()
+    await network1.provider.mine()
     await waitForCurrent((val) => val.timestamp?.getTime() !== firstTimestamp?.getTime())
     if (!firstTimestamp) throw new Error('firstTimestamp is undefined')
     expect(result.current.timestamp).to.be.greaterThan(firstTimestamp)
@@ -56,7 +56,7 @@ describe('useBlockMeta', () => {
     const blockNumberFromProvider = await network1.provider.getBlockNumber()
     await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider)
 
-    await network1.mineBlock()
+    await network1.provider.mine()
 
     await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider + 1)
     expect(result.error).to.be.undefined
@@ -70,7 +70,7 @@ describe('useBlockMeta', () => {
     const blockNumberFromProvider = await network2.provider.getBlockNumber()
     await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider)
 
-    await network2.mineBlock()
+    await network2.provider.mine()
 
     await waitForCurrent(({ blockNumber }) => blockNumber === blockNumberFromProvider + 1)
     expect(result.error).to.be.undefined

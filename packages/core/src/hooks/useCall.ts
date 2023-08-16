@@ -115,7 +115,11 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
       JSON.stringify(
         calls.map(
           (call) => call && { address: (call.contract.target as any).toLowerCase(), method: call.method, args: call.args }
-        )
+        ),
+        (key, value) =>
+            typeof value === 'bigint'
+                ? value.toString()
+                : value
       ),
       chainId,
     ]

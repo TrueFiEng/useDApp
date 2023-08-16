@@ -22,6 +22,9 @@ export function BlockNumbersProvider({ children }: Props) {
 
     Object.entries(networks).forEach(([chainId, provider]) => {
       (async () => {
+        const current = await provider.getBlockNumber()
+        dispatch({ chainId: Number(chainId), blockNumber: current })
+
         const unsubscribe = await subscribeToNewBlock(
           provider,
           Number(chainId),

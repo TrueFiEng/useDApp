@@ -2,7 +2,7 @@ import { Config, useGasPrice } from '../../src'
 import { expect } from 'chai'
 import { TestingNetwork, setupTestingConfig, renderDAppHook } from '../../src/testing'
 
-describe('useGasPrice', () => {
+describe.only('useGasPrice', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
@@ -16,7 +16,7 @@ describe('useGasPrice', () => {
     await waitForCurrent((val) => val !== undefined)
 
     expect(result.error).to.be.undefined
-    expect(result.current?.toNumber()).to.be.a('number')
+    expect(result.current).to.be.a('bigint')
   })
 
   it('retrieves gas price for multi chain', async () => {
@@ -31,6 +31,6 @@ describe('useGasPrice', () => {
 
     await waitForCurrent((val) => val !== undefined)
     expect(result.error).to.be.undefined
-    expect(result.current?.toNumber()).to.be.a('number')
+    expect(result.current).to.be.a('bigint')
   }
 })

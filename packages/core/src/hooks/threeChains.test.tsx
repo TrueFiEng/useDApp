@@ -1,18 +1,18 @@
 /* eslint react-hooks/rules-of-hooks: 0 */
-import { Contract, providers, Wallet } from 'ethers'
+import { AbstractProvider, Contract, Wallet, ZeroAddress } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { MockProvider, SECOND_TEST_CHAIN_ID, renderDAppHook, waitUntil } from '../testing'
-import { BigNumber, constants } from 'ethers'
 import { doublerContractABI, MultiCall, timestampContractABI } from '../constants/abi'
 import { expect } from 'chai'
 import { randomInt } from 'crypto'
 import { deployContract } from '../testing/utils/deployContract'
+import waitForExpect from 'wait-for-expect'
 
 const FIRST_TEST_CHAIN_ID = 1337
 const THIRD_TEST_CHAIN_ID = 31338
 
 interface ChainData {
-  provider: providers.BaseProvider
+  provider: AbstractProvider
   deployer: Wallet
   mineBlock?: () => Promise<void>
   isBlockMining?: boolean
@@ -49,7 +49,7 @@ describe('useCall - three chains', () => {
     const mineBlock = async () => {
       if (!chains[chainId].isBlockMining) {
         chains[chainId].isBlockMining = true
-        const tx = await deployer.sendTransaction({ to: constants.AddressZero, value: 0 })
+        const tx = await deployer.sendTransaction({ to: ZeroAddress, value: 0 })
         await tx.wait()
         chains[chainId].isBlockMining = false
       }
@@ -61,9 +61,9 @@ describe('useCall - three chains', () => {
     for (const [, chain] of Object.entries(chains)) {
       chain.timestampContract = await deployContract(chain.deployer, timestampContractABI)
       chain.doublerContract = await deployContract(chain.deployer, doublerContractABI)
-      chain.multicallAddress = (await deployContract(chain.deployer, MultiCall)).address
+      chain.multicallAddress = (await deployContract(chain.deployer, MultiCall)).target as string
       if (chain.mineBlock) {
-        chain.mineBlockTimerId = +setInterval(chain.mineBlock, (randomInt(10) + 1) * 10)
+        chain.mineBlockTimerId = +setInterval(chain.mineBlock, (randomInt(10) + 1) * 100)
       }
     }
   })
@@ -94,7 +94,7 @@ describe('useCall - three chains', () => {
       { chainId }
     )
 
-  const useDoubler = (chainId: number) => (arr: BigNumber[] | undefined) =>
+  const useDoubler = (chainId: number) => (arr: BigInt[] | undefined) =>
     useCalls(
       arr === undefined
         ? []
@@ -108,7 +108,7 @@ describe('useCall - three chains', () => {
 
   for (let num = 0; num < 5; num++) {
     it('Test #' + num, async () => {
-      const { result, waitForCurrent } = await renderDAppHook(
+      const { result } = await renderDAppHook(
         () => {
           const timestampsFirstChain = useTimestamps(FIRST_TEST_CHAIN_ID)
           const timestampsSecondChain = useTimestamps(SECOND_TEST_CHAIN_ID)
@@ -139,22 +139,24 @@ describe('useCall - three chains', () => {
         }
       )
 
-      await waitForCurrent((value) =>
-        chainIds.every((chainId) => {
-          const result = value?.doubled?.[chainId]
-          if (result?.length !== numberOfCalls) {
+      await waitForExpect(() => {
+        const allDefined = chainIds.every((chainId) => {
+          const timestamps = result.current?.doubled?.[chainId]
+          if (timestamps?.length !== numberOfCalls) {
             return false
           }
 
-          return result.every((value) => value !== undefined)
+          return timestamps.every((timestamp) => timestamp !== undefined)
         })
-      )
+
+        expect(allDefined).to.be.true
+      })
 
       for (const chainId of chainIds) {
         const timestamps = result.current.timestamps[chainId]
         const doubled = result.current.doubled[chainId]
         for (let i = 0; i < timestamps?.value[0]?.length; i++) {
-          expect(timestamps?.value[0]?.[i]?.mul(2)).to.eq(doubled[i]?.value[0])
+          expect(timestamps?.value[0]?.[i] * BigInt(2)).to.eq(doubled[i]?.value[0])
         }
       }
     }).timeout(12000)

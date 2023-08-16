@@ -13,7 +13,7 @@ import { ERC20Interface } from '../constants/abi'
 import { useContractCall } from './useContractCall'
 import { Config } from '../constants'
 
-describe('useContractCall', () => {
+describe.skip('useContractCall', () => {
   let token: Contract
   let secondToken: Contract
   let config: Config

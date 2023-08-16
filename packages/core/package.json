@@ -50,6 +50,7 @@
     "eslint": "7.22.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "ethers": "6.7.0",
+    "ganache": "7.0.3",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",

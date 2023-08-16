@@ -1,5 +1,4 @@
 import { ChainId, MultiCallABI } from '../constants'
-import { BigNumber } from 'ethers'
 import { useMulticallAddress } from './useMulticallAddress'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useRawCall } from './useRawCalls'
@@ -48,7 +47,7 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
   const timestamp = useMemo(() => {
     try {
       return timestampResult !== undefined
-        ? new Date(BigNumber.from(timestampResult.value).mul(1000).toNumber())
+        ? new Date(Number(timestampResult.value) * 1000)
         : undefined
     } catch (e: any) {
       console.warn('Failed to parse timestamp of a block', e)
@@ -57,7 +56,7 @@ export function useBlockMeta(queryParams: QueryParams = {}) {
 
   return {
     timestamp,
-    difficulty: difficulty !== undefined ? BigNumber.from(difficulty.value) : undefined,
+    difficulty: difficulty !== undefined ? BigInt(difficulty.value) : undefined,
     blockNumber: chainId ? blockNumbers[chainId as ChainId] : undefined,
   }
 }
