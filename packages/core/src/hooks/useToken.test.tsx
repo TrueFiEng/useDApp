@@ -1,4 +1,4 @@
-import { BigNumber, Contract } from 'ethers'
+import { Contract } from 'ethers'
 import { useToken } from '..'
 import { expect } from 'chai'
 import type { Config } from '../constants'
@@ -10,6 +10,7 @@ import {
   TestingNetwork,
   setupTestingConfig,
 } from '../testing'
+import { stringify } from '../helpers/stringify'
 
 describe('useToken', async () => {
   let token: Contract
@@ -42,10 +43,10 @@ describe('useToken', async () => {
 
   const testMultiChainUseToken = async (
     contract: Contract,
-    totalSupply: BigNumber = MOCK_TOKEN_INITIAL_BALANCE,
+    totalSupply: BigInt = MOCK_TOKEN_INITIAL_BALANCE,
     chainId?: number
   ) => {
-    const { result, waitForCurrent } = await renderDAppHook(() => useToken(contract.address, { chainId }), {
+    const { result, waitForCurrent } = await renderDAppHook(() => useToken(contract.target as any, { chainId }), {
       config,
     })
     await waitForCurrent((val) => val !== undefined)
@@ -53,9 +54,9 @@ describe('useToken', async () => {
     const res = {
       name: 'MOCKToken',
       symbol: 'MOCK',
-      decimals: 18,
+      decimals: '18',
       totalSupply,
     }
-    expect(JSON.parse(JSON.stringify(result.current))).to.deep.equal(JSON.parse(JSON.stringify(res)))
+    expect(JSON.parse(stringify(result.current))).to.deep.equal(JSON.parse(stringify(res)))
   }
 })
