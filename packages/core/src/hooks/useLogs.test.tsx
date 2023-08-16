@@ -321,7 +321,7 @@ describe('useLogs', () => {
     expect(result.current?.error).to.not.be.undefined
   })
 
-  it.only('Can query by block hash', async () => {
+  it('Can query by block hash', async () => {
     // Send to emit another Transfer token that our filter should filter out
     const { receipt } = await sendToken(network1.deployer, network1.wallets[0].address, BigInt(1))
 
