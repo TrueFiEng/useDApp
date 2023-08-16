@@ -2,7 +2,7 @@ import { Config, useGasPrice } from '../../src'
 import { expect } from 'chai'
 import { TestingNetwork, setupTestingConfig, renderDAppHook } from '../../src/testing'
 
-describe.only('useGasPrice', () => {
+describe('useGasPrice', () => {
   let network1: TestingNetwork
   let network2: TestingNetwork
   let config: Config
