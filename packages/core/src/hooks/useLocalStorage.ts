@@ -17,7 +17,7 @@ function setItem(key: string, value: any, storage: WindowLocalStorage['localStor
   if (value === undefined) {
     storage.removeItem(key)
   } else {
-    const toStore = JSON.stringify(value)
+    const toStore = JSON.stringify(value, (k, v) => k === '_wallets' ? undefined : typeof v === 'bigint' ? v.toString() : v)
     try {
       storage.setItem(key, toStore)
       return JSON.parse(toStore)

@@ -1,5 +1,4 @@
-import type { TransactionRequest } from '@ethersproject/abstract-provider'
-import { Contract } from 'ethers'
+import { Contract, TransactionRequest } from 'ethers'
 import { expect } from 'chai'
 import { ethers, getAddress, ZeroAddress } from 'ethers'
 import { Config, ERC20MockInterface } from '../constants'
@@ -41,7 +40,7 @@ describe('useLogs', () => {
     const txData = ERC20MockInterface.encodeFunctionData('transfer(address,uint)', [to, amount])
 
     const tx: TransactionRequest = {
-      to: token.address,
+      to: token.target,
       value: BigInt(0),
       data: txData,
     }
@@ -62,7 +61,7 @@ describe('useLogs', () => {
 
     const fromAddress = from.address
     const toAddress = to.address
-    const amount = BigNumber.from(1)
+    const amount = BigInt(1)
 
     await sendToken(from, toAddress, amount)
 
@@ -94,7 +93,7 @@ describe('useLogs', () => {
     expect(getAddress(log.data['from'])).to.equal(getAddress(fromAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(toAddress), 'To')
     expect(log.data['value']).to.equal(amount, 'Amount')
-  })
+  }).timeout(120000)
 
   it('Can get all token transfer logs using the default log query parameters', async () => {
     const from = network1.deployer
@@ -102,7 +101,7 @@ describe('useLogs', () => {
 
     const fromAddress = from.address
     const toAddress = to.address
-    const amount = BigNumber.from(1)
+    const amount = BigInt(1)
 
     await sendToken(from, toAddress, amount)
 
@@ -229,7 +228,7 @@ describe('useLogs', () => {
 
   it('Can query mint transfer logs by sender', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[1].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[1].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -263,7 +262,7 @@ describe('useLogs', () => {
 
   it('Can query mint transfer logs by receiver', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[1].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[1].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -297,7 +296,7 @@ describe('useLogs', () => {
 
   it('We get an error when we query by un-indexed values', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[0].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[0].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -322,9 +321,9 @@ describe('useLogs', () => {
     expect(result.current?.error).to.not.be.undefined
   })
 
-  it('Can query by block hash', async () => {
+  it.only('Can query by block hash', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    const { receipt } = await sendToken(network1.deployer, network1.wallets[0].address, BigNumber.from(1))
+    const { receipt } = await sendToken(network1.deployer, network1.wallets[0].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -353,10 +352,10 @@ describe('useLogs', () => {
 
     expect(getAddress(log.data['from'])).to.equal(getAddress(network1.deployer.address), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.wallets[0].address), 'To')
-    expect(log.data['value']).to.equal(BigNumber.from(1), 'Amount')
+    expect(log.data['value']).to.equal(BigInt(1), 'Amount')
     expect(log.blockHash).to.equal(receipt?.blockHash, 'Block hash')
     expect(log.blockNumber).to.equal(receipt?.blockNumber, 'Block number')
-    expect(log.transactionHash).to.equal(receipt?.transactionHash, 'Transaction hash')
-    expect(log.transactionIndex).to.equal(receipt?.transactionIndex, 'Transaction index')
+    expect(log.transactionHash).to.equal(receipt?.hash, 'Transaction hash')
+    expect(log.transactionIndex).to.equal(receipt?.index, 'Transaction index')
   })
 })

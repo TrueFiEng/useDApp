@@ -1,7 +1,6 @@
-import type { BlockTag, Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { TypedFilter } from '../hooks/useLogs'
 import { Awaited, ContractEventNames, DetailedEventRecord, EventRecord, Falsy, TypedContract } from '../model/types'
-import { EventFragment } from 'ethers'
+import { BlockTag, EventFragment, Filter, FilterByBlockHash, Log } from 'ethers'
 
 /**
  * @internal Intended for internal use - use it on your own risk
