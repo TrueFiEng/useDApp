@@ -1,7 +1,7 @@
 import { FallbackProvider, JsonRpcApiProvider, Provider, ethers } from 'ethers'
 import { TransactionOptions } from '../model'
 
-export const getSignerFromOptions = (
+export const getSignerFromOptions = async (
   provider: Provider,
   options?: TransactionOptions,
   library?: JsonRpcApiProvider | FallbackProvider
@@ -24,6 +24,6 @@ export const getSignerFromOptions = (
     mnemonicPhraseSigner ||
     encryptedJsonSigner ||
     optionsSigner ||
-    (library && 'getSigner' in library ? library.getSigner() : undefined)
+    (library && 'getSigner' in library ? await library.getSigner() : undefined)
   )
 }

@@ -1,8 +1,7 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
-import { HDNodeWallet, Wallet, ethers } from 'ethers'
+import { HDNodeWallet, Wallet, ethers, parseEther } from 'ethers'
 import { setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
-import { parseEther } from 'ethers'
 
 const BASE_TX_COST = 21000
 
@@ -37,7 +36,7 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     const txReceipt = await network1.provider.getTransactionReceipt(receipt!.hash)
-    const txFee = txReceipt?.cumulativeGasUsed?.mul(txReceipt?.effectiveGasPrice)
+    const txFee = txReceipt?.cumulativeGasUsed! * txReceipt?.gasPrice!
     const deployerBalanceBeforeTransaction = await network1.provider.getBalance(
       network1.deployer.address,
       receipt!.blockNumber - 1
@@ -52,13 +51,13 @@ describe('useSendTransaction', () => {
     )
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
 
-    expect(deployerBalanceAfterTransaction).to.eq(deployerBalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
-    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.add(10))
+    expect(deployerBalanceAfterTransaction).to.eq(deployerBalanceBeforeTransaction - BigInt(10) - (txFee ?? BigInt(0)))
+    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction + BigInt(10))
   })
 
   it('sends with different signer', async () => {
-    const receiverBalance = await receiver.getBalance()
-    const secondReceiverBalance = await secondReceiver.getBalance()
+    const receiverBalance = await receiver.provider!.getBalance(receiver.address)
+    const secondReceiverBalance = await secondReceiver.provider!.getBalance(secondReceiver.address)
 
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () => useSendTransaction({ signer: receiver }),
@@ -70,17 +69,17 @@ describe('useSendTransaction', () => {
     await result.current.sendTransaction({ to: secondReceiver.address, value: BigInt(10) })
     await waitForCurrent((val) => val.state != undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await secondReceiver.getBalance()).to.eq(secondReceiverBalance.add(10))
-    expect(await receiver.getBalance()).to.not.eq(receiverBalance)
+    expect(await secondReceiver.provider!.getBalance(secondReceiver.address)).to.eq(secondReceiverBalance + BigInt(10))
+    expect(await receiver.provider!.getBalance(receiver.address)).to.not.eq(receiverBalance)
   })
 
   it('Exception(invalid sender)', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
     await waitForNextUpdate()
-    await result.current.sendTransaction({ to: '0x1', value: utils.parseEther('1') })
+    await result.current.sendTransaction({ to: '0x1', value: parseEther('1') })
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Exception')
-    expect(result.current.state.errorMessage).to.eq('invalid address')
+    expect(result.current.state.errorMessage?.startsWith('ENS resolution requires a provider')).to.be.true
   })
 
   it('transfer ether with limit', async () => {
@@ -99,7 +98,7 @@ describe('useSendTransaction', () => {
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
+    expect(Number(result.current.state.transaction?.gasLimit)).to.equal(2 * BASE_TX_COST)
   })
 
   it('transfer ether with limit in args', async () => {
@@ -120,19 +119,19 @@ describe('useSendTransaction', () => {
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     expect(result.current.state.status).to.eq('Success')
-    expect(result.current.state.transaction?.gasLimit.toNumber()).to.equal(2 * BASE_TX_COST)
+    expect(Number(result.current.state.transaction?.gasLimit)).to.equal(2 * BASE_TX_COST)
   })
 
   it('Returns receipt after correct transaction', async () => {
     const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, { config })
 
-    const receiverBalance = await receiver.getBalance()
+    const receiverBalance = await receiver.provider?.getBalance(receiver.address) ?? BigInt(0)
 
     await result.current.sendTransaction({ to: receiver.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    expect(await receiver.getBalance()).to.eq(receiverBalance.add(10))
+    expect(await receiver.provider?.getBalance(receiver.address)).to.eq(receiverBalance + BigInt(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(receiver.address)
@@ -140,7 +139,7 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
     expect(result.current.state.receipt?.status).to.eq(1)
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
-    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.hash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   })
 
@@ -161,20 +160,20 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
     expect(result.current.state.receipt?.status).to.eq(1)
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
-    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.hash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   })
 
   it('Can send transaction with mnemonic phrase', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useSendTransaction({ chainId: 1, mnemonicPhrase: wallet1.mnemonic.phrase }),
+      () => useSendTransaction({ chainId: 1, mnemonicPhrase: wallet1.mnemonic!.phrase }),
       { config }
     )
     await waitForNextUpdate()
 
     const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
-    const txFee = receipt?.gasUsed.mul(receipt?.effectiveGasPrice ?? 0)
+    const txFee = receipt?.gasUsed! * BigInt(receipt?.gasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(
@@ -188,8 +187,8 @@ describe('useSendTransaction', () => {
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
     const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
 
-    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
-    expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction.add(10))
+    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction - BigInt(10) - BigInt(txFee ?? 0))
+    expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction + BigInt(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -197,7 +196,7 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
     expect(result.current.state.receipt?.status).to.eq(1)
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
-    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.hash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   })
 
@@ -216,7 +215,7 @@ describe('useSendTransaction', () => {
 
     const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
-    const txFee = receipt?.gasUsed.mul(receipt.effectiveGasPrice ?? 0)
+    const txFee = receipt?.gasUsed! * BigInt(receipt?.gasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
     const wallet1BalanceBeforeTransaction = await network1.provider.getBalance(
@@ -230,8 +229,8 @@ describe('useSendTransaction', () => {
     const wallet1BalanceAfterTransaction = await network1.provider.getBalance(wallet1.address, receipt!.blockNumber)
     const wallet2BalanceAfterTransaction = await network1.provider.getBalance(wallet2.address, receipt!.blockNumber)
 
-    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction.sub(10).sub(txFee ?? 0))
-    expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction.add(10))
+    expect(wallet1BalanceAfterTransaction).to.eq(wallet1BalanceBeforeTransaction - BigInt(10) - BigInt(txFee ?? 0))
+    expect(wallet2BalanceAfterTransaction).to.eq(wallet2BalanceBeforeTransaction + BigInt(10))
 
     expect(result.current.state.receipt).to.not.be.undefined
     expect(result.current.state.receipt?.to).to.eq(wallet2.address)
@@ -239,7 +238,7 @@ describe('useSendTransaction', () => {
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
     expect(result.current.state.receipt?.status).to.eq(1)
     expect(result.current.state.receipt?.blockHash).to.match(/^0x/)
-    expect(result.current.state.receipt?.transactionHash).to.match(/^0x/)
+    expect(result.current.state.receipt?.hash).to.match(/^0x/)
     expect(result.current.state.receipt?.gasUsed).to.be.gt(0)
   }).timeout(10000)
 })
