@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { Contract, Signer, TransactionRequest } from 'ethers'
+import { Contract, Signer, TransactionRequest, ErrorCode, TransactionResponse } from 'ethers'
 import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
@@ -68,7 +68,7 @@ async function isNonContractWallet(
 }
 
 const isDroppedAndReplaced = (e: any) =>
-  e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+  e?.code === "TRANSACTION_REPLACED" && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None', transactionName: options?.transactionName })

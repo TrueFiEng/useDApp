@@ -1,4 +1,4 @@
-import type { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider'
+import { TransactionReceipt, TransactionResponse } from "ethers"
 
 /**
  * Represents current state of a transaction.

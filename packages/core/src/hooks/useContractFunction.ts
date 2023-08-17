@@ -79,18 +79,18 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
     options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
-  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
+  const provider = providers[transactionChainId as ChainId]!
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
-        const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
+        const numberOfArgs = contract.interface.getFunction(functionName)?.inputs.length ?? 0
         const hasOpts = args.length > numberOfArgs
         if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
           throw new Error(`Invalid number of arguments for function "${functionName}".`)
         }
 
-        const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+        const signer = getSignerFromOptions(provider, options, library)
 
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
@@ -120,9 +120,9 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           },
         })
         if (receipt?.logs) {
-          const events = receipt.logs.reduce((accumulatedLogs, log) => {
+          const events = receipt.logs.reduce((accumulatedLogs: any, log: any) => {
             try {
-              return log.address.toLowerCase() === contract.address.toLowerCase()
+              return log.address.toLowerCase() === (contract.target as any).toLowerCase()
                 ? [...accumulatedLogs, contract.interface.parseLog(log)]
                 : accumulatedLogs
             } catch (_err) {

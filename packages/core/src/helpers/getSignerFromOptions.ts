@@ -1,8 +1,8 @@
-import { AbstractProvider, FallbackProvider, JsonRpcApiProvider, ethers } from 'ethers'
+import { FallbackProvider, JsonRpcApiProvider, Provider, ethers } from 'ethers'
 import { TransactionOptions } from '../model'
 
 export const getSignerFromOptions = (
-  provider: AbstractProvider,
+  provider: Provider,
   options?: TransactionOptions,
   library?: JsonRpcApiProvider | FallbackProvider
 ) => {
