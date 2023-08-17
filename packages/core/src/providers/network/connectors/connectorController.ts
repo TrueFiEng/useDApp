@@ -1,4 +1,4 @@
-import { providers } from 'ethers'
+import { BrowserProvider, JsonRpcProvider } from 'ethers'
 import { DEFAULT_SUPPORTED_CHAINS, FullConfig } from '../../../constants'
 import { subscribeToProviderEvents } from '../../../helpers'
 import { Event } from '../../../helpers/event'
@@ -58,7 +58,7 @@ export class ConnectorController {
     })
   }
 
-  getProvider(): providers.Web3Provider | providers.JsonRpcProvider | undefined {
+  getProvider(): BrowserProvider | JsonRpcProvider | undefined {
     return this.connector.provider
   }
 

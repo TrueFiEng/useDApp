@@ -1,15 +1,15 @@
-import { providers } from 'ethers'
 import { Connector, ConnectorUpdateData } from '../connector'
 import { Event } from '../../../../helpers/event'
+import { BrowserProvider, JsonRpcProvider } from 'ethers'
 
 export class InjectedConnector implements Connector {
-  public provider?: providers.Web3Provider | providers.JsonRpcProvider
+  public provider?: BrowserProvider | JsonRpcProvider
   public readonly name = 'Injected'
 
   readonly update = new Event<ConnectorUpdateData>()
 
-  constructor(provider: providers.ExternalProvider | providers.Web3Provider | providers.JsonRpcProvider) {
-    this.provider = providers.Provider.isProvider(provider) ? provider : new providers.Web3Provider(provider)
+  constructor(provider: BrowserProvider | JsonRpcProvider) {
+    this.provider = provider
   }
 
   async connectEagerly(): Promise<void> {

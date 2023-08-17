@@ -1,11 +1,12 @@
 import { expect } from 'chai'
-import { providers, Wallet } from 'ethers'
+import { FallbackProvider, JsonRpcSigner, Wallet, WebSocketProvider } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet, Mumbai } from '../model'
 import { MockProvider, renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 import Ganache, { Server } from 'ganache'
+import waitForExpect from 'wait-for-expect'
 
 describe('useEthers', () => {
   let network1: TestingNetwork
@@ -95,14 +96,16 @@ describe('useEthers', () => {
       },
       { config }
     )
-    await waitForCurrent((val) => !val.isLoading && val.chainId === network2.provider.network.chainId)
+    await waitForExpect(async () => {
+      expect(result.current.chainId).to.eq((await network2.provider.getNetwork()).chainId)
+    });
 
     expect(result.error).to.be.undefined
     expect(result.current.error).to.be.undefined
     expect(result.current.activate).to.be.a('function')
     expect(result.current.deactivate).to.be.a('function')
     expect(result.current.activateBrowserWallet).to.be.a('function')
-    expect(result.current.chainId).to.eq(network2.provider.network.chainId)
+    expect(result.current.chainId).to.eq((await network2.provider.getNetwork()).chainId)
     expect(result.current.account).to.eq(network2.provider.getWallets()[0].address)
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.eq(network2.provider)
@@ -126,31 +129,31 @@ describe('useEthers', () => {
     await waitForCurrent((val) => !val.isLoading)
 
     const provider = result.current.library
-    const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
+    const signer = provider && 'getSigner' in provider ? await provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
     expect(result.current.library).to.be.instanceOf(MockProvider)
-    expect(signer).to.be.instanceOf(providers.JsonRpcSigner)
+    expect(signer).to.be.instanceOf(JsonRpcSigner)
   })
 
   it('cannot get signer if library is type of FallbackProvider', async () => {
     const configWithFallbackProvider: Config = {
       ...config,
       readOnlyUrls: {
-        [network1.chainId]: new providers.FallbackProvider([network1.provider]),
+        [network1.chainId]: new FallbackProvider([network1.provider]),
       },
     }
     const { result, waitForCurrent } = await renderDAppHook(useEthers, { config: configWithFallbackProvider })
 
     await waitForCurrent((val) => {
-      return val.library instanceof providers.FallbackProvider
+      return val.library instanceof FallbackProvider
     })
 
     const provider = result.current.library
     const signer = provider && 'getSigner' in provider ? provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
-    expect(result.current.library).to.be.instanceOf(providers.FallbackProvider)
+    expect(result.current.library).to.be.instanceOf(FallbackProvider)
     expect(signer).to.be.undefined
   })
 
@@ -191,26 +194,20 @@ describe('useEthers', () => {
 
       await waitForCurrent((val) => !!val)
       expect(result.current).to.be.instanceOf(Error)
-      expect(result.current?.message).to.eq('Could not activate connector: User rejected the request.')
+      expect(result.current?.message.startsWith('Could not activate connector: user rejected action')).to.be.true
     })
   })
 
   describe('Websocket provider', () => {
     let ganacheServer: Server<'ethereum'>
-    let provider: providers.WebSocketProvider
+    let provider: WebSocketProvider
     const wsPort = 18845
     const wsUrl = `ws://localhost:${wsPort}`
 
     before(async () => {
       ganacheServer = Ganache.server({ server: { ws: true }, logging: { quiet: true } })
       await ganacheServer.listen(wsPort)
-      provider = new providers.WebSocketProvider(wsUrl)
-    })
-
-    after(async () => {
-      await ganacheServer.close()
-      // disrupting the connection forcefully so websocket server can be properly shutdown
-      await provider.destroy()
+      provider = new WebSocketProvider(wsUrl)
     })
 
     it('works with a websocket provider', async () => {

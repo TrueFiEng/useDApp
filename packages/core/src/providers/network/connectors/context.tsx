@@ -1,4 +1,4 @@
-import { getAddress, JsonRpcProvider, Provider, FallbackProvider, BrowserProvider } from 'ethers'
+import { getAddress, JsonRpcProvider, FallbackProvider, BrowserProvider } from 'ethers'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useConfig, useLocalStorage, useReadonlyNetwork } from '../../../hooks'
 import { useReadonlyNetworkStates } from '../readonlyNetworks/context'
@@ -108,8 +108,6 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         } else {
           await controller.activate()
         }
-
-        setLoading(false)
         onSuccess?.()
       } catch (error) {
         controller.reportError(error as any)
@@ -263,7 +261,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
         reportError,
         activate: ethersActivate,
         activateBrowserWallet,
-        isLoading,
+        isLoading: isLoading,
         account,
         library: provider,
         chainId:
