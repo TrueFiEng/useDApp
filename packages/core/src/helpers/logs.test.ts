@@ -1,6 +1,5 @@
-import { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
-import { Contract, ZeroAddress, ethers } from 'ethers'
+import { Contract, FilterByBlockHash, Log, ZeroAddress, ethers } from 'ethers'
 import { TypedFilter } from '../hooks'
 import { MockProvider, deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'

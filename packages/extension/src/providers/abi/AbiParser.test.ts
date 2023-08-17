@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { Interface } from '@ethersproject/abi'
 import { AbiParser } from './AbiParser'
+import { Interface } from 'ethers'
 
 describe('AbiParser', () => {
   describe('name', () => {
@@ -14,7 +14,7 @@ describe('AbiParser', () => {
     })
 
     it('known name', () => {
-      const { name } = parser.get(coder.getSighash('foo'))
+      const { name } = parser.get(coder.getFunction('foo')?.selector ?? '')
       expect(name).to.equal('foo')
     })
   })
@@ -23,9 +23,9 @@ describe('AbiParser', () => {
     function encodeAndDecode(abi: string, args: any[]) {
       const coder = new Interface([abi])
       const parser = AbiParser.fromAbis([abi])
-      const fragment = coder.functions[Object.keys(coder.functions)[0]]
-      const data = coder.encodeFunctionData(fragment, args)
-      return parser.get(coder.getSighash(fragment)).parseCallData(data)
+      const fragment = coder.fragments[0]
+      const data = coder.encodeFunctionData(fragment.format('full'), args)
+      return parser.get(fragment.format('sighash')).parseCallData(data)
     }
 
     it('unknown call with no arguments', () => {
@@ -81,8 +81,8 @@ describe('AbiParser', () => {
       const abi = ['function foo(uint)']
       const coder = new Interface(abi)
       const parser = AbiParser.fromAbis(abi)
-      const fragment = coder.functions[Object.keys(coder.functions)[0]]
-      const selector = coder.getSighash(fragment)
+      const fragment = coder.fragments[0]
+      const selector = fragment.format('sighash')
       const data = selector + 'aabbcc'
       const result = parser.get(selector).parseCallData(data)
       expect(result).to.deep.equal([
@@ -316,9 +316,9 @@ describe('AbiParser', () => {
     function encodeAndDecode(abi: string, args: any[]) {
       const coder = new Interface([abi])
       const parser = AbiParser.fromAbis([abi])
-      const fragment = coder.functions[Object.keys(coder.functions)[0]]
-      const data = coder.encodeFunctionResult(fragment, args)
-      return parser.get(coder.getSighash(fragment)).parseCallResult(data)
+      const fragment = coder.fragments[0]
+      const data = coder.encodeFunctionResult(fragment.format('full'), args)
+      return parser.get(fragment.format('sighash')).parseCallResult(data)
     }
 
     it('unknown call result', () => {
@@ -393,9 +393,9 @@ describe('AbiParser', () => {
         const abi = ['function foo()']
         const coder = new Interface(abi)
         const parser = AbiParser.fromAbis(abi)
-        const fragment = coder.functions[Object.keys(coder.functions)[0]]
+        const fragment = coder.fragments[0]
         const data = 'aabbcc'
-        const result = parser.get(coder.getSighash(fragment)).parseCallResult(data)
+        const result = parser.get(fragment.format('sighash')).parseCallResult(data)
         expect(result).to.deep.equal({
           type: 'bytes',
           name: '#0',
@@ -407,9 +407,9 @@ describe('AbiParser', () => {
         const abi = ['function foo() returns (bool)']
         const coder = new Interface(abi)
         const parser = AbiParser.fromAbis(abi)
-        const fragment = coder.functions[Object.keys(coder.functions)[0]]
+        const fragment = coder.fragments[0]
         const data = 'aabbcc'
-        const result = parser.get(coder.getSighash(fragment)).parseCallResult(data)
+        const result = parser.get(fragment.format('sighash')).parseCallResult(data)
         expect(result).to.deep.equal({
           type: 'bytes',
           name: '#0',

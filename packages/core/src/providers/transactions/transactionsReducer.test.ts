@@ -1,7 +1,7 @@
-import type { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
 import { StoredTransaction, UpdatedTransaction } from './model'
 import { transactionReducer } from './reducer'
+import { TransactionReceipt, TransactionResponse } from 'ethers'
 
 describe('transactionsReducer', () => {
   it('addTransaction', () => {

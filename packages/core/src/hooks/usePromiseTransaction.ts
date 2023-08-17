@@ -1,11 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { Contract, Signer, TransactionRequest, ErrorCode, TransactionResponse } from 'ethers'
+import { Contract, FallbackProvider, JsonRpcProvider, Signer, TransactionRequest, TransactionResponse } from 'ethers'
 import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
-import { JsonRpcProvider, FallbackProvider } from '@ethersproject/providers'
 import { useGnosisSafeContract } from './useGnosisSafeContract'
 
 interface PromiseTransactionOpts {

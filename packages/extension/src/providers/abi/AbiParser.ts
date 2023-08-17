@@ -1,6 +1,6 @@
 import type { ParsedValue } from './ParsedValue'
-import type { Interface, FunctionFragment, ParamType } from '@ethersproject/abi'
 import { AbiEntry, AbiInput, toAbiEntries } from './AbiEntry'
+import { FunctionFragment, Interface, ParamType } from 'ethers'
 
 export class AbiParser {
   private cache: Record<string, CallParser> = {}
@@ -11,7 +11,7 @@ export class AbiParser {
 
   constructor(abis: AbiEntry[]) {
     for (const abi of abis) {
-      this.cache[normalizeHex(abi.selector)] = makeCallParser(abi.coder, abi.fragment)
+      this.cache[normalizeHex(abi.selector)] = makeCallParser(abi.coder, FunctionFragment.from(abi.fragment.format('full')))
     }
   }
 
@@ -78,13 +78,17 @@ function parseDecoded(t: ParamType, value: any, index: number): ParsedValue {
   } else if (type === 'array') {
     const array = []
     for (let i = 0; i < value.length; i++) {
-      array.push(parseDecoded(t.arrayChildren, value[i], i))
+      if (t.arrayChildren) {
+        array.push(parseDecoded(t.arrayChildren, value[i], i))
+      }
     }
     value = array
   } else if (type === 'tuple') {
     const array = []
     for (let i = 0; i < value.length; i++) {
-      array.push(parseDecoded(t.components[i], value[i], i))
+      if (t.components?.[i]) {
+        array.push(parseDecoded(t.components[i], value[i], i))
+      }
     }
     value = array
   }

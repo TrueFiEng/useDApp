@@ -1,4 +1,4 @@
-import { BlockTag } from '@ethersproject/abstract-provider'
+import { BlockTag } from 'ethers'
 import { Config } from '..'
 import { ChainId } from '../chainId'
 

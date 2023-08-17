@@ -1,4 +1,4 @@
-import type { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider'
+import { TransactionReceipt, TransactionResponse } from "ethers"
 
 export interface StoredTransaction {
   transaction: TransactionResponse

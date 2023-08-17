@@ -1,6 +1,6 @@
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
-import { BigNumber, Wallet, ethers } from 'ethers'
+import { HDNodeWallet, Wallet, ethers } from 'ethers'
 import { setupTestingConfig, TestingNetwork, renderDAppHook } from '../../src/testing'
 import { parseEther } from 'ethers'
 
@@ -9,7 +9,7 @@ const BASE_TX_COST = 21000
 describe('useSendTransaction', () => {
   let network1: TestingNetwork
   let config: Config
-  let wallet1: Wallet
+  let wallet1: HDNodeWallet
   let wallet2: Wallet
   let spender: Wallet
   let receiver: Wallet
@@ -18,7 +18,7 @@ describe('useSendTransaction', () => {
   beforeEach(async () => {
     ;({ config, network1 } = await setupTestingConfig())
     wallet2 = network1.wallets[0]
-    wallet1 = ethers.Wallet.fromMnemonic(
+    wallet1 = ethers.Wallet.fromPhrase(
       'radar blur cabbage chef fix engine embark joy scheme fiction master release'
     ).connect(network1.provider)
     // Top up the wallet because it has 0 funds initially - on both providers.
@@ -32,11 +32,11 @@ describe('useSendTransaction', () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(useSendTransaction, { config })
     await waitForNextUpdate()
 
-    const receipt = await result.current.sendTransaction({ to: wallet1.address, value: BigNumber.from(10) })
+    const receipt = await result.current.sendTransaction({ to: wallet1.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
-    const txReceipt = await network1.provider.getTransactionReceipt(receipt!.transactionHash)
+    const txReceipt = await network1.provider.getTransactionReceipt(receipt!.hash)
     const txFee = txReceipt?.cumulativeGasUsed?.mul(txReceipt?.effectiveGasPrice)
     const deployerBalanceBeforeTransaction = await network1.provider.getBalance(
       network1.deployer.address,
@@ -67,7 +67,7 @@ describe('useSendTransaction', () => {
       }
     )
     await waitForNextUpdate()
-    await result.current.sendTransaction({ to: secondReceiver.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: secondReceiver.address, value: BigInt(10) })
     await waitForCurrent((val) => val.state != undefined)
     expect(result.current.state.status).to.eq('Success')
     expect(await secondReceiver.getBalance()).to.eq(secondReceiverBalance.add(10))
@@ -95,7 +95,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -115,7 +115,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -128,7 +128,7 @@ describe('useSendTransaction', () => {
 
     const receiverBalance = await receiver.getBalance()
 
-    await result.current.sendTransaction({ to: receiver.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: receiver.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -151,7 +151,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
     await waitForCurrent((val) => val.state !== undefined)
     expect(result.current.state.status).to.eq('Success')
@@ -172,7 +172,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
     const txFee = receipt?.gasUsed.mul(receipt?.effectiveGasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)
@@ -214,7 +214,7 @@ describe('useSendTransaction', () => {
     )
     await waitForNextUpdate()
 
-    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigNumber.from(10) })
+    const receipt = await result.current.sendTransaction({ to: wallet2.address, value: BigInt(10) })
 
     const txFee = receipt?.gasUsed.mul(receipt.effectiveGasPrice ?? 0)
     await waitForCurrent((val) => val.state !== undefined)

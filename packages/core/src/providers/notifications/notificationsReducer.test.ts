@@ -1,7 +1,7 @@
-import type { TransactionResponse } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
 import { Notification } from './model'
 import { notificationReducer } from './reducer'
+import { TransactionResponse } from 'ethers'
 
 describe('notificationReducer', () => {
   it('addNotification', () => {

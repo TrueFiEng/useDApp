@@ -6,7 +6,7 @@ import { renderDAppHook } from '../testing/renderDAppHook'
 
 const CONTRACT_FUNCTION_COST = 52441 // mock transfer transaction cost
 
-describe.only('useContractFunction', () => {
+describe('useContractFunction', () => {
   let token: Contract
   let config: Config
   let network1: TestingNetwork
