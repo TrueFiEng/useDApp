@@ -23,14 +23,14 @@ describe('connectContractToSigner', () => {
     const signer = await network1.provider.getSigner()
     const connectedContract = token.connect(signer) as Contract
 
-    expect(connectContractToSigner(connectedContract).signer).to.eq(signer)
+    expect(connectContractToSigner(connectedContract).runner).to.eq(signer)
   })
 
   it('takes signer from options', async () => {
     const signer = await network1.provider.getSigner()
     const connectedContract = connectContractToSigner(token, { signer })
 
-    expect(connectedContract.signer).to.eq(signer)
+    expect(connectedContract.runner).to.eq(signer)
   })
 
   it('takes signer from library', async () => {
@@ -38,10 +38,10 @@ describe('connectContractToSigner', () => {
     await waitForCurrent((val) => val?.library !== undefined)
     const { library } = result.current
 
-    const signer = library && 'getSigner' in library ? library.getSigner() : undefined
+    const signer = library && 'getSigner' in library ? await library.getSigner() : undefined
 
     const connectedContract = connectContractToSigner(token, undefined, signer)
 
-    expect(connectedContract.signer).to.be.deep.eq(signer)
+    expect(connectedContract.runner).to.be.deep.eq(signer)
   })
 })

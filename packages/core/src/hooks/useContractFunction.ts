@@ -15,7 +15,7 @@ import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
  * @internal Intended for internal use - use it on your own risk
  */
 export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
-  if (contract.signer) {
+  if (contract.runner) {
     return contract as Contract
   }
 
@@ -113,7 +113,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
 
         const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
           safeTransaction: {
-            to: contract.address,
+            to: contract.target,
             value: opts?.value,
             data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
             safeTxGas: gasLimit ?? undefined,
