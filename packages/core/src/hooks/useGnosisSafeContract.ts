@@ -14,7 +14,7 @@ export const useGnosisSafeContract = (
 
   useEffect(() => {
     return () => {
-      safeContract.current?.removeAllListeners()
+      void safeContract.current?.removeAllListeners()
     }
   }, [])
 
@@ -25,7 +25,7 @@ export const useGnosisSafeContract = (
       }
 
       if (safeContract.current) {
-        safeContract.current.removeAllListeners()
+        void safeContract.current.removeAllListeners()
       }
       safeContract.current = new Contract(account, GNOSIS_SAFE_ABI, provider)
 

@@ -1,4 +1,4 @@
-import { Interface, hexlify } from 'ethers'
+import { Interface } from 'ethers'
 import { Call } from '../hooks/useCall'
 import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'

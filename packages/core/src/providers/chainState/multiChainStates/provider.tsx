@@ -112,7 +112,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   useEffect(() => {
     for (const [_chainId, provider] of Object.entries(networks)) {
       const chainId = Number(_chainId)
-      ;(async () => {
+      void (async () => {
         const network = await provider.getNetwork()
         // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
         if (chainId === Number(network.chainId)) {

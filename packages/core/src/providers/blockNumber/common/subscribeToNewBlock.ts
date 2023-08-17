@@ -21,7 +21,7 @@ export async function subscribeToNewBlock(
     )
 
     return () => {
-      provider.off('block', update)
+      void provider.off('block', update)
     }
   }
 

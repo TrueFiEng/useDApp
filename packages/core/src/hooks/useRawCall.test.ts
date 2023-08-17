@@ -84,7 +84,7 @@ describe('useRawCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall({
-          address:  (token.target as any),
+          address: token.target as any,
           data: token.interface.encodeFunctionData('balanceOf', [network1.deployer.address]),
           chainId: network1.chainId,
         }),
@@ -102,7 +102,7 @@ describe('useRawCall', () => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useRawCall({
-          address:  (secondToken.target as any),
+          address: secondToken.target as any,
           data: secondToken.interface.encodeFunctionData('balanceOf', [network2.deployer.address]),
           chainId: network2.chainId,
         }),

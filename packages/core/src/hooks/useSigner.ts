@@ -12,7 +12,7 @@ export function useSigner(): JsonRpcSigner | undefined {
   const [signer, setSigner] = useState<JsonRpcSigner | undefined>()
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       if (library !== undefined && 'getSigner' in library && account !== undefined) setSigner(await library.getSigner())
       else setSigner(undefined)
     })()

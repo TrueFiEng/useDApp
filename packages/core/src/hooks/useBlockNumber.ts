@@ -24,8 +24,8 @@ export function useBlockNumber(): number | undefined {
       return
     }
 
-    let unsub: () => void | undefined;
-    (async () => {
+    let unsub: () => void | undefined
+    void (async () => {
       const readOnlyNetwork = chainId && readOnlyNetworks[(chainId as unknown) as ChainId]
       if (readOnlyNetwork) {
         unsub = await subscribeToNewBlock(
@@ -55,7 +55,7 @@ export function useBlockNumber(): number | undefined {
           unsub?.()
         }
       }
-    })();
+    })()
 
     return () => unsub?.()
   }, [isActive, readOnlyNetworks, connector, chainId])

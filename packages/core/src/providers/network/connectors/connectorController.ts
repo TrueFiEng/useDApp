@@ -97,10 +97,10 @@ export class ConnectorController {
         this.emitUpdate()
       }
 
-      provider.on('block', listener)
+      void provider.on('block', listener)
 
       return () => {
-        provider.off('block', listener)
+        void provider.off('block', listener)
       }
     })
 

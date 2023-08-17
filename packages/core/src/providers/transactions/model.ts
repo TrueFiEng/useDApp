@@ -1,4 +1,4 @@
-import { TransactionReceipt, TransactionResponse } from "ethers"
+import { TransactionReceipt, TransactionResponse } from 'ethers'
 
 export interface StoredTransaction {
   transaction: TransactionResponse

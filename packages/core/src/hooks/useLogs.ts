@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Contract } from 'ethers'
 import { ContractEventNames, Falsy, EventParams, TypedContract } from '../model/types'
 import { useRawLogs } from './useRawLogs'
-import { LogsResult, decodeLogs, encodeFilterData } from '../helpers'
+import { decodeLogs, encodeFilterData } from '../helpers'
 import { LogQueryParams } from '../constants/type/QueryParams'
 
 /**

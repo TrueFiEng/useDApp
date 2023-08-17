@@ -3,7 +3,7 @@ import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumber, useBlockNumbers } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
-import { FeeDataNetworkPlugin, Provider } from 'ethers'
+import { Provider } from 'ethers'
 
 /**
  * Returns gas price of current network.

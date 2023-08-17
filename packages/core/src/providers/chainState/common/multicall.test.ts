@@ -49,7 +49,8 @@ describe('Multicall', () => {
         }
 
         const blockNumber = (await mockProvider.getBlockNumber()) + 1
-        await expect(multicall(mockProvider, await multicallContract.getAddress(), blockNumber, [call])).to.be.eventually.rejected
+        await expect(multicall(mockProvider, await multicallContract.getAddress(), blockNumber, [call])).to.be
+          .eventually.rejected
       })
 
       it('Does not fail when retrieving data on block number from the past', async () => {

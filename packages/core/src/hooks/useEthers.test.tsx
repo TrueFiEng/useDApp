@@ -85,7 +85,7 @@ describe('useEthers', () => {
   })
 
   it('returns correct provider after activation', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(
+    const { result } = await renderDAppHook(
       () => {
         const { activate } = useEthers()
         useEffect(() => {
@@ -98,7 +98,7 @@ describe('useEthers', () => {
     )
     await waitForExpect(async () => {
       expect(result.current.chainId).to.eq((await network2.provider.getNetwork()).chainId)
-    });
+    })
 
     expect(result.error).to.be.undefined
     expect(result.current.error).to.be.undefined

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Contract, FilterByBlockHash, Log, ZeroAddress, ethers } from 'ethers'
+import { Contract, Filter, FilterByBlockHash, Log, ZeroAddress, ethers } from 'ethers'
 import { TypedFilter } from '../hooks'
 import { MockProvider, deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'

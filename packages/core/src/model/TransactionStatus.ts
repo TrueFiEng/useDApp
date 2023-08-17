@@ -1,4 +1,4 @@
-import { TransactionReceipt, TransactionResponse } from "ethers"
+import { TransactionReceipt, TransactionResponse } from 'ethers'
 
 /**
  * Represents current state of a transaction.

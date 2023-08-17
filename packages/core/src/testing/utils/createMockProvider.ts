@@ -1,4 +1,4 @@
-import { HDNodeWallet, Network, Wallet } from 'ethers'
+import { HDNodeWallet, Wallet } from 'ethers'
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
 import { ChainId, MulticallAddresses } from '../../constants'
 import { deployMulticall, deployMulticall2 } from './deployMulticall'

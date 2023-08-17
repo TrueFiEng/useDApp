@@ -12,8 +12,7 @@ export const getSignerFromOptions = async (
   const password = options && 'password' in options && options.password
 
   const privateKeySigner = privateKey && provider && new ethers.Wallet(privateKey, provider)
-  const mnemonicPhraseSigner =
-    mnemonicPhrase && provider && ethers.Wallet.fromPhrase(mnemonicPhrase).connect(provider)
+  const mnemonicPhraseSigner = mnemonicPhrase && provider && ethers.Wallet.fromPhrase(mnemonicPhrase).connect(provider)
   const encryptedJsonSigner =
     json && password && provider && ethers.Wallet.fromEncryptedJsonSync(json, password).connect(provider)
 

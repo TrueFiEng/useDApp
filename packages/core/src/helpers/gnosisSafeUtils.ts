@@ -1,4 +1,12 @@
-import { BigNumberish, Contract, ZeroAddress, TypedDataEncoder, TransactionResponse, TransactionReceipt, TransactionRequest } from 'ethers'
+import {
+  BigNumberish,
+  Contract,
+  ZeroAddress,
+  TypedDataEncoder,
+  TransactionResponse,
+  TransactionReceipt,
+  TransactionRequest,
+} from 'ethers'
 import { getChainById } from './chain'
 
 export const GNOSIS_SAFE_ABI = [

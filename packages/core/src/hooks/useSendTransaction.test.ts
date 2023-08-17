@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-non-null-asserted-optional-chain: 0 */
+
 import { Config, useSendTransaction } from '../../src'
 import { expect } from 'chai'
 import { HDNodeWallet, Wallet, ethers, parseEther } from 'ethers'
@@ -125,7 +127,7 @@ describe('useSendTransaction', () => {
   it('Returns receipt after correct transaction', async () => {
     const { result, waitForCurrent } = await renderDAppHook(useSendTransaction, { config })
 
-    const receiverBalance = await receiver.provider?.getBalance(receiver.address) ?? BigInt(0)
+    const receiverBalance = (await receiver.provider?.getBalance(receiver.address)) ?? BigInt(0)
 
     await result.current.sendTransaction({ to: receiver.address, value: BigInt(10) })
 

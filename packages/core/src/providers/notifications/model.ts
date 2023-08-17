@@ -1,4 +1,4 @@
-import { TransactionReceipt, TransactionRequest, TransactionResponse } from "ethers";
+import { TransactionReceipt, TransactionRequest, TransactionResponse } from 'ethers'
 
 type NotificationPayload = { submittedAt: number } & (
   | { type: 'transactionPendingSignature'; transactionName?: string; transactionRequest?: TransactionRequest }

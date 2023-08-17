@@ -26,7 +26,7 @@ export async function estimateTransactionGasLimit(
     const estimatedGas = transactionRequest.gasLimit
       ? BigInt(transactionRequest.gasLimit)
       : await signer.estimateGas(transactionRequest)
-    return estimatedGas * BigInt(gasLimitBufferPercentage + 100) / BigInt(100)
+    return (estimatedGas * BigInt(gasLimitBufferPercentage + 100)) / BigInt(100)
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -44,7 +44,7 @@ export async function estimateContractFunctionGasLimit(
 ): Promise<BigInt | undefined> {
   try {
     const estimatedGas = await (contractWithSigner as any)[functionName].estimateGas(...args)
-    const gasLimit = estimatedGas * BigInt(gasLimitBufferPercentage + 100) / BigInt(100)
+    const gasLimit = (estimatedGas * BigInt(gasLimitBufferPercentage + 100)) / BigInt(100)
     return gasLimit
   } catch (err: any) {
     console.error(err)
@@ -67,7 +67,7 @@ async function isNonContractWallet(
 }
 
 const isDroppedAndReplaced = (e: any) =>
-  e?.code === "TRANSACTION_REPLACED" && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+  e?.code === 'TRANSACTION_REPLACED' && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None', transactionName: options?.transactionName })

@@ -48,12 +48,7 @@ describe.skip('useChainCall', () => {
     )
   })
 
-  const testMultiChainUseChainCall = async (
-    contract: Contract,
-    args: string[],
-    chainId: number,
-    endValue: BigInt
-  ) => {
+  const testMultiChainUseChainCall = async (contract: Contract, args: string[], chainId: number, endValue: BigInt) => {
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
         useChainCall({

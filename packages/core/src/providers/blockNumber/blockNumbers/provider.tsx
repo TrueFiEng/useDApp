@@ -18,10 +18,10 @@ export function BlockNumbersProvider({ children }: Props) {
   const isMounted = useIsMounted()
 
   useEffect(() => {
-    let onUnmounts: (() => void)[] = []
+    const onUnmounts: (() => void)[] = []
 
     Object.entries(networks).forEach(([chainId, provider]) => {
-      (async () => {
+      void (async () => {
         const current = await provider.getBlockNumber()
         dispatch({ chainId: Number(chainId), blockNumber: current })
 
@@ -41,7 +41,7 @@ export function BlockNumbersProvider({ children }: Props) {
           unsubscribe()
         }
       })()
-    });
+    })
 
     return () => onUnmounts.forEach((fn) => fn())
   }, [networks])

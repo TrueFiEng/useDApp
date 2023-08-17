@@ -149,7 +149,7 @@ describe.skip('useCall Resilency tests', () => {
           })
 
           it('Continues to work when *secondary* RPC endpoint fails', async () => {
-            const { result, waitForCurrent } = await renderDAppHook(
+            const { waitForCurrent } = await renderDAppHook(
               () => {
                 const { chainId, error } = useEthers()
                 const { blockNumber: firstChainBlockNumber } = useBlockMeta({ chainId: 1337 })

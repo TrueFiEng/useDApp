@@ -7,7 +7,7 @@ export interface ContractDeclaration {
 
 export const deployContract = async (deployer: Signer, { abi, bytecode }: ContractDeclaration, args: any[] = []) => {
   const contractFactory = new ContractFactory(abi, bytecode, deployer)
-  const contract = await contractFactory.deploy(...args) as any as Contract
+  const contract = ((await contractFactory.deploy(...args)) as any) as Contract
   await contract.deploymentTransaction()?.wait()
   return contract
 }

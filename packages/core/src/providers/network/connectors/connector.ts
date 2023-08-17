@@ -21,5 +21,13 @@ export interface Connector {
 }
 
 export const isConnector = (obj: any): obj is Connector => {
-  return obj && typeof obj === 'object' && 'name' in obj && 'update' in obj && 'connectEagerly' in obj && 'activate' in obj && 'deactivate' in obj;
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    'name' in obj &&
+    'update' in obj &&
+    'connectEagerly' in obj &&
+    'activate' in obj &&
+    'deactivate' in obj
+  )
 }

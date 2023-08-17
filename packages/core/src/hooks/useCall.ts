@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Contract } from 'ethers'
-import { ContractMethodNames, Falsy, Params, TypedContract } from '../model/types'
+import { ContractMethodNames, Falsy, TypedContract } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
@@ -114,12 +114,10 @@ export function useCalls(calls: (Call | Falsy)[], queryParams: QueryParams = {})
     [
       JSON.stringify(
         calls.map(
-          (call) => call && { address: (call.contract.target as any).toLowerCase(), method: call.method, args: call.args }
+          (call) =>
+            call && { address: (call.contract.target as any).toLowerCase(), method: call.method, args: call.args }
         ),
-        (key, value) =>
-            typeof value === 'bigint'
-                ? value.toString()
-                : value
+        (key, value) => (typeof value === 'bigint' ? value.toString() : value)
       ),
       chainId,
     ]

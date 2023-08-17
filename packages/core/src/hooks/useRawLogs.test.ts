@@ -51,7 +51,7 @@ describe('useRawLogs', () => {
     expect(result.current.state.status).to.eq('Success')
   }
 
-  function extractAddress(address: string) { 
+  function extractAddress(address: string) {
     let result: string
     result = stripZerosLeft(address)
     while (result.length != 42) result = '0x0' + result.substring(2)

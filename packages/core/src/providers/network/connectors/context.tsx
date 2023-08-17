@@ -88,16 +88,14 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   const activate = useCallback(
     async (
-      providerOrConnector: JsonRpcProvider  | Connector,
+      providerOrConnector: JsonRpcProvider | Connector,
       { silently, onSuccess }: ActivateOptions = { silently: false }
     ) => {
       let controller: ConnectorController
       if ('activate' in providerOrConnector) {
         controller = new ConnectorController(providerOrConnector, config as any)
       } else {
-        const wrappedProvider = isConnector(providerOrConnector)
-          ? providerOrConnector.provider
-          : providerOrConnector
+        const wrappedProvider = isConnector(providerOrConnector) ? providerOrConnector.provider : providerOrConnector
         controller = new ConnectorController(new InjectedConnector(wrappedProvider), config as any)
       }
       setLoading(true)
