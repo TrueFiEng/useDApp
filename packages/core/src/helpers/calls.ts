@@ -1,6 +1,6 @@
-import { Interface } from 'ethers'
+import { BaseContract, Interface } from 'ethers'
 import { Call } from '../hooks/useCall'
-import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
+import { Awaited, ContractFunctionNames, ContractMethodNames, Falsy, Results } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { ChainId } from '../constants/chainId'
@@ -123,14 +123,14 @@ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions)
  *
  * @public
  */
-export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
-  | { value: Awaited<ReturnType<T['functions'][MN]> | undefined>; error: Error | undefined }
+export type CallResult<T extends BaseContract, MN extends ContractMethodNames<T>> =
+  | { value: Results<T, MN> | undefined; error: Error | undefined }
   | undefined
 
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function decodeCallResult<T extends TypedContract, MN extends ContractMethodNames<T>>(
+export function decodeCallResult<T extends BaseContract, MN extends ContractMethodNames<T>>(
   call: Call | Falsy,
   result: RawCallResult
 ): CallResult<T, MN> {
@@ -141,9 +141,7 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
   try {
     if (success) {
       return {
-        value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
-          ReturnType<T['functions'][MN]>
-        >,
+        value: call.contract.interface.decodeFunctionResult(call.method, value) as Results<T, MN>,
         error: undefined,
       }
     } else {

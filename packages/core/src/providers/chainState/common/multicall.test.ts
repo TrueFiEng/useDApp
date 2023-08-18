@@ -40,7 +40,7 @@ describe('Multicall', () => {
         expect(BigInt(unwrappedResult?.value ?? 0)).to.eq('10000')
       })
 
-      it.skip('Fails to retrieve data on block number in the future', async () => {
+      it('Fails to retrieve data on block number in the future', async () => {
         const data = new Interface(ERC20Mock.abi).encodeFunctionData('balanceOf', [deployer.address])
         const call: RawCall = {
           address: await tokenContract.getAddress(),

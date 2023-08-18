@@ -50,8 +50,8 @@ export async function fastEncodingMulticall(
     {
       to: address,
       data: encodeAggregate(requests.map(({ address, data }) => [address, data])),
+      blockTag: blockNumber,
     },
-    blockNumber
   )
   const [, results] = decodeAggregate(response)
   return decodeResult(results, requests)

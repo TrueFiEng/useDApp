@@ -37,7 +37,7 @@ export type {
 } from './providers'
 export { DAppProvider, getStoredTransactionState, multicall, multicall2, useConnector } from './providers'
 export type { Connector, ConnectorController, ConnectorUpdateData } from './providers'
-export type { TypedFilter, Call, ContractCall, TokenList } from './hooks'
+export type { TypedFilter, Call, TokenList } from './hooks'
 export {
   useBlockMeta,
   useLogs,
@@ -48,8 +48,6 @@ export {
   useCalls,
   useConfig,
   useUpdateConfig,
-  useContractCall,
-  useContractCalls,
   useChainCall,
   useChainCalls,
   useChainMeta,

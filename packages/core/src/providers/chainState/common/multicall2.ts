@@ -1,4 +1,4 @@
-import { Contract, providers } from 'ethers'
+import { Contract, Provider } from 'ethers'
 import { decodeTryAggregate, encodeTryAggregate } from '../../../abi/multicall2'
 import { RawCall } from './callsReducer'
 import { ChainState } from './model'
@@ -16,7 +16,7 @@ export const multicall2Factory = (fastEncoding: boolean) => (fastEncoding ? fast
  * @public
  */
 export async function multicall2(
-  provider: providers.Provider,
+  provider: Provider,
   address: string,
   blockNumber: number,
   requests: RawCall[]
@@ -37,7 +37,7 @@ export async function multicall2(
  * @public
  */
 export async function fastEncodingMulticall2(
-  provider: providers.Provider,
+  provider: Provider,
   address: string,
   blockNumber: number,
   requests: RawCall[]
@@ -52,8 +52,8 @@ export async function fastEncodingMulticall2(
         false,
         requests.map(({ address, data }) => [address, data])
       ),
-    },
-    blockNumber
+      blockTag: blockNumber,
+    }
   )
   const [results] = decodeTryAggregate(response)
   return decodeResult(results, requests)

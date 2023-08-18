@@ -36,7 +36,7 @@ describe('useCall', () => {
         )
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
-        expect(result.current?.value[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+        expect(result.current?.value?.[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
       })
 
       it('returns error on revert', async () => {
@@ -239,7 +239,7 @@ describe('useCall', () => {
         )
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
-        expect(result.current?.value[0]).to.eq(endValue)
+        expect(result.current?.value?.[0]).to.eq(endValue)
       }
 
       it('Properly handles two calls', async () => {
@@ -322,7 +322,7 @@ describe('useCall', () => {
 
         await network1.provider.mine()
 
-        await waitForCurrent(({ block1 }) => block1 !== undefined && Number(block1.value[0]) === blockNumber + 1)
+        await waitForCurrent(({ block1 }) => block1 !== undefined && Number(block1.value?.[0]) === blockNumber + 1)
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 1)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
@@ -409,16 +409,16 @@ describe('useCall', () => {
         )
 
         await waitForCurrent((val) => val?.doubled?.value?.[0] === BigInt(2))
-        const blockNumberBefore = result.current.blockNumber?.value[0]
+        const blockNumberBefore = result.current.blockNumber?.value?.[0]
 
         await network1.provider.mine()
 
-        expect(result.current.doubled?.value[0]).to.eq(2)
-        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        expect(result.current.doubled?.value?.[0]).to.eq(2)
+        expect(result.current.blockNumber?.value?.[0]).to.eq(blockNumberBefore)
         rerender({ num: 2 })
         await waitForCurrent((val) => val?.doubled?.value?.[0] === BigInt(4))
 
-        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        expect(result.current.blockNumber?.value?.[0]).to.eq(blockNumberBefore)
       })
 
       it('should not throw error when call is Falsy', async () => {

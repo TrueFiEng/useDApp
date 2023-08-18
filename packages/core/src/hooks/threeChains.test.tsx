@@ -113,19 +113,19 @@ describe('useCall - three chains', () => {
           const timestampsFirstChain = useTimestamps(FIRST_TEST_CHAIN_ID)
           const timestampsSecondChain = useTimestamps(SECOND_TEST_CHAIN_ID)
           const timestampsThirdChain = useTimestamps(THIRD_TEST_CHAIN_ID)
-          const dTimestampsFirstChain = useDoubler(FIRST_TEST_CHAIN_ID)(timestampsFirstChain?.value[0])
-          const dTimestampsSecondChain = useDoubler(SECOND_TEST_CHAIN_ID)(timestampsSecondChain?.value[0])
-          const dTimestampsThirdChain = useDoubler(THIRD_TEST_CHAIN_ID)(timestampsThirdChain?.value[0])
+          const dTimestampsFirstChain = useDoubler(FIRST_TEST_CHAIN_ID)(timestampsFirstChain?.value?.[0])
+          const dTimestampsSecondChain = useDoubler(SECOND_TEST_CHAIN_ID)(timestampsSecondChain?.value?.[0])
+          const dTimestampsThirdChain = useDoubler(THIRD_TEST_CHAIN_ID)(timestampsThirdChain?.value?.[0])
           return {
             timestamps: {
-              [FIRST_TEST_CHAIN_ID]: timestampsFirstChain,
-              [SECOND_TEST_CHAIN_ID]: timestampsSecondChain,
-              [THIRD_TEST_CHAIN_ID]: timestampsThirdChain,
+              [FIRST_TEST_CHAIN_ID]: timestampsFirstChain as any,
+              [SECOND_TEST_CHAIN_ID]: timestampsSecondChain as any,
+              [THIRD_TEST_CHAIN_ID]: timestampsThirdChain as any,
             },
             doubled: {
-              [FIRST_TEST_CHAIN_ID]: dTimestampsFirstChain,
-              [SECOND_TEST_CHAIN_ID]: dTimestampsSecondChain,
-              [THIRD_TEST_CHAIN_ID]: dTimestampsThirdChain,
+              [FIRST_TEST_CHAIN_ID]: dTimestampsFirstChain as any,
+              [SECOND_TEST_CHAIN_ID]: dTimestampsSecondChain as any,
+              [THIRD_TEST_CHAIN_ID]: dTimestampsThirdChain as any,
             },
           }
         },
@@ -146,7 +146,7 @@ describe('useCall - three chains', () => {
             return false
           }
 
-          return timestamps.every((timestamp) => timestamp !== undefined)
+          return timestamps.every((timestamp: any) => timestamp !== undefined)
         })
 
         expect(allDefined).to.be.true
@@ -155,7 +155,7 @@ describe('useCall - three chains', () => {
       for (const chainId of chainIds) {
         const timestamps = result.current.timestamps[chainId]
         const doubled = result.current.doubled[chainId]
-        for (let i = 0; i < timestamps?.value[0]?.length; i++) {
+        for (let i = 0; i < timestamps?.value?.[0]?.length; i++) {
           expect(timestamps?.value[0]?.[i] * BigInt(2)).to.eq(doubled[i]?.value[0])
         }
       }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { Contract } from 'ethers'
-import { ContractMethodNames, Falsy, TypedContract } from '../model/types'
+import { BaseContract, Contract } from 'ethers'
+import { ContractMethodNames, Falsy } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
@@ -68,7 +68,7 @@ export interface Call {
  *    return value?.[0]
  * }
  */
-export function useCall<T extends TypedContract, MN extends ContractMethodNames<T>>(
+export function useCall<T extends BaseContract, MN extends ContractMethodNames<T>>(
   call: Call | Falsy,
   queryParams: QueryParams = {}
 ): CallResult<T, MN> {

@@ -1,11 +1,11 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, TransactionReceipt } from 'ethers'
+import { BaseContract, Contract, Signer, TransactionReceipt } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
 import { LogDescription } from 'ethers'
-import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
+import { ContractFunctionNames, Falsy, Params } from '../model/types'
 import { useReadonlyNetworks } from '../providers'
 import { ChainId } from '../constants'
 import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
@@ -13,7 +13,7 @@ import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
+export function connectContractToSigner(contract: BaseContract, options?: TransactionOptions, librarySigner?: Signer) {
   if (contract.runner) {
     return contract as Contract
   }
@@ -63,7 +63,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  *   send(utils.parseEther(wethAmount))
  * }
  */
-export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
+export function useContractFunction<T extends BaseContract, FN extends ContractFunctionNames<T>>(
   contract: T | Falsy,
   functionName: FN,
   options?: TransactionOptions
@@ -83,13 +83,13 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
-        const numberOfArgs = contract.interface.getFunction(functionName)?.inputs.length ?? 0
+        const numberOfArgs = contract.interface.getFunction(functionName.toString())?.inputs.length ?? 0
         const hasOpts = args.length > numberOfArgs
         if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
-          throw new Error(`Invalid number of arguments for function "${functionName}".`)
+          throw new Error(`Invalid number of arguments for function "${functionName.toString()}".`)
         }
 
-        const signer = getSignerFromOptions(provider, options, library)
+        const signer = await getSignerFromOptions(provider, options, library)
 
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
