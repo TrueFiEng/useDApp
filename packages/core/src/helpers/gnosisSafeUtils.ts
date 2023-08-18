@@ -6,6 +6,7 @@ import {
   TransactionResponse,
   TransactionReceipt,
   TransactionRequest,
+  EventLog,
 } from 'ethers'
 import { getChainById } from './chain'
 
@@ -123,7 +124,7 @@ export const waitForSafeTransaction = async (
       }
     })
 
-    const onExecutionSuccess = async (txHash: string, _payment: bigint, event: Event) => {
+    const onExecutionSuccess = async (txHash: string, _payment: bigint, event: EventLog) => {
       if (txHash === safeTxHash) {
         contract.removeListener('ExecutionSuccess', onExecutionSuccess)
 

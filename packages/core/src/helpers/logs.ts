@@ -1,6 +1,6 @@
 import { TypedFilter } from '../hooks/useLogs'
 import { Awaited, ContractEventNames, DetailedEventRecord, EventRecord, Falsy, TypedContract } from '../model/types'
-import { BlockTag, EventFragment, Filter, FilterByBlockHash, Log } from 'ethers'
+import { BlockTag, EventFragment, Filter, FilterByBlockHash, LogParams } from 'ethers'
 
 /**
  * @internal Intended for internal use - use it on your own risk
@@ -92,7 +92,7 @@ export type LogsResult<T extends TypedContract, EN extends ContractEventNames<T>
  */
 export function decodeLogs<T extends TypedContract, EN extends ContractEventNames<T>>(
   filter: TypedFilter | Falsy,
-  result: Log[] | Falsy | Error
+  result: LogParams[] | Falsy | Error
 ): LogsResult<T, EN> {
   if (!result || !filter) {
     return undefined

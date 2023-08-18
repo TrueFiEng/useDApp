@@ -46,6 +46,10 @@ export function encodeTryAggregate(b: boolean, calls: [string, string][]) {
   res += b ? trueEncoded : falseEncoded
   res += encodeUint(dynamicOffset)
 
+  if (!res) {
+    throw new Error('Multicall2: failed to encode tryAggregate')
+  }
+
   // encode dynamic array of calls
   return encodeCalls(res, calls)
 }

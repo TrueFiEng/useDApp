@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Contract, Filter, FilterByBlockHash, Log, ZeroAddress, ethers } from 'ethers'
+import { Contract, Filter, FilterByBlockHash, Log, LogParams, ZeroAddress, ethers } from 'ethers'
 import { TypedFilter } from '../hooks'
 import { MockProvider, deployMockToken } from '../testing'
 import { decodeLogs, encodeFilterData, LogsResult } from './logs'
@@ -26,7 +26,7 @@ describe('encodeFilterData', () => {
 
     const encodedFilterData = encodeFilterData(filter, undefined, undefined, '0x0')
 
-    expect(encodedFilterData['blockHash']).to.not.be.undefined
+    expect((encodedFilterData as any)['blockHash']).to.not.be.undefined
   })
 
   it('Returns FilterByBlockHash when blockHash, toBlock, and fromBlock are valid', () => {
@@ -154,7 +154,7 @@ describe('decodeLogs', () => {
       args: [],
     }
 
-    const logs: Log[] = [
+    const logs: LogParams[] = [
       {
         address: await token.getAddress(),
         topics: [
@@ -165,7 +165,7 @@ describe('decodeLogs', () => {
         data: ethers.zeroPadValue(ZeroAddress, 32),
         blockHash: '0x0',
         blockNumber: 0,
-        logIndex: 0,
+        index: 0,
         transactionIndex: 0,
         transactionHash: '0x0',
         removed: false,
@@ -195,7 +195,7 @@ describe('decodeLogs', () => {
     const removed = true
     const transactionHash = '0x11'
 
-    const logs: Log[] = [
+    const logs: LogParams[] = [
       {
         address: await token.getAddress(),
         topics: [
@@ -206,7 +206,7 @@ describe('decodeLogs', () => {
         data: ethers.zeroPadValue(value, 32),
         blockHash,
         blockNumber,
-        logIndex,
+        index: logIndex,
         transactionIndex,
         transactionHash,
         removed,
@@ -221,7 +221,7 @@ describe('decodeLogs', () => {
         data: ethers.zeroPadValue(value, 32),
         blockHash,
         blockNumber,
-        logIndex,
+        index: logIndex,
         transactionIndex,
         transactionHash,
         removed,
