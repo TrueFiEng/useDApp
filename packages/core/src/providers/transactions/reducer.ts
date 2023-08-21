@@ -19,14 +19,15 @@ interface UpdateTransactions {
 export function transactionReducer(state: StoredTransactions, action: Action): StoredTransactions {
   switch (action.type) {
     case 'ADD_TRANSACTION': {
-      const { chainId } = action.payload.transaction
+      const chainId = Number(action.payload.transaction.chainId)
       return {
         ...state,
         [chainId]: [action.payload, ...(state[chainId] ?? [])],
       }
     }
     case 'UPDATE_TRANSACTION': {
-      const { chainId, hash } = action.payload.transaction
+      const chainId = Number(action.payload.transaction.chainId)
+      const hash = action.payload.transaction.hash
       return {
         ...state,
         [chainId]: (state[chainId] ?? []).map((tx) =>

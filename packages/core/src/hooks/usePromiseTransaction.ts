@@ -93,16 +93,20 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         addTransaction({
           transaction: {
             ...transaction,
-            chainId,
+            chainId: BigInt(chainId),
           },
           submittedAt: Date.now(),
           transactionName: options?.transactionName,
         })
         const receipt = await transaction.wait()
+        if (!receipt) {
+          throw new Error('Could not get transaction receipt')
+        }
+
         updateTransaction({
           transaction: {
             ...transaction,
-            chainId: chainId,
+            chainId: BigInt(chainId),
           },
           receipt,
           transactionName: options?.transactionName,
@@ -151,7 +155,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           addTransaction({
             transaction: {
               ...transaction,
-              chainId: chainId,
+              chainId: BigInt(chainId),
             },
             receipt,
             submittedAt: Date.now(),
@@ -169,7 +173,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           addTransaction({
             transaction: {
               ...transaction,
-              chainId: chainId,
+              chainId: BigInt(chainId),
             },
             receipt,
             submittedAt: Date.now(),

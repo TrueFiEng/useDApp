@@ -10,7 +10,7 @@ export function warnOnInvalidFilter(filter: TypedFilter | Falsy) {
     return
   }
   const { contract, event, args } = filter
-  console.warn(`Invalid contract filter: address=${contract.address} event=${event} args=${args}`)
+  console.warn(`Invalid contract filter: address=${contract.target} event=${event} args=${args}`)
 }
 
 /**

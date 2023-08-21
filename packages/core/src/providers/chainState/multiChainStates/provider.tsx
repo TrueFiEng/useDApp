@@ -12,7 +12,7 @@ import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
 import { useUpdateNetworksState } from '../../network/readonlyNetworks/context'
-import { AbstractProvider } from 'ethers'
+import { Provider } from 'ethers'
 
 interface Props {
   children: ReactNode
@@ -66,7 +66,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider: AbstractProvider) {
+  function multicallForChain(chainId: ChainId, provider: Provider) {
     if (!isActive) {
       return
     }

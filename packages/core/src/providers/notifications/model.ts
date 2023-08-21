@@ -1,21 +1,21 @@
-import { TransactionReceipt, TransactionRequest, TransactionResponse } from 'ethers'
+import { TransactionReceipt, TransactionRequest, TransactionResponseParams } from 'ethers'
 
 type NotificationPayload = { submittedAt: number } & (
   | { type: 'transactionPendingSignature'; transactionName?: string; transactionRequest?: TransactionRequest }
-  | { type: 'transactionStarted'; transaction: TransactionResponse; transactionName?: string }
+  | { type: 'transactionStarted'; transaction: TransactionResponseParams; transactionName?: string }
   | {
       type: 'transactionSucceed'
-      transaction: TransactionResponse
+      transaction: TransactionResponseParams
       receipt: TransactionReceipt
       transactionName?: string
-      originalTransaction?: TransactionResponse
+      originalTransaction?: TransactionResponseParams
     }
   | {
       type: 'transactionFailed'
-      transaction: TransactionResponse
+      transaction: TransactionResponseParams
       receipt: TransactionReceipt
       transactionName?: string
-      originalTransaction?: TransactionResponse
+      originalTransaction?: TransactionResponseParams
     }
   | { type: 'walletConnected'; address: string }
 )

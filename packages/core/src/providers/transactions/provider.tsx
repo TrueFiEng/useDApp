@@ -41,7 +41,7 @@ export function TransactionProvider({ children }: Props) {
             receipt: payload.receipt,
             transactionName: payload.transactionName,
           },
-          chainId: payload.transaction.chainId,
+          chainId: Number(payload.transaction.chainId),
         })
         return
       }
@@ -52,7 +52,7 @@ export function TransactionProvider({ children }: Props) {
           submittedAt: payload.submittedAt,
           transactionName: payload.transactionName,
         },
-        chainId: payload.transaction.chainId,
+        chainId: Number(payload.transaction.chainId),
       })
     },
     [dispatch]
@@ -76,7 +76,7 @@ export function TransactionProvider({ children }: Props) {
           receipt: payload.receipt,
           transactionName: payload.transactionName,
         },
-        chainId: payload.transaction.chainId,
+        chainId: Number(payload.transaction.chainId),
       })
     },
     [dispatch]

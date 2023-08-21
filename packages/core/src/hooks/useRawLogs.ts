@@ -34,7 +34,7 @@ export function useRawLogs(
   )
 
   async function updateLogs() {
-    setLogs(!filter ? undefined : await provider?.getLogs(filter))
+    setLogs(!filter ? undefined : await provider?.getLogs(await filter))
   }
 
   useEffect(() => {

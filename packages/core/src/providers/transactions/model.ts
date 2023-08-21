@@ -1,12 +1,12 @@
-import { TransactionReceipt, TransactionResponse } from 'ethers'
+import { TransactionReceipt, TransactionResponseParams } from 'ethers'
 
 export interface StoredTransaction {
-  transaction: TransactionResponse
+  transaction: TransactionResponseParams
   submittedAt: number
   receipt?: TransactionReceipt
   lastCheckedBlockNumber?: number
   transactionName?: string
-  originalTransaction?: TransactionResponse
+  originalTransaction?: TransactionResponseParams
 }
 
 export type UpdatedTransaction = Omit<StoredTransaction, 'submittedAt'> & { receipt: TransactionReceipt }

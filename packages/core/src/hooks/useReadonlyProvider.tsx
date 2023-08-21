@@ -2,14 +2,14 @@ import { useMemo } from 'react'
 import { ChainId } from '../constants'
 import { useReadonlyNetworks } from '../providers/network'
 import { useChainId } from './useChainId'
-import type { providers } from 'ethers'
+import { Provider } from 'ethers'
 
 export interface UseReadonlyProviderOptions {
   chainId?: number
 }
 
 export interface ReadonlyNetwork {
-  provider: providers.BaseProvider
+  provider: Provider
   chainId: number
 }
 
