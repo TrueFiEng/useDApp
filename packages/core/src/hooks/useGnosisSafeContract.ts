@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import type { Signer, providers } from 'ethers'
+import type { Provider, Signer } from 'ethers'
 import { Contract } from 'ethers'
 import { GNOSIS_SAFE_ABI } from '../helpers/gnosisSafeUtils'
 
@@ -8,7 +8,7 @@ import { GNOSIS_SAFE_ABI } from '../helpers/gnosisSafeUtils'
  */
 export const useGnosisSafeContract = (
   account: string | undefined,
-  provider: Signer | providers.Provider | undefined
+  provider: Signer | Provider | undefined
 ) => {
   const safeContract = useRef<Contract | undefined>(undefined)
 

@@ -199,7 +199,7 @@ describe('useContractFunction', () => {
 
   it('transfer amount with just mnemonic phrase', async () => {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
-      () => useContractFunction(token, 'transfer', { chainId: 1, mnemonicPhrase: wallet1.mnemonic?.phrase }),
+      () => useContractFunction(token, 'transfer', { chainId: 1, mnemonicPhrase: wallet1.mnemonic?.phrase as string }),
       {
         config,
       }

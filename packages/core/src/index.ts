@@ -48,8 +48,6 @@ export {
   useCalls,
   useConfig,
   useUpdateConfig,
-  useChainCall,
-  useChainCalls,
   useChainMeta,
   useChainState,
   useContractFunction,

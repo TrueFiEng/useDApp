@@ -133,8 +133,8 @@ describe.skip('useCall Resilency tests', () => {
               },
               pollingInterval: 200,
               multicallAddresses: {
-                [1337]: multicall0.address,
-                [31337]: multicall1.address,
+                [1337]: multicall0.target as string,
+                [31337]: multicall1.target as string,
               },
             }
           })

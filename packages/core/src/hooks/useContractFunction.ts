@@ -99,7 +99,7 @@ export function useContractFunction<T extends BaseContract, FN extends ContractF
             ? opts.gasLimit
             : (await estimateContractFunctionGasLimit(
                 contractWithSigner,
-                functionName,
+                functionName as string,
                 args,
                 gasLimitBufferPercentage
               )) ?? null
@@ -110,11 +110,11 @@ export function useContractFunction<T extends BaseContract, FN extends ContractF
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
 
-        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
+        const receipt = await promiseTransaction(contractWithSigner[functionName as string](...modifiedArgs, modifiedOpts), {
           safeTransaction: {
-            to: contract.target,
+            to: contract.target as string,
             value: opts?.value,
-            data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
+            data: contract.interface.encodeFunctionData(functionName as string, modifiedArgs),
             safeTxGas: gasLimit ?? undefined,
           },
         })
@@ -130,7 +130,7 @@ export function useContractFunction<T extends BaseContract, FN extends ContractF
           }, [] as LogDescription[])
           setEvents(events)
         }
-        return receipt
+        return receipt ?? undefined
       }
     },
     [contract, functionName, options, provider, library, gasLimitBufferPercentage, promiseTransaction]

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { Contract } from 'ethers'
-import { ContractEventNames, Falsy, EventParams, TypedContract } from '../model/types'
+import { BaseContract } from 'ethers'
+import { ContractEventNames, Falsy, EventParams } from '../model/types'
 import { useRawLogs } from './useRawLogs'
 import { decodeLogs, encodeFilterData } from '../helpers'
 import { LogQueryParams } from '../constants/type/QueryParams'
@@ -18,7 +18,7 @@ import { LogQueryParams } from '../constants/type/QueryParams'
  * }
  */
 export interface TypedFilter<
-  T extends TypedContract = Contract,
+  T extends BaseContract = BaseContract,
   EN extends ContractEventNames<T> = ContractEventNames<T>
 > {
   contract: T
@@ -35,7 +35,7 @@ export interface TypedFilter<
  * @returns an array of decoded logs (see {@link LogsResult})
  * @public
  */
-export function useLogs<T extends Contract = Contract, EN extends ContractEventNames<T> = ContractEventNames<T>>(
+export function useLogs<T extends BaseContract = BaseContract, EN extends ContractEventNames<T> = ContractEventNames<T>>(
   filter: TypedFilter<T, EN> | Falsy,
   queryParams: LogQueryParams = {}
 ) {
