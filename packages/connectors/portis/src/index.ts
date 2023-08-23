@@ -1,10 +1,10 @@
 import { Connector } from '@usedapp/core'
-import { providers } from 'ethers'
 import { ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 import Portis, { INetwork, IOptions } from '@portis/web3'
+import { BrowserProvider } from 'ethers'
 
 export class PortisConnector implements Connector {
-  public provider?: providers.Web3Provider
+  public provider?: BrowserProvider
   public portis: Portis | undefined
   public readonly name = 'Portis'
 
@@ -20,7 +20,7 @@ export class PortisConnector implements Connector {
     if (this.provider) return
     this.portis = new Portis(this.dappId, this.network, this.options)
     await this.portis.provider.enable()
-    this.provider = new providers.Web3Provider(this.portis.provider)
+    this.provider = new BrowserProvider(this.portis.provider)
   }
 
   async connectEagerly(): Promise<void> {

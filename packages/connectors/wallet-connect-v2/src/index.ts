@@ -1,6 +1,6 @@
 import { Chain, Connector, ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
 import EthereumProvider from "@walletconnect/ethereum-provider"
-import { providers } from 'ethers'
+import { BrowserProvider } from 'ethers'
 
 interface WalletConnectV2ConnectorOptions {
   projectId: string,
@@ -10,7 +10,7 @@ interface WalletConnectV2ConnectorOptions {
 }
 
 export class WalletConnectV2Connector implements Connector {
-  public provider?: providers.Web3Provider
+  public provider?: BrowserProvider
   public readonly name = 'WalletConnectV2'
 
   readonly update = new ConnectorEvent<ConnectorUpdateData>()
@@ -39,7 +39,7 @@ export class WalletConnectV2Connector implements Connector {
       const accounts = await this.ethereumProvider.request({ method: "eth_accounts" }) as string[]
 
       const chainId = await this.ethereumProvider.request({ method: "eth_chainId" }) as any
-      this.provider = new providers.Web3Provider(this.ethereumProvider)
+      this.provider = new BrowserProvider(this.ethereumProvider)
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (e) {
       console.debug(e)
@@ -59,7 +59,7 @@ export class WalletConnectV2Connector implements Connector {
       const accounts = await this.ethereumProvider.request({ method: "eth_accounts" }) as string[]
 
       const chainId = await this.ethereumProvider.request({ method: "eth_chainId" }) as any
-      this.provider = new providers.Web3Provider(this.ethereumProvider)
+      this.provider = new BrowserProvider(this.ethereumProvider)
       this.update.emit({ chainId: parseInt(chainId), accounts })
     } catch (e: any) {
       console.log(e)
