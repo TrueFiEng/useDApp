@@ -5,10 +5,10 @@ import { Title } from '../../typography/Title'
 import styled from 'styled-components'
 import { Colors } from '../../global/styles'
 import { SendEthForm } from '../SendEthForm/SendEthForm'
-import { formatEther } from '@ethersproject/units'
 import { Label } from '../../typography/Label'
 import { TextInline } from '../../typography/Text'
 import { Button } from '../base/Button'
+import { formatEther } from 'ethers'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 

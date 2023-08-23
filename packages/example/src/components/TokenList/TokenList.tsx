@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { formatUnits } from '@ethersproject/units'
 import { ERC20Interface, useCalls, useEthers, useTokenList } from '@usedapp/core'
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
 import { TokenIcon } from './TokenIcon'
 import { toHttpPath } from '../../utils'
-import { Contract } from 'ethers'
+import { Contract, formatUnits } from 'ethers'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 

@@ -24,9 +24,8 @@ import {
 } from './Icons'
 import { Colors, Shadows } from '../../global/styles'
 import { AnimatePresence, motion } from 'framer-motion'
-import { formatEther } from '@ethersproject/units'
-import { BigNumber } from 'ethers'
 import { Link } from '../base/Link'
+import { TransactionResponseParams, formatEther } from 'ethers'
 
 interface TableWrapperProps {
   children: ReactNode
@@ -38,8 +37,8 @@ const formatter = new Intl.NumberFormat('en-us', {
   maximumFractionDigits: 3,
 })
 
-const formatBalance = (balance: BigNumber | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
+const formatBalance = (balance: bigint | undefined) =>
+  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
   <SmallContentBlock>
@@ -71,14 +70,14 @@ const DateCell = ({ date, className }: DateProps) => {
 }
 
 interface TransactionLinkProps {
-  transaction: TransactionResponse | undefined
+  transaction: TransactionResponseParams | undefined
 }
 
 const TransactionLink = ({ transaction }: TransactionLinkProps) => (
   <>
     {transaction && (
       <Link
-        href={getExplorerTransactionLink(transaction.hash, transaction.chainId)}
+        href={getExplorerTransactionLink(transaction.hash, Number(transaction.chainId))}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -102,7 +101,7 @@ const notificationContent: { [key in Notification['type']]: { title: string; ico
 interface ListElementProps {
   icon: ReactElement
   title: string | undefined
-  transaction?: TransactionResponse
+  transaction?: TransactionResponseParams
   date: number
 }
 

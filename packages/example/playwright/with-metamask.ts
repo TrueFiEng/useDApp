@@ -11,7 +11,7 @@ import {
   waitForPopup,
   waitForPageToClose,
 } from '@usedapp/playwright'
-import { BigNumber, utils, Wallet, providers } from 'ethers'
+import { JsonRpcProvider, parseEther, Wallet } from 'ethers'
 import Ganache, { Server } from 'ganache'
 import { defaultAccounts } from './constants'
 
@@ -163,7 +163,7 @@ export const withMetamaskTest = (baseUrl: string) => {
             expect(await page.isVisible(XPath.id('span', 'balance-page-balance'))).to.be.true
           })
 
-          let balance: BigNumber
+          let balance: bigint
           let address: string
 
           {
@@ -172,7 +172,7 @@ export const withMetamaskTest = (baseUrl: string) => {
             if (!textContent) {
               throw new Error('Balance for current account not found')
             }
-            balance = utils.parseEther(textContent)
+            balance = parseEther(textContent)
           }
 
           {
@@ -212,11 +212,11 @@ export const withMetamaskTest = (baseUrl: string) => {
         await waitForExpect(async () => {
           const wallet = new Wallet(
             defaultAccounts[1].secretKey,
-            new providers.StaticJsonRpcProvider('http://localhost:8545')
+            new JsonRpcProvider('http://localhost:8545')
           )
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
-          const currentBalance = await wallet.getBalance()
+          const currentBalance = await wallet.provider?.getBalance(wallet.address)
           expect(balance).to.be.eq(currentBalance)
         })
       })
@@ -264,8 +264,8 @@ export const withMetamaskTest = (baseUrl: string) => {
           if (!textContent) {
             throw new Error('Balance for current account not found')
           }
-          const balance = utils.parseEther(textContent)
-          expect(balance).to.be.eq(utils.parseEther('1'))
+          const balance = parseEther(textContent)
+          expect(balance).to.be.eq(parseEther('1'))
         })
       })
     })

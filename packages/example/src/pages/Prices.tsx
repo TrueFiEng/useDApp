@@ -5,7 +5,7 @@ import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow }
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'
 import { Title } from '../typography/Title'
-import { formatEther, parseEther } from '@ethersproject/units'
+import { formatEther, parseEther } from 'ethers'
 
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'

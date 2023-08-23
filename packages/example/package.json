@@ -6,7 +6,7 @@
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
   "scripts": {
-    "typechain:generate": "pnpm typechain --target=ethers-v5 ./src/abi/**/*.json --out-dir=./gen/types",
+    "typechain:generate": "pnpm typechain --target=ethers-v6 ./src/abi/**/*.json --out-dir=./gen/types",
     "usedapp:generate": "USEDAPP_OUT_DIR=./gen/hooks USEDAPP_TYPES_DIR=./gen/types pnpm usedapp-generate-hooks",
     "start": "webpack serve --mode development",
     "build": "pnpm build:app && pnpm build:package",
@@ -28,9 +28,7 @@
     "src"
   ],
   "dependencies": {
-    "@ethersproject/abi": "5.6.1",
-    "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/units": "5.6.0",
+    "ethers": "6.7.0",
     "@types/styled-components": "^5.1.7",
     "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
@@ -57,7 +55,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@swc-node/register": "^1.4.2",
     "@testing-library/react": "^11.0.0",
-    "@typechain/ethers-v5": "10.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/debug": "^4.1.7",

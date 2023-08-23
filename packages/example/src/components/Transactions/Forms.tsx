@@ -1,5 +1,5 @@
 import React from 'react'
-import { utils, Contract, BigNumber } from 'ethers'
+import { BaseContract, Interface, isAddress, parseEther } from 'ethers'
 import {
   Goerli,
   Mainnet,
@@ -7,6 +7,7 @@ import {
   OptimismGoerli,
   Rinkeby,
   Ropsten,
+  useCall,
   useContractFunction,
   useEtherBalance,
   useEthers,
@@ -18,7 +19,7 @@ import { TransactionForm } from './TransactionForm'
 import { Weth10 } from '../../../gen/types/Weth10'
 import WethAbi from '../../abi/Weth10.json'
 
-const wethInterface = new utils.Interface(WethAbi.abi)
+const wethInterface = new Interface(WethAbi.abi)
 
 // using weth9 addresses due to bigger usage
 const wethContractAddresses = {
@@ -35,12 +36,12 @@ export const DepositEth = () => {
   const etherBalance = useEtherBalance(account)
   const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined
 
-  const contract = wethContractAddress && (new Contract(wethContractAddress, wethInterface) as Weth10)
+  const contract = isAddress(wethContractAddress) && (new BaseContract(wethContractAddress, wethInterface) as Weth10)
 
   const { state, send } = useContractFunction(contract, 'deposit', { transactionName: 'Wrap' })
 
   const depositEther = (etherAmount: string) => {
-    void send({ value: utils.parseEther(etherAmount) })
+    void send({ value: parseEther(etherAmount) })
   }
 
   return (
@@ -52,16 +53,16 @@ export const WithdrawEth = () => {
   const { account, chainId } = useEthers()
   const wethContractAddress = chainId ? wethContractAddresses[chainId] : undefined
   const wethBalance = useTokenBalance(wethContractAddress, account)
-  const contract = wethContractAddress && (new Contract(wethContractAddress, wethInterface) as Weth10)
+  const contract = wethContractAddress && (new BaseContract(wethContractAddress, wethInterface) as Weth10)
   const { state, send } = useContractFunction(contract, 'withdraw', { transactionName: 'Unwrap' })
 
   const withdrawEther = (wethAmount: string) => {
-    void send(utils.parseEther(wethAmount))
+    void send(parseEther(wethAmount))
   }
 
   return (
     <TransactionForm
-      balance={wethBalance !== undefined ? BigNumber.from(wethBalance) : BigNumber.from('0')}
+      balance={wethBalance !== undefined ? BigInt(wethBalance) : BigInt('0')}
       send={withdrawEther}
       title="Unwrap Ether"
       ticker="WETH"

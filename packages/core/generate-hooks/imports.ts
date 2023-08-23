@@ -2,7 +2,7 @@ import * as path from 'path'
 
 export const commonImports = `
 import { Falsy, Params, QueryParams, TransactionOptions, TypedFilter, useCall, useContractFunction, useLogs } from '@usedapp/core'
-import { Contract, Interface } from 'ethers'
+import { BaseContract, Interface } from 'ethers'
 `
 
 export interface ImportsOptions {

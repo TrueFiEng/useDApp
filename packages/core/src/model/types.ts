@@ -1,13 +1,13 @@
 /* eslint-disable */
-import { BaseContract, ContractTransaction } from "ethers"
+import { BaseContract, ContractTransactionResponse } from "ethers"
 
 export type Falsy = false | 0 | '' | null | undefined
 
 type ReplaceNever<T, R = any> = [T] extends [never] ? R : T;
 
-export type ContractFunctionNames<T extends BaseContract> = ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransaction> ? K : never]: void }>
+export type ContractFunctionNames<T extends BaseContract> = ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransactionResponse> ? K : never]: void }>
 
-export type ContractMethodNames<T extends BaseContract> =  ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransaction> ? never : K]: void }>
+export type ContractMethodNames<T extends BaseContract> =  ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransactionResponse> ? never : K]: void }>
 
 export type ContractEventNames<T extends BaseContract> = keyof { [K in Exclude<keyof T['filters'], number | symbol>]: void }
 

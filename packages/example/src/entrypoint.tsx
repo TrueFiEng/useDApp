@@ -14,7 +14,7 @@ import {
 import { App } from './App'
 import { PortisConnector } from '@usedapp/portis-connector'
 import { WalletConnectV2Connector } from '@usedapp/wallet-connect-v2-connector'
-import { getDefaultProvider } from '@ethersproject/providers'
+import { getDefaultProvider } from 'ethers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),

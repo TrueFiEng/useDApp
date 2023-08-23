@@ -14,7 +14,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
     return
   }
   const { contract, method, args } = call
-  console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
+  console.warn(`Invalid contract call: address=${contract.target} method=${method} args=${args}`)
 }
 
 /**

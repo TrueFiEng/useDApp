@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { BaseContract, Contract } from 'ethers'
-import { ContractMethodNames, Falsy } from '../model/types'
+import { BaseContract } from 'ethers'
+import { ContractMethodNames, Falsy, Params } from '../model/types'
 import { useRawCalls } from './useRawCalls'
 import { CallResult, decodeCallResult, encodeCallData } from '../helpers'
 import { QueryParams } from '../constants/type/QueryParams'
@@ -26,19 +26,19 @@ import { useConfig } from './useConfig'
  *
  * @public
  */
-export interface Call {
+export interface Call<T extends BaseContract = BaseContract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
   /**
    * contract instance, see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
    */
-  contract: Contract
+  contract: T
   /**
    * function name
    */
-  method: string
+  method: MN
   /**
    * arguments for the function
    */
-  args: any[]
+  args: Params<T, MN>
 }
 
 /**
@@ -69,10 +69,10 @@ export interface Call {
  * }
  */
 export function useCall<T extends BaseContract, MN extends ContractMethodNames<T>>(
-  call: Call | Falsy,
+  call: Call<T, MN> | Falsy,
   queryParams: QueryParams = {}
 ): CallResult<T, MN> {
-  return useCalls([call], queryParams)[0]
+  return useCalls([call as Call<BaseContract, any> | Falsy], queryParams)[0]
 }
 
 /**

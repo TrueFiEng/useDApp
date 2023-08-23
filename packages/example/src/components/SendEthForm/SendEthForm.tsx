@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { formatEther } from '@ethersproject/units'
-import { BigNumber } from 'ethers'
 import { ContentBlock } from '../base/base'
 import { TextBold } from '../../typography/Text'
 import { Colors, BorderRad, Transitions } from '../../global/styles'
@@ -8,16 +6,16 @@ import styled from 'styled-components'
 import { useEtherBalance, useEthers } from '@usedapp/core'
 import { Button } from '../base/Button'
 import { useSendTransaction } from '@usedapp/core'
-import { utils } from 'ethers'
 import { StatusAnimation } from '../Transactions/TransactionForm'
+import { formatEther, parseEther } from 'ethers'
 
 const formatter = new Intl.NumberFormat('en-us', {
   minimumFractionDigits: 4,
   maximumFractionDigits: 4,
 })
 
-const formatBalance = (balance: BigNumber | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
+const formatBalance = (balance: bigint | undefined) =>
+  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 const InputComponent = () => {
   const { account } = useEthers()
@@ -30,7 +28,7 @@ const InputComponent = () => {
 
   const handleClick = () => {
     setDisabled(true)
-    void sendTransaction({ to: address, value: utils.parseEther(amount) })
+    void sendTransaction({ to: address, value: parseEther(amount) })
   }
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-import { formatEther } from '@ethersproject/units'
 import { TransactionStatus, useEthers, transactionErrored } from '@usedapp/core'
 import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -6,18 +5,18 @@ import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
 import { Button } from '../base/Button'
 import { BorderRad, Colors } from '../../global/styles'
-import { BigNumber } from 'ethers'
 import { SpinnerIcon, CheckIcon, ExclamationIcon } from './Icons'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { formatEther } from 'ethers'
 
 const formatter = new Intl.NumberFormat('en-us', {
   minimumFractionDigits: 4,
   maximumFractionDigits: 4,
 })
 
-const formatBalance = (balance: BigNumber | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
+const formatBalance = (balance: bigint | undefined) =>
+  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 interface StatusBlockProps {
   color: string
@@ -143,7 +142,7 @@ const InputComponent = ({ ticker, transaction, send }: InputComponentProps) => {
 }
 
 interface TransactionFormProps {
-  balance: BigNumber | undefined
+  balance: bigint | undefined
   send: (value: string) => void
   title: string
   ticker: string
