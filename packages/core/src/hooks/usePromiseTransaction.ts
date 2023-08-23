@@ -1,7 +1,15 @@
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { Contract, FallbackProvider, JsonRpcProvider, Signer, TransactionRequest, TransactionResponse } from 'ethers'
+import {
+  BrowserProvider,
+  Contract,
+  FallbackProvider,
+  JsonRpcProvider,
+  Signer,
+  TransactionRequest,
+  TransactionResponse,
+} from 'ethers'
 import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
@@ -56,7 +64,7 @@ export async function estimateContractFunctionGasLimit(
  * @internal
  */
 async function isNonContractWallet(
-  library: JsonRpcProvider | FallbackProvider | undefined,
+  library: JsonRpcProvider | BrowserProvider | undefined,
   address: string | undefined
 ) {
   if (!library || !address) {
@@ -205,7 +213,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             chainId: chainId,
           })
         }
-        const isContractWallet = !(await isNonContractWallet(library, account))
+        const isContractWallet =
+          !(library instanceof FallbackProvider) && !(await isNonContractWallet(library, account))
         if (isContractWallet) {
           const result = await handleContractWallet(transactionPromise, { safeTransaction })
           transaction = result?.transaction

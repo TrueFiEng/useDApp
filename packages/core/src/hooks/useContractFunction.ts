@@ -110,14 +110,17 @@ export function useContractFunction<T extends BaseContract, FN extends ContractF
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
 
-        const receipt = await promiseTransaction(contractWithSigner[functionName as string](...modifiedArgs, modifiedOpts), {
-          safeTransaction: {
-            to: contract.target as string,
-            value: opts?.value,
-            data: contract.interface.encodeFunctionData(functionName as string, modifiedArgs),
-            safeTxGas: gasLimit ?? undefined,
-          },
-        })
+        const receipt = await promiseTransaction(
+          contractWithSigner[functionName as string](...modifiedArgs, modifiedOpts),
+          {
+            safeTransaction: {
+              to: contract.target as string,
+              value: opts?.value,
+              data: contract.interface.encodeFunctionData(functionName as string, modifiedArgs),
+              safeTxGas: gasLimit ?? undefined,
+            },
+          }
+        )
         if (receipt?.logs) {
           const events = receipt.logs.reduce((accumulatedLogs: any, log: any) => {
             try {

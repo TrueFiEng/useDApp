@@ -57,7 +57,7 @@ export function useSendTransaction(options?: TransactionOptions) {
         signer.sendTransaction(sanitizedTransaction),
         {
           safeTransaction: {
-            to: sanitizedTransaction.to as string ?? '0x',
+            to: (sanitizedTransaction.to as string) ?? '0x',
             value: sanitizedTransaction.value?.toString(),
             data: sanitizedTransaction.data?.toString(),
             safeTxGas: sanitizedTransaction.gasLimit?.toString(),

@@ -1,14 +1,13 @@
-import { Connector, ConnectorUpdateData } from '../connector'
+import { Connector, ConnectorProvider, ConnectorUpdateData } from '../connector'
 import { Event } from '../../../../helpers/event'
-import { BrowserProvider, JsonRpcProvider } from 'ethers'
 
 export class InjectedConnector implements Connector {
-  public provider?: BrowserProvider | JsonRpcProvider
+  public provider?: ConnectorProvider
   public readonly name = 'Injected'
 
   readonly update = new Event<ConnectorUpdateData>()
 
-  constructor(provider: BrowserProvider | JsonRpcProvider) {
+  constructor(provider: ConnectorProvider) {
     this.provider = provider
   }
 

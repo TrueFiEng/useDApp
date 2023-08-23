@@ -6,10 +6,7 @@ import { GNOSIS_SAFE_ABI } from '../helpers/gnosisSafeUtils'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export const useGnosisSafeContract = (
-  account: string | undefined,
-  provider: Signer | Provider | undefined
-) => {
+export const useGnosisSafeContract = (account: string | undefined, provider: Signer | Provider | undefined) => {
   const safeContract = useRef<Contract | undefined>(undefined)
 
   useEffect(() => {

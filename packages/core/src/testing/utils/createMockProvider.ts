@@ -60,6 +60,10 @@ export class MockProvider extends GanacheProvider {
   getAdminWallet() {
     return this._wallets[0]
   }
+
+  request(request: { method: string; params?: Array<any> | Record<string, any> }) {
+    return this.send(request.method, request.params ?? [])
+  }
 }
 
 const _generateRandomWallets = () => {

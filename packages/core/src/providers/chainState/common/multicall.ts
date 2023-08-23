@@ -46,13 +46,11 @@ export async function fastEncodingMulticall(
   if (requests.length === 0) {
     return {}
   }
-  const response = await provider.call(
-    {
-      to: address,
-      data: encodeAggregate(requests.map(({ address, data }) => [address, data])),
-      blockTag: blockNumber,
-    },
-  )
+  const response = await provider.call({
+    to: address,
+    data: encodeAggregate(requests.map(({ address, data }) => [address, data])),
+    blockTag: blockNumber,
+  })
   const [, results] = decodeAggregate(response)
   return decodeResult(results, requests)
 }

@@ -47,7 +47,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           }
         }
 
-        const signer = library && 'getSigner' in library ? library.getSigner() : undefined
+        const signer = library && 'getSigner' in library ? await library.getSigner() : undefined
         if (!signer) {
           setLocalMulticallState(LocalMulticallState.Error)
           return
@@ -61,10 +61,14 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
               multicallVersion === 1 ? multicallABI : multicall2ABI,
               signer
             )
-            updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
-            setMulticallAddress(contractAddress)
-            setMulticallBlockNumber(blockNumber)
-            setLocalMulticallState(LocalMulticallState.Deployed)
+            if (contractAddress) {
+              updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
+              setMulticallAddress(contractAddress)
+              setMulticallBlockNumber(blockNumber)
+              setLocalMulticallState(LocalMulticallState.Deployed)
+            } else {
+              setLocalMulticallState(LocalMulticallState.Error)
+            }
           } catch {
             setLocalMulticallState(LocalMulticallState.Error)
           }

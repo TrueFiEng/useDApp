@@ -1,13 +1,11 @@
-import { ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useReducer, useState } from 'react'
 import { AbstractProvider, JsonRpcProvider } from 'ethers'
 import { useConfig } from '../../../hooks'
 import { Providers } from './model'
 import { ReadonlyNetworksContext } from './context'
-import { BaseProviderFactory, ChainId, NodeUrls } from '../../../constants'
+import { BaseProviderFactory, NodeUrls } from '../../../constants'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { networkStatesReducer } from './reducer'
-import { useWindow } from '../../window'
-import { isWebSocketProvider } from '../../../helpers'
 
 interface NetworkProviderProps {
   providerOverrides?: Providers
@@ -33,8 +31,8 @@ export const getProvidersFromConfig = (readOnlyUrls: NodeUrls) =>
   )
 
 export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: NetworkProviderProps) {
-  const { readOnlyUrls = {}, pollingInterval, pollingIntervals } = useConfig()
-  const isActive = useWindow()
+  const { readOnlyUrls = {} } = useConfig()
+  // const isActive = useWindow()
   const [providers, setProviders] = useState<Providers>(() => ({
     ...getProvidersFromConfig(readOnlyUrls),
     ...providerOverrides,
@@ -42,31 +40,31 @@ export function ReadonlyNetworksProvider({ providerOverrides = {}, children }: N
   const [networkStates, dispatchNetworkState] = useReducer(networkStatesReducer, {
     ...fromEntries(Object.keys({ ...readOnlyUrls, ...providerOverrides }).map((chainId) => [chainId, { errors: [] }])),
   })
-  const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
-    pollingInterval,
-    pollingIntervals,
-  ])
+  // const getPollingInterval = useCallback((chainId: number) => pollingIntervals?.[chainId] ?? pollingInterval, [
+  //   pollingInterval,
+  //   pollingIntervals,
+  // ])
 
   useEffect(() => {
     setProviders({ ...getProvidersFromConfig(readOnlyUrls), ...providerOverrides })
   }, Object.entries(readOnlyUrls).flat())
 
-  useEffect(() => {
-    for (const [chainId] of Object.entries(readOnlyUrls)) {
-      const provider = providers[(chainId as unknown) as ChainId]
-      if (provider && !isWebSocketProvider(provider)) {
-        provider.polling = isActive
-      }
-    }
-  }, [isActive, providers, readOnlyUrls])
+  // useEffect(() => {
+  //   for (const [chainId] of Object.entries(readOnlyUrls)) {
+  //     const provider = providers[(chainId as unknown) as ChainId]
+  //     if (provider && !isWebSocketProvider(provider)) {
+  //       provider.polling = isActive
+  //     }
+  //   }
+  // }, [isActive, providers, readOnlyUrls])
 
-  useEffect(() => {
-    for (const [, provider] of Object.entries(providers)) {
-      if (!isWebSocketProvider(provider)) {
-        // provider._pollingInterval = getPollingInterval(Number(chainId))
-      }
-    }
-  }, [providers, getPollingInterval])
+  // useEffect(() => {
+  //   for (const [, provider] of Object.entries(providers)) {
+  //     if (!isWebSocketProvider(provider)) {
+  //       provider._pollingInterval = getPollingInterval(Number(chainId))
+  //     }
+  //   }
+  // }, [providers, getPollingInterval])
 
   const networks = useMemo(
     () => ({

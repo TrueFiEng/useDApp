@@ -126,7 +126,7 @@ export const waitForSafeTransaction = async (
 
     const onExecutionSuccess = async (txHash: string, _payment: bigint, event: EventLog) => {
       if (txHash === safeTxHash) {
-        contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+        await contract.removeListener('ExecutionSuccess', onExecutionSuccess)
 
         const transaction = await event.getTransaction()
         const receipt = await event.getTransactionReceipt()
@@ -136,7 +136,7 @@ export const waitForSafeTransaction = async (
         const currentNonce = await contract.nonce()
 
         if (Number(currentNonce) > Number(safeTx.nonce)) {
-          contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+          await contract.removeListener('ExecutionSuccess', onExecutionSuccess)
           const transaction = await event.getTransaction()
           const receipt = await event.getTransactionReceipt()
 
@@ -148,6 +148,6 @@ export const waitForSafeTransaction = async (
         }
       }
     }
-    contract.on('ExecutionSuccess', onExecutionSuccess)
+    void contract.on('ExecutionSuccess', onExecutionSuccess)
   })
 }

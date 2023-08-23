@@ -6,7 +6,7 @@ import { TransactionReceipt, TransactionResponseParams } from 'ethers'
 describe('transactionsReducer', () => {
   it('addTransaction', () => {
     const transaction: StoredTransaction = {
-      transaction: { chainId: 1 } as any as TransactionResponseParams,
+      transaction: ({ chainId: 1 } as any) as TransactionResponseParams,
       submittedAt: 10,
     }
 
@@ -17,7 +17,7 @@ describe('transactionsReducer', () => {
 
   it('updateTransaction', () => {
     const transaction: StoredTransaction = {
-      transaction: { chainId: 1 } as any as TransactionResponseParams,
+      transaction: ({ chainId: 1 } as any) as TransactionResponseParams,
       submittedAt: 10,
     }
 
@@ -38,11 +38,11 @@ describe('transactionsReducer', () => {
 
   it('correct order', () => {
     const initial: StoredTransaction = {
-      transaction: { chainId: 1 } as any as TransactionResponseParams,
+      transaction: ({ chainId: 1 } as any) as TransactionResponseParams,
       submittedAt: 10,
     }
     const added: StoredTransaction = {
-      transaction: { chainId: 1 } as any as TransactionResponseParams,
+      transaction: ({ chainId: 1 } as any) as TransactionResponseParams,
       submittedAt: 30,
     }
 
@@ -53,9 +53,9 @@ describe('transactionsReducer', () => {
 
   it('update transactions', () => {
     const initialTransactions: StoredTransaction[] = [
-      { transaction: { chainId: 1 } as any as TransactionResponseParams, submittedAt: 10 },
-      { transaction: { chainId: 1 } as any as TransactionResponseParams, submittedAt: 15 },
-      { transaction: { chainId: 1 } as any as TransactionResponseParams, submittedAt: 20 },
+      { transaction: ({ chainId: 1 } as any) as TransactionResponseParams, submittedAt: 10 },
+      { transaction: ({ chainId: 1 } as any) as TransactionResponseParams, submittedAt: 15 },
+      { transaction: ({ chainId: 1 } as any) as TransactionResponseParams, submittedAt: 20 },
     ]
 
     const newTransactions = initialTransactions.map((tx) => ({ ...tx, lastCheckedBlockNumber: 12 }))

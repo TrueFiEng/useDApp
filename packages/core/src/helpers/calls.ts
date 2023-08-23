@@ -1,6 +1,6 @@
 import { BaseContract, Interface } from 'ethers'
 import { Call } from '../hooks/useCall'
-import { Awaited, ContractFunctionNames, ContractMethodNames, Falsy, Results } from '../model/types'
+import { ContractMethodNames, Falsy, Results } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { ChainId } from '../constants/chainId'

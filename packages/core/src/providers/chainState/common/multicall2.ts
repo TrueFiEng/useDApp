@@ -45,16 +45,14 @@ export async function fastEncodingMulticall2(
   if (requests.length === 0) {
     return {}
   }
-  const response = await provider.call(
-    {
-      to: address,
-      data: encodeTryAggregate(
-        false,
-        requests.map(({ address, data }) => [address, data])
-      ),
-      blockTag: blockNumber,
-    }
-  )
+  const response = await provider.call({
+    to: address,
+    data: encodeTryAggregate(
+      false,
+      requests.map(({ address, data }) => [address, data])
+    ),
+    blockTag: blockNumber,
+  })
   const [results] = decodeTryAggregate(response)
   return decodeResult(results, requests)
 }

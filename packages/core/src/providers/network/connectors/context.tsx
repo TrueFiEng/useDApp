@@ -11,6 +11,7 @@ export type ActivateBrowserWallet = (arg?: { type: string }) => void
 type MaybePromise<T> = Promise<T> | T
 
 type SupportedProviders =
+  | BrowserProvider
   | JsonRpcProvider
   | { getProvider: () => MaybePromise<JsonRpcProvider>; activate: () => Promise<any> }
   | Connector
@@ -25,7 +26,7 @@ export type Web3Ethers = {
   chainId?: number
   account?: string
   error?: Error
-  library?: JsonRpcProvider | FallbackProvider
+  library?: JsonRpcProvider | BrowserProvider | FallbackProvider
   active: boolean
   activateBrowserWallet: ActivateBrowserWallet
   isLoading: boolean
@@ -88,7 +89,7 @@ export function ConnectorContextProvider({ children }: ConnectorContextProviderP
 
   const activate = useCallback(
     async (
-      providerOrConnector: JsonRpcProvider | Connector,
+      providerOrConnector: JsonRpcProvider | BrowserProvider | Connector,
       { silently, onSuccess }: ActivateOptions = { silently: false }
     ) => {
       let controller: ConnectorController

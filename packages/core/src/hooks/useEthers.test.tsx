@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { FallbackProvider, JsonRpcSigner, Wallet, WebSocketProvider } from 'ethers'
+import { BrowserProvider, FallbackProvider, JsonRpcSigner, Wallet, WebSocketProvider } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet, Mumbai } from '../model'
-import { MockProvider, renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
+import { renderDAppHook, setupTestingConfig, sleep, TestingNetwork } from '../testing'
 import { useEthers } from './useEthers'
 import Ganache, { Server } from 'ganache'
 import waitForExpect from 'wait-for-expect'
@@ -46,7 +46,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new BrowserProvider(network2.provider))
         }, [])
 
         return useEthers()
@@ -71,7 +71,7 @@ describe('useEthers', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new BrowserProvider(network2.provider))
         }, [])
 
         return useEthers()
@@ -85,11 +85,13 @@ describe('useEthers', () => {
   })
 
   it('returns correct provider after activation', async () => {
+    const network2BrowserProvider = new BrowserProvider(network2.provider)
+
     const { result } = await renderDAppHook(
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(network2BrowserProvider)
         }, [])
 
         return useEthers()
@@ -108,7 +110,7 @@ describe('useEthers', () => {
     expect(result.current.chainId).to.eq((await network2.provider.getNetwork()).chainId)
     expect(result.current.account).to.eq(network2.provider.getWallets()[0].address)
     expect(result.current.error).to.be.undefined
-    expect(result.current.library).to.eq(network2.provider)
+    expect(result.current.library).to.eq(network2BrowserProvider)
     expect(result.current.active).to.be.true
     expect(result.current.isLoading).to.be.false
   })
@@ -118,7 +120,7 @@ describe('useEthers', () => {
       () => {
         const { activate, library, error, isLoading } = useEthers()
         useEffect(() => {
-          void activate(network1.provider)
+          void activate(new BrowserProvider(network1.provider))
         }, [])
 
         return { library, error, isLoading }
@@ -132,7 +134,7 @@ describe('useEthers', () => {
     const signer = provider && 'getSigner' in provider ? await provider.getSigner() : undefined
 
     expect(result.current.error).to.be.undefined
-    expect(result.current.library).to.be.instanceOf(MockProvider)
+    expect(result.current.library).to.be.instanceOf(BrowserProvider)
     expect(signer).to.be.instanceOf(JsonRpcSigner)
   })
 

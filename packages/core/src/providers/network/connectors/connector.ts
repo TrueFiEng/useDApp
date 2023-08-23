@@ -6,8 +6,10 @@ export interface ConnectorUpdateData {
   accounts: string[]
 }
 
+export type ConnectorProvider = JsonRpcProvider | BrowserProvider
+
 export interface Connector {
-  provider?: BrowserProvider | JsonRpcProvider
+  provider?: ConnectorProvider
 
   name: string
 
