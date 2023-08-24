@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 import { UniswapPairInterface, UNISWAP_V2_FACTORY_ADDRESS, INIT_CODE_HASH } from '../constants'
-import { compareAddress, useContractCall } from '@usedapp/core'
-import { BigNumber } from 'ethers'
-import { getCreate2Address, solidityPack, solidityKeccak256 } from 'ethers'
+import { compareAddress, useCall } from '@usedapp/core'
+import { getCreate2Address, solidityPackedKeccak256, BaseContract } from 'ethers'
 
 /**
  * function`getReserves` of UniswapV2Pair returns uint112 type,
@@ -19,7 +18,7 @@ export function useUniswapPrice(
   baseCurrency: string,
   quoteCurrency: string,
   overrides?: { factory?: string; initCodeHash?: string; digits?: number }
-): BigNumber | undefined {
+): bigint | undefined {
   const digits = overrides?.digits || 18
 
   const [token0, token1] = useMemo(() => {
@@ -31,24 +30,33 @@ export function useUniswapPrice(
 
   const pair = getCreate2Address(
     overrides?.factory || UNISWAP_V2_FACTORY_ADDRESS[1], // Mainnet
-    solidityKeccak256(['bytes'], [solidityPack(['address', 'address'], [token0, token1])]),
+    solidityPackedKeccak256(['address', 'address'], [token0, token1]),
     overrides?.initCodeHash || INIT_CODE_HASH
   )
-  const [reserve0, reserve1] =
-    useContractCall(
+  const { value } =
+    useCall(
       token0 &&
         token1 && {
-          abi: UniswapPairInterface,
-          address: pair,
+          contract: new BaseContract(pair, UniswapPairInterface),
           method: 'getReserves',
           args: [],
         }
-    ) ?? []
+    ) ?? {}
+
+  const [reserve0, reserve1] = value?.length >= 2 ? value : []
 
   return useMemo(() => {
     if (!reserve0 || !reserve1) return
     const [numerator, denominator] = token0 === baseCurrency ? [reserve1, reserve0] : [reserve0, reserve1]
-    const EXP_SCALE = BigNumber.from(10).pow(digits)
-    return numerator.mul(EXP_SCALE).div(denominator)
+    const EXP_SCALE = powerOf10(digits)
+    return (numerator * EXP_SCALE) / denominator
   }, [reserve0, reserve1])
+}
+
+export function powerOf10(digits: number): bigint {
+  let result = BigInt(1)
+  for (let i = 0; i < digits; i++) {
+    result *= BigInt(10)
+  }
+  return result
 }
