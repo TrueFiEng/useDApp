@@ -62,7 +62,7 @@ describe('Auto-generated hook: ERC20', () => {
       )
       await waitForCurrent((val) => val !== undefined)
       expect(result.error).to.be.undefined
-      expect(result.current?.value).to.eq(200)
+      expect(result.current?.value).to.eq(BigInt(200))
     })
   })
 
