@@ -5,6 +5,7 @@ import { SiweProvider, useSiwe } from './provider'
 import React, { useEffect } from 'react'
 import { expect } from 'chai'
 import { SiweMessage } from 'siwe'
+import { BrowserProvider } from 'ethers'
 
 const testSiweFetchers = (address: string): SiweFetchers => {
   return {
@@ -60,7 +61,7 @@ describe('siwe provider tests', async () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network.provider)
+          void activate(new BrowserProvider(network.provider))
         }, [])
         return useSiwe()
       },
@@ -79,7 +80,7 @@ describe('siwe provider tests', async () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network.provider)
+          void activate(new BrowserProvider(network.provider))
         }, [])
         return useSiwe()
       },

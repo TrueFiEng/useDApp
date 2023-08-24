@@ -1,5 +1,5 @@
 import { useEthers } from '@usedapp/core'
-import { Contract, utils } from 'ethers'
+import { Contract, Interface, hashMessage } from 'ethers'
 import React, { useEffect, ReactNode, useState, useCallback } from 'react'
 import { createContext, useContext } from 'react'
 import { SiweMessage } from 'siwe'
@@ -129,7 +129,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       if (!account || !chainId || !library) {
         return
       }
-      const signer = 'getSigner' in library ? library.getSigner() : undefined
+      const signer = 'getSigner' in library ? await library.getSigner() : undefined
       if (!signer) return
 
       setLoading(true)
@@ -178,11 +178,11 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
   }, [account, chainId])
 
   const createMultiSigListener = async ({ message }: { message: SiweMessage }) => {
-    const gnosisSafeContract = new Contract(message.address, new utils.Interface(GNOSIS_SAFE_ABI), library)
+    const gnosisSafeContract = new Contract(message.address, new Interface(GNOSIS_SAFE_ABI), library)
 
     let getMessageHash = localStorage.getItem('getMessageHash')
     if (!getMessageHash) {
-      getMessageHash = await gnosisSafeContract.getMessageHash(utils.hashMessage(message.prepareMessage()))
+      getMessageHash = await gnosisSafeContract.getMessageHash(hashMessage(message.prepareMessage()))
       localStorage.setItem('getMessageHash', getMessageHash as string)
     }
 
@@ -190,7 +190,7 @@ export const SiweProvider = ({ children, backendUrl, api }: SiweProviderProps) =
       clearStorage()
       void getAuthHandler()
     }
-    gnosisSafeContract.once(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
+    await gnosisSafeContract.once(gnosisSafeContract.filters.SignMsg(getMessageHash), onMultiSigSigned)
   }
 
   const value = {

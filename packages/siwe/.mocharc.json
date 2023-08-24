@@ -4,5 +4,6 @@
   "watchExtensions": "ts",
   "extension": "ts",
   "timeout": 100000,
-  "file": "./src/test-setup.ts"
+  "file": "./src/test-setup.ts",
+  "exit": true
 }
