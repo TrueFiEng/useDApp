@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "pnpm run build:esm && pnpm run build:cjs",
-    "build:esm": "tsc --outDir dist/esm",
+    "build:esm": "tsc --module es2020 --target es2017 --outDir dist/esm",
     "build:cjs": "tsc --outDir dist/cjs",
     "lint": "pnpm lint:prettier --check && pnpm lint:eslint",
     "lint:fix": "pnpm lint:prettier --write && pnpm lint:eslint --fix",

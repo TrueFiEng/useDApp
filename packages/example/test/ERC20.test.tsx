@@ -1,7 +1,7 @@
 import { Config, Mainnet } from '@usedapp/core'
 import { deployMockToken, renderDAppHook, setupTestingConfig, TestingNetwork, supportBigNumber } from '@usedapp/testing'
 import { expect, use } from 'chai'
-import { BigNumber, Contract, Wallet } from 'ethers'
+import { Contract, Wallet } from 'ethers'
 import { describe } from 'mocha'
 import { useERC20_balanceOf, useERC20_transfer } from '../gen/hooks/ERC20'
 
@@ -37,38 +37,38 @@ describe('Auto-generated hook: ERC20', () => {
 
   describe('balanceOf', () => {
     it('returns balance for default readonly chain', async () => {
-      const { result, waitForCurrent } = await renderDAppHook(() => useERC20_balanceOf(token1.address, [receiver]), {
+      const { result, waitForCurrent } = await renderDAppHook(() => useERC20_balanceOf(token1.target as string, [receiver]), {
         config,
       })
       await waitForCurrent((val) => val !== undefined)
       expect(result.error).to.be.undefined
-      expect(result.current?.value?.[0]).to.eq(100)
+      expect(result.current?.value).to.eq(BigInt(100))
     })
 
     it('returns balance for explicitly mainnet', async () => {
       const { result, waitForCurrent } = await renderDAppHook(
-        () => useERC20_balanceOf(token1.address, [receiver], { chainId: Mainnet.chainId }),
+        () => useERC20_balanceOf(token1.target as string, [receiver], { chainId: Mainnet.chainId }),
         { config }
       )
       await waitForCurrent((val) => val !== undefined)
       expect(result.error).to.be.undefined
-      expect(result.current?.value?.[0]).to.eq(100)
+      expect(result.current?.value).to.eq(BigInt(100))
     })
 
     it('returns balance for explicitly another chain', async () => {
       const { result, waitForCurrent } = await renderDAppHook(
-        () => useERC20_balanceOf(token2.address, [receiver], { chainId: network2.chainId }),
+        () => useERC20_balanceOf(token2.target as string, [receiver], { chainId: network2.chainId }),
         { config }
       )
       await waitForCurrent((val) => val !== undefined)
       expect(result.error).to.be.undefined
-      expect(result.current?.value?.[0]).to.eq(200)
+      expect(result.current?.value).to.eq(200)
     })
   })
 
   describe('transfer', () => {
     it('success', async () => {
-      const { result } = await renderDAppHook(() => useERC20_transfer(token1.address), {
+      const { result } = await renderDAppHook(() => useERC20_transfer(token1.target as string), {
         config,
       })
       expect(await token1.balanceOf(receiver)).to.eq(100)
@@ -78,7 +78,7 @@ describe('Auto-generated hook: ERC20', () => {
     })
 
     it('events', async () => {
-      const { result } = await renderDAppHook(() => useERC20_transfer(token1.address), {
+      const { result } = await renderDAppHook(() => useERC20_transfer(token1.target as string), {
         config,
       })
       await result.current.send(receiver, 100)
@@ -90,7 +90,7 @@ describe('Auto-generated hook: ERC20', () => {
 
       expect(event?.args['from']).to.eq(deployer.address)
       expect(event?.args['to']).to.eq(receiver)
-      expect(event?.args['value']).to.eq(BigNumber.from(100))
+      expect(event?.args['value']).to.eq(BigInt(100))
     })
   })
 })
