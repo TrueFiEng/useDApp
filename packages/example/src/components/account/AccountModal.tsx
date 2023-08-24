@@ -13,8 +13,7 @@ const formatter = new Intl.NumberFormat('en-us', {
   maximumFractionDigits: 4,
 })
 
-const formatBalance = (balance: bigint | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
+const formatBalance = (balance: bigint | undefined) => formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 export type AccountModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>

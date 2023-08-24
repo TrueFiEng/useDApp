@@ -14,8 +14,7 @@ const formatter = new Intl.NumberFormat('en-us', {
   maximumFractionDigits: 4,
 })
 
-const formatBalance = (balance: bigint | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
+const formatBalance = (balance: bigint | undefined) => formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 const InputComponent = () => {
   const { account } = useEthers()

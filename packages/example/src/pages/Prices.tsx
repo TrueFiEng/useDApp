@@ -15,7 +15,7 @@ export function Prices() {
   const geckoWethPrice = useCoingeckoTokenPrice(WETH_ADDRESS, 'usd')
 
   const uniWethPrice = useUniswapPrice(WETH_ADDRESS, DAI_ADDRESS)
-  const uniWethPriceRounded = uniWethPrice ? uniWethPrice - uniWethPrice % parseEther('0.01') : undefined
+  const uniWethPriceRounded = uniWethPrice ? uniWethPrice - (uniWethPrice % parseEther('0.01')) : undefined
 
   return (
     <MainContent>

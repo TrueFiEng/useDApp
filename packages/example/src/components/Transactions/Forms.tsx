@@ -7,7 +7,6 @@ import {
   OptimismGoerli,
   Rinkeby,
   Ropsten,
-  useCall,
   useContractFunction,
   useEtherBalance,
   useEthers,

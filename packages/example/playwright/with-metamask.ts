@@ -210,10 +210,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         log('Checking account with some funds on it on local network...')
         await waitForExpect(async () => {
-          const wallet = new Wallet(
-            defaultAccounts[1].secretKey,
-            new JsonRpcProvider('http://localhost:8545')
-          )
+          const wallet = new Wallet(defaultAccounts[1].secretKey, new JsonRpcProvider('http://localhost:8545'))
           const { address, balance } = await getAccountAndBalance()
           expect(address).to.be.eq(wallet.address)
           const currentBalance = await wallet.provider?.getBalance(wallet.address)

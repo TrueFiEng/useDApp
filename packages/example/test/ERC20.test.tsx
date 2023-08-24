@@ -37,9 +37,12 @@ describe('Auto-generated hook: ERC20', () => {
 
   describe('balanceOf', () => {
     it('returns balance for default readonly chain', async () => {
-      const { result, waitForCurrent } = await renderDAppHook(() => useERC20_balanceOf(token1.target as string, [receiver]), {
-        config,
-      })
+      const { result, waitForCurrent } = await renderDAppHook(
+        () => useERC20_balanceOf(token1.target as string, [receiver]),
+        {
+          config,
+        }
+      )
       await waitForCurrent((val) => val !== undefined)
       expect(result.error).to.be.undefined
       expect(result.current?.value).to.eq(BigInt(100))

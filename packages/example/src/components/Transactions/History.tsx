@@ -1,4 +1,3 @@
-import type { TransactionResponse } from '@ethersproject/providers'
 import {
   getExplorerTransactionLink,
   Notification,
@@ -37,8 +36,7 @@ const formatter = new Intl.NumberFormat('en-us', {
   maximumFractionDigits: 3,
 })
 
-const formatBalance = (balance: bigint | undefined) =>
-  formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
+const formatBalance = (balance: bigint | undefined) => formatter.format(parseFloat(formatEther(balance ?? BigInt('0'))))
 
 const TableWrapper = ({ children, title }: TableWrapperProps) => (
   <SmallContentBlock>
