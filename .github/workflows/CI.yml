@@ -19,85 +19,84 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm i -g pnpm@7.1.9
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-      # - run: pnpm run lint
+      - run: pnpm run lint
       - run: pnpm run build
       - run: pnpm run test
-        working-directory: packages/core
-  # test-example:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 25
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '16.x'
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-  #     - name: Build dependencies
-  #       run: |
-  #         set -e
-  #         pnpm run build
-  #       working-directory: packages
-  #     - name: Run playwright example
-  #       run: |
-  #         set -e
-  #         LOCALHOST_URL='http://localhost:8545' pnpm start &
-  #         xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
-  #       env:
-  #         MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
-  #         DEBUG: usedapp*
-  #       working-directory: packages/example
-  #     - name: Run playwright example-next
-  #       run: |
-  #         set -e
-  #         echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local
-  #         echo "NEXT_PUBLIC_MAINNET_URL=${MAINNET_URL}" >> .env.local
-  #         pnpm dev &
-  #         xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
-  #       env:
-  #         MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
-  #         DEBUG: usedapp*
-  #       working-directory: packages/example-next
-  #     - name: Cleanup
-  #       if: always()
-  #       run: |
-  #         rm -rf .env.local
-  #       working-directory: packages/example-next
-  # test-docs:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 25
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '16.x'
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-  #     - name: Build dependencies
-  #       run: pnpm run build
-  #       working-directory: packages
-  #     - name: Run playwright
-  #       run: |
-  #         set -e
-  #         pnpm run generate
-  #         pnpm start &
-  #         sleep 15
-  #         xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
-  #       env:
-  #         MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
-  #         DEBUG: usedapp*
-  #       working-directory: packages/docs
-  # check-mixed-changesets:
-  #   timeout-minutes: 5
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '16.x'
-  #     - run: npm i -g pnpm@7.1.9
-  #     - run: pnpm install --frozen-lockfile --filter="usedapp"
-  #     - run: pnpm changeset version
+  test-example:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Build dependencies
+        run: |
+          set -e
+          pnpm run build
+        working-directory: packages
+      - name: Run playwright example
+        run: |
+          set -e
+          LOCALHOST_URL='http://localhost:8545' pnpm start &
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DEBUG: usedapp*
+        working-directory: packages/example
+      - name: Run playwright example-next
+        run: |
+          set -e
+          echo "NEXT_PUBLIC_LOCALHOST_URL=http://localhost:8545" > .env.local
+          echo "NEXT_PUBLIC_MAINNET_URL=${MAINNET_URL}" >> .env.local
+          pnpm dev &
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DEBUG: usedapp*
+        working-directory: packages/example-next
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf .env.local
+        working-directory: packages/example-next
+  test-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Build dependencies
+        run: pnpm run build
+        working-directory: packages
+      - name: Run playwright
+        run: |
+          set -e
+          pnpm run generate
+          pnpm start &
+          sleep 15
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm test:playwright
+        env:
+          MAINNET_URL: ${{ secrets.MAINNET_PROVIDER_URL }}
+          DEBUG: usedapp*
+        working-directory: packages/docs
+  check-mixed-changesets:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: npm i -g pnpm@7.1.9
+      - run: pnpm install --frozen-lockfile --filter="usedapp"
+      - run: pnpm changeset version

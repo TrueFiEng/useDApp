@@ -14,10 +14,7 @@ export async function subscribeToNewBlock(
     await provider.on('block', update)
 
     provider.getBlockNumber().then(
-      (blockNumber) => {
-        console.log('new block', blockNumber)
-        update(blockNumber)
-      },
+      (blockNumber) => update(blockNumber),
       (err) => {
         console.error(err)
       }
