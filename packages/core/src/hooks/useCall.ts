@@ -26,7 +26,10 @@ import { useConfig } from './useConfig'
  *
  * @public
  */
-export interface Call<T extends BaseContract = BaseContract, MN extends ContractMethodNames<T> = ContractMethodNames<T>> {
+export interface Call<
+  T extends BaseContract = BaseContract,
+  MN extends ContractMethodNames<T> = ContractMethodNames<T>
+> {
   /**
    * contract instance, see [Contract](https://docs.ethers.io/v5/api/contract/contract/)
    */
