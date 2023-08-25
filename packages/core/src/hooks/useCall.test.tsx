@@ -348,7 +348,13 @@ describe('useCall', () => {
         }
 
         console.log('350')
-        await waitForExpect(() => {
+        await waitForExpect(async () => {
+          console.log({
+            res1: getResultProperty(result, 'block1'),
+            res2: getResultProperty(result, 'block2'),
+            actual: await network1.provider.getBlockNumber(),
+            blockNumber,
+          })
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 5)
           const block2 = Number(getResultProperty(result, 'block2'))
           // we don't actually know when the update is gonna happen - both possibilities are possible
