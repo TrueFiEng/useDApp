@@ -282,7 +282,7 @@ describe('useCall', () => {
         })
       })
 
-      it('Properly handles refresh per block', async () => {
+      it.only('Properly handles refresh per block', async () => {
         const { config, network1 } = await setupTestingConfig({ multicallVersion })
         const blockNumberContract = await deployContract(network1.deployer, BlockNumberContract)
         const secondBlockNumberContract = await deployContract(network1.deployer, BlockNumberContract)
@@ -306,6 +306,10 @@ describe('useCall', () => {
               }
             )
 
+            console.log({
+              block1,
+              block2,
+            })
             return { block1, block2 }
           },
           {
@@ -315,34 +319,42 @@ describe('useCall', () => {
 
         const blockNumber = await network1.provider.getBlockNumber()
 
+        console.log('322')
         await waitForCurrent(({ block1, block2 }) => !!(block1 && block2))
+        console.log('324')
         expect(result.error).to.be.undefined
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
         await network1.provider.mine()
 
+        console.log('331')
         await waitForCurrent(({ block1 }) => block1 !== undefined && Number(block1.value?.[0]) === blockNumber + 1)
+        console.log('333')
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 1)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
         await network1.provider.mine()
 
+        console.log('339')
         await waitForExpect(() => {
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 2)
           expect(getResultProperty(result, 'block2')).to.eq(blockNumber + 2)
         })
+        console.log('344')
 
         for (let i = 0; i < 3; i++) {
           await network1.provider.mine()
         }
 
+        console.log('350')
         await waitForExpect(() => {
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 5)
           const block2 = Number(getResultProperty(result, 'block2'))
           // we don't actually know when the update is gonna happen - both possibilities are possible
           expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
         })
+        console.log('357')
       })
 
       it('Refreshes static call on parameter change', async () => {
