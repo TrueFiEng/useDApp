@@ -1,11 +1,11 @@
 import React from 'react'
 import type { Meta, Story } from '@storybook/react'
-import { Interface } from '@ethersproject/abi'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
 import { StateUpdatedPreview } from '../../../views/Events/EventPreview/StateUpdatedPreview'
 import { AbiProvider } from '../../../providers/abi/AbiProvider'
 import type { StateEntry } from '../../../providers/events/State'
+import { Interface } from 'ethers'
 
 export default {
   title: 'Components/EventPreview/State Updated',

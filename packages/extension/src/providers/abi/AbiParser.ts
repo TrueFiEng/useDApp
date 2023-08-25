@@ -11,7 +11,10 @@ export class AbiParser {
 
   constructor(abis: AbiEntry[]) {
     for (const abi of abis) {
-      this.cache[normalizeHex(abi.selector)] = makeCallParser(abi.coder, FunctionFragment.from(abi.fragment.format('full')))
+      this.cache[normalizeHex(abi.selector)] = makeCallParser(
+        abi.coder,
+        FunctionFragment.from(abi.fragment.format('full'))
+      )
     }
   }
 
@@ -93,7 +96,7 @@ function parseDecoded(t: ParamType, value: any, index: number): ParsedValue {
     value = array
   }
 
-  return { type, name: t.name ?? `#${index}`, value }
+  return { type, name: t.name.length > 0 ? t.name : `#${index}`, value }
 }
 
 function parseUnknownCallData(data: string): ParsedValue[] {

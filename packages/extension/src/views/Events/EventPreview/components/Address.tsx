@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Colors, Font } from '../../../../design'
-import { getAddress } from '@ethersproject/address'
 import { useNameTag } from '../../../../hooks'
+import { getAddress } from 'ethers'
 
 interface Props {
   address: string
