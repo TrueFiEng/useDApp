@@ -62,8 +62,11 @@ import {
   KlaytnTestnet,
   Klaytn,
   ScrollAlphaTestnet,
+  ScrollSepoliaTestnet,
+  Linea,
   LineaTestnet,
   MantleTestnet,
+  KromaSepoliaTestnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -130,8 +133,11 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   BaseGoerli,
   Base,
   ScrollAlphaTestnet,
+  ScrollSepoliaTestnet,
+  Linea,
   LineaTestnet,
   MantleTestnet,
+  KromaSepoliaTestnet,
 ]
 
 export enum ChainId {
@@ -187,6 +193,7 @@ export enum ChainId {
   AuroraTestnet = 1313161555,
   Velas = 106,
   VelasTestnet = 111,
+  ZkSync = 324,
   ZkSyncTestnet = 280,
   ArbitrumRedditTestnet = 5391184,
   RootstockMainnet = 30,
@@ -196,6 +203,8 @@ export enum ChainId {
   BaseGoerli = 84531,
   Base = 8453,
   ScrollAlpha = 534353,
+  ScrollSepolia = 534351,
+  Linea = 59144,
   LineaTestnet = 59140,
   ArbitrumNova = 42170,
   MantleTestnet = 5001,
