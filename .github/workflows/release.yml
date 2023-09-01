@@ -27,9 +27,6 @@ jobs:
       - name: Install package manager
         run: npm i -g pnpm@7.1.9
 
-      - name: Clear cache
-        run: git clean -fdx
-
       - name: Install Dependencies
         run: pnpm install
 
