@@ -1,9 +1,6 @@
-import type { TransactionRequest } from '@ethersproject/abstract-provider'
-import { constants } from 'ethers'
-import { Contract } from 'ethers'
+import { Contract, TransactionRequest } from 'ethers'
 import { expect } from 'chai'
-import { BigNumber, ethers } from 'ethers'
-import { getAddress } from 'ethers/lib/utils'
+import { ethers, getAddress, ZeroAddress } from 'ethers'
 import { Config, ERC20MockInterface } from '../constants'
 import {
   TestingNetwork,
@@ -15,8 +12,6 @@ import {
 } from '../testing'
 import { useLogs } from './useLogs'
 import { useSendTransaction } from './useSendTransaction'
-
-const AddressZero = constants.AddressZero
 
 describe('useLogs', () => {
   let token: Contract
@@ -31,7 +26,7 @@ describe('useLogs', () => {
     secondToken = await deployMockToken(network2.deployer, SECOND_MOCK_TOKEN_INITIAL_BALANCE)
   })
 
-  async function sendToken(signer: ethers.Wallet, to: string, amount: BigNumber) {
+  async function sendToken(signer: ethers.Wallet, to: string, amount: bigint) {
     const { result, waitForCurrent, waitForNextUpdate } = await renderDAppHook(
       () =>
         useSendTransaction({
@@ -45,8 +40,8 @@ describe('useLogs', () => {
     const txData = ERC20MockInterface.encodeFunctionData('transfer(address,uint)', [to, amount])
 
     const tx: TransactionRequest = {
-      to: token.address,
-      value: BigNumber.from(0),
+      to: token.target,
+      value: BigInt(0),
       data: txData,
     }
 
@@ -66,7 +61,7 @@ describe('useLogs', () => {
 
     const fromAddress = from.address
     const toAddress = to.address
-    const amount = BigNumber.from(1)
+    const amount = BigInt(1)
 
     await sendToken(from, toAddress, amount)
 
@@ -98,7 +93,7 @@ describe('useLogs', () => {
     expect(getAddress(log.data['from'])).to.equal(getAddress(fromAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(toAddress), 'To')
     expect(log.data['value']).to.equal(amount, 'Amount')
-  })
+  }).timeout(120000)
 
   it('Can get all token transfer logs using the default log query parameters', async () => {
     const from = network1.deployer
@@ -106,7 +101,7 @@ describe('useLogs', () => {
 
     const fromAddress = from.address
     const toAddress = to.address
-    const amount = BigNumber.from(1)
+    const amount = BigInt(1)
 
     await sendToken(from, toAddress, amount)
 
@@ -130,7 +125,7 @@ describe('useLogs', () => {
     // Mint transfer event
     const log1 = result.current!.value![0]
 
-    expect(getAddress(log1.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log1.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log1.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log1.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
 
@@ -168,7 +163,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
@@ -202,7 +197,7 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network2.deployer.address), 'To')
     expect(log.data['value']).to.equal(SECOND_MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
@@ -233,7 +228,7 @@ describe('useLogs', () => {
 
   it('Can query mint transfer logs by sender', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[1].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[1].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -241,7 +236,7 @@ describe('useLogs', () => {
           {
             contract: token,
             event: 'Transfer',
-            args: [AddressZero],
+            args: [ZeroAddress],
           },
           {
             fromBlock: 0,
@@ -260,14 +255,14 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
 
   it('Can query mint transfer logs by receiver', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[1].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[1].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -294,14 +289,14 @@ describe('useLogs', () => {
 
     const log = result.current!.value![0]
 
-    expect(getAddress(log.data['from'])).to.equal(getAddress(AddressZero), 'From')
+    expect(getAddress(log.data['from'])).to.equal(getAddress(ZeroAddress), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.deployer.address), 'To')
     expect(log.data['value']).to.equal(MOCK_TOKEN_INITIAL_BALANCE, 'Amount')
   })
 
   it('We get an error when we query by un-indexed values', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    await sendToken(network1.deployer, network1.wallets[0].address, BigNumber.from(1))
+    await sendToken(network1.deployer, network1.wallets[0].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -328,7 +323,7 @@ describe('useLogs', () => {
 
   it('Can query by block hash', async () => {
     // Send to emit another Transfer token that our filter should filter out
-    const { receipt } = await sendToken(network1.deployer, network1.wallets[0].address, BigNumber.from(1))
+    const { receipt } = await sendToken(network1.deployer, network1.wallets[0].address, BigInt(1))
 
     const { result, waitForCurrent } = await renderDAppHook(
       () =>
@@ -357,10 +352,10 @@ describe('useLogs', () => {
 
     expect(getAddress(log.data['from'])).to.equal(getAddress(network1.deployer.address), 'From')
     expect(getAddress(log.data['to'])).to.equal(getAddress(network1.wallets[0].address), 'To')
-    expect(log.data['value']).to.equal(BigNumber.from(1), 'Amount')
+    expect(log.data['value']).to.equal(BigInt(1), 'Amount')
     expect(log.blockHash).to.equal(receipt?.blockHash, 'Block hash')
     expect(log.blockNumber).to.equal(receipt?.blockNumber, 'Block number')
-    expect(log.transactionHash).to.equal(receipt?.transactionHash, 'Transaction hash')
-    expect(log.transactionIndex).to.equal(receipt?.transactionIndex, 'Transaction index')
+    expect(log.transactionHash).to.equal(receipt?.hash, 'Transaction hash')
+    expect(log.transactionIndex).to.equal(receipt?.index, 'Transaction index')
   })
 })

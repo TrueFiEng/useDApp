@@ -21,6 +21,13 @@ module.exports = {
           target: 'es2018',
         },
       },
+      {
+        test: /node_modules[\\/]ethers/,
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2018',
+        },
+      },
     ],
   },
   resolve: {

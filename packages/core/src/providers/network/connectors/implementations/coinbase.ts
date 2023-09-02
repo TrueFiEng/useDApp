@@ -1,7 +1,7 @@
 import { Connector, ConnectorUpdateData } from '../connector'
-import { providers } from 'ethers'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { Event } from '../../../../helpers/event'
+import { BrowserProvider } from 'ethers'
 
 const GET_COINBASE_LINK = 'https://www.coinbase.com/wallet'
 
@@ -22,12 +22,12 @@ export async function getCoinbaseProvider() {
     return undefined
   }
 
-  const provider = new providers.Web3Provider(injectedProvider, 'any')
+  const provider = new BrowserProvider(injectedProvider, 'any')
   return provider
 }
 
 export class CoinbaseWalletConnector implements Connector {
-  public provider?: providers.Web3Provider
+  public provider?: BrowserProvider
   public readonly name = 'CoinbaseWallet'
 
   readonly update = new Event<ConnectorUpdateData>()

@@ -1,5 +1,4 @@
-import { BigNumber } from 'ethers'
-import type Chai from 'chai'
+import Chai from 'chai'
 
 export function supportBigNumber(Assertion: Chai.AssertionStatic, utils: Chai.ChaiUtils) {
   Assertion.overwriteMethod('equals', override('eq', 'equal', utils))
@@ -24,6 +23,15 @@ export function supportBigNumber(Assertion: Chai.AssertionStatic, utils: Chai.Ch
 }
 
 type Methods = 'eq' | 'gt' | 'lt' | 'gte' | 'lte'
+const methodsMappins: {
+  [key in Methods]: (a: bigint, b: bigint) => boolean
+} = {
+  eq: (a, b) => a === b,
+  gt: (a, b) => a > b,
+  lt: (a, b) => a < b,
+  gte: (a, b) => a >= b,
+  lte: (a, b) => a <= b,
+}
 
 function override(method: Methods, name: string, utils: Chai.ChaiUtils) {
   return (_super: (...args: any[]) => any) => overwriteBigNumberFunction(method, name, _super, utils)
@@ -38,13 +46,13 @@ function overwriteBigNumberFunction(
   return function (this: Chai.AssertionStatic, ...args: any[]) {
     const [actual] = args
     const expected = chaiUtils.flag(this, 'object')
-    if (chaiUtils.flag(this, 'doLength') && BigNumber.isBigNumber(actual)) {
-      _super.apply(this, [actual.toNumber()])
+    if (chaiUtils.flag(this, 'doLength') && typeof actual === 'bigint') {
+      _super.apply(this, [Number(actual)])
       return
     }
-    if (BigNumber.isBigNumber(expected) || BigNumber.isBigNumber(actual)) {
+    if (typeof expected === 'bigint' || typeof actual === 'bigint') {
       this.assert(
-        BigNumber.from(expected)[functionName](actual),
+        methodsMappins[functionName](BigInt(expected), BigInt(actual)),
         `Expected "${expected}" to be ${readableName} ${actual}`,
         `Expected "${expected}" NOT to be ${readableName} ${actual}`,
         expected,
@@ -64,9 +72,9 @@ function overwriteBigNumberWithin(_super: (...args: any[]) => any, chaiUtils: Ch
   return function (this: Chai.AssertionStatic, ...args: any[]) {
     const [start, finish] = args
     const expected = chaiUtils.flag(this, 'object')
-    if (BigNumber.isBigNumber(expected) || BigNumber.isBigNumber(start) || BigNumber.isBigNumber(finish)) {
+    if (typeof expected === 'bigint' || typeof start === 'bigint' || typeof finish === 'bigint') {
       this.assert(
-        BigNumber.from(start).lte(expected) && BigNumber.from(finish).gte(expected),
+        BigInt(start) <= BigInt(expected) && BigInt(finish) >= BigInt(expected),
         `Expected "${expected}" to be within [${[start, finish]}]`,
         `Expected "${expected}" NOT to be within [${[start, finish]}]`,
         [start, finish],
@@ -86,12 +94,16 @@ function overwriteBigNumberCloseTo(_super: (...args: any[]) => any, chaiUtils: C
   return function (this: Chai.AssertionStatic, ...args: any[]) {
     const [actual, delta] = args
     const expected = chaiUtils.flag(this, 'object')
-    if (BigNumber.isBigNumber(expected) || BigNumber.isBigNumber(actual) || BigNumber.isBigNumber(delta)) {
+    if (typeof expected === 'bigint' || typeof actual === 'bigint' || typeof delta === 'bigint') {
+      const expectedBig = BigInt(expected)
+      const actualBig = BigInt(actual)
+      const deltaBig = BigInt(delta)
+
       this.assert(
-        BigNumber.from(expected).sub(actual).abs().lte(delta),
+        expectedBig - actualBig <= deltaBig && actualBig - expectedBig <= deltaBig,
         `Expected "${expected}" to be within ${delta} of ${actual}`,
         `Expected "${expected}" NOT to be within ${delta} of ${actual}`,
-        `A number between ${BigNumber.from(actual).sub(delta)} and ${BigNumber.from(actual).add(delta)}`,
+        `A number between ${actualBig - deltaBig} and ${actualBig + deltaBig}`,
         expected
       )
     } else {

@@ -1,12 +1,11 @@
 import { TransactionOptions } from '../model/TransactionOptions'
 import { useConfig } from './useConfig'
-import { Contract, Signer, providers } from 'ethers'
+import { BaseContract, Contract, Signer, TransactionReceipt } from 'ethers'
 import { useCallback, useState } from 'react'
 import { useEthers } from './useEthers'
 import { estimateContractFunctionGasLimit, usePromiseTransaction } from './usePromiseTransaction'
-import { LogDescription } from 'ethers/lib/utils'
-import { ContractFunctionNames, Falsy, Params, TypedContract } from '../model/types'
-import { TransactionReceipt } from '@ethersproject/abstract-provider'
+import { LogDescription } from 'ethers'
+import { ContractFunctionNames, Falsy, Params } from '../model/types'
 import { useReadonlyNetworks } from '../providers'
 import { ChainId } from '../constants'
 import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
@@ -14,17 +13,17 @@ import { getSignerFromOptions } from '../helpers/getSignerFromOptions'
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function connectContractToSigner(contract: Contract, options?: TransactionOptions, librarySigner?: Signer) {
-  if (contract.signer) {
-    return contract
+export function connectContractToSigner(contract: BaseContract, options?: TransactionOptions, librarySigner?: Signer) {
+  if (contract.runner) {
+    return contract as Contract
   }
 
   if (options && 'signer' in options) {
-    return contract.connect(options.signer)
+    return contract.connect(options.signer) as Contract
   }
 
   if (librarySigner) {
-    return contract.connect(librarySigner)
+    return contract.connect(librarySigner) as Contract
   }
 
   throw new TypeError('No signer available in contract, options or library')
@@ -64,7 +63,7 @@ export function connectContractToSigner(contract: Contract, options?: Transactio
  *   send(utils.parseEther(wethAmount))
  * }
  */
-export function useContractFunction<T extends TypedContract, FN extends ContractFunctionNames<T>>(
+export function useContractFunction<T extends BaseContract, FN extends ContractFunctionNames<T>>(
   contract: T | Falsy,
   functionName: FN,
   options?: TransactionOptions
@@ -79,18 +78,18 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
     options?.gasLimitBufferPercentage ?? options?.bufferGasLimitPercentage ?? config?.gasLimitBufferPercentage ?? 0
 
   const providers = useReadonlyNetworks()
-  const provider = (transactionChainId && providers[transactionChainId as ChainId])!
+  const provider = providers[transactionChainId as ChainId]!
 
   const send = useCallback(
     async (...args: Params<T, FN>): Promise<TransactionReceipt | undefined> => {
       if (contract) {
-        const numberOfArgs = contract.interface.getFunction(functionName).inputs.length
+        const numberOfArgs = contract.interface.getFunction(functionName.toString())?.inputs.length ?? 0
         const hasOpts = args.length > numberOfArgs
         if (args.length !== numberOfArgs && args.length !== numberOfArgs + 1) {
-          throw new Error(`Invalid number of arguments for function "${functionName}".`)
+          throw new Error(`Invalid number of arguments for function "${functionName.toString()}".`)
         }
 
-        const signer = getSignerFromOptions(provider as providers.BaseProvider, options, library)
+        const signer = await getSignerFromOptions(provider, options, library)
 
         const contractWithSigner = connectContractToSigner(contract, options, signer)
         const opts = hasOpts ? args[args.length - 1] : undefined
@@ -100,7 +99,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
             ? opts.gasLimit
             : (await estimateContractFunctionGasLimit(
                 contractWithSigner,
-                functionName,
+                functionName as string,
                 args,
                 gasLimitBufferPercentage
               )) ?? null
@@ -111,18 +110,21 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
         }
         const modifiedArgs = hasOpts ? args.slice(0, args.length - 1) : args
 
-        const receipt = await promiseTransaction(contractWithSigner[functionName](...modifiedArgs, modifiedOpts), {
-          safeTransaction: {
-            to: contract.address,
-            value: opts?.value,
-            data: contract.interface.encodeFunctionData(functionName, modifiedArgs),
-            safeTxGas: gasLimit ?? undefined,
-          },
-        })
+        const receipt = await promiseTransaction(
+          contractWithSigner[functionName as string](...modifiedArgs, modifiedOpts),
+          {
+            safeTransaction: {
+              to: contract.target as string,
+              value: opts?.value,
+              data: contract.interface.encodeFunctionData(functionName as string, modifiedArgs),
+              safeTxGas: gasLimit ?? undefined,
+            },
+          }
+        )
         if (receipt?.logs) {
-          const events = receipt.logs.reduce((accumulatedLogs, log) => {
+          const events = receipt.logs.reduce((accumulatedLogs: any, log: any) => {
             try {
-              return log.address.toLowerCase() === contract.address.toLowerCase()
+              return log.address.toLowerCase() === (contract.target as any).toLowerCase()
                 ? [...accumulatedLogs, contract.interface.parseLog(log)]
                 : accumulatedLogs
             } catch (_err) {
@@ -131,7 +133,7 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
           }, [] as LogDescription[])
           setEvents(events)
         }
-        return receipt
+        return receipt ?? undefined
       }
     },
     [contract, functionName, options, provider, library, gasLimitBufferPercentage, promiseTransaction]

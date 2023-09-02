@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { utils } from 'ethers'
 import { getChainById } from '../helpers'
 import { useEthers, useBlockNumber, useConfig, useUpdateConfig, useLocalStorage } from '../hooks'
 import multicallABI from '../constants/abi/MultiCall.json'
 import multicall2ABI from '../constants/abi/MultiCall2.json'
 import { deployContract } from '../helpers/contract'
+import { isAddress } from 'ethers'
 
 interface LocalMulticallProps {
   children: ReactNode
@@ -39,7 +39,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
       const checkDeployed = async () => {
         const multicallAddress = getCurrent()
 
-        if (typeof multicallAddress === 'string' && utils.isAddress(multicallAddress)) {
+        if (typeof multicallAddress === 'string' && isAddress(multicallAddress)) {
           const multicallCode = await library.getCode(multicallAddress)
           if (multicallCode !== '0x') {
             updateConfig({ multicallAddresses: { [chainId]: multicallAddress } })
@@ -47,7 +47,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           }
         }
 
-        const signer = library && 'getSigner' in library ? library.getSigner() : undefined
+        const signer = library && 'getSigner' in library ? await library.getSigner() : undefined
         if (!signer) {
           setLocalMulticallState(LocalMulticallState.Error)
           return
@@ -61,10 +61,14 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
               multicallVersion === 1 ? multicallABI : multicall2ABI,
               signer
             )
-            updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
-            setMulticallAddress(contractAddress)
-            setMulticallBlockNumber(blockNumber)
-            setLocalMulticallState(LocalMulticallState.Deployed)
+            if (contractAddress) {
+              updateConfig({ multicallAddresses: { [chainId]: contractAddress } })
+              setMulticallAddress(contractAddress)
+              setMulticallBlockNumber(blockNumber)
+              setLocalMulticallState(LocalMulticallState.Deployed)
+            } else {
+              setLocalMulticallState(LocalMulticallState.Error)
+            }
           } catch {
             setLocalMulticallState(LocalMulticallState.Error)
           }

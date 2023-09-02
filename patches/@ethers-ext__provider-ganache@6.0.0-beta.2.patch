@@ -1,0 +1,28 @@
+diff --git a/lib.commonjs/provider-ganache.js b/lib.commonjs/provider-ganache.js
+index 3eb88ad96f854fc53fc695fd67911c19a7d8c670..880533fa9bc9e131bdfa63ebb435d4dba026f35a 100644
+--- a/lib.commonjs/provider-ganache.js
++++ b/lib.commonjs/provider-ganache.js
+@@ -29,7 +29,8 @@ class GanacheProvider extends ethers_1.JsonRpcApiProvider {
+             staticNetwork: network,
+             batchMaxCount: 1,
+             batchStallTime: 0,
+-            cacheTimeout: -1
++            cacheTimeout: -1,
++            pollingInterval: 10,
+         });
+         this.ganache = provider;
+     }
+diff --git a/lib.esm/provider-ganache.js b/lib.esm/provider-ganache.js
+index db9d3c9b853fcfd961aa4bb07e69503487d2df1d..f4ada963d49636861c28f5049780468785b60452 100644
+--- a/lib.esm/provider-ganache.js
++++ b/lib.esm/provider-ganache.js
+@@ -23,7 +23,8 @@ export class GanacheProvider extends JsonRpcApiProvider {
+             staticNetwork: network,
+             batchMaxCount: 1,
+             batchStallTime: 0,
+-            cacheTimeout: -1
++            cacheTimeout: -1,
++            pollingInterval: 10,
+         });
+         this.ganache = provider;
+     }

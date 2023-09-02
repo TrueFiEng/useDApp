@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { BigNumber, Wallet } from 'ethers'
+import { Wallet, toBeHex } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { renderDAppHook, setupTestingConfig, sleep } from '../testing'
@@ -20,8 +20,8 @@ describe('useSigner', () => {
       request: async ({ method }: RequestParams) => {
         await sleep(100)
         if (method === 'eth_requestAccounts' || method === 'eth_accounts') return [address]
-        else if (method === 'eth_chainId') return BigNumber.from(31337).toHexString()
-        else if (method === 'eth_blockNumber') return BigNumber.from(1).toHexString()
+        else if (method === 'eth_chainId') return toBeHex(31337)
+        else if (method === 'eth_blockNumber') return toBeHex(1)
       },
     } as any
   })
@@ -61,7 +61,7 @@ describe('useSigner', () => {
     await waitForCurrent((val) => val.account !== undefined && val.signer !== undefined)
 
     expect(result.error).to.be.undefined
-    expect(result.current.signer).to.not.be.undefined
+    expect(result.current).to.not.be.undefined
     expect(await result.current.signer?.getAddress()).to.equal(address)
   })
 

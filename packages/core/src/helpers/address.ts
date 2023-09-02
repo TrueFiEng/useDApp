@@ -1,5 +1,4 @@
-import { utils } from 'ethers'
-import { BigNumber } from 'ethers'
+import { getAddress } from 'ethers'
 import { Falsy } from '../model/types'
 import { shortenString } from './common'
 
@@ -8,7 +7,7 @@ import { shortenString } from './common'
  */
 export function shortenAddress(address: string): string {
   try {
-    const formattedAddress = utils.getAddress(address)
+    const formattedAddress = getAddress(address)
     return shortenString(formattedAddress)
   } catch {
     throw new TypeError("Invalid input, address can't be parsed")
@@ -30,14 +29,14 @@ export function shortenIfAddress(address: string | Falsy): string {
  */
 export function compareAddress(firstAddress: string, secondAddress: string): number {
   try {
-    const parsedFirstAddress = BigNumber.from(firstAddress)
-    const parsedSecondAddress = BigNumber.from(secondAddress)
+    const parsedFirstAddress = BigInt(firstAddress)
+    const parsedSecondAddress = BigInt(secondAddress)
 
-    if (parsedFirstAddress.gt(parsedSecondAddress)) {
+    if (parsedFirstAddress > parsedSecondAddress) {
       return 1
     }
 
-    if (parsedFirstAddress.lt(parsedSecondAddress)) {
+    if (parsedFirstAddress < parsedSecondAddress) {
       return -1
     }
 
@@ -52,7 +51,7 @@ export function compareAddress(firstAddress: string, secondAddress: string): num
  */
 export function addressEqual(firstAddress: string, secondAddress: string): boolean {
   try {
-    return utils.getAddress(firstAddress) === utils.getAddress(secondAddress)
+    return getAddress(firstAddress) === getAddress(secondAddress)
   } catch {
     throw new TypeError("Invalid input, address can't be parsed")
   }

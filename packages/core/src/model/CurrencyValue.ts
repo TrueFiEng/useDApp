@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from 'ethers'
+import { BigNumberish } from 'ethers'
 import { Currency } from './Currency'
 import { CurrencyFormatOptions } from './formatting'
 
@@ -24,14 +24,14 @@ import { CurrencyFormatOptions } from './formatting'
  * @public
  */
 export class CurrencyValue {
-  constructor(readonly currency: Currency, readonly value: BigNumber) {}
+  constructor(readonly currency: Currency, readonly value: bigint) {}
 
   static fromString(currency: Currency, value: string) {
-    return new CurrencyValue(currency, BigNumber.from(value))
+    return new CurrencyValue(currency, BigInt(value))
   }
 
   static zero(currency: Currency) {
-    return new CurrencyValue(currency, BigNumber.from(0))
+    return new CurrencyValue(currency, BigInt(0))
   }
 
   toString() {
@@ -48,57 +48,57 @@ export class CurrencyValue {
     }
   }
 
-  map(fn: (value: BigNumber) => BigNumber) {
+  map(fn: (value: bigint) => bigint) {
     return new CurrencyValue(this.currency, fn(this.value))
   }
 
   add(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.map((x) => x.add(other.value))
+    return this.map((x) => x + other.value)
   }
 
   sub(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.map((x) => x.sub(other.value))
+    return this.map((x) => x - other.value)
   }
 
   mul(value: BigNumberish) {
-    return this.map((x) => x.mul(value))
+    return this.map((x) => x * BigInt(value))
   }
 
   div(value: BigNumberish) {
-    return this.map((x) => x.div(value))
+    return this.map((x) => x / BigInt(value))
   }
 
   mod(value: BigNumberish) {
-    return this.map((x) => x.mod(value))
+    return this.map((x) => x % BigInt(value))
   }
 
   equals(other: CurrencyValue) {
-    return this.currency === other.currency && this.value.eq(other.value)
+    return this.currency === other.currency && this.value === other.value
   }
 
   lt(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.value.lt(other.value)
+    return this.value < other.value
   }
 
   lte(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.value.lte(other.value)
+    return this.value <= other.value
   }
 
   gt(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.value.gt(other.value)
+    return this.value > other.value
   }
 
   gte(other: CurrencyValue) {
     this.checkCurrency(other)
-    return this.value.gte(other.value)
+    return this.value >= other.value
   }
 
   isZero() {
-    return this.value.isZero()
+    return this.value === BigInt(0)
   }
 }

@@ -1,17 +1,17 @@
-import { providers } from 'ethers'
+import { Provider } from 'ethers'
 import { ChainId } from '../../../constants'
 import { Dispatch } from 'react'
 import { BlockNumberChanged } from './reducer'
 
-export function subscribeToNewBlock(
-  provider: providers.BaseProvider | undefined,
+export async function subscribeToNewBlock(
+  provider: Provider,
   chainId: ChainId | undefined,
   dispatch: Dispatch<BlockNumberChanged>,
   isActive: boolean
 ) {
   if (provider && chainId !== undefined && isActive) {
     const update = (blockNumber: number) => dispatch({ chainId, blockNumber })
-    provider.on('block', update)
+    await provider.on('block', update)
 
     provider.getBlockNumber().then(
       (blockNumber) => update(blockNumber),
@@ -21,7 +21,7 @@ export function subscribeToNewBlock(
     )
 
     return () => {
-      provider.off('block', update)
+      void provider.off('block', update)
     }
   }
 

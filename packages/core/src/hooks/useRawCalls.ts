@@ -3,7 +3,7 @@ import { MultiChainStatesContext, RawCallResult } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 import { MultiChainState } from '../providers/chainState/multiChainStates/context'
-import { utils } from 'ethers'
+import { Interface } from 'ethers'
 
 /**
  * A low-level function that makes multiple calls to specific methods of specific contracts and returns values or error if present.
@@ -71,7 +71,7 @@ function extractCallResult(chains: MultiChainState, call: RawCall): RawCallResul
         error.data?.message ??
         error.message ??
         defaultErrorMessage
-      const value = new utils.Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage])
+      const value = new Interface(['function Error(string)']).encodeFunctionData('Error', [errorMessage])
       return {
         success: false,
         value,

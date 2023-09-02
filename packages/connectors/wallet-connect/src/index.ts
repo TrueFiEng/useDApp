@@ -1,11 +1,11 @@
 import { Connector, ConnectorEvent, ConnectorUpdateData } from '@usedapp/core'
-import { providers } from 'ethers'
 
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import type { IWalletConnectProviderOptions } from '@walletconnect/types'
+import { BrowserProvider } from 'ethers'
 
 export class WalletConnectConnector implements Connector {
-  public provider?: providers.Web3Provider
+  public provider?: BrowserProvider
   public readonly name = 'WalletConnect'
 
   readonly update = new ConnectorEvent<ConnectorUpdateData>()
@@ -15,7 +15,7 @@ export class WalletConnectConnector implements Connector {
 
   private async init() {
     this.walletConnectProvider = new WalletConnectProvider(this.opts)
-    this.provider = new providers.Web3Provider(this.walletConnectProvider)
+    this.provider = new BrowserProvider(this.walletConnectProvider)
     await this.walletConnectProvider.enable()
   }
 

@@ -1,6 +1,13 @@
-import { TransactionResponse, TransactionReceipt, TransactionRequest } from '@ethersproject/abstract-provider'
-import { BigNumber, BigNumberish, Contract, Event } from 'ethers'
-import { utils, constants } from 'ethers'
+import {
+  BigNumberish,
+  Contract,
+  ZeroAddress,
+  TypedDataEncoder,
+  TransactionResponse,
+  TransactionReceipt,
+  TransactionRequest,
+  EventLog,
+} from 'ethers'
 import { getChainById } from './chain'
 
 export const GNOSIS_SAFE_ABI = [
@@ -10,7 +17,7 @@ export const GNOSIS_SAFE_ABI = [
 
 interface MetaTransaction {
   to: string
-  value: string | number | BigNumber
+  value: string | number | bigint
   data: string
   operation: number
 }
@@ -26,7 +33,7 @@ export interface SafeTransaction extends MetaTransaction {
 
 export const buildSafeTransaction = (template: {
   to: string
-  value?: BigNumber | number | string
+  value?: bigint | number | string
   data?: string
   operation?: number
   safeTxGas?: number | string
@@ -44,8 +51,8 @@ export const buildSafeTransaction = (template: {
     safeTxGas: template.safeTxGas || 0,
     baseGas: template.baseGas || 0,
     gasPrice: template.gasPrice || 0,
-    gasToken: template.gasToken || constants.AddressZero,
-    refundReceiver: template.refundReceiver || constants.AddressZero,
+    gasToken: template.gasToken || ZeroAddress,
+    refundReceiver: template.refundReceiver || ZeroAddress,
     nonce: template.nonce || 0,
   }
 }
@@ -77,7 +84,7 @@ export const calculateSafeTransactionHash = (
   safeTx: SafeTransaction,
   chainId: BigNumberish
 ): string => {
-  return utils._TypedDataEncoder.hash({ verifyingContract: safe.address, chainId }, EIP712_SAFE_TX_TYPE, safeTx)
+  return TypedDataEncoder.hash({ verifyingContract: safe.target as string, chainId }, EIP712_SAFE_TX_TYPE, safeTx)
 }
 
 export const getLatestNonce = async (chainId: number, safeAddress: string): Promise<number | null | undefined> => {
@@ -117,9 +124,9 @@ export const waitForSafeTransaction = async (
       }
     })
 
-    const onExecutionSuccess = async (txHash: string, _payment: BigNumber, event: Event) => {
+    const onExecutionSuccess = async (txHash: string, _payment: bigint, event: EventLog) => {
       if (txHash === safeTxHash) {
-        contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+        await contract.removeListener('ExecutionSuccess', onExecutionSuccess)
 
         const transaction = await event.getTransaction()
         const receipt = await event.getTransactionReceipt()
@@ -129,7 +136,7 @@ export const waitForSafeTransaction = async (
         const currentNonce = await contract.nonce()
 
         if (Number(currentNonce) > Number(safeTx.nonce)) {
-          contract.removeListener('ExecutionSuccess', onExecutionSuccess)
+          await contract.removeListener('ExecutionSuccess', onExecutionSuccess)
           const transaction = await event.getTransaction()
           const receipt = await event.getTransactionReceipt()
 
@@ -141,6 +148,6 @@ export const waitForSafeTransaction = async (
         }
       }
     }
-    contract.on('ExecutionSuccess', onExecutionSuccess)
+    void contract.on('ExecutionSuccess', onExecutionSuccess)
   })
 }

@@ -1,4 +1,4 @@
-import { providers } from 'ethers'
+import { BrowserProvider, JsonRpcProvider } from 'ethers'
 import { ReadOnlyEvent } from '../../../helpers/event'
 
 export interface ConnectorUpdateData {
@@ -6,8 +6,10 @@ export interface ConnectorUpdateData {
   accounts: string[]
 }
 
+export type ConnectorProvider = JsonRpcProvider | BrowserProvider
+
 export interface Connector {
-  provider?: providers.Web3Provider | providers.JsonRpcProvider
+  provider?: ConnectorProvider
 
   name: string
 
@@ -18,4 +20,16 @@ export interface Connector {
   activate(): Promise<void>
 
   deactivate(): Promise<void>
+}
+
+export const isConnector = (obj: any): obj is Connector => {
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    'name' in obj &&
+    'update' in obj &&
+    'connectEagerly' in obj &&
+    'activate' in obj &&
+    'deactivate' in obj
+  )
 }

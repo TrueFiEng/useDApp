@@ -1,7 +1,6 @@
 import { MultiCallABI } from '../constants'
 import { useMulticallAddress } from './useMulticallAddress'
 import { Falsy } from '../model/types'
-import { BigNumber } from 'ethers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { useCall } from './useCall'
 import { Contract } from 'ethers'
@@ -20,7 +19,7 @@ import { Contract } from 'ethers'
  *   {etherBalance && <p>Ether balance: {formatEther(etherBalance)} ETH </p>}
  * )
  */
-export function useEtherBalance(address: string | Falsy, queryParams: QueryParams = {}): BigNumber | undefined {
+export function useEtherBalance(address: string | Falsy, queryParams: QueryParams = {}): bigint | undefined {
   const multicallAddress = useMulticallAddress(queryParams)
   const { value: value } =
     useCall(

@@ -1,6 +1,6 @@
-import { BigNumber, utils } from 'ethers'
+import { BaseContract, Interface } from 'ethers'
 import { Call } from '../hooks/useCall'
-import { Awaited, ContractMethodNames, Falsy, TypedContract } from '../model/types'
+import { ContractMethodNames, Falsy, Results } from '../model/types'
 import { RawCall, RawCallResult } from '../providers'
 import { QueryParams } from '../constants/type/QueryParams'
 import { ChainId } from '../constants/chainId'
@@ -14,7 +14,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
     return
   }
   const { contract, method, args } = call
-  console.warn(`Invalid contract call: address=${contract.address} method=${method} args=${args}`)
+  console.warn(`Invalid contract call: address=${contract.target} method=${method} args=${args}`)
 }
 
 /**
@@ -22,7 +22,7 @@ export function warnOnInvalidCall(call: Call | Falsy) {
  */
 export function validateCall(call: Call): Call {
   const { contract, method, args } = call
-  if (!contract.address || !method) {
+  if (typeof contract.target !== 'string' || !method) {
     throw new Error('Missing contract address or method name')
   }
 
@@ -30,7 +30,7 @@ export function validateCall(call: Call): Call {
     contract.interface.encodeFunctionData(method, args)
     return call
   } catch (err: any) {
-    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.address}": ${err.message}`)
+    throw new Error(`Invalid contract call for method="${method}" on contract="${contract.target}": ${err.message}`)
   }
 }
 
@@ -60,7 +60,7 @@ export function encodeCallData(
   const refreshPerBlocks = typeof queryParams.refresh === 'number' ? queryParams.refresh : undefined
 
   return {
-    address: contract.address,
+    address: contract.target as string,
     data: contract.interface.encodeFunctionData(method, args),
     chainId,
     isStatic,
@@ -123,14 +123,14 @@ export function getCallsForUpdate(requests: RawCall[], options?: RefreshOptions)
  *
  * @public
  */
-export type CallResult<T extends TypedContract, MN extends ContractMethodNames<T>> =
-  | { value: Awaited<ReturnType<T['functions'][MN]> | undefined>; error: Error | undefined }
+export type CallResult<T extends BaseContract, MN extends ContractMethodNames<T>> =
+  | { value: Results<T, MN> | undefined; error: Error | undefined }
   | undefined
 
 /**
  * @internal Intended for internal use - use it on your own risk
  */
-export function decodeCallResult<T extends TypedContract, MN extends ContractMethodNames<T>>(
+export function decodeCallResult<T extends BaseContract, MN extends ContractMethodNames<T>>(
   call: Call | Falsy,
   result: RawCallResult
 ): CallResult<T, MN> {
@@ -141,9 +141,7 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
   try {
     if (success) {
       return {
-        value: call.contract.interface.decodeFunctionResult(call.method, value) as Awaited<
-          ReturnType<T['functions'][MN]>
-        >,
+        value: call.contract.interface.decodeFunctionResult(call.method, value) as Results<T, MN>,
         error: undefined,
       }
     } else {
@@ -161,14 +159,14 @@ export function decodeCallResult<T extends TypedContract, MN extends ContractMet
   }
 }
 
-function tryDecodeErrorData(data: string, contractInterface: utils.Interface): string | undefined {
+function tryDecodeErrorData(data: string, contractInterface: Interface): string | undefined {
   if (data === '0x') {
     return 'Call reverted without a cause message'
   }
 
   if (data.startsWith('0x08c379a0')) {
     // decode Error(string)
-    const reason: string = new utils.Interface(['function Error(string)']).decodeFunctionData('Error', data)[0]
+    const reason: string = new Interface(['function Error(string)']).decodeFunctionData('Error', data)[0]
     if (reason.startsWith('VM Exception')) {
       return defaultMulticall1ErrorMessage
     }
@@ -177,13 +175,13 @@ function tryDecodeErrorData(data: string, contractInterface: utils.Interface): s
 
   if (data.startsWith('0x4e487b71')) {
     // decode Panic(uint)
-    const code: BigNumber = new utils.Interface(['function Panic(uint)']).decodeFunctionData('Panic', data)[0]
-    return `panic code ${code._hex}`
+    const code: bigint = new Interface(['function Panic(uint)']).decodeFunctionData('Panic', data)[0]
+    return `panic code 0x${code.toString(16)}`
   }
 
   try {
     const errorInfo = contractInterface.parseError(data)
-    return `error ${errorInfo.name}`
+    return `error ${errorInfo?.name}`
   } catch (e) {
     console.error(e)
   }

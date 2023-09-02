@@ -1,26 +1,25 @@
 /* eslint-disable */
-import { Contract, ContractTransaction } from "ethers"
+import { BaseContract, ContractTransactionResponse } from "ethers"
 
 export type Falsy = false | 0 | '' | null | undefined
 
-export type TypedContract = Contract & {
-    functions: Record<string, (...args: any[]) => any>,
-    filters: Record<string, (...args: any[]) => any>
-}
+type ReplaceNever<T, R = any> = [T] extends [never] ? R : T;
 
-export type ContractFunctionNames<T extends TypedContract> = keyof { [P in keyof T['functions'] as ReturnType<T['functions'][P]> extends Promise<ContractTransaction> ? P : never] : void } & string
+export type ContractFunctionNames<T extends BaseContract> = ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransactionResponse> ? K : never]: void }>
 
-export type ContractMethodNames<T extends TypedContract> = keyof { [P in keyof T['functions'] as ReturnType<T['functions'][P]> extends Promise<any[]> ? P : never]: void } & string
+export type ContractMethodNames<T extends BaseContract> =  ReplaceNever<keyof { [K in Parameters<T['interface']['getFunction']>[0] as ReturnType<K extends keyof T ? T[K] extends (...args: any) => any ? T[K] : never : never> extends Promise<ContractTransactionResponse> ? never : K]: void }>
 
-export type ContractEventNames<T extends TypedContract> = keyof { [P in keyof T['filters']]: void } & string
+export type ContractEventNames<T extends BaseContract> = keyof { [K in Exclude<keyof T['filters'], number | symbol>]: void }
 
-export type Params<T extends TypedContract, FN extends ContractFunctionNames<T> | ContractMethodNames<T>> = Parameters<T['functions'][FN]>
+export type Params<T extends BaseContract, FN extends ContractFunctionNames<T> | ContractMethodNames<T>> = ReplaceNever<Parameters<FN extends keyof T ? T[FN] extends (...args: any) => any ? T[FN] : never : never>>
 
-export type EventParams<T extends TypedContract, EN extends ContractEventNames<T>> = Parameters<T['filters'][EN]>
+export type Results<T extends BaseContract, FN extends ContractMethodNames<T>> = ReplaceNever<Awaited<ReturnType<FN extends keyof T ? T[FN] extends (...args: any) => any ? T[FN] : never : never>>>
 
-export type EventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = { [P in keyof EventParams<T, EN> as string]: any }
+export type EventParams<T extends BaseContract, EN extends ContractEventNames<T>> = ReplaceNever<Parameters<T['filters'][EN]>>
 
-export type DetailedEventRecord<T extends TypedContract, EN extends ContractEventNames<T>> = {
+export type EventRecord<T extends BaseContract, EN extends ContractEventNames<T>> =  { [P in keyof EventParams<T, EN> as string]: any }
+
+export type DetailedEventRecord<T extends BaseContract, EN extends ContractEventNames<T>> = {
     data: EventRecord<T, EN>,
     blockNumber: number,
     blockHash: string,

@@ -1,10 +1,8 @@
 import { expect } from 'chai'
-import { providers } from 'ethers'
 import { getProvidersFromConfig } from './provider'
 import { Kovan, Mainnet, Rinkeby, Localhost } from '../../../model/chain'
 import { MockProvider } from '../../../testing'
-
-const JsonRpcProvider = providers.JsonRpcProvider
+import { JsonRpcApiProvider } from 'ethers'
 
 describe('ReadonlyNetworksProvider', () => {
   it('getProvidersFromConfig creates provider for each network that has URL', async () => {
@@ -19,7 +17,7 @@ describe('ReadonlyNetworksProvider', () => {
       Rinkeby.chainId.toString(),
       Kovan.chainId.toString(),
     ])
-    expect(providers[Mainnet.chainId]).to.be.instanceOf(JsonRpcProvider)
+    expect(providers[Mainnet.chainId]).to.be.instanceOf(JsonRpcApiProvider)
   })
 
   it('getProvidersFromConfig fetches provider object', async () => {

@@ -1,4 +1,4 @@
-import { Interface, FunctionFragment, FormatTypes, JsonFragment, Fragment } from '@ethersproject/abi'
+import { Fragment, Interface, JsonFragment } from 'ethers'
 
 export type AbiInput = Fragment | JsonFragment | string
 
@@ -6,18 +6,27 @@ export interface AbiEntry {
   code: string
   selector: string
   coder: Interface
-  fragment: FunctionFragment
+  fragment: Fragment
 }
 
 export function toAbiEntry(abi: AbiInput): AbiEntry | undefined {
   const coder = new Interface([abi])
-  const fragment = coder.functions[Object.keys(coder.functions)[0]]
+  if (coder.fragments.length === 0) {
+    throw new Error('Invalid ABI')
+  }
+  const fragment = coder.fragments[0]
   if (!fragment) {
     return undefined
   }
-  const selector = coder.getSighash(fragment)
-  const code = fragment.format(FormatTypes.full)
-  return { code, coder, fragment, selector }
+  if (fragment.type === 'function') {
+    const selector = coder.getFunction((fragment as any).name)?.selector
+    if (!selector) {
+      throw new Error('Invalid ABI')
+    }
+    const code = fragment.format('full')
+    return { code, coder, fragment, selector }
+  }
+  return undefined
 }
 
 export function toAbiEntries(abi: AbiInput | AbiInput[]) {

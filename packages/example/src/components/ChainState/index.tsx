@@ -4,8 +4,8 @@ import { useBlockMeta, useChainMeta, useChainState, useEtherBalance, useEthers }
 import { ContentBlock, ContentRow } from '../base/base'
 import { Label } from '../../typography/Label'
 import { TextInline } from '../../typography/Text'
-import { formatEther } from '@ethersproject/units'
 import styled from 'styled-components'
+import { formatEther } from 'ethers'
 
 interface ChainStateProps {
   chainId: ChainId

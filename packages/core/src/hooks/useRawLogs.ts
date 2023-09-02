@@ -3,8 +3,8 @@ import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
 import { useBlockNumbers, useBlockNumber } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
-import type { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { Falsy } from '../model/types'
+import { Filter, FilterByBlockHash, Log } from 'ethers'
 
 /**
  * Returns all blockchain logs given a block filter.
@@ -34,7 +34,7 @@ export function useRawLogs(
   )
 
   async function updateLogs() {
-    setLogs(!filter ? undefined : await provider?.getLogs(filter))
+    setLogs(!filter ? undefined : await provider?.getLogs(await filter))
   }
 
   useEffect(() => {

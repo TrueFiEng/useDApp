@@ -1,7 +1,7 @@
 import { encodeUint, bufPaddedLength, buffLength } from '../common'
 import { ethersAbi, falseEncoded, trueEncoded } from './constants'
 
-const selector = ethersAbi.getSighash('tryAggregate')
+const selector = ethersAbi.getFunction('tryAggregate')?.selector
 
 export function encodeCalls(start: string, calls: [string, string][]) {
   let res = start
@@ -45,6 +45,10 @@ export function encodeTryAggregate(b: boolean, calls: [string, string][]) {
   const dynamicOffset = 0x40
   res += b ? trueEncoded : falseEncoded
   res += encodeUint(dynamicOffset)
+
+  if (!res) {
+    throw new Error('Multicall2: failed to encode tryAggregate')
+  }
 
   // encode dynamic array of calls
   return encodeCalls(res, calls)

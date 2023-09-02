@@ -1,12 +1,18 @@
-import type { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider'
 import { useCallback, useState } from 'react'
 import { useNotificationsContext, useTransactionsContext } from '../providers'
 import { TransactionStatus, TransactionOptions, TransactionState } from '../model'
-import { BigNumber, Contract, errors, Signer } from 'ethers'
+import {
+  BrowserProvider,
+  Contract,
+  FallbackProvider,
+  JsonRpcProvider,
+  Signer,
+  TransactionRequest,
+  TransactionResponse,
+} from 'ethers'
 import { buildSafeTransaction, getLatestNonce, SafeTransaction } from '../helpers/gnosisSafeUtils'
 import { useEthers } from './useEthers'
 import { waitForSafeTransaction } from '../helpers/gnosisSafeUtils'
-import { JsonRpcProvider, FallbackProvider } from '@ethersproject/providers'
 import { useGnosisSafeContract } from './useGnosisSafeContract'
 
 interface PromiseTransactionOpts {
@@ -26,9 +32,9 @@ export async function estimateTransactionGasLimit(
   }
   try {
     const estimatedGas = transactionRequest.gasLimit
-      ? BigNumber.from(transactionRequest.gasLimit)
+      ? BigInt(transactionRequest.gasLimit)
       : await signer.estimateGas(transactionRequest)
-    return estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
+    return (estimatedGas * BigInt(gasLimitBufferPercentage + 100)) / BigInt(100)
   } catch (err: any) {
     console.error(err)
     return undefined
@@ -43,10 +49,10 @@ export async function estimateContractFunctionGasLimit(
   functionName: string,
   args: any[],
   gasLimitBufferPercentage: number
-): Promise<BigNumber | undefined> {
+): Promise<BigInt | undefined> {
   try {
-    const estimatedGas = await contractWithSigner.estimateGas[functionName](...args)
-    const gasLimit = estimatedGas?.mul(gasLimitBufferPercentage + 100).div(100)
+    const estimatedGas = await (contractWithSigner as any)[functionName].estimateGas(...args)
+    const gasLimit = (estimatedGas * BigInt(gasLimitBufferPercentage + 100)) / BigInt(100)
     return gasLimit
   } catch (err: any) {
     console.error(err)
@@ -58,7 +64,7 @@ export async function estimateContractFunctionGasLimit(
  * @internal
  */
 async function isNonContractWallet(
-  library: JsonRpcProvider | FallbackProvider | undefined,
+  library: JsonRpcProvider | BrowserProvider | undefined,
   address: string | undefined
 ) {
   if (!library || !address) {
@@ -69,7 +75,7 @@ async function isNonContractWallet(
 }
 
 const isDroppedAndReplaced = (e: any) =>
-  e?.code === errors.TRANSACTION_REPLACED && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
+  e?.code === 'TRANSACTION_REPLACED' && e?.replacement && (e?.reason === 'repriced' || e?.cancelled === false)
 
 export function usePromiseTransaction(chainId: number | undefined, options?: TransactionOptions) {
   const [state, setState] = useState<TransactionStatus>({ status: 'None', transactionName: options?.transactionName })
@@ -95,16 +101,20 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
         addTransaction({
           transaction: {
             ...transaction,
-            chainId,
+            chainId: BigInt(chainId),
           },
           submittedAt: Date.now(),
           transactionName: options?.transactionName,
         })
         const receipt = await transaction.wait()
+        if (!receipt) {
+          throw new Error('Could not get transaction receipt')
+        }
+
         updateTransaction({
           transaction: {
             ...transaction,
-            chainId: chainId,
+            chainId: BigInt(chainId),
           },
           receipt,
           transactionName: options?.transactionName,
@@ -153,7 +163,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           addTransaction({
             transaction: {
               ...transaction,
-              chainId: chainId,
+              chainId: BigInt(chainId),
             },
             receipt,
             submittedAt: Date.now(),
@@ -171,7 +181,7 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
           addTransaction({
             transaction: {
               ...transaction,
-              chainId: chainId,
+              chainId: BigInt(chainId),
             },
             receipt,
             submittedAt: Date.now(),
@@ -203,7 +213,8 @@ export function usePromiseTransaction(chainId: number | undefined, options?: Tra
             chainId: chainId,
           })
         }
-        const isContractWallet = !(await isNonContractWallet(library, account))
+        const isContractWallet =
+          !(library instanceof FallbackProvider) && !(await isNonContractWallet(library, account))
         if (isContractWallet) {
           const result = await handleContractWallet(transactionPromise, { safeTransaction })
           transaction = result?.transaction

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Wallet } from 'ethers'
+import { BrowserProvider, Wallet } from 'ethers'
 import { useEffect } from 'react'
 import { Config } from '../constants'
 import { Mainnet } from '../model'
@@ -66,7 +66,7 @@ describe('useEtherBalance', () => {
       () => {
         const { activate } = useEthers()
         useEffect(() => {
-          void activate(network2.provider)
+          void activate(new BrowserProvider(network2.provider))
         }, [])
 
         return useEtherBalance(receiver)

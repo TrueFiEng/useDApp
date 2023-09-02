@@ -1,4 +1,4 @@
-import { Contract } from 'ethers'
+import { Contract, parseEther } from 'ethers'
 import { expect } from 'chai'
 import { Config } from '../constants'
 import {
@@ -10,7 +10,7 @@ import {
   setupTestingConfig,
 } from '../testing'
 import { useTokenAllowance } from './useTokenAllowance'
-import { utils, Wallet } from 'ethers'
+import { Wallet } from 'ethers'
 
 describe('useTokenAllowance', () => {
   let token: Contract
@@ -35,7 +35,7 @@ describe('useTokenAllowance', () => {
 
   it('returns 0 when spender is not yet approved', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenAllowance(token.address, deployer.address, spender.address),
+      () => useTokenAllowance(token.target as any, deployer.address, spender.address),
       {
         config,
       }
@@ -48,10 +48,10 @@ describe('useTokenAllowance', () => {
   })
 
   it('returns current allowance', async () => {
-    await token.approve(spender.address, utils.parseEther('1'))
+    await token.approve(spender.address, parseEther('1'))
 
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenAllowance(token.address, deployer.address, spender.address),
+      () => useTokenAllowance(token.target as any, deployer.address, spender.address),
       {
         config,
       }
@@ -60,7 +60,7 @@ describe('useTokenAllowance', () => {
     await waitForCurrent((val) => val !== undefined)
 
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(utils.parseEther('1'))
+    expect(result.current).to.eq(parseEther('1'))
   })
 
   it('multichain calls return correct initial balances', async () => {
@@ -87,10 +87,10 @@ describe('useTokenAllowance', () => {
     chainId: number,
     allowance: string
   ) => {
-    await contract.approve(spenderUser, utils.parseEther(allowance))
+    await contract.approve(spenderUser, parseEther(allowance))
 
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenAllowance(contract.address, user, spenderUser, { chainId }),
+      () => useTokenAllowance(contract.target as any, user, spenderUser, { chainId }),
       {
         config,
       }
@@ -99,6 +99,6 @@ describe('useTokenAllowance', () => {
     await waitForCurrent((val) => val !== undefined)
 
     expect(result.error).to.be.undefined
-    expect(result.current).to.eq(utils.parseEther(allowance))
+    expect(result.current).to.eq(parseEther(allowance))
   }
 })

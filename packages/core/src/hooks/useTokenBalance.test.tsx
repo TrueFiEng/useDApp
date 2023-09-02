@@ -31,7 +31,7 @@ describe('useTokenBalance', () => {
   })
 
   it('returns balance for default readonly chain', async () => {
-    const { result, waitForCurrent } = await renderDAppHook(() => useTokenBalance(token1.address, receiver), {
+    const { result, waitForCurrent } = await renderDAppHook(() => useTokenBalance(token1.target as any, receiver), {
       config,
     })
     await waitForCurrent((val) => val !== undefined)
@@ -41,7 +41,7 @@ describe('useTokenBalance', () => {
 
   it('returns balance for explicitly mainnet', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenBalance(token1.address, receiver, { chainId: Mainnet.chainId }),
+      () => useTokenBalance(token1.target as any, receiver, { chainId: Mainnet.chainId }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)
@@ -51,7 +51,7 @@ describe('useTokenBalance', () => {
 
   it('returns balance for explicitly another chain', async () => {
     const { result, waitForCurrent } = await renderDAppHook(
-      () => useTokenBalance(token2.address, receiver, { chainId: network2.chainId }),
+      () => useTokenBalance(token2.target as any, receiver, { chainId: network2.chainId }),
       { config }
     )
     await waitForCurrent((val) => val !== undefined)

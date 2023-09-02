@@ -1,10 +1,10 @@
 import React from 'react'
 import type { Meta, Story } from '@storybook/react'
-import { Interface } from '@ethersproject/abi'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
 import { FetchErrorPreview } from '../../../views/Events/EventPreview/FetchErrorPreview'
 import { AbiProvider } from '../../../providers/abi/AbiProvider'
+import { Interface } from 'ethers'
 
 export default {
   title: 'Components/EventPreview/Fetch Error',

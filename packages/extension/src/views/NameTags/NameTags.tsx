@@ -1,10 +1,10 @@
 import React, { FormEvent, useState, useMemo } from 'react'
 import { useNameTags } from '../../hooks'
 import { Page, Text, Title } from '../shared'
-import { isAddress, getAddress } from '@ethersproject/address'
 import { SubmitButton } from '../shared/SubmitButton'
 import styled from 'styled-components'
 import { Colors, Font } from '../../design'
+import { getAddress, isAddress } from 'ethers'
 
 interface Props {
   onNavigate: (page: string) => void

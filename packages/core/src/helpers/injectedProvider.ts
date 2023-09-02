@@ -1,6 +1,6 @@
 import detectEthereumProvider from '@metamask/detect-provider'
-import { providers } from 'ethers'
 import { isWebSocketProvider } from './isWebSocketProvider'
+import { BrowserProvider } from 'ethers'
 
 const GET_METAMASK_LINK = 'https://metamask.io/download.html'
 
@@ -21,7 +21,7 @@ export async function getInjectedProvider(getPollingInterval: (chaindId: number)
     return undefined
   }
 
-  const provider = new providers.Web3Provider(injectedProvider, 'any')
+  const provider = new BrowserProvider(injectedProvider, 'any')
   const chainId = await provider.send('eth_chainId', [])
   if (!isWebSocketProvider(provider)) {
     provider.pollingInterval = getPollingInterval(chainId)

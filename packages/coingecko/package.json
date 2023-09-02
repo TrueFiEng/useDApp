@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "ethers": "*"
+    "ethers": "6.7.0"
   },
   "scripts": {
     "build": "pnpm run build:esm && pnpm run build:cjs",

@@ -1,6 +1,5 @@
 import React from 'react'
 import type { Story, Meta } from '@storybook/react'
-import { Interface } from '@ethersproject/abi'
 
 import { GlobalStyle } from '../../providers/GlobalStyle'
 import { EventContext } from '../../providers/events/EventProvider'
@@ -8,6 +7,7 @@ import { Events as EventsComponent } from '../../views/Events/Events'
 import type { Event } from '../../providers/events/State'
 import { DEFAULT_ABIS } from '../../providers/abi/defaultAbis'
 import { AbiProvider } from '../../providers/abi/AbiProvider'
+import { Interface } from 'ethers'
 
 export default {
   title: 'Pages/Events',

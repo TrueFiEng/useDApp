@@ -48,6 +48,13 @@ module.exports = {
         },
       },
       {
+        test: /node_modules[\\/]ethers/,
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2018',
+        },
+      },
+      {
         test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf|ico)$/,
         use: ['file-loader'],
       },

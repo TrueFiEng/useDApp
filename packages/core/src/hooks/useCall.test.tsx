@@ -1,4 +1,4 @@
-import { BigNumber, constants, Contract } from 'ethers'
+import { Contract, ZeroAddress } from 'ethers'
 import { useCall, useCalls } from './useCall'
 import { expect } from 'chai'
 import {
@@ -36,7 +36,7 @@ describe('useCall', () => {
         )
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
-        expect(result.current?.value[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
+        expect(result.current?.value?.[0]).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
       })
 
       it('returns error on revert', async () => {
@@ -154,7 +154,7 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'assertFailCall')).to.be.undefined
         expect(getResultProperty(result, 'panicCall')).to.be.undefined
         expect(getResultPropertyError(result, 'assertFailCall')?.message).to.eq(
-          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 0x01'
+          multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 0x1'
         )
         expect(getResultPropertyError(result, 'panicCall')?.message).to.eq(
           multicallVersion === 1 ? defaultMulticall1ErrorMessage : 'panic code 0x12'
@@ -219,7 +219,7 @@ describe('useCall', () => {
         contract: Contract,
         args: string[],
         chainId: number,
-        endValue: BigNumber,
+        endValue: BigInt,
         // eslint-disable-next-line no-undef
         config: Awaited<ReturnType<typeof setupTestingConfig>>['config']
       ) => {
@@ -239,7 +239,7 @@ describe('useCall', () => {
         )
         await waitForCurrent((val) => val !== undefined)
         expect(result.error).to.be.undefined
-        expect(result.current?.value[0]).to.eq(endValue)
+        expect(result.current?.value?.[0]).to.eq(endValue)
       }
 
       it('Properly handles two calls', async () => {
@@ -274,7 +274,7 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
         expect(getResultProperty(result, 'block')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         await waitForExpect(() => {
           expect(getResultProperty(result, 'balance')).to.eq(MOCK_TOKEN_INITIAL_BALANCE)
@@ -320,13 +320,13 @@ describe('useCall', () => {
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
-        await waitForCurrent(({ block1 }) => block1 !== undefined && block1.value[0].toNumber() === blockNumber + 1)
+        await waitForCurrent(({ block1 }) => block1 !== undefined && Number(block1.value?.[0]) === blockNumber + 1)
         expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 1)
         expect(getResultProperty(result, 'block2')).to.eq(blockNumber)
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
         await waitForExpect(() => {
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 2)
@@ -334,12 +334,12 @@ describe('useCall', () => {
         })
 
         for (let i = 0; i < 3; i++) {
-          await network1.mineBlock()
+          await network1.provider.mine()
         }
 
         await waitForExpect(() => {
           expect(getResultProperty(result, 'block1')).to.eq(blockNumber + 5)
-          const block2 = getResultProperty(result, 'block2').toNumber()
+          const block2 = Number(getResultProperty(result, 'block2'))
           // we don't actually know when the update is gonna happen - both possibilities are possible
           expect(block2 === blockNumber + 4 || block2 === blockNumber + 5).to.be.true
         })
@@ -368,11 +368,11 @@ describe('useCall', () => {
           }
         )
 
-        await waitForCurrent((val) => val?.value?.[0]?.eq(2))
+        await waitForCurrent((val) => val?.value?.[0] === BigInt(2))
 
         rerender({ num: 2 })
 
-        await waitForCurrent((val) => val?.value?.[0]?.eq(4))
+        await waitForCurrent((val) => val?.value?.[0] === BigInt(4))
       })
 
       it('Refreshes only static calls with changed parameter', async () => {
@@ -408,17 +408,17 @@ describe('useCall', () => {
           }
         )
 
-        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(2))
-        const blockNumberBefore = result.current.blockNumber?.value[0]
+        await waitForCurrent((val) => val?.doubled?.value?.[0] === BigInt(2))
+        const blockNumberBefore = result.current.blockNumber?.value?.[0]
 
-        await network1.mineBlock()
+        await network1.provider.mine()
 
-        expect(result.current.doubled?.value[0]).to.eq(2)
-        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        expect(result.current.doubled?.value?.[0]).to.eq(2)
+        expect(result.current.blockNumber?.value?.[0]).to.eq(blockNumberBefore)
         rerender({ num: 2 })
-        await waitForCurrent((val) => val?.doubled?.value?.[0]?.eq(4))
+        await waitForCurrent((val) => val?.doubled?.value?.[0] === BigInt(4))
 
-        expect(result.current.blockNumber?.value[0]).to.eq(blockNumberBefore)
+        expect(result.current.blockNumber?.value?.[0]).to.eq(blockNumberBefore)
       })
 
       it('should not throw error when call is Falsy', async () => {
@@ -455,7 +455,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.6.1) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.target}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=6.7.0) (argument="account", value=123, code=INVALID_ARGUMENT, version=6.7.0)`
           )
         })
 
@@ -475,12 +475,12 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.target}": missing arguemnt: types/values length mismatch (count=0, expectedCount=1, code=MISSING_ARGUMENT, version=6.7.0)`
           )
         })
 
         it('Returns error if too many arguments', async () => {
-          const args = [constants.AddressZero, constants.AddressZero]
+          const args = [ZeroAddress, ZeroAddress]
           const { result, waitForCurrent } = await renderDAppHook(
             () =>
               useCall({
@@ -496,7 +496,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.target}": too many arguemnts: types/values length mismatch (count=2, expectedCount=1, code=UNEXPECTED_ARGUMENT, version=6.7.0)`
           )
         })
       })
@@ -530,7 +530,7 @@ describe('useCall', () => {
           }
         )
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[0]?.value?.[0]).to.eq(BigInt(4))
         expect(result.current[0]?.error).to.be.undefined
 
         expect(result.current[1]?.error).to.be.undefined
@@ -538,14 +538,14 @@ describe('useCall', () => {
 
         expect(result.current[2]?.value).to.be.undefined
         expect(result.current[2]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+          `Invalid contract call for method="double" on contract="${doublerContract.target}": invalid BigNumberish string: Cannot convert invalid to a BigInt (argument="value", value="invalid", code=INVALID_ARGUMENT, version=6.7.0)`
         )
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(4))
         expect(result.current[3]?.error).to.be.undefined
 
         rerender({ num: 3 })
         await waitForCurrent((val) => val !== undefined && !!val[0]?.value && !!val[3]?.value)
-        expect(result.current[0]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[0]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[0]?.error).to.be.undefined
 
         expect(result.current[1]?.error).to.be.undefined
@@ -553,10 +553,10 @@ describe('useCall', () => {
 
         expect(result.current[2]?.value).to.be.undefined
         expect(result.current[2]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+          `Invalid contract call for method="double" on contract="${doublerContract.target}": invalid BigNumberish string: Cannot convert invalid to a BigInt (argument="value", value="invalid", code=INVALID_ARGUMENT, version=6.7.0)`
         )
 
-        expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
+        expect(result.current[3]?.value?.[0]).to.eq(BigInt(6))
         expect(result.current[3]?.error).to.be.undefined
       })
     })

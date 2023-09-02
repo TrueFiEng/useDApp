@@ -6,13 +6,13 @@ import { useConnector, useReadonlyNetworks } from '../../network'
 import { fromEntries } from '../../../helpers/fromEntries'
 import { performMulticall } from '../common/performMulticall'
 import { Providers } from '../../network/readonlyNetworks/model'
-import { providers } from 'ethers'
 import { callsReducer, chainStateReducer, multicall1Factory, multicall2Factory, RawCall } from '../common'
 import { getCallsForUpdate, getUniqueActiveCalls } from '../../../helpers'
 import { useDevtoolsReporting } from '../common/useDevtoolsReporting'
 import { useChainId } from '../../../hooks/useChainId'
 import { useWindow } from '../../window/context'
 import { useUpdateNetworksState } from '../../network/readonlyNetworks/context'
+import { Provider } from 'ethers'
 
 interface Props {
   children: ReactNode
@@ -66,7 +66,7 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
     multicallAddresses
   )
 
-  function multicallForChain(chainId: ChainId, provider: providers.BaseProvider) {
+  function multicallForChain(chainId: ChainId, provider: Provider) {
     if (!isActive) {
       return
     }
@@ -112,10 +112,13 @@ export function MultiChainStateProvider({ children, multicallAddresses }: Props)
   useEffect(() => {
     for (const [_chainId, provider] of Object.entries(networks)) {
       const chainId = Number(_chainId)
-      // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
-      if (chainId === provider.network?.chainId || chainId === provider._network?.chainId) {
-        multicallForChain(chainId, provider)
-      }
+      void (async () => {
+        const network = await provider.getNetwork()
+        // chainId is in provider is not the same as the chainId in the state wait for chainId to catch up
+        if (chainId === Number(network.chainId)) {
+          multicallForChain(chainId, provider)
+        }
+      })()
     }
   }, [networks, multicallAddresses, uniqueCallsJSON, blockNumbers])
 

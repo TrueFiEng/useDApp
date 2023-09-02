@@ -1,5 +1,4 @@
 import React from 'react'
-import { formatEther } from '@ethersproject/units'
 import { useEtherBalance, useEthers } from '@usedapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
@@ -7,6 +6,7 @@ import { TextInline } from '../typography/Text'
 import { Title } from '../typography/Title'
 
 import { AccountButton } from '../components/account/AccountButton'
+import { formatEther } from 'ethers'
 
 const STAKING_CONTRACT = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 

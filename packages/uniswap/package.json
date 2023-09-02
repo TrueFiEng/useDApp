@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "@usedapp/core": "*",
-    "ethers": "^5",
+    "ethers": "6.7.0",
     "react": "*"
   },
   "devDependencies": {

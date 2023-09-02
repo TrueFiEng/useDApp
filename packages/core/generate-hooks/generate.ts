@@ -21,11 +21,10 @@ export async function generate() {
     const factory = factories[factoryName]
     const Interface = factory.createInterface()
     
-    const abi = factory.abi
-    Object.keys(Interface.functions).forEach((fn) => {
-      const functionName = fn.split('(')[0]
-      const fnABI = abi.find((a: any) => a.name === functionName)
-      if (['view', 'pure'].includes(fnABI?.stateMutability)) {
+    const functions = Interface.fragments.filter((f: any) => f.type === 'function')
+    functions.forEach((fn: any) => {
+      const functionName = fn.name
+      if (['view', 'pure'].includes(fn.stateMutability)) {
         output += `
 export const use${contractName}_${functionName} = (
   contractAddress: Falsy | string,
@@ -36,7 +35,7 @@ export const use${contractName}_${functionName} = (
     contractAddress
       && args
       && {
-        contract: new Contract(contractAddress, ${contractName}Interface) as ${contractName},
+        contract: new BaseContract(contractAddress, ${contractName}Interface) as ${contractName},
         method: '${functionName}',
         args
       }, queryParams
@@ -51,7 +50,7 @@ export const use${contractName}_${functionName} = (
   options?: TransactionOptions
 ) => {
   return useContractFunction<${contractName}, '${functionName}'>(
-    contractAddress && new Contract(contractAddress, ${contractName}Interface) as ${contractName},
+    contractAddress && new BaseContract(contractAddress, ${contractName}Interface) as ${contractName},
     '${functionName}',
     options
   )
@@ -61,9 +60,14 @@ export const use${contractName}_${functionName} = (
       }
     })
 
+    const events = Interface.fragments.filter((f: any) => f.type === 'event')
+    console.log({
+      event: Interface.fragments[2]
+    })
+
     //write events
-    Object.keys(Interface.events).forEach((event) => {
-      const eventName = event.split('(')[0]
+    events.forEach((event: any) => {
+      const eventName = event.name
       output += `
 export const use${contractName}_event_${eventName} = (
   contractAddress: Falsy | string,
@@ -73,7 +77,7 @@ export const use${contractName}_event_${eventName} = (
   return useLogs(
     contractAddress
       && {
-        contract: new Contract(contractAddress, ${contractName}Interface),
+        contract: new BaseContract(contractAddress, ${contractName}Interface),
         event: '${eventName}',
         args: args || [],
       },
@@ -85,14 +89,12 @@ export const use${contractName}_event_${eventName} = (
     })
     output += `
 export const use${contractName} = {
-  ${Object.keys(Interface.functions)
-    .map(fn => fn.split('(')[0])
-    .map(fn => `${fn}: use${contractName}_${fn}`)
+  ${functions
+    .map((fn: any) => `${fn.name}: use${contractName}_${fn.name}`)
     .join(",\n  ")},
   events: {
-  ${Object.keys(Interface.events)
-    .map(event => event.split('(')[0])
-    .map(event => `  ${event}: use${contractName}_event_${event}`)
+  ${events
+    .map((event: any) => `  ${event.name}: use${contractName}_event_${event.name}`)
     .join(",\n  ")}
   }
 }

@@ -1,7 +1,7 @@
 import { Connector, ConnectorUpdateData } from '../connector'
-import { providers } from 'ethers'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { Event } from '../../../../helpers/event'
+import { BrowserProvider } from 'ethers'
 
 const GET_METAMASK_LINK = 'https://metamask.io/download.html'
 
@@ -22,12 +22,12 @@ export async function getMetamaskProvider() {
     return undefined
   }
 
-  const provider = new providers.Web3Provider(injectedProvider, 'any')
+  const provider = new BrowserProvider(injectedProvider, 'any')
   return provider
 }
 
 export class MetamaskConnector implements Connector {
-  public provider?: providers.Web3Provider
+  public provider?: BrowserProvider
   public readonly name = 'Metamask'
 
   readonly update = new Event<ConnectorUpdateData>()
