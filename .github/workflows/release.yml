@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node.js 16.x
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v1
         with:
           node-version: 16.x
           
