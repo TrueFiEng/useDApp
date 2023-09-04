@@ -1,5 +1,15 @@
 # @usedapp/core
 
+## 1.2.12
+
+### Patch Changes
+
+- 4e74583: ⛓ Add Three chains, to chainId
+
+  - Mantle Mainnet
+  - Scroll Sepolia ( Alpha got deprecated - goerli )
+  - Kroma
+
 ## 1.2.11
 
 ### Patch Changes
