@@ -80,7 +80,7 @@ export const calculateSafeTransactionHash = (
   // TODO: Remove after WalletConnectV2 fix
   // WalletConnectV2 incorrectly passes safeTxGas value, equal 0 (default value).
   // Thus we have a mismatch between gnosis safeTxHash and one calculated by useDApp (safeTxGas is based on estimation)
-  safeTx = {...safeTx, safeTxGas: 0}
+  safeTx = { ...safeTx, safeTxGas: 0 }
 
   return utils._TypedDataEncoder.hash({ verifyingContract: safe.address, chainId }, EIP712_SAFE_TX_TYPE, safeTx)
 }
