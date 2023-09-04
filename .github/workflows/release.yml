@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - yivlad/debug-release-job
 
 jobs:
   release:
@@ -27,8 +28,11 @@ jobs:
       - name: Install package manager
         run: npm i -g pnpm@7.1.9
 
+      - name: Print git status
+        run: git status
+
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Set git user
         run: |
