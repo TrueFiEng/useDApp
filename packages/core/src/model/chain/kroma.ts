@@ -19,3 +19,23 @@ export const KromaSepoliaTestnet: Chain = {
   getExplorerAddressLink: getAddressLink(KromaSepoliaExplorerUrl),
   getExplorerTransactionLink: getTransactionLink(KromaSepoliaExplorerUrl),
 }
+
+
+const KromaExplorerUrl = 'https://blockscout.kroma.network/'
+
+export const KromaMainnet: Chain = {
+  chainId: 255,
+  chainName: 'Kroma',
+  isTestChain: false,
+  isLocalChain: false,
+  multicallAddress: '',
+  rpcUrl: 'https://api.kroma.network/',
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrl: KromaExplorerUrl,
+  getExplorerAddressLink: getAddressLink(KromaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(KromaExplorerUrl),
+}

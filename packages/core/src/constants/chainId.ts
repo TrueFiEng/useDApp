@@ -67,6 +67,7 @@ import {
   LineaTestnet,
   MantleTestnet,
   KromaSepoliaTestnet,
+  KromaMainnet,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -138,6 +139,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   LineaTestnet,
   MantleTestnet,
   KromaSepoliaTestnet,
+  KromaMainnet,
 ]
 
 export enum ChainId {
@@ -208,4 +210,6 @@ export enum ChainId {
   LineaTestnet = 59140,
   ArbitrumNova = 42170,
   MantleTestnet = 5001,
+  Kroma= 255,
+  KromaSepolia = 2358,
 }
