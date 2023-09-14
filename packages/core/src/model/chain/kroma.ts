@@ -20,7 +20,6 @@ export const KromaSepoliaTestnet: Chain = {
   getExplorerTransactionLink: getTransactionLink(KromaSepoliaExplorerUrl),
 }
 
-
 const KromaExplorerUrl = 'https://blockscout.kroma.network/'
 
 export const KromaMainnet: Chain = {
