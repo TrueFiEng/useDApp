@@ -1,3 +1,7 @@
+---
+"@usedapp/core": patch
+---
+
 Adding the network kroma mainnet:
 
 https://blockscout.kroma.network/
