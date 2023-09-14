@@ -210,6 +210,6 @@ export enum ChainId {
   LineaTestnet = 59140,
   ArbitrumNova = 42170,
   MantleTestnet = 5001,
-  Kroma= 255,
+  Kroma = 255,
   KromaSepolia = 2358,
 }
