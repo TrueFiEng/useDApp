@@ -1,5 +1,17 @@
 # @usedapp/core
 
+## 1.2.13
+
+### Patch Changes
+
+- 0b953e8: Adding the network kroma mainnet:
+
+  https://blockscout.kroma.network/
+
+  https://kroma.network/
+
+  it does not have verified contracts yet in the explorer, adding multicall address later.
+
 ## 1.2.12
 
 ### Patch Changes
