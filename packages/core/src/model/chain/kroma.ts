@@ -28,7 +28,7 @@ export const KromaMainnet: Chain = {
   chainName: 'Kroma',
   isTestChain: false,
   isLocalChain: false,
-  multicallAddress: '',
+  multicallAddress: '0xE3c886498ac54433F2B0E6842FAE421006067751',
   rpcUrl: 'https://api.kroma.network/',
   nativeCurrency: {
     name: 'ETH',
