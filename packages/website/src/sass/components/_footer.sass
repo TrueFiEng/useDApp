@@ -71,12 +71,13 @@
 
 .copyrights
   display: flex
+  flex-direction: column
   width: 100%
   justify-content: center
   align-items: center
   margin: 48px auto 0
   column-gap: 40px
-  row-gap: 12px
+  row-gap: 24px
 
   +media(s)
     flex-direction: column
@@ -89,6 +90,9 @@
   row-gap: 12px
   color: transparentize($white, 0.5)
 
+  +media(s)
+    flex-direction: column
+
 .copyrights__text
   font-size: 14px
   line-height: 16px
@@ -98,6 +102,9 @@
   width: 100px
   color: inherit
   transition: $all
+
+.copyrights__link--large
+  width: 200px
 
 .copyrights__link:hover
   color: $white
