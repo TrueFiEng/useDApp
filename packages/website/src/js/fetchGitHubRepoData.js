@@ -22,7 +22,7 @@ const showFetchedStars = async () => {
 }
 
 const showFetchedDependents = async () => {
-  githubDependentsText.textContent = "2.5k+"
+  githubDependentsText.textContent = "4.7k+"
 
   const githubPackageDependentsURL =
     "https://github.com/TrueFiEng/useDApp/network/dependents?package_id="
