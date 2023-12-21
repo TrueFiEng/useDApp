@@ -76,10 +76,6 @@ export function NavBar() {
               Multichain
               <br /> <SidebarLinkDescription>&nbsp;experimental</SidebarLinkDescription>
             </SidebarLink>
-            <SidebarLink activeClassName="active-page" to="/wallet-connect">
-              {' '}
-              WalletConnect example{' '}
-            </SidebarLink>
             <SidebarLink activeClassName="active-page" to="/connectors">
               {' '}
               Connectors{' '}
