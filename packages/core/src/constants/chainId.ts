@@ -10,6 +10,7 @@ import {
   AvalancheTestnet,
   Aurora,
   AuroraTestnet,
+  BlastSepoliaTestnet,
   BSC,
   BSCTestnet,
   Canto,
@@ -140,6 +141,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   MantleTestnet,
   KromaSepoliaTestnet,
   KromaMainnet,
+  BlastSepoliaTestnet,
 ]
 
 export enum ChainId {
@@ -212,4 +214,5 @@ export enum ChainId {
   MantleTestnet = 5001,
   Kroma = 255,
   KromaSepolia = 2358,
+  BlastSepolia = 168587773,
 }
