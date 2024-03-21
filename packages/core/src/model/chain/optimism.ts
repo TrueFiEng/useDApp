@@ -39,6 +39,25 @@ export const OptimismGoerli: Chain = {
   getExplorerTransactionLink: getTransactionLink(testnetGoerliExplorerUrl),
 }
 
+const testnetSepoliaExplorerUrl = 'https://sepolia-optimism.etherscan.io'
+
+export const OptimismSepolia: Chain = {
+  chainId: 11155420,
+  chainName: 'Optimism Sepolia',
+  isTestChain: true,
+  isLocalChain: false,
+  multicallAddress: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  rpcUrl: 'https://sepolia.optimism.io',
+  nativeCurrency: {
+    name: 'Sepolia Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrl: testnetSepoliaExplorerUrl,
+  getExplorerAddressLink: getAddressLink(testnetSepoliaExplorerUrl),
+  getExplorerTransactionLink: getTransactionLink(testnetSepoliaExplorerUrl),
+}
+
 const optimismExplorerUrl = 'https://optimistic.etherscan.io'
 
 export const Optimism: Chain = {
@@ -61,5 +80,6 @@ export const Optimism: Chain = {
 export default {
   OptimismKovan,
   OptimismGoerli,
+  OptimismSepolia,
   Optimism,
 }
