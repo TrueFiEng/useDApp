@@ -5,12 +5,12 @@ import { deepEqual } from '../helpers'
 export function useResolvedPromise<T>(promise: Promise<T> | T | Falsy): T | Falsy {
   const [resolvedValue, setResolvedValue] = useState<T | Falsy>(promise instanceof Promise ? undefined : promise)
 
-  const lastPromiseRef = useRef<Promise<T> | T | Falsy>(promise)
+  const lastPromiseRef = useRef<Promise<T> | T | Falsy>(undefined)
 
   useEffect(() => {
     let active = true // Flag to prevent setting state after component unmounts
 
-    const resolvePromise = async (_promise: Promise<T> | T | Falsy) => {
+    const resolvePromise = async () => {
       if (!active) {
         // We are already loading, don't start another request
         // or the component has been unmounted
@@ -21,7 +21,7 @@ export function useResolvedPromise<T>(promise: Promise<T> | T | Falsy): T | Fals
         lastPromiseRef.current = promise
 
         // If the input is not a promise, it directly sets the resolved value
-        const value: T | Falsy = await _promise
+        const value: T | Falsy = await promise
 
         // Check if the component is still mounted before setting the state
         if (active) {
@@ -33,7 +33,7 @@ export function useResolvedPromise<T>(promise: Promise<T> | T | Falsy): T | Fals
       }
     }
 
-    void resolvePromise(promise)
+    void resolvePromise()
 
     return () => {
       active = false // Cleanup to prevent state update after component unmounts
