@@ -6,7 +6,6 @@ import { QueryParams } from '../constants/type/QueryParams'
 import type { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { Falsy } from '../model/types'
 import { ChainId } from '../constants'
-import { deepEqual } from '../helpers/common'
 
 /**
  * Returns all blockchain logs given a block filter.
