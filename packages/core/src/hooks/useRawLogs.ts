@@ -8,9 +8,7 @@ import { Falsy } from '../model/types'
 import { ChainId } from '../constants'
 
 function deepEqual(obj1: any, obj2: any) {
-  if (obj1 === obj2)
-    // it's just the same object. No need to compare.
-    return true
+  if (obj1 === obj2) return true
 
   if (obj1 == null || obj2 == null) return obj1 == obj2
 
