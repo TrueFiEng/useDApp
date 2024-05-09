@@ -4,7 +4,8 @@ export function shortenString(str: string) {
 
 /**
  * Determines whether two objects are equal using a deep comparison. Null and undefined are considered equal. Arrays
- * with the same elements are not considered equal if they are in different orders.
+ * with the same elements are not considered equal if they are in different orders. Objects with the same properties
+ * can have different property orderings and still be considered equal.
  * @param obj1 The first object to compare.
  * @param obj2 The second object to compare.
  * @returns True if the objects are deep equal, false otherwise.
