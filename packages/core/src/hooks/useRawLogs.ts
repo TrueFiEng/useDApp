@@ -1,42 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useEthers } from './useEthers'
 import { useReadonlyNetworks } from '../providers/network/readonlyNetworks'
-import { useBlockNumbers, useBlockNumber, useConfig } from '../hooks'
+import { useBlockNumbers, useBlockNumber, useConfig, useResolvedPromise } from '../hooks'
 import { QueryParams } from '../constants/type/QueryParams'
 import type { Filter, FilterByBlockHash, Log } from '@ethersproject/abstract-provider'
 import { Falsy } from '../model/types'
 import { ChainId } from '../constants'
 import { deepEqual } from '../helpers/common'
-
-function useResolvedFilter(
-  filter: Filter | FilterByBlockHash | Promise<Filter | FilterByBlockHash> | Falsy
-): Filter | FilterByBlockHash | Falsy {
-  const [resolvedFilter, setResolvedFilter] = useState<Filter | FilterByBlockHash | Falsy>(
-    filter instanceof Promise ? undefined : filter
-  )
-
-  useEffect(() => {
-    let active = true // Flag to prevent setting state after unmount
-
-    const resolveFilter = async () => {
-      let _filter: Filter | FilterByBlockHash | Falsy = await filter
-
-      if (!deepEqual(_filter, resolvedFilter)) {
-        if (active) {
-          setResolvedFilter(_filter)
-        }
-      }
-    }
-
-    void resolveFilter()
-
-    return () => {
-      active = false // Cleanup to prevent state update after component unmounts
-    }
-  })
-
-  return resolvedFilter
-}
 
 /**
  * Returns all blockchain logs given a block filter.
@@ -61,7 +31,7 @@ export function useRawLogs(
   const [lastTopics, setLastTopics] = useState<string | undefined>()
   const [lastChainId, setLastChainId] = useState<ChainId | undefined>()
   const [lastBlockNumber, setLastBlockNumber] = useState<number | undefined>()
-  const resolvedFilter = useResolvedFilter(filter)
+  const resolvedFilter = useResolvedPromise<Filter | FilterByBlockHash>(filter)
 
   const isLoadingRef = useRef(false)
 
