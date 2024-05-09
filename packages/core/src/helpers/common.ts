@@ -21,7 +21,15 @@ export function deepEqual(obj1: any, obj2: any) {
     // compare primitives
     return obj1Primitive === obj2Primitive && obj1 === obj2
 
-  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false
+  let obj1KeyCount = 0
+  for (const _ in obj1) obj1KeyCount++
+
+  let obj2KeyCount = 0
+  for (const _ in obj2) {
+    if (++obj2KeyCount > obj1KeyCount) return false
+  }
+
+  if (obj1KeyCount !== obj2KeyCount) return false
 
   // compare objects with same number of keys
   for (const key in obj1) {
