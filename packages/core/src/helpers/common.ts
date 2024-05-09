@@ -14,9 +14,11 @@ export function deepEqual(obj1: any, obj2: any) {
 
   if (obj1 == null || obj2 == null) return obj1 == obj2
 
-  if (isPrimitive(obj1) && isPrimitive(obj2))
+  const obj1Primitive = isPrimitive(obj1)
+  const obj2Primitive = isPrimitive(obj2)
+  if (obj1Primitive || obj2Primitive)
     // compare primitives
-    return obj1 === obj2
+    return obj1Primitive === obj2Primitive && obj1 === obj2
 
   if (Object.keys(obj1).length !== Object.keys(obj2).length) return false
 
