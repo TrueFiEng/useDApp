@@ -42,13 +42,7 @@ function useResolvedFilter(
     let active = true // Flag to prevent setting state after unmount
 
     const resolveFilter = async () => {
-      let _filter: Filter | FilterByBlockHash | Falsy = undefined
-
-      if (filter instanceof Promise) {
-        _filter = await filter
-      } else {
-        _filter = filter
-      }
+      let _filter: Filter | FilterByBlockHash | Falsy = await filter
 
       if (!deepEqual(_filter, resolvedFilter)) {
         if (active) {
