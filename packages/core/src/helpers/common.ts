@@ -22,9 +22,11 @@ export function deepEqual(obj1: any, obj2: any) {
     return obj1Primitive === obj2Primitive && obj1 === obj2
 
   let obj1KeyCount = 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const _ in obj1) obj1KeyCount++
 
   let obj2KeyCount = 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const _ in obj2) {
     if (++obj2KeyCount > obj1KeyCount) return false
   }
