@@ -5,20 +5,21 @@ import { deepEqual } from '../helpers'
 export function useResolvedPromise<T>(promise: Promise<T> | T | Falsy): T | Falsy {
   const [resolvedValue, setResolvedValue] = useState<T | Falsy>(promise instanceof Promise ? undefined : promise)
 
-  const isLoadingRef = useRef(false)
+  const lastPromiseRef = useRef<Promise<T> | T | Falsy>(promise)
 
   useEffect(() => {
     let active = true // Flag to prevent setting state after component unmounts
 
     const resolvePromise = async (_promise: Promise<T> | T | Falsy) => {
-      if (isLoadingRef.current || !active) {
+      if (!active) {
         // We are already loading, don't start another request
         // or the component has been unmounted
         return
       }
 
-      isLoadingRef.current = true
-      try {
+      if (promise !== lastPromiseRef.current) {
+        lastPromiseRef.current = promise
+
         // If the input is not a promise, it directly sets the resolved value
         const value: T | Falsy = await _promise
 
@@ -29,8 +30,6 @@ export function useResolvedPromise<T>(promise: Promise<T> | T | Falsy): T | Fals
             setResolvedValue(value)
           }
         }
-      } finally {
-        isLoadingRef.current = false
       }
     }
 
