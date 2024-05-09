@@ -20,7 +20,10 @@ describe('useResolvedPromise', function () {
   })
 
   it("Immediately returns undefined if the promise hasn't resolved", async function () {
-    const filterPromise = new Promise<Filter>(() => {})
+    const filter: Filter = { toBlock: 1 }
+    const filterPromise = new Promise<Filter>((resolve) => {
+      resolve(filter)
+    })
 
     const result = renderHook(() => useResolvedPromise(filterPromise))
 
