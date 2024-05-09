@@ -12,9 +12,7 @@ function deepEqual(obj1: any, obj2: any) {
     // it's just the same object. No need to compare.
     return true
 
-  if (obj1 == null) return obj1 == null
-
-  if (obj2 == null) return false
+  if (obj1 == null || obj2 == null) return obj1 == obj2
 
   if (isPrimitive(obj1) && isPrimitive(obj2))
     // compare primitives
