@@ -7,8 +7,6 @@ import {
   Localhost,
   MetamaskConnector,
   CoinbaseWalletConnector,
-  Goerli,
-  OptimismGoerli,
   Optimism,
   Sepolia,
 } from '@usedapp/core'
@@ -19,12 +17,10 @@ import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-  [Sepolia.chainId]: 'https://rpc.sepolia.org',
-  [Goerli.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
-    : getDefaultProvider('goerli'),
+  [Sepolia.chainId]: process.env.MAINNET_URL
+    ? process.env.MAINNET_URL.replace('sepolia', 'goerli')
+    : 'https://rpc.sepolia.org',
   [Optimism.chainId]: 'https://mainnet.optimism.io',
-  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
 }
 
 if (process.env.LOCALHOST_URL) {
@@ -47,8 +43,8 @@ const config: Config = {
       projectId: 'bffbe493c0928ee125dc8f23e20167b7',
       chains: [Mainnet],
       rpcMap: {
-        1: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
-        5: 'https://goerli.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+        [Mainnet.chainId]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+        [Sepolia.chainId]: 'https://sepolia.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
       },
     }),
   },
