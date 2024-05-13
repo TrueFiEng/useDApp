@@ -68,6 +68,7 @@ import {
   MantleTestnet,
   KromaSepoliaTestnet,
   KromaMainnet,
+  OptimismSepolia,
 } from '../model'
 
 // rough alphabet order (put network from the same chain together)
@@ -121,6 +122,7 @@ export const DEFAULT_SUPPORTED_CHAINS = [
   ThunderCoreTestnet,
   OptimismGoerli,
   OptimismKovan,
+  OptimismSepolia,
   Optimism,
   Velas,
   VelasTestnet,
@@ -187,6 +189,7 @@ export enum ChainId {
   Andromeda = 1088,
   OptimismGoerli = 420,
   OptimismKovan = 69,
+  OptimismSepolia = 11155420,
   Optimism = 10,
   Arbitrum = 42161,
   ArbitrumRinkeby = 421611,
