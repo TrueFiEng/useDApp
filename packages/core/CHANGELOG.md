@@ -1,5 +1,17 @@
 # @usedapp/core
 
+## 1.2.15
+
+### Patch Changes
+
+- c688928: 🌝 Add optimism sepolia to chain ids
+
+## 1.2.14
+
+### Patch Changes
+
+- 1ae0bcb: Added 'Optimism Sepolia' testnet
+
 ## 1.2.13
 
 ### Patch Changes
