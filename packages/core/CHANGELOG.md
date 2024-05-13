@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.14
+
+### Patch Changes
+
+- 1ae0bcb: Added 'Optimism Sepolia' testnet
+
 ## 1.2.13
 
 ### Patch Changes
