@@ -10,6 +10,7 @@ import {
   Goerli,
   OptimismGoerli,
   Optimism,
+  Sepolia,
 } from '@usedapp/core'
 import { App } from './App'
 import { PortisConnector } from '@usedapp/portis-connector'
@@ -18,6 +19,7 @@ import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
+  [Sepolia.chainId]: 'https://rpc.sepolia.org',
   [Goerli.chainId]: process.env.MAINNET_URL
     ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
     : getDefaultProvider('goerli'),
