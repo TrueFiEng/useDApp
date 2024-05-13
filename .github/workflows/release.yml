@@ -50,7 +50,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Deploy usedapp-docs.netlify.app
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         if: steps.changesets.outputs.published == 'true'
         with:
           enable-commit-comment: true

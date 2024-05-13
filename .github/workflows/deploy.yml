@@ -20,7 +20,7 @@ jobs:
       - run: pnpm build
 
       - name: Deploy usedapp-docs.netlify.app
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           enable-commit-comment: true
           enable-pull-request-comment: true
@@ -33,7 +33,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DOCS_SITE_ID }}
 
       - name: Deploy example.usedapp.io
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           enable-commit-comment: true
           enable-pull-request-comment: true
@@ -46,7 +46,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EXAMPLE_SITE_ID }}
 
       - name: Deploy usedapp.io
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           enable-commit-comment: true
           enable-pull-request-comment: true
