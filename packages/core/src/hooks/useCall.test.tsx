@@ -455,7 +455,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.6.1) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": invalid address (argument="address", value=123, code=INVALID_ARGUMENT, version=address/5.7.0) (argument="account", value=123, code=INVALID_ARGUMENT, version=abi/5.7.0)`
           )
         })
 
@@ -475,7 +475,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":0}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":[]}, code=INVALID_ARGUMENT, version=abi/5.7.0)`
           )
         })
 
@@ -496,7 +496,7 @@ describe('useCall', () => {
 
           expect(result.current?.value).to.be.undefined
           expect(result.current?.error?.message).to.eq(
-            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.6.4)`
+            `Invalid contract call for method="balanceOf" on contract="${token.address}": types/values length mismatch (count={"types":1,"values":2}, value={"types":[{"name":"account","type":"address","indexed":null,"components":null,"arrayLength":null,"arrayChildren":null,"baseType":"address","_isParamType":true}],"values":["0x0000000000000000000000000000000000000000","0x0000000000000000000000000000000000000000"]}, code=INVALID_ARGUMENT, version=abi/5.7.0)`
           )
         })
       })
@@ -538,7 +538,7 @@ describe('useCall', () => {
 
         expect(result.current[2]?.value).to.be.undefined
         expect(result.current[2]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.7.0)`
         )
         expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(4))
         expect(result.current[3]?.error).to.be.undefined
@@ -553,7 +553,7 @@ describe('useCall', () => {
 
         expect(result.current[2]?.value).to.be.undefined
         expect(result.current[2]?.error?.message).to.eq(
-          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.6.2)`
+          `Invalid contract call for method="double" on contract="${doublerContract.address}": invalid BigNumber string (argument="value", value="invalid", code=INVALID_ARGUMENT, version=bignumber/5.7.0)`
         )
 
         expect(result.current[3]?.value?.[0]).to.eq(BigNumber.from(6))
