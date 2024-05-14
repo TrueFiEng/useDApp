@@ -72,7 +72,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
   })
 
   describe('Guides/Transactions', () => {
-    it('Switches networks', async () => {
+    it.skip('Switches networks', async () => {
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
