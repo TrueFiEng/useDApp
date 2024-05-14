@@ -1,11 +1,11 @@
 import React from 'react'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
-import { Mainnet, Optimism, Sepolia } from '@usedapp/core'
+import { Mainnet, Optimism } from '@usedapp/core'
 import { ChainState } from '../components/ChainState'
 import { Title } from '../typography/Title'
 import styled from 'styled-components'
 
-const chains = [Mainnet.chainId, Optimism.chainId, Sepolia.chainId]
+const chains = [Mainnet.chainId, Optimism.chainId]
 
 export const Multichain = () => {
   return (

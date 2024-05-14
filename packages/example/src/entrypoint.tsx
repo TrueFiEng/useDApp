@@ -8,7 +8,6 @@ import {
   MetamaskConnector,
   CoinbaseWalletConnector,
   Optimism,
-  Sepolia,
 } from '@usedapp/core'
 import { App } from './App'
 import { PortisConnector } from '@usedapp/portis-connector'
@@ -17,9 +16,6 @@ import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-  [Sepolia.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('sepolia', 'goerli')
-    : 'https://rpc.sepolia.org',
   [Optimism.chainId]: 'https://mainnet.optimism.io',
 }
 
@@ -44,7 +40,6 @@ const config: Config = {
       chains: [Mainnet],
       rpcMap: {
         [Mainnet.chainId]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
-        [Sepolia.chainId]: 'https://sepolia.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
       },
     }),
   },
