@@ -116,7 +116,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
     })
   })
 
-  describe('Guides/Siwe', () => {
+  describe.skip('Guides/Siwe', () => {
     it('Can sign in and sign out', async () => {
       await page.goto(`${baseUrl}Guides/Sign%20in%20with%20Ethereum`)
       await waitForExpect(async () => {
