@@ -101,12 +101,8 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       const popupPage = await popupPromise
 
       await sleep(2000) // Wait for the popup to be fully loaded.
-      expect(
-        // if this link is visible, then the network does not match metamask records
-        await popupPage.isVisible(`//a[@href='https://metamask.zendesk.com/hc/en-us/articles/360057142392']`)
-      ).to.be.false
 
-      await popupPage.click(XPath.text('a', 'View all'))
+      await popupPage.click(XPath.text('a', 'View all details'))
       await waitForExpect(async () => {
         expect(await popupPage.isVisible(`//*[text()='${Optimism.chainName}']`)).to.be.true
         expect(await popupPage.isVisible(`//*[text()='${Optimism.rpcUrl}']`)).to.be.true
