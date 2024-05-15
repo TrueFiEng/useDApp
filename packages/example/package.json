@@ -79,7 +79,7 @@
     "jsdom": "^20.0.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
-    "playwright": "^1.20.2",
+    "playwright": "^1.44.0",
     "prettier": "^2.0.5",
     "react-refresh": "^0.10.0",
     "rimraf": "^3.0.2",
