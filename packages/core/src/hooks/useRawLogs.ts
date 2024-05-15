@@ -26,11 +26,14 @@ export function useRawLogs(
 
   const [logs, setLogs] = useState<Log[] | undefined>()
 
-  const { chainId } = queryParams
+  const { chainId, isStatic } = queryParams
 
   const [provider, blockNumber] = useMemo(
-    () => (chainId ? [providers[chainId], blockNumbers[chainId]] : [library, _blockNumber]),
-    [providers, library, blockNumbers, _blockNumber, chainId]
+    () =>
+      chainId
+        ? [providers[chainId], isStatic ? undefined : blockNumbers[chainId]]
+        : [library, isStatic ? undefined : _blockNumber],
+    [chainId, providers, isStatic, blockNumbers, library, _blockNumber]
   )
 
   async function updateLogs() {
