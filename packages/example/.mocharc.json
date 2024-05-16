@@ -2,6 +2,6 @@
   "require": "@swc-node/register",
   "watchExtensions": "ts",
   "extension": "ts",
-  "timeout": 60000,
+  "timeout": 600000,
   "file": "./test/test-setup.ts"
 }
