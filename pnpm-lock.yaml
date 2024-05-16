@@ -204,7 +204,6 @@ importers:
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': ^1.6.22
       '@metamask/jazzicon': ^2.0.0
-      '@playwright/test': ^1.36.2
       '@tsconfig/docusaurus': ^1.0.4
       '@types/debug': ^4.1.7
       '@types/mocha': ^8.2.0
@@ -251,7 +250,6 @@ importers:
       '@ethersproject/units': 5.6.0
       '@mdx-js/react': 1.6.22_react@17.0.1
       '@metamask/jazzicon': 2.0.0
-      '@playwright/test': 1.36.2
       '@usedapp/coingecko': link:../coingecko
       '@usedapp/core': link:../core
       '@usedapp/portis-connector': link:../connectors/portis
@@ -4284,6 +4282,7 @@ packages:
       playwright-core: 1.36.2
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.4_f6qng33q7mgokqe5zyipyh7tvy:
     resolution: {integrity: sha512-zZbZeHQDnoTlt2AF+diQT0wsSXpvWiaIOZwBRdltNFhG1+I3ozyaw7U/nBiUwyJ0D+zwdXp0E3bWOl38Ag2BMw==}
@@ -18396,6 +18395,7 @@ packages:
     resolution: {integrity: sha512-sQYZt31dwkqxOrP7xy2ggDfEzUxM1lodjhsQ3NMMv5uGTRDsLxU0e4xf4wwMkF2gplIxf17QMBCodSFgm6bFVQ==}
     engines: {node: '>=16'}
     hasBin: true
+    dev: true
 
   /playwright-core/1.44.0:
     resolution: {integrity: sha512-ZTbkNpFfYcGWohvTTl+xewITm7EOuqIqex0c7dNZ+aXsbrLj0qI8XlGKfPpipjm0Wny/4Lt4CJsWJk1stVS5qQ==}
