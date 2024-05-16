@@ -65,7 +65,9 @@ export class MetaMask {
     log('Metamask account connected to pages.')
   }
 
-  async switchToNetwork(network: 'Ethereum Mainnet' | 'Localhost 8545' | 'Goerli Test Network') {
+  async switchToNetwork(
+    network: 'Ethereum Mainnet' | 'Localhost 8545' | 'Goerli Test Network' | 'Sepolia Test Network'
+  ) {
     log('Switching network...')
     await this.gotoMetamask()
     await this.page.click('.network-display--clickable') // Network popup menu on the top right.
@@ -104,6 +106,23 @@ export class MetaMask {
 
     await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
+
+    log('Add Sepolia')
+    await this.page.goto(
+      'chrome-extension://' + (await this.getExtensionId()) + '//home.html#settings/networks/add-network'
+    )
+
+    await this.page.locator('input').locator('nth=1').fill('Sepolia Test Network')
+    await this.page.locator('input').locator('nth=2').fill('https://rpc2.sepolia.org')
+    await this.page.locator('input').locator('nth=3').fill('11155111')
+    await this.page.locator('input').locator('nth=4').fill('ETH')
+    await this.page.click(XPath.text('button', 'Save'))
+
+    log('Sepolia added')
+
+    log('Switch back to mainnet')
+    await this.switchToNetwork('Ethereum Mainnet')
+    log('Switched back to mainnet')
   }
 
   async switchWallet(index: number) {

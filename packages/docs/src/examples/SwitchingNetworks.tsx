@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { DAppProvider, useSendTransaction, useEthers, Config, Goerli, Mainnet, Optimism } from '@usedapp/core'
+import { DAppProvider, useSendTransaction, useEthers, Config, Mainnet, Optimism, Sepolia } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 
 const config: Config = {
@@ -8,7 +8,7 @@ const config: Config = {
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
     [Optimism.chainId]: getDefaultProvider('optimism'),
-    [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Sepolia.chainId]: 'https://rpc2.sepolia.org',
   },
 }
 
@@ -45,8 +45,8 @@ export function App() {
           </button>
         }{' '}
         {
-          <button onClick={() => switchNetwork(Goerli.chainId)} disabled={chainId === Goerli.chainId}>
-            Switch to Goerli
+          <button onClick={() => switchNetwork(Sepolia.chainId)} disabled={chainId === Sepolia.chainId}>
+            Switch to Sepolia
           </button>
         }
       </div>
