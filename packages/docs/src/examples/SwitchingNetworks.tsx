@@ -8,7 +8,7 @@ const config: Config = {
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
     [Optimism.chainId]: getDefaultProvider('optimism'),
-    [Sepolia.chainId]: 'https://rpc2.sepolia.org',
+    [Sepolia.chainId]: 'https://rpc.sepolia.dev',
   },
 }
 
