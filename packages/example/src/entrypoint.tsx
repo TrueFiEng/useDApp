@@ -7,8 +7,6 @@ import {
   Localhost,
   MetamaskConnector,
   CoinbaseWalletConnector,
-  Goerli,
-  OptimismGoerli,
   Optimism,
 } from '@usedapp/core'
 import { App } from './App'
@@ -18,11 +16,7 @@ import { getDefaultProvider } from '@ethersproject/providers'
 
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
-  [Goerli.chainId]: process.env.MAINNET_URL
-    ? process.env.MAINNET_URL.replace('mainnet', 'goerli')
-    : getDefaultProvider('goerli'),
   [Optimism.chainId]: 'https://mainnet.optimism.io',
-  [OptimismGoerli.chainId]: 'https://goerli.optimism.io',
 }
 
 if (process.env.LOCALHOST_URL) {
@@ -45,8 +39,7 @@ const config: Config = {
       projectId: 'bffbe493c0928ee125dc8f23e20167b7',
       chains: [Mainnet],
       rpcMap: {
-        1: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
-        5: 'https://goerli.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
+        [Mainnet.chainId]: 'https://mainnet.infura.io/v3/d8df2cb7844e4a54ab0a782f608749dd',
       },
     }),
   },
