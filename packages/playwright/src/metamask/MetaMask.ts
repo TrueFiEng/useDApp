@@ -5,10 +5,13 @@ import { XPath } from '../xpath'
 
 export const log = debug('usedapp:playwright')
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export class MetaMask {
   constructor(private page: Page) {}
 
   private extensionId: string | undefined = undefined
+  private noLocalhostYet = true
 
   async getExtensionId() {
     if (this.extensionId) return this.extensionId
@@ -33,11 +36,17 @@ export class MetaMask {
   async addAccount(privateKey: string, pages: Page[] = []) {
     log('Adding MetaMask account...')
     await this.gotoMetamask()
-    await this.page.click('.account-menu__icon') // Top right menu with accounts.
-    await this.page.click(XPath.text('div', 'Import Account'))
+
+    await sleep(1000)
+    if (await this.page.getByTestId('popover-close').isVisible()) {
+      await this.page.getByTestId('popover-close').click()
+    }
+
+    await this.page.getByTestId('account-menu-icon').click() // Top right menu with accounts.
+    await this.page.getByRole('button', { name: 'Add account or hardware wallet' }).click()
+    await this.page.getByRole('button', { name: 'Import account' }).click()
     await this.page.fill('#private-key-box', privateKey)
-    await this.page.click(XPath.text('button', 'Import'))
-    await this.page.waitForSelector('.account-menu__icon')
+    await this.page.getByTestId('import-account-confirm-button').click()
     log('MetaMask account added.')
 
     if (!pages.length) return
@@ -65,44 +74,59 @@ export class MetaMask {
     log('Metamask account connected to pages.')
   }
 
-  async switchToNetwork(network: 'Ethereum Mainnet' | 'Localhost 8545' | 'Goerli Test Network') {
+  async switchToNetwork(network: 'Ethereum Mainnet' | 'Localhost 8545' | 'Sepolia') {
+    if (network === 'Localhost 8545' && this.noLocalhostYet) {
+      this.noLocalhostYet = false
+      await this.page.goto(
+        'chrome-extension://' + (await this.getExtensionId()) + '//home.html#settings/networks/add-network'
+      )
+      await this.page.getByLabel('Network name').fill('Localhost 8545')
+      await this.page.getByLabel('New RPC URL').fill('http://localhost:8545')
+      await this.page.getByLabel('Chain ID').fill('1337')
+      await this.page.getByTestId('network-form-ticker-input').fill('ETH')
+      await this.page.getByRole('button', { name: 'Save' }).click()
+    }
+
     log('Switching network...')
     await this.gotoMetamask()
-    await this.page.click('.network-display--clickable') // Network popup menu on the top right.
 
-    // See if testnets are visible.
-    if (!(await this.page.isVisible(XPath.text('span', network)))) {
-      log('Making testnet visible in settings...')
-      await this.page.click('.network-display--clickable') // Un-click it.
-      await this.page.goto('chrome-extension://' + (await this.getExtensionId()) + '//home.html' + '#settings/advanced')
-
-      // 4th checkbox relates to "Show test networks"
-      // Could not find a better way to click this.
-      await this.page.click('(//div[contains(@class, "toggle-button--off")])[4]//div')
-
-      await this.page.click('.network-display--clickable') // Open it up again.
+    await sleep(1000)
+    const popoverClose = this.page.getByTestId('popover-close')
+    if (await popoverClose.isVisible()) {
+      await popoverClose.click()
     }
-    await this.page.click(XPath.text('span', network))
+
+    await this.page.getByTestId('network-display').click() // Network popup menu on the top right.
+
+    await sleep(1000)
+    if (await this.page.isVisible('.toggle-button--off')) {
+      await this.page.check('.toggle-button--off')
+    }
+
+    await this.page.getByTestId(network).click()
     log(`Network switched to "${network}"`)
   }
 
   async activate() {
     log('Activating Metamask...')
     await this.gotoMetamask()
-    await this.page.click(XPath.text('button', 'Get Started'))
-    await this.page.click(XPath.text('button', 'Create a Wallet'))
-    await this.page.click(XPath.text('button', 'No Thanks')) // Telemetry.
+    await this.page.getByRole('checkbox').click()
+    await this.page.getByRole('button', { name: 'Create a new wallet' }).click()
+    await this.page.getByRole('button', { name: 'No thanks' }).click() // Telemetry.
 
-    await this.page.fill('#create-password', 'qwerty123')
-    await this.page.fill('#confirm-password', 'qwerty123')
-    await this.page.check('//div[@role="checkbox"]')
-    await this.page.click(XPath.text('button', 'Create'))
-    await this.page.click(XPath.text('button', 'Next'))
-    await this.page.click(XPath.text('button', 'Remind me later')) // Recovery phrase.
+    await this.page.getByTestId('create-password-new').fill('qwerty123')
+    await this.page.getByTestId('create-password-confirm').fill('qwerty123')
+    await this.page.getByRole('checkbox').click()
 
-    await this.page.waitForSelector('//h2[contains(text(), "What\'s new")]', { state: 'visible' })
+    await this.page.getByRole('button', { name: 'Create a new wallet' }).click()
+    await this.page.getByRole('button', { name: 'Remind me later (not recommended)' }).click()
+    await this.page.getByRole('checkbox').click()
+    await this.page.getByRole('button', { name: 'Skip' }).click()
+    await this.page.getByRole('button', { name: 'Got it' }).click()
+    await this.page.getByRole('button', { name: 'Next' }).click()
+    await this.page.getByRole('button', { name: 'Done' }).click()
+    await this.page.getByRole('button', { name: 'No thanks' }).click()
 
-    await this.page.click('//button[@title="Close"]') // Close "What's new" section.
     log('Metamask activated.')
   }
 

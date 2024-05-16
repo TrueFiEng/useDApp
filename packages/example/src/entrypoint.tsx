@@ -17,6 +17,7 @@ import { getDefaultProvider } from '@ethersproject/providers'
 const readOnlyUrls: Config['readOnlyUrls'] = {
   [Mainnet.chainId]: process.env.MAINNET_URL || getDefaultProvider('mainnet'),
   [Optimism.chainId]: 'https://mainnet.optimism.io',
+  [Localhost.chainId]: 'http://localhost:8545',
 }
 
 if (process.env.LOCALHOST_URL) {

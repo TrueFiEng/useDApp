@@ -83,7 +83,7 @@ export const withMetamaskTest = (baseUrl: string) => {
       log('Adding an account with some funds to be able to deploy multicall contract...')
       await metamask.addAccount(defaultAccounts[0].secretKey, [page])
 
-      log('Swtiching to local network to deploy multicall...')
+      log('Switching to local network to deploy multicall...')
       const txConfirmPagePromise = waitForPopup(context)
       await metamask.switchToNetwork('Localhost 8545')
 
@@ -235,7 +235,7 @@ export const withMetamaskTest = (baseUrl: string) => {
 
         await page.goto(`${baseUrl}send`)
         await page.fill(XPath.id('input', 'EthInput'), '1')
-        await page.fill(XPath.id('input', 'AddressInput'), wallet.address)
+        await page.fill('#AddressInput', wallet.address)
         await page.click(XPath.text('button', 'Send'))
 
         await waitForExpect(() => {

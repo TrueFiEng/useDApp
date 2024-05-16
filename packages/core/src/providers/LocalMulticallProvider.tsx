@@ -73,7 +73,7 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
       }
       void checkDeployed()
     }
-  }, [library, chainId])
+  }, [library, chainId, getCurrent])
 
   const awaitingMulticallBlock = multicallBlockNumber && blockNumber && blockNumber < multicallBlockNumber
 
