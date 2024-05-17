@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Mainnet, DAppProvider, useEthers, Config, Goerli } from '@usedapp/core'
+import { Mainnet, DAppProvider, useEthers, Config, Sepolia } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { SiweProvider, useSiwe } from '@usedapp/siwe'
 
@@ -12,7 +12,7 @@ const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     [Mainnet.chainId]: getDefaultProvider('mainnet'),
-    [Goerli.chainId]: getDefaultProvider('goerli'),
+    [Sepolia.chainId]: 'https://rpc2.sepolia.org',
   },
 }
 

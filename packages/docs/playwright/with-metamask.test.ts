@@ -80,12 +80,17 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       const popupPromise = waitForPopup(context)
-      await page.click(XPath.text('button', 'Switch to Goerli'))
+      await page.click(XPath.text('button', 'Switch to Sepolia'))
       const popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
+      await sleep(1000)
+      if (await page.isVisible(XPath.text('button', 'Connect with Metamask'))) {
+        await page.click(XPath.text('button', 'Connect with Metamask'))
+      }
+
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='11155111']`)).to.be.true
       })
     })
 
@@ -93,7 +98,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       await page.goto(`${baseUrl}Guides/Transactions/Switching%20Networks`)
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='5']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='Current chain: ' and text()='11155111']`)).to.be.true
       })
 
       const popupPromise = waitForPopup(context)
@@ -145,7 +150,7 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       let popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Sign'))
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='11155111']`)).to.be.true
       })
 
       await metamask.switchToNetwork('Ethereum Mainnet')
@@ -163,10 +168,15 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
         expect(await page.isVisible(`//*[text()='Not logged in']`)).to.be.true
       })
 
-      await metamask.switchToNetwork('Goerli Test Network')
+      await metamask.switchToNetwork('Sepolia Test Network')
+
+      await sleep(1000)
+      if (await page.isVisible(XPath.text('button', 'Connect with Metamask'))) {
+        await page.click(XPath.text('button', 'Connect with Metamask'))
+      }
 
       await waitForExpect(async () => {
-        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='5']`)).to.be.true
+        expect(await page.isVisible(`//*[text()='ChainId: ' and text()='11155111']`)).to.be.true
       })
     })
   })
