@@ -28,9 +28,9 @@
     "src"
   ],
   "dependencies": {
-    "@ethersproject/abi": "5.6.1",
-    "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/units": "5.6.0",
+    "@ethersproject/abi": "5.7.0",
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@types/styled-components": "^5.1.7",
     "@usedapp/coingecko": "workspace:*",
     "@usedapp/core": "workspace:*",
@@ -52,7 +52,7 @@
     "web3modal": "^1.9.5"
   },
   "devDependencies": {
-    "@ethersproject/providers": "5.6.2",
+    "@ethersproject/providers": "5.7.2",
     "@playwright/test": "^1.36.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@swc-node/register": "^1.4.2",
