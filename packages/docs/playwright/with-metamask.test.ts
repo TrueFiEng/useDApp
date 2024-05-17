@@ -84,6 +84,11 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       const popupPage = await popupPromise
       await popupPage.click(XPath.text('button', 'Switch network'))
 
+      await sleep(1000)
+      if (await page.isVisible(XPath.text('button', 'Connect with Metamask'))) {
+        await page.click(XPath.text('button', 'Connect with Metamask'))
+      }
+
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='Current chain: ' and text()='11155111']`)).to.be.true
       })
@@ -164,6 +169,11 @@ describe(`Browser: ${browserType.name()} with Metamask`, () => {
       })
 
       await metamask.switchToNetwork('Sepolia Test Network')
+
+      await sleep(1000)
+      if (await page.isVisible(XPath.text('button', 'Connect with Metamask'))) {
+        await page.click(XPath.text('button', 'Connect with Metamask'))
+      }
 
       await waitForExpect(async () => {
         expect(await page.isVisible(`//*[text()='ChainId: ' and text()='11155111']`)).to.be.true
