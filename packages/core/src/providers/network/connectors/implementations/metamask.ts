@@ -66,6 +66,9 @@ export class MetamaskConnector implements Connector {
     }
 
     try {
+      // Requesting accounts will prompt the user to unlock their wallet
+      await this.provider!.send('eth_requestAccounts', [])
+
       const chainId: string = await this.provider!.send('eth_chainId', [])
       const accounts: string[] = await this.provider!.send('eth_accounts', [])
       this.update.emit({ chainId: parseInt(chainId), accounts })
