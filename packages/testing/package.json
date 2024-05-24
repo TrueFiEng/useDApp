@@ -1,6 +1,6 @@
 {
   "name": "@usedapp/testing",
-  "version": "1.1.19",
+  "version": "1.1.21",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "git@github.com:TrueFiEng/useDApp.git",
@@ -27,11 +27,11 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "@ethersproject/constants": "5.6.0",
-    "@ethersproject/contracts": "5.6.0",
-    "@ethersproject/providers": "5.6.2",
+    "@ethersproject/constants": "5.7.0",
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
     "@usedapp/core": "workspace:*",
-    "ethers": "5.6.9",
+    "ethers": "5.7.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
