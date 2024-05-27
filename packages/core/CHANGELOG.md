@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 1.2.16
+
+### Patch Changes
+
+- fb44f98: 🔬 Make useRawLogs more efficient and responsive
+
 ## 1.2.15
 
 ### Patch Changes
