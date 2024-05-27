@@ -9,6 +9,7 @@ import { Contract } from 'ethers'
 /**
  * Returns ether balance of a given account.
  * @param address address of an account
+ * @param queryParams see {@link QueryParams}
  * @returns a balance of the account which is BigNumber or `undefined` if not connected to network or address is a falsy value
  * @public
  *
