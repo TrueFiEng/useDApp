@@ -88,9 +88,9 @@ export const calculateSafeTransactionHash = (
 export const getLatestNonce = async (chainId: number, safeAddress: string): Promise<number | null | undefined> => {
   try {
     const response = await fetch(
-      `https://safe-transaction.${
+      `https://safe-transaction-${
         getChainById(chainId)?.chainName
-      }.gnosis.io/api/v1/safes/${safeAddress}/all-transactions?limit=1&executed=false&queued=true`
+      }.safe.global/api/v1/safes/${safeAddress}/all-transactions?limit=1&executed=false&queued=true`
     )
     if (!response.ok) return null
     const allTransactions = await response.json()
